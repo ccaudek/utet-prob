@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>2&nbsp; Interpretazione della probabilità – Probabilità per la psicologia</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/probability/02_probability_models.html" rel="next">
+<link href="../../chapters/probability/introduction_probability.html" rel="prev">
+<link href="../../style/gauss.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0a72236910a44089af39cd28873f322e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-9908c7b05874059c2106d454ac00f1d0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nessun risultato",
+    "search-matching-documents-text": "documenti trovati",
+    "search-copy-link-title": "Copiare il link nella ricerca",
+    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
+    "search-more-match-text": "ci sono altri risultati in questo documento",
+    "search-more-matches-text": "ulteriori risultati in questo documento",
+    "search-clear-button-title": "Pulire",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancellare",
+    "search-submit-button-title": "Inviare",
+    "search-label": "Ricerca"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
+  options: { renderActions: { addMenu: [0, '', ''] } },
+  loader: { load: ['input/tex','output/svg'] }
+};
+</script><script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
+  options: { renderActions: { addMenu: [0, '', ''] } },
+  loader: { load: ['input/tex','output/svg'] }
+};
+// Suggerimento CSS: vedi sezione 3 per gli spazi attorno a display math
+</script><script>
+window.MathJax = {
+  tex: {
+    packages: {'[+]': ['boldsymbol']},
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="../../style/_typography-extras.css">
+<link rel="stylesheet" href="../../style/_code-extras.css">
+<link rel="stylesheet" href="../../style/_math-extras.css">
+<link rel="stylesheet" href="../../style/styles.css">
+</head>
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/01_intro_prob.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Probabilità per la psicologia</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ccaudek/utet-prob/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Attiva/disattiva la modalità lettore">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Ricerca"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Percorso e obiettivi</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../prefazione.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefazione</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/probability/introduction_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Elementi di teoria della probabilità</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/01_intro_prob.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/02_probability_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/03_sigma-algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/04_conditional_prob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/05_bayes_theorem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/07_prob_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Distribuzioni di massa e di densità</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/08_expval_var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Proprietà delle variabili casuali</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/09_sampling_distr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/10_joint_prob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/11_cov_cor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/12_intro_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/15_gauss.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Assunzione di gaussianità e trasformazioni dei dati</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/16_likelihood.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Attiva/disattiva sezione">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a02_math_symbols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Simbologia di base</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a11_numbers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Numeri e intervalli</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a12_sum_notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Sommatorie</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a13_sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Insiemi</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a14_combinatorics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Calcolo combinatorio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a15_calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Per liberarvi dai terrori preliminari</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommario</h2>
+   
+  <ul class="collapse">
+<li><a href="#casualit%C3%A0-e-incertezza" id="toc-casualità-e-incertezza" class="nav-link active" data-scroll-target="#casualit%C3%A0-e-incertezza"><span class="header-section-number">2.1</span> Casualità e incertezza</a></li>
+  <li><a href="#il-ruolo-della-probabilit%C3%A0-nello-studio-dei-fenomeni" id="toc-il-ruolo-della-probabilità-nello-studio-dei-fenomeni" class="nav-link" data-scroll-target="#il-ruolo-della-probabilit%C3%A0-nello-studio-dei-fenomeni"><span class="header-section-number">2.2</span> Il ruolo della probabilità nello studio dei fenomeni</a></li>
+  <li><a href="#due-tipi-di-incertezza-epistemica-e-ontologica" id="toc-due-tipi-di-incertezza-epistemica-e-ontologica" class="nav-link" data-scroll-target="#due-tipi-di-incertezza-epistemica-e-ontologica"><span class="header-section-number">2.3</span> Due tipi di incertezza: epistemica e ontologica</a></li>
+  <li><a href="#cenni-storici" id="toc-cenni-storici" class="nav-link" data-scroll-target="#cenni-storici"><span class="header-section-number">2.4</span> Cenni storici</a></li>
+  <li><a href="#la-dualit%C3%A0-epistemologica-e-frequenziale" id="toc-la-dualità-epistemologica-e-frequenziale" class="nav-link" data-scroll-target="#la-dualit%C3%A0-epistemologica-e-frequenziale"><span class="header-section-number">2.5</span> La dualità epistemologica e frequenziale</a></li>
+  <li><a href="#i-due-paradigmi-della-probabilit%C3%A0-in-psicologia" id="toc-i-due-paradigmi-della-probabilità-in-psicologia" class="nav-link" data-scroll-target="#i-due-paradigmi-della-probabilit%C3%A0-in-psicologia"><span class="header-section-number">2.6</span> I due paradigmi della probabilità in psicologia</a></li>
+  <li><a href="#dalla-teoria-alla-pratica-simulazioni-con-r" id="toc-dalla-teoria-alla-pratica-simulazioni-con-r" class="nav-link" data-scroll-target="#dalla-teoria-alla-pratica-simulazioni-con-r"><span class="header-section-number">2.7</span> Dalla teoria alla Pratica: simulazioni con R</a></li>
+  <li><a href="#esercizi" id="toc-esercizi" class="nav-link" data-scroll-target="#esercizi">Esercizi</a></li>
+  </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/01_intro_prob.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/01_intro_prob.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-prob-interpretation" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><div class="epigraph">
+<blockquote class="blockquote">
+<p>“La probabilità non esiste nel mondo reale: è il grado di fiducia che un individuo coerente ripone in un’ipotesi, alla luce di un’informazione.”</p>
+<p>– <strong>Bruno de Finetti</strong>, Statistico bayesiano</p>
+</blockquote>
+</div>
+<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>In questo capitolo esamineremo come la teoria della probabilità si sia affermata come uno strumento per descrivere e interpretare l’incertezza, muovendoci tra diverse concezioni (classica, frequentista e bayesiana) e riconoscendo il ruolo fondamentale della simulazione nel chiarire concetti probabilistici, come la legge dei grandi numeri. Prima, però, è utile soffermarsi sull’idea di casualità e sul nesso che la lega all’incertezza.</p>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Le diverse interpretazioni della probabilità.</li>
+<li>Incertezza epistemica e ontologica.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prerequisiti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Leggere <em>Why probability probably doesn’t exist (but it is useful to act like it does</em> <span class="citation" data-cites="spiegelhalter2024probability">(<a href="#ref-spiegelhalter2024probability" role="doc-biblioref">Spiegelhalter, 2024</a>)</span>.</li>
+<li>Leggere l’<a href="../appendix/a13_sets.html" class="quarto-xref"><span>Appendice D</span></a>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution no-icon callout-titled" title="Preparazione del Notebook">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Preparazione del Notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="casualità-e-incertezza" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="casualità-e-incertezza">
+<span class="header-section-number">2.1</span> Casualità e incertezza</h2>
+<p>David Spiegelhalter, in un recente articolo pubblicato su <em>Nature</em>, sottolinea come la vita sia pervasa dall’incertezza: non sappiamo con certezza cosa è accaduto in passato, cosa avverrà in futuro né abbiamo una completa comprensione di ciò che ci circonda <span class="citation" data-cites="spiegelhalter2024probability">(<a href="#ref-spiegelhalter2024probability" role="doc-biblioref">Spiegelhalter, 2024</a>)</span>. Questa condizione di ignoranza spinge a interpretare la casualità come un modello che, pur non fornendo previsioni deterministiche, rivela spesso regolarità statistiche. In altre parole, i singoli eventi possono apparire imprevedibili, ma l’osservazione di molti casi analoghi svela andamenti medi stabili e quantificabili.</p>
+<p>Da questa prospettiva nasce la teoria della probabilità, intesa come linguaggio matematico rigoroso <em>per quantificare e modellare l’incertezza</em>. Attraverso concetti quali valore atteso, distribuzioni di probabilità e frequenze relative, la probabilità permette di passare dalla nozione intuitiva di caso all’analisi formale dei fenomeni incerti. Anche nell’ambito psicologico, la probabilità supporta la ricerca, l’interpretazione di dati sperimentali e la presa di decisioni cliniche, fornendo una base teorica su cui costruire ipotesi e valutare rischi e benefici.</p>
+</section><section id="il-ruolo-della-probabilità-nello-studio-dei-fenomeni" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="il-ruolo-della-probabilità-nello-studio-dei-fenomeni">
+<span class="header-section-number">2.2</span> Il ruolo della probabilità nello studio dei fenomeni</h2>
+<p>La teoria della probabilità consente di trasformare le intuizioni sulla casualità in un linguaggio rigoroso. Tra le sue funzioni fondamentali si evidenziano:</p>
+<ol type="1">
+<li><p><strong>Quantificare l’incertezza</strong><br>
+Assegnare valori numerici agli esiti possibili rende esplicita la probabilità di ogni evento. Per esempio, nel lancio di un dado, dire che ogni faccia ha 1/6 di probabilità di uscire equivale a tradurre la casualità in un concetto misurabile.</p></li>
+<li><p><strong>Combinare informazioni</strong><br>
+Le regole di somma e prodotto permettono di integrare probabilità relative a eventi diversi: la somma si utilizza per eventi mutualmente esclusivi (es. prendere o non prendere un voto specifico a un esame), mentre il prodotto si applica a eventi ritenuti indipendenti (es. risultati di più estrazioni da un’urna).</p></li>
+<li><p><strong>Aggiornare le credenze</strong><br>
+Secondo la prospettiva bayesiana, le probabilità non sono statiche, ma si modificano con il sopraggiungere di nuove evidenze. Un tipico esempio è la revisione di previsioni meteorologiche alla luce di dati più recenti, come la pressione atmosferica o l’umidità.</p></li>
+<li><p><strong>Ottimizzare le decisioni</strong><br>
+La probabilità guida valutazioni di rischi e benefici, aiutando a scegliere in modo razionale quando l’esito di un’azione non è garantito. Questa idea si applica tanto in campo clinico, per decidere il protocollo di un trattamento sperimentale, quanto in ambito psicologico, per valutare il processo terapeutico per un disturbo alimentare.</p></li>
+</ol>
+<p>Queste funzioni costituiscono l’ossatura della teoria della probabilità e la rendono uno strumento essenziale per affrontare contesti in cui l’informazione è parziale o i fenomeni hanno una componente di casualità irriducibile.</p>
+</section><section id="due-tipi-di-incertezza-epistemica-e-ontologica" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="due-tipi-di-incertezza-epistemica-e-ontologica">
+<span class="header-section-number">2.3</span> Due tipi di incertezza: epistemica e ontologica</h2>
+<p>L’analisi probabilistica si confronta con due tipologie di incertezza:</p>
+<ol type="1">
+<li><p><strong>Epistemica</strong><br>
+Dipende dai limiti della conoscenza o dai dati a disposizione. Se in un esperimento non si controllano adeguatamente variabili importanti, la nostra misura di probabilità risente di queste lacune. L’incertezza epistemica può ridursi affinando il disegno sperimentale o ampliando il numero di osservazioni.</p></li>
+<li><p><strong>Ontologica</strong><br>
+Inerente al fenomeno stesso, è indipendente dal grado di controllo o di osservazione possibile. Il lancio di un dado rimane imprevedibile anche se conoscessimo le leggi fisiche in gioco e le condizioni iniziali con incredibile precisione. Questo tipo di casualità è connaturato al sistema, e dunque impossibile da eliminare del tutto.</p></li>
+</ol>
+<p>Un celebre riferimento in questo contesto è Niels Bohr, secondo il quale la scienza non fornisce verità assolute, ma costruisce modelli che descrivono la realtà entro i limiti concettuali di cui disponiamo. In questa prospettiva, l’incertezza ontologica segna il confine tra ciò che è conoscibile e la complessità insita nella natura dei fenomeni.</p>
+</section><section id="cenni-storici" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="cenni-storici">
+<span class="header-section-number">2.4</span> Cenni storici</h2>
+<p>La teoria della probabilità affonda le sue radici nei <em>giochi d’azzardo</em>, pratiche antiche che stimolarono riflessioni sui meccanismi del caso. Fu però nel XVII secolo che iniziò a prendere forma una sistematizzazione scientifica, grazie al dialogo tra Blaise Pascal e Pierre de Fermat. I due matematici risposero alle questioni poste dal Chevalier de Méré, un aristocratico appassionato di scommesse. Tra i dilemmi più noti vi era il cosiddetto “problema della ripartizione equa”: come distribuire il premio di un torneo di dadi interrotto prematuramente, basandosi sulle chance residuali di vittoria dei giocatori?</p>
+<blockquote class="blockquote">
+<p>Due giocatori, A e B, stanno partecipando a un gioco in cui il primo a vincere sei round consecutivi ottiene il premio. Dopo sei round, A ha vinto cinque round e B uno. Poiché il gioco viene interrotto, come si dovrebbe dividere il premio in modo equo?</p>
+</blockquote>
+<p>Questo problema spinse Pascal e Fermat a sviluppare i primi strumenti matematici per calcolare la probabilità degli eventi futuri, dando vita a un metodo rigoroso per affrontare l’incertezza. Stimando, ad esempio, che A avesse il 97% di probabilità di vincere e B il 3%, sembrava equo dividere il premio nella stessa proporzione. La soluzione, che prevedeva il calcolo degli esiti attesi e delle relative probabilità, segnò una svolta epocale, gettando le basi per la formalizzazione matematica della disciplina.</p>
+<p>Christian Huygens, con il trattato De Ratiociniis in Ludo Aleae (1657), approfondì le applicazioni nel gioco d’azzardo, mentre figure come Leibniz e John Graunt esplorarono rispettivamente la probabilità come strumento logico-giuridico e come frequenza statistica.</p>
+<p>Jacob Bernoulli, nell’Ars Conjectandi (1713), formulò la <em>legge dei grandi numeri</em>, evidenziando come ripetute osservazioni empiriche rivelino regolarità nascoste, nonostante l’apparente imprevedibilità dei singoli eventi. Questo lavoro pose le basi per due visioni contrapposte: la probabilità come misura dell’incertezza epistemica (grado di fiducia razionale) e come proprietà oggettiva legata alla frequenza.</p>
+</section><section id="la-dualità-epistemologica-e-frequenziale" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="la-dualità-epistemologica-e-frequenziale">
+<span class="header-section-number">2.5</span> La dualità epistemologica e frequenziale</h2>
+<p><span class="citation" data-cites="hacking2006emergence">Hacking (<a href="#ref-hacking2006emergence" role="doc-biblioref">2006</a>)</span> ha sottolineato che, a partire dal contributo di Bernoulli, la probabilità si sviluppò storicamente lungo due assi: da un lato come misura della credibilità di un’ipotesi (prospettiva epistemologica), dall’altro come descrizione della frequenza con cui un evento compare in circostanze ripetute (prospettiva frequenziale). Questa tensione è tuttora visibile nella dicotomia fra <em>metodi bayesiani</em> e <em>metodi frequentisti</em>.</p>
+<section id="frequentismo" class="level3" data-number="2.5.1"><h3 data-number="2.5.1" class="anchored" data-anchor-id="frequentismo">
+<span class="header-section-number">2.5.1</span> Frequentismo</h3>
+<p><em>Il frequentismo</em> intende la probabilità come frequenza relativa dell’evento in un numero potenzialmente infinito di prove. I fondatori di questo approccio, tra cui Ronald A. Fisher e poi Jerzy Neyman ed Egon Pearson, hanno posto le basi dell’inferenza statistica classica (test di ipotesi, intervalli di confidenza, analisi di varianza).</p>
+<p>Il modello paradigmatico di questo approccio è il cosiddetto <em>modello dell’urna</em>. Si immagina di estrarre in modo casuale una pallina da un’urna contenente palline visivamente indistinguibili, ma numerate: ogni pallina ha la stessa probabilità di essere scelta, riproducendo così l’idea di eventi equiprobabili. Questa concezione si basa su una rappresentazione astratta e ideale della casualità che, nella realtà, trova riscontro in ambiti quali il campionamento statistico e gli studi clinici randomizzati (in cui ogni paziente ha la stessa probabilità di essere assegnato al gruppo sperimentale o di controllo). Il limite di questa visione emerge nei casi in cui non è possibile accumulare un gran numero di osservazioni o quando l’evento è unico e irripetibile.</p>
+</section><section id="bayesianesimo" class="level3" data-number="2.5.2"><h3 data-number="2.5.2" class="anchored" data-anchor-id="bayesianesimo">
+<span class="header-section-number">2.5.2</span> Bayesianesimo</h3>
+<p><em>Il bayesianesimo</em> si basa sull’idea di un continuo <em>aggiornamento</em> delle nostre credenze. Con il teorema di Bayes si parte da una conoscenza iniziale (detta prior) e la si aggiorna con i dati osservati (likelihood) per giungere a una stima a posteriori.</p>
+<section id="probabilità-come-costruzione-soggettiva" class="level4" data-number="2.5.2.1"><h4 data-number="2.5.2.1" class="anchored" data-anchor-id="probabilità-come-costruzione-soggettiva">
+<span class="header-section-number">2.5.2.1</span> Probabilità come costruzione soggettiva</h4>
+<p>L’approccio bayesiano è basato su un’interpretazione <em>soggettiva</em> della probabilità, secondo cui tale concetto rappresenta il grado di fiducia (o credenza) che un individuo o un gruppo attribuisce al verificarsi di un evento, sulla base delle informazioni disponibili. Un esempio pratico è la previsione di pioggia al 70%: non si tratta di un fenomeno fisico oggettivo – come avverrebbe in un’ottica frequenzialista – bensì del risultato di dati storici, modelli climatici e continue rivalutazioni.</p>
+<p>Bruno de Finetti ha spinto all’estremo questa prospettiva soggettivista, riassumendo il suo pensiero con la celebre affermazione: “La probabilità non esiste”. In altre parole, la probabilità non sarebbe una proprietà fisica intrinseca degli eventi, ma un indicatore di quanto “si è pronti a scommettere” sulla base delle informazioni e delle convinzioni possedute. Sebbene tali convinzioni debbano rispettare gli assiomi della probabilità per risultare logicamente coerenti, la definizione puntuale di <em>quanto</em> un evento sia “certo” o “probabile” dipende dalla prospettiva e dalle informazioni dell’osservatore.</p>
+<p>Frank Ramsey, nel 1926, fu uno dei primi a formalizzare questa idea, definendo la probabilità come <em>grado di credenza individuale</em> coerente con gli assiomi matematici <span class="citation" data-cites="ramsey1926truth">(<a href="#ref-ramsey1926truth" role="doc-biblioref">Ramsey, 1926</a>)</span>. Pochi anni dopo, nel 1939, <span class="citation" data-cites="jeffreys1998theory">Jeffreys (<a href="#ref-jeffreys1998theory" role="doc-biblioref">1998</a>)</span> illustrò in “Theory of Probability” una tra le prime esposizioni moderne dei metodi bayesiani. Successivamente, <span class="citation" data-cites="fishburn1986axioms">Fishburn (<a href="#ref-fishburn1986axioms" role="doc-biblioref">1986</a>)</span> fornì una rigorosa formalizzazione matematica degli assiomi della probabilità soggettiva, mentre <span class="citation" data-cites="press2009subjective">Press (<a href="#ref-press2009subjective" role="doc-biblioref">2009</a>)</span> contribuì ad ampliare l’ambito di applicazione di questa prospettiva, dimostrando la sua importanza come strumento per affrontare l’incertezza in ambito scientifico. Per una panoramica storica sullo sviluppo del pensiero bayesiano, si vedano anche <a href="https://bayes.wustl.edu/etj/articles/general.background.pdf">Bayesian Methods: General Background</a> e <a href="https://plato.stanford.edu/entries/statistics/">Philosophy of Statistics</a>.</p>
+<p>In questo quadro, l’attenzione si sposta dalla realtà oggettiva alla <em>costruzione umana</em> della probabilità, ponendo in evidenza il ruolo dei giudizi, delle ipotesi e delle informazioni disponibili. La probabilità non è dunque una proprietà del mondo, ma una misura del <em>grado di fiducia razionale</em> che un soggetto idealizzato assegna all’affermazione di un evento, basandosi sulle conoscenze (spesso incomplete) di cui dispone. Questo soggetto ideale è concepito come privo di emozioni, pregiudizi o bias cognitivi, così da agire esclusivamente sulla base della logica e delle evidenze. Tale impostazione si applica in modo particolarmente efficace in contesti dove i dati sono limitati o l’incertezza è elevata, come spesso accade negli studi psicologici, in cui il comportamento umano mal si presta a una descrizione puramente frequenzialista.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Terminologia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Il termine <em>probabilità soggettiva</em> viene spesso frainteso come mancanza di rigore. Per questo motivo sono state proposte alternative:</p>
+<ul>
+<li>
+<span class="citation" data-cites="lindley2013understanding">Lindley (<a href="#ref-lindley2013understanding" role="doc-biblioref">2013</a>)</span> adotta il termine <em>probabilità personale</em>, per sottolineare l’aspetto individuale (ma razionale) di tale definizione.<br>
+</li>
+<li>
+<span class="citation" data-cites="howson2006scientific">Howson &amp; Urbach (<a href="#ref-howson2006scientific" role="doc-biblioref">2006</a>)</span> preferisce <em>probabilità epistemica</em>, enfatizzando il legame con la conoscenza e l’incertezza dovuta a informazioni limitate.</li>
+</ul>
+<p>Autori come <span class="citation" data-cites="kaplan2023bayesian">Kaplan (<a href="#ref-kaplan2023bayesian" role="doc-biblioref">2023</a>)</span> utilizzano tali alternative terminologiche per evidenziare in modo più neutrale il ruolo fondamentale della probabilità come strumento scientifico.</p>
+</div>
+</div>
+<p>Un aspetto importante che ha contribuito a promuovere la diffusione contemporanea dell’approccio bayesiano è stata la scoperta, sul finire degli anni ’80, dei metodi Monte Carlo Markov chain (MCMC). Queste tecniche hanno reso computazionalmente accessibili modelli e calcoli altrimenti irrealizzabili, favorendo la rinascita e l’ulteriore evoluzione dei metodi bayesiani.</p>
+</section></section></section><section id="i-due-paradigmi-della-probabilità-in-psicologia" class="level2" data-number="2.6"><h2 data-number="2.6" class="anchored" data-anchor-id="i-due-paradigmi-della-probabilità-in-psicologia">
+<span class="header-section-number">2.6</span> I due paradigmi della probabilità in psicologia</h2>
+<p>In psicologia, entrambi i paradigmi hanno risvolti importanti. L’approccio frequentista è ancora dominante nell’analisi dei dati (si pensi al largo uso dei test di significatività), ma il bayesianesimo sta guadagnando terreno, poiché permette di integrare informazioni pregresse in modo trasparente e di esprimere in modo diretto la probabilità di un’ipotesi.</p>
+</section><section id="dalla-teoria-alla-pratica-simulazioni-con-r" class="level2" data-number="2.7"><h2 data-number="2.7" class="anchored" data-anchor-id="dalla-teoria-alla-pratica-simulazioni-con-r">
+<span class="header-section-number">2.7</span> Dalla teoria alla Pratica: simulazioni con R</h2>
+<p>Nello studio della probabilità e della statistica, l’<em>analisi analitica</em> può risultare complessa in contesti con modelli intricati o distribuzioni non standard. In questi casi, la <em>simulazione al computer</em> emerge come strumento didattico e metodologico essenziale. Utilizzando linguaggi di programmazione come R, è possibile replicare virtualmente un esperimento migliaia di volte, osservando empiricamente la distribuzione degli esiti e stimando probabilità attraverso il <em>metodo Monte Carlo</em>. Questo approccio non solo facilita la comprensione di concetti astratti, ma consente anche di validare risultati teorici in scenari reali.</p>
+<section id="legge-dei-grandi-numeri" class="level3" data-number="2.7.1"><h3 data-number="2.7.1" class="anchored" data-anchor-id="legge-dei-grandi-numeri">
+<span class="header-section-number">2.7.1</span> Legge dei Grandi Numeri</h3>
+<p>Un principio fondamentale esplorabile attraverso simulazioni è la <em>legge dei grandi numeri</em> (LLN), pilastro dell’approccio frequentista. La LLN stabilisce che la frequenza relativa di un evento converge alla sua probabilità teorica all’aumentare del numero di prove, pur preservando l’imprevedibilità dei singoli esiti. Ad esempio, in una sequenza di lanci di una moneta equa, la proporzione di “teste” oscillerà inizialmente in modo marcato, ma tenderà progressivamente a stabilizzarsi attorno al 50%.</p>
+<p>Questo fenomeno riflette due aspetti chiave:</p>
+<ol type="1">
+<li>
+<strong>Riduzione della variabilità</strong>: la media campionaria diventa sempre più affidabile con l’aumentare della numerosità del campione.<br>
+</li>
+<li>
+<strong>Separazione tra singoli eventi e comportamento aggregato</strong>: la LLN non elimina l’incertezza nei casi singoli (es., il risultato del prossimo lancio), ma descrive un pattern prevedibile a livello di popolazione.</li>
+</ol>
+<p>La simulazione seguente illustra questo principio generando quattro sequenze indipendenti di lanci di moneta e calcolando la proporzione cumulativa di “teste”:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="01_intro_prob_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Il grafico evidenzia due fenomeni: la convergenza verso il valore teorico (linea tratteggiata) e la variabilità iniziale tra le sequenze, che si attenua progressivamente. Questo esempio dimostra come la LLN fornisca un ponte tra modelli teorici (es., “moneta equa”) e osservazioni empiriche, pur rimanendo valida solo in condizioni di <em>ripetibilità</em> (stesse probabilità in ogni prova) e <em>assenza di bias sistematici</em>.</p>
+<p>Le simulazioni trovano ampio utilizzo in psicologia sia nella formazione che nella ricerca:</p>
+<ul>
+<li>
+<em>Didattica</em>: visualizzare il comportamento di indicatori statistici (es., media campionaria) al variare della dimensione del campione, rendendo tangibili concetti come “potenza statistica” o “errore standard”.<br>
+</li>
+<li>
+<em>Ricerca</em>: testare la robustezza di modelli psicometrici in condizioni controllate, simulando dati con specifiche caratteristiche (es., correlazioni deboli, rumore sperimentale).</li>
+</ul>
+<p>Questi strumenti favoriscono un apprendimento attivo, invitando gli studenti a manipolare parametri (es., probabilità di successo, numerosità campionaria) e osservarne gli effetti, consolidando così l’intuizione statistica. Tuttavia, è cruciale ricordare che le simulazioni non sostituiscono la teoria, ma la completano, evidenziandone limiti e presupposti applicativi.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Approfondimento critico
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La LLN non elimina sfide metodologiche come bias di campionamento, misurazione imperfetta o fenomeni non stazionari. In psicologia, dove molti costrutti (es., emozioni, attitudini) sono intrinsecamente dinamici, l’applicazione della LLN richiede particolare attenzione.</p>
+</div>
+</div>
+</section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+<p>La teoria della probabilità, nata originariamente per analizzare il gioco d’azzardo, si è gradualmente trasformata nel corso dei secoli in un pilastro metodologico per affrontare l’incertezza in un’ampia gamma di contesti, compresa la psicologia. La sua evoluzione storica testimonia un confronto continuo fra interpretazioni epistemiche e frequenzialiste, contribuendo all’elaborazione di strumenti analitici e pratiche operative — dalle procedure inferenziali alla simulazione computerizzata — che consentono di modellizzare sistemi complessi.</p>
+<p>Da un punto di vista filosofico, la probabilità può essere intesa sia come <em>proprietà del mondo</em> (in chiave frequenzialista), sia come <em>misura della nostra conoscenza</em> (nell’ottica bayesiana e soggettivista). Nel primo caso, le frequenze relative e la legge dei grandi numeri mostrano come, da una moltitudine di eventi, possano emergere regolarità e pattern stabili. Nel secondo, l’enfasi è posta sulla dimensione umana e fallibile dell’inferenza: le credenze e le informazioni disponibili influenzano in modo diretto la nostra stima della probabilità di un evento.</p>
+<p>Al di là di queste differenze interpretative, la probabilità si rivela uno strumento insostituibile per pianificare esperimenti, analizzare dati e prendere decisioni in condizioni di incertezza – attività centrali nel campo della psicologia. Inoltre, la possibilità di integrare metodologie teoriche e simulazioni amplia ulteriormente le prospettive di ricerca e la capacità di comprendere i fenomeni studiati. Lungi dall’essere un semplice calcolo combinatorio, la probabilità abbraccia così la complessità della realtà e la ricchezza della conoscenza umana, mostrando una versatilità che la rende uno dei fondamenti del pensiero scientifico contemporaneo.</p>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Per chi desidera approfondire, il primo capitolo del testo <em>Bernoulli’s Fallacy</em> <span class="citation" data-cites="clayton2021bernoulli">(<a href="#ref-clayton2021bernoulli" role="doc-biblioref">Clayton, 2021</a>)</span> offre un’introduzione molto leggibile alle tematiche della definizione della probabilità nella storia della scienza.</p>
+</div>
+</div>
+</div>
+</section><section id="esercizi" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esercizi">Esercizi</h2>
+<div class="callout callout-style-simple callout-important no-icon callout-titled" title="Problemi">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Problemi
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Quali sono le principali concezioni della probabilità esplorate nel capitolo?</li>
+<li>Come viene definita l’incertezza secondo David Spiegelhalter?</li>
+<li>Qual è il ruolo della casualità nella teoria della probabilità?</li>
+<li>Come funziona il modello dell’urna per rappresentare la casualità?</li>
+<li>Quali sono alcune applicazioni del modello della casualità?</li>
+<li>Quali sono le due principali fonti di incertezza nei fenomeni non deterministici?</li>
+<li>Come viene interpretata la probabilità secondo l’approccio soggettivista?</li>
+<li>Quali sono le due dimensioni principali del concetto di probabilità secondo Hacking?</li>
+<li>Qual è stato il contributo di Pascal e Fermat alla teoria della probabilità?</li>
+<li>Quali sono le differenze tra l’approccio bayesiano e frequentista nella teoria della probabilità?</li>
+<li>Qual è la Legge dei Grandi Numeri e come si applica?</li>
+<li>Quali sono i limiti dell’interpretazione frequentista della probabilità?</li>
+<li>Come ha influenzato Fisher lo sviluppo della statistica frequentista?</li>
+<li>Qual è stato il ruolo di Jeffreys nella rinascita dell’approccio bayesiano?</li>
+<li>Come definisce Bruno de Finetti la probabilità?</li>
+<li>Quali sono i principi fondamentali della probabilità soggettivista secondo Jaynes?</li>
+<li>Quali sono le alternative terminologiche proposte per la “probabilità soggettiva”?</li>
+<li>Qual è l’importanza della simulazione nella comprensione della probabilità?</li>
+<li>Quali sono le implicazioni filosofiche della dualità della probabilità?</li>
+<li>Quali sono i principali contributi storici alla teoria della probabilità?</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Soluzioni">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Soluzioni
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Le principali concezioni della probabilità esplorate nel capitolo sono la visione classica, frequentista e bayesiana.</li>
+<li>Secondo David Spiegelhalter, l’incertezza è definita come la “consapevolezza cosciente dell’ignoranza”, riguardante eventi futuri o passati che non possiamo conoscere con certezza.</li>
+<li>La casualità è un modello concettuale che aiuta a gestire e quantificare eventi imprevedibili, ma che seguono schemi regolari e riconoscibili.</li>
+<li>Il modello dell’urna rappresenta la casualità attraverso l’estrazione di palline numerate da un’urna, dove ogni pallina ha la stessa probabilità di essere estratta.</li>
+<li>Alcune applicazioni del modello della casualità includono indagini statistiche, sperimentazione scientifica e simulazioni in fisica e psicologia.</li>
+<li>Le due principali fonti di incertezza sono l’incertezza epistemica (derivante dalla conoscenza limitata) e l’incertezza ontologica (intrinseca al fenomeno stesso).</li>
+<li>Secondo l’approccio soggettivista, la probabilità è una misura del grado di fiducia o convinzione di un individuo riguardo al verificarsi di un evento, basata sulle informazioni disponibili.</li>
+<li>Secondo Hacking, le due dimensioni principali del concetto di probabilità sono quella epistemologica (misura della credibilità) e quella frequenziale (tendenza osservabile nei fenomeni aleatori).</li>
+<li>Pascal e Fermat hanno sviluppato i primi strumenti matematici per calcolare la probabilità degli eventi futuri, risolvendo problemi legati al gioco d’azzardo.</li>
+<li>L’approccio bayesiano considera la probabilità come una misura soggettiva del grado di fiducia, mentre l’approccio frequentista la definisce come la frequenza relativa di un evento in una serie infinita di prove.</li>
+<li>La Legge dei Grandi Numeri afferma che al crescere del numero di prove, la media dei risultati osservati si avvicina al valore atteso teorico.</li>
+<li>I limiti dell’interpretazione frequentista includono la difficoltà di applicarla a eventi singolari e non ripetibili, e la necessità di un numero infinito di prove per definire la probabilità.</li>
+<li>Fisher ha introdotto concetti chiave come la massima verosimiglianza, i test di significatività e l’analisi della varianza, contribuendo allo sviluppo della statistica frequentista.</li>
+<li>Jeffreys ha contribuito alla rinascita dell’approccio bayesiano con il suo libro “Theory of Probability”, che ha riportato l’attenzione sui metodi bayesiani.</li>
+<li>Bruno de Finetti definisce la probabilità come una misura del grado di fiducia razionale basata su informazioni incomplete, affermando che “la probabilità non esiste” come proprietà oggettiva.</li>
+<li>Secondo Jaynes, i principi fondamentali della probabilità soggettivista includono l’intervallo numerico (0-1) e la coerenza logica, basandosi su informazioni disponibili.</li>
+<li>Le alternative terminologiche proposte per la “probabilità soggettiva” includono “probabilità personale” e “probabilità epistemica”.</li>
+<li>La simulazione è importante per approssimare probabilità empiriche in contesti complessi, dove soluzioni analitiche non sono praticabili, e per comprendere fenomeni probabilistici attraverso modelli numerici.</li>
+<li>Le implicazioni filosofiche della dualità della probabilità riflettono la tensione tra una descrizione oggettiva della realtà e la soggettività del processo interpretativo.</li>
+<li>I principali contributi storici alla teoria della probabilità includono i lavori di Pascal, Fermat, Huygens, Bernoulli, Fisher, Jeffreys e de Finetti.</li>
+</ol>
+</div>
+</div>
+</div>
+</section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-clayton2021bernoulli" class="csl-entry" role="listitem">
+Clayton, A. (2021). <em>Bernoulli’s Fallacy: Statistical Illogic and the Crisis of Modern Science</em>. Columbia University Press.
+</div>
+<div id="ref-fishburn1986axioms" class="csl-entry" role="listitem">
+Fishburn, P. C. (1986). The axioms of subjective probability. <em>Statistical Science</em>, <em>1</em>(3), 335–345.
+</div>
+<div id="ref-hacking2006emergence" class="csl-entry" role="listitem">
+Hacking, I. (2006). <em>The emergence of probability: A philosophical study of early ideas about probability, induction and statistical inference</em>. Cambridge University Press.
+</div>
+<div id="ref-howson2006scientific" class="csl-entry" role="listitem">
+Howson, C., &amp; Urbach, P. (2006). <em>Scientific reasoning: the Bayesian approach</em>. Open Court Publishing.
+</div>
+<div id="ref-jeffreys1998theory" class="csl-entry" role="listitem">
+Jeffreys, H. (1998). <em>The theory of probability</em>. OuP Oxford.
+</div>
+<div id="ref-kaplan2023bayesian" class="csl-entry" role="listitem">
+Kaplan, D. (2023). <em>Bayesian statistics for the social sciences</em>. Guilford Publications.
+</div>
+<div id="ref-lindley2013understanding" class="csl-entry" role="listitem">
+Lindley, D. V. (2013). <em>Understanding uncertainty</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-press2009subjective" class="csl-entry" role="listitem">
+Press, S. J. (2009). <em>Subjective and objective Bayesian statistics: Principles, models, and applications</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-ramsey1926truth" class="csl-entry" role="listitem">
+Ramsey, F. P. (1926). Truth and probability. In <em>Readings in Formal Epistemology: Sourcebook</em> (pp. 21–45). Springer.
+</div>
+<div id="ref-spiegelhalter2024probability" class="csl-entry" role="listitem">
+Spiegelhalter, D. (2024). Why probability probably doesn’t exist (but it is useful to act like it does). <em>Nature</em>, <em>636</em>(8043), 560–563.
+</div>
+</div>
+</section></main><!-- /main --><script>
+document.body.classList.add('classic-book');
+document.addEventListener('DOMContentLoaded', function() {
+  const paragraphs = document.querySelectorAll('p');
+  paragraphs.forEach(p => {
+    if (p.textContent.length > 200) {
+      p.style.hyphens = 'auto';
+      p.style.hyphenateCharacter = '-';
+    }
+  });
+  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  headings.forEach(h => {
+    h.style.fontFeatureSettings = '"liga" 1, "dlig" 1, "smcp" 1';
+  });
+});
+</script><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiato!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiato!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ccaudek\.github\.io\/utet-prob\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../../chapters/probability/introduction_probability.html" class="pagination-link" aria-label="Elementi di teoria della probabilità">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Elementi di teoria della probabilità</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/probability/02_probability_models.html" class="pagination-link" aria-label="Modelli probabilistici">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Metodi bayesiani in psicologia</em>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/01_intro_prob.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

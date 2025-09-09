@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>3&nbsp; Modelli probabilistici – Probabilità per la psicologia — Modulo di richiamo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/probability/03_sigma-algebra.html" rel="next">
+<link href="../../chapters/probability/01_intro_prob.html" rel="prev">
+<link href="../../style/gauss.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0a72236910a44089af39cd28873f322e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-9908c7b05874059c2106d454ac00f1d0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nessun risultato",
+    "search-matching-documents-text": "documenti trovati",
+    "search-copy-link-title": "Copiare il link nella ricerca",
+    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
+    "search-more-match-text": "ci sono altri risultati in questo documento",
+    "search-more-matches-text": "ulteriori risultati in questo documento",
+    "search-clear-button-title": "Pulire",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancellare",
+    "search-submit-button-title": "Inviare",
+    "search-label": "Ricerca"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
+  options: { renderActions: { addMenu: [0, '', ''] } },
+  loader: { load: ['input/tex','output/svg'] }
+};
+</script><script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
+  options: { renderActions: { addMenu: [0, '', ''] } },
+  loader: { load: ['input/tex','output/svg'] }
+};
+// Suggerimento CSS: vedi sezione 3 per gli spazi attorno a display math
+</script><script>
+window.MathJax = {
+  tex: {
+    packages: {'[+]': ['boldsymbol']},
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="../../style/_typography-extras.css">
+<link rel="stylesheet" href="../../style/_code-extras.css">
+<link rel="stylesheet" href="../../style/_math-extras.css">
+<link rel="stylesheet" href="../../style/styles.css">
+</head>
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/02_probability_models.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Probabilità per la psicologia — Modulo di richiamo</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ccaudek/utet-prob/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Attiva/disattiva la modalità lettore">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Ricerca"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Percorso e obiettivi</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../prefazione.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefazione</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/probability/introduction_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Probabilità</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/01_intro_prob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/02_probability_models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/03_sigma-algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/04_conditional_prob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/05_bayes_theorem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/07_prob_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Distribuzioni di massa e di densità</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/08_expval_var.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Proprietà delle variabili casuali</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/09_sampling_distr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/10_joint_prob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/11_cov_cor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/12_intro_distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/15_gauss.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Assunzione di gaussianità e trasformazioni dei dati</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/probability/16_likelihood.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Attiva/disattiva sezione">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a02_math_symbols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Simbologia di base</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a11_numbers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Numeri e intervalli</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a12_sum_notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Sommatorie</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a13_sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Insiemi</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a14_combinatorics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Calcolo combinatorio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/appendix/a15_calculus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Per liberarvi dai terrori preliminari</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommario</h2>
+   
+  <ul class="collapse">
+<li><a href="#esperimenti-casuali" id="toc-esperimenti-casuali" class="nav-link active" data-scroll-target="#esperimenti-casuali"><span class="header-section-number">3.1</span> Esperimenti casuali</a></li>
+  <li><a href="#spazio-campionario" id="toc-spazio-campionario" class="nav-link" data-scroll-target="#spazio-campionario"><span class="header-section-number">3.2</span> Spazio campionario</a></li>
+  <li><a href="#eventi" id="toc-eventi" class="nav-link" data-scroll-target="#eventi"><span class="header-section-number">3.3</span> Eventi</a></li>
+  <li><a href="#operazioni-sugli-eventi" id="toc-operazioni-sugli-eventi" class="nav-link" data-scroll-target="#operazioni-sugli-eventi"><span class="header-section-number">3.4</span> Operazioni sugli eventi</a></li>
+  <li><a href="#sec-probabilita" id="toc-sec-probabilita" class="nav-link" data-scroll-target="#sec-probabilita"><span class="header-section-number">3.5</span> Probabilità</a></li>
+  <li><a href="#case-discreto-continuo" id="toc-case-discreto-continuo" class="nav-link" data-scroll-target="#case-discreto-continuo"><span class="header-section-number">3.6</span> Spazi discreti e continui</a></li>
+  <li><a href="#teorema-della-somma" id="toc-teorema-della-somma" class="nav-link" data-scroll-target="#teorema-della-somma"><span class="header-section-number">3.7</span> Teorema della somma</a></li>
+  <li><a href="#probabilit%C3%A0-calcolo-combinatorio-e-simulazioni" id="toc-probabilità-calcolo-combinatorio-e-simulazioni" class="nav-link" data-scroll-target="#probabilit%C3%A0-calcolo-combinatorio-e-simulazioni"><span class="header-section-number">3.8</span> Probabilità, calcolo combinatorio e simulazioni</a></li>
+  </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/02_probability_models.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/02_probability_models.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-prob-models" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><div class="epigraph">
+<blockquote class="blockquote">
+<p>“La probabilità è il calcolo più importante nella vita civile. Tuttavia, è il più soggetto a errori e paradossi; anche le menti più brillanti possono ingannarsi su questioni che, dopo essere state spiegate, appaiono così ovvie da far vergognare di non averle capite prima.”</p>
+<p>– <strong>Pierre-Simon Laplace</strong>, <em>Saggio filosofico sulle probabilità</em> (1814)</p>
+</blockquote>
+</div>
+<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>Dopo aver esaminato il <em>significato filosofico</em> della probabilità nel <a href="01_intro_prob.html" class="quarto-xref"><span>Capitolo 2</span></a>, questo capitolo ne sviluppa una trattazione più formale, creando un collegamento tra la riflessione teorica e gli strumenti operativi. Partendo dalla definizione di <em>esperimento casuale</em> – come il lancio di una moneta o la somministrazione di un test psicologico – costruiremo un framework matematico per analizzare e quantificare le proprietà di tali esperimenti. In particolare, approfondiremo i concetti di <em>spazio campionario</em>, <em>eventi</em> e <em>proprietà della probabilità</em>, fornendo le basi per un’interpretazione rigorosa dei fenomeni complessi in psicologia e nelle scienze sociali.</p>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Nozioni di spazio campionario, eventi e operazioni su eventi.</li>
+<li>Definizione di probabilità.</li>
+<li>Spazi discreti o continui.</li>
+<li>Teorema della somma.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prerequisiti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Leggere il capitolo <em>Probability Models</em> del testo di <span class="citation" data-cites="kroese2025statistical">Chan &amp; Kroese (<a href="#ref-kroese2025statistical" role="doc-biblioref">2025</a>)</span>.</li>
+<li>Studiare l’<a href="../appendix/a13_sets.html" class="quarto-xref"><span>Appendice D</span></a>.</li>
+<li>Studiare l’<a href="../appendix/a14_combinatorics.html" class="quarto-xref"><span>Appendice E</span></a>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution no-icon callout-titled" title="Preparazione del Notebook">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Preparazione del Notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load packages</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
+<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">readr</span>, <span class="va">VennDiagram</span><span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Domande introduttive
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Prima di esaminare in maniera più formale le basi della teoria della probabilità, consideriamo un classico problema della teoria della probabilità:</p>
+<p><em>“Quante persone servono in una stanza perché ci sia almeno il 50% di probabilità che due condividano lo stesso compleanno?”</em></p>
+<p>Questo problema, noto come <em>problema dei compleanni</em>, fu introdotto dal matematico Richard von Mises nel 1932. La sua soluzione sfida l’intuizione e rivela quanto le probabilità combinatorie possano essere ingannevoli.</p>
+<p>Rispondi alle seguenti domande.</p>
+<ol type="1">
+<li>Con quante persone pensi si superi il 50% di probabilità? (23? 100? 180?)</li>
+<li>Con 30 persone, quale probabilità stimi? (10%? 50%? 70%?)</li>
+</ol>
+<p>Scrivi le tue risposte su un foglietto senza condividere con i compagni.</p>
+<p><em>Per svolgere un esercizio in classe</em>, compila il seguente <a href="https://docs.google.com/forms/d/e/1FAIpQLScRZBPFsdT2P13BmcT5N6z7aQLf8YCkBcvc_jQXEM6x8SdcJg/viewform?usp=header">modulo</a> su Google Forms.</p>
+</div>
+</div>
+</div>
+</section></section><section id="esperimenti-casuali" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="esperimenti-casuali">
+<span class="header-section-number">3.1</span> Esperimenti casuali</h2>
+<p>Il concetto fondamentale della probabilità è l’<em>esperimento casuale</em>, ovvero un procedimento il cui esito non può essere previsto con certezza, ma che può essere analizzato quantitativamente. Alcuni esempi di esperimenti casuali includono: lanciare un dado e osservare il numero ottenuto sulla faccia superiore; estrarre una carta a caso da un mazzo e registrarne il seme e il valore; misurare il livello di stress percepito da un gruppo di individui in un determinato contesto, come durante un esame o un evento stressante; contare il numero di risposte corrette fornite dai partecipanti a un test di memoria entro un tempo prestabilito; eccetera.</p>
+<p>L’analisi probabilistica ha lo scopo di comprendere il comportamento di tali esperimenti attraverso la costruzione di modelli matematici. Una volta formalizzato matematicamente un esperimento casuale, è possibile calcolare grandezze di interesse, come probabilità ed aspettative. Questi modelli possono essere implementati al computer per simulare l’esperimento e analizzarne i risultati. Inoltre, la modellizzazione matematica degli esperimenti casuali costituisce la base della statistica, disciplina che permette di confrontare diversi modelli e identificare quello più adeguato ai dati osservati.</p>
+<section id="il-lancio-di-una-moneta" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="il-lancio-di-una-moneta">
+<span class="header-section-number">3.1.1</span> Il lancio di una moneta</h3>
+<p>Uno degli esperimenti casuali più semplici e fondamentali è il <em>lancio ripetuto di una moneta</em>. Molti concetti chiave della teoria della probabilità possono essere illustrati partendo da questo esperimento elementare. Per studiarne il comportamento, possiamo simularlo al computer utilizzando il linguaggio R.</p>
+<p>Di seguito, un semplice script in R simula <em>100 lanci</em> di una moneta equa (cioè con probabilità uguali di ottenere Testa o Croce) e rappresenta graficamente la distribuzione dei risultati mediante un diagramma a barre.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Imposta il seed per garantire la riproducibilità</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.5</span> <span class="co"># Genera 100 numeri casuali e verifica se sono minori di 0.5</span></span>
+<span><span class="va">x</span></span>
+<span><span class="co">#&gt;   [1]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE</span></span>
+<span><span class="co">#&gt;  [13] FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></span>
+<span><span class="co">#&gt;  [25] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE</span></span>
+<span><span class="co">#&gt;  [37] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span>
+<span><span class="co">#&gt;  [49]  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE</span></span>
+<span><span class="co">#&gt;  [61] FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE</span></span>
+<span><span class="co">#&gt;  [73] FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE</span></span>
+<span><span class="co">#&gt;  [85]  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE</span></span>
+<span><span class="co">#&gt;  [97] FALSE  TRUE  TRUE FALSE</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nel codice, la funzione <code>runif</code> genera 100 numeri casuali distribuiti uniformemente nell’intervallo [0, 1]. Confrontando ciascun numero con 0.5, otteniamo un vettore logico che rappresenta il risultato di ogni lancio: <em>Testa</em> (TRUE) o <em>Croce</em> (FALSE).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span> <span class="co"># Sequenza degli indici dei lanci</span></span>
+<span></span>
+<span><span class="co"># Creazione del dataframe per ggplot2</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  Lancio <span class="op">=</span> <span class="va">t</span>,</span>
+<span>  Risultato <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"Testa"</span>, <span class="st">"Croce"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 2</span></span>
+<span><span class="co">#&gt;   Lancio Risultato</span></span>
+<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1      1 Testa    </span></span>
+<span><span class="co">#&gt; 2      2 Croce    </span></span>
+<span><span class="co">#&gt; 3      3 Testa    </span></span>
+<span><span class="co">#&gt; 4      4 Croce    </span></span>
+<span><span class="co">#&gt; 5      5 Croce    </span></span>
+<span><span class="co">#&gt; 6      6 Testa</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Il grafico a barre mostra la distribuzione osservata degli esiti.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Creazione del grafico a barre della distribuzione dei risultati</span></span>
+<span><span class="va">dat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Risultato</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_bar</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">prop</span><span class="op">)</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Risultato"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Frequenza relativa"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02_probability_models_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Un aspetto rilevante di questo esperimento è l’<em>andamento della proporzione osservata di esiti “Testa”</em> in funzione del numero di lanci. Il grafico riportato di seguito illustra l’evoluzione della <em>media cumulativa</em> degli esiti “Testa”, che, in accordo con la legge dei grandi numeri, dovrebbe convergere al valore teorico di <em>0.5</em>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="va">t</span> <span class="co"># Calcola la media cumulativa delle Teste</span></span>
+<span></span>
+<span><span class="co"># Creazione del dataframe per il grafico della media mobile</span></span>
+<span><span class="va">data_mean</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  Lancio <span class="op">=</span> <span class="va">t</span>, </span>
+<span>  Media_Testa <span class="op">=</span> <span class="va">y</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Creazione del grafico della media cumulativa</span></span>
+<span><span class="va">data_mean</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span></span>
+<span>    <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lancio</span>, y <span class="op">=</span> <span class="va">Media_Testa</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.5</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Numero di lanci"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Frequenza cumulativa di Teste"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02_probability_models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Media cumulata">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Media cumulata
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La <em>media cumulata</em> (o <em>cumulativa</em>) è una media che si calcola progressivamente, aggiungendo un nuovo dato alla volta e ricalcolando la media considerando <em>tutti i valori precedenti</em> insieme al nuovo.<br>
+In pratica, mostra come la media si evolve man mano che vengono inclusi nuovi dati nella serie.</p>
+<p><em>Come si calcola?</em></p>
+<ol type="1">
+<li>Al primo dato, la media cumulata è il dato stesso.<br>
+</li>
+<li>Al secondo dato, è la media tra il primo e il secondo.<br>
+</li>
+<li>Al terzo dato, è la media tra il primo, il secondo e il terzo.<br>
+</li>
+<li>E così via…</li>
+</ol>
+<p><em>Formula intuitiva</em>:</p>
+<p><span class="math display">\[
+\text{Media cumulata al passo } n = \frac{\text{somma di tutti i dati fino al passo } n}{n}
+\]</span></p>
+<p><em>Esempio pratico</em>:<br>
+Supponiamo di avere i voti di uno studente in 3 verifiche:</p>
+<ul>
+<li>Verifica 1: 7<br>
+</li>
+<li>Verifica 2: 6<br>
+</li>
+<li>Verifica 3: 8</li>
+</ul>
+<p>Le <em>medie cumulate</em> saranno:</p>
+<ul>
+<li>Dopo la 1ª verifica: <span class="math inline">\(\frac{7}{1} = 7\)</span>.<br>
+</li>
+<li>Dopo la 2ª verifica: <span class="math inline">\(\frac{7 + 6}{2} = 6.5\)</span>.<br>
+</li>
+<li>Dopo la 3ª verifica: <span class="math inline">\(\frac{7 + 6 + 8}{3} = 7\)</span>.</li>
+</ul>
+<p><em>A cosa serve?</em></p>
+<ul>
+<li>
+<em>Tracciare l’andamento</em> nel tempo (es.: mostrare come la frequenza di “Testa” si avvicina gradualmente al 50% teorico man mano che aumentano i lanci).<br>
+</li>
+<li>
+<em>Lisciare le fluttuazioni</em>: riduce l’impatto di picchi temporanei, mostrando un trend più stabile.<br>
+</li>
+<li>
+<em>Valutare prestazioni progressive</em> (es.: un atleta che migliora gradualmente).<br>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Il grafico mostra come la media delle Teste oscilla inizialmente a causa della variabilità intrinseca dell’esperimento, ma <em>tende progressivamente a stabilizzarsi intorno a 0.5</em>. Questo fenomeno è un esempio della <em>Legge dei Grandi Numeri</em>, secondo cui, ripetendo un esperimento casuale un numero sempre maggiore di volte, la frequenza relativa di un evento si avvicina alla sua probabilità teorica.</p>
+</section><section id="domande-di-interesse" class="level3" data-number="3.1.2"><h3 data-number="3.1.2" class="anchored" data-anchor-id="domande-di-interesse">
+<span class="header-section-number">3.1.2</span> Domande di interesse</h3>
+<p>L’esperimento casuale del lancio di una moneta porta a numerose domande, tra cui:</p>
+<ul>
+<li>Qual è la probabilità di ottenere un certo numero <span class="math inline">\(x\)</span> di Teste in 100 lanci?</li>
+<li>Qual è il numero atteso di Teste in un esperimento di 100 lanci?</li>
+</ul>
+<p>Dal punto di vista statistico, quando osserviamo i risultati di un esperimento reale (ad esempio, 100 lanci di una moneta), possiamo anche porci domande come:</p>
+<ul>
+<li>La moneta è davvero equa o è sbilanciata?</li>
+<li>Qual è il miglior metodo per stimare la probabilità <span class="math inline">\(p\)</span> di ottenere Testa dalla sequenza osservata di lanci?</li>
+<li>Quanto è precisa la stima ottenuta e con quale livello di incertezza?</li>
+</ul>
+<p>Questi interrogativi costituiscono la base della <em>statistica inferenziale</em>, che permette di testare ipotesi sulla probabilità di un evento e stimare parametri sconosciuti sulla base di dati osservati.</p>
+</section><section id="modellizzazione" class="level3" data-number="3.1.3"><h3 data-number="3.1.3" class="anchored" data-anchor-id="modellizzazione">
+<span class="header-section-number">3.1.3</span> Modellizzazione</h3>
+<p>La descrizione matematica di un esperimento casuale si basa su tre elementi fondamentali:</p>
+<ol type="1">
+<li><p><strong>Lo spazio campionario</strong>: rappresenta l’insieme di tutti i possibili esiti dell’esperimento. Nel caso di esperimenti semplici, lo spazio campionario è immediato da individuare, mentre in situazioni più complesse è necessario applicare i principi del calcolo combinatorio.</p></li>
+<li><p><strong>Gli eventi</strong>: sono sottoinsiemi dello spazio campionario e rappresentano gli esiti di interesse. Per analizzare e manipolare gli eventi, utilizziamo gli strumenti della teoria degli insiemi.</p></li>
+<li><p><strong>La probabilità</strong>: assegna un valore numerico a ciascun evento, indicando la sua probabilità di verificarsi. L’assegnazione delle probabilità avviene secondo gli assiomi di Kolmogorov.</p></li>
+</ol>
+<p>Nei paragrafi seguenti, analizzeremo ciascuna di queste componenti in dettaglio.</p>
+</section></section><section id="spazio-campionario" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="spazio-campionario">
+<span class="header-section-number">3.2</span> Spazio campionario</h2>
+<p>Anche se non possiamo prevedere con esattezza l’esito di un singolo esperimento casuale, possiamo comunque definire tutti i risultati che potrebbero verificarsi. L’insieme completo di questi esiti possibili si chiama <em>spazio campionario</em>.</p>
+<div id="def-" class="theorem definition">
+<p><span class="theorem-title"><strong>Definizione 3.1</strong></span> Lo <em>spazio campionario</em> <span class="math inline">\(\Omega\)</span> di un esperimento casuale è l’insieme di tutti i possibili esiti dell’esperimento.</p>
+</div>
+<section id="esempi-di-spazi-campionari" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="esempi-di-spazi-campionari">
+<span class="header-section-number">3.2.1</span> Esempi di spazi campionari</h3>
+<p>Consideriamo lo spazio campionario di alcuni esperimenti casuali.</p>
+<ol type="1">
+<li><p>Lancio di due dadi consecutivi: <span class="math display">\[
+\Omega = \{(1,1), (1,2), \dots, (6,6)\}.
+\]</span></p></li>
+<li><p>Tempo di reazione a uno stimolo visivo: <span class="math display">\[\Omega = \mathbb{R}^+,\]</span> ovvero l’insieme dei numeri reali positivi.</p></li>
+<li><p>Numero di errori in un test di memoria a breve termine: <span class="math display">\[\Omega = \{0, 1, 2, \dots\}.\]</span></p></li>
+<li><p>Misurazione delle altezze di dieci persone: <span class="math display">\[\Omega = \{(x_1, \dots, x_{10}) : x_i \ge 0, \; i=1,\dots,10\} \subset \mathbb{R}^{10}.\]</span></p></li>
+</ol></section></section><section id="eventi" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="eventi">
+<span class="header-section-number">3.3</span> Eventi</h2>
+<p>Solitamente non siamo interessati a un singolo esito, ma a un insieme di essi. Un <em>evento</em> è un sottoinsieme dello spazio campionario a cui possiamo assegnare una probabilità.</p>
+<div id="def-" class="theorem definition">
+<p><span class="theorem-title"><strong>Definizione 3.2</strong></span> Un <em>evento</em> è un sottoinsieme <span class="math inline">\(A \subseteq \Omega\)</span> al quale viene assegnata una probabilità. Indichiamo gli eventi con lettere maiuscole <span class="math inline">\(A, B, C, \dots\)</span>. Diciamo che l’evento <span class="math inline">\(A\)</span> si verifica se l’esito dell’esperimento appartiene a <span class="math inline">\(A\)</span>.</p>
+</div>
+<section id="esempi-di-eventi" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="esempi-di-eventi">
+<span class="header-section-number">3.3.1</span> Esempi di eventi</h3>
+<p>Consideriamo alcuni possibili eventi definiti sugli spazi campionari descritti sopra.</p>
+<ol type="1">
+<li><p>Lancio di due dadi consecutivi.<br><em>Evento:</em> “La somma dei due dadi è uguale a 7”<br><span class="math display">\[
+A = \{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\}.
+\]</span></p></li>
+<li><p>Tempo di reazione a uno stimolo visivo.<br><em>Evento:</em> “Il tempo di reazione è inferiore a 2 secondi”<br><span class="math display">\[
+A = [0, 2).
+\]</span></p></li>
+<li><p>Numero di errori in un test di memoria a breve termine.<br><em>Evento:</em> “Il numero di errori è al massimo 3”<br><span class="math display">\[
+A = \{0, 1, 2, 3\}.
+\]</span></p></li>
+<li><p>Misurazione delle altezze di dieci persone.<br><em>Evento:</em> “Almeno due persone hanno un’altezza superiore a 180 cm”<br><span class="math display">\[
+A = \{(x_1, \dots, x_{10}) : \text{almeno due } x_i &gt; 180\}.
+\]</span></p></li>
+</ol>
+<p>Questi esempi mostrano come gli eventi possano essere definiti in modo diverso a seconda della natura dello spazio campionario e del contesto di interesse.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Supponiamo di lanciare una moneta tre volte e di annotare se esce Testa (<span class="math inline">\(H\)</span>) o Croce (<span class="math inline">\(T\)</span>) in ogni lancio. Lo spazio campionario è:</p>
+<p><span class="math display">\[
+\Omega = \{HHH, HHT, HTH, HTT, THH, THT, TTH, TTT\},
+\]</span></p>
+<p>dove, ad esempio, <span class="math inline">\(HTH\)</span> indica che il primo lancio dà Testa, il secondo Croce e il terzo Testa.</p>
+<p>Un’alternativa è rappresentare lo spazio campionario come l’insieme dei vettori binari di lunghezza 3, <span class="math inline">\(\{0,1\}^3\)</span>, dove Testa (<span class="math inline">\(H\)</span>) corrisponde a 1 e Croce (<span class="math inline">\(T\)</span>) a 0.</p>
+<p>L’evento <span class="math inline">\(A\)</span> “il terzo lancio è Testa” si esprime come:</p>
+<p><span class="math display">\[
+A = \{HHH, HTH, THH, TTH\}.
+\]</span></p>
+</div>
+</div>
+</div>
+</section></section><section id="operazioni-sugli-eventi" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="operazioni-sugli-eventi">
+<span class="header-section-number">3.4</span> Operazioni sugli eventi</h2>
+<p>Poiché gli eventi sono definiti come insiemi, possiamo applicare loro le classiche operazioni insiemistiche.</p>
+<p><strong>Unione</strong> (<span class="math inline">\(\cup\)</span>). L’unione di due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> è l’insieme di tutti gli esiti che appartengono almeno a uno dei due:</p>
+<p><span class="math display">\[
+A \cup B = \{\omega \in \Omega : \omega \in A \text{ oppure } \omega \in B\}.
+\]</span></p>
+<p><strong>Intersezione</strong> (<span class="math inline">\(\cap\)</span>). L’intersezione di due eventi è l’insieme degli esiti comuni:</p>
+<p><span class="math display">\[
+A \cap B = \{\omega \in \Omega : \omega \in A \text{ e } \omega \in B\}.
+\]</span></p>
+<p><strong>Complemento</strong> (<span class="math inline">\(A^c\)</span>). Il complemento di un evento <span class="math inline">\(A\)</span> è l’insieme di tutti gli esiti che non appartengono ad <span class="math inline">\(A\)</span>:</p>
+<p><span class="math display">\[
+A^c = \{\omega \in \Omega : \omega \notin A\}.
+\]</span></p>
+<p><strong>Eventi mutuamente esclusivi.</strong> Due eventi sono <em>mutuamente esclusivi</em> se non hanno esiti in comune, ovvero:</p>
+<p><span class="math display">\[
+A \cap B = \emptyset.
+\]</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Universo</span></span>
+<span><span class="va">U</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>  </span>
+<span></span>
+<span><span class="co"># Definizione degli insiemi A e B</span></span>
+<span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calcolare l'unione, l'intersezione e il complemento relativo a un universo U</span></span>
+<span><span class="va">union_AB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">union</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span></span>
+<span><span class="va">intersect_AB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span></span>
+<span><span class="va">complement_A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="va">U</span>, <span class="va">A</span><span class="op">)</span></span>
+<span><span class="va">complement_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="va">U</span>, <span class="va">B</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Visualizzazione testuale</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Unione A ∪ B:"</span>, <span class="va">union_AB</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Unione A ∪ B: 1 2 3 4 5 6 7 8</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Intersezione A ∩ B:"</span>, <span class="va">intersect_AB</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Intersezione A ∩ B: 4 5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Complemento di A:"</span>, <span class="va">complement_A</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Complemento di A: 6 7 8 9 10</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Complemento di B:"</span>, <span class="va">complement_B</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Complemento di B: 1 2 3 9 10</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualizzazione con diagrammi di Venn</span></span>
+<span><span class="va">venn.plot</span> <span class="op">&lt;-</span> <span class="fu">draw.pairwise.venn</span><span class="op">(</span></span>
+<span>  area1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>,</span>
+<span>  area2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span>,</span>
+<span>  cross.area <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span><span class="op">)</span>,  <span class="co"># Corretto: usa intersect() invece di intersect_AB</span></span>
+<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
+<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"blue"</span><span class="op">)</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  cat.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"blue"</span><span class="op">)</span>  <span class="co"># Corretto: allineato con i colori di fill</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Visualizza il diagramma</span></span>
+<span><span class="fu">grid.draw</span><span class="op">(</span><span class="va">venn.plot</span><span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02_probability_models_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Esempio di eventi mutualmente esclusivi</span></span>
+<span><span class="va">C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">10</span><span class="op">)</span>  <span class="co"># Insieme disgiunto da A e B</span></span>
+<span><span class="va">intersect_AC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">C</span><span class="op">)</span>  <span class="co"># Deve essere vuoto</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Intersezione A ∩ C (eventi mutualmente esclusivi):"</span>, <span class="va">intersect_AC</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Intersezione A ∩ C (eventi mutualmente esclusivi):</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualizzazione di eventi mutualmente esclusivi</span></span>
+<span><span class="va">venn.plot2</span> <span class="op">&lt;-</span> <span class="fu">draw.pairwise.venn</span><span class="op">(</span></span>
+<span>  area1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>,</span>
+<span>  area2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">C</span><span class="op">)</span>,</span>
+<span>  cross.area <span class="op">=</span> <span class="fl">0</span>,  <span class="co"># Nessuna intersezione</span></span>
+<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span>,</span>
+<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"orange"</span><span class="op">)</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  cat.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"orange"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">grid.draw</span><span class="op">(</span><span class="va">venn.plot2</span><span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02_probability_models_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="proprietà-fondamentali-delle-operazioni-su-eventi" class="level3" data-number="3.4.1"><h3 data-number="3.4.1" class="anchored" data-anchor-id="proprietà-fondamentali-delle-operazioni-su-eventi">
+<span class="header-section-number">3.4.1</span> Proprietà fondamentali delle operazioni su eventi</h3>
+<ul>
+<li><p><strong>Idempotenza:</strong> <span class="math display">\[
+A \cup A = A, \quad A \cap A = A.
+\]</span></p></li>
+<li><p><strong>Leggi di De Morgan:</strong> <span class="math display">\[
+(A \cup B)^c = A^c \cap B^c, \quad (A \cap B)^c = A^c \cup B^c.
+\]</span></p></li>
+<li><p><strong>Unione e Intersezione con l’insieme vuoto:</strong> <span class="math display">\[
+A \cup \emptyset = A, \quad A \cap \emptyset = \emptyset.
+\]</span></p></li>
+<li><p><strong>Unione e Intersezione con lo spazio campionario:</strong> <span class="math display">\[
+A \cup \Omega = \Omega, \quad A \cap \Omega = A.
+\]</span></p></li>
+</ul>
+<p>Queste operazioni forniscono la base per costruire e manipolare eventi in contesti probabilistici, permettendo di calcolare probabilità e prendere decisioni basate sull’analisi degli esiti possibili.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Per gli insiemi definiti nell’esempio precedente, possiamo verificare la prima legge di De Morgan in R confrontando il complemento dell’unione con l’intersezione dei complementi:</p>
+<ul>
+<li>complemento dell’unione: <span class="math inline">\((A \cup B)^c\)</span>,</li>
+<li>intersezione dei complementi: <span class="math inline">\(A^c \cap B^c\)</span>.</li>
+</ul>
+<p>Eseguiamo i calcoli in R:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Complemento dell'unione: (A ∪ B)^c</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="va">U</span>, <span class="fu"><a href="https://rdrr.io/r/base/sets.html">union</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  9 10</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Intersezione dei complementi: A^c ∩ B^c</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="va">U</span>, <span class="va">A</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="va">U</span>, <span class="va">B</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  9 10</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Secondo la legge di De Morgan, i due risultati devono coincidere.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideriamo l’esperimento del lancio di due dadi. Lo spazio campionario <span class="math inline">\(\Omega\)</span> è costituito da tutte le possibili coppie di risultati che possono verificarsi. Ogni dado ha 6 facce, quindi lo spazio campionario è:</p>
+<p><span class="math display">\[
+\Omega = \{(1,1), (1,2), \dots, (6,6)\},
+\]</span></p>
+<p>per un totale di <span class="math inline">\(6 \times 6 = 36\)</span> esiti possibili.</p>
+<p>Siamo interessati all’evento <span class="math inline">\(A\)</span>: “la somma dei due dadi è almeno 10”. Questo evento include tutte le coppie di risultati la cui somma è 10, 11 o 12. Gli esiti che soddisfano questa condizione sono:</p>
+<p><span class="math display">\[
+A = \{(4,6), (5,5), (5,6), (6,4), (6,5), (6,6)\}.
+\]</span></p>
+<p>Ecco come generare lo spazio campionario in R in modo algoritmico e definire l’evento “la somma dei due dadi è almeno 10”:</p>
+<p>Lo spazio campionario <span class="math inline">\(\Omega\)</span> è costituito da tutte le possibili coppie di risultati del lancio di due dadi. In R, possiamo generarlo utilizzando la funzione <code>expand.grid</code>, che crea tutte le combinazioni possibili tra i valori dei due dadi.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Generazione dello spazio campionario Omega</span></span>
+<span><span class="va">dado</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span> <span class="co"># Facce di un dado</span></span>
+<span><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>Dado1 <span class="op">=</span> <span class="va">dado</span>, Dado2 <span class="op">=</span> <span class="va">dado</span><span class="op">)</span> <span class="co"># Tutte le combinazioni possibili</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>L’output sarà una tabella con 36 righe, una per ogni combinazione possibile:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualizzazione dello spazio campionario</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Omega</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 1      1     1</span></span>
+<span><span class="co">#&gt; 2      2     1</span></span>
+<span><span class="co">#&gt; 3      3     1</span></span>
+<span><span class="co">#&gt; 4      4     1</span></span>
+<span><span class="co">#&gt; 5      5     1</span></span>
+<span><span class="co">#&gt; 6      6     1</span></span>
+<span><span class="co">#&gt; 7      1     2</span></span>
+<span><span class="co">#&gt; 8      2     2</span></span>
+<span><span class="co">#&gt; 9      3     2</span></span>
+<span><span class="co">#&gt; 10     4     2</span></span>
+<span><span class="co">#&gt; 11     5     2</span></span>
+<span><span class="co">#&gt; 12     6     2</span></span>
+<span><span class="co">#&gt; 13     1     3</span></span>
+<span><span class="co">#&gt; 14     2     3</span></span>
+<span><span class="co">#&gt; 15     3     3</span></span>
+<span><span class="co">#&gt; 16     4     3</span></span>
+<span><span class="co">#&gt; 17     5     3</span></span>
+<span><span class="co">#&gt; 18     6     3</span></span>
+<span><span class="co">#&gt; 19     1     4</span></span>
+<span><span class="co">#&gt; 20     2     4</span></span>
+<span><span class="co">#&gt; 21     3     4</span></span>
+<span><span class="co">#&gt; 22     4     4</span></span>
+<span><span class="co">#&gt; 23     5     4</span></span>
+<span><span class="co">#&gt; 24     6     4</span></span>
+<span><span class="co">#&gt; 25     1     5</span></span>
+<span><span class="co">#&gt; 26     2     5</span></span>
+<span><span class="co">#&gt; 27     3     5</span></span>
+<span><span class="co">#&gt; 28     4     5</span></span>
+<span><span class="co">#&gt; 29     5     5</span></span>
+<span><span class="co">#&gt; 30     6     5</span></span>
+<span><span class="co">#&gt; 31     1     6</span></span>
+<span><span class="co">#&gt; 32     2     6</span></span>
+<span><span class="co">#&gt; 33     3     6</span></span>
+<span><span class="co">#&gt; 34     4     6</span></span>
+<span><span class="co">#&gt; 35     5     6</span></span>
+<span><span class="co">#&gt; 36     6     6</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>L’evento <span class="math inline">\(A\)</span> è definito come “la somma dei due dadi è almeno 10”. Per identificare queste combinazioni, aggiungiamo una colonna che calcola la somma dei due dadi e filtriamo le righe in cui la somma è maggiore o uguale a 10.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Aggiunta di una colonna per la somma dei due dadi</span></span>
+<span><span class="va">Omega</span><span class="op">$</span><span class="va">Somma</span> <span class="op">&lt;-</span> <span class="va">Omega</span><span class="op">$</span><span class="va">Dado1</span> <span class="op">+</span> <span class="va">Omega</span><span class="op">$</span><span class="va">Dado2</span></span>
+<span></span>
+<span><span class="co"># Definizione dell'evento A: somma dei due dadi almeno 10</span></span>
+<span><span class="va">A</span> <span class="op">&lt;-</span> <span class="va">Omega</span><span class="op">[</span><span class="va">Omega</span><span class="op">$</span><span class="va">Somma</span> <span class="op">&gt;=</span> <span class="fl">10</span>, <span class="op">]</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>L’output sarà un data frame con le combinazioni in cui la somma è almeno 10:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualizzazione dell'evento A</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Dado1 Dado2 Somma</span></span>
+<span><span class="co">#&gt; 24     6     4    10</span></span>
+<span><span class="co">#&gt; 29     5     5    10</span></span>
+<span><span class="co">#&gt; 30     6     5    11</span></span>
+<span><span class="co">#&gt; 34     4     6    10</span></span>
+<span><span class="co">#&gt; 35     5     6    11</span></span>
+<span><span class="co">#&gt; 36     6     6    12</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In sintesi,</p>
+<ul>
+<li>lo spazio campionario <span class="math inline">\(\Omega\)</span> è stato generato algoritmicamente utilizzando <code>expand.grid</code>;</li>
+<li>l’evento <span class="math inline">\(A\)</span> è stato definito filtrando le combinazioni in cui la somma dei due dadi è almeno 10.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideriamo un esperimento in cui lanciamo una moneta tre volte consecutivamente. Ogni lancio può risultare in <em>Testa (H)</em> o <em>Croce (T)</em>. Lo spazio campionario <span class="math inline">\(\Omega\)</span> è costituito da tutte le possibili sequenze di risultati dei tre lanci. Ci sono <span class="math inline">\(2^3 = 8\)</span> possibili esiti, che possono essere rappresentati come:</p>
+<p><span class="math display">\[
+\Omega = \{\text{HHH}, \text{HHT}, \text{HTH}, \text{HTT}, \text{THH}, \text{THT}, \text{TTH}, \text{TTT}\}.
+\]</span></p>
+<p>Vogliamo definire in R l’evento <span class="math inline">\(A\)</span>: “Il terzo lancio della moneta dia Testa (H)”. Questo evento include tutte le sequenze in cui il terzo carattere è “H”.</p>
+<p>In R, possiamo rappresentare lo spazio campionario <span class="math inline">\(\Omega\)</span> come un vettore di stringhe, dove ogni stringa corrisponde a una sequenza di risultati.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Definizione dello spazio campionario Omega</span></span>
+<span><span class="va">omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HHH"</span>, <span class="st">"HHT"</span>, <span class="st">"HTH"</span>, <span class="st">"HTT"</span>, <span class="st">"THH"</span>, <span class="st">"THT"</span>, <span class="st">"TTH"</span>, <span class="st">"TTT"</span><span class="op">)</span></span>
+<span><span class="va">omega</span></span>
+<span><span class="co">#&gt; [1] "HHH" "HHT" "HTH" "HTT" "THH" "THT" "TTH" "TTT"</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>L’evento <span class="math inline">\(A\)</span> è costituito da tutte le sequenze in cui il <em>terzo lancio è Testa (H)</em>. Per identificare queste sequenze, utilizziamo la funzione <code>substr</code>, che estrae il terzo carattere da ciascuna stringa e verifica se è uguale a “H”.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Definizione dell'evento A: terzo lancio è Testa (H)</span></span>
+<span><span class="va">A</span> <span class="op">&lt;-</span> <span class="va">omega</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">omega</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">==</span> <span class="st">"H"</span><span class="op">]</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Spiegazione del codice:</p>
+<ul>
+<li>
+<code>substr(omega, 3, 3)</code> estrae il terzo carattere da ciascuna stringa nel vettore <code>omega</code>.</li>
+<li>
+<code>substr(omega, 3, 3) == "H"</code> crea un vettore logico (vero/falso) che indica se il terzo carattere è “H”.</li>
+<li>
+<code>omega[...]</code> filtra il vettore <code>omega</code>, mantenendo solo le sequenze che soddisfano la condizione.</li>
+</ul>
+<p>L’output sarà:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualizzazione dell'evento A</span></span>
+<span><span class="va">A</span></span>
+<span><span class="co">#&gt; [1] "HHH" "HTH" "THH" "TTH"</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Queste sono le sequenze in cui il terzo lancio è Testa (H).</p>
+<p>In sintesi,</p>
+<ul>
+<li>lo spazio campionario <span class="math inline">\(\Omega\)</span> è stato definito come un vettore di stringhe in R;</li>
+<li>l’evento <span class="math inline">\(A\)</span> è stato costruito filtrando le sequenze in cui il terzo carattere è “H”, utilizzando la funzione <code>substr(x, start, stop)</code>;</li>
+<li>l’evento <span class="math inline">\(A\)</span> corrisponde alle sequenze: <em>HHH</em>, <em>HTH</em>, <em>THH</em>, <em>TTH</em>.</li>
+</ul>
+<p>Questo esercizio illustra come definire e manipolare eventi in R, utilizzando operazioni di base su stringhe e vettori.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideriamo l’esperimento del lancio consecutivo di due dadi. Lo spazio campionario <span class="math inline">\(\Omega\)</span> è costituito da tutte le possibili coppie di risultati:</p>
+<p><span class="math display">\[
+\Omega = \{(1, 1), (1, 2), \dots, (6, 6)\}.
+\]</span></p>
+<p>Definiamo due eventi:</p>
+<ol type="1">
+<li><p><strong>Evento <span class="math inline">\(A\)</span></strong>: “Il primo dado mostra un 6”.<br>
+Questo evento include tutte le coppie in cui il primo dado è 6:<br><span class="math display">\[
+A = \{(6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6)\}.
+\]</span></p></li>
+<li><p><strong>Evento <span class="math inline">\(B\)</span></strong>: “Il secondo dado mostra un 6”.<br>
+Questo evento include tutte le coppie in cui il secondo dado è 6:<br><span class="math display">\[
+B = \{(1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6)\}.
+\]</span></p></li>
+</ol>
+<p>L’<em>intersezione <span class="math inline">\(A \cap B\)</span></em> rappresenta l’evento in cui <em>entrambi i dadi mostrano un 6</em>:</p>
+<p><span class="math display">\[
+A \cap B = \{(6, 6)\}.
+\]</span></p>
+<p><strong>Implementazione in R</strong></p>
+<p>Per analizzare gli eventi legati al lancio di due dadi, utilizziamo R per simulare lo spazio campionario e manipolare gli eventi.</p>
+<p><strong>1. Generazione dello spazio campionario</strong><br>
+La funzione <code>expand.grid</code> crea tutte le combinazioni possibili tra gli elementi di due vettori. Nel nostro caso, generiamo tutte le coppie (Dado1, Dado2):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Definizione delle facce dei dadi (1-6)</span></span>
+<span><span class="va">dado</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span>
+<span></span>
+<span><span class="co"># Creazione di tutte le 36 combinazioni possibili</span></span>
+<span><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span></span>
+<span>  Dado1 <span class="op">=</span> <span class="va">dado</span>,</span>
+<span>  Dado2 <span class="op">=</span> <span class="va">dado</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Visualizzazione delle prime 6 righe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Omega</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 1     1     1</span></span>
+<span><span class="co">#&gt; 2     2     1</span></span>
+<span><span class="co">#&gt; 3     3     1</span></span>
+<span><span class="co">#&gt; 4     4     1</span></span>
+<span><span class="co">#&gt; 5     5     1</span></span>
+<span><span class="co">#&gt; 6     6     1</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>2. Definizione degli eventi</strong></p>
+<p><strong>Evento A</strong> - “Primo dado = 6”:<br>
+Filtriamo le righe dove la colonna <code>Dado1</code> è uguale a 6:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="va">Omega</span><span class="op">[</span><span class="va">Omega</span><span class="op">$</span><span class="va">Dado1</span> <span class="op">==</span> <span class="fl">6</span>, <span class="op">]</span> <span class="co"># Selezione condizionale</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Evento A:"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Evento A:"</span></span>
+<span><span class="va">A</span></span>
+<span><span class="co">#&gt;    Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 6      6     1</span></span>
+<span><span class="co">#&gt; 12     6     2</span></span>
+<span><span class="co">#&gt; 18     6     3</span></span>
+<span><span class="co">#&gt; 24     6     4</span></span>
+<span><span class="co">#&gt; 30     6     5</span></span>
+<span><span class="co">#&gt; 36     6     6</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Evento B</strong> - “Secondo dado = 6”:<br>
+Filtriamo le righe dove la colonna <code>Dado2</code> è uguale a 6:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">B</span> <span class="op">&lt;-</span> <span class="va">Omega</span><span class="op">[</span><span class="va">Omega</span><span class="op">$</span><span class="va">Dado2</span> <span class="op">==</span> <span class="fl">6</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Evento B:"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Evento B:"</span></span>
+<span><span class="va">B</span></span>
+<span><span class="co">#&gt;    Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 31     1     6</span></span>
+<span><span class="co">#&gt; 32     2     6</span></span>
+<span><span class="co">#&gt; 33     3     6</span></span>
+<span><span class="co">#&gt; 34     4     6</span></span>
+<span><span class="co">#&gt; 35     5     6</span></span>
+<span><span class="co">#&gt; 36     6     6</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>3. Calcolo dell’intersezione A ∩ B</strong></p>
+<p><strong>Metodo 1: Funzione <code><a href="https://rdrr.io/r/base/sets.html">intersect()</a></code></strong><br>
+La funzione base <code><a href="https://rdrr.io/r/base/sets.html">intersect()</a></code> confronta intere righe tra due dataframe e restituisce quelle comuni:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A_intersezione_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Intersezione con intersect():"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Intersezione con intersect():"</span></span>
+<span><span class="va">A_intersezione_B</span></span>
+<span><span class="co">#&gt;   Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 1     6     6</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Metodo 2: Funzione <code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code></strong><br>
+La funzione base <code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code> esegue una join naturale sulle colonne con lo stesso nome:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A_intersezione_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Intersezione con merge():"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Intersezione con merge():"</span></span>
+<span><span class="va">A_intersezione_B</span></span>
+<span><span class="co">#&gt;   Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 1     6     6</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Metodo 3: Pacchetto <code>dplyr</code></strong><br>
+La funzione <code>inner_join()</code> mantiene solo le righe presenti in entrambi i dataframe:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A_intersezione_B</span> <span class="op">&lt;-</span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Dado1"</span>, <span class="st">"Dado2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Intersezione con dplyr:"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Intersezione con dplyr:"</span></span>
+<span><span class="va">A_intersezione_B</span></span>
+<span><span class="co">#&gt;   Dado1 Dado2</span></span>
+<span><span class="co">#&gt; 1     6     6</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In sintesi,</p>
+<ul>
+<li>lo spazio campionario <span class="math inline">\(\Omega\)</span> è stato generato algoritmicamente in R;</li>
+<li>gli eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono stati definiti filtrando lo spazio campionario;</li>
+<li>l’intersezione <span class="math inline">\(A \cap B\)</span> corrisponde all’evento in cui entrambi i dadi mostrano un 6: <span class="math inline">\(\{(6, 6)\}.\)</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section><section id="sec-probabilita" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="sec-probabilita">
+<span class="header-section-number">3.5</span> Probabilità</h2>
+<p>Il terzo elemento fondamentale del modello probabilistico è la <em>funzione di probabilità</em>, che quantifica numericamente la possibilità di occorrenza degli eventi.</p>
+<div id="def-probabilita" class="definition theorem" title="Funzione di Probabilità (Kolmogorov)">
+<p><span class="theorem-title"><strong>Definizione 3.3</strong></span> Una <em>probabilità</em> <span class="math inline">\(P\)</span> è una funzione <span class="math inline">\(P: \mathcal{F} \to [0,1]\)</span> definita su una <span class="math inline">\(\sigma\)</span>-algebra <span class="math inline">\(\mathcal{F}\)</span> di sottoinsiemi di <span class="math inline">\(\Omega\)</span>. A ogni evento <span class="math inline">\(A \in \mathcal{F}\)</span>, la funzione assegna un valore reale compreso tra 0 e 1, rispettando i seguenti <em>assiomi di Kolmogorov</em>:</p>
+<ol type="1">
+<li><p><strong>Non-negatività.</strong> Per ogni <span class="math inline">\(A \subseteq \Omega\)</span>, si richiede che <span class="math inline">\(0 \leq P(A) \leq 1\)</span>.</p></li>
+<li><p><strong>Normalizzazione (evento certo).</strong> <span class="math inline">\(P(\Omega) = 1\)</span>.</p></li>
+<li>
+<p><strong>Additività numerabile.</strong> Se <span class="math inline">\(A_1, A_2, \dots\)</span> sono eventi mutuamente esclusivi (cioè <span class="math inline">\(A_i \cap A_j = \emptyset\)</span> per <span class="math inline">\(i \neq j\)</span>), allora:</p>
+<p><span class="math display">\[
+P\!\Bigl(\bigcup_{i=1}^{\infty} A_i\Bigr) \;=\; \sum_{i=1}^{\infty} P(A_i).
+\]</span></p>
+</li>
+</ol>
+<p>In altre parole, una misura di probabilità non solo assegna numeri nell’intervallo <span class="math inline">\([0,1]\)</span> a ogni evento, ma richiede che l’evento “certo” <span class="math inline">\(\Omega\)</span> abbia probabilità 1 e che la probabilità di un’unione numerabile di eventi disgiunti sia la somma delle loro probabilità. Queste condizioni garantiscono la coerenza formale e l’interpretazione intuitiva del concetto di probabilità.</p>
+</div>
+<section id="interpretazione-degli-assiomi-di-kolmogorov" class="level3" data-number="3.5.1"><h3 data-number="3.5.1" class="anchored" data-anchor-id="interpretazione-degli-assiomi-di-kolmogorov">
+<span class="header-section-number">3.5.1</span> Interpretazione degli assiomi di Kolmogorov</h3>
+<ol type="1">
+<li><p><strong>Assioma 1 (Non-negatività e limiti 0–1)</strong><br>
+La probabilità di un evento è sempre un numero reale compreso tra 0 e 1. Se la probabilità è 0, l’evento può considerarsi <em>impossibile</em>; se è 1, l’evento è <em>certo</em>.<br><strong>Esempio</strong>: Nel lancio di un dado a sei facce, l’evento <em>“Esce 7”</em> non può verificarsi e ha probabilità 0, mentre l’evento <em>“Esce un numero tra 1 e 6”</em> ha probabilità 1.</p></li>
+<li><p><strong>Assioma 2 (Evento certo)</strong><br>
+Lo <em>spazio campionario</em> <span class="math inline">\(\Omega\)</span> è l’insieme di tutti i possibili esiti dell’esperimento. Poiché in ogni prova deve accadere almeno uno degli esiti contenuti in <span class="math inline">\(\Omega\)</span>, la probabilità di <span class="math inline">\(\Omega\)</span> è necessariamente 1.<br><strong>Esempio</strong>: Nel lancio di un dado, lo spazio campionario <span class="math inline">\(\Omega\)</span> è <span class="math inline">\(\{1,2,3,4,5,6\}\)</span>. L’evento “esce un numero tra 1 e 6” coincide con l’intero spazio campionario, quindi <span class="math inline">\(P(\Omega) = 1\)</span>.</p></li>
+<li>
+<p><strong>Assioma 3 (Additività per eventi incompatibili)</strong><br>
+Se due o più eventi sono mutuamente esclusivi (o incompatibili) — cioè non possono verificarsi contemporaneamente — la probabilità della loro unione è la somma delle probabilità di ciascuno.<br><strong>Esempio</strong>: Con un dado, l’evento <em>“esce un numero pari”</em> e l’evento <em>“esce un numero dispari”</em> non possono verificarsi nello stesso lancio. Di conseguenza,</p>
+<p><span class="math display">\[
+P(\text{“pari”} \cup \text{“dispari”}) \;=\; P(\text{“pari”}) + P(\text{“dispari”})\,.
+\]</span></p>
+</li>
+</ol>
+<p>Questi assiomi assicurano che la probabilità, intesa come funzione che assegna valori tra 0 e 1 a ogni evento, rispetti la coerenza matematica e l’interpretazione intuitiva: non esistono eventi “negativi” o “più che certi”, e la probabilità totale dell’intero spazio dei possibili risultati deve sempre essere uguale a 1.</p>
+</section><section id="subsec-proprieta" class="level3" data-number="3.5.2"><h3 data-number="3.5.2" class="anchored" data-anchor-id="subsec-proprieta">
+<span class="header-section-number">3.5.2</span> Proprietà fondamentali</h3>
+<p>Dagli assiomi di Kolmogorov discendono alcune proprietà fondamentali che descrivono come la probabilità si comporti in varie situazioni. Le principali sono elencate di seguito.</p>
+<div id="thm-proprieta-probabilita" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 3.1</strong></span> Siano <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> eventi qualsiasi nello spazio campionario <span class="math inline">\(\Omega\)</span>. Allora valgono le seguenti relazioni:</p>
+<ol type="1">
+<li><p><strong>Probabilità dell’evento impossibile</strong><br><span class="math display">\[
+P(\emptyset) = 0.
+\]</span> Poiché l’insieme vuoto non include alcun esito sperimentale, non può mai verificarsi.</p></li>
+<li><p><strong>Monotonicità</strong><br><span class="math display">\[
+A \subseteq B \quad \Longrightarrow \quad P(A) \le P(B).
+\]</span> Se un evento è interamente contenuto in un altro, non può avere probabilità maggiore dell’evento che lo comprende.</p></li>
+<li><p><strong>Probabilità del complementare</strong><br><span class="math display">\[
+P(A^c) = 1 - P(A).
+\]</span> Poiché <span class="math inline">\(A\)</span> e il suo complementare <span class="math inline">\(A^c\)</span> coprono l’intero spazio <span class="math inline">\(\Omega\)</span>, la probabilità di <span class="math inline">\(A^c\)</span> è la parte “rimanente” fino a 1.</p></li>
+<li><p><strong>Regola dell’inclusione–esclusione</strong><br><span class="math display">\[
+P(A \cup B) \;=\; P(A) + P(B) \;-\; P(A \cap B).
+\]</span> Per calcolare la probabilità dell’unione di due eventi qualsiasi, si sommano le probabilità di ciascun evento e si sottrae la probabilità della loro intersezione (altrimenti verrebbe conteggiata due volte).</p></li>
+</ol>
+</div>
+</section></section><section id="case-discreto-continuo" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="case-discreto-continuo">
+<span class="header-section-number">3.6</span> Spazi discreti e continui</h2>
+<p>La natura dello spazio campionario determina come definiamo e calcoliamo le probabilità. Distinguiamo i due casi fondamentali: lo spazio campionario <em>discreto</em></p>
+<p><span class="math display">\[
+\Omega = \{a_1, a_2, \dots, a_n\} \quad \text{oppure} \quad \Omega = \{a_1, a_2, \dots\}
+\]</span></p>
+<p>e lo spazio campionario <em>continuo</em></p>
+<p><span class="math display">\[
+\Omega = \mathbb{R} .
+\]</span></p>
+<section id="spazi-campionari-discreti" class="level3" data-number="3.6.1"><h3 data-number="3.6.1" class="anchored" data-anchor-id="spazi-campionari-discreti">
+<span class="header-section-number">3.6.1</span> Spazi campionari discreti</h3>
+<p><strong>Caratteristiche</strong>:</p>
+<ul>
+<li>Gli esiti sono <em>numerabili</em> (finiti o infiniti ma separabili).<br>
+</li>
+<li>Esempi:
+<ul>
+<li>Lancio di un dado: <span class="math inline">\(\Omega = \{1, 2, 3, 4, 5, 6\}\)</span>.<br>
+</li>
+<li>Numero di clienti in un negozio in un’ora: <span class="math inline">\(\Omega = \{0, 1, 2, \dots\}\)</span>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Definizione di Probabilità</strong>:</p>
+<ul>
+<li>
+<p>Assegniamo una <em>probabilità puntuale</em> <span class="math inline">\(p_i \geq 0\)</span> a ogni esito <span class="math inline">\(\omega_i\)</span>, con:</p>
+<p><span class="math display">\[
+\sum_{\text{tutti gli } i} p_i = 1 \quad \text{(normalizzazione)}.
+\]</span></p>
+</li>
+<li>
+<p>La probabilità di un evento <span class="math inline">\(A\)</span> si ottiene <em>sommando</em> le probabilità degli esiti in <span class="math inline">\(A\)</span>:</p>
+<p><span class="math display">\[
+P(A) = \sum_{\omega_i \in A} p_i.
+\]</span></p>
+</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Lancio di un dado equilibrato.</strong></p>
+<ul>
+<li>La probabilità di ciascuna faccia è uniforme: <span class="math inline">\(p_i = \frac{1}{6}\)</span>, con <span class="math inline">\(i = 1, 2, \dots, 6\)</span>.</li>
+<li>Consideriamo l’evento <span class="math inline">\(A = \text{“Esce un numero pari"}\)</span>.<br>
+</li>
+<li>Pertanto, calcoliamo la probabilità di <span class="math inline">\(A\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+P(A) = p_2 + p_4 + p_6 = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} = \frac{3}{6} = \frac{1}{2}.
+\]</span></p>
+<p>L’evento <span class="math inline">\(A\)</span> ha dunque probabilità <span class="math inline">\(\frac{1}{2}\)</span>.</p>
+</div>
+</div>
+</div>
+</section><section id="spazi-campionari-continui" class="level3" data-number="3.6.2"><h3 data-number="3.6.2" class="anchored" data-anchor-id="spazi-campionari-continui">
+<span class="header-section-number">3.6.2</span> Spazi campionari continui</h3>
+<p><strong>Caratteristiche</strong>:</p>
+<ul>
+<li>Gli esiti sono <em>non numerabili</em> (infiniti e “densi”).<br>
+</li>
+<li>Esempi:
+<ul>
+<li>tempo di attesa all’autobus: <span class="math inline">\(\Omega = [0, \infty)\)</span>;<br>
+</li>
+<li>altezza di una persona: <span class="math inline">\(\Omega = [50\, \text{cm}, 250\, \text{cm}]\)</span>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Definizione di Probabilità</strong>:</p>
+<ul>
+<li>Usiamo una <em>funzione di densità di probabilità (PDF)</em> <span class="math inline">\(f(x) \geq 0\)</span>, con:<br><span class="math display">\[
+\int_{-\infty}^{\infty} f(x)\, dx = 1 \quad \text{(normalizzazione)}.
+\]</span><br>
+</li>
+<li>La probabilità di un evento <span class="math inline">\(A\)</span> si ottiene <em>integrando</em> la PDF su <span class="math inline">\(A\)</span>:<br><span class="math display">\[
+P(A) = \int_{A} f(x)\, dx.
+\]</span>
+</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Misurazione dell’altezza</strong> degli uomini adulti, modellata come variabile aleatoria continua <span class="math inline">\(X\)</span> (in cm) con distribuzione normale <span class="math inline">\(\mathcal{N}(170, 7^2)\)</span> (si veda la Sezione <a href="14_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 15</span></a>):</p>
+<p>La <em>funzione di densità</em> (PDF) corrispondente è:</p>
+<p><span class="math display">\[
+f(x)
+= \frac{1}{7\sqrt{2\pi}} \exp\!\Bigl(-\frac{(x - 170)^2}{2 \cdot 7^2}\Bigr),
+\quad
+X \sim \mathcal{N}(170,\, 7^2).
+\]</span></p>
+<p><strong>Evento di interesse:</strong><br><span class="math display">\[
+A = \text{“Altezza compresa tra 160 cm e 180 cm”}.
+\]</span></p>
+<p><strong>Calcolo della probabilità:</strong><br>
+La probabilità di <span class="math inline">\(A\)</span> è l’area sotto la curva della densità tra 160 cm e 180 cm:</p>
+<p><span class="math display">\[
+P(A) \;=\; \int_{160}^{180} \frac{1}{7\sqrt{2\pi}}
+\exp\!\Bigl(-\frac{(x - 170)^2}{98}\Bigr)\,\mathrm{d}x.
+\]</span></p>
+<p>In alternativa, si può scrivere:</p>
+<p><span class="math display">\[
+P(160 \leq X \leq 180) \;\approx\; 0.847 \quad (84.7\%).
+\]</span></p>
+<p>Più avanti vedremo come calcolare facilmente questa probabilità tramite R, ad esempio con il comando:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">180</span>, <span class="fl">170</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">160</span>, <span class="fl">170</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.847</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Questo codice restituisce la differenza tra le funzioni di ripartizione (CDF) a 180 e a 160, corrispondente proprio all’area desiderata sotto la PDF.</p>
+</div>
+</div>
+</div>
+</section><section id="confronto-chiave" class="level3" data-number="3.6.3"><h3 data-number="3.6.3" class="anchored" data-anchor-id="confronto-chiave">
+<span class="header-section-number">3.6.3</span> Confronto chiave</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead><tr class="header">
+<th>Caratteristica</th>
+<th>Spazio Discreto</th>
+<th>Spazio Continuo</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Esiti</strong></td>
+<td>Numerabili (es: 1, 2, 3)</td>
+<td>Non numerabili (es: intervalli)</td>
+</tr>
+<tr class="even">
+<td><strong>Probabilità di un singolo punto</strong></td>
+<td>
+<span class="math inline">\(P(\{\omega_i\}) = p_i\)</span> (<span class="math inline">\(\geq\)</span> 0)</td>
+<td>
+<span class="math inline">\(P(\{x\}) = 0\)</span> (sempre zero)</td>
+</tr>
+<tr class="odd">
+<td><strong>Strumento matematico</strong></td>
+<td>Somma <span class="math inline">\(\sum\)</span>
+</td>
+<td>Integrale <span class="math inline">\(\int\)</span>
+</td>
+</tr>
+<tr class="even">
+<td><strong>Esempi comuni</strong></td>
+<td>Dadi, monete, conteggi</td>
+<td>Misure fisiche, tempi, temperature</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Proprietà della PDF
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Negli spazi continui, la PDF <em>non è una probabilità</em> (può essere &gt; 1), ma la sua area sottesa su un intervallo fornisce la probabilità.<br>
+</li>
+<li>Per eventi continui, ha senso solo calcolare probabilità su <em>intervalli</em> (es: <span class="math inline">\(P(160 \leq X \leq 180)\)</span>).<br>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="dai-concetti-base-alle-proprietà-fondamentali-della-probabilità" class="level3" data-number="3.6.4"><h3 data-number="3.6.4" class="anchored" data-anchor-id="dai-concetti-base-alle-proprietà-fondamentali-della-probabilità">
+<span class="header-section-number">3.6.4</span> Dai concetti base alle proprietà fondamentali della probabilità</h3>
+<p>Abbiamo visto come un esperimento casuale possa essere formalizzato matematicamente attraverso tre elementi chiave:</p>
+<ul>
+<li>
+<strong>Spazio campionario</strong> (<span class="math inline">\(\Omega\)</span>): l’insieme di tutti i possibili esiti dell’esperimento.</li>
+<li>
+<strong>Eventi</strong>: sottoinsiemi di <span class="math inline">\(\Omega\)</span> che rappresentano combinazioni di esiti di interesse.</li>
+<li>
+<strong>Probabilità</strong>: una funzione <span class="math inline">\(P\)</span> che assegna a ogni evento un valore numerico compreso tra 0 e 1, misurandone il grado di verosimiglianza.</li>
+</ul>
+<p>Partendo da queste definizioni, è possibile derivare proprietà essenziali per il calcolo e l’analisi probabilistica. Queste proprietà consentono di determinare la probabilità di eventi complessi a partire da eventi elementari e di stabilire relazioni logiche tra di essi.</p>
+<p>In questo corso, approfondiremo quattro teoremi fondamentali:</p>
+<ol type="1">
+<li>teorema della somma;</li>
+<li>teorema del prodotto;</li>
+<li>teorema della probabilità totale;</li>
+<li>teorema di Bayes.</li>
+</ol>
+<p>L’introduzione di operazioni sugli eventi (unione, intersezione, complemento) e delle proprietà della probabilità (teorema della somma, probabilità condizionata, teorema della probabilità totale, …) ci consente di costruire modelli probabilistici più complessi e applicabili a problemi reali.</p>
+<p>Qui di seguito, approfondiamo il teorema della somma.</p>
+</section></section><section id="teorema-della-somma" class="level2" data-number="3.7"><h2 data-number="3.7" class="anchored" data-anchor-id="teorema-della-somma">
+<span class="header-section-number">3.7</span> Teorema della somma</h2>
+<p>Il teorema della somma (o <em>regola additiva</em>) permette di determinare la probabilità che si verifichi <em>almeno uno</em> tra due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>. La sua formulazione dipende dalla relazione tra i due eventi:</p>
+<p><strong>Caso 1: Eventi Mutuamente Esclusivi.</strong> Se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> <em>non possono verificarsi insieme</em> (ossia <span class="math inline">\(A \cap B = \emptyset\)</span>), la probabilità dell’unione è la somma delle singole probabilità:</p>
+<p><span id="eq-theorem-sum-disjoint"><span class="math display">\[
+P(A \cup B) = P(A) + P(B).
+\tag{3.1}\]</span></span></p>
+<p><strong>Caso 2: Eventi Non Esclusivi.</strong> Se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> <em>possono coesistere</em>, è necessario evitare di contare due volte la loro intersezione:</p>
+<p><span id="eq-theorem-sum-not-disjoint"><span class="math display">\[
+P(A \cup B) = P(A) + P(B) - P(A \cap B).
+\tag{3.2}\]</span></span></p>
+<p><strong>Perché questa differenza?</strong><br>
+La probabilità è una funzione d’insieme coerente con le operazioni insiemistiche. L’addizione diretta <span class="math inline">\(P(A) + P(B)\)</span> conteggia due volte gli esiti comuni a <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> (rappresentati da <span class="math inline">\(A \cap B\)</span>). La sottrazione di <span class="math inline">\(P(A \cap B)\)</span> garantisce che ogni esito sia considerato una sola volta.</p>
+<p>Il teorema della somma sottolinea come le operazioni logiche tra eventi (unione, intersezione) si riflettano in relazioni algebriche tra le loro probabilità, fornendo uno strumento operativo per modellare scenari reali.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In uno studio sulla salute mentale, supponiamo di avere i seguenti dati relativi a un campione di partecipanti:</p>
+<ul>
+<li>la probabilità che un individuo soffra di <em>ansia</em> è <span class="math inline">\(P(A) = 0.30\)</span>;<br>
+</li>
+<li>la probabilità che un individuo soffra di <em>depressione</em> è <span class="math inline">\(P(B) = 0.25\)</span>;</li>
+<li>la probabilità che un individuo soffra <em>contemporaneamente</em> di ansia e depressione è <span class="math inline">\(P(A \cap B) = 0.15\)</span>.</li>
+</ul>
+<p>Vogliamo calcolare la probabilità che un individuo soffra di <em>almeno uno</em> dei due disturbi (ansia o depressione), ovvero <span class="math inline">\(P(A \cup B)\)</span>.</p>
+<p>Utilizziamo la <em>regola della somma per eventi non mutuamente esclusivi</em>:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(A) + P(B) - P(A \cap B)
+\]</span></p>
+<p>Svolgiamo questo calcolo in R:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Definiamo le probabilità</span></span>
+<span><span class="va">P_A</span> <span class="op">&lt;-</span> <span class="fl">0.30</span> <span class="co"># Probabilità di soffrire di ansia</span></span>
+<span><span class="va">P_B</span> <span class="op">&lt;-</span> <span class="fl">0.25</span> <span class="co"># Probabilità di soffrire di depressione</span></span>
+<span><span class="va">P_A_intersect_B</span> <span class="op">&lt;-</span> <span class="fl">0.15</span> <span class="co"># Probabilità di soffrire di entrambi i disturbi</span></span>
+<span></span>
+<span><span class="co"># Applichiamo la formula della regola della somma</span></span>
+<span><span class="va">P_A_union_B</span> <span class="op">&lt;-</span> <span class="va">P_A</span> <span class="op">+</span> <span class="va">P_B</span> <span class="op">-</span> <span class="va">P_A_intersect_B</span></span>
+<span><span class="va">P_A_union_B</span></span>
+<span><span class="co">#&gt; [1] 0.4</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Interpretazione:</strong> il <em>40%</em> dei partecipanti soffre di almeno uno tra ansia e depressione. L’intersezione <span class="math inline">\(P(A \cap B) = 0.15\)</span> è fondamentale, poiché senza sottrarla avremmo contato due volte i soggetti che soffrono contemporaneamente di entrambi i disturbi.</p>
+</div>
+</div>
+</div>
+</section><section id="probabilità-calcolo-combinatorio-e-simulazioni" class="level2" data-number="3.8"><h2 data-number="3.8" class="anchored" data-anchor-id="probabilità-calcolo-combinatorio-e-simulazioni">
+<span class="header-section-number">3.8</span> Probabilità, calcolo combinatorio e simulazioni</h2>
+<p>In molti problemi di probabilità, soprattutto quelli di taglio scolastico o introduttivo, si assume che ogni <em>evento elementare</em> abbia la <em>stessa probabilità</em> di verificarsi (<em>equiprobabilità</em>). In queste situazioni, il <em>calcolo combinatorio</em> risulta particolarmente utile per determinare la probabilità di un evento, poiché basta:</p>
+<ol type="1">
+<li>
+<strong>Definire gli eventi di successo</strong>: identificare tutte le configurazioni compatibili con l’evento di interesse.<br>
+</li>
+<li>
+<strong>Contare le possibilità</strong>: calcolare il numero di eventi di successo e rapportarlo al numero totale di eventi nello spazio campionario.</li>
+</ol>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esempio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Estrazione di una pallina da un’urna</strong></p>
+<p>Supponiamo di avere un’urna con 10 palline numerate da 1 a 10, da cui estraiamo una sola pallina in modo casuale. Assumendo che ogni pallina abbia la stessa probabilità di essere estratta, calcoliamo la probabilità di estrarre un numero pari.</p>
+<ul>
+<li>
+<strong>Eventi di successo</strong>: <span class="math inline">\(\{\;2, 4, 6, 8, 10\}\)</span> (5 casi)<br>
+</li>
+<li>
+<strong>Eventi totali</strong>: <span class="math inline">\(\{\;1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}\)</span> (10 casi)</li>
+</ul>
+<p>La probabilità cercata è quindi:</p>
+<p><span class="math display">\[
+P(\text{numero pari}) \;=\; \frac{\text{numero di eventi di successo}}{\text{numero totale di eventi}}
+\;=\; \frac{5}{10} \;=\; 0.5.
+\]</span></p>
+</div>
+</div>
+</div>
+<p>Nelle applicazioni più complesse, come il calcolo della probabilità di ottenere una determinata combinazione di carte o il formare gruppi specifici partendo da una popolazione, utilizzeremo tecniche combinatorie più avanzate — ad esempio permutazioni e combinazioni (si veda la Sezione <a href="../appendix/a14_combinatorics.html" class="quarto-xref"><span>Appendice E</span></a>) — che consentono di contare in modo sistematico gli eventi possibili e quelli di successo.</p>
+<section id="simulazioni-monte-carlo" class="level3" data-number="3.8.1"><h3 data-number="3.8.1" class="anchored" data-anchor-id="simulazioni-monte-carlo">
+<span class="header-section-number">3.8.1</span> Simulazioni Monte Carlo</h3>
+<p>Uno degli aspetti più impegnativi della probabilità è che molti problemi non si prestano a soluzioni immediate o intuitive. Per affrontarli, si possono adottare due approcci principali. Il primo consiste nell’applicare i teoremi della teoria della probabilità, un metodo rigoroso ma spesso controintuitivo. Il secondo approccio è quello della simulazione Monte Carlo, che permette di ottenere una soluzione approssimata, ma molto vicina al valore reale, seguendo una procedura più accessibile e intuitiva. Questo metodo prende il nome dal famoso Casinò di Monte Carlo a Monaco, anche se può essere semplicemente definito come “metodo di simulazione.”</p>
+<p>La simulazione Monte Carlo appartiene a una classe generale di metodi stocastici che si contrappongono ai metodi deterministici. Questi metodi consentono di risolvere approssimativamente problemi analitici attraverso la generazione casuale delle quantità di interesse. Tra le tecniche comunemente utilizzate troviamo il <em>campionamento con reinserimento</em>, in cui la stessa unità può essere selezionata più volte, e il <em>campionamento senza reinserimento</em>, dove ogni unità può essere selezionata una sola volta. Questi strumenti rappresentano un mezzo potente e pratico per affrontare problemi complessi.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Il problema dei complenni">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Il problema dei complenni
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Un esempio classico di applicazione del metodo Monte Carlo è il calcolo delle probabilità relative a vari eventi definiti attraverso il modello dell’urna. Tra questi, abbiamo il celebre <em>problema dei compleanni</em>.</p>
+<p>Il <em>problema dei compleanni</em> esplora la probabilità che, in un gruppo di <span class="math inline">\(n\)</span> persone, almeno due persone condividano la stessa data di nascita. Supponendo che i compleanni siano distribuiti uniformemente su 365 giorni (ignorando anni bisestili), il problema sorprende molte persone per il fatto che già con 23 persone la probabilità di una coincidenza è superiore al 50%.</p>
+<section id="soluzione-analitica" class="level4" data-number="3.8.1.1"><h4 data-number="3.8.1.1" class="anchored" data-anchor-id="soluzione-analitica">
+<span class="header-section-number">3.8.1.1</span> Soluzione analitica</h4>
+<p>Questo problema può essere risolto utilizzando il concetto di <em>probabilità complementari</em>. Infatti, il problema può essere visto da due prospettive complementari:</p>
+<ul>
+<li>
+<strong>Caso 1</strong>: tutti i compleanni sono <em>diversi</em> (nessuna persona condivide il compleanno con un’altra);</li>
+<li>
+<strong>Caso 2</strong>: <em>almeno due persone</em> condividono lo stesso compleanno.</li>
+</ul>
+<p>Questi due casi sono <em>mutuamente esclusivi</em> (non possono verificarsi contemporaneamente) ed <em>esaustivi</em> (coprono tutte le possibilità). Pertanto, la somma delle loro probabilità deve essere uguale a 1:</p>
+<p><span class="math display">\[
+P(\text{almeno un compleanno in comune}) = 1 - P(\text{nessun compleanno in comune}).
+\]</span></p>
+<p>In altre parole, per calcolare la probabilità che <em>almeno due persone abbiano lo stesso compleanno</em>, possiamo prima calcolare la probabilità che <em>tutti i compleanni siano diversi</em> e poi sottrarre questo valore da 1.</p>
+<p><strong>Caso 1: probabilità che tutti i compleanni siano diversi.</strong></p>
+<p>Per calcolare <span class="math inline">\(P(\text{nessun compleanno in comune})\)</span>, seguiamo questo ragionamento:</p>
+<ul>
+<li><p><strong>Prima persona</strong>: Può scegliere liberamente un giorno del calendario. Ci sono <em>365 possibilità</em> (ignoriamo gli anni bisestili per semplicità).</p></li>
+<li><p><strong>Seconda persona</strong>: Deve avere un compleanno diverso dalla prima persona. Quindi, ci sono <em>364 giorni disponibili</em>.</p></li>
+<li><p><strong>Terza persona</strong>: Deve avere un compleanno diverso dai primi due. Ci sono <em>363 giorni disponibili</em>.</p></li>
+</ul>
+<p>Questo processo continua fino alla <span class="math inline">\(n\)</span>-esima persona, che avrà <span class="math inline">\(365 - n + 1\)</span> giorni disponibili.</p>
+<p>La probabilità che <em>tutti i compleanni siano diversi</em> si ottiene moltiplicando le probabilità individuali di ogni persona di avere un compleanno diverso dai precedenti. Poiché ogni scelta è indipendente, possiamo scrivere:</p>
+<p><span class="math display">\[
+P(\text{nessun compleanno in comune}) = \frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \ldots \cdot \frac{365-n+1}{365}.
+\]</span></p>
+<p>Questo prodotto può essere espresso in forma compatta utilizzando il fattoriale:</p>
+<p><span class="math display">\[
+P(\text{nessun compleanno in comune}) = \frac{365!}{(365-n)! \cdot 365^n} ,
+\]</span></p>
+<p>dove:</p>
+<ul>
+<li>
+<span class="math inline">\(365!\)</span> è il fattoriale di 365 (il prodotto di tutti i numeri interi da 1 a 365).</li>
+<li>
+<span class="math inline">\((365-n)!\)</span> è il fattoriale di <span class="math inline">\(365 - n\)</span>.</li>
+<li>
+<span class="math inline">\(365^n\)</span> rappresenta tutte le possibili combinazioni di compleanni per <span class="math inline">\(n\)</span> persone.</li>
+</ul>
+<p><strong>Caso 2. Probabilità di almeno un compleanno in comune.</strong></p>
+<p>Ora che abbiamo calcolato la probabilità che tutti i compleanni siano diversi, possiamo trovare la probabilità che <em>almeno due persone abbiano lo stesso compleanno</em> come il complemento:</p>
+<p><span class="math display">\[
+P(\text{almeno un compleanno in comune}) = 1 - P(\text{nessun compleanno in comune}).
+\]</span></p>
+<p>Sostituendo l’espressione precedente, otteniamo:</p>
+<p><span class="math display">\[
+P(\text{almeno un compleanno in comune}) = 1 - \frac{365!}{(365-n)! \cdot 365^n}.
+\]</span></p>
+<p>Ora che abbiamo le formule per i due eventi complementari, come funzione di <span class="math inline">\(n\)</span>, applichiamole al caso specifico in cui <span class="math inline">\(n\)</span> = 23. Questo è un valore interessante perché, come vedremo, la probabilità che almeno due persone su 23 condividano lo stesso compleanno supera il 50%.</p>
+<p>La formula per la probabilità che tutti i compleanni siano diversi è:</p>
+<p><span class="math display">\[
+P(\text{nessun compleanno in comune}) = \frac{365!}{(365-n)! \cdot 365^n}.
+\]</span></p>
+<p>Per <span class="math inline">\(n = 23\)</span>, sostituiamo il valore nella formula:</p>
+<p><span class="math display">\[
+P(\text{nessun compleanno in comune}) = \frac{365!}{(365-23)! \cdot 365^{23}}.
+\]</span></p>
+<p>Semplifichiamo:</p>
+<p><span class="math display">\[
+P(\text{nessun compleanno in comune}) = \frac{365!}{342! \cdot 365^{23}}.
+\]</span></p>
+<p>Utilizzando R, troviamo:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Numero di persone</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">23</span></span>
+<span></span>
+<span><span class="co"># Calcolo della probabilità che tutti abbiano compleanni diversi</span></span>
+<span><span class="va">numeratore</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/prod.html">prod</a></span><span class="op">(</span><span class="fl">365</span><span class="op">:</span><span class="op">(</span><span class="fl">365</span> <span class="op">-</span> <span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">denominatore</span> <span class="op">&lt;-</span> <span class="fl">365</span><span class="op">^</span><span class="va">n</span></span>
+<span></span>
+<span><span class="va">P_diversi</span> <span class="op">&lt;-</span> <span class="va">numeratore</span> <span class="op">/</span> <span class="va">denominatore</span></span>
+<span><span class="va">P_diversi</span>  <span class="co"># stampa la probabilità</span></span>
+<span><span class="co">#&gt; [1] 0.493</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><span class="math display">\[
+P(\text{nessun compleanno in comune}) \approx 0{,}4927.
+\]</span></p>
+<p>Ciò implica che la probabilità che <em>23 persone</em> abbiano <em>compleanni distinti</em> sia approssimativamente <em>0.4927</em> (pari al <em>49.27%</em>).</p>
+<p>La probabilità che <em>almeno due persone</em> (su 23) condividano lo stesso compleanno corrisponde al complemento della probabilità appena calcolata:</p>
+<p><span class="math display">\[
+P(\text{almeno un compleanno in comune}) = 1 - P(\text{nessun compleanno in comune}).
+\]</span></p>
+<p>Sostituendo il valore ottenuto:</p>
+<p><span class="math display">\[
+P(\text{almeno un compleanno in comune}) = 1 - 0{.}4927 = 0{.}5073.
+\]</span></p>
+<p><strong>Risultato finale:</strong><br>
+Con <span class="math inline">\(n = 23\)</span>, la probabilità che <em>almeno una coppia</em> condivida il compleanno supera il <em>50%</em>, attestandosi intorno a <em>0.5073</em> (50.73%). Questo esito è spesso sorprendente, poiché intuitivamente si tende a sottostimare l’effetto della <em>combinatoria</em>: sebbene 23 possano sembrare poche, le <span class="math inline">\(\binom{23}{2} = 253\)</span> possibili coppie rendono statisticamente probabile una corrispondenza.</p>
+</section><section id="soluzione-con-simulazione-in-r" class="level4" data-number="3.8.1.2"><h4 data-number="3.8.1.2" class="anchored" data-anchor-id="soluzione-con-simulazione-in-r">
+<span class="header-section-number">3.8.1.2</span> Soluzione con simulazione in R</h4>
+<p>Per risolvere il problema tramite simulazione, possiamo generare gruppi casuali di <span class="math inline">\(n\)</span> persone, assegnando loro un compleanno casuale tra 1 e 365. Per ogni gruppo, verifichiamo se almeno due persone condividono lo stesso compleanno.</p>
+<p>Ecco il codice R:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Numero di simulazioni</span></span>
+<span><span class="va">num_simulazioni</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
+<span></span>
+<span><span class="co"># Funzione per simulare il problema del compleanno</span></span>
+<span><span class="va">simula_compleanno</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Conta il numero di successi (almeno un compleanno in comune)</span></span>
+<span>  <span class="va">successi</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span></span>
+<span>  <span class="co"># Loop per il numero di simulazioni</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">num_simulazioni</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># Genera n compleanni casuali</span></span>
+<span>    <span class="va">compleanni</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">365</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="co"># Verifica se ci sono duplicati</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">compleanni</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">successi</span> <span class="op">&lt;-</span> <span class="va">successi</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="co"># Calcola la probabilità stimata</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">successi</span> <span class="op">/</span> <span class="va">num_simulazioni</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Proviamo con diversi valori di n.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Fissiamo il seme per la riproducibilità</span></span>
+<span><span class="va">risultati</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="va">simula_compleanno</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Creiamo un data frame con i risultati</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>,</span>
+<span>  prob <span class="op">=</span> <span class="va">risultati</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Creiamo il grafico</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="va">prob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.5</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Numero di persone (n)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Probabilità stimata"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Problema del Compleanno (Simulazione)"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="02_probability_models_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>
+<strong>Simulazioni</strong>: Per ogni gruppo di <span class="math inline">\(n\)</span>, si eseguono 10000 simulazioni, in cui si generano <span class="math inline">\(n\)</span> compleanni casuali tra 1 e 365.</li>
+<li>
+<strong>Duplicati</strong>: La funzione duplicated() verifica se ci sono compleanni ripetuti.</li>
+<li>
+<strong>Calcolo della probabilità</strong>: La proporzione di simulazioni in cui si verifica almeno un compleanno condiviso rappresenta la probabilità stimata.</li>
+<li>
+<strong>Visualizzazione</strong>: Si tracciano le probabilità per diversi valori di <span class="math inline">\(n\)</span>, evidenziando il punto in cui la probabilità supera il 50%.</li>
+</ol>
+<p>Risultati attesi:</p>
+<ul>
+<li>con circa 23 persone, la probabilità stimata sarà superiore a 0.5;</li>
+<li>il grafico mostra una curva crescente con un rapido aumento della probabilità per <span class="math inline">\(n\)</span> piccoli e un asintoto vicino a 1 per <span class="math inline">\(n\)</span> grandi.</li>
+</ul>
+<p>Questo approccio permette di comprendere intuitivamente il problema e di verificare i risultati teorici con la simulazione.</p>
+</section><section id="assunzioni" class="level4" data-number="3.8.1.3"><h4 data-number="3.8.1.3" class="anchored" data-anchor-id="assunzioni">
+<span class="header-section-number">3.8.1.3</span> Assunzioni</h4>
+<p>Il problema dei compleanni evidenzia non solo l’efficacia dell’approccio simulativo nel semplificare la soluzione rispetto all’analisi formale, ma anche l’importanza delle assunzioni che entrambi i metodi condividono. In questo caso, l’assunzione è che la probabilità di nascita sia <em>uniformemente distribuita</em> nei 365 giorni dell’anno — un’<a href="https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/articles/howpopularisyourbirthday/2015-12-18">ipotesi semplificativa</a> che non rispecchia la realtà.</p>
+<p>Questo esempio sottolinea un principio fondamentale dei modelli probabilistici (e scientifici in generale): <em>ogni modello si basa su un insieme di assunzioni che ne delimitano la validità e l’applicabilità</em>. Valutare criticamente la plausibilità di tali assunzioni è dunque essenziale per garantire che il modello fornisca una rappresentazione utile del fenomeno studiato.</p>
+</section>
+</div>
+</div>
+</div>
+</section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+<p>La teoria della probabilità fornisce un quadro rigoroso per descrivere e analizzare fenomeni caratterizzati dall’incertezza. In questo capitolo abbiamo introdotto i concetti fondamentali del calcolo delle probabilità, evidenziando come la modellazione matematica degli esperimenti casuali consenta di quantificare e prevedere eventi incerti. Abbiamo esplorato strumenti essenziali come la <em>definizione di spazio campionario</em>, la <em>nozione di evento</em> e le <em>regole della probabilità</em>, illustrando il loro utilizzo sia attraverso esempi teorici sia mediante simulazioni computazionali.</p>
+<p>Un aspetto cruciale della modellazione probabilistica è il ruolo delle <em>assunzioni</em> su cui si basano i modelli. Ogni modello probabilistico si fonda su ipotesi specifiche riguardanti la natura del fenomeno studiato e il modo in cui gli esiti vengono generati. Queste ipotesi determinano non solo la validità del modello, ma anche il tipo di risposte che esso può fornire. Ad esempio, nel problema del compleanno, abbiamo ipotizzato che i compleanni siano distribuiti in modo uniforme nei 365 giorni dell’anno. Sebbene questa assunzione semplifichi notevolmente i calcoli, sappiamo che nella realtà esistono fluttuazioni stagionali nelle nascite che possono influenzare le probabilità effettive.</p>
+<p>Questo ci porta a una considerazione più ampia: <em>la probabilità non è solo un insieme di formule, ma uno strumento per rappresentare l’incertezza e prendere decisioni informate</em>. Tuttavia, l’accuratezza di qualsiasi modello probabilistico dipende strettamente dalla plausibilità delle ipotesi adottate. Modelli diversi, basati su ipotesi differenti, possono portare a risultati diversi, e l’interpretazione dei risultati deve sempre tenere conto di queste assunzioni.</p>
+<p>In definitiva, lo studio della probabilità non si limita alla manipolazione di formule, ma richiede un’attenta riflessione sulla relazione tra modelli teorici e fenomeni reali. Una comprensione critica delle assunzioni alla base di un modello è essenziale per applicare correttamente i concetti probabilistici in contesti pratici, sia in ambito scientifico che nelle decisioni quotidiane.</p>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Risposte alle domande iniziali
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Il 92% delle persone sovrastima il numero necessario per la prima domanda e sottostima la seconda probabilità. Questo problema mostra come l’intuizione umana fallisca con eventi apparentemente “rari”.</p>
+<ol type="1">
+<li>La risposta è 23 persone.</li>
+<li>La probabilità è <span class="math inline">\(\sim 0.7\)</span>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</section><section id="esercizi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="esercizi">Esercizi</h2>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Esercizio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Esercizio
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Qui di seguito sono presentati una serie di esercizi sbasati sulla <strong>Satisfaction with Life Scale (SWLS)</strong>.</p>
+<p><strong>Esercizi sullo Spazio Campionario e Eventi</strong></p>
+<ol type="1">
+<li>
+<p><strong>Definizione dello Spazio Campionario</strong><br>
+Supponiamo che i punteggi della Satisfaction with Life Scale (SWLS) siano numeri interi compresi tra <strong>5 e 35</strong>.</p>
+<ul>
+<li>Qual è lo <strong>spazio campionario</strong> <span class="math inline">\(\Omega\)</span> per questo esperimento?</li>
+<li>Se hai raccolto i dati di <strong>15 studenti</strong>, come potresti rappresentare lo spazio campionario con i loro punteggi osservati?</li>
+</ul>
+</li>
+<li>
+<p><strong>Definizione di un Evento</strong><br>
+Consideriamo l’evento <strong>A</strong>: “Uno studente ha un punteggio SWLS superiore a 25”.</p>
+<ul>
+<li>Esprimi l’evento A come un sottoinsieme dello spazio campionario.</li>
+<li>Se tra i 15 studenti osservati, 4 hanno punteggi superiori a 25, qual è la proporzione sperimentale per l’evento A?</li>
+</ul>
+</li>
+<li>
+<p><strong>Eventi Complementari</strong><br>
+Definiamo l’evento <strong>B</strong>: “Uno studente ha un punteggio SWLS inferiore o uguale a 25”.</p>
+<ul>
+<li>Scrivi l’evento <strong>B</strong> in relazione all’evento <strong>A</strong>.</li>
+<li>Qual è la probabilità empirica di <strong>B</strong>, sapendo che 4 studenti hanno punteggi superiori a 25?</li>
+</ul>
+</li>
+</ol>
+<p><strong>Esercizi sulle Operazioni tra Eventi</strong></p>
+<ol start="4" type="1">
+<li>
+<p><strong>Unione di Eventi</strong><br>
+Definiamo due eventi:</p>
+<ul>
+<li>
+<strong>A</strong>: “Il punteggio SWLS è superiore a 25”.<br>
+</li>
+<li>
+<strong>C</strong>: “Il punteggio SWLS è inferiore a 15”.<br>
+</li>
+<li>Scrivi l’evento <strong>A ∪ C</strong> (“Lo studente ha un punteggio <strong>maggiore di 25 o minore di 15</strong>”).</li>
+<li>Se nel campione di 15 studenti, <strong>4 studenti hanno punteggi superiori a 25</strong> e <strong>3 hanno punteggi inferiori a 15</strong>, qual è la proporzione empirica di <strong>A ∪ C</strong>?</li>
+</ul>
+</li>
+<li>
+<p><strong>Intersezione di Eventi e Eventi Disgiunti</strong><br>
+Supponiamo che l’evento <strong>D</strong> sia: “Uno studente ha un punteggio pari a 20”.</p>
+<ul>
+<li>L’evento <strong>D</strong> e l’evento <strong>A</strong> sono disgiunti?</li>
+<li>Se nessuno degli studenti ha ottenuto esattamente 20, qual è la probabilità empirica di <strong>A ∩ D</strong>?</li>
+</ul>
+</li>
+</ol>
+<p><strong>Esercizi sulle Regole della Probabilità</strong> 6. <strong>Probabilità dell’Unione di Eventi</strong><br>
+Supponiamo di avere:</p>
+<ul>
+<li>
+<strong>P(A) = 0.3</strong> (probabilità che un punteggio sia superiore a 25).<br>
+</li>
+<li>
+<strong>P(C) = 0.2</strong> (probabilità che un punteggio sia inferiore a 15).<br>
+</li>
+<li>
+<strong>P(A ∩ C) = 0</strong> (perché un punteggio non può essere contemporaneamente superiore a 25 e inferiore a 15).<br>
+</li>
+<li>Usa la regola dell’unione per calcolare <strong>P(A ∪ C)</strong>.</li>
+</ul>
+<ol start="7" type="1">
+<li>
+<p><strong>Probabilità Condizionata</strong><br>
+Consideriamo:</p>
+<ul>
+<li>
+<strong>P(A) = 0.3</strong> (probabilità che un punteggio sia superiore a 25).<br>
+</li>
+<li>
+<strong>P(E) = 0.5</strong> (probabilità che uno studente abbia più di 20 anni).<br>
+</li>
+<li>
+<strong>P(A | E) = 0.4</strong> (probabilità che un soggetto con più di 20 anni abbia un punteggio superiore a 25).<br>
+</li>
+<li>Usa la formula della probabilità condizionata per calcolare <strong>P(A ∩ E)</strong>.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Esercizi su Permutazioni e Combinazioni</strong></p>
+<ol start="8" type="1">
+<li>
+<p><strong>Selezione Casuale di Studenti</strong><br>
+Dal campione di <strong>15 studenti</strong>, supponiamo di voler selezionare casualmente <strong>3 studenti</strong> per partecipare a un’intervista sulla loro soddisfazione di vita.</p>
+<ul>
+<li>Quanti modi ci sono per selezionare <strong>3 studenti su 15</strong>?</li>
+</ul>
+</li>
+<li>
+<p><strong>Ordinare gli Studenti per Discussione</strong><br>
+Supponiamo di voler formare un piccolo gruppo di discussione con <strong>3 studenti</strong>, scegliendoli <strong>in ordine di intervento</strong>.</p>
+<ul>
+<li>Quante diverse sequenze di 3 studenti possiamo ottenere?</li>
+</ul>
+</li>
+<li><p><strong>Formare Coppie di Studenti</strong><br>
+Se vogliamo formare <strong>coppie di studenti</strong> per un esercizio collaborativo, senza considerare l’ordine, quanti modi ci sono per farlo?</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Soluzione">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Soluzione
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>1. Definizione dello Spazio Campionario</strong></p>
+<ul>
+<li>
+<p>Lo <strong>spazio campionario</strong> <span class="math inline">\(\Omega\)</span> per questo esperimento è l’insieme di tutti i possibili punteggi della Satisfaction with Life Scale (SWLS), quindi:</p>
+<p><span class="math display">\[ \Omega = \{5, 6, 7, ..., 35\} \]</span></p>
+</li>
+<li><p>Se abbiamo raccolto i dati di 15 studenti con punteggi osservati <span class="math inline">\(\{27, 21, 15, 30, 18, 23, 26, 35, 20, 22, 19, 25, 32, 29, 28\}\)</span>, possiamo considerare <span class="math inline">\(\Omega\)</span> come questo insieme specifico.</p></li>
+</ul>
+<p><strong>2. Definizione di un Evento</strong></p>
+<ul>
+<li>
+<p>L’evento <span class="math inline">\(A\)</span> “Uno studente ha un punteggio SWLS superiore a 25” è il sottoinsieme:</p>
+<p><span class="math display">\[ A = \{27, 30, 26, 35, 32, 29, 28\}\]</span></p>
+</li>
+<li>
+<p>Se 7 studenti su 15 hanno punteggi superiori a 25, la probabilità empirica è:</p>
+<p><span class="math display">\[ P(A) = \frac{7}{15} = 0.467 \]</span></p>
+</li>
+</ul>
+<p><strong>3. Eventi Complementari</strong></p>
+<ul>
+<li>
+<p>L’evento complementare <span class="math inline">\(B\)</span> “Uno studente ha un punteggio SWLS inferiore o uguale a 25” è:</p>
+<p><span class="math display">\[ B = \{21, 15, 18, 23, 20, 22, 19, 25\}\]</span></p>
+</li>
+<li>
+<p>Se 8 studenti su 15 rientrano in <span class="math inline">\(B\)</span>, la probabilità empirica è:</p>
+<p><span class="math display">\[ P(B) = 1 - P(A) = \frac{8}{15} = 0.533 \]</span></p>
+</li>
+</ul>
+<p><strong>Soluzioni agli Esercizi sulle Operazioni tra Eventi</strong></p>
+<p><strong>4. Unione di Eventi</strong></p>
+<ul>
+<li>
+<p>L’evento <span class="math inline">\(A \cup C\)</span> (“Lo studente ha un punteggio maggiore di 25 o minore di 15”) è:</p>
+<p><span class="math display">\[ A \cup C = \{27, 30, 26, 35, 32, 29, 28, 15\}\]</span></p>
+</li>
+<li>
+<p>Se 8 studenti su 15 appartengono a <span class="math inline">\(A \cup C\)</span>, la probabilità empirica è:</p>
+<p><span class="math display">\[ P(A \cup C) = \frac{8}{15} = 0.533 \]</span></p>
+</li>
+</ul>
+<p><strong>5. Intersezione di Eventi e Eventi Disgiunti</strong></p>
+<ul>
+<li><p>L’evento <span class="math inline">\(D\)</span> “Uno studente ha un punteggio pari a 20” è <span class="math inline">\(D = \{20\}\)</span>.</p></li>
+<li>
+<p>L’evento <span class="math inline">\(A \cap D\)</span> è l’insieme degli elementi comuni a <span class="math inline">\(A\)</span> e <span class="math inline">\(D\)</span>, ma <span class="math inline">\(D\)</span> non ha elementi in <span class="math inline">\(A\)</span>, quindi:</p>
+<p><span class="math display">\[ A \cap D = \emptyset \]</span></p>
+</li>
+<li><p>Essendo <span class="math inline">\(A \cap D = \emptyset\)</span>, gli eventi sono <strong>disgiunti</strong> e <span class="math inline">\(P(A \cap D) = 0\)</span>.</p></li>
+</ul>
+<p><strong>Soluzioni agli Esercizi sulle Regole della Probabilità</strong></p>
+<p><strong>6. Probabilità dell’Unione di Eventi</strong></p>
+<p>Usiamo la formula:</p>
+<p><span class="math display">\[ P(A \cup C) = P(A) + P(C) - P(A \cap C) \]</span></p>
+<p>Dato che <span class="math inline">\(P(A \cap C) = 0\)</span>, abbiamo:</p>
+<p><span class="math display">\[ P(A \cup C) = 0.3 + 0.2 - 0 = 0.5 \]</span></p>
+<p><strong>7. Probabilità Condizionata</strong></p>
+<p>La probabilità congiunta <span class="math inline">\(P(A \cap E)\)</span> si calcola con:</p>
+<p><span class="math display">\[ P(A \cap E) = P(A | E) \cdot P(E) \]</span></p>
+<p>Sostituendo i valori:</p>
+<p><span class="math display">\[ P(A \cap E) = 0.4 \times 0.5 = 0.2 \]</span></p>
+<p><strong>Soluzioni agli Esercizi su Permutazioni e Combinazioni</strong></p>
+<p><strong>8. Selezione Casuale di Studenti</strong></p>
+<p>Il numero di modi per scegliere 3 studenti su 15 (combinazioni) è:</p>
+<p><span class="math display">\[ C_{15,3} = \frac{15!}{3!(15-3)!} = \frac{15!}{3!12!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} = 455 \]</span></p>
+<p><strong>9. Ordinare gli Studenti per Discussione</strong></p>
+<p>Il numero di modi per scegliere e ordinare 3 studenti su 15 (disposizioni) è:</p>
+<p><span class="math display">\[ D_{15,3} = \frac{15!}{(15-3)!} = \frac{15!}{12!} = 15 \times 14 \times 13 = 2730 \]</span></p>
+<p><strong>10. Formare Coppie di Studenti</strong></p>
+<p>Il numero di modi per formare coppie (combinazioni di 2 studenti su 15) è:</p>
+<p><span class="math display">\[ C_{15,2} = \frac{15!}{2!(15-2)!} = \frac{15 \times 14}{2 \times 1} = 105 \]</span></p>
+</div>
+</div>
+</div>
+</section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-kroese2025statistical" class="csl-entry" role="listitem">
+Chan, J. C. C., &amp; Kroese, D. P. (2025). <em>Statistical Modeling and Computation</em> (2ª ed.). Springer.
+</div>
+</div>
+</section></main><!-- /main --><script>
+document.body.classList.add('classic-book');
+document.addEventListener('DOMContentLoaded', function() {
+  const paragraphs = document.querySelectorAll('p');
+  paragraphs.forEach(p => {
+    if (p.textContent.length > 200) {
+      p.style.hyphens = 'auto';
+      p.style.hyphenateCharacter = '-';
+    }
+  });
+  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  headings.forEach(h => {
+    h.style.fontFeatureSettings = '"liga" 1, "dlig" 1, "smcp" 1';
+  });
+});
+</script><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiato!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiato!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ccaudek\.github\.io\/utet-prob\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../../chapters/probability/01_intro_prob.html" class="pagination-link" aria-label="Interpretazione della probabilità">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/probability/03_sigma-algebra.html" class="pagination-link" aria-label="Dal Discreto al Continuo: la $\sigma$-algebra">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Metodi bayesiani in psicologia</em>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/02_probability_models.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
