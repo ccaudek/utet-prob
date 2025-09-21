@@ -1,12 +1,5 @@
 # Dal Discreto al Continuo: la $\sigma$-algebra {#sec-prob-sigma-algebra}
 
-::: {.epigraph}
-> “La teoria della misura fornisce l'apparato matematico per passare dal discreto al continuo, dal finito all'infinito. La σ-algebra è la struttura portante che rende possibile questo passaggio, definendo rigorosamente di quali insiemi ha senso chiedersi 'quanto sono grandi?'.”
->
-> -- **H. L. Royden**
-:::
-
-
 ## Introduzione {.unnumbered .unlisted}
 
 Nel @sec-prob-models abbiamo visto come definire la probabilità su *insiemi finiti*, ossia in situazioni dove ci sono un numero limitato di esiti (ad esempio, i risultati di un lancio di dado). In quel contesto, la probabilità di ogni evento veniva spesso assegnata contando i casi favorevoli su quelli totali. 
@@ -42,44 +35,51 @@ pacman::p_load(readr, lubridate, reshape2, VennDiagram)
 ```
 :::
 
-
 ## La struttura della $\sigma$-algebra
 
-Una *$\sigma$-algebra* $\mathcal{F}$ su uno spazio campionario $\Omega$ è una collezione di sottoinsiemi (eventi) che soddisfa le seguenti proprietà.
+Per poter definire in modo rigoroso una probabilità, non basta elencare i possibili esiti dello spazio campionario $\Omega$. Occorre anche stabilire *quali insiemi di esiti* possono essere considerati “eventi” a cui associare una probabilità.
+Questa collezione di insiemi prende il nome di *$\sigma$-algebra* e viene indicata con $\mathcal{F}$.
 
-1. **Inclusione dello spazio campionario**:  
-     $$
-     \Omega \in \mathcal{F}.
-     $$  
-     Significa che l’evento “qualcosa accade” è sempre misurabile.
+Una $\sigma$-algebra $\mathcal{F}$ su $\Omega$ deve rispettare tre condizioni fondamentali:
 
-  2. **Chiusura rispetto al complemento**:  
-     $$
-     \text{Se } A \in \mathcal{F} \text{ allora } A^c = \Omega \setminus A \in \mathcal{F}.
-     $$  
-     Se possiamo misurare la probabilità di un evento, dobbiamo anche poter misurare la probabilità che l’evento *non* accada.
+1. **Lo spazio campionario è sempre un evento:**
 
-  3. **Chiusura rispetto a unioni (anche numerabili)**:  
-     $$
-     \text{Se } A_1, A_2, \dots \in \mathcal{F}, \text{ allora } \bigcup_{i=1}^{\infty} A_i \in \mathcal{F}.
-     $$  
-     Se possiamo misurare una collezione (anche infinita) di eventi, dobbiamo poter misurare anche l’evento “almeno uno di essi si verifica”.
+   $$
+   \Omega \in \mathcal{F}.
+   $$
 
-Tali proprietà non sono un semplice dettaglio tecnico, ma garantiscono la *coerenza* del sistema probabilistico: ci assicurano che certe operazioni sugli eventi (complementi, unioni) non producano risultati “senza senso” per la probabilità.
+   In altre parole, l’evento “qualcosa accade” deve poter avere una probabilità, che sarà sempre pari a 1.
 
+2. **Chiusura rispetto al complemento:**
+
+   $$
+   \text{Se } A \in \mathcal{F}, \quad \text{allora anche } A^c = \Omega \setminus A \in \mathcal{F}.
+   $$
+
+   Se ha senso parlare della probabilità di un evento $A$, deve avere senso anche parlare della probabilità che $A$ *non* si verifichi.
+
+3. **Chiusura rispetto alle unioni (anche numerabili):**
+
+   $$
+   \text{Se } A_1, A_2, \dots \in \mathcal{F}, \quad \text{allora } \bigcup_{i=1}^{\infty} A_i \in \mathcal{F}.
+   $$
+
+   Se possiamo considerare come eventi $A_1, A_2, \dots$, allora possiamo considerare anche l’evento “almeno uno di essi si verifica”.
+
+Queste proprietà garantiscono che il sistema sia *coerente*: applicando operazioni logiche sugli eventi (come prendere il complemento o combinarli in un’unione), non si esce mai dal mondo degli eventi a cui possiamo assegnare una probabilità.
 
 ## Relazione tra la $\sigma$-algebra e gli assiomi di Kolmogorov
 
-L’introduzione della $\sigma$-algebra è necessaria per garantire la coerenza del modello probabilistico. In sintesi:
+La presenza della $\sigma$-algebra non è un dettaglio tecnico, ma un elemento essenziale per dare *coerenza logica* al modello probabilistico.
 
-- La $\sigma$-algebra *delimita* l’insieme degli eventi ammessi, ossia quegli insiemi per cui possiamo calcolare la probabilità.
-- Gli *assiomi di Kolmogorov* specificano le proprietà che la funzione di probabilità $P$ deve rispettare su questi eventi.
-- Senza la struttura di $\sigma$-algebra, l’assioma di *additività numerabile* non sarebbe formulabile in modo rigoroso, poiché non avremmo garanzia che le operazioni di unione preservino l’appartenenza all’insieme degli eventi ammessi.
+* La $\sigma$-algebra stabilisce *quali insiemi di esiti possono essere considerati eventi*. Non tutti i sottoinsiemi dello spazio campionario devono necessariamente avere una probabilità: la $\sigma$-algebra individua quelli “ammissibili”.
+* Gli *assiomi di Kolmogorov* definiscono come la funzione di probabilità $P$ deve comportarsi sugli eventi ammessi: non-negatività, normalizzazione e additività numerabile.
+* Senza la struttura della $\sigma$-algebra, l’assioma di *additività numerabile* non avrebbe senso rigoroso: non potremmo garantire che l’unione (anche infinita) di eventi appartenga ancora all’insieme degli eventi considerati.
 
-In conclusione, la costruzione formale della probabilità richiede non solo una funzione che assegni valori compresi tra 0 e 1 agli eventi, ma anche una struttura matematica che garantisca la coerenza di tali assegnazioni. La $\sigma$-algebra assicura che ogni operazione insiemistica fondamentale per il calcolo della probabilità sia ben definita, permettendo agli assiomi di Kolmogorov di essere applicati senza ambiguità.
+In altre parole, la funzione $P$ e la $\sigma$-algebra lavorano insieme: la prima *assegna i valori di probabilità*, la seconda *assicura che le operazioni sugli eventi siano sempre lecite*. Grazie a questa costruzione, il calcolo delle probabilità può essere esteso senza ambiguità sia a situazioni discrete (come il lancio di un dado) sia a quelle continue (come la misurazione di un tempo di reazione).
 
-::: {#exm-}
-## Costruzione di una $\sigma$-algebra discreta
+::: {.callout-note collapse="true" title="Esempio"}
+### Costruzione di una $\sigma$-algebra discreta
 
 Consideriamo lo spazio campionario discreto:
 
@@ -87,107 +87,99 @@ $$
 \Omega = \{1,2,3\}.
 $$
 
-**Definizione della $\sigma$-algebra discreta.** 
-La $\sigma$-algebra discreta corrisponde all’*insieme di tutte le parti* di $\Omega$, ovvero l'insieme di tutti i suoi sottoinsiemi:
+**La $\sigma$-algebra discreta.** In questo caso, la $\sigma$-algebra più naturale è quella *discreta*, cioè l’insieme di *tutti i sottoinsiemi* di $\Omega$:
 
 $$
 \mathcal{F} = \bigl\{\varnothing, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \Omega \bigr\}.
 $$
+Questa collezione contiene sia l’insieme vuoto che lo spazio campionario stesso, oltre a ogni possibile combinazione dei tre esiti.
 
-**Verifica delle proprietà della $\sigma$-algebra.**
-Per verificare che $\mathcal{F}$ sia effettivamente una $\sigma$-algebra, controlliamo che soddisfi le seguenti proprietà:
+**Verifica delle proprietà.** Per accertarci che $\mathcal{F}$ sia davvero una $\sigma$-algebra, controlliamo le tre condizioni fondamentali:
 
-1. **Inclusione dell’insieme campionario e dell’insieme vuoto:**  
+1. *Inclusione di $\Omega$ e dell’insieme vuoto:*
+   per costruzione, $\Omega \in \mathcal{F}$ e $\varnothing \in \mathcal{F}$.
 
-   - Per definizione, $\Omega \in \mathcal{F}$ e $\varnothing \in \mathcal{F}$.
+2. *Chiusura rispetto al complemento:*
+   se $A \in \mathcal{F}$, allora anche il suo complemento $A^c = \Omega \setminus A$ appartiene a $\mathcal{F}$.
+   Ad esempio, ${1,2}^c = {3}$ e ${3}^c = {1,2}$.
 
-2. **Chiusura rispetto ai complementi:**  
+3. *Chiusura rispetto alle unioni (anche numerabili):*
+   unendo sottoinsiemi di $\mathcal{F}$ si ottiene sempre un altro sottoinsieme di $\Omega$, dunque ancora in $\mathcal{F}$.
+   Per esempio:
 
-   - Se un insieme $A$ appartiene a $\mathcal{F}$, anche il suo complemento $A^c$ rispetto a $\Omega$ deve appartenere a $\mathcal{F}$. Ad esempio:
-   
-     - Se $\{1,2\} \in \mathcal{F}$, allora $\{1,2\}^c = \{3\} \in \mathcal{F}$.
-     - Analogamente, per ogni altro sottoinsieme di $\mathcal{F}$ il complemento appartiene sempre a $\mathcal{F}$.
+   $$
+   \{1\} \cup \{2\} = \{1,2\} \in \mathcal{F}, \qquad 
+   \{1,3\} \cup \{2\} = \Omega \in \mathcal{F}.
+   $$
+Poiché $\mathcal{F}$ coincide con l’insieme delle parti di $\Omega$, queste proprietà sono automaticamente garantite.
 
-3. **Chiusura rispetto alle unioni numerabili:**  
-   - Nel caso discreto e finito, ogni unione di elementi in $\mathcal{F}$ appartiene ancora a $\mathcal{F}$. Ad esempio:
-   
-     - $\{1\} \cup \{2\} = \{1,2\} \in \mathcal{F}$.
-     - $\{1,3\} \cup \{2\} = \{1,2,3\} = \Omega \in \mathcal{F}$.
-     - Poiché $\mathcal{F}$ contiene tutti i possibili sottoinsiemi di $\Omega$, l’unione di qualsiasi collezione di elementi di $\mathcal{F}$ rimane in $\mathcal{F}$.
+**Interpretazione intuitiva.** In una $\sigma$-algebra discreta *tutti gli eventi possibili sono ammessi*.
 
-**Interpretazione intuitiva.**
-Poiché ogni sottoinsieme di $\Omega$ appartiene a $\mathcal{F}$, tutti gli eventi possibili sono misurabili. Ad esempio:
+* L’evento “esce 1 o 2” è rappresentato da ${1,2}$.
+* L’evento “non esce 3” corrisponde allo stesso sottoinsieme ${1,2}$, che è il complemento di ${3}$.
 
-- L’evento "esce 1 o 2" è rappresentato da $\{1,2\}$.
-- L’evento "non esce 3" è lo stesso evento $\{1,2\}$, che è complementare a $\{3\}$.
+In altre parole, non ci sono restrizioni: qualunque sottoinsieme di $\Omega$ è un evento lecito a cui possiamo associare una probabilità.
 
-**Esempio di funzione di probabilità.**
-Una possibile assegnazione di probabilità è quella di un *dado equo* a tre facce, dove ogni esito elementare ha la stessa probabilità:
+**Esempio di funzione di probabilità.** Supponiamo di avere un *dado equo a tre facce*, in cui ciascun esito elementare ha probabilità uguale:
 
 $$
 P(\{1\}) = P(\{2\}) = P(\{3\}) = \tfrac{1}{3}.
 $$
-
-Le probabilità di eventi più complessi si ottengono sommando le probabilità degli esiti contenuti nell'evento:
-
-$$
-P(\{1,2\}) = P(\{1\}) + P(\{2\}) = \tfrac{1}{3} + \tfrac{1}{3} = \tfrac{2}{3}.
-$$
-
-I valori fondamentali della funzione di probabilità rispettano gli assiomi di Kolmogorov:
+Le probabilità degli eventi composti si ottengono per additività:
 
 $$
-P(\Omega) = 1, \quad P(\varnothing) = 0.
+P(\{1,2\}) = P(\{1\}) + P(\{2\}) = \tfrac{2}{3}.
+$$
+Gli assiomi di Kolmogorov risultano rispettati:
+
+$$
+P(\Omega) = 1, \qquad P(\varnothing) = 0.
 $$
 :::
 
 ## Dal discreto al continuo
 
-Dopo aver introdotto il concetto di $\sigma$-algebra e il suo ruolo negli assiomi di Kolmogorov, analizziamo le differenze essenziali tra il caso discreto e quello continuo.
+Dopo aver introdotto il concetto di $\sigma$-algebra e il suo ruolo negli assiomi di Kolmogorov, è utile distinguere tra il *caso discreto* e il *caso continuo*, che si differenziano soprattutto nella costruzione della $\sigma$-algebra.
 
 ### Caso discreto
 
-Quando lo *spazio campionario* $\Omega$ è *finito* o *numerabile* (ad esempio, $\{1, 2, 3, \dots\}$), la $\sigma$-algebra può coincidere con l’insieme di *tutte* le parti di $\Omega$. In questo contesto:
+Quando lo *spazio campionario* $\Omega$ è *finito* o *numerabile* (ad esempio, ${1, 2, 3, \dots}$), la situazione è semplice:
 
-- Ogni sottoinsieme di $\Omega$ è misurabile.
-- Gli eventi possono essere definiti in modo esplicito senza ambiguità.
-- Gli assiomi di Kolmogorov si applicano direttamente.
-- La probabilità di ogni singolo punto può essere positiva.
+* la $\sigma$-algebra naturale coincide con l’insieme di *tutti i sottoinsiemi* di $\Omega$;
+* ogni sottoinsieme può essere considerato un evento;
+* gli assiomi di Kolmogorov si applicano direttamente;
+* la probabilità di un singolo esito elementare è sempre maggiore o uguale a zero e, in molti casi, può essere positiva (ad esempio $P({3}) = 1/6$ nel lancio di un dado).
+
+In questo contesto non sorgono particolari difficoltà: tutti gli eventi possibili sono automaticamente “misurabili”.
 
 ### Caso continuo
 
-Quando lo spazio campionario è un insieme *non numerabile* come $\Omega = [0,1]$ o $\mathbb{R}$, la costruzione della $\sigma$-algebra diventa più complessa. Non è possibile includere tutti i sottoinsiemi di $\Omega$ senza generare contraddizioni logiche. Un esempio classico è il [paradosso di Vitali](https://it.wikipedia.org/wiki/Insieme_di_Vitali), che mostra come alcuni insiemi non possano essere misurati in modo coerente.
+Quando invece $\Omega$ è un insieme *non numerabile* (ad esempio l’intervallo $[0,1]$ o l’insieme dei numeri reali $\mathbb{R}$), la costruzione è più delicata. Non è infatti possibile includere *tutti* i sottoinsiemi di $\Omega$: alcuni insiemi sono “troppo irregolari” e non possono essere trattati in modo coerente. Un esempio celebre è l’*insieme di Vitali*, che porta a contraddizioni se si tenta di attribuirgli una probabilità. Inoltre, nei modelli continui la probabilità di un singolo punto è generalmente pari a *zero*: ciò che ha senso misurare sono intervalli o insiemi di intervalli.
 
 ### La $\sigma$-algebra di Borel
 
-Per evitare tali problemi, nel caso continuo si utilizza la *$\sigma$-algebra di Borel*, che include solo i sottoinsiemi "ben misurabili" di $\Omega$, escludendo quelli che potrebbero portare a incoerenze matematiche. Ad esempio:
+Per gestire correttamente il caso continuo, si utilizza la *$\sigma$-algebra di Borel*.
+Questa non contiene tutti i sottoinsiemi di $\Omega$, ma soltanto quelli che si possono costruire a partire dagli *intervalli* attraverso un numero finito o numerabile di operazioni di unione, intersezione e complemento.
 
-- Intervalli del tipo $[a,b]$, $(-\infty, 0]$.
-- Unioni numerabili di intervalli.
-- Complementi di insiemi misurabili.
+Nella $\sigma$-algebra di Borel sono
 
-Invece, insiemi come quello di Vitali non sono inclusi nella $\sigma$-algebra di Borel perché non ammettono una misura coerente.
+* *inclusi* gli intervalli come $[a,b]$, insiemi del tipo $(-\infty,0]$ e unioni numerabili di intervalli;
+* *esclusi* gli insiemi “patologici” come quello di Vitali, che non sono misurabili.
 
-**Confronto tra il caso discreto e il caso continuo.**
+### Confronto diretto
 
-| **Caratteristica**                | **Caso Discreto**                               | **Caso Continuo**                                |
-|------------------------------------|------------------------------------------------|-------------------------------------------------|
-| **Struttura di $\Omega$**          | Finito o numerabile ($\{1,2,3,\dots\}$)       | Non numerabile ($\mathbb{R}$, $[0,1]$, ecc.)   |
-| **$\sigma$-algebra naturale**      | Insieme di tutte le parti di $\Omega$          | $\sigma$-algebra di Borel                      |
-| **Esempio di evento**              | $\{\omega\}$, $\{\omega_1, \omega_2\}$      | $[a,b]$, $(-\infty, 0]$, unione di intervalli  |
-| **Probabilità di un singolo punto** | Può essere $>0$ (ad es. $P(\{\omega\})=1/6$) | Generalmente $0$ se il fenomeno è continuo    |
-| **Problemi di misurabilità**       | Non presenti                                  | Necessaria selezione di insiemi misurabili     |
+| **Caratteristica**              | **Caso discreto**                       | **Caso continuo**                                |
+| ------------------------------- | --------------------------------------- | ------------------------------------------------ |
+| **Struttura di $\Omega$**     | Finito o numerabile (${1,2,3,\dots}$) | Non numerabile ($\[0,1]$, $\mathbb{R}$, ecc.) |
+| **$\sigma$-algebra naturale** | Insieme di tutte le parti di $\Omega$ | $\sigma$-algebra di Borel                      |
+| **Esempio di evento**           | ${1}$, ${2,3}$                      | $[a,b]$, $(-\infty,0]$, unioni di intervalli |
+| **Probabilità di un punto**     | Può essere positiva (es. $1/6$)       | In genere $0$                                  |
+| **Problemi di misurabilità**    | Nessuno                                 | Alcuni insiemi non sono misurabili               |
 
-In sintesi, nel caso discreto, la costruzione della $\sigma$-algebra è immediata: includere tutti i sottoinsiemi non crea difficoltà, portando alla cosiddetta *$\sigma$-algebra discreta* (o *triviale* se $\Omega$ ha un solo elemento).
+### Un’idea intuitiva
 
-Nel caso continuo, invece, la costruzione è più delicata. Non tutti i sottoinsiemi possono essere inclusi nella $\sigma$-algebra senza compromettere la coerenza matematica. Per questo motivo, si utilizza la *$\sigma$-algebra di Borel*, che permette di definire correttamente la misura di probabilità evitando paradossi.
-
-::: {.callout-tip title="Costruzione della $\sigma$-algebra di Borel" collapse="true"}
-Per costruire la *$\sigma$-algebra di Borel* in $[0,1]$ o in $\mathbb{R}$, si parte dagli *intervalli* e si aggiungono tutte le unioni e intersezioni numerabili di questi intervalli. Questa procedura genera la più piccola collezione di sottoinsiemi che soddisfa le proprietà di una $\sigma$-algebra.
-
-- **Inclusi**: Intervalli aperti, chiusi, segmenti, unioni di segmenti, ecc.
-- **Esclusi**: Strutture “patologiche” come l’insieme di Vitali, che non possono essere misurate in modo coerente.
-:::
+* Nel *discreto* possiamo immaginare di “contare” le probabilità sugli elementi di $\Omega$.
+* Nel *continuo* invece dobbiamo “misurare” aree sotto una curva: per questo servono strutture matematiche più raffinate come la $\sigma$-algebra di Borel, che garantisce coerenza e impedisce paradossi.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
