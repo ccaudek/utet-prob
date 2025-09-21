@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>5&nbsp; Probabilità condizionata – Probabilità per la psicologia — Modulo di richiamo</title>
+<title>4&nbsp; Probabilità condizionata – Probabilità per la psicologia</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,14 +86,15 @@ div.csl-indent {
 <link href="../../style/gauss.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0a72236910a44089af39cd28873f322e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-9908c7b05874059c2106d454ac00f1d0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-af5d064118ae80f4bafc3d843c3c3870.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -126,30 +127,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
-  options: { renderActions: { addMenu: [0, '', ''] } },
-  loader: { load: ['input/tex','output/svg'] }
-};
-</script><script>
-window.MathJax = {
-  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
-  options: { renderActions: { addMenu: [0, '', ''] } },
-  loader: { load: ['input/tex','output/svg'] }
-};
-// Suggerimento CSS: vedi sezione 3 per gli spazi attorno a display math
-</script><script>
-window.MathJax = {
-  tex: {
-    packages: {'[+]': ['boldsymbol']},
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
-  },
-  svg: { fontCache: 'global' }
-};
-</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -160,7 +138,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -174,10 +152,7 @@ const typesetMath = (el) => {
 window.Quarto = {
   typesetMath
 };
-</script><link rel="stylesheet" href="../../style/_typography-extras.css">
-<link rel="stylesheet" href="../../style/_code-extras.css">
-<link rel="stylesheet" href="../../style/_math-extras.css">
-<link rel="stylesheet" href="../../style/styles.css">
+</script>
 </head>
 <body class="nav-sidebar floating quarto-light">
 
@@ -186,7 +161,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/04_conditional_prob.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/04_conditional_prob.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
@@ -195,9 +170,11 @@ window.Quarto = {
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">Probabilità per la psicologia — Modulo di richiamo</a> 
+      <a href="../../">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ccaudek/utet-prob/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Attiva/disattiva la modalità lettore">
@@ -224,13 +201,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../prefazione.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefazione</span></span></a>
+ <span class="menu-text">Prefazione</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../../chapters/probability/introduction_probability.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Probabilità</span></a>
+ <span class="menu-text">Elementi di teoria della probabilità</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -239,97 +216,97 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/01_intro_prob.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/02_probability_models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/03_sigma-algebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/04_conditional_prob.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/05_bayes_theorem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/07_prob_distributions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Distribuzioni di massa e di densità</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Distribuzioni di massa e di densità</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/08_expval_var.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Proprietà delle variabili casuali</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Proprietà delle variabili casuali</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/09_sampling_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/10_joint_prob.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/11_cov_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/12_intro_distributions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/15_gauss.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Assunzione di gaussianità e trasformazioni dei dati</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assunzione di gaussianità e trasformazioni dei dati</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/16_likelihood.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span></a>
   </div>
 </li>
       </ul>
@@ -389,17 +366,17 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-<li><a href="#indipendenza-stocastica" id="toc-indipendenza-stocastica" class="nav-link active" data-scroll-target="#indipendenza-stocastica"><span class="header-section-number">5.1</span> Indipendenza stocastica</a></li>
-  <li><a href="#indipendenza-di-un-insieme-di-eventi" id="toc-indipendenza-di-un-insieme-di-eventi" class="nav-link" data-scroll-target="#indipendenza-di-un-insieme-di-eventi"><span class="header-section-number">5.2</span> Indipendenza di un insieme di eventi</a></li>
-  <li><a href="#probabilit%C3%A0-condizionata" id="toc-probabilità-condizionata" class="nav-link" data-scroll-target="#probabilit%C3%A0-condizionata"><span class="header-section-number">5.3</span> Probabilità condizionata</a></li>
-  <li><a href="#indipendenza-e-probabilit%C3%A0-condizionata" id="toc-indipendenza-e-probabilità-condizionata" class="nav-link" data-scroll-target="#indipendenza-e-probabilit%C3%A0-condizionata"><span class="header-section-number">5.4</span> Indipendenza e probabilità condizionata</a></li>
-  <li><a href="#teorema-del-prodotto" id="toc-teorema-del-prodotto" class="nav-link" data-scroll-target="#teorema-del-prodotto"><span class="header-section-number">5.5</span> Teorema del prodotto</a></li>
-  <li><a href="#teorema-della-probabilit%C3%A0-totale" id="toc-teorema-della-probabilità-totale" class="nav-link" data-scroll-target="#teorema-della-probabilit%C3%A0-totale"><span class="header-section-number">5.6</span> Teorema della probabilità totale</a></li>
+<li><a href="#indipendenza-stocastica" id="toc-indipendenza-stocastica" class="nav-link active" data-scroll-target="#indipendenza-stocastica"><span class="header-section-number">4.1</span> Indipendenza stocastica</a></li>
+  <li><a href="#indipendenza-di-un-insieme-di-eventi" id="toc-indipendenza-di-un-insieme-di-eventi" class="nav-link" data-scroll-target="#indipendenza-di-un-insieme-di-eventi"><span class="header-section-number">4.2</span> Indipendenza di un insieme di eventi</a></li>
+  <li><a href="#probabilit%C3%A0-condizionata" id="toc-probabilità-condizionata" class="nav-link" data-scroll-target="#probabilit%C3%A0-condizionata"><span class="header-section-number">4.3</span> Probabilità condizionata</a></li>
+  <li><a href="#indipendenza-e-probabilit%C3%A0-condizionata" id="toc-indipendenza-e-probabilità-condizionata" class="nav-link" data-scroll-target="#indipendenza-e-probabilit%C3%A0-condizionata"><span class="header-section-number">4.4</span> Indipendenza e probabilità condizionata</a></li>
+  <li><a href="#teorema-del-prodotto" id="toc-teorema-del-prodotto" class="nav-link" data-scroll-target="#teorema-del-prodotto"><span class="header-section-number">4.5</span> Teorema del prodotto</a></li>
+  <li><a href="#teorema-della-probabilit%C3%A0-totale" id="toc-teorema-della-probabilità-totale" class="nav-link" data-scroll-target="#teorema-della-probabilit%C3%A0-totale"><span class="header-section-number">4.6</span> Teorema della probabilità totale</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/04_conditional_prob.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/04_conditional_prob.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-prob-conditional-prob" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/04_conditional_prob.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-prob-conditional-prob" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></h1>
 </div>
 
 
@@ -420,8 +397,8 @@ window.Quarto = {
 </blockquote>
 </div>
 <section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>La probabilità condizionata esprime la probabilità di un evento tenendo conto del verificarsi di un altro evento. Questo concetto è fondamentale perché riflette il modo in cui aggiorniamo le nostre credenze alla luce di nuove informazioni. Ad esempio, la probabilità che piova domani può essere diversa a seconda delle condizioni atmosferiche di oggi: osservare un cielo nuvoloso modifica la nostra valutazione della probabilità di pioggia. In questo senso, ogni nuova informazione può confermare, rafforzare o mettere in discussione le credenze preesistenti.</p>
-<p>La probabilità condizionata ha un ruolo centrale non solo nella teoria della probabilità, ma anche nelle applicazioni quotidiane e scientifiche. In molti contesti, le probabilità sono implicitamente condizionate da informazioni preesistenti, anche quando non lo esplicitiamo formalmente. Comprendere e quantificare questo processo di aggiornamento delle credenze ci consente di gestire in modo più efficace l’incertezza, rendendo la probabilità uno strumento dinamico per la decisione e l’inferenza.</p>
+<p>La probabilità condizionata esprime la probabilità di un evento in relazione al verificarsi di un altro evento. Questo concetto è fondamentale, in quanto riflette il modo in cui <em>aggiorniamo</em> le nostre credenze alla luce di nuove informazioni. Ad esempio, la probabilità che piova domani può variare in base alle condizioni atmosferiche odierne: osservare un cielo nuvoloso può influenzare la nostra valutazione della probabilità di pioggia. In questo senso, ogni nuova informazione può confermare, rafforzare o mettere in discussione le credenze preesistenti.</p>
+<p>La probabilità condizionata riveste un ruolo centrale non solo nella teoria della probabilità, ma anche nelle applicazioni quotidiane e scientifiche. In molti contesti, le probabilità sono implicitamente condizionate da informazioni preesistenti, anche se non le esplicitiamo formalmente. Comprendere e quantificare questo processo di aggiornamento delle credenze ci permette di gestire l’incertezza in modo più efficace, trasformando la probabilità in uno strumento dinamico per la presa di decisioni e l’inferenza.</p>
 <section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
 <ul>
 <li>Concetti di probabilità congiunta, marginale e condizionata.</li>
@@ -430,12 +407,12 @@ window.Quarto = {
 <li>Il teorema del prodotto e della probabilità totale.</li>
 </ul>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Prerequisiti
+<span class="screen-reader-only">Consiglio</span>Prerequisiti
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -449,43 +426,43 @@ Prerequisiti
 </div>
 </div>
 <div class="callout callout-style-simple callout-caution no-icon callout-titled" title="Preparazione del Notebook">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Preparazione del Notebook
+<span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
-</section></section><section id="indipendenza-stocastica" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="indipendenza-stocastica">
-<span class="header-section-number">5.1</span> Indipendenza stocastica</h2>
-<p>Un caso particolare di aggiornamento delle probabilità si verifica quando due eventi <em>non si influenzano a vicenda</em>. In tal caso, la <em>probabilità congiunta</em> di più eventi si calcola in modo molto più semplice, grazie alla proprietà di indipendenza.</p>
-<section id="indipendenza-di-due-eventi" class="level3" data-number="5.1.1"><h3 data-number="5.1.1" class="anchored" data-anchor-id="indipendenza-di-due-eventi">
-<span class="header-section-number">5.1.1</span> Indipendenza di due eventi</h3>
+</section></section><section id="indipendenza-stocastica" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="indipendenza-stocastica">
+<span class="header-section-number">4.1</span> Indipendenza stocastica</h2>
+<p>In alcuni casi, l’aggiornamento delle probabilità diventa particolarmente semplice. Ciò si verifica quando due eventi non si influenzano a vicenda. In tali situazioni, la probabilità che essi si verifichino insieme può essere calcolata direttamente, grazie alla proprietà di <em>indipendenza</em>.</p>
+<section id="indipendenza-di-due-eventi" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="indipendenza-di-due-eventi">
+<span class="header-section-number">4.1.1</span> Indipendenza di due eventi</h3>
 <div id="def-" class="theorem definition">
-<p><span class="theorem-title"><strong>Definizione 5.1</strong></span> Due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si dicono <em>indipendenti</em> se la probabilità che si verifichino entrambi è uguale al prodotto delle probabilità dei singoli eventi:</p>
+<p><span class="theorem-title"><strong>Definizione 4.1</strong></span> Due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si dicono <em>indipendenti</em> se la probabilità che si verifichino entrambi è pari al prodotto delle loro probabilità individuali:</p>
 <p><span id="eq-join-prob-independence"><span class="math display">\[
-P(A \cap B) \;=\; P(A)\, P(B).
-\tag{5.1}\]</span></span></p>
+P(A \cap B) = P(A) \, P(B).
+\tag{4.1}\]</span></span></p>
 </div>
-<p>In altre parole, sapere che <span class="math inline">\(A\)</span> si è verificato non influisce sul valore di <span class="math inline">\(P(B)\)</span>, e viceversa. Quando questa condizione è soddisfatta, si scrive <span class="math inline">\(A \perp B\)</span> per indicare l’indipendenza dei due eventi.</p>
+<p>Ciò significa che conoscere l’esito di uno dei due eventi non fornisce alcuna informazione utile sull’altro. In simboli, si scrive <span class="math inline">\(A \perp B\)</span> per indicare che <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono eventi indipendenti.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -513,27 +490,25 @@ P(A \cap B) \;=\; P(A)\,P(B)
 </div>
 </div>
 </div>
-</section></section><section id="indipendenza-di-un-insieme-di-eventi" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="indipendenza-di-un-insieme-di-eventi">
-<span class="header-section-number">5.2</span> Indipendenza di un insieme di eventi</h2>
-<p>Il concetto di <em>indipendenza</em> non si limita a due soli eventi, ma può estendersi a un insieme arbitrario di eventi. In generale, diciamo che <span class="math inline">\(\{A_i : i \in I\}\)</span> è un insieme di eventi <em>indipendente</em> se, per ogni sottoinsieme finito <span class="math inline">\(J \subseteq I\)</span>, la probabilità dell’intersezione degli eventi in <span class="math inline">\(J\)</span> coincide con il <em>prodotto</em> delle probabilità di ciascun evento:</p>
+</section></section><section id="indipendenza-di-un-insieme-di-eventi" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="indipendenza-di-un-insieme-di-eventi">
+<span class="header-section-number">4.2</span> Indipendenza di un insieme di eventi</h2>
+<p>Il concetto di <em>indipendenza</em> non riguarda soltanto due eventi, ma può estendersi anche a un insieme più ampio. In generale, diciamo che <span class="math inline">\({A_i : i \in I}\)</span> è un insieme di eventi <em>indipendente</em> se, per ogni sottoinsieme finito <span class="math inline">\(J \subseteq I\)</span>, la probabilità che si verifichino contemporaneamente tutti gli eventi di <span class="math inline">\(J\)</span> è uguale al prodotto delle loro probabilità individuali:</p>
 <p><span id="eq-join-prob-independence-set"><span class="math display">\[
-P \Bigl(\bigcap_{i \in J} A_i\Bigr)
-\;=\;
-\prod_{i \in J} P(A_i).
-\tag{5.2}\]</span></span></p>
-<p>Questa condizione richiede che <em>ogni</em> combinazione di eventi presenti la stessa proprietà di non influenzarsi a vicenda. L’<em>indipendenza</em> può essere:</p>
+P \Bigl(\bigcap_{i \in J} A_i\Bigr) \;=\; \prod_{i \in J} P(A_i).
+\tag{4.2}\]</span></span> In altre parole, nessun evento della collezione fornisce informazioni utili sugli altri: il verificarsi di uno non modifica la probabilità degli altri.</p>
+<p>Nella pratica, questa condizione è molto forte. Per questo motivo, l’indipendenza di più eventi può avere due significati distinti:</p>
 <ul>
-<li>un’<em>assunzione semplificante</em> in molti modelli (ad esempio, ipotizzare che le variabili di un questionario misurino proprietà “indipendenti” dei partecipanti);<br>
+<li>può essere un’<em>ipotesi semplificante</em> in un modello (per esempio, assumere che le risposte a diverse domande di un questionario siano indipendenti, cioè non influenzate tra loro);<br>
 </li>
-<li>una <em>caratteristica empirica</em> emersa dai dati, da verificare attraverso analisi apposite.</li>
+<li>può essere una <em>proprietà empirica</em> dei dati, che deve però essere verificata con analisi specifiche.</li>
 </ul>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -562,33 +537,32 @@ P(A_1)\,P(A_2)\,P(A_3)
 </div>
 </div>
 </div>
-<section id="quando-gli-eventi-non-sono-indipendenti" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="quando-gli-eventi-non-sono-indipendenti">
-<span class="header-section-number">5.2.1</span> Quando gli eventi non sono indipendenti</h3>
-<p>Se per due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si ha <span class="math inline">\(P(A \cap B) \neq P(A) P(B)\)</span>, essi <em>non</em> sono indipendenti. In tal caso, conoscere l’esito di uno fornisce informazioni sul probabile verificarsi dell’altro, e occorre tenere conto di questa dipendenza nei calcoli (ad esempio, usando la probabilità condizionata).</p>
-</section><section id="differenza-tra-indipendenza-ed-eventi-disgiunti" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="differenza-tra-indipendenza-ed-eventi-disgiunti">
-<span class="header-section-number">5.2.2</span> Differenza tra indipendenza ed eventi disgiunti</h3>
-<p>Un errore frequente è confondere “indipendenti” con “disgiunti (o mutuamente esclusivi)”. Due eventi sono <em>disgiunti</em> se <em>non</em> possono avvenire contemporaneamente, cioè</p>
-<p><span class="math display">\[
-P(A \cap B) \;=\; 0.
-\]</span></p>
-<p>Se <span class="math inline">\(P(A)&gt;0\)</span> e <span class="math inline">\(P(B)&gt;0\)</span> e gli eventi sono disgiunti, <em>non</em> possono essere indipendenti. Infatti, l’indipendenza richiederebbe</p>
-<p><span class="math display">\[
-P(A \cap B) \;=\; P(A)\,P(B),
-\]</span></p>
-<p>ma, poiché <span class="math inline">\(P(A \cap B)=0\)</span> e <span class="math inline">\(P(A) P(B)\)</span> sarebbe positivo, la relazione non può valere. Quindi, la disgiunzione implica l’esclusione reciproca, mentre l’indipendenza significa che la probabilità di uno non risente in alcun modo dell’altro.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<section id="quando-gli-eventi-non-sono-indipendenti" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="quando-gli-eventi-non-sono-indipendenti">
+<span class="header-section-number">4.2.1</span> Quando gli eventi non sono indipendenti</h3>
+<p>Se per due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> vale la disuguaglianza<br><span class="math display">\[
+P(A \cap B) \neq P(A) \cdot P(B),
+\]</span> allora essi <em>non sono indipendenti</em>. In tal caso, la conoscenza dell’esito di uno dei due eventi fornisce <em>informazioni rilevanti</em> sulla probabilità del verificarsi dell’altro. Questa dipendenza deve essere esplicitamente considerata nei calcoli probabilistici, ad esempio ricorrendo al concetto di <em>probabilità condizionata</em>.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Indipendenza stocastica e mutua esclusività: concetti distinti">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Indipendenza stocastica e mutua esclusività: concetti distinti
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Nel lancio di un dado a sei facce:</p>
+<p>Un errore concettuale comune consiste nel confondere il concetto di “indipendenza” con quello di “disgiunzione” (o mutua esclusività). Due eventi sono <em>disgiunti</em> quando non possono verificarsi simultaneamente, ossia quando:</p>
+<p><span class="math display">\[
+P(A \cap B) = 0.
+\]</span></p>
+<p>Se <span class="math inline">\(P(A) &gt; 0\)</span> e <span class="math inline">\(P(B) &gt; 0\)</span>, e gli eventi sono disgiunti, allora <em>non possono essere indipendenti</em>. Infatti, l’indipendenza richiederebbe:</p>
+<p><span class="math display">\[
+P(A \cap B) = P(A) \cdot P(B) &gt; 0,
+\]</span> ma per definizione di disgiunzione si ha <span class="math inline">\(P(A \cap B) = 0\)</span>, il che contraddice la precedente uguaglianza. Pertanto, la disgiunzione implica un’esclusione reciproca, mentre l’indipendenza indica l’assenza di qualsiasi influenza tra i due eventi.</p>
+<p>Per esempio, nel lancio di un dado a sei facce:</p>
 <ul>
 <li>
 <span class="math inline">\(C\)</span> = “Esce un numero pari” <span class="math inline">\(\{\;2,4,6\}\)</span>.</li>
@@ -599,49 +573,46 @@ Esempio
 <p>Tuttavia, <em>non</em> sono indipendenti: se lo fossero, si dovrebbe avere <span class="math inline">\(P(C \cap D) = P(C)P(D)\)</span>. Invece,</p>
 <p><span class="math display">\[
 0 \;\neq\; \tfrac12 \,\times\, \tfrac12 \;=\; \tfrac14,
-\]</span></p>
-<p>da cui segue che <span class="math inline">\(C\)</span> e <span class="math inline">\(D\)</span> non sono eventi indipendenti.</p>
+\]</span> da cui segue che <span class="math inline">\(C\)</span> e <span class="math inline">\(D\)</span> non sono eventi indipendenti.</p>
+<p>In sintesi, gli eventi <em>disgiunti</em> (o mutualmente esclusivi) non possono verificarsi simultaneamente, mentre gli eventi <em>indipendenti</em> non esercitano alcuna influenza reciproca sulle rispettive probabilità. Sebbene entrambe le proprietà rivestano un’importanza fondamentale nella teoria della probabilità, esse descrivono relazioni concettualmente distinte tra gli eventi.</p>
 </div>
 </div>
 </div>
-<p>In sintesi, gli eventi <em>disgiunti</em> non possono verificarsi insieme, mentre gli eventi <em>indipendenti</em> non influiscono uno sulla probabilità dell’altro. Entrambe le proprietà sono importanti ma rispondono a concetti nettamente diversi.</p>
-</section></section><section id="probabilità-condizionata" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="probabilità-condizionata">
-<span class="header-section-number">5.3</span> Probabilità condizionata</h2>
-<p>La <em>probabilità condizionata</em> esprime la probabilità di un evento <span class="math inline">\(A\)</span> una volta che si sappia che un altro evento <span class="math inline">\(B\)</span> è già avvenuto.</p>
+</section></section><section id="probabilità-condizionata" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="probabilità-condizionata">
+<span class="header-section-number">4.3</span> Probabilità condizionata</h2>
+<p>La <em>probabilità condizionata</em> quantifica la probabilità che si verifichi un evento <span class="math inline">\(A\)</span>, dato che si è verificato un altro evento <span class="math inline">\(B\)</span>.</p>
 <div id="def-" class="theorem definition">
-<p><span class="theorem-title"><strong>Definizione 5.2</strong></span> Se <span class="math inline">\(P(B) &gt; 0\)</span>, si definisce:</p>
-<p><span id="eq-prob-cond-definition"><span class="math display">\[
-P(A \mid B)
-\;=\;
-\frac{P(A \cap B)}{P(B)}.
-\tag{5.3}\]</span></span></p>
+<p><span class="theorem-title"><strong>Definizione 4.2</strong></span> Se <span class="math inline">\(P(B) &gt; 0\)</span>, la probabilità condizionata di <span class="math inline">\(A\)</span> dato <span class="math inline">\(B\)</span> è definita come:</p>
+<p><span id="eq-prob-cond-def"><span class="math display">\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+\tag{4.3}\]</span></span></p>
 </div>
-<p>Questa formula può essere letta come un “ricalcolo” della probabilità di <span class="math inline">\(A\)</span> <em>limitandosi</em> al sottoinsieme di esiti in cui <span class="math inline">\(B\)</span> è vero.</p>
-<section id="interpretazione-della-probabilità-condizionata" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="interpretazione-della-probabilità-condizionata">
-<span class="header-section-number">5.3.1</span> Interpretazione della probabilità condizionata</h3>
-<p>La probabilità condizionata funge da <em>meccanismo di aggiornamento</em> delle nostre conoscenze. Inizialmente, si dispone di una stima di <span class="math inline">\(P(A)\)</span>; dopo aver appreso che un evento correlato <span class="math inline">\(B\)</span> si è verificato, si “restringe” il campo agli esiti compatibili con <span class="math inline">\(B\)</span> e si riassegna la probabilità di <span class="math inline">\(A\)</span> su questa base.</p>
+<p>Questa espressione può essere interpretata come un’operazione di <em>confinamento probabilistico</em> agli esiti in cui <span class="math inline">\(B\)</span> si verifica, ricalibrando così la misura di probabilità sull’evento condizionante.</p>
+<section id="interpretazione-della-probabilità-condizionata" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="interpretazione-della-probabilità-condizionata">
+<span class="header-section-number">4.3.1</span> Interpretazione della probabilità condizionata</h3>
+<p>La probabilità condizionata rappresenta un <em>meccanismo di aggiornamento</em> delle nostre conoscenze. Inizialmente, si dispone di una probabilità <span class="math inline">\(P(A)\)</span>; dopo aver osservato il verificarsi di un evento correlato <span class="math inline">\(B\)</span>, si restringe lo spazio degli esiti possibili a quelli compatibili con <span class="math inline">\(B\)</span>, ricalibrando di conseguenza la probabilità di <span class="math inline">\(A\)</span>.</p>
 <ul>
 <li>
-<strong>Esempio intuitivo</strong>: Se si sa che una persona ha la febbre (<span class="math inline">\(B\)</span>), la probabilità che abbia l’influenza (<span class="math inline">\(A\)</span>) aumenta rispetto a quella calcolata sull’intera popolazione.</li>
+<strong>Esempio intuitivo</strong>: Se una persona ha la febbre (<span class="math inline">\(B\)</span>), la probabilità che abbia l’influenza (<span class="math inline">\(A\)</span>) aumenta rispetto alla probabilità basata sulla sola popolazione generale.</li>
 </ul>
-<p>Questa capacità di “aggiornare le credenze” fa della probabilità condizionata uno strumento fondamentale in:</p>
+<p>Questa capacità di “aggiornare probabilisticamente” le credenze rende la probabilità condizionata uno strumento essenziale in:</p>
 <ul>
 <li>
-<em>inferenze statistiche</em>, per gestire informazioni parziali o acquisite progressivamente;<br>
+<em>diagnosi medica:</em> per valutare la probabilità di una malattia (<span class="math inline">\(A\)</span>) dato il risultato di un test (<span class="math inline">\(B\)</span>);<br>
 </li>
 <li>
-<em>teoria dell’apprendimento</em>, quando si valutano ipotesi o modelli a fronte di nuovi dati;<br>
-</li>
+<em>previsioni meteorologiche</em>, per stimare la probabilità di pioggia <span class="math inline">\(A\)</span>) dato l’arrivo di un fronte nuvoloso (<span class="math inline">\(B\)</span>);</li>
 <li>
-<em>modellizzazione delle dipendenze</em> tra eventi, in cui la conoscenza di un evento influenza la probabilità di un altro.</li>
+<em>modellizzazione delle dipendenze stocastiche</em>, dove il verificarsi di un evento influisce sulla probabilità di un altro.</li>
 </ul>
+<p>La formula <span class="math inline">\(P(A \mid B) = \frac{P(A \cap B)}{P(B)}\)</span> quantifica proprio questo processo di revisione della probabilità alla luce di nuove informazioni.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -666,12 +637,12 @@ P(A | B) = \frac{P(A \cap B)}{P(B)} = \frac{\frac{2}{36}}{\frac{3}{36}} = \frac{
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -719,7 +690,7 @@ P(\text{Somma} &lt; 8 \,\mid\, \text{Somma dispari})
 <p><strong>Codice in R.</strong></p>
 <p>Nel codice R che segue, utilizziamo l’insieme di tutte le combinazioni di lanci per verificare numericamente i risultati:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1. Definiamo i possibili valori di un dado</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1. Definiamo i possibili valori di un dado</span></span>
 <span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>  </span>
 <span></span>
 <span><span class="co"># 2. Costruiamo tutte le combinazioni possibili (i, j)</span></span>
@@ -744,9 +715,9 @@ P(\text{Somma} &lt; 8 \,\mid\, \text{Somma dispari})
 <span><span class="co"># 5. Calcoliamo quante coppie hanno somma minore di 8 tra quelle con somma dispari.</span></span>
 <span><span class="va">event_odd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">sample_odd</span>, <span class="va">i</span> <span class="op">+</span> <span class="va">j</span> <span class="op">&lt;</span> <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">event_odd</span><span class="op">)</span>, <span class="st">"/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">sample_odd</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span>  <span class="co"># Dovrebbe stampare 12 / 18</span></span>
-<span><span class="co">#&gt; 12 / 18</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; 12 / 18</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Secondo la <a href="#eq-prob-cond-definition" class="quarto-xref">Equazione&nbsp;<span>5.3</span></a>, se definiamo</p>
+<p>Secondo la <span class="quarto-unresolved-ref">?eq-prob-cond-definition</span>, se definiamo</p>
 <ul>
 <li>
 <span class="math inline">\(A\)</span> = “Somma &lt; 8”<br>
@@ -771,12 +742,12 @@ P(A \mid B)
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Screening per la diagnosi precoce del tumore mammario">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Screening per la diagnosi precoce del tumore mammario
+<span class="screen-reader-only">Consiglio</span>Screening per la diagnosi precoce del tumore mammario
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -875,12 +846,12 @@ P(\text{Cancro} \mid \text{Test positivo})
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Il Problema di Monty Hall">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Il Problema di Monty Hall
+<span class="screen-reader-only">Consiglio</span>Il Problema di Monty Hall
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -929,7 +900,7 @@ Lo spazio campionario è composto da 12 esiti possibili, rappresentati dalle com
 <img src="../../figures/monthy-hall-tree.png" class="img-fluid figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monthy-hall-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;5.1: Il diagramma ad albero per il Problema di Monty Hall mostra le probabilità associate a ogni possibile esito. I pesi sugli archi rappresentano la probabilità di seguire quel particolare percorso, dato che ci troviamo nel nodo padre. Ad esempio, se l’auto si trova dietro la porta A, la probabilità che il giocatore scelga inizialmente la porta B è pari a 1/3. La colonna più a destra del diagramma mostra la probabilità di ciascun esito finale. Ogni probabilità di esito è calcolata moltiplicando le probabilità lungo il percorso che parte dalla radice (auto dietro una certa porta) e termina alla foglia (esito finale) (Figura tratta da Lehman, Leighton e Meyer, 2018).
+Figura&nbsp;4.1: Il diagramma ad albero per il Problema di Monty Hall mostra le probabilità associate a ogni possibile esito. I pesi sugli archi rappresentano la probabilità di seguire quel particolare percorso, dato che ci troviamo nel nodo padre. Ad esempio, se l’auto si trova dietro la porta A, la probabilità che il giocatore scelga inizialmente la porta B è pari a 1/3. La colonna più a destra del diagramma mostra la probabilità di ciascun esito finale. Ogni probabilità di esito è calcolata moltiplicando le probabilità lungo il percorso che parte dalla radice (auto dietro una certa porta) e termina alla foglia (esito finale) (Figura tratta da Lehman, Leighton e Meyer, 2018).
 </figcaption></figure>
 </div>
 <p><strong>Passo 2: Definire l’evento di interesse</strong><br>
@@ -1027,7 +998,7 @@ P(\text{vincere mantenendo la scelta}) = 1 - P(\text{vincere cambiando porta}) =
 <p>Per confermare il risultato, possiamo eseguire una simulazione. Ripetendo il gioco migliaia di volte, possiamo confrontare la frequenza con cui il giocatore vince cambiando porta rispetto a quando mantiene la scelta iniziale.</p>
 <p>Ecco un esempio di codice in R per la simulazione:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Numero di simulazioni da effettuare.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Numero di simulazioni da effettuare.</span></span>
 <span><span class="co"># Più è grande B, più precisa sarà la stima.</span></span>
 <span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fl">10000</span>  </span>
 <span></span>
@@ -1071,7 +1042,7 @@ P(\text{vincere mantenendo la scelta}) = 1 - P(\text{vincere cambiando porta}) =
 <span>  <span class="co"># 8. La funzione restituisce TRUE se la scelta finale coincide con la porta premiata,</span></span>
 <span>  <span class="co">#    altrimenti FALSE.</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">final_choice</span> <span class="op">==</span> <span class="va">prize_door</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">}</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Nel codice qui sopra:</p>
 <ul>
@@ -1086,21 +1057,21 @@ P(\text{vincere mantenendo la scelta}) = 1 - P(\text{vincere cambiando porta}) =
 </ul>
 <p>Al termine, la funzione <code>monty_hall()</code> stabilisce se, con la strategia considerata, si vince (TRUE) o si perde (FALSE).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simuliamo B volte la strategia "stick" (non cambiare mai la scelta iniziale).</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simuliamo B volte la strategia "stick" (non cambiare mai la scelta iniziale).</span></span>
 <span><span class="va">stick_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="va">B</span>, <span class="fu">monty_hall</span><span class="op">(</span><span class="st">"stick"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># stick_results è un vettore di TRUE/FALSE lungo B.</span></span>
 <span><span class="co"># Per scoprire la percentuale di vittorie, calcoliamo la media dei TRUE.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">stick_results</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.328</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] 0.335</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simuliamo B volte la strategia "switch" (cambiare sempre la scelta iniziale).</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simuliamo B volte la strategia "switch" (cambiare sempre la scelta iniziale).</span></span>
 <span><span class="va">switch_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="va">B</span>, <span class="fu">monty_hall</span><span class="op">(</span><span class="st">"switch"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Anche qui, calcoliamo la media per sapere quante volte abbiamo vinto l’auto.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">switch_results</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.668</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] 0.666</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>La media di un vettore di <code>TRUE/FALSE</code> in R è pari alla frazione di <code>TRUE</code>.</li>
@@ -1121,12 +1092,12 @@ P(\text{vincere mantenendo la scelta}) = 1 - P(\text{vincere cambiando porta}) =
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Il paradosso di Simpson">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Il paradosso di Simpson
+<span class="screen-reader-only">Consiglio</span>Il paradosso di Simpson
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1217,55 +1188,47 @@ Il paradosso di Simpson
 </div>
 </div>
 </div>
-</section></section><section id="indipendenza-e-probabilità-condizionata" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="indipendenza-e-probabilità-condizionata">
-<span class="header-section-number">5.4</span> Indipendenza e probabilità condizionata</h2>
-<p>L’indipendenza tra due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> può essere interpretata intuitivamente attraverso la probabilità condizionata. Due eventi sono indipendenti se il verificarsi di uno non influenza la probabilità di verificarsi dell’altro. In altre parole, conoscere che <span class="math inline">\(B\)</span> è accaduto non modifica la probabilità di <span class="math inline">\(A\)</span>, e viceversa.</p>
-<p>Questa relazione può essere formalizzata con le seguenti equazioni:</p>
+</section></section><section id="indipendenza-e-probabilità-condizionata" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="indipendenza-e-probabilità-condizionata">
+<span class="header-section-number">4.4</span> Indipendenza e probabilità condizionata</h2>
+<p>Il concetto di indipendenza tra due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> può essere caratterizzato in modo intuitivo attraverso la lente della probabilità condizionata. Due eventi sono indipendenti se il verificarsi di uno <em>non altera</em> la probabilità del verificarsi dell’altro. In altre parole, la conoscenza dell’esito di <span class="math inline">\(B\)</span> non fornisce alcuna informazione utile su <span class="math inline">\(A\)</span>, e viceversa.</p>
+<p>Formalmente, questa condizione si esprime attraverso le relazioni:</p>
 <p><span class="math display">\[
 P(A \mid B) = \frac{P(A \cap B)}{P(B)} = P(A),
-\]</span></p>
-<p><span class="math display">\[
+\]</span> <span class="math display">\[
 P(B \mid A) = \frac{P(A \cap B)}{P(A)} = P(B).
-\]</span></p>
-<p>Pertanto, <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono indipendenti se e solo se:</p>
-<p><span class="math display">\[
-P(A \mid B) = P(A),
-\]</span></p>
-<p><span class="math display">\[
-P(B \mid A) = P(B).
-\]</span></p>
-<p>Queste condizioni significano che la probabilità di <span class="math inline">\(A\)</span> non cambia, indipendentemente dal fatto che <span class="math inline">\(B\)</span> sia accaduto, e lo stesso vale per <span class="math inline">\(B\)</span>.</p>
-<section id="indipendenza-di-tre-eventi" class="level3" data-number="5.4.1"><h3 data-number="5.4.1" class="anchored" data-anchor-id="indipendenza-di-tre-eventi">
-<span class="header-section-number">5.4.1</span> Indipendenza di tre eventi</h3>
-<p>La definizione di indipendenza si estende naturalmente a tre eventi <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, e <span class="math inline">\(C\)</span>, ma con condizioni aggiuntive. Tre eventi sono <em>indipendenti</em> se:</p>
-<ol type="1">
+\]</span> Di conseguenza, <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono indipendenti <em>se e solo se</em> vale una delle seguenti condizioni equivalenti:</p>
+<ul>
 <li>
-<p>Ogni coppia di eventi è indipendente:</p>
-<p><span class="math display">\[
+<span class="math inline">\(P(A \mid B) = P(A)\)</span>,</li>
+<li>
+<span class="math inline">\(P(B \mid A) = P(B)\)</span>,</li>
+<li>
+<span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span>. Questo implica che la probabilità di <span class="math inline">\(A\)</span> rimane invariata sia che <span class="math inline">\(B\)</span> si sia verificato o meno, e analogamente per <span class="math inline">\(B\)</span>. L’indipendenza stocastica rappresenta dunque l’assenza completa di influenza reciproca tra i due eventi.</li>
+</ul>
+<section id="indipendenza-di-tre-eventi" class="level3" data-number="4.4.1"><h3 data-number="4.4.1" class="anchored" data-anchor-id="indipendenza-di-tre-eventi">
+<span class="header-section-number">4.4.1</span> Indipendenza di tre eventi</h3>
+<p>La definizione di indipendenza si generalizza a tre eventi <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> e <span class="math inline">\(C\)</span> richiedendo condizioni più stringenti rispetto al caso bivariato. Tre eventi si definiscono <em>completamente indipendenti</em> se:</p>
+<ol type="1">
+<li><p><strong>Indipendenza a coppie</strong>: <span class="math display">\[
 \begin{aligned}
 P(A \cap B) &amp;= P(A) P(B), \\
 P(A \cap C) &amp;= P(A) P(C), \\
 P(B \cap C) &amp;= P(B) P(C).
 \end{aligned}
-\]</span></p>
-</li>
-<li>
-<p>La probabilità congiunta di tutti e tre gli eventi è uguale al prodotto delle loro probabilità individuali:</p>
-<p><span class="math display">\[
+\]</span></p></li>
+<li><p><strong>Indipendenza dell’intersezione tripla</strong>: <span class="math display">\[
 P(A \cap B \cap C) = P(A) P(B) P(C).
-\]</span></p>
-</li>
+\]</span></p></li>
 </ol>
-<p>Le prime tre condizioni verificano l’indipendenza a coppie (indipendenza a due a due), mentre l’ultima condizione garantisce che i tre eventi siano <em>completamente indipendenti</em>. È importante notare che l’indipendenza a due a due non implica necessariamente l’indipendenza completa: per essere indipendenti nel senso completo, tutte e quattro le condizioni devono essere soddisfatte.</p>
-<p>In sintesi, l’indipendenza tra eventi implica che il verificarsi di uno di essi non fornisce alcuna informazione sulla probabilità del verificarsi degli altri. Nel caso di due eventi, questa proprietà si traduce nell’invarianza della probabilità condizionata. Per tre o più eventi, l’indipendenza richiede sia l’indipendenza a coppie sia la condizione più forte sull’intersezione di tutti gli eventi.</p>
-<p>Questi concetti sono fondamentali nella probabilità e nella statistica, poiché semplificano molti calcoli e forniscono una base per modelli più complessi.</p>
+<p>Le prime tre condizioni garantiscono l’indipendenza tra ogni coppia di eventi, mentre la quarta condizione assicura che l’indipendenza sia valida anche per l’interazione simultanea dei tre eventi. È cruciale osservare che l’indipendenza a coppie <em>non implica</em> l’indipendenza completa: possono esistere esempi in cui le coppie sono indipendenti ma l’intersezione tripla non factorizza nel prodotto delle probabilità marginali.</p>
+<p>In sintesi, l’indipendenza completa richiede che il verificarsi di qualsiasi sottoinsieme degli eventi non influenzi la probabilità degli altri. Questa proprietà semplifica notevolmente il calcolo delle probabilità congiunte ed è alla base di molti modelli probabilistici e statistici.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1344,77 +1307,56 @@ P(A)\,P(B)
 </div>
 </div>
 </div>
-</section></section><section id="teorema-del-prodotto" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="teorema-del-prodotto">
-<span class="header-section-number">5.5</span> Teorema del prodotto</h2>
-<p>A partire dalla <em>definizione di probabilità condizionata</em>, possiamo derivare quello che viene chiamato <em>Teorema del Prodotto</em>, noto anche come <em>teorema della probabilità composta</em>, <em>regola moltiplicativa</em> o <em>regola della catena</em>. Questo risultato permette di esprimere la probabilità congiunta di due o più eventi come il prodotto di probabilità condizionate.</p>
-<section id="caso-di-due-eventi" class="level3" data-number="5.5.1"><h3 data-number="5.5.1" class="anchored" data-anchor-id="caso-di-due-eventi">
-<span class="header-section-number">5.5.1</span> Caso di due eventi</h3>
-<p>Per <em>due</em> eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>, il Teorema del Prodotto asserisce che:</p>
+</section></section><section id="teorema-del-prodotto" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="teorema-del-prodotto">
+<span class="header-section-number">4.5</span> Teorema del prodotto</h2>
+<p>A partire dalla definizione di probabilità condizionata, si deriva il <em>Teorema del Prodotto</em> (noto anche come <em>regola della catena</em> o <em>regola moltiplicativa</em>). Questo teorema consente di esprimere la probabilità congiunta di due o più eventi come prodotto di probabilità condizionate.</p>
+<section id="caso-di-due-eventi" class="level3" data-number="4.5.1"><h3 data-number="4.5.1" class="anchored" data-anchor-id="caso-di-due-eventi">
+<span class="header-section-number">4.5.1</span> Caso di due eventi</h3>
+<p>Per due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>, il Teorema del Prodotto afferma che:</p>
 <p><span id="eq-probcondinv"><span class="math display">\[
-P(A \cap B)
-\;=\;
-P(B) \,\cdot\, P(A \mid B)
-\;=\;
-P(A) \,\cdot\, P(B \mid A).
-\tag{5.4}\]</span></span></p>
-<p>In altre parole, la probabilità che <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si verifichino contemporaneamente può essere calcolata in due modi equivalenti:</p>
+P(A \cap B) = P(B) \cdot P(A \mid B) = P(A) \cdot P(B \mid A).
+\tag{4.4}\]</span></span> In altre parole, la probabilità che <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si verifichino simultaneamente può essere calcolata in due modi equivalenti:</p>
 <ul>
-<li>
-<em>primo modo</em>: prendi la probabilità di <span class="math inline">\(B\)</span>, quindi moltiplicala per la probabilità di <span class="math inline">\(A\)</span>, sapendo già che <span class="math inline">\(B\)</span> è accaduto;</li>
-<li>
-<em>secondo modo</em>: prendi la probabilità di <span class="math inline">\(A\)</span>, quindi moltiplicala per la probabilità di <span class="math inline">\(B\)</span>, sapendo già che <span class="math inline">\(A\)</span> è accaduto.</li>
+<li>moltiplicando la probabilità di <span class="math inline">\(B\)</span> per la probabilità di <span class="math inline">\(A\)</span> dato <span class="math inline">\(B\)</span>;</li>
+<li>moltiplicando la probabilità di <span class="math inline">\(A\)</span> per la probabilità di <span class="math inline">\(B\)</span> dato <span class="math inline">\(A\)</span>.</li>
 </ul>
-<p>L’ordine degli eventi in cui si applica la condizione è <em>arbitrario</em>, a patto di rispettare la formula e scegliere la condizione corrispondente.</p>
-</section><section id="generalizzazione-a-n-eventi" class="level3" data-number="5.5.2"><h3 data-number="5.5.2" class="anchored" data-anchor-id="generalizzazione-a-n-eventi">
-<span class="header-section-number">5.5.2</span> Generalizzazione a <span class="math inline">\(n\)</span> eventi</h3>
-<p>Il Teorema del Prodotto si estende naturalmente al caso di <em>più</em> di due eventi. Se consideriamo <span class="math inline">\(n\)</span> eventi <span class="math inline">\(A_1, A_2, \dots, A_n\)</span>, e assumiamo che</p>
-<p><span class="math display">\[
-P(A_1 \cap A_2 \cap \cdots \cap A_{n-1}) \;&gt;\; 0,
-\]</span></p>
-<p>allora la probabilità che <em>tutti</em> questi eventi si verifichino è data da:</p>
+<p>La scelta dell’ordine dipende dalla disponibilità delle probabilità condizionate o dalla struttura del problema.</p>
+</section><section id="generalizzazione-a-n-eventi" class="level3" data-number="4.5.2"><h3 data-number="4.5.2" class="anchored" data-anchor-id="generalizzazione-a-n-eventi">
+<span class="header-section-number">4.5.2</span> Generalizzazione a <span class="math inline">\(n\)</span> eventi</h3>
+<p>Il teorema si estende a <span class="math inline">\(n\)</span> eventi <span class="math inline">\(A_1, A_2, \dots, A_n\)</span>, assumendo che <span class="math inline">\(P(A_1 \cap A_2 \cap \cdots \cap A_{n-1}) &gt; 0\)</span>. In tal caso:</p>
 <p><span id="eq-probcomposte"><span class="math display">\[
 \begin{aligned}
-P(A_1 \,\cap\, A_2 \,\cap\, \cdots \,\cap\, A_n)
-&amp;= P(A_1)
-\;\times\; P(A_2 \mid A_1)
-\;\times\; P(A_3 \mid A_1 \cap A_2)
-\;\times\; \cdots \\
-&amp;\quad \cdots \times\; P(A_n \mid A_1 \cap A_2 \cap \cdots \cap A_{n-1}).
+P(A_1 \cap A_2 \cap \cdots \cap A_n) = &amp; \, P(A_1) \\
+&amp; \cdot P(A_2 \mid A_1) \\
+&amp; \cdot P(A_3 \mid A_1 \cap A_2) \\
+&amp; \, \vdots \\
+&amp; \cdot P(A_n \mid A_1 \cap A_2 \cap \cdots \cap A_{n-1}).
 \end{aligned}
-\tag{5.5}\]</span></span></p>
-<p>In pratica, ciascun fattore si ottiene considerando la probabilità dell’evento successivo, <em>condizionata</em> sul verificarsi di <em>tutti</em> gli eventi precedenti. Questa formulazione è cruciale, ad esempio, nelle analisi di sequenze di eventi o in modelli statistici in cui le probabilità vengono “aggiornate” gradualmente mano a mano che si verificano nuove condizioni.</p>
-<p>Il Teorema del Prodotto rappresenta uno dei fondamenti teorici più importanti della probabilità e trova applicazioni in numerosi contesti, quali:</p>
-<ul>
-<li>la modellazione di processi sequenziali o temporali;</li>
-<li>la scomposizione di problemi complessi in calcoli più semplici e gestibili;</li>
-<li>la teoria delle reti bayesiane e l’analisi della probabilità condizionata.</li>
-</ul>
-<p>Grazie a questo teorema, è possibile affrontare problemi complessi suddividendoli in passaggi progressivi, in cui ogni probabilità condizionata contribuisce alla costruzione della soluzione complessiva in maniera sistematica.</p>
-<section id="procedura-di-calcolo" class="level4" data-number="5.5.2.1"><h4 data-number="5.5.2.1" class="anchored" data-anchor-id="procedura-di-calcolo">
-<span class="header-section-number">5.5.2.1</span> Procedura di calcolo</h4>
-<p>Per applicare la regola:</p>
+\tag{4.5}\]</span></span> Ogni fattore rappresenta la probabilità di un evento condizionata al verificarsi di tutti gli eventi precedenti. Questa forma è particolarmente utile per modellare processi sequenziali o dipendenze condizionate.</p>
+<section id="procedura-di-applicazione" class="level4" data-number="4.5.2.1"><h4 data-number="4.5.2.1" class="anchored" data-anchor-id="procedura-di-applicazione">
+<span class="header-section-number">4.5.2.1</span> Procedura di applicazione</h4>
 <ol type="1">
 <li>
-<em>parti dal primo evento</em>: usa la probabilità incondizionata <span class="math inline">\(P(A_1)\)</span>;<br>
-</li>
+<em>Inizia con la probabilità marginale</em> del primo evento: <span class="math inline">\(P(A_1)\)</span>;</li>
 <li>
-<em>condiziona progressivamente</em>: moltiplica per <span class="math inline">\(P(A_2 \mid A_1)\)</span>, poi per <span class="math inline">\(P(A_3 \mid A_1 \cap A_2)\)</span>, e così via;</li>
+<em>Moltiplica progressivamente</em> per le probabilità condizionate successive;</li>
 <li>
-<em>termina con l’ultimo evento</em>: includi <span class="math inline">\(P(A_n \mid A_1 \cap \cdots \cap A_{n-1})\)</span>.</li>
+<em>Includi l’ultimo termine</em>: <span class="math inline">\(P(A_n \mid A_1 \cap \cdots \cap A_{n-1})\)</span>.</li>
 </ol>
+<p>In sintesi, il Teorema del Prodotto riveste un ruolo fondamentale in molteplici contesti applicativi e teorici. In particolare, esso costituisce uno strumento essenziale nella <em>modellazione di processi stocastici sequenziali</em>, dove consente di calcolare la probabilità congiunta di eventi concatenati esprimendola come prodotto di probabilità condizionate lungo la sequenza. Inoltre, il teorema permette la <em>scomposizione di problemi complessi in fasi condizionate</em>, facilitando così l’analisi di scenari multivariati attraverso un approccio graduale e gerarchico. Infine, trova un’applicazione cruciale nella <em>costruzione di reti bayesiane e nell’inferenza probabilistica</em>, dove viene utilizzato per rappresentare e calcolare efficientemente le dipendenze condizionali tra variabili aleatorie, fornendo una base formale per l’aggiornamento delle credenze alla luce di nuove evidenze.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Da un’urna contenente 6 palline bianche e 4 nere si estrae una pallina per volta, senza reintrodurla nell’urna. Indichiamo con <span class="math inline">\(B_i\)</span> l’evento: “esce una pallina bianca alla <span class="math inline">\(i\)</span>-esima estrazione” e con <span class="math inline">\(N_i\)</span> l’estrazione di una pallina nera. L’evento: “escono due palline bianche nelle prime due estrazioni” è rappresentato dalla intersezione <span class="math inline">\(\{B_1 \cap B_2\}\)</span> e, per l’<a href="#eq-probcondinv" class="quarto-xref">Equazione&nbsp;<span>5.4</span></a>, la sua probabilità vale</p>
+<p>Da un’urna contenente 6 palline bianche e 4 nere si estrae una pallina per volta, senza reintrodurla nell’urna. Indichiamo con <span class="math inline">\(B_i\)</span> l’evento: “esce una pallina bianca alla <span class="math inline">\(i\)</span>-esima estrazione” e con <span class="math inline">\(N_i\)</span> l’estrazione di una pallina nera. L’evento: “escono due palline bianche nelle prime due estrazioni” è rappresentato dalla intersezione <span class="math inline">\(\{B_1 \cap B_2\}\)</span> e, per l’<a href="#eq-probcondinv" class="quarto-xref">Equazione&nbsp;<span>4.4</span></a>, la sua probabilità vale</p>
 <p><span class="math display">\[
 P(B_1 \cap B_2) = P(B_1)P(B_2 \mid B_1).
 \]</span></p>
@@ -1426,7 +1368,7 @@ P(B_1 \cap B_2) = \frac{6}{10} \cdot \frac{5}{9} = \frac{1}{3}.
 <p><span class="math display">\[
 P(N_1 \cap N_2) = P(N_1)P(N_2 \mid N_1) = \frac{4}{10} \cdot \frac{3}{9} = \frac{4}{30}.
 \]</span></p>
-<p>Se l’esperimento consiste nell’estrazione successiva di 3 palline, la probabilità che queste siano tutte bianche, per l’<a href="#eq-probcomposte" class="quarto-xref">Equazione&nbsp;<span>5.5</span></a>, vale</p>
+<p>Se l’esperimento consiste nell’estrazione successiva di 3 palline, la probabilità che queste siano tutte bianche, per l’<a href="#eq-probcomposte" class="quarto-xref">Equazione&nbsp;<span>4.5</span></a>, vale</p>
 <p><span class="math display">\[
 \begin{aligned}
 P(B_1 \cap B_2 \cap B_3) &amp;=P(B_1)P(B_2 \mid B_1)P(B_3 \mid B_1 \cap B_2) \notag\\
@@ -1445,89 +1387,77 @@ P(N_1 \cap N_2 \cap N_3) &amp;= P(N_1)P(N_2 \mid N_1)P(N_3 \mid N_1 \cap N_2)\no
 </div>
 </div>
 </div>
-</section></section></section><section id="teorema-della-probabilità-totale" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="teorema-della-probabilità-totale">
-<span class="header-section-number">5.6</span> Teorema della probabilità totale</h2>
-<p>Il <em>Teorema della Probabilità Totale</em> — anche detto <em>legge della probabilità totale</em> — permette di calcolare la probabilità di un evento <span class="math inline">\(A\)</span> <em>scomponendola</em> rispetto a una partizione di sottoinsiemi che coprono l’intero spazio campionario. È particolarmente utile quando si affrontano situazioni con più scenari, categorie o gruppi nei quali ripartire il calcolo di probabilità.</p>
-<section id="enunciato-generale" class="level3" data-number="5.6.1"><h3 data-number="5.6.1" class="anchored" data-anchor-id="enunciato-generale">
-<span class="header-section-number">5.6.1</span> Enunciato generale</h3>
+</section></section></section><section id="teorema-della-probabilità-totale" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="teorema-della-probabilità-totale">
+<span class="header-section-number">4.6</span> Teorema della probabilità totale</h2>
+<p>Il <em>Teorema della Probabilità Totale</em> (noto anche come <em>legge della probabilità totale</em>) consente di calcolare la probabilità di un evento <span class="math inline">\(A\)</span> scomponendolo rispetto a una partizione dello spazio campionario. Questo approccio è particolarmente utile quando si considerano scenari multipli, categorie distinte o gruppi che formano una suddivisione esaustiva di <span class="math inline">\(\Omega\)</span>.</p>
+<section id="enunciato-formale" class="level3" data-number="4.6.1"><h3 data-number="4.6.1" class="anchored" data-anchor-id="enunciato-formale">
+<span class="header-section-number">4.6.1</span> Enunciato formale</h3>
 <div id="def-" class="theorem definition">
-<p><span class="theorem-title"><strong>Definizione 5.3</strong></span> Supponiamo che lo spazio campionario <span class="math inline">\(\Omega\)</span> sia suddiviso in una <em>partizione</em> di eventi <span class="math inline">\(B_1, B_2, \dots, B_n\)</span>, ossia:</p>
+<p><span class="theorem-title"><strong>Definizione 4.3</strong></span> Sia <span class="math inline">\(\{B_1, B_2, \dots, B_n\}\)</span> una <em>partizione</em> di <span class="math inline">\(\Omega\)</span>, cioè una collezione di eventi tali che:</p>
 <ol type="1">
 <li>
-<em>mutua esclusività</em>: <span class="math inline">\(B_i \cap B_j = \varnothing\)</span> per <span class="math inline">\(i \neq j\)</span>;<br>
-</li>
+<em>Mutua esclusività</em>: <span class="math inline">\(B_i \cap B_j = \emptyset\)</span> per ogni <span class="math inline">\(i \neq j\)</span>;</li>
 <li>
-<em>copertura totale</em>: <span class="math inline">\(\bigcup_{i=1}^n B_i = \Omega\)</span>.</li>
+<em>Copertura completa</em>: <span class="math inline">\(\bigcup_{i=1}^n B_i = \Omega\)</span>.</li>
 </ol>
-<p>Allora, per un qualsiasi evento <span class="math inline">\(A \subseteq \Omega\)</span> vale:</p>
-<p><span id="eq-prob-teorem-total-prob"><span class="math display">\[
-P(A)
-\;=\;
-\sum_{i=1}^n P(A \cap B_i)
-\;=\;
-\sum_{i=1}^n P(A \mid B_i)\, P(B_i).
-\tag{5.6}\]</span></span></p>
-<p>In altre parole, <span class="math inline">\(P(A)\)</span> può essere visto come una <em>media pesata</em> delle probabilità condizionate <span class="math inline">\(P(A \mid B_i)\)</span>, con pesi <span class="math inline">\(P(B_i)\)</span>.</p>
+<p>Allora, per qualsiasi evento <span class="math inline">\(A \subseteq \Omega\)</span>, vale:</p>
+<p><span id="eq-theorem-total-prob"><span class="math display">\[
+P(A) = \sum_{i=1}^n P(A \cap B_i) = \sum_{i=1}^n P(A \mid B_i) \cdot P(B_i).
+\tag{4.6}\]</span></span> In pratica, <span class="math inline">\(P(A)\)</span> è una <em>media ponderata</em> delle probabilità condizionate <span class="math inline">\(P(A \mid B_i)\)</span>, con pesi dati dalle probabilità <span class="math inline">\(P(B_i)\)</span>.</p>
 </div>
-</section><section id="caso-di-due-partizioni" class="level3" data-number="5.6.2"><h3 data-number="5.6.2" class="anchored" data-anchor-id="caso-di-due-partizioni">
-<span class="header-section-number">5.6.2</span> Caso di due partizioni</h3>
-<p>Quando lo spazio campionario è ripartito in <em>due</em> soli eventi, <span class="math inline">\(B\)</span> e il suo complementare <span class="math inline">\(B^c\)</span>, la formula si semplifica in:</p>
+</section><section id="caso-particolare-partizione-binaria" class="level3" data-number="4.6.2"><h3 data-number="4.6.2" class="anchored" data-anchor-id="caso-particolare-partizione-binaria">
+<span class="header-section-number">4.6.2</span> Caso particolare: partizione binaria</h3>
+<p>Quando la partizione è composta da due eventi complementari <span class="math inline">\(B\)</span> e <span class="math inline">\(B^c\)</span>, la formula assume la forma semplificata:</p>
 <p><span id="eq-prob-teorem-total-prob-two-part"><span class="math display">\[
-\begin{aligned}
-P(A)
-&amp;= P(A \cap B) + P(A \cap B^c) \\
-&amp;= P(A \mid B)\,P(B) \;+\; P(A \mid B^c)\,P(B^c).
-\end{aligned}
-\tag{5.7}\]</span></span></p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+P(A) = P(A \mid B) \cdot P(B) + P(A \mid B^c) \cdot P(B^c).
+\tag{4.7}\]</span></span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio: accuratezza di un test medico">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio: accuratezza di un test medico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Test medico</strong></p>
-<p>Abbiamo:</p>
+<p>Consideriamo:</p>
 <ul>
 <li>
-<span class="math inline">\(B\)</span>: “Una persona è <em>malata</em>”;</li>
+<span class="math inline">\(B\)</span>: una persona è malata;</li>
 <li>
-<span class="math inline">\(B^c\)</span>: “Una persona è <em>sana</em>”;<br>
-</li>
+<span class="math inline">\(B^c\)</span>: una persona è sana;</li>
 <li>
-<span class="math inline">\(A\)</span>: “Test <em>positivo</em>”.</li>
+<span class="math inline">\(A\)</span>: il test risulta positivo.</li>
 </ul>
-<p>Secondo il Teorema della Probabilità Totale, la probabilità di un risultato positivo si ottiene sommando:</p>
+<p>La probabilità di un test positivo è data da:</p>
 <p><span class="math display">\[
-P(A)
-= P(\text{Positivo} \mid \text{Malato}) \,P(\text{Malato})
-\;+\;
-P(\text{Positivo} \mid \text{Sano}) \,P(\text{Sano}).
+P(A) = P(A \mid B) \cdot P(B) + P(A \mid B^c) \cdot P(B^c),
 \]</span></p>
+<p>dove: - <span class="math inline">\(P(A \mid B)\)</span> è la sensibilità del test (probabilità di positivo se malati), - <span class="math inline">\(P(A \mid B^c)\)</span> è il complemento a 1 della specificità (probabilità di falso positivo).</p>
 </div>
 </div>
 </div>
-</section><section id="applicazioni-principali" class="level3" data-number="5.6.3"><h3 data-number="5.6.3" class="anchored" data-anchor-id="applicazioni-principali">
-<span class="header-section-number">5.6.3</span> Applicazioni principali</h3>
+</section><section id="applicazioni" class="level3" data-number="4.6.3"><h3 data-number="4.6.3" class="anchored" data-anchor-id="applicazioni">
+<span class="header-section-number">4.6.3</span> Applicazioni</h3>
 <ol type="1">
-<li><p><strong>Analisi per Categorie</strong><br>
-Quando la popolazione è divisa in gruppi <span class="math inline">\(B_1, \dots, B_n\)</span> (ad esempio, fasce d’età o regioni), la probabilità di un evento <span class="math inline">\(A\)</span> si ottiene sommando le probabilità di <span class="math inline">\(A\)</span> condizionate a ciascun gruppo, moltiplicate per la frequenza di quel gruppo.</p></li>
-<li><p><strong>Teorema di Bayes</strong><br>
-Il denominatore della formula di Bayes è la somma <span class="math inline">\(\sum_{j=1}^n P(E \mid H_j)\,P(H_j)\)</span>, che è appunto un’applicazione della probabilità totale. Qui, <span class="math inline">\(H_1, \dots, H_n\)</span> rappresentano ipotesi alternative (partizione) e <span class="math inline">\(E\)</span> un dato osservato.</p></li>
+<li><p><strong>Analisi stratificata</strong>:<br>
+Utile quando la popolazione è suddivisa in sottogruppi (es. fasce d’età, regioni geografiche). La probabilità di <span class="math inline">\(A\)</span> si calcola aggregando i contributi di ciascun gruppo.</p></li>
+<li><p><strong>Teorema di Bayes</strong>:<br>
+Il denominatore nella formula di Bayes è un’applicazione diretta di questo teorema, dove le ipotesi <span class="math inline">\(H_1, \dots, H_n\)</span> formano una partizione dello spazio delle ipotesi.</p></li>
+<li><p><strong>Processi decisionali</strong>:<br>
+Consente di valutare la probabilità di un evento considerando tutti i possibili scenari o stati del mondo.</p></li>
 </ol>
-<p>In breve, il teorema della probabilità totale “scompone” un problema globale in <em>sotto-problemi</em> più specifici, ciascuno condizionato su una porzione dello spazio campionario, permettendo di sommare i risultati finali per ottenere <span class="math inline">\(P(A)\)</span>.</p>
+<p>In sintesi, il teorema della probabilità totale permette di frammentare un problema complesso in componenti più gestibili, condizionate a elementi di una partizione, per poi ricombinarle in una soluzione completa.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1572,12 +1502,12 @@ P(R)
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Esempio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esempio
+<span class="screen-reader-only">Nota</span>Esempio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1618,12 +1548,12 @@ P(D)
 <p>In particolare, il <em>Teorema di Bayes</em> rappresenta uno strumento cardine dell’inferenza statistica: grazie alla probabilità condizionata, è possibile “aggiornare” in modo continuo le credenze sulle ipotesi (o sui parametri di un modello) alla luce di nuove osservazioni. Tale caratteristica di “apprendimento” graduale rende l’<em>inferenza bayesiana</em> flessibile e potente, ideale per affrontare situazioni in cui vengono resi disponibili dati aggiuntivi o in cui le condizioni iniziali possono cambiare.</p>
 <p>In definitiva, la probabilità condizionata non solo chiarisce la nozione di indipendenza e getta le fondamenta di metodi inferenziali evoluti, ma soprattutto rappresenta il “motore” di modelli che si <em>adattano</em> dinamicamente alle nuove informazioni. Questa prospettiva “attiva” nell’aggiornamento delle probabilità è ciò che rende l’analisi statistica uno strumento versatile per descrivere e interpretare il mondo reale.</p>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Esercizio">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Esercizio
+<span class="screen-reader-only">Consiglio</span>Esercizio
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1710,12 +1640,12 @@ Esercizio
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Soluzioni">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Soluzioni
+<span class="screen-reader-only">Consiglio</span>Soluzioni
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1771,29 +1701,29 @@ P(S | V) = \frac{P(S \cap V)}{P(V)} = \frac{0.12}{0.54} \approx 0.22.
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Informazioni sull’ambiente di sviluppo
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
-<span><span class="co">#&gt; Running under: macOS Sequoia 15.6.1</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib </span></span>
 <span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; locale:</span></span>
-<span><span class="co">#&gt; [1] C/UTF-8/C/C/C/C</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; time zone: Europe/Rome</span></span>
 <span><span class="co">#&gt; tzcode source: internal</span></span>
@@ -1802,43 +1732,43 @@ Informazioni sull’ambiente di sviluppo
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] pillar_1.11.0         tinytable_0.13.0      patchwork_1.3.2      </span></span>
+<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.13.0      patchwork_1.3.2      </span></span>
 <span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.14.0     </span></span>
-<span><span class="co">#&gt;  [7] ggplot2_3.5.2         reliabilitydiag_0.2.1 priorsense_1.1.1     </span></span>
+<span><span class="co">#&gt;  [7] ggplot2_4.0.0         reliabilitydiag_0.2.1 priorsense_1.1.1     </span></span>
 <span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.8.0             rstan_2.32.7         </span></span>
-<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.22.0           Rcpp_1.1.0           </span></span>
+<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
 <span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
 <span><span class="co">#&gt; [19] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
 <span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.1           rio_1.2.3            </span></span>
-<span><span class="co">#&gt; [25] here_1.0.1           </span></span>
+<span><span class="co">#&gt; [25] here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
-<span><span class="co">#&gt;  [4] fastmap_1.2.0         TH.data_1.1-4         tensorA_0.36.2.1     </span></span>
-<span><span class="co">#&gt;  [7] digest_0.6.37         timechange_0.3.0      estimability_1.5.1   </span></span>
-<span><span class="co">#&gt; [10] lifecycle_1.0.4       survival_3.8-3        magrittr_2.0.3       </span></span>
-<span><span class="co">#&gt; [13] compiler_4.5.1        rlang_1.1.6           tools_4.5.1          </span></span>
-<span><span class="co">#&gt; [16] knitr_1.50            bridgesampling_1.1-2  htmlwidgets_1.6.4    </span></span>
-<span><span class="co">#&gt; [19] curl_7.0.0            pkgbuild_1.4.8        RColorBrewer_1.1-3   </span></span>
-<span><span class="co">#&gt; [22] abind_1.4-8           multcomp_1.4-28       withr_3.0.2          </span></span>
-<span><span class="co">#&gt; [25] purrr_1.1.0           grid_4.5.1            stats4_4.5.1         </span></span>
-<span><span class="co">#&gt; [28] colorspace_2.1-1      xtable_1.8-4          inline_0.3.21        </span></span>
-<span><span class="co">#&gt; [31] emmeans_1.11.2-8      scales_1.4.0          MASS_7.3-65          </span></span>
-<span><span class="co">#&gt; [34] cli_3.6.5             mvtnorm_1.3-3         rmarkdown_2.29       </span></span>
-<span><span class="co">#&gt; [37] ragg_1.5.0            generics_0.1.4        RcppParallel_5.1.11-1</span></span>
-<span><span class="co">#&gt; [40] cachem_1.1.0          stringr_1.5.1         splines_4.5.1        </span></span>
-<span><span class="co">#&gt; [43] parallel_4.5.1        vctrs_0.6.5           V8_7.0.0             </span></span>
-<span><span class="co">#&gt; [46] Matrix_1.7-4          sandwich_3.1-1        jsonlite_2.0.0       </span></span>
-<span><span class="co">#&gt; [49] arrayhelpers_1.1-0    systemfonts_1.2.3     glue_1.8.0           </span></span>
-<span><span class="co">#&gt; [52] codetools_0.2-20      distributional_0.5.0  lubridate_1.9.4      </span></span>
-<span><span class="co">#&gt; [55] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.8.0       </span></span>
-<span><span class="co">#&gt; [58] htmltools_0.5.8.1     Brobdingnag_1.2-9     R6_2.6.1             </span></span>
-<span><span class="co">#&gt; [61] textshaping_1.0.3     rprojroot_2.1.1       evaluate_1.0.5       </span></span>
-<span><span class="co">#&gt; [64] lattice_0.22-7        backports_1.5.0       memoise_2.0.1        </span></span>
-<span><span class="co">#&gt; [67] broom_1.0.9           snakecase_0.11.1      rstantools_2.5.0     </span></span>
-<span><span class="co">#&gt; [70] coda_0.19-4.1         gridExtra_2.3         nlme_3.1-168         </span></span>
-<span><span class="co">#&gt; [73] checkmate_2.3.3       xfun_0.53             zoo_1.8-14           </span></span>
-<span><span class="co">#&gt; [76] pkgconfig_2.0.3</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt;  [4] S7_0.2.0              fastmap_1.2.0         TH.data_1.1-4        </span></span>
+<span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.37         timechange_0.3.0     </span></span>
+<span><span class="co">#&gt; [10] estimability_1.5.1    lifecycle_1.0.4       survival_3.8-3       </span></span>
+<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.1        rlang_1.1.6          </span></span>
+<span><span class="co">#&gt; [16] tools_4.5.1           knitr_1.50            bridgesampling_1.1-2 </span></span>
+<span><span class="co">#&gt; [19] htmlwidgets_1.6.4     curl_7.0.0            pkgbuild_1.4.8       </span></span>
+<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           multcomp_1.4-28      </span></span>
+<span><span class="co">#&gt; [25] withr_3.0.2           purrr_1.1.0           grid_4.5.1           </span></span>
+<span><span class="co">#&gt; [28] stats4_4.5.1          colorspace_2.1-1      xtable_1.8-4         </span></span>
+<span><span class="co">#&gt; [31] inline_0.3.21         emmeans_1.11.2-8      scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [34] MASS_7.3-65           cli_3.6.5             mvtnorm_1.3-3        </span></span>
+<span><span class="co">#&gt; [37] rmarkdown_2.29        ragg_1.5.0            generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [40] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.5.2        </span></span>
+<span><span class="co">#&gt; [43] splines_4.5.1         parallel_4.5.1        vctrs_0.6.5          </span></span>
+<span><span class="co">#&gt; [46] V8_7.0.0              Matrix_1.7-4          sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt; [49] jsonlite_2.0.0        arrayhelpers_1.1-0    systemfonts_1.2.3    </span></span>
+<span><span class="co">#&gt; [52] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
+<span><span class="co">#&gt; [55] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [58] QuickJSR_1.8.0        htmltools_0.5.8.1     Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [61] R6_2.6.1              textshaping_1.0.3     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [64] evaluate_1.0.5        lattice_0.22-7        backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [67] memoise_2.0.1         broom_1.0.10          snakecase_0.11.1     </span></span>
+<span><span class="co">#&gt; [70] rstantools_2.5.0      gridExtra_2.3         coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [73] nlme_3.1-168          checkmate_2.3.3       xfun_0.53            </span></span>
+<span><span class="co">#&gt; [76] zoo_1.8-14            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1857,22 +1787,7 @@ Radelet, M. L., &amp; Pierce, G. L. (1991). Choosing Those Who Will Die: Race an
 Schervish, M. J., &amp; DeGroot, M. H. (2014). <em>Probability and statistics</em> (Vol. 563). Pearson Education London, UK:
 </div>
 </div>
-</section></main><!-- /main --><script>
-document.body.classList.add('classic-book');
-document.addEventListener('DOMContentLoaded', function() {
-  const paragraphs = document.querySelectorAll('p');
-  paragraphs.forEach(p => {
-    if (p.textContent.length > 200) {
-      p.style.hyphens = 'auto';
-      p.style.hyphenateCharacter = '-';
-    }
-  });
-  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-  headings.forEach(h => {
-    h.style.fontFeatureSettings = '"liga" 1, "dlig" 1, "smcp" 1';
-  });
-});
-</script><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -1923,13 +1838,14 @@ document.addEventListener('DOMContentLoaded', function() {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -2279,12 +2195,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../../chapters/probability/03_sigma-algebra.html" class="pagination-link" aria-label="Dal Discreto al Continuo: la $\sigma$-algebra">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/probability/05_bayes_theorem.html" class="pagination-link" aria-label="Il teorema di Bayes">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

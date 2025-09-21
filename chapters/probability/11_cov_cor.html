@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>12&nbsp; Covarianza e correlazione – Probabilità per la psicologia — Modulo di richiamo</title>
+<title>11&nbsp; Covarianza e correlazione – Probabilità per la psicologia</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,14 +86,15 @@ div.csl-indent {
 <link href="../../style/gauss.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0a72236910a44089af39cd28873f322e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-9908c7b05874059c2106d454ac00f1d0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-af5d064118ae80f4bafc3d843c3c3870.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -126,30 +127,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
-  options: { renderActions: { addMenu: [0, '', ''] } },
-  loader: { load: ['input/tex','output/svg'] }
-};
-</script><script>
-window.MathJax = {
-  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-  svg: { scale: 1, mtextInheritFont: true, fontCache: 'none', minScale: 1 },
-  options: { renderActions: { addMenu: [0, '', ''] } },
-  loader: { load: ['input/tex','output/svg'] }
-};
-// Suggerimento CSS: vedi sezione 3 per gli spazi attorno a display math
-</script><script>
-window.MathJax = {
-  tex: {
-    packages: {'[+]': ['boldsymbol']},
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
-  },
-  svg: { fontCache: 'global' }
-};
-</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -160,7 +138,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -174,10 +152,7 @@ const typesetMath = (el) => {
 window.Quarto = {
   typesetMath
 };
-</script><link rel="stylesheet" href="../../style/_typography-extras.css">
-<link rel="stylesheet" href="../../style/_code-extras.css">
-<link rel="stylesheet" href="../../style/_math-extras.css">
-<link rel="stylesheet" href="../../style/styles.css">
+</script>
 </head>
 <body class="nav-sidebar floating quarto-light">
 
@@ -186,7 +161,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/11_cov_cor.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/11_cov_cor.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
@@ -195,9 +170,11 @@ window.Quarto = {
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">Probabilità per la psicologia — Modulo di richiamo</a> 
+      <a href="../../">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ccaudek/utet-prob/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Attiva/disattiva la modalità lettore">
@@ -224,13 +201,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../prefazione.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefazione</span></span></a>
+ <span class="menu-text">Prefazione</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../../chapters/probability/introduction_probability.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Probabilità</span></a>
+ <span class="menu-text">Elementi di teoria della probabilità</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -239,97 +216,97 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/01_intro_prob.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione della probabilità</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/02_probability_models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Modelli probabilistici</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/03_sigma-algebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dal Discreto al Continuo: la <span class="math inline">\(\sigma\)</span>-algebra</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/04_conditional_prob.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilità condizionata</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/05_bayes_theorem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Il teorema di Bayes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/07_prob_distributions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Distribuzioni di massa e di densità</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Distribuzioni di massa e di densità</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/08_expval_var.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Proprietà delle variabili casuali</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Proprietà delle variabili casuali</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/09_sampling_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/10_joint_prob.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/11_cov_cor.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/12_intro_distributions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/15_gauss.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Assunzione di gaussianità e trasformazioni dei dati</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Assunzione di gaussianità e trasformazioni dei dati</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/16_likelihood.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span></a>
   </div>
 </li>
       </ul>
@@ -389,15 +366,15 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-<li><a href="#covarianza" id="toc-covarianza" class="nav-link active" data-scroll-target="#covarianza"><span class="header-section-number">12.1</span> Covarianza</a></li>
-  <li><a href="#correlazione" id="toc-correlazione" class="nav-link" data-scroll-target="#correlazione"><span class="header-section-number">12.2</span> Correlazione</a></li>
-  <li><a href="#interpretazione-della-correlazione" id="toc-interpretazione-della-correlazione" class="nav-link" data-scroll-target="#interpretazione-della-correlazione"><span class="header-section-number">12.3</span> Interpretazione della Correlazione</a></li>
-  <li><a href="#propriet%C3%A0" id="toc-proprietà" class="nav-link" data-scroll-target="#propriet%C3%A0"><span class="header-section-number">12.4</span> Proprietà</a></li>
+<li><a href="#covarianza" id="toc-covarianza" class="nav-link active" data-scroll-target="#covarianza"><span class="header-section-number">11.1</span> Covarianza</a></li>
+  <li><a href="#correlazione" id="toc-correlazione" class="nav-link" data-scroll-target="#correlazione"><span class="header-section-number">11.2</span> Correlazione</a></li>
+  <li><a href="#interpretazione-della-correlazione" id="toc-interpretazione-della-correlazione" class="nav-link" data-scroll-target="#interpretazione-della-correlazione"><span class="header-section-number">11.3</span> Interpretazione della Correlazione</a></li>
+  <li><a href="#propriet%C3%A0" id="toc-proprietà" class="nav-link" data-scroll-target="#propriet%C3%A0"><span class="header-section-number">11.4</span> Proprietà</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/11_cov_cor.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/11_cov_cor.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-prob-cov-cor" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/11_cov_cor.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-prob-cov-cor" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></h1>
 </div>
 
 
@@ -421,12 +398,12 @@ window.Quarto = {
 <li>Estendere i concetti di probabilità congiunta, marginale e condizionale alle variabili continue, utilizzando gli integrali.</li>
 </ul>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Prerequisiti
+<span class="screen-reader-only">Consiglio</span>Prerequisiti
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -440,29 +417,29 @@ Prerequisiti
 </div>
 </div>
 <div class="callout callout-style-simple callout-caution no-icon callout-titled" title="Preparazione del Notebook">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Preparazione del Notebook
+<span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
-</section></section><section id="covarianza" class="level2" data-number="12.1"><h2 data-number="12.1" class="anchored" data-anchor-id="covarianza">
-<span class="header-section-number">12.1</span> Covarianza</h2>
+</section></section><section id="covarianza" class="level2" data-number="11.1"><h2 data-number="11.1" class="anchored" data-anchor-id="covarianza">
+<span class="header-section-number">11.1</span> Covarianza</h2>
 <p>La covarianza misura il grado e la direzione della relazione lineare tra due variabili casuali. Una covarianza positiva indica che le due variabili tendono ad aumentare o diminuire insieme, mentre una covarianza negativa indica che una variabile tende ad aumentare quando l’altra diminuisce.</p>
-<section id="definizione-di-covarianza" class="level3" data-number="12.1.1"><h3 data-number="12.1.1" class="anchored" data-anchor-id="definizione-di-covarianza">
-<span class="header-section-number">12.1.1</span> Definizione di Covarianza</h3>
+<section id="definizione-di-covarianza" class="level3" data-number="11.1.1"><h3 data-number="11.1.1" class="anchored" data-anchor-id="definizione-di-covarianza">
+<span class="header-section-number">11.1.1</span> Definizione di Covarianza</h3>
 <p>La covarianza tra due variabili casuali discrete <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> è definita come:</p>
 <p><span class="math display">\[
 \text{Cov}(X, Y) = \mathbb{E}\left[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])\right] .
@@ -480,8 +457,8 @@ Preparazione del Notebook
 <p><span class="math display">\[
 Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 \]</span></p>
-</section><section id="dimostrazione" class="level3" data-number="12.1.2"><h3 data-number="12.1.2" class="anchored" data-anchor-id="dimostrazione">
-<span class="header-section-number">12.1.2</span> Dimostrazione</h3>
+</section><section id="dimostrazione" class="level3" data-number="11.1.2"><h3 data-number="11.1.2" class="anchored" data-anchor-id="dimostrazione">
+<span class="header-section-number">11.1.2</span> Dimostrazione</h3>
 <p>La formula alternativa per la covarianza si dimostra come segue.</p>
 <p>Per definizione, la <strong>covarianza</strong> tra due variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> è:</p>
 <p><span class="math display">\[
@@ -544,8 +521,8 @@ Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 = \mathbb{E}\bigl[(X - \mathbb{E}[X]) (Y - \mathbb{E}[Y])\bigr]
 = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y].
 \]</span></p>
-</section><section id="esempio-psicologico-covarianza-tra-ansia-e-prestazione-cognitiva" class="level3" data-number="12.1.3"><h3 data-number="12.1.3" class="anchored" data-anchor-id="esempio-psicologico-covarianza-tra-ansia-e-prestazione-cognitiva">
-<span class="header-section-number">12.1.3</span> Esempio Psicologico: Covarianza tra Ansia e Prestazione Cognitiva</h3>
+</section><section id="esempio-psicologico-covarianza-tra-ansia-e-prestazione-cognitiva" class="level3" data-number="11.1.3"><h3 data-number="11.1.3" class="anchored" data-anchor-id="esempio-psicologico-covarianza-tra-ansia-e-prestazione-cognitiva">
+<span class="header-section-number">11.1.3</span> Esempio Psicologico: Covarianza tra Ansia e Prestazione Cognitiva</h3>
 <p>Riprendendo i dati del capitolo precedente sulla relazione tra ansia (Y) e prestazione cognitiva (X), calcoliamo ora la covarianza.</p>
 <p>Medie marginali:</p>
 <ul>
@@ -569,16 +546,16 @@ Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 <p>Quindi, la covarianza sarà:</p>
 <p><span class="math display">\[\text{Cov}(X,Y)=\mathbb{E}(XY)-\mathbb{E}(X)\mathbb{E}(Y)=0.80-(0.95\times1.00)=-0.15\]</span></p>
 <p>La covarianza negativa indica che all’aumentare del livello di ansia tende a corrispondere una diminuzione della prestazione cognitiva, coerentemente con quanto spesso riscontrato nella letteratura psicologica.</p>
-</section></section><section id="correlazione" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="correlazione">
-<span class="header-section-number">12.2</span> Correlazione</h2>
+</section></section><section id="correlazione" class="level2" data-number="11.2"><h2 data-number="11.2" class="anchored" data-anchor-id="correlazione">
+<span class="header-section-number">11.2</span> Correlazione</h2>
 <p>La correlazione standardizza la covarianza, rendendola indipendente dalle unità di misura delle variabili. Essa varia tra -1 e 1 ed è definita come:</p>
 <p><span class="math display">\[
 \rho(X,Y)=\frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}} .
 \]</span></p>
 <p>dove <span class="math inline">\(\mathbb{V}(X)\)</span> e <span class="math inline">\(\mathbb{V}(Y)\)</span> rappresentano le varianze di <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, rispettivamente.</p>
 <p>Il coefficiente di correlazione <span class="math inline">\(\rho_{xy}\)</span> è un valore adimensionale, ovvero non dipende dalle unità di misura delle variabili, e varia nell’intervallo <span class="math inline">\(-1 \leq \rho \leq 1\)</span>.</p>
-<section id="calcolo-della-correlazione" class="level3" data-number="12.2.1"><h3 data-number="12.2.1" class="anchored" data-anchor-id="calcolo-della-correlazione">
-<span class="header-section-number">12.2.1</span> Calcolo della Correlazione</h3>
+<section id="calcolo-della-correlazione" class="level3" data-number="11.2.1"><h3 data-number="11.2.1" class="anchored" data-anchor-id="calcolo-della-correlazione">
+<span class="header-section-number">11.2.1</span> Calcolo della Correlazione</h3>
 <p>Per calcolare la correlazione tra ansia e prestazione cognitiva, dobbiamo prima ottenere le varianze di ciascuna variabile.</p>
 <ul>
 <li>Varianza di X (prestazione cognitiva):</li>
@@ -604,8 +581,8 @@ Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 \rho(X,Y)=\frac{-0.15}{\sqrt{0.5475\times0.60}}=-0.261
 \]</span></p>
 <p>Il valore negativo della correlazione conferma che ansia e prestazione cognitiva presentano una relazione inversa: all’aumentare dell’ansia, la prestazione tende a diminuire.</p>
-</section></section><section id="interpretazione-della-correlazione" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="interpretazione-della-correlazione">
-<span class="header-section-number">12.3</span> Interpretazione della Correlazione</h2>
+</section></section><section id="interpretazione-della-correlazione" class="level2" data-number="11.3"><h2 data-number="11.3" class="anchored" data-anchor-id="interpretazione-della-correlazione">
+<span class="header-section-number">11.3</span> Interpretazione della Correlazione</h2>
 <p>Il coefficiente di correlazione è una misura standardizzata e facile da interpretare:</p>
 <ul>
 <li>
@@ -616,8 +593,8 @@ Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 <span class="math inline">\(\rho = 0\)</span>: assenza di relazione lineare</li>
 </ul>
 <p>Nel nostro esempio, il valore <span class="math inline">\(-0.261\)</span> indica una relazione lineare negativa moderata tra ansia e prestazione.</p>
-</section><section id="proprietà" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="proprietà">
-<span class="header-section-number">12.4</span> Proprietà</h2>
+</section><section id="proprietà" class="level2" data-number="11.4"><h2 data-number="11.4" class="anchored" data-anchor-id="proprietà">
+<span class="header-section-number">11.4</span> Proprietà</h2>
 <p>La covarianza e la correlazione possiedono una serie di proprietà formali che ne regolano il comportamento al variare delle variabili e delle costanti coinvolte. Di seguito vengono enunciate e discusse le principali.</p>
 <p>La covarianza tra una variabile aleatoria <span class="math inline">\(X\)</span> e una costante <span class="math inline">\(c\)</span> è sempre nulla: <span class="math display">\[
 \text{Cov}(c, X) = 0.
@@ -650,8 +627,8 @@ Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 <p>Nel caso particolare in cui le variabili <span class="math inline">\(X_1, X_2, \dots, X_n\)</span> siano mutualmente indipendenti, la covarianza tra due loro combinazioni lineari si semplifica in: <span class="math display">\[
 \text{Cov}\left( \sum_{i=1}^n a_i X_i, \sum_{j=1}^n b_j X_j \right) = \sum_{i=1}^n a_i b_i \, \mathbb{V}(X_i),
 \]</span> poiché i termini di covarianza incrociata sono nulli.</p>
-<section id="incorrelazione" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="incorrelazione">
-<span class="header-section-number">12.4.1</span> Incorrelazione</h3>
+<section id="incorrelazione" class="level3" data-number="11.4.1"><h3 data-number="11.4.1" class="anchored" data-anchor-id="incorrelazione">
+<span class="header-section-number">11.4.1</span> Incorrelazione</h3>
 <p>Due variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> si dicono <em>incorrelate</em> (o <em>linearmente indipendenti</em>) se la loro covarianza è nulla:</p>
 <p><span class="math display">\[
 \text{Cov}(X, Y) = \mathbb{E}[(X - \mu_X)(Y - \mu_Y)] = 0.
@@ -663,7 +640,7 @@ Cov(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y).
 </ul>
 <p>L’incorrelazione rappresenta una forma di indipendenza statistica più debole rispetto all’<em>indipendenza stocastica</em>. Mentre due variabili indipendenti sono sempre incorrelate, il viceversa non è vero: è possibile che <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> abbiano covarianza nulla pur non essendo stocasticamente indipendenti. In altri termini, l’assenza di correlazione lineare non esclude l’esistenza di altre forme di dipendenza (ad esempio, di tipo non lineare) tra le due variabili.</p>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Esempio 12.1</strong></span> Consideriamo una distribuzione di probabilità congiunta di due variabili aleatorie, <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, definita come:</p>
+<p><span class="theorem-title"><strong>Esempio 11.1</strong></span> Consideriamo una distribuzione di probabilità congiunta di due variabili aleatorie, <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, definita come:</p>
 <p><span class="math display">\[
 f_{XY}(x,y) = \left\{
 \begin{array}{ll}
@@ -677,12 +654,12 @@ f_{XY}(x,y) = \left\{
 </section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
 <p>La covarianza e la correlazione forniscono strumenti essenziali per quantificare le relazioni tra variabili casuali. Utilizzare queste misure permette di approfondire la comprensione delle relazioni psicologiche, come quella tra ansia e prestazione, facilitando ulteriori analisi statistiche e interpretazioni teoriche.</p>
 <div class="callout callout-style-simple callout-important no-icon callout-titled" title="Problemi 1">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problemi 1
+<span class="screen-reader-only">Importante</span>Problemi 1
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -760,12 +737,12 @@ Problemi 1
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Soluzioni 1">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Soluzioni 1
+<span class="screen-reader-only">Consiglio</span>Soluzioni 1
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1255,12 +1232,12 @@ P(Y = 1 \mid X = 2) = \frac{P(X = 2, Y = 1)}{P(X = 2)} = \frac{3/8}{4/8} = \frac
 </div>
 </div>
 <div class="callout callout-style-simple callout-important no-icon callout-titled" title="Problemi 2">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problemi 2
+<span class="screen-reader-only">Importante</span>Problemi 2
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1285,12 +1262,12 @@ Problemi 2
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled" title="Soluzioni 2">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Soluzioni 2
+<span class="screen-reader-only">Consiglio</span>Soluzioni 2
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1398,12 +1375,12 @@ E[Y^2] = 1^2 \cdot \frac{1}{3} + 4^2 \cdot \frac{1}{3} + 9^2 \cdot \frac{1}{3} =
 </div>
 </div>
 <div class="callout callout-style-simple callout-important no-icon callout-titled" title="Problemi 3">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Problemi 3
+<span class="screen-reader-only">Importante</span>Problemi 3
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1414,29 +1391,29 @@ Problemi 3
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Informazioni sull’ambiente di sviluppo
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
-<span><span class="co">#&gt; Running under: macOS Sequoia 15.6.1</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib </span></span>
 <span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; locale:</span></span>
-<span><span class="co">#&gt; [1] C/UTF-8/C/C/C/C</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; time zone: Europe/Rome</span></span>
 <span><span class="co">#&gt; tzcode source: internal</span></span>
@@ -1445,43 +1422,43 @@ Informazioni sull’ambiente di sviluppo
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] pillar_1.11.0         tinytable_0.13.0      patchwork_1.3.2      </span></span>
+<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.13.0      patchwork_1.3.2      </span></span>
 <span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.14.0     </span></span>
-<span><span class="co">#&gt;  [7] ggplot2_3.5.2         reliabilitydiag_0.2.1 priorsense_1.1.1     </span></span>
+<span><span class="co">#&gt;  [7] ggplot2_4.0.0         reliabilitydiag_0.2.1 priorsense_1.1.1     </span></span>
 <span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.8.0             rstan_2.32.7         </span></span>
-<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.22.0           Rcpp_1.1.0           </span></span>
+<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
 <span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
 <span><span class="co">#&gt; [19] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
 <span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.1           rio_1.2.3            </span></span>
-<span><span class="co">#&gt; [25] here_1.0.1           </span></span>
+<span><span class="co">#&gt; [25] here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
-<span><span class="co">#&gt;  [4] fastmap_1.2.0         TH.data_1.1-4         tensorA_0.36.2.1     </span></span>
-<span><span class="co">#&gt;  [7] digest_0.6.37         timechange_0.3.0      estimability_1.5.1   </span></span>
-<span><span class="co">#&gt; [10] lifecycle_1.0.4       survival_3.8-3        magrittr_2.0.3       </span></span>
-<span><span class="co">#&gt; [13] compiler_4.5.1        rlang_1.1.6           tools_4.5.1          </span></span>
-<span><span class="co">#&gt; [16] knitr_1.50            bridgesampling_1.1-2  htmlwidgets_1.6.4    </span></span>
-<span><span class="co">#&gt; [19] curl_7.0.0            pkgbuild_1.4.8        RColorBrewer_1.1-3   </span></span>
-<span><span class="co">#&gt; [22] abind_1.4-8           multcomp_1.4-28       withr_3.0.2          </span></span>
-<span><span class="co">#&gt; [25] purrr_1.1.0           grid_4.5.1            stats4_4.5.1         </span></span>
-<span><span class="co">#&gt; [28] colorspace_2.1-1      xtable_1.8-4          inline_0.3.21        </span></span>
-<span><span class="co">#&gt; [31] emmeans_1.11.2-8      scales_1.4.0          MASS_7.3-65          </span></span>
-<span><span class="co">#&gt; [34] cli_3.6.5             mvtnorm_1.3-3         rmarkdown_2.29       </span></span>
-<span><span class="co">#&gt; [37] ragg_1.5.0            generics_0.1.4        RcppParallel_5.1.11-1</span></span>
-<span><span class="co">#&gt; [40] cachem_1.1.0          stringr_1.5.1         splines_4.5.1        </span></span>
-<span><span class="co">#&gt; [43] parallel_4.5.1        vctrs_0.6.5           V8_7.0.0             </span></span>
-<span><span class="co">#&gt; [46] Matrix_1.7-4          sandwich_3.1-1        jsonlite_2.0.0       </span></span>
-<span><span class="co">#&gt; [49] arrayhelpers_1.1-0    systemfonts_1.2.3     glue_1.8.0           </span></span>
-<span><span class="co">#&gt; [52] codetools_0.2-20      distributional_0.5.0  lubridate_1.9.4      </span></span>
-<span><span class="co">#&gt; [55] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.8.0       </span></span>
-<span><span class="co">#&gt; [58] htmltools_0.5.8.1     Brobdingnag_1.2-9     R6_2.6.1             </span></span>
-<span><span class="co">#&gt; [61] textshaping_1.0.3     rprojroot_2.1.1       evaluate_1.0.5       </span></span>
-<span><span class="co">#&gt; [64] lattice_0.22-7        backports_1.5.0       memoise_2.0.1        </span></span>
-<span><span class="co">#&gt; [67] broom_1.0.9           snakecase_0.11.1      rstantools_2.5.0     </span></span>
-<span><span class="co">#&gt; [70] coda_0.19-4.1         gridExtra_2.3         nlme_3.1-168         </span></span>
-<span><span class="co">#&gt; [73] checkmate_2.3.3       xfun_0.53             zoo_1.8-14           </span></span>
-<span><span class="co">#&gt; [76] pkgconfig_2.0.3</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt;  [4] S7_0.2.0              fastmap_1.2.0         TH.data_1.1-4        </span></span>
+<span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.37         timechange_0.3.0     </span></span>
+<span><span class="co">#&gt; [10] estimability_1.5.1    lifecycle_1.0.4       survival_3.8-3       </span></span>
+<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.1        rlang_1.1.6          </span></span>
+<span><span class="co">#&gt; [16] tools_4.5.1           knitr_1.50            bridgesampling_1.1-2 </span></span>
+<span><span class="co">#&gt; [19] htmlwidgets_1.6.4     curl_7.0.0            pkgbuild_1.4.8       </span></span>
+<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           multcomp_1.4-28      </span></span>
+<span><span class="co">#&gt; [25] withr_3.0.2           purrr_1.1.0           grid_4.5.1           </span></span>
+<span><span class="co">#&gt; [28] stats4_4.5.1          colorspace_2.1-1      xtable_1.8-4         </span></span>
+<span><span class="co">#&gt; [31] inline_0.3.21         emmeans_1.11.2-8      scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [34] MASS_7.3-65           cli_3.6.5             mvtnorm_1.3-3        </span></span>
+<span><span class="co">#&gt; [37] rmarkdown_2.29        ragg_1.5.0            generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [40] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.5.2        </span></span>
+<span><span class="co">#&gt; [43] splines_4.5.1         parallel_4.5.1        vctrs_0.6.5          </span></span>
+<span><span class="co">#&gt; [46] V8_7.0.0              Matrix_1.7-4          sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt; [49] jsonlite_2.0.0        arrayhelpers_1.1-0    systemfonts_1.2.3    </span></span>
+<span><span class="co">#&gt; [52] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
+<span><span class="co">#&gt; [55] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [58] QuickJSR_1.8.0        htmltools_0.5.8.1     Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [61] R6_2.6.1              textshaping_1.0.3     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [64] evaluate_1.0.5        lattice_0.22-7        backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [67] memoise_2.0.1         broom_1.0.10          snakecase_0.11.1     </span></span>
+<span><span class="co">#&gt; [70] rstantools_2.5.0      gridExtra_2.3         coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [73] nlme_3.1-168          checkmate_2.3.3       xfun_0.53            </span></span>
+<span><span class="co">#&gt; [76] zoo_1.8-14            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1497,22 +1474,7 @@ Blitzstein, J. K., &amp; Hwang, J. (2019). <em>Introduction to probability</em>.
 Chan, J. C. C., &amp; Kroese, D. P. (2025). <em>Statistical Modeling and Computation</em> (2ª ed.). Springer.
 </div>
 </div>
-</section></main><!-- /main --><script>
-document.body.classList.add('classic-book');
-document.addEventListener('DOMContentLoaded', function() {
-  const paragraphs = document.querySelectorAll('p');
-  paragraphs.forEach(p => {
-    if (p.textContent.length > 200) {
-      p.style.hyphens = 'auto';
-      p.style.hyphenateCharacter = '-';
-    }
-  });
-  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-  headings.forEach(h => {
-    h.style.fontFeatureSettings = '"liga" 1, "dlig" 1, "smcp" 1';
-  });
-});
-</script><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -1563,13 +1525,14 @@ document.addEventListener('DOMContentLoaded', function() {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1919,12 +1882,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../../chapters/probability/10_joint_prob.html" class="pagination-link" aria-label="Probabilità congiunta">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Probabilità congiunta</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/probability/12_intro_distributions.html" class="pagination-link" aria-label="Introduzione alle distribuzioni di probabilità">
-        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
