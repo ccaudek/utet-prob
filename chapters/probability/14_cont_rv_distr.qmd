@@ -1169,102 +1169,93 @@ La funzione Beta è utilizzata nella definizione della **densità di probabilit�
 
 ## Distribuzione Beta
 
-La **distribuzione Beta**, indicata come $\mathcal{Beta}(\alpha, \beta)$, è una distribuzione di probabilità continua definita sull’intervallo $(0, 1)$. È particolarmente utile per modellare proporzioni, probabilità, o in generale qualsiasi fenomeno che assume valori compresi tra 0 e 1.
+La **distribuzione Beta**, indicata come $\mathcal{Beta}(\alpha, \beta)$, è una distribuzione continua definita sull’intervallo $(0, 1)$. È particolarmente utile quando vogliamo descrivere incertezza su *proporzioni* o *probabilità*, cioè grandezze che devono rimanere comprese tra 0 e 1.
 
-Questa distribuzione è molto flessibile: a seconda dei valori dei parametri $\alpha$ e $\beta$, può assumere forme simmetriche, asimmetriche, concave, convesse, ecc. È frequentemente utilizzata come distribuzione a priori nei modelli bayesiani per parametri che rappresentano probabilità.
+Uno dei motivi per cui la Beta è così diffusa in statistica bayesiana è la sua *flessibilità*: a seconda dei valori dei parametri $\alpha$ e $\beta$, la densità può essere simmetrica o asimmetrica, piatta o concentrata, convessa o concava, fino a concentrarsi agli estremi 0 e 1. Questo permette di modellare diverse situazioni di conoscenza a priori.
 
 ### Definizione
 
-:::: {.definition #def-beta}
-Sia $\theta$ una variabile casuale continua. Se $\theta$ segue una distribuzione Beta con parametri $\alpha > 0$ e $\beta > 0$, scriviamo:
+::: {.definition #def-beta}
+Se $\theta$ segue una distribuzione Beta con parametri $\alpha > 0$ e $\beta > 0$, scriviamo:
 
 $$
-\theta \sim \mathcal{Beta}(\alpha, \beta),
+\theta \sim \mathcal{Beta}(\alpha, \beta).
 $$
 
-e la sua **funzione di densità di probabilità** (pdf) è data da:
+La sua densità è:
 
 $$
-\mathcal{Beta}(\theta \mid \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha, \beta)} \, \theta^{\alpha - 1} (1 - \theta)^{\beta - 1}, \quad \text{per } \theta \in (0, 1),
-$$ {#eq-beta-distr-def}
+f(\theta \mid \alpha, \beta) \;=\; \frac{1}{\mathcal{B}(\alpha,\beta)} \, \theta^{\alpha - 1} (1 - \theta)^{\beta - 1}, \quad \theta \in (0,1),
+$$
+dove $\mathcal{B}(\alpha,\beta)$ è la funzione Beta di Eulero (una costante di normalizzazione che assicura che l’area sotto la curva sia 1).
+:::
 
-dove $\mathcal{B}(\alpha, \beta)$ è la funzione Beta (o funzione beta di Eulero).
-::::
-
-### Rappresentazione alternativa
-
-Un’espressione equivalente della densità, che mette in evidenza il legame con la funzione Gamma, è:
+Un’espressione equivalente, che mette in luce il legame con la funzione Gamma, è:
 
 $$
-\mathcal{Beta}(\theta \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \, \Gamma(\beta)} \, \theta^{\alpha - 1} (1 - \theta)^{\beta - 1}, \quad \text{per } \theta \in (0, 1),
-$$ {#eq-beta-distr-def2}
+f(\theta \mid \alpha, \beta) \;=\; \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\,\Gamma(\beta)} \,\theta^{\alpha - 1}(1-\theta)^{\beta - 1},
+$$
+dove $\Gamma(\cdot)$ generalizza il fattoriale: $\Gamma(n) = (n-1)!$ per ogni intero positivo $n$.
 
-dove $\Gamma(\cdot)$ è la funzione Gamma, che generalizza il fattoriale: $\Gamma(n) = (n - 1)!$ per ogni intero positivo $n$.
+### Ruolo dei parametri $\alpha$ e $\beta$
 
+I due parametri determinano la forma della distribuzione:
 
-### Ruolo dei Parametri $\alpha$ e $\beta$
+* **$\alpha > 1$**: spinge la massa della distribuzione verso valori alti di $\theta$ (vicini a 1).
+* **$\beta > 1$**: spinge la massa verso valori bassi di $\theta$ (vicini a 0).
+* **$\alpha = \beta = 1$**: distribuzione uniforme su $(0,1)$.
+* **$\alpha, \beta < 1$**: distribuzione a “U”, con più probabilità vicino a 0 e 1.
 
-I parametri $\alpha$ e $\beta$ determinano la forma della distribuzione:
+Le proprietà principali sono:
 
-- **$\alpha > 1$**: favorisce valori di $\theta$ vicini a 1.
-- **$\beta > 1$**: favorisce valori di $\theta$ vicini a 0.
-- **$\alpha = \beta = 1$**: corrisponde alla distribuzione uniforme sull'intervallo $[0, 1]$.
-- **$\alpha, \beta < 1$**: la distribuzione è bimodale, concentrandosi agli estremi (vicino a 0 e 1).
+* **Media**: $\mathbb{E}(\theta) = \dfrac{\alpha}{\alpha + \beta}$.
+* **Varianza**: $\mathbb{V}(\theta) = \dfrac{\alpha \beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}$.
+* **Moda** (se $\alpha,\beta > 1$): $\dfrac{\alpha-1}{\alpha + \beta - 2}$.
 
-### Proprietà della Distribuzione Beta
+### Perché nella formula compaiono $\alpha - 1$ e $\beta - 1$?
 
-1. **Valore atteso**:
-   $$
-   \mathbb{E}(\theta) = \frac{\alpha}{\alpha + \beta}.
-   $$
+Una domanda naturale è: come possiamo interpretare i parametri $\alpha$ e $\beta$ della distribuzione Beta? Spesso, nel contesto bayesiano, li consideriamo come “pseudo-conteggi”, cioè come se contenessero già un certo numero di successi e insuccessi immaginari che esprimono la nostra informazione a priori.
 
-2. **Varianza**:
-   $$
-   \mathbb{V}(\theta) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}.
-   $$
+A questo punto sorge un dubbio: se $\alpha$ e $\beta$ rappresentano questi conteggi, perché nella formula della densità non compaiono direttamente, ma troviamo invece $\alpha - 1$ e $\beta - 1$?
 
-3. **Moda** (se $\alpha, \beta > 1$):
-   $$
-   \text{Moda}(\theta) = \frac{\alpha - 1}{\alpha + \beta - 2}.
-   $$
+La ragione è la seguente:
 
-Queste proprietà evidenziano come $\alpha$ e $\beta$ possano essere interpretati come "successi" e "fallimenti" in una serie di prove, fornendo un collegamento intuitivo con la distribuzione binomiale.
+* La densità Beta ha la forma $\theta^{\alpha-1}(1-\theta)^{\beta-1}$.
+* Se poniamo $\alpha = 1$ e $\beta = 1$, ottiamo $f(\theta) \propto \theta^0 (1-\theta)^0$, cioè una curva piatta, che corrisponde alla prior uniforme.
+* Questo significa che $\alpha = 1$ equivale a zero successi immaginari, non a uno.
+* In generale:
 
-### Relazione con la Distribuzione Binomiale
+  * $\alpha - 1$ è il numero di “successi immaginari” contenuti nella prior.
+  * $\beta - 1$ è il numero di “insuccessi immaginari” contenuti nella prior.
 
-La **distribuzione Beta** può essere interpretata come una generalizzazione continua della distribuzione binomiale. Mentre la distribuzione binomiale descrive la **probabilità di osservare un certo numero di successi** in un numero fissato di prove ($n$), la distribuzione Beta descrive l’**incertezza sulla probabilità di successo** $\theta$ stessa, trattandola come una variabile casuale.
-
-#### Contesto bayesiano
-
-In un contesto di **inferenza bayesiana**, la distribuzione Beta viene comunemente utilizzata come **distribuzione a priori coniugata** per il modello binomiale. Ciò significa che, se si assume una distribuzione Beta come prior per $\theta$, anche la distribuzione a posteriori (dopo aver osservato i dati) sarà una Beta, ma con parametri aggiornati.
-
-Supponiamo:
-
-- che $\theta$ sia la probabilità di successo in un compito con esiti binari (es. risposta corretta o errata),
-- di assumere una distribuzione a priori:  
-  $$
-  \theta \sim \mathcal{Beta}(\alpha, \beta),
-  $$
-- e di osservare $y$ successi su $n$ prove, con modello di verosimiglianza:
-  $$
-  y \sim \mathcal{Binom}(n, \theta).
-  $$
-
-Allora, per il teorema di Bayes, la distribuzione a posteriori di $\theta$ sarà:
+Quando arrivano i dati veri, questi conteggi si sommano agli pseudo-conteggi, e otteniamo:
 
 $$
-\theta \mid \text{dati} \sim \mathcal{Beta}(\alpha + y, \beta + n - y).
+\text{Posterior} \;\sim\; \mathcal{Beta}(\alpha + W, \; \beta + L),
+$$
+dove $W$ è il numero di successi osservati e $L$ il numero di insuccessi osservati.
+
+### Relazione con la Binomiale
+
+La distribuzione binomiale risponde alla domanda: “Qual è la probabilità di osservare $W$ successi su $n$ prove, dato un certo $\theta$?”. La sua forma è:
+
+$$
+L(\theta) \;\propto\; \theta^W (1-\theta)^{n-W}.
 $$
 
-#### Vantaggi della coniugatezza
+Confrontiamo questa formula con quella della Beta:
 
-Questo aggiornamento è particolarmente comodo perché:
+* la Binomiale ha esponenti $W$ e $n-W$;
+* la Beta ha esponenti $\alpha - 1$ e $\beta - 1$.
 
-- si ottiene in forma chiusa (senza dover ricorrere a metodi numerici),
-- i parametri $\alpha$ e $\beta$ possono essere interpretati come **conteggi fittizi di successi e insuccessi** prima dell’osservazione dei dati,
-- l’informazione a priori e quella empirica si combinano sommando i rispettivi “conteggi.”
+Possiamo quindi interpretare la Beta come il caso “continuo” in cui partiamo da *pseudo-conteggi* $(\alpha-1, \beta-1)$ e li aggiorniamo con i dati reali.
 
-Questa proprietà rende la distribuzione Beta una scelta naturale nei modelli bayesiani con dati binomiali, come in contesti psicologici in cui si vogliono modellare incertezze sulla probabilità di una risposta corretta, sull’esito di una scelta, o sul successo di un comportamento.
+**In sintesi**
+
+* La distribuzione Beta è una famiglia flessibile su $(0,1)$.
+* $\alpha$ e $\beta$ possono essere visti come “successi e insuccessi immaginari + 1”.
+* Il “–1” negli esponenti è una conseguenza della definizione analitica della Beta: serve a fare in modo che $\alpha=1,\beta=1$ corrispondano all’assenza di informazione (prior uniforme).
+* Questo la rende la partner naturale della Binomiale: prior Beta + likelihood Binomiale = posterior Beta.
 
 ### Visualizzazione della Distribuzione Beta
 
