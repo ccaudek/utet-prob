@@ -1780,88 +1780,90 @@ T = \frac{Z}{\sqrt{\frac{W}{\nu}}}
 <p>La funzione Beta è utilizzata nella definizione della <strong>densità di probabilità Beta</strong>. Essa serve a normalizzare la densità, garantendo che l’area sotto la curva sia pari a <span class="math inline">\(1\)</span>.</p>
 </section><section id="distribuzione-beta" class="level2" data-number="14.8"><h2 data-number="14.8" class="anchored" data-anchor-id="distribuzione-beta">
 <span class="header-section-number">14.8</span> Distribuzione Beta</h2>
-<p>La <strong>distribuzione Beta</strong>, indicata come <span class="math inline">\(\mathcal{Beta}(\alpha, \beta)\)</span>, è una distribuzione di probabilità continua definita sull’intervallo <span class="math inline">\((0, 1)\)</span>. È particolarmente utile per modellare proporzioni, probabilità, o in generale qualsiasi fenomeno che assume valori compresi tra 0 e 1.</p>
-<p>Questa distribuzione è molto flessibile: a seconda dei valori dei parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>, può assumere forme simmetriche, asimmetriche, concave, convesse, ecc. È frequentemente utilizzata come distribuzione a priori nei modelli bayesiani per parametri che rappresentano probabilità.</p>
+<p>La <strong>distribuzione Beta</strong>, indicata come <span class="math inline">\(\mathcal{Beta}(\alpha, \beta)\)</span>, è una distribuzione continua definita sull’intervallo <span class="math inline">\((0, 1)\)</span>. È particolarmente utile quando vogliamo descrivere incertezza su <em>proporzioni</em> o <em>probabilità</em>, cioè grandezze che devono rimanere comprese tra 0 e 1.</p>
+<p>Uno dei motivi per cui la Beta è così diffusa in statistica bayesiana è la sua <em>flessibilità</em>: a seconda dei valori dei parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>, la densità può essere simmetrica o asimmetrica, piatta o concentrata, convessa o concava, fino a concentrarsi agli estremi 0 e 1. Questo permette di modellare diverse situazioni di conoscenza a priori.</p>
 <section id="definizione" class="level3" data-number="14.8.1"><h3 data-number="14.8.1" class="anchored" data-anchor-id="definizione">
 <span class="header-section-number">14.8.1</span> Definizione</h3>
 <div id="def-beta" class="definition theorem">
-<p><span class="theorem-title"><strong>Definizione 14.1</strong></span> Sia <span class="math inline">\(\theta\)</span> una variabile casuale continua. Se <span class="math inline">\(\theta\)</span> segue una distribuzione Beta con parametri <span class="math inline">\(\alpha &gt; 0\)</span> e <span class="math inline">\(\beta &gt; 0\)</span>, scriviamo:</p>
+<p><span class="theorem-title"><strong>Definizione 14.1</strong></span> Se <span class="math inline">\(\theta\)</span> segue una distribuzione Beta con parametri <span class="math inline">\(\alpha &gt; 0\)</span> e <span class="math inline">\(\beta &gt; 0\)</span>, scriviamo:</p>
 <p><span class="math display">\[
-\theta \sim \mathcal{Beta}(\alpha, \beta),
+\theta \sim \mathcal{Beta}(\alpha, \beta).
 \]</span></p>
-<p>e la sua <strong>funzione di densità di probabilità</strong> (pdf) è data da:</p>
-<p><span id="eq-beta-distr-def"><span class="math display">\[
-\mathcal{Beta}(\theta \mid \alpha, \beta) = \frac{1}{\mathcal{B}(\alpha, \beta)} \, \theta^{\alpha - 1} (1 - \theta)^{\beta - 1}, \quad \text{per } \theta \in (0, 1),
-\tag{14.7}\]</span></span></p>
-<p>dove <span class="math inline">\(\mathcal{B}(\alpha, \beta)\)</span> è la funzione Beta (o funzione beta di Eulero).</p>
+<p>La sua densità è:</p>
+<p><span class="math display">\[
+f(\theta \mid \alpha, \beta) \;=\; \frac{1}{\mathcal{B}(\alpha,\beta)} \, \theta^{\alpha - 1} (1 - \theta)^{\beta - 1}, \quad \theta \in (0,1),
+\]</span> dove <span class="math inline">\(\mathcal{B}(\alpha,\beta)\)</span> è la funzione Beta di Eulero (una costante di normalizzazione che assicura che l’area sotto la curva sia 1).</p>
 </div>
-</section><section id="rappresentazione-alternativa" class="level3" data-number="14.8.2"><h3 data-number="14.8.2" class="anchored" data-anchor-id="rappresentazione-alternativa">
-<span class="header-section-number">14.8.2</span> Rappresentazione alternativa</h3>
-<p>Un’espressione equivalente della densità, che mette in evidenza il legame con la funzione Gamma, è:</p>
-<p><span id="eq-beta-distr-def2"><span class="math display">\[
-\mathcal{Beta}(\theta \mid \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \, \Gamma(\beta)} \, \theta^{\alpha - 1} (1 - \theta)^{\beta - 1}, \quad \text{per } \theta \in (0, 1),
-\tag{14.8}\]</span></span></p>
-<p>dove <span class="math inline">\(\Gamma(\cdot)\)</span> è la funzione Gamma, che generalizza il fattoriale: <span class="math inline">\(\Gamma(n) = (n - 1)!\)</span> per ogni intero positivo <span class="math inline">\(n\)</span>.</p>
-</section><section id="ruolo-dei-parametri-alpha-e-beta" class="level3" data-number="14.8.3"><h3 data-number="14.8.3" class="anchored" data-anchor-id="ruolo-dei-parametri-alpha-e-beta">
-<span class="header-section-number">14.8.3</span> Ruolo dei Parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>
-</h3>
-<p>I parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> determinano la forma della distribuzione:</p>
-<ul>
-<li>
-<strong><span class="math inline">\(\alpha &gt; 1\)</span></strong>: favorisce valori di <span class="math inline">\(\theta\)</span> vicini a 1.</li>
-<li>
-<strong><span class="math inline">\(\beta &gt; 1\)</span></strong>: favorisce valori di <span class="math inline">\(\theta\)</span> vicini a 0.</li>
-<li>
-<strong><span class="math inline">\(\alpha = \beta = 1\)</span></strong>: corrisponde alla distribuzione uniforme sull’intervallo <span class="math inline">\([0, 1]\)</span>.</li>
-<li>
-<strong><span class="math inline">\(\alpha, \beta &lt; 1\)</span></strong>: la distribuzione è bimodale, concentrandosi agli estremi (vicino a 0 e 1).</li>
-</ul></section><section id="proprietà-della-distribuzione-beta" class="level3" data-number="14.8.4"><h3 data-number="14.8.4" class="anchored" data-anchor-id="proprietà-della-distribuzione-beta">
-<span class="header-section-number">14.8.4</span> Proprietà della Distribuzione Beta</h3>
-<ol type="1">
-<li><p><strong>Valore atteso</strong>: <span class="math display">\[
-\mathbb{E}(\theta) = \frac{\alpha}{\alpha + \beta}.
-\]</span></p></li>
-<li><p><strong>Varianza</strong>: <span class="math display">\[
-\mathbb{V}(\theta) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}.
-\]</span></p></li>
-<li><p><strong>Moda</strong> (se <span class="math inline">\(\alpha, \beta &gt; 1\)</span>): <span class="math display">\[
-\text{Moda}(\theta) = \frac{\alpha - 1}{\alpha + \beta - 2}.
-\]</span></p></li>
-</ol>
-<p>Queste proprietà evidenziano come <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> possano essere interpretati come “successi” e “fallimenti” in una serie di prove, fornendo un collegamento intuitivo con la distribuzione binomiale.</p>
-</section><section id="relazione-con-la-distribuzione-binomiale" class="level3" data-number="14.8.5"><h3 data-number="14.8.5" class="anchored" data-anchor-id="relazione-con-la-distribuzione-binomiale">
-<span class="header-section-number">14.8.5</span> Relazione con la Distribuzione Binomiale</h3>
-<p>La <strong>distribuzione Beta</strong> può essere interpretata come una generalizzazione continua della distribuzione binomiale. Mentre la distribuzione binomiale descrive la <strong>probabilità di osservare un certo numero di successi</strong> in un numero fissato di prove (<span class="math inline">\(n\)</span>), la distribuzione Beta descrive l’<strong>incertezza sulla probabilità di successo</strong> <span class="math inline">\(\theta\)</span> stessa, trattandola come una variabile casuale.</p>
-<section id="contesto-bayesiano" class="level4" data-number="14.8.5.1"><h4 data-number="14.8.5.1" class="anchored" data-anchor-id="contesto-bayesiano">
-<span class="header-section-number">14.8.5.1</span> Contesto bayesiano</h4>
-<p>In un contesto di <strong>inferenza bayesiana</strong>, la distribuzione Beta viene comunemente utilizzata come <strong>distribuzione a priori coniugata</strong> per il modello binomiale. Ciò significa che, se si assume una distribuzione Beta come prior per <span class="math inline">\(\theta\)</span>, anche la distribuzione a posteriori (dopo aver osservato i dati) sarà una Beta, ma con parametri aggiornati.</p>
-<p>Supponiamo:</p>
-<ul>
-<li>che <span class="math inline">\(\theta\)</span> sia la probabilità di successo in un compito con esiti binari (es. risposta corretta o errata),</li>
-<li>di assumere una distribuzione a priori:<br><span class="math display">\[
-\theta \sim \mathcal{Beta}(\alpha, \beta),
-\]</span>
-</li>
-<li>e di osservare <span class="math inline">\(y\)</span> successi su <span class="math inline">\(n\)</span> prove, con modello di verosimiglianza: <span class="math display">\[
-y \sim \mathcal{Binom}(n, \theta).
-\]</span>
-</li>
-</ul>
-<p>Allora, per il teorema di Bayes, la distribuzione a posteriori di <span class="math inline">\(\theta\)</span> sarà:</p>
+<p>Un’espressione equivalente, che mette in luce il legame con la funzione Gamma, è:</p>
 <p><span class="math display">\[
-\theta \mid \text{dati} \sim \mathcal{Beta}(\alpha + y, \beta + n - y).
-\]</span></p>
-</section><section id="vantaggi-della-coniugatezza" class="level4" data-number="14.8.5.2"><h4 data-number="14.8.5.2" class="anchored" data-anchor-id="vantaggi-della-coniugatezza">
-<span class="header-section-number">14.8.5.2</span> Vantaggi della coniugatezza</h4>
-<p>Questo aggiornamento è particolarmente comodo perché:</p>
+f(\theta \mid \alpha, \beta) \;=\; \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\,\Gamma(\beta)} \,\theta^{\alpha - 1}(1-\theta)^{\beta - 1},
+\]</span> dove <span class="math inline">\(\Gamma(\cdot)\)</span> generalizza il fattoriale: <span class="math inline">\(\Gamma(n) = (n-1)!\)</span> per ogni intero positivo <span class="math inline">\(n\)</span>.</p>
+</section><section id="ruolo-dei-parametri-alpha-e-beta" class="level3" data-number="14.8.2"><h3 data-number="14.8.2" class="anchored" data-anchor-id="ruolo-dei-parametri-alpha-e-beta">
+<span class="header-section-number">14.8.2</span> Ruolo dei parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>
+</h3>
+<p>I due parametri determinano la forma della distribuzione:</p>
 <ul>
-<li>si ottiene in forma chiusa (senza dover ricorrere a metodi numerici),</li>
-<li>i parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> possono essere interpretati come <strong>conteggi fittizi di successi e insuccessi</strong> prima dell’osservazione dei dati,</li>
-<li>l’informazione a priori e quella empirica si combinano sommando i rispettivi “conteggi.”</li>
+<li>
+<strong><span class="math inline">\(\alpha &gt; 1\)</span></strong>: spinge la massa della distribuzione verso valori alti di <span class="math inline">\(\theta\)</span> (vicini a 1).</li>
+<li>
+<strong><span class="math inline">\(\beta &gt; 1\)</span></strong>: spinge la massa verso valori bassi di <span class="math inline">\(\theta\)</span> (vicini a 0).</li>
+<li>
+<strong><span class="math inline">\(\alpha = \beta = 1\)</span></strong>: distribuzione uniforme su <span class="math inline">\((0,1)\)</span>.</li>
+<li>
+<strong><span class="math inline">\(\alpha, \beta &lt; 1\)</span></strong>: distribuzione a “U”, con più probabilità vicino a 0 e 1.</li>
 </ul>
-<p>Questa proprietà rende la distribuzione Beta una scelta naturale nei modelli bayesiani con dati binomiali, come in contesti psicologici in cui si vogliono modellare incertezze sulla probabilità di una risposta corretta, sull’esito di una scelta, o sul successo di un comportamento.</p>
-</section></section><section id="visualizzazione-della-distribuzione-beta" class="level3" data-number="14.8.6"><h3 data-number="14.8.6" class="anchored" data-anchor-id="visualizzazione-della-distribuzione-beta">
-<span class="header-section-number">14.8.6</span> Visualizzazione della Distribuzione Beta</h3>
+<p>Le proprietà principali sono:</p>
+<ul>
+<li>
+<strong>Media</strong>: <span class="math inline">\(\mathbb{E}(\theta) = \dfrac{\alpha}{\alpha + \beta}\)</span>.</li>
+<li>
+<strong>Varianza</strong>: <span class="math inline">\(\mathbb{V}(\theta) = \dfrac{\alpha \beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\)</span>.</li>
+<li>
+<strong>Moda</strong> (se <span class="math inline">\(\alpha,\beta &gt; 1\)</span>): <span class="math inline">\(\dfrac{\alpha-1}{\alpha + \beta - 2}\)</span>.</li>
+</ul></section><section id="perché-nella-formula-compaiono-alpha---1-e-beta---1" class="level3" data-number="14.8.3"><h3 data-number="14.8.3" class="anchored" data-anchor-id="perché-nella-formula-compaiono-alpha---1-e-beta---1">
+<span class="header-section-number">14.8.3</span> Perché nella formula compaiono <span class="math inline">\(\alpha - 1\)</span> e <span class="math inline">\(\beta - 1\)</span>?</h3>
+<p>Una domanda naturale è: come possiamo interpretare i parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> della distribuzione Beta? Spesso, nel contesto bayesiano, li consideriamo come “pseudo-conteggi”, cioè come se contenessero già un certo numero di successi e insuccessi immaginari che esprimono la nostra informazione a priori.</p>
+<p>A questo punto sorge un dubbio: se <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> rappresentano questi conteggi, perché nella formula della densità non compaiono direttamente, ma troviamo invece <span class="math inline">\(\alpha - 1\)</span> e <span class="math inline">\(\beta - 1\)</span>?</p>
+<p>La ragione è la seguente:</p>
+<ul>
+<li><p>La densità Beta ha la forma <span class="math inline">\(\theta^{\alpha-1}(1-\theta)^{\beta-1}\)</span>.</p></li>
+<li><p>Se poniamo <span class="math inline">\(\alpha = 1\)</span> e <span class="math inline">\(\beta = 1\)</span>, ottiamo <span class="math inline">\(f(\theta) \propto \theta^0 (1-\theta)^0\)</span>, cioè una curva piatta, che corrisponde alla prior uniforme.</p></li>
+<li><p>Questo significa che <span class="math inline">\(\alpha = 1\)</span> equivale a zero successi immaginari, non a uno.</p></li>
+<li>
+<p>In generale:</p>
+<ul>
+<li>
+<span class="math inline">\(\alpha - 1\)</span> è il numero di “successi immaginari” contenuti nella prior.</li>
+<li>
+<span class="math inline">\(\beta - 1\)</span> è il numero di “insuccessi immaginari” contenuti nella prior.</li>
+</ul>
+</li>
+</ul>
+<p>Quando arrivano i dati veri, questi conteggi si sommano agli pseudo-conteggi, e otteniamo:</p>
+<p><span class="math display">\[
+\text{Posterior} \;\sim\; \mathcal{Beta}(\alpha + W, \; \beta + L),
+\]</span> dove <span class="math inline">\(W\)</span> è il numero di successi osservati e <span class="math inline">\(L\)</span> il numero di insuccessi osservati.</p>
+</section><section id="relazione-con-la-binomiale" class="level3" data-number="14.8.4"><h3 data-number="14.8.4" class="anchored" data-anchor-id="relazione-con-la-binomiale">
+<span class="header-section-number">14.8.4</span> Relazione con la Binomiale</h3>
+<p>La distribuzione binomiale risponde alla domanda: “Qual è la probabilità di osservare <span class="math inline">\(W\)</span> successi su <span class="math inline">\(n\)</span> prove, dato un certo <span class="math inline">\(\theta\)</span>?”. La sua forma è:</p>
+<p><span class="math display">\[
+L(\theta) \;\propto\; \theta^W (1-\theta)^{n-W}.
+\]</span></p>
+<p>Confrontiamo questa formula con quella della Beta:</p>
+<ul>
+<li>la Binomiale ha esponenti <span class="math inline">\(W\)</span> e <span class="math inline">\(n-W\)</span>;</li>
+<li>la Beta ha esponenti <span class="math inline">\(\alpha - 1\)</span> e <span class="math inline">\(\beta - 1\)</span>.</li>
+</ul>
+<p>Possiamo quindi interpretare la Beta come il caso “continuo” in cui partiamo da <em>pseudo-conteggi</em> <span class="math inline">\((\alpha-1, \beta-1)\)</span> e li aggiorniamo con i dati reali.</p>
+<p><strong>In sintesi</strong></p>
+<ul>
+<li>La distribuzione Beta è una famiglia flessibile su <span class="math inline">\((0,1)\)</span>.</li>
+<li>
+<span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> possono essere visti come “successi e insuccessi immaginari + 1”.</li>
+<li>Il “–1” negli esponenti è una conseguenza della definizione analitica della Beta: serve a fare in modo che <span class="math inline">\(\alpha=1,\beta=1\)</span> corrispondano all’assenza di informazione (prior uniforme).</li>
+<li>Questo la rende la partner naturale della Binomiale: prior Beta + likelihood Binomiale = posterior Beta.</li>
+</ul></section><section id="visualizzazione-della-distribuzione-beta" class="level3" data-number="14.8.5"><h3 data-number="14.8.5" class="anchored" data-anchor-id="visualizzazione-della-distribuzione-beta">
+<span class="header-section-number">14.8.5</span> Visualizzazione della Distribuzione Beta</h3>
 <p>Di seguito mostriamo come la forma della distribuzione Beta varia al variare dei parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri</span></span>
@@ -1893,8 +1895,8 @@ y \sim \mathcal{Binom}(n, \theta).
 </div>
 </div>
 </div>
-</section><section id="costante-di-normalizzazione" class="level3" data-number="14.8.7"><h3 data-number="14.8.7" class="anchored" data-anchor-id="costante-di-normalizzazione">
-<span class="header-section-number">14.8.7</span> Costante di Normalizzazione</h3>
+</section><section id="costante-di-normalizzazione" class="level3" data-number="14.8.6"><h3 data-number="14.8.6" class="anchored" data-anchor-id="costante-di-normalizzazione">
+<span class="header-section-number">14.8.6</span> Costante di Normalizzazione</h3>
 <p>La costante di normalizzazione della distribuzione Beta è il reciproco della funzione Beta di Eulero, <span class="math inline">\(B(\alpha, \beta)\)</span>. Questa garantisce che:</p>
 <p><span class="math display">\[
 \int_0^1 \mathcal{Beta}(\theta \mid \alpha, \beta) \, d\theta = 1.
@@ -2232,7 +2234,7 @@ R permette di generare campioni casuali da distribuzioni comuni, utili per simul
 <span><span class="co">#&gt; [19] bridgesampling_1.1-2  htmlwidgets_1.6.4     curl_7.0.0           </span></span>
 <span><span class="co">#&gt; [22] pkgbuild_1.4.8        RColorBrewer_1.1-3    abind_1.4-8          </span></span>
 <span><span class="co">#&gt; [25] multcomp_1.4-28       withr_3.0.2           purrr_1.1.0          </span></span>
-<span><span class="co">#&gt; [28] grid_4.5.1            stats4_4.5.1          colorspace_2.1-1     </span></span>
+<span><span class="co">#&gt; [28] grid_4.5.1            stats4_4.5.1          colorspace_2.1-2     </span></span>
 <span><span class="co">#&gt; [31] xtable_1.8-4          inline_0.3.21         emmeans_1.11.2-8     </span></span>
 <span><span class="co">#&gt; [34] scales_1.4.0          MASS_7.3-65           cli_3.6.5            </span></span>
 <span><span class="co">#&gt; [37] mvtnorm_1.3-3         rmarkdown_2.29        ragg_1.5.0           </span></span>
@@ -2242,7 +2244,7 @@ R permette di generare campioni casuali da distribuzioni comuni, utili per simul
 <span><span class="co">#&gt; [49] sandwich_3.1-1        jsonlite_2.0.0        arrayhelpers_1.1-0   </span></span>
 <span><span class="co">#&gt; [52] systemfonts_1.2.3     glue_1.8.0            codetools_0.2-20     </span></span>
 <span><span class="co">#&gt; [55] distributional_0.5.0  lubridate_1.9.4       stringi_1.8.7        </span></span>
-<span><span class="co">#&gt; [58] gtable_0.3.6          QuickJSR_1.8.0        htmltools_0.5.8.1    </span></span>
+<span><span class="co">#&gt; [58] gtable_0.3.6          QuickJSR_1.8.1        htmltools_0.5.8.1    </span></span>
 <span><span class="co">#&gt; [61] Brobdingnag_1.2-9     R6_2.6.1              textshaping_1.0.3    </span></span>
 <span><span class="co">#&gt; [64] rprojroot_2.1.1       evaluate_1.0.5        lattice_0.22-7       </span></span>
 <span><span class="co">#&gt; [67] backports_1.5.0       memoise_2.0.1         broom_1.0.10         </span></span>
