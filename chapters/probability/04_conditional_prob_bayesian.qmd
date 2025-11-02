@@ -1,0 +1,1019 @@
+# Probabilità condizionata come aggiornamento {#sec-prob-conditional-prob}
+
+::: {.epigraph}
+> "Probability is always conditional."
+>
+> -- **Dennis V. Lindley**, *The Philosophy of Statistics* (2000). 
+:::
+
+
+## Introduzione {.unnumbered .unlisted}
+
+La probabilità condizionata è il meccanismo fondamentale attraverso cui le credenze si *aggiornano* alla luce di nuove informazioni. Quando apprendiamo che si è verificato un evento $B$, la nostra credenza su un altro evento $A$ deve cambiare in modo coerente: questo cambiamento è quantificato dalla probabilità condizionata $P(A|B)$.
+
+Da una prospettiva bayesiana, *ogni probabilità è implicitamente condizionata* allo stato di informazione corrente. Quando diciamo $P(A)$, stiamo in realtà dicendo $P(A \mid \mathcal{I})$, dove $\mathcal{I}$ rappresenta tutto ciò che sappiamo. La probabilità condizionata formalizza il processo di *riduzione dello spazio epistemico*: apprendere l'evento $B$ significa restringere le possibilità a quelle compatibili con esso e ricalibrare le credenze di conseguenza.
+
+In questo capitolo esploreremo la probabilità condizionata non come un'operazione tecnica su insiemi, ma come una *regola di coerenza* per l'*aggiornamento delle credenze*. Vedremo come questo concetto sia fondamentale per comprendere l'indipendenza, il teorema del prodotto, la legge della probabilità totale e, nel prossimo capitolo, il teorema di Bayes.
+
+### Panoramica del capitolo {.unnumbered .unlisted}
+
+- Probabilità condizionata come riduzione dello spazio epistemico.
+- Interpretazione epistemica dell'aggiornamento.
+- Indipendenza come assenza di informazione reciproca.
+- Teorema del prodotto e probabilità congiunta.
+- Legge della probabilità totale.
+- Paradosso di Simpson.
+- Applicazioni a diagnostica clinica e test psicologici.
+
+::: {.callout-tip collapse=true}
+## Prerequisiti
+
+- Aver letto i capitoli precedenti (@sec-prob-interpretation, @sec-prob-models, @sec-equiprobability-combinatorics).
+- Familiarità con tabelle congiunte.
+- Nozioni base di R per simulazioni.
+:::
+
+::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+
+```{r}
+#| output: false
+here::here("code", "_common.R") |> 
+  source()
+
+# Load packages
+if (!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(ggplot2, dplyr, tidyr, patchwork, ggforce, DiagrammeR)
+```
+:::
+
+## Definizione e interpretazione epistemica
+
+::: {#def-conditional-probability}
+### Probabilità condizionata
+
+Se $P(B) > 0$, la *probabilità condizionata* di $A$ dato $B$ è definita come:
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$ {#eq-prob-cond-def}
+
+**Interpretazione epistemica**: $P(A \mid B)$ quantifica il nostro grado di credenza in $A$ dopo aver appreso che $B$ è vero, tenendo conto del fatto che ora lo spazio delle possibilità si è ristretto a quelle compatibili con $B$.
+:::
+
+### Perché questa formula?
+
+La definizione di probabilità condizionata non è una convenzione arbitraria, ma emerge come conseguenza necessaria del principio di coerenza probabilistica. Consideriamo una distribuzione di probabilità congiunta rappresentata da una tabella 2 $\times$ 2:
+
+|       | $B$  | $B^c$ | Marginali |
+|-------|------|-------|-----------|
+| $A$   | $p_{11}$ | $p_{12}$ | $P(A)$    |
+| $A^c$ | $p_{21}$ | $p_{22}$ | $P(A^c)$  |
+| Marginali | $P(B)$ | $P(B^c)$ | $1$       |
+
+Quando si acquisisce l'informazione che l'evento $B$ si è verificato, lo spazio probabilistico si riduce alla sola colonna corrispondente a $B$. Per preservare la coerenza interna del nostro sistema di credenze, dobbiamo implementare due operazioni fondamentali. In primo luogo, è necessario *eliminare* tutti gli esiti incompatibili con $B$, ovvero quelli situati nella colonna $B^c$. In secondo luogo, dobbiamo *rinormalizzare* le credenze residue, assicurando che la probabilità totale dello spazio ridotto sia pari a 1. Questa rinormalizzazione si ottiene dividendo ciascuna probabilità residua per $P(B)$.
+
+Il risultato di questo processo è la formula della probabilità condizionata:
+$$
+P(A \mid B) = \frac{p_{11}}{p_{11} + p_{21}} = \frac{p_{11}}{P(B)} = \frac{P(A \cap B)}{P(B)}.
+$$
+
+::: {.callout-important title="Principio epistemico fondamentale"}
+#### Aggiornamento come riduzione e rinormalizzazione {.unnumbered .unlisted}
+
+L'acquisizione dell'informazione che l'evento $B$ si è verificato innesca un processo di aggiornamento epistemico strutturato in tre fasi fondamentali. In primo luogo, si verifica una *riduzione* dello spazio epistemico dall'intero universo $\Omega$ al sottoinsieme $B$, eliminando così tutte le possibilità incompatibili con l'evidenza osservata. In secondo luogo, si procede a una *rinormalizzazione* delle credenze su questo sottospazio ridotto, garantendo che le probabilità assegnate agli eventi rimanenti sommino nuovamente a 1. In terzo luogo, si *mantengono* inalterate le proporzioni relative tra tutti gli eventi compatibili con $B$, preservando così la struttura delle relazioni probabilistiche originarie.
+
+Questo meccanismo garantisce la coerenza epistemica: se avessimo inizialmente considerato esclusivamente $B$ come nostro spazio di possibilità, avremmo ottenuto esattamente le stesse credenze relative tra gli eventi ora risultanti dal processo di aggiornamento condizionale.
+:::
+
+### Visualizzazione geometrica
+
+```{r}
+# Esempio con diagramma di Venn simulato
+# Parametri
+P_A <- 0.6
+P_B <- 0.5
+P_AB <- 0.35
+
+# Creare dataframe per visualizzazione
+df_venn <- data.frame(
+  x = c(0.3, 0.7),
+  y = c(0.5, 0.5),
+  r = c(sqrt(P_A / pi), sqrt(P_B / pi)),
+  label = c("A", "B")
+)
+
+# Calcolare condizionata
+P_A_given_B <- P_AB / P_B
+
+ggplot() +
+  geom_circle(data = df_venn, aes(x0 = x, y0 = y, r = r, fill = label), 
+              alpha = 0.3, size = 1, show.legend = FALSE) +
+  annotate("text", x = 0.3, y = 0.85, label = "A", size = 8) +
+  annotate("text", x = 0.7, y = 0.85, label = "B", size = 8) +
+  annotate("text", x = 0.5, y = 0.5, label = "A ∩ B", size = 6) +
+  annotate("text", x = 0.5, y = -0.1, 
+           label = sprintf("P(A|B) = P(A∩B)/P(B) = %.2f/%.2f = %.2f", 
+                          P_AB, P_B, P_A_given_B),
+           size = 5) +
+  coord_fixed() +
+  theme_void() +
+  labs(title = "Probabilità condizionata come riduzione dello spazio",
+       subtitle = "Apprendere B significa focalizzarsi sulla regione B e rinormalizzare")
+```
+
+## Proprietà della probabilità condizionata
+
+Le probabilità condizionate mantengono le proprietà degli assiomi, trattando $B$ come nuovo "universo".
+
+::: {#thm-conditional-properties}
+### Proprietà della condizionata
+
+Fissato un evento $B$ con $P(B) > 0$, la funzione $P(\cdot \mid B)$ soddisfa tutti gli assiomi della probabilità.
+
+1. **Non-negatività**: $P(A \mid B) \geq 0$ per ogni evento $A$.
+
+2. **Normalizzazione**: $P(B \mid B) = 1$ (certezza di $B$ dato $B$).
+
+3. **Additività**: se $A_1, A_2$ sono eventi disgiunti, allora
+   $$P(A_1 \cup A_2 \mid B) = P(A_1 \mid B) + P(A_2 \mid B).$$
+
+4. **Complemento**: $P(A^c \mid B) = 1 - P(A \mid B).$
+
+5. **Regola della catena (o del prodotto)**: 
+   $$P(A \cap B \mid C) = P(A \mid B \cap C) \cdot P(B \mid C).$$
+:::
+
+**Dimostrazione della proprietà 3** (additività):
+$$
+P(A_1 \cup A_2 \mid B) = \frac{P((A_1 \cup A_2) \cap B)}{P(B)} = \frac{P((A_1 \cap B) \cup (A_2 \cap B))}{P(B)}
+$$
+
+Poiché $A_1, A_2$ disgiunti, anche $A_1 \cap B$ e $A_2 \cap B$ lo sono:
+$$
+= \frac{P(A_1 \cap B) + P(A_2 \cap B)}{P(B)} = \frac{P(A_1 \cap B)}{P(B)} + \frac{P(A_2 \cap B)}{P(B)} = P(A_1 \mid B) + P(A_2 \mid B).
+$$
+
+::: {.callout-note collapse="true" title="Esempio clinico completo"}
+#### Test di screening per il disturbo depressivo maggiore {.unnumbered .unlisted}
+
+**Contesto clinico**: uno psicologo utilizza un test di screening per il disturbo depressivo maggiore in un contesto di comunità, caratterizzato da una popolazione non selezionata.
+
+**Informazioni epidemiologiche disponibili**:
+
+- **prevalenza nella popolazione** (distribuzione a priori): $P(D) = 0.08$ (l'8% degli individui in contesto di comunità presenta il disturbo);
+- **sensibilità del test**: $P(T^+ \mid D) = 0.85$ (l'85% dei soggetti depressi risulta positivo al test);
+- **specificità del test**: $P(T^- \mid D^c) = 0.90$ (il 90% dei soggetti non depressi risulta negativo al test).
+
+**Costruzione della distribuzione di probabilità congiunta**:
+
+```{r}
+# Parametri epidemiologici
+P_D <- 0.08
+sens <- 0.85
+spec <- 0.90
+
+# Tassi di classificazione errata
+fp_rate <- 1 - spec  # P(T+ | D^c) = 0.10
+
+# Probabilità congiunte
+P_D_and_Tpos <- sens * P_D
+P_D_and_Tneg <- (1 - sens) * P_D
+P_Dc_and_Tpos <- fp_rate * (1 - P_D)
+P_Dc_and_Tneg <- spec * (1 - P_D)
+
+# Rappresentazione tabellare
+tab_diagnostic <- matrix(
+  c(P_D_and_Tpos, P_D_and_Tneg,
+    P_Dc_and_Tpos, P_Dc_and_Tneg),
+  nrow = 2, byrow = TRUE,
+  dimnames = list(
+    Stato = c("D", "D^c"),
+    Test = c("T+", "T-")
+  )
+)
+
+cat("DISTRIBUZIONE DI PROBABILITÀ CONGIUNTA (Test × Stato):\n")
+print(round(tab_diagnostic, 4))
+
+# Probabilità marginali
+cat("\nPROBABILITÀ MARGINALI:\n")
+cat("P(D) =", round(rowSums(tab_diagnostic)[1], 4), "\n")
+cat("P(T+) =", round(colSums(tab_diagnostic)[1], 4), "\n")
+cat("P(T-) =", round(colSums(tab_diagnostic)[2], 4), "\n")
+```
+
+**Questioni cliniche risolte mediante probabilità condizionate**:
+
+```{r}
+# 1. Valore predittivo positivo: P(D | T+)
+P_Tpos <- colSums(tab_diagnostic)[1]
+P_D_given_Tpos <- tab_diagnostic[1, 1] / P_Tpos
+
+# 2. Valore predittivo negativo: P(D^c | T-)
+P_Tneg <- colSums(tab_diagnostic)[2]
+P_Dc_given_Tneg <- tab_diagnostic[2, 2] / P_Tneg
+
+# 3. Probabilità residua di depressione dopo test negativo
+P_D_given_Tneg <- tab_diagnostic[1, 2] / P_Tneg
+```
+
+```{r}
+#| echo: false
+cat("ANALISI DELL'AGGIORNAMENTO DELLE CREDENZE\n")
+cat("=========================================\n\n")
+cat("STATO DELLE CREDENZE PRIMA DEL TEST (distribuzione a priori):\n")
+cat("  P(D) =", round(P_D, 3), "\n\n")
+
+cat("STATO DELLE CREDENZE DOPO TEST POSITIVO:\n")
+cat("  P(D | T+) =", round(P_D_given_Tpos, 3), "(Valore Predittivo Positivo)\n")
+cat("  Aggiornamento: la credenza aumenta da", round(P_D, 3), "a", round(P_D_given_Tpos, 3), "\n\n")
+
+cat("STATO DELLE CREDENZE DOPO TEST NEGATIVO:\n")
+cat("  P(D | T-) =", round(P_D_given_Tneg, 4), "\n")
+cat("  P(D^c | T-) =", round(P_Dc_given_Tneg, 3), "(Valore Predittivo Negativo)\n")
+cat("  Aggiornamento: la credenza diminuisce da", round(P_D, 3), "a", round(P_D_given_Tneg, 4), "\n")
+```
+
+**Interpretazione epistemica del processo inferenziale.**
+
+La *distribuzione a priori* (prima della somministrazione del test) assegna una probabilità di $P(D) = 0.08$ basandosi esclusivamente sui dati di prevalenza nella popolazione.
+
+In seguito a un *test positivo*, l'informazione osservata determina un aggiornamento delle credenze portando a $P(D \mid T^+) \approx 0.43$. È fondamentale notare che questo valore non corrisponde alla sensibilità del test (0.85), poiché la sensibilità quantifica $P(T^+ \mid D)$ mentre il valore predittivo positivo rappresenta $P(D \mid T^+)$. Il valore predittivo positivo dipende criticamente dal tasso base della condizione nella popolazione di riferimento.
+
+In seguito a un *test negativo*, l'informazione osservata produce una drastica riduzione della credenza nella presenza del disturbo, portando a $P(D \mid T^-) \approx 0.013$. L'elevata specificità del test rende un risultato negativo particolarmente informativo per escludere la condizione.
+
+**Visualizzazione dell'aggiornamento.**
+
+```{r}
+#| echo: false
+# Creare dataframe per visualizzazione
+df_update <- data.frame(
+  Momento = factor(c("Prior", "Posterior T+", "Posterior T-"),
+                   levels = c("Prior", "Posterior T+", "Posterior T-")),
+  P_Depressione = c(P_D, P_D_given_Tpos, P_D_given_Tneg)
+)
+
+ggplot(df_update, aes(x = Momento, y = P_Depressione, fill = Momento)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = sprintf("%.3f", P_Depressione)), 
+            vjust = -0.5, size = 6) +
+  labs(
+    title = "Aggiornamento bayesiano tramite probabilità condizionata",
+    subtitle = "La credenza si aggiorna coerentemente con l'evidenza del test",
+    y = "P(Depressione)",
+    x = ""
+  ) +
+  ylim(0, 0.5) +
+  theme_minimal(base_size = 14)
+```
+
+**Verifica con simulazione Monte Carlo.**
+
+```{r}
+set.seed(123)
+N <- 100000
+
+# Simulare stato reale e risultato test
+stato <- rbinom(N, 1, P_D)  # 1 = Depresso, 0 = Non depresso
+
+test_result <- ifelse(stato == 1,
+                      rbinom(N, 1, sens),      # Se depresso, test+ con prob sens
+                      rbinom(N, 1, fp_rate))   # Se non depresso, test+ con prob fp_rate
+
+# Calcolare condizionate empiriche
+P_D_given_Tpos_sim <- mean(stato[test_result == 1] == 1)
+P_D_given_Tneg_sim <- mean(stato[test_result == 0] == 1)
+```
+
+```{r}
+#| echo: false
+cat("=== VERIFICA CON SIMULAZIONE ===\n\n")
+cat("Teorico vs Simulato (N =", N, "):\n\n")
+cat("P(D | T+):\n")
+cat("  Teorico:", round(P_D_given_Tpos, 4), "\n")
+cat("  Simulato:", round(P_D_given_Tpos_sim, 4), "\n\n")
+
+cat("P(D | T-):\n")
+cat("  Teorico:", round(P_D_given_Tneg, 4), "\n")
+cat("  Simulato:", round(P_D_given_Tneg_sim, 4), "\n")
+```
+:::
+
+## Indipendenza stocastica
+
+Il concetto di indipendenza rappresenta una proprietà fondamentale che caratterizza l'assenza di relazione informativa tra eventi nell'ambito del ragionamento probabilistico.
+
+::: {#def-independence}
+### Indipendenza (definizione epistemica)
+
+Due eventi $A$ e $B$ sono **indipendenti** (notazione: $A \perp B$) quando l'acquisizione di informazione riguardante uno dei due eventi non modifica le nostre credenze relative all'altro:
+
+$$
+P(A \mid B) = P(A) \quad \text{e equivalentemente} \quad P(B \mid A) = P(B).
+$$ {#eq-independence-def}
+
+**Conseguenza matematica**: Se $A \perp B$, allora la loro probabilità congiunta ammette una fattorizzazione moltiplicativa:
+$$
+P(A \cap B) = P(A) \cdot P(B)
+$$ {#eq-independence-prod}
+
+**Interpretazione epistemica**: l'informazione che "$B$ si è verificato" non modifica la nostra credenza riguardo al verificarsi di $A$. Gli eventi sono epistemicamente disgiunti: la conoscenza di uno non fornisce alcuna informazione utile né per prevedere il verificarsi dell'altro né per determinarne la probabilità.
+:::
+
+### Test di indipendenza nella tabella congiunta
+
+Data una distribuzione di probabilità congiunta rappresentata in forma tabellare, è possibile verificare l'eventuale indipendenza tra due eventi confrontando due quantità specifiche:
+
+- la *probabilità congiunta osservata*: $P(A \cap B)$;
+- il *prodotto delle probabilità marginali*: $P(A) \cdot P(B)$.
+
+Se queste due quantità coincidono, a meno di trascurabili errori di approssimazione numerica, possiamo concludere che gli eventi $A$ e $B$ sono statisticamente indipendenti.
+
+```{r}
+# Esempio: Test e Stato sono indipendenti?
+P_A <- rowSums(tab_diagnostic)[1]  # P(D)
+P_B <- colSums(tab_diagnostic)[1]  # P(T+)
+P_AB_obs <- tab_diagnostic[1, 1]   # P(D ∩ T+)
+P_AB_indep <- P_A * P_B            # Se fossero indipendenti
+```
+
+```{r}
+#| echo: false
+cat("Test di indipendenza:\n")
+cat("P(D ∩ T+) osservata =", round(P_AB_obs, 4), "\n")
+cat("P(D) × P(T+) =", round(P_AB_indep, 4), "\n")
+cat("Differenza:", round(abs(P_AB_obs - P_AB_indep), 4), "\n\n")
+
+if (abs(P_AB_obs - P_AB_indep) < 1e-9) {
+  cat("→ Eventi INDIPENDENTI\n")
+} else {
+  cat("→ Eventi DIPENDENTI (correlati)\n")
+  cat("  Questo è atteso: il test è progettato per essere informativo sulla depressione!\n")
+}
+```
+
+**Osservazione**: se il test e lo stato fossero indipendenti, il test sarebbe inutile (non fornirebbe alcuna informazione). La dipendenza è auspicabile per un test diagnostico efficace!
+
+### Indipendenza vs disgiunzione
+
+::: {.callout-warning title="Errore concettuale comune"}
+#### Indipendenza $\neq$ Disgiunzione {.unnumbered .unlisted}
+
+Due eventi *disgiunti* (mutualmente esclusivi) non possono essere indipendenti, a meno che uno dei due non abbia probabilità zero.
+
+**Dimostrazione logica**: se $A \cap B = \varnothing$ e $P(A), P(B) > 0$, allora:
+
+- $P(A \cap B) = 0$ (per definizione di disgiunzione);
+- $P(A) \cdot P(B) > 0$ (prodotto di quantità positive);
+- conseguentemente $P(A \cap B) \neq P(A) \cdot P(B)$: gli eventi *NON sono indipendenti*.
+
+**Interpretazione epistemica**: gli eventi disgiunti risultano *massimamente dipendenti* dal punto di vista informativo. L'informazione che uno si è verificato implica con certezza che l'altro non si è verificato! La relazione informativa è completa e deterministica.
+
+Al contrario, l'*indipendenza* caratterizza una situazione di assenza completa di informazione reciproca tra gli eventi.
+:::
+
+```{r}
+# Esempio numerico
+# A = "Lancio dado, esce numero pari"
+# B = "Lancio dado, esce numero dispari"
+# Disgiunti ma NON indipendenti
+
+P_pari <- 3/6
+P_dispari <- 3/6
+P_pari_e_dispari <- 0  # Disgiunti!
+```
+
+```{r}
+#| echo: false
+cat("Eventi disgiunti (pari vs dispari):\n")
+cat("P(Pari) =", P_pari, "\n")
+cat("P(Dispari) =", P_dispari, "\n")
+cat("P(Pari ∩ Dispari) =", P_pari_e_dispari, "\n")
+cat("P(Pari) × P(Dispari) =", P_pari * P_dispari, "\n")
+cat("\nP(Pari | Dispari) =", P_pari_e_dispari / P_dispari, 
+    "(se dispari è vero, pari è impossibile)\n")
+cat("→ Informazione totale: MASSIMA dipendenza!\n")
+```
+
+## Teorema del prodotto (regola della catena)
+
+Il teorema del prodotto fornisce un metodo alternativo, spesso più intuitivo, per esprimere le probabilità congiunte attraverso una scomposizione sequenziale.
+
+::: {#thm-product-rule}
+### Teorema del prodotto
+
+Per due eventi $A$ e $B$ con $P(B) > 0$ vale la relazione:
+
+$$
+P(A \cap B) = P(A \mid B) \cdot P(B)
+$$ {#eq-product-rule}
+
+**Generalizzazione** a $n$ eventi:
+$$
+P(A_1 \cap A_2 \cap \cdots \cap A_n) = P(A_1) \cdot P(A_2 \mid A_1) \cdot P(A_3 \mid A_1 \cap A_2) \cdots P(A_n \mid A_1 \cap \cdots \cap A_{n-1}).
+$$
+
+**Interpretazione epistemica**: la costruzione della probabilità congiunta avviene attraverso un processo sequenziale di aggiornamento delle credenze. Si inizia con $P(A_1)$ (credenza iniziale sul primo evento), poi si procede con l'aggiornamento sequenziale di ogni evento successivo alla luce degli eventi già condizionanti.
+:::
+
+::: {.callout-note collapse="true" title="Dimostrazione"}
+
+La relazione fondamentale discende immediatamente dalla definizione di probabilità condizionata. Partendo dall'equazione definitoria:
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$
+e moltiplicando entrambi i membri per $P(B)$ (che per ipotesi è positivo), si ottiene:
+
+$$
+P(A \mid B) \cdot P(B) = P(A \cap B)
+$$
+che corrisponde esattamente all'enunciato del teorema.
+
+**Estensione alla generalizzazione**: la forma estesa per $n$ eventi si dimostra per induzione. Per $n=2$ abbiamo già dimostrato il caso base. Assumendo vera la formula per $n-1$ eventi:
+
+$$
+P(A_1 \cap \cdots \cap A_{n-1}) = P(A_1) \cdot P(A_2 \mid A_1) \cdots P(A_{n-1} \mid A_1 \cap \cdots \cap A_{n-2}),
+$$
+applicando il caso base agli eventi $A_1 \cap \cdots \cap A_{n-1}$ e $A_n$ si ottiene:
+
+$$
+P(A_1 \cap \cdots \cap A_n) = P(A_n \mid A_1 \cap \cdots \cap A_{n-1}) \cdot P(A_1 \cap \cdots \cap A_{n-1}).
+$$
+Sostituendo l'ipotesi induttiva si completa la dimostrazione.
+:::
+
+::: {.callout-note collapse="true" title="Esempio: Test diagnostici multipli"}
+Un paziente con sospetto disturbo d'ansia si sottopone a due test diagnostici indipendenti: $T_1$ (questionario autosomministrato) e $T_2$ (colloquio clinico strutturato).
+
+**Informazioni cliniche disponibili**:
+
+- prevalenza del disturbo: $P(\text{Ansia}) = 0.20$;
+- sensibilità del questionario: $P(T_1^+ \mid \text{Ansia}) = 0.80$;
+- falsi positivi del questionario: $P(T_1^+ \mid \text{Ansia}^c) = 0.15$;
+- sensibilità del colloquio: $P(T_2^+ \mid \text{Ansia}) = 0.85$;
+- falsi positivi del colloquio: $P(T_2^+ \mid \text{Ansia}^c) = 0.10$.
+
+I due test sono *condizionatamente indipendenti* dato lo stato del paziente:
+$$P(T_1^+ \cap T_2^+ \mid \text{Ansia}) = P(T_1^+ \mid \text{Ansia}) \cdot P(T_2^+ \mid \text{Ansia}).$$
+
+**Domanda clinica**: Qual è la probabilità che il paziente sia ansioso e risulti positivo ad entrambi i test, $P(\text{Ansia} \cap T_1^+ \cap T_2^+)$?
+
+**Applicazione del teorema del prodotto**:
+
+$$
+\begin{aligned}
+P(\text{Ansia} \cap T_1^+ \cap T_2^+) &= P(T_2^+ \mid \text{Ansia} \cap T_1^+) \cdot P(T_1^+ \mid \text{Ansia}) \cdot P(\text{Ansia}) \\
+&= P(T_2^+ \mid \text{Ansia}) \cdot P(T_1^+ \mid \text{Ansia}) \cdot P(\text{Ansia}) \quad \text{(per indipendenza condizionale)} \\
+&= 0.85 \times 0.80 \times 0.20 = 0.136.
+\end{aligned}
+$$
+
+**Interpretazione**: la probabilità che un paziente sia effettivamente ansioso e risulti positivo ad entrambi i test è del 13.6%. Questo risultato combina la probabilità a priori del disturbo con le caratteristiche psicometriche dei due test, sfruttando la loro indipendenza condizionale.
+:::
+
+## Legge della probabilità totale
+
+La legge della probabilità totale costituisce un'applicazione fondamentale del teorema del prodotto in contesti in cui lo spazio campionario risulta suddiviso in scenari mutualmente esclusivi.
+
+::: {#thm-total-probability}
+### Legge della probabilità totale
+
+Sia $\{B_1, B_2, \ldots, B_n\}$ una *partizione* di $\Omega$—ovvero una collezione di eventi mutualmente esclusivi ed esaustivi che ricoprono l'intero spazio campionario. Allora, per ogni evento $A$:
+
+$$
+P(A) = \sum_{i=1}^{n} P(A \mid B_i) \cdot P(B_i).
+$$ {#eq-total-probability}
+
+**Interpretazione epistemica**: la credenza complessiva nell'evento $A$ corrisponde a una media ponderata delle credenze condizionate a ciascuno scenario $B_i$, dove i pesi sono rappresentati dalle nostre credenze iniziali nei diversi scenari.
+:::
+
+**Dimostrazione**: 
+$$
+\begin{aligned}
+P(A) &= P(A \cap \Omega) \\
+&= P\left(A \cap \bigcup_{i=1}^{n} B_i\right) \quad \text{(per esaustività della partizione)} \\
+&= \sum_{i=1}^{n} P(A \cap B_i) \quad \text{(per additività sugli eventi disgiunti)} \\
+&= \sum_{i=1}^{n} P(A \mid B_i) \cdot P(B_i) \quad \text{(per il teorema del prodotto)}
+\end{aligned}
+$$
+
+### Visualizzazione con albero probabilistico
+
+```{r}
+# Esempio: Probabilità di test positivo considerando due popolazioni
+
+# Scenario: Clinica vs Popolazione generale
+P_clinica <- 0.30     # 30% pazienti da clinica specialistica
+P_pop_gen <- 0.70     # 70% da popolazione generale
+
+# Prevalenze diverse
+P_D_given_clinica <- 0.40
+P_D_given_popgen <- 0.05
+
+# Caratteristiche del test
+sens <- 0.85          # Sensibilità
+spec <- 0.90          # Specificità
+fp_rate <- 1 - spec   # Tasso falsi positivi = 0.10
+
+# P(T+ | Clinica)
+P_Tpos_given_clinica <- sens * P_D_given_clinica + fp_rate * (1 - P_D_given_clinica)
+
+# P(T+ | Pop.Gen.)
+P_Tpos_given_popgen <- sens * P_D_given_popgen + fp_rate * (1 - P_D_given_popgen)
+
+# Probabilità totale di test positivo
+P_Tpos_total <- P_Tpos_given_clinica * P_clinica + P_Tpos_given_popgen * P_pop_gen
+```
+
+```{r}
+#| echo: false
+cat("=== LEGGE DELLA PROBABILITÀ TOTALE ===\n\n")
+cat("Partizione dello spazio:\n")
+cat("  P(Clinica) =", P_clinica, "\n")
+cat("  P(Pop.Gen.) =", P_pop_gen, "\n\n")
+
+cat("Probabilità condizionate:\n")
+cat("  P(T+ | Clinica) =", round(P_Tpos_given_clinica, 3), "\n")
+cat("  P(T+ | Pop.Gen.) =", round(P_Tpos_given_popgen, 3), "\n\n")
+
+cat("Probabilità totale:\n")
+cat("  P(T+) =", round(P_Tpos_total, 3), "\n")
+cat("       =", round(P_Tpos_given_clinica, 3), "×", P_clinica, "+", 
+    round(P_Tpos_given_popgen, 3), "×", P_pop_gen, "\n")
+```
+
+```{r}
+#| echo: false
+# Visualizzazione ad albero
+# Creare diagramma ad albero (struttura semplificata per visualizzazione)
+cat("\nStruttura ad albero:\n")
+cat("              [Popolazione Totale]\n")
+cat("                    /        \\\n")
+cat("                   /          \\\n")
+cat("         Clinica (0.3)    Pop.Gen. (0.7)\n")
+cat("            |                  |\n")
+cat("         T+ (0.36)          T+ (0.13)\n")
+cat("                               |\n")
+cat("                    P(T+) totale = 0.36×0.3 + 0.13×0.7 = 0.20\n")
+```
+
+## Paradosso di Simpson
+
+Il paradosso di Simpson mostra che una relazione osservata tra due variabili può **invertire direzione** quando si analizzano separatamente i sottogruppi della popolazione.
+Ciò avviene quando una **variabile confondente** (ad esempio la gravità del caso o il sesso dei partecipanti) influenza sia l’esposizione sia l’esito.
+
+::: {.callout-note collapse="true" title="Esempio"}
+**Efficacia del trattamento per la depressione in due cliniche**
+
+Due cliniche (A e B) valutano un nuovo trattamento per la depressione.
+La clinica A tratta soprattutto casi lievi, la clinica B casi gravi.
+
+**Dati:**
+
+```{r}
+# Clinica A (casi lievi)
+n_A_trattati <- 90
+n_A_guariti_trattati <- 81   # 90% successo
+
+n_A_controllo <- 10
+n_A_guariti_controllo <- 9   # 90% successo
+
+# Clinica B (casi gravi)
+n_B_trattati <- 10
+n_B_guariti_trattati <- 2    # 20% successo
+
+n_B_controllo <- 90
+n_B_guariti_controllo <- 27  # 30% successo
+
+# Proporzioni per clinica
+prop_A_trattati <- n_A_guariti_trattati / n_A_trattati
+prop_A_controllo <- n_A_guariti_controllo / n_A_controllo
+prop_B_trattati <- n_B_guariti_trattati / n_B_trattati
+prop_B_controllo <- n_B_guariti_controllo / n_B_controllo
+
+# Aggregato (senza distinguere clinica)
+n_tot_trattati <- n_A_trattati + n_B_trattati
+n_tot_guariti_trattati <- n_A_guariti_trattati + n_B_guariti_trattati
+n_tot_controllo <- n_A_controllo + n_B_controllo
+n_tot_guariti_controllo <- n_A_guariti_controllo + n_B_guariti_controllo
+
+prop_tot_trattati <- n_tot_guariti_trattati / n_tot_trattati
+prop_tot_controllo <- n_tot_guariti_controllo / n_tot_controllo
+```
+
+```{r}
+#| echo: false
+cat("=== PARADOSSO DI SIMPSON ===\n\n")
+cat("Clinica A (casi lievi):\n")
+cat("  Trattati:", round(prop_A_trattati, 2), "→", n_A_guariti_trattati, "/", n_A_trattati, "\n")
+cat("  Controllo:", round(prop_A_controllo, 2), "→", n_A_guariti_controllo, "/", n_A_controllo, "\n")
+cat("  → Efficacia uguale o leggermente migliore nel gruppo trattamento\n\n")
+
+cat("Clinica B (casi gravi):\n")
+cat("  Trattati:", round(prop_B_trattati, 2), "→", n_B_guariti_trattati, "/", n_B_trattati, "\n")
+cat("  Controllo:", round(prop_B_controllo, 2), "→", n_B_guariti_controllo, "/", n_B_controllo, "\n")
+cat("  → Trattamento migliore anche qui\n\n")
+
+cat("AGGREGATO (A + B):\n")
+cat("  Trattati:", round(prop_tot_trattati, 2), "→", n_tot_guariti_trattati, "/", n_tot_trattati, "\n")
+cat("  Controllo:", round(prop_tot_controllo, 2), "→", n_tot_guariti_controllo, "/", n_tot_controllo, "\n")
+cat("  → NELL'AGGREGATO: sembra che il trattamento funzioni PEGGIO!\n\n")
+
+cat("Spiegazione: la clinica B (casi gravi) contribuisce molto al gruppo trattato,\n")
+cat("mentre la clinica A (casi lievi) contribuisce molto al gruppo di controllo.\n")
+cat("Il mix diseguale dei casi (variabile confondente) inverte la relazione osservata.\n")
+```
+
+**Visualizzazione**
+
+```{r}
+#| echo: false
+df_simpson <- data.frame(
+  Gruppo = rep(c("Clinica A", "Clinica B", "Aggregato"), each = 2),
+  Condizione = rep(c("Trattati", "Controllo"), 3),
+  Proporzione = c(
+    prop_A_trattati, prop_A_controllo,
+    prop_B_trattati, prop_B_controllo,
+    prop_tot_trattati, prop_tot_controllo
+  ),
+  Etichetta = c(
+    "Trattati\n(90%)", "Controllo\n(90%)",
+    "Trattati\n(20%)", "Controllo\n(30%)",
+    paste0("Trattati\n(", round(100 * prop_tot_trattati), "%)"),
+    paste0("Controllo\n(", round(100 * prop_tot_controllo), "%)")
+  )
+)
+
+ggplot(df_simpson, aes(x = Condizione, y = Proporzione, fill = Condizione)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = Etichetta), vjust = -0.5, size = 3.5) +
+  facet_wrap(~Gruppo) +
+  labs(
+    title = "Paradosso di Simpson: l'inversione nell'efficacia del trattamento",
+    subtitle = "Ogni clinica mostra un effetto positivo, ma nell'aggregato il trattamento appare peggiore",
+    y = "Proporzione di guarigioni",
+    x = ""
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none") +
+  ylim(0, 1)
+```
+
+**Interpretazione epistemica.**
+Il paradosso di Simpson rivela che la probabilità condizionata *corretta* non è quella aggregata ma quella stratificata per clinica:
+$$
+P(\text{guarigione} \mid \text{trattamento}, \text{clinica})
+$$
+e non
+$$
+P(\text{guarigione} \mid \text{trattamento}).
+$$
+
+Quando la distribuzione dei casi (lievi/gravi) è squilibrata tra i gruppi, l’analisi aggregata può portare a una *conclusione errata*: pur essendo benefico in entrambi i sottogruppi, il trattamento appare inefficace nel complesso.
+:::
+
+## Applicazioni psicologiche
+
+### Comorbidità e aggiornamento delle credenze diagnostiche
+
+```{r}
+# Esempio: Depressione e ansia in contesto clinico
+P_D <- 0.40
+P_A <- 0.35
+P_A_given_D <- 0.60  # Alta comorbidità
+
+# Costruire tabella congiunta
+P_D_and_A <- P_A_given_D * P_D
+P_D_and_notA <- P_D - P_D_and_A
+P_notD_and_A <- P_A - P_D_and_A
+P_notD_and_notA <- 1 - (P_D_and_A + P_D_and_notA + P_notD_and_A)
+
+tab_comorbid <- matrix(
+  c(P_D_and_A, P_D_and_notA, P_notD_and_A, P_notD_and_notA),
+  nrow = 2, byrow = TRUE,
+  dimnames = list(Depressione = c("D", "D^c"), Ansia = c("A", "A^c"))
+)
+
+# Probabilità condizionate
+P_D_given_A <- P_D_and_A / P_A
+P_D_given_notA <- P_D_and_notA / (1 - P_A)
+```
+
+```{r}
+#| echo: false
+cat("ANALISI DELLA COMORBIDITÀ E AGGIORNAMENTO DIAGNOSTICO\n")
+cat("=====================================================\n\n")
+cat("DISTRIBUZIONE A PRIORI (basata su prevalenze):\n")
+cat("  P(Depressione) =", P_D, "\n")
+cat("  P(Ansia) =", P_A, "\n")
+cat("  P(Ansia | Depressione) =", P_A_given_D, "(comorbidità elevata)\n\n")
+
+cat("AGGIORNAMENTO DOPO OSSERVAZIONE CLINICA:\n")
+cat("  Dopo aver rilevato sintomi d'ansia:\n")
+cat("    P(Depressione | Ansia) =", round(P_D_given_A, 3), "\n")
+cat("    → Aumento della credenza: da", P_D, "a", round(P_D_given_A, 3), "(+", round((P_D_given_A - P_D)*100, 0), "%)\n\n")
+
+cat("  Dopo aver escluso sintomi d'ansia:\n")
+cat("    P(Depressione | Ansia^c) =", round(P_D_given_notA, 3), "\n")
+cat("    → Diminuzione della credenza: da", P_D, "a", round(P_D_given_notA, 3), "(-", round((P_D - P_D_given_notA)*100, 0), "%)\n")
+```
+
+**Interpretazione clinica**: l'alta comorbidità tra depressione e ansia implica che l'osservazione di sintomi ansiosi costituisce un'evidenza rilevante a favore della presenza di depressione, mentre l'assenza di ansia riduce considerevolmente la probabilità di depressione.
+
+### Valore diagnostico incrementale di test multipli
+
+```{r}
+# Scenario: Due test per ADHD in valutazione psicodiagnostica
+# T1: Questionario per genitori (Conners)
+# T2: Osservazione strutturata in classe
+
+P_ADHD <- 0.10
+sens_T1 <- 0.80
+spec_T1 <- 0.85
+sens_T2 <- 0.75
+spec_T2 <- 0.90
+
+# Assumiamo indipendenza condizionale dato lo stato ADHD
+
+# Calcolo probabilità dopo primo test
+fp1 <- 1 - spec_T1
+P_T1pos <- sens_T1 * P_ADHD + fp1 * (1 - P_ADHD)
+P_ADHD_given_T1pos <- (sens_T1 * P_ADHD) / P_T1pos
+
+# Calcolo probabilità dopo entrambi i test positivi
+P_ADHD_and_T1pos_and_T2pos <- sens_T1 * sens_T2 * P_ADHD
+fp2 <- 1 - spec_T2
+P_T1pos_and_T2pos <- sens_T1 * sens_T2 * P_ADHD + fp1 * fp2 * (1 - P_ADHD)
+P_ADHD_given_both <- P_ADHD_and_T1pos_and_T2pos / P_T1pos_and_T2pos
+```
+
+```{r}
+#| echo: false
+cat("VALORE DIAGNOSTICO INCREMENTALE DI TEST MULTIPLI\n")
+cat("================================================\n\n")
+cat("CONTESTO: Valutazione psicodiagnostica per ADHD\n")
+cat("  Prevalenza stimata: P(ADHD) =", P_ADHD, "\n\n")
+
+cat("PROGRESSIONE DELL'AGGIORNAMENTO DIAGNOSTICO:\n")
+cat("  Stato iniziale: P(ADHD) =", P_ADHD, "\n")
+cat("  Dopo questionario genitori positivo:\n")
+cat("    P(ADHD | T1+) =", round(P_ADHD_given_T1pos, 3), "\n")
+cat("  Dopo anche osservazione in classe positiva:\n")
+cat("    P(ADHD | T1+, T2+) =", round(P_ADHD_given_both, 3), "\n\n")
+
+cat("ANALISI DELL'INCREMENTO INFORMATIVO:\n")
+cat("  Incremento dopo primo test: +", round((P_ADHD_given_T1pos - P_ADHD)*100, 1), "%\n")
+cat("  Incremento dopo secondo test: +", round((P_ADHD_given_both - P_ADHD_given_T1pos)*100, 1), "%\n")
+cat("  Incremento totale: +", round((P_ADHD_given_both - P_ADHD)*100, 1), "%\n\n")
+
+cat("CONCLUSIONE CLINICA: L'integrazione sequenziale di test multipli con caratteristiche\n")
+cat("psicometriche complementari produce un accumulo di evidenza diagnostica.\n")
+```
+
+**Implicazioni per la pratica clinica**: l'approccio bayesiano sequenziale giustifica l'uso di batterie di test multiple, dimostrando come ogni strumento contribuisca in modo incrementale alla precisione diagnostica, aspetto particolarmente rilevante in condizioni complesse come, ad esempio, l'ADHD.
+
+## Riflessioni conclusive {.unnumbered .unlisted}
+
+La probabilità condizionata rappresenta il meccanismo fondamentale attraverso il quale le credenze bayesiane si aggiornano in modo coerente alla luce di nuove informazioni. In questo capitolo abbiamo esplorato le dimensioni essenziali di questo concetto.
+
+La *definizione epistemica* di $P(A \mid B)$ quantifica la nostra credenza in $A$ dopo aver appreso l'informazione $B$, realizzandosi attraverso un processo di riduzione e rinormalizzazione dello spazio epistemico. Il concetto di *indipendenza* caratterizza l'assenza di informazione reciproca tra eventi: quando due eventi sono indipendenti, la conoscenza di uno non modifica le nostre credenze riguardo all'altro.
+
+Il *teorema del prodotto* fornisce il metodo naturale per costruire probabilità congiunte a partire da probabilità condizionate sequenziali, mentre la *legge della probabilità totale* costituisce uno strumento essenziale per calcolare le probabilità marginali mediante medie ponderate delle probabilità condizionate. Il *paradosso di Simpson* illustra drammaticamente l'importanza di condizionare sulle variabili appropriate, mostrando come l'aggregazione ingenua dei dati possa invertire artificialmente relazioni genuine.
+
+Nelle *applicazioni cliniche*, che vanno dai test diagnostici all'analisi della comorbilità, dalla valutazione del valore incrementale di test multipli all'interpretazione dei pattern sintomatologici, il ragionamento condizionato si rivela indispensabile per una pratica  evidence-based.
+
+La probabilità condizionata non è solo una formula tecnica, ma rappresenta il *nucleo concettuale* del ragionamento bayesiano. Nel prossimo capitolo, il *teorema di Bayes* emergerà come un caso speciale della probabilità condizionata che formalizza l'*inversione probabilistica*, ovvero il passaggio da $P(\text{Evidenza} \mid \text{Ipotesi})$ a $P(\text{Ipotesi} \mid \text{Evidenza})$.
+
+Ogni volta che utilizziamo espressioni come "dato che...", "sapendo che...", "alla luce di...", stiamo implicitamente applicando il principio della probabilità condizionata per aggiornare le nostre credenze in modo logicamente coerente e matematicamente rigoroso.
+
+## Esercizi {.unnumbered}
+
+::: {.callout-important title="Problemi" collapse="true"}
+
+### Esercizi concettuali
+
+1. Spiega perché "ogni probabilità è condizionata" da una prospettiva bayesiana. Cosa significa $P(A)$ implicitamente?
+
+2. La formula $P(A \mid B) = P(A \cap B) / P(B)$ può sembrare circolare. Spiega perché non lo è, e in quale ordine concettuale pensiamo queste quantità.
+
+3. Quando due eventi sono disgiunti, possono essere indipendenti? Perché o perché no?
+
+4. Il teorema del prodotto dice $P(A \cap B) = P(A \mid B) P(B)$. Questo è simmetrico? Cioè, posso scrivere $P(A \cap B) = P(B \mid A) P(A)$? Cosa implica questa simmetria?
+
+5. Il paradosso di Simpson dimostra che l'aggregazione è sempre sbagliata? Quando è legittimo aggregare dati?
+
+### Esercizi su probabilità condizionata
+
+6. Data una tabella congiunta:
+   |       | $B$  | $B^c$ |
+   |-------|------|-------|
+   | $A$   | 0.20 | 0.30  |
+   | $A^c$ | 0.15 | 0.35  |
+   
+   Calcola:
+   a. $P(A \mid B)$
+   b. $P(B \mid A)$
+   c. $P(A \mid B^c)$
+   d. Gli eventi sono indipendenti?
+
+7. $P(A) = 0.6$, $P(B) = 0.5$, $P(A \mid B) = 0.7$. Calcola:
+   a. $P(A \cap B)$
+   b. $P(B \mid A)$
+   c. $P(A \cup B)$
+
+8. Test diagnostico: $P(M) = 0.01$, sens = 0.95, spec = 0.98.
+   a. Costruisci tabella congiunta
+   b. Calcola VPP e VPN
+   c. Quanto deve essere alta la sensibilità per avere VPP > 0.9?
+
+### Esercizi su indipendenza
+
+9. Un dado viene lanciato. Siano:
+   - $A$ = "Esce numero pari"
+   - $B$ = "Esce numero ≤ 3"
+   
+   a. $A$ e $B$ sono indipendenti?
+   b. Calcola $P(A \mid B)$ e confronta con $P(A)$
+
+10. Due monete equilibrate vengono lanciate. Siano:
+    - $A$ = "Prima moneta è testa"
+    - $B$ = "Almeno una testa"
+    
+    a. Costruisci tabella congiunta
+    b. Calcola $P(A \mid B)$
+    c. $A$ e $B$ sono indipendenti?
+
+11. In una popolazione, $P(\text{Depressione}) = 0.15$ e $P(\text{Insonnia}) = 0.25$. Se fossero indipendenti, quanto sarebbe $P(\text{Depressione} \cap \text{Insonnia})$? È plausibile l'indipendenza?
+
+### Esercizi su teorema del prodotto
+
+12. $P(A) = 0.5$, $P(B \mid A) = 0.6$, $P(C \mid A \cap B) = 0.7$. Calcola $P(A \cap B \cap C)$.
+
+13. Tre test sequenziali per ansia, ciascuno con sens = 0.80 (indipendenti dato stato). $P(\text{Ansia}) = 0.20$. Calcola $P(\text{Ansia} \cap T_1^+ \cap T_2^+ \cap T_3^+)$.
+
+14. Usa la regola del prodotto per dimostrare che se $A$ e $B$ sono indipendenti, allora $A$ e $B^c$ sono indipendenti.
+
+### Esercizi su probabilità totale
+
+15. Una clinica riceve pazienti da due fonti:
+    - 60% da medico di base (prevalenza depressione = 10%)
+    - 40% da pronto soccorso (prevalenza depressione = 30%)
+    
+    Qual è la prevalenza complessiva nella clinica?
+
+16. Un questionario ha due versioni (A e B), distribuite casualmente (50% ciascuna). La versione A è più facile:
+    - $P(\text{punteggio} > 20 \mid \text{Versione A}) = 0.7$
+    - $P(\text{punteggio} > 20 \mid \text{Versione B}) = 0.4$
+    
+    Qual è $P(\text{punteggio} > 20)$ complessivamente?
+
+17. Dimostra che $P(A) = P(A \mid B) P(B) + P(A \mid B^c) P(B^c)$ usando la legge della probabilità totale con partizione $\{B, B^c\}$.
+
+### Esercizi su Paradosso di Simpson
+
+18. Considera questi dati su un farmaco antidepressivo:
+    
+    **Pazienti giovani** (N=200):
+    - Farmaco: 70/100 migliorati (70%)
+    - Placebo: 50/100 migliorati (50%)
+    
+    **Pazienti anziani** (N=200):
+    - Farmaco: 60/100 migliorati (60%)
+    - Placebo: 40/100 migliorati (40%)
+    
+    a. In ciascun gruppo, il farmaco è migliore?
+    b. Calcola le proporzioni aggregate (tutti i pazienti insieme)
+    c. Costruisci uno scenario dove l'aggregato inverte la tendenza
+
+19. Spiega in termini epistemici perché il paradosso di Simpson non è veramente un "paradosso" ma un avvertimento sull'importanza di condizionare correttamente.
+
+### Esercizi applicati (psicologia)
+
+20. **Test per disturbo d'ansia sociale**: 
+    - Prevalenza in popolazione universitaria: 5%
+    - Sensibilità: 85%
+    - Specificità: 92%
+    
+    a. Costruisci tabella congiunta completa
+    b. Uno studente risulta positivo. Qual è la probabilità che abbia davvero il disturbo?
+    c. Quale prevalenza minima serve per avere VPP > 0.5?
+
+21. **Comorbidità PTSD e Depressione**:
+    - In un campione clinico: $P(\text{PTSD}) = 0.30$, $P(\text{Depressione}) = 0.45$
+    - Osservi che $P(\text{Depressione} \mid \text{PTSD}) = 0.70$
+    
+    a. Calcola $P(\text{PTSD} \cap \text{Depressione})$
+    b. Calcola $P(\text{PTSD} \mid \text{Depressione})$
+    c. Sono indipendenti? Commenta il risultato clinicamente
+
+22. **Due test per ADHD in un bambino**:
+    - Prior: $P(\text{ADHD}) = 0.08$ (popolazione generale)
+    - Test comportamentale: positivo (sens=0.80, spec=0.90)
+    - Test cognitivo: positivo (sens=0.75, spec=0.85)
+    - Assumendo indipendenza condizionale:
+    
+    a. Calcola $P(\text{ADHD} \mid T_1^+)$ dopo primo test
+    b. Calcola $P(\text{ADHD} \mid T_1^+, T_2^+)$ dopo entrambi i test
+    c. Visualizza l'aggiornamento sequenziale delle credenze
+
+### Esercizi computazionali
+
+23. Scrivi una funzione R che:
+    - Input: tabella congiunta 2×2
+    - Output: tutte le probabilità condizionate possibili e test di indipendenza
+
+24. Simula il paradosso di Simpson:
+    - Genera dati per due gruppi con trend positivo in ciascuno
+    - Aggrega i dati mostrando inversione del trend
+    - Visualizza con ggplot
+
+25. Crea una visualizzazione interattiva (o animazione) che mostra come $P(A \mid B)$ varia al variare della "forza" dell'associazione tra $A$ e $B$ (da indipendenza a dipendenza totale).
+
+:::
+
+::: {.callout-tip title="Soluzioni selezionate" collapse="true"}
+
+### Soluzioni esercizi concettuali
+
+1. Da prospettiva bayesiana, ogni probabilità riflette uno stato di informazione. Scrivere $P(A)$ è abbreviazione per $P(A \mid \mathcal{I})$ dove $\mathcal{I}$ è "tutto ciò che sappiamo". Non esistono probabilità "incondizionate"—solo probabilità condizionate allo sfondo informativo corrente.
+
+2. Non è circolare perché concettualmente partiamo dalla **tabella congiunta** $P(A \cap B)$ (rappresentazione completa del nostro stato di credenza), poi **deriviamo** le condizionate come rapporti. La formula ci dice *come calcolare* condizionate da congiunte, non *come definire* le congiunte.
+
+3. No (a meno che uno abbia probabilità zero). Eventi disgiunti hanno informazione reciproca **massima**: sapere che uno è vero implica certezza che l'altro è falso. Indipendenza richiede *assenza* di informazione.
+
+4. Sì, è simmetrico: $P(A \cap B) = P(A \mid B) P(B) = P(B \mid A) P(A)$. Questa simmetria è il cuore del teorema di Bayes! Mostra che la congiunta può essere costruita in due modi equivalenti.
+
+5. No, l'aggregazione è legittima quando non c'è confondente rilevante, o quando la confondente è distribuita uniformemente. Il paradosso avverte: *esplicita le tue assunzioni di omogeneità prima di aggregare*.
+
+### Soluzioni probabilità condizionata
+
+6. a. $P(A \mid B) = 0.20 / (0.20 + 0.15) = 0.571$
+   b. $P(B \mid A) = 0.20 / (0.20 + 0.30) = 0.400$
+   c. $P(A \mid B^c) = 0.30 / (0.30 + 0.35) = 0.462$
+   d. Test: $P(A) = 0.50$, $P(B) = 0.35$, $P(A) P(B) = 0.175 \neq P(A \cap B) = 0.20$. NON indipendenti.
+
+7. a. $P(A \cap B) = P(A \mid B) P(B) = 0.7 \times 0.5 = 0.35$
+   b. $P(B \mid A) = P(A \cap B) / P(A) = 0.35 / 0.6 \approx 0.583$
+   c. $P(A \cup B) = 0.6 + 0.5 - 0.35 = 0.75$
+
+8. a. Tabella: $P(M \cap T^+) = 0.0095$, $P(M \cap T^-) = 0.0005$, etc.
+   b. VPP = $0.0095 / (0.0095 + 0.0198) \approx 0.324$; VPN $\approx 0.9995$
+   c. Per VPP > 0.9: serve sens $\approx 0.998$ (quasi perfetta con prevalenza così bassa!)
+
+### Soluzioni indipendenza
+
+9. a. $P(A) = 1/2$, $P(B) = 1/2$, $P(A \cap B) = P(\{2\}) = 1/6$
+      $P(A) P(B) = 1/4 \neq 1/6$. NON indipendenti.
+   b. $P(A \mid B) = (1/6) / (1/2) = 1/3 \neq 1/2 = P(A)$
+
+10. Spazio: {TT, TC, CT, CC}, equiprobabili.
+    a. Tabella con $A$ = {TT, TC}, $B$ = {TT, TC, CT}
+    b. $P(A \mid B) = P(\{TT, TC\}) / P(B) = (1/2) / (3/4) = 2/3$
+    c. $P(A) = 1/2 \neq 2/3 = P(A \mid B)$. NON indipendenti.
+
+11. Se indipendenti: $P(D \cap I) = 0.15 \times 0.25 = 0.0375$. Ma clinicamente sappiamo che depressione e insonnia sono altamente correlate, quindi l'indipendenza è **implausibile**.
+
+### Soluzioni teorema del prodotto
+
+12. $P(A \cap B \cap C) = P(C \mid A \cap B) \cdot P(B \mid A) \cdot P(A) = 0.7 \times 0.6 \times 0.5 = 0.21$
+
+13. $P(\text{Ansia} \cap \text{tutti +}) = 0.80^3 \times 0.20 = 0.512 \times 0.20 = 0.1024$
+
+14. Dimostrazione:
+    ```
+    P(A ∩ B^c) = P(A) - P(A ∩ B)    [additività]
+               = P(A) - P(A)P(B)     [indipendenza A,B]
+               = P(A)(1 - P(B))
+               = P(A)P(B^c)          [quindi A ⊥ B^c]
+    ```
+
+### Soluzioni probabilità totale
+
+15. $P(D) = 0.10 \times 0.60 + 0.30 \times 0.40 = 0.06 + 0.12 = 0.18$ (18%)
+
+16. $P(>20) = 0.7 \times 0.5 + 0.4 \times 0.5 = 0.35 + 0.20 = 0.55$
+
+17. Partizione: $B$ e $B^c$ coprono $\Omega$ e sono disgiunti.
+    $P(A) = P(A \cap \Omega) = P(A \cap (B \cup B^c)) = P((A \cap B) \cup (A \cap B^c))$
+    $= P(A \cap B) + P(A \cap B^c)$ [disgiunzione]
+    $= P(A \mid B) P(B) + P(A \mid B^c) P(B^c)$ [def. condizionata]
+
+### Soluzioni applicazioni psicologiche
+
+20. a. $P(A \cap T^+) = 0.85 \times 0.05 = 0.0425$, etc.
+    b. VPP = $0.0425 / (0.0425 + 0.076) = 0.359$ (solo 36%!)
+    c. Per VPP > 0.5, serve prev $\geq 0.10$ (10%)
+
+21. a. $P(P \cap D) = P(D \mid P) \times P(P) = 0.70 \times 0.30 = 0.21$
+    b. $P(P \mid D) = 0.21 / 0.45 \approx 0.467$
+    c. Se indipendenti: $P(P) P(D) = 0.30 \times 0.45 = 0.135 \neq 0.21$. DIPENDENTI (comorbidità alta, clinicamente attesa)
+
+22. Soluzione completa richiede costruzione sequenziale. Sketch:
+    - Dopo $T_1^+$: $P(\text{ADHD} \mid T_1^+) \approx 0.38$
+    - Dopo $T_1^+, T_2^+$: $P(\text{ADHD} \mid \text{entrambi}) \approx 0.69$
+    - Visualizzazione: barplot con credenze 0.08 → 0.38 → 0.69
+
+:::
+
+## Bibliografia {.unnumbered .unlisted}

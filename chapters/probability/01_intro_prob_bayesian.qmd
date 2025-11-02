@@ -1,0 +1,851 @@
+# Interpretazione bayesiana della probabilità {#sec-prob-interpretation}
+
+## Introduzione {.unnumbered .unlisted}
+
+In questo capitolo esploreremo la probabilità da una prospettiva *bayesiana*, concependola fin dall'inizio come un *grado di credenza razionale* piuttosto che come una proprietà fisica degli eventi o una frequenza limite. Questa visione, profondamente radicata nei lavori di Thomas Bayes, Pierre-Simon Laplace e Bruno de Finetti, offre una base concettualmente coerente per affrontare l'incertezza nella ricerca psicologica.
+
+Scopriremo che gli assiomi della probabilità non sono "leggi naturali" della casualità, ma *vincoli di coerenza logica* tra le nostre credenze. Quando violiamo questi vincoli, le nostre assegnazioni di probabilità diventano contraddittorie e ci espongono a situazioni paradossali (il famoso "Dutch Book"). Le simulazioni al computer, che utilizzeremo ampiamente, non definiranno cosa sia la probabilità, ma illustreranno come credenze coerenti si comportano quando vengono verificate empiricamente.
+
+### Panoramica del capitolo {.unnumbered .unlisted}
+
+- La probabilità come grado di credenza razionale.
+- Incertezza epistemica e ontologica.
+- L'argomento della coerenza: Dutch Book e scommesse eque.
+- Cenni storici alla tradizione bayesiana.
+- Simulazioni come strumento di verifica (non di definizione).
+
+::: {.callout-tip collapse=true}
+## Prerequisiti
+
+- Leggere *Why probability probably doesn't exist (but it is useful to act like it does* [@spiegelhalter2024probability].
+- Leggere l'@sec-apx-sets.
+:::
+
+::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+
+```{r}
+#| output: false
+here::here("code", "_common.R") |> 
+  source()
+```
+:::
+
+## Casualità e incertezza
+
+David Spiegelhalter, in un recente articolo pubblicato su *Nature*, sottolinea come la vita sia pervasa dall'incertezza: non sappiamo con certezza cosa è accaduto in passato, cosa avverrà in futuro né abbiamo una completa comprensione di ciò che ci circonda [@spiegelhalter2024probability]. Questa condizione di ignoranza spinge a interpretare la casualità come un modello che, pur non fornendo previsioni deterministiche, rivela spesso utili regolarità statistiche.
+
+Tuttavia, è fondamentale distinguere tra due concezioni di probabilità:
+
+1. **Ontologica**: la probabilità come proprietà intrinseca del mondo fisico (es. "la moneta ha probabilità 0.5 di dare testa").
+2. **Epistemica**: la probabilità come misura della nostra incertezza e del nostro grado di credenza (es. "dato ciò che so, assegno probabilità 0.5 all'evento testa").
+
+In questo corso adotteremo fin dall'inizio la *prospettiva epistemica*, che considera la probabilità non come una caratteristica del mondo, ma come una *quantificazione razionale della nostra incertezza* data l'informazione disponibile.
+
+## Due tipi di incertezza: epistemica e ontologica
+
+Prima di procedere, è utile distinguere due fonti di incertezza che affrontiamo quando studiamo fenomeni complessi:
+
+1. **Incertezza epistemica**  
+   Dipende dai limiti della nostra conoscenza o dai dati a disposizione. Se in un esperimento non si controllano adeguatamente variabili importanti, la nostra valutazione probabilistica risente di queste lacune. L'incertezza epistemica può ridursi affinando il disegno sperimentale, ampliando il numero di osservazioni, o acquisendo nuove informazioni rilevanti.
+
+2. **Incertezza ontologica**  
+   Inerente al fenomeno stesso, è indipendente dal grado di controllo o di osservazione possibile. Il lancio di un dado rimane imprevedibile nel singolo caso anche se conoscessimo le leggi fisiche in gioco e le condizioni iniziali con incredibile precisione. Questo tipo di casualità è connaturato al sistema.
+
+Nel quadro bayesiano, tuttavia, anche ciò che potremmo chiamare "incertezza ontologica" viene modellato come *incertezza epistemica*: non abbiamo accesso completo allo stato del sistema, quindi quantifichiamo la nostra ignoranza con probabilità. Come osservò Laplace, una mente che conoscesse tutte le forze della natura e la posizione di ogni particella non troverebbe nulla di incerto: per essa, passato e futuro sarebbero ugualmente determinati. La probabilità nasce quindi dalla nostra *conoscenza limitata*.
+
+## Probabilità come grado di credenza
+
+### La visione bayesiana soggettivista
+
+Nel paradigma bayesiano, assegnare una probabilità a un evento significa esprimere un *grado di fiducia razionale* nel verificarsi di quell'evento, dato tutto ciò che sappiamo. Questo approccio, sviluppato da Bruno de Finetti, Frank Ramsey e altri, considera la probabilità come intrinsecamente *soggettiva* ma non arbitraria.
+
+> **Probabilità = grado di credenza (plausibilità) assegnato a un'affermazione, dato lo stato dell'informazione.**
+
+Aspetti chiave di questa definizione:
+
+- **Soggettività**: persone diverse, con informazioni diverse, possono assegnare probabilità diverse allo stesso evento.
+- **Razionalità**: le probabilità devono rispettare vincoli di coerenza logica (gli assiomi).
+- **Condizionalità**: ogni probabilità è implicitamente condizionata all'informazione disponibile.
+- **Aggiornabilità**: quando acquisiamo nuove informazioni, aggiorniamo le nostre probabilità in modo sistematico.
+
+::: {.callout-note collapse="true" title="Esempio: Diagnosi clinica"}
+### Probabilità come credenza in psicologia clinica
+
+Si consideri un test per la depressione. A parità di punteggio, il significato clinico cambia drasticamente se:
+
+- il soggetto è ricoverato in un reparto di psichiatria (alta prevalenza);
+- il soggetto fa parte di un campione di popolazione generale (bassa prevalenza).
+
+La *probabilità che il soggetto sia depresso* non è una proprietà fissa del punteggio del test, ma un grado di credenza che integra:
+
+- ciò che sappiamo *prima* del test (prevalenza, informazioni cliniche anamnestiche);
+- l'*evidenza* fornita dal test (sensibilità, specificità);
+- il ragionamento bayesiano per combinare queste informazioni.
+
+Questa è l'essenza dell'approccio bayesiano: la probabilità quantifica la *nostra conoscenza incerta*, non una proprietà fisica dell'evento.
+:::
+
+## L'argomento della coerenza: Dutch Book
+
+Se la probabilità è soggettiva, come possiamo giustificare gli assiomi matematici che la governano? La risposta viene dall'*argomento del Dutch Book*, proposto da Bruno de Finetti.
+
+### Probabilità come scommessa equa
+
+Bruno de Finetti propose un modo concreto e intuitivo per pensare alla probabilità: immaginala come la tua *disposizione personale a scommettere* su un evento. 
+
+#### Cosa significa nella pratica?
+
+Quando dici "la probabilità che piova domani è del 70%" (P(pioggia) = 0.7), secondo de Finetti stai implicitamente dicendo che:
+
+**Se ti proponessi questa scommessa:**
+
+- **Paghi 0.70 euro** per un "biglietto";
+- **Se piove domani**, ricevi **1 euro**;
+- **Se non piove**, ricevi **0 euro**;
+
+...tu saresti *indifferente* tra accettare o rifiutare questa scommessa. La consideri una scommetta *equa*, né a tuo vantaggio né a tuo svantaggio. 
+
+#### Cosa sono le "quote" in questo contesto?
+
+Nel linguaggio delle scommesse, la *quota* rappresenta il prezzo che paghi per avere diritto a una vincita potenziale. Nell'esempio della probabilità del 70%, una *quota 0.7* significa che paghi 0.70 euro per ogni euro che potresti vincere. 
+
+Quando l'evento si verifica, il tuo guadagno netto sarebbe di 0.30 euro, calcolato come 1 euro di vincita meno 0.70 euro investiti. Quando invece l'evento non si verifica, perderesti completamente i 0.70 euro che avevi investito nella scommessa.
+
+#### Perché proprio 0.7 è il prezzo equo?
+
+Per comprendere perché 0.7 rappresenta il prezzo equo, immagina di ripetere questa stessa scommessa molte volte nel tempo. Nel 70% dei casi, corrispondenti alle situazioni in cui piove realmente, guadagneresti 0.30 euro. Nel restante 30% dei casi, quando non piove, perderesti 0.70 euro. Sul lungo periodo, questi guadagni e perdite tenderebbero a bilanciarsi perfettamente, dimostrando l'equità di questa quota.
+
+La formula matematica che esprime questo concetto è:
+
+```
+Prezzo equo = Probabilità × Vincita + (1-Probabilità) × Perdita
+```
+
+Applicandola al nostro esempio otteniamo:
+```
+Prezzo equo = 0.7 × 1 euro + 0.3 × 0 euro = 0.70 euro
+```
+
+In termini più formali, questa espressione corrisponde al concetto di *valore atteso*, che può essere rappresentato come:
+
+$$
+\text{Prezzo equo} = P(A) \times 1 + (1-P(A)) \times 0 = P(A).
+$$
+
+In sintesi, possiamo affermare che *la probabilità che assegni a un evento equivale esattamente al prezzo massimo che saresti disposto a pagare per avere diritto a vincere 1 euro nel caso in cui quell'evento si verifichi realmente*.
+
+### Dutch Book: quando le credenze sono incoerenti
+
+Un *Dutch Book* è una combinazione di scommesse che garantisce una perdita certa, indipendentemente dall'esito degli eventi. Se le nostre assegnazioni di probabilità violano gli assiomi della probabilità, qualcuno può costruire contro di noi un Dutch Book.
+
+::: {.callout-important title="Esempio di incoerenza"}
+## Coerenza e perdita certa: un confronto intuitivo
+
+### Scenario 1 – Probabilità coerenti (nessuna perdita certa)
+
+Supponiamo che gli eventi (A) e (B) siano *mutuamente esclusivi* e che le nostre credenze siano *coerenti*:
+
+$$
+P(A) = 0.4, \quad P(B) = 0.6, \quad P(A \cup B) = 1.0.
+$$
+
+Offriamo scommesse a questi stessi prezzi:
+
+* biglietto su (A): costa *0.40 €*, paga *1 €* se accade $A$;
+* biglietto su (B): costa *0.60 €*, paga *1 €* se accade $B$;
+* biglietto su (A \cup B): costa *1.00 €*, paga *1 €* se accade $A$ o $B$.
+
+Con *probabilità coerenti* e prezzi “equi” (prezzo = probabilità vera), il *valore atteso* è sempre zero — per ogni singolo biglietto e per qualunque combinazione di essi.
+
+### Valore atteso analitico
+
+Payoff = 1 se l’evento accade, 0 altrimenti; costo = prezzo.
+
+$$
+\begin{aligned}
+E[\text{profitto}(A)] &= 0.4 - 0.40 = 0,\\
+E[\text{profitto}(B)] &= 0.6 - 0.60 = 0,\\
+E[\text{profitto}(A\cup B)] &= 1.0 - 1.00 = 0.
+\end{aligned}
+$$
+
+Se invece *vendi* un biglietto, il profitto atteso è anch’esso nullo, perché
+$E[\text{profitto}] = \text{prezzo} - E[\text{payoff}] = p - p = 0$.
+
+Per *linearità dell’aspettativa*, anche qualsiasi portafoglio di acquisti e vendite mantiene $E[\text{profitto totale}] = 0$. In media, dunque, nessuno guadagna e nessuno perde.
+
+### Mini-simulazione (R)
+
+```{r}
+set.seed(123)
+n <- 1e6
+pA <- 0.4; pB <- 0.6
+
+# esito di una prova: 1 = A, 2 = B
+esito <- ifelse(runif(n) < pA, 1, 2)
+
+# profitti comprando un biglietto su A, uno su B e uno su A∪B
+profit_A   <- (esito == 1)*1 - 0.40
+profit_B   <- (esito == 2)*1 - 0.60
+profit_AUB <- 1 - 1.00
+
+c(mean(profit_A), mean(profit_B), mean(profit_AUB),
+  mean(profit_A + profit_B + profit_AUB))
+```
+
+Con molte ripetizioni, le medie tendono a 0 (legge dei grandi numeri). Nessuna perdita certa è possibile.
+
+
+### Scenario 2 – Probabilità incoerenti (perdita certa)
+
+Il mondo reale è sempre lo stesso:
+$$
+P(A)=0.4, \quad P(B)=0.6, \quad P(A\cup B)=1.0,
+$$
+ma ora *le nostre credenze sono incoerenti*:
+
+$$
+P(A)=0.6,\quad P(B)=0.5,\quad P(A\cup B)=0.9.
+$$
+
+Queste violano l’additività: per eventi disgiunti dovremmo avere
+$P(A\cup B)=P(A)+P(B)=1.1>1.$
+
+Immaginiamo di agire secondo queste credenze, accettando le seguenti scommesse:
+
+* *compriamo* il biglietto su $A$ a 0.60 €;
+* *compriamo* il biglietto su $B$ a 0.50 €;
+* *vendiamo* il biglietto su $A\cup B$ a 0.90 €.
+
+Bilancio iniziale:
+$$
+-0.60 - 0.50 + 0.90 = -0.20.
+$$
+Paghiamo cioè 0.20 € subito.
+
+Vediamo il risultato in ciascun mondo possibile.
+
+| Evento |           Paghi           |       Incassi       | Profitto totale |
+| :----- | :-----------------------: | :-----------------: | :-------------: |
+| (A)    | 1 € (biglietto $A\cup B$) | 1 € (biglietto $A$) |     −0.20 €     |
+| (B)    | 1 € (biglietto $A\cup B$) | 1 € (biglietto $B$) |     −0.20 €     |
+
+In entrambi i casi la perdita è *−0.20 € per prova*: nessuna possibilità di guadagno.
+
+
+### Simulazione in R
+
+```{r}
+set.seed(123)
+n <- 1e6
+
+# mondo vero coerente
+pA_true <- 0.4
+
+# prezzi incoerenti
+price_A   <- 0.60
+price_B   <- 0.50
+price_AUB <- 0.90
+
+# tua posizione: compri A e B, vendi A∪B
+initial_cashflow <- (-price_A) + (-price_B) + (price_AUB)  # -0.20
+esito <- ifelse(runif(n) < pA_true, 1L, 2L)
+profit <- initial_cashflow  # identico ogni volta
+
+c(
+  media_profitto = mean(profit),
+  min_profitto   = min(profit),
+  max_profitto   = max(profit)
+)
+```
+
+Il profitto è costantemente −0.20 €: *perdita certa a ogni prova*.
+
+### Interpretazione
+
+* Con probabilità *coerenti*, nessun arbitraggio: il valore atteso è 0 e, nel lungo periodo, vinci e perdi in egual misura.
+* Con probabilità *incoerenti*, un avversario può sempre costruire una combinazione di scommesse che ti fa *perdere con certezza*.
+
+In questo esempio, la violazione dell’additività — $P(A\cup B) < P(A)+P(B)$ — rende le tue credenze *arbitrabili*: possono essere usate contro di te.
+
+### Conclusione
+
+L’assioma di additività non è un dettaglio formale, ma una *condizione di coerenza pragmatica*.
+Se le nostre probabilità non rispettano l’additività per eventi incompatibili, qualcuno può combinare le nostre stesse credenze in modo da produrre una *perdita sicura*.
+
+La teoria della probabilità, in questo senso, non impone vincoli arbitrari: descrive i confini della *razionalità coerente*.
+:::
+
+### Gli assiomi di Kolmogorov come vincoli di coerenza
+
+Gli assiomi di Kolmogorov non sono leggi naturali, ma *requisiti minimi per evitare contraddizioni*:
+
+1. **Non negatività**: $0 \le P(A) \le 1$.  
+   Una probabilità negativa o maggiore di 1 non ha senso come grado di credenza.
+
+2. **Normalizzazione**: $P(\Omega) = 1$.  
+   Siamo certi che "qualcosa accade" nello spazio delle possibilità.
+
+3. **Additività**: Per eventi disgiunti $A \cap B = \varnothing$,  
+   $$P(A \cup B) = P(A) + P(B).$$
+   
+   La credenza che si verifichi $A$ *oppure* $B$ è la somma delle credenze separate.
+
+Questi vincoli garantiscono che le nostre credenze siano *internamente consistenti* e non ci espongano a Dutch Books.
+
+## Verifica della coerenza con R
+
+Possiamo facilmente verificare se un'assegnazione di probabilità è coerente usando R.
+
+### Esempio 1: Eventi mutuamente esclusivi incoerenti
+
+```{r}
+beliefs <- c(A = 0.6, B = 0.5, C = 0.1)
+sum_beliefs <- sum(beliefs)
+```
+
+```{r}
+#| echo: false
+# Assegnazioni incoerenti per eventi disgiunti
+cat("Somma delle credenze:", sum_beliefs, "\n")
+
+if (sum_beliefs > 1 + 1e-9) {
+  cat("⚠️ Incoerenza: la somma supera 1 per eventi mutuamente esclusivi.\n")
+  cat("   Rischio di Dutch Book!\n")
+} else if (abs(sum_beliefs - 1) < 1e-9) {
+  cat("✓ Coerenza rispettata: la somma è esattamente 1.\n")
+} else {
+  cat("⚠️ La somma è < 1. Manca probabilità per eventi non considerati?\n")
+}
+```
+
+### Esempio 2: Simulazione di scommessa con prezzo equo
+
+Simuliamo una scommessa su un evento $A$ a cui assegniamo $P(A) = 0.7$.
+
+```{r}
+set.seed(123)
+p_A <- 0.7
+n_scommesse <- 100000
+
+# Simuliamo esiti "compatibili" con la credenza p_A
+A_occurs <- rbinom(n_scommesse, size = 1, prob = p_A)
+
+# Payoff di un biglietto prezzato al valore di credenza
+ticket_price <- p_A
+payoff <- A_occurs * 1 - ticket_price
+
+cat("Valore atteso del payoff:", mean(payoff), "\n")
+cat("Deviazione standard:", sd(payoff), "\n")
+```
+
+**Interpretazione**: Con un prezzo pari alla credenza, il valore atteso del payoff è vicino a zero. Se fissassimo un prezzo incoerente (es. 0.9 con credenza 0.7), il valore atteso diventerebbe negativo: staremmo *sovrapagando* l'evento in base alla nostra stessa credenza.
+
+```{r}
+# Prezzo incoerente
+ticket_price_wrong <- 0.9
+payoff_wrong <- A_occurs * 1 - ticket_price_wrong
+```
+
+
+```{r}
+#| echo: false
+cat("Con prezzo incoerente 0.9:\n")
+cat("Valore atteso del payoff:", mean(payoff_wrong), "\n")
+cat("Perdita attesa per scommessa:", -mean(payoff_wrong), "\n")
+```
+
+## Cenni storici: la tradizione bayesiana
+
+La teoria della probabilità ha radici nel XVII secolo con i lavori di Pascal e Fermat sui giochi d'azzardo. Tuttavia, l'interpretazione bayesiana si sviluppò in una tradizione parallela.
+
+### Thomas Bayes (1701-1761)
+
+Il reverendo Thomas Bayes sviluppò quello che oggi chiamiamo il teorema di Bayes, pubblicato postumo nel 1763. Il suo contributo fondamentale fu riconoscere che possiamo invertire il ragionamento probabilistico: partendo da osservazioni, possiamo aggiornare razionalmente le nostre credenze su cause o parametri non osservati.
+
+### Pierre-Simon Laplace (1749-1827)
+
+Laplace sviluppò e generalizzò il lavoro di Bayes, applicando l'inferenza probabilistica a problemi scientifici. La sua visione della probabilità come "buon senso ridotto a calcolo" anticipò la moderna interpretazione epistemica.
+
+> "La probabilità è relativa in parte all'ignoranza, in parte alla conoscenza."  
+> -- Pierre-Simon Laplace
+
+### Bruno de Finetti (1906-1985)
+
+De Finetti fornì le basi filosofiche moderne della probabilità bayesiana soggettivista. La sua famosa affermazione "la probabilità non esiste" significa che la probabilità non è una proprietà del mondo, ma uno **strumento per quantificare incertezza**.
+
+Sviluppò l'argomento del Dutch Book e il concetto di **scambiabilità**, dimostrando che molti risultati classici (come la legge dei grandi numeri) possono essere derivati senza assumere probabilità "oggettive".
+
+### Harold Jeffreys (1891-1989)
+
+Jeffreys, nel suo influente *Theory of Probability* (1939), propose l'approccio "obiettivo" bayesiano, usando prior non informativi basati su principi di invarianza. Dimostrò l'utilità dell'inferenza bayesiana in geofisica e altre scienze.
+
+### La rinascita moderna
+
+Dopo un periodo di eclissi dovuto al dominio della statistica frequentista (Fisher, Neyman-Pearson), l'approccio bayesiano ha conosciuto una rinascita negli anni '90 grazie:
+
+- alla potenza computazionale (MCMC, Stan, JAGS);
+- a nuovi testi divulgativi (Gelman, McElreath, Kruschke);
+- all'applicazione in machine learning e AI.
+
+## Il ruolo delle simulazioni: illustrazione, non definizione
+
+Una differenza cruciale rispetto all'approccio classico è il ruolo delle *simulazioni* e della *Legge dei Grandi Numeri* (LLN).
+
+### L'approccio frequentista (da evitare)
+
+Nell'approccio frequentista, si definisce la probabilità come:
+
+$$
+P(A) = \lim_{n \to \infty} \frac{\text{numero di volte che A si verifica}}{n}.
+$$
+
+La LLN garantisce che le frequenze relative convergano a questo limite. In questa visione:
+
+- la probabilità è una proprietà oggettiva;
+- le simulazioni "misurano" la probabilità;
+- la convergenza definisce cosa sia la probabilità.
+
+### L'approccio bayesiano 
+
+Nella prospettiva bayesiana:
+
+- la probabilità è un *grado di credenza* assegnato *prima* di qualsiasi osservazione;
+- le simulazioni *verificano* che credenze coerenti producono frequenze attese;
+- la LLN spiega perché frequenze empiriche *convergono* alla credenza, ma non *definiscono* la credenza.
+
+::: {.callout-important title="Differenza filosofica cruciale"}
+**Frequentista**: "La probabilità è 0.5 perché, lanciando infinite volte, osserverò 50% di teste."
+
+**Bayesiano**: "Assegno probabilità 0.5 (per simmetria epistemica), e la LLN mi assicura che le frequenze confermeranno questa credenza."
+
+La direzione causale è invertita: non osserviamo per definire, ma la credenza predice cosa osserveremo.
+:::
+
+### Simulazione come verifica di coerenza
+
+Usiamo le simulazioni per:
+
+1. *verificare* che credenze coerenti producono dati attesi,
+2. *illustrare* concetti come convergenza e variabilità,
+3. *confrontare* modelli probabilistici con dati empirici,
+
+non per *definire* cosa sia la probabilità.
+
+### Esempio: Lancio di moneta rivisitato
+
+```{r}
+set.seed(42)
+
+# Assegno credenza P(Testa) = 0.5 per simmetria epistemica
+p_testa_credenza <- 0.5
+
+# Simulazione: verifico che questa credenza è coerente
+n_lanci <- 10000
+risultati <- rbinom(n_lanci, 1, p_testa_credenza)
+
+# Frequenza cumulativa
+freq_cumulativa <- cumsum(risultati) / seq_along(risultati)
+
+# Grafico
+df <- data.frame(
+  lancio = seq_along(risultati),
+  freq = freq_cumulativa
+)
+
+ggplot(df, aes(x = lancio, y = freq)) +
+  geom_line(alpha = 0.7) +
+  geom_hline(yintercept = p_testa_credenza, 
+             linetype = "dashed", color = "red", size = 1) +
+  labs(
+    title = "Frequenza cumulativa converge alla credenza",
+    subtitle = "La credenza P(Testa)=0.5 predice la convergenza osservata",
+    x = "Numero di lanci",
+    y = "Frequenza cumulativa di Teste"
+  ) +
+  ylim(0.3, 0.7)
+```
+
+**Interpretazione bayesiana**: Abbiamo assegnato $P(\text{Testa}) = 0.5$ per *simmetria epistemica* (nessuna ragione per favorire testa o croce). La simulazione *verifica* che questa credenza è coerente con la LLN: le frequenze convergono al valore atteso. Ma la probabilità 0.5 non è *definita* dalla convergenza—è stata assegnata *prima*, e la convergenza la conferma.
+
+## Prima introduzione all'aggiornamento bayesiano
+
+### Teorema di Bayes: dal concetto al test diagnostico
+
+Il *teorema di Bayes* descrive come aggiornare una credenza iniziale $P(H)$ sull’ipotesi $H$ alla luce di una nuova evidenza $E$:
+
+$$
+P(H \mid E) = \frac{P(E \mid H) , P(H)}{P(E)}.
+$$
+
+**Significato dei termini:**
+
+| Simbolo       | Nome              | Interpretazione generale                       |
+| :------------ | :---------------- | :--------------------------------------------- |
+| $P(H)$        | *prior*           | Credenza iniziale nell’ipotesi                 |
+| $P(E \mid H)$ | *verosimiglianza* | Quanto è probabile osservare $E$ se $H$ è vera |
+| $P(E)$        | *evidenza*        | Probabilità complessiva di osservare $E$       |
+| $P(H \mid E)$ | *posterior*       | Credenza aggiornata in $H$ dopo aver visto $E$ |
+
+#### Applicazione: il test diagnostico
+
+Nel caso di un *test medico*, la struttura è identica, ma i simboli assumono un significato concreto:
+
+| Formula generale   | Corrispondenza nel test diagnostico                               |
+| :----------------- | :---------------------------------------------------------------- |
+| $H$                | “Il paziente *ha* la malattia” ($D$)                            |
+| $\neg H$           | “Il paziente *non ha* la malattia” ($\neg D$)                   |
+| $E$                | “Il test è *positivo*” ($+$)                                    |
+| $P(H)$             | $P(D)$: prevalenza (probabilità a priori di essere malato)        |
+| $P(E \mid H)$      | $P(+ \mid D)$: sensibilità                                        |
+| $P(E \mid \neg H)$ | $P(+ \mid \neg D)$: tasso di falsi positivi                       |
+| $P(H \mid E)$      | $P(D \mid +)$: probabilità di essere malato dopo un test positivo |
+
+Usando la notazione precedente, la formula di Bayes diventa:
+
+$$
+P(D \mid +) =
+\frac{P(+ \mid D) \, P(D)}
+{P(+ \mid D) \, P(D) + P(+ \mid \neg D) \, P(\neg D)}.
+$$
+
+### Esempio numerico
+
+Supponiamo che:
+
+* la *prevalenza* della condizione sia $P(D$ = 0.10);
+* la *sensibilità* del test sia $P(+ \mid D$ = 0.80);
+* la *specificità* sia $P(- \mid \neg D) = 0.90$, quindi $P(+ \mid \neg D) = 0.10$.
+
+Vogliamo sapere: *dopo un test positivo, qual è la probabilità di avere la malattia?*
+
+```{r}
+# Parametri del test
+p_D   <- 0.10       # Prevalenza = prior P(D)
+sens  <- 0.80       # Sensibilità = P(+ | D)
+spec  <- 0.90       # Specificità = P(- | ~D)
+p_pos_given_notD <- 1 - spec  # Falsi positivi P(+ | ~D)
+
+# Probabilità complessiva di test positivo
+p_pos <- sens * p_D + p_pos_given_notD * (1 - p_D)
+
+# Teorema di Bayes: posterior
+p_D_given_pos <- (sens * p_D) / p_pos
+
+cat("P(D) =", p_D, "\n")
+cat("P(D | +) =", round(p_D_given_pos, 3), "\n")
+```
+
+### Interpretazione passo per passo
+
+* *Prima del test:* credenza iniziale = prevalenza = 10%.
+* *Dopo un test positivo:* la credenza aggiornata sale a *47%*.
+* Nonostante la buona sensibilità e specificità, resta una forte incertezza: su 100 test positivi, circa 53 sono falsi positivi.
+
+### Riepilogo concettuale
+
+$$
+\underbrace{P(D)}_{\text{prior}}
+\quad \xrightarrow[\text{aggiornamento con } P(+|D), P(+|\neg D)]{\text{osservazione del test positivo}} \quad
+\underbrace{P(D \mid +)}_{\text{posterior}}
+$$
+
+Il teorema di Bayes mostra che la probabilità finale *non dipende solo dalla qualità del test*, ma anche da *quanto la malattia era plausibile a priori*. In termini psicologici, è il modello formale del *ragionamento inferenziale*: integrare l’informazione nuova con le conoscenze precedenti in modo coerente.
+
+#### Visualizzazione con una tabella di contingenza
+
+Per rendere concreto il ragionamento, immaginiamo una popolazione di *1000 persone*.
+
+* Il *10%* (cioè 100 persone) ha la malattia.
+* L’*80%* di queste (80 persone) risulterà positivo: veri positivi.
+* Il *90%* delle persone sane (900 persone) risulterà negativo, quindi il *10%* (90 persone) darà un falso positivo.
+
+| Stato reale / Esito del test | Positivo | Negativo | Totale |
+| :--------------------------- | -------: | -------: | -----: |
+| *Malato $D$*                |       80 |       20 |    100 |
+| *Sano $¬D$*                 |       90 |      810 |    900 |
+| *Totale*                    |      170 |      830 |   1000 |
+
+Tra i *170 test positivi*, solo *80* appartengono a persone realmente malate.
+
+$$
+P(D \mid +) = \frac{80}{170} \approx 0.47.
+$$
+
+Lo stesso valore ottenuto con la formula di Bayes.
+
+### Codice R per la simulazione e la tabella
+
+```{r}
+# Parametri del test
+p_D   <- 0.10       # Prevalenza = prior P(D)
+sens  <- 0.80       # Sensibilità = P(+ | D)
+spec  <- 0.90       # Specificità = P(- | ~D)
+p_pos_given_notD <- 1 - spec  # Falsi positivi P(+ | ~D)
+
+# Calcolo per 1000 persone
+N <- 1000
+malati <- N * p_D
+sani   <- N * (1 - p_D)
+
+veri_positivi  <- malati * sens
+falsi_negativi <- malati * (1 - sens)
+falsi_positivi <- sani * p_pos_given_notD
+veri_negativi  <- sani * spec
+
+tabella <- data.frame(
+  `Stato reale` = c("Malato (D)", "Sano (¬D)", "Totale"),
+  `Positivo` = c(veri_positivi, falsi_positivi, veri_positivi + falsi_positivi),
+  `Negativo` = c(falsi_negativi, veri_negativi, falsi_negativi + veri_negativi),
+  `Totale`   = c(malati, sani, N)
+)
+tabella
+```
+
+### Interpretazione visiva
+
+La tabella mostra *da dove viene il 47%*:
+
+* su *170 test positivi*, *80* sono veri positivi e *90* falsi positivi;
+* quindi, anche con un test buono, la maggioranza dei positivi può risultare *non malata* se la prevalenza è bassa.
+
+### Sintesi concettuale
+
+| Quantità | Formula | Valore | Significato |
+| :------- | :------ | :----- | :---------- |
+| $P(D)$ |  | 0.10 | Prevalenza (prior) |
+| $P(+ \mid D)$ |  | 0.80 | Sensibilità |
+| $P(+ \mid \neg D)$ |  | 0.10 | Falsi positivi |
+| $P(D \mid +)$ |  | 0.47 | Probabilità aggiornata (posterior) |
+
+> **Conclusione**:
+> Il teorema di Bayes ci permette di passare dal livello astratto delle probabilità condizionate alla rappresentazione concreta delle frequenze.
+> Questa doppia lettura – formale e intuitiva – è ciò che rende Bayes uno strumento potente per comprendere come la mente (o un sistema razionale) aggiorna le credenze alla luce di nuove evidenze.
+
+Questa è l'essenza del ragionamento bayesiano: *aggiornamento sistematico e razionale* delle credenze alla luce di nuove evidenze.
+
+## Il ruolo della probabilità nello studio dei fenomeni psicologici
+
+La teoria della probabilità bayesiana fornisce un framework particolarmente adatto per la psicologia:
+
+### 1. Quantificare l'incertezza diagnostica
+
+Nella pratica clinica, raramente abbiamo certezze assolute. La probabilità bayesiana permette di:
+
+- quantificare l'incertezza sulle diagnosi;
+- integrare informazioni da test multipli;
+- considerare esplicitamente la prevalenza (tasso base);
+- comunicare l'incertezza in modo trasparente.
+
+### 2. Modellare processi cognitivi
+
+La mente umana sembra operare secondo principi bayesiani:
+
+- percezione: integrare prior (aspettative) con input sensoriali;
+- apprendimento: aggiornare credenze con esperienze;
+- decisione: bilanciare evidenze incerte.
+
+Modelli bayesiani del ragionamento spiegano bias cognitivi come deviazioni da ottimalità bayesiana.
+
+### 3. Analizzare dati sperimentali
+
+L'inferenza bayesiana offre vantaggi metodologici:
+
+- incorporare conoscenze pregresse (studi pilota, letteratura);
+- quantificare evidenza a favore dell'ipotesi nulla;
+- gestire naturalmente piccoli campioni;
+- propagare l'incertezza attraverso modelli complessi.
+
+### 4. Decisioni cliniche
+
+In contesti terapeutici, l'approccio bayesiano aiuta a:
+
+- valutare l'efficacia di trattamenti personalizzati;
+- aggiornare protocolli con evidenze emergenti;
+- bilanciare rischi e benefici sotto incertezza;
+- ottimizzare sequenze di interventi.
+
+## Confronto con l'approccio frequentista
+
+È utile chiarire le differenze fondamentali tra i due paradigmi:
+
+| Aspetto | Frequentista | Bayesiano |
+|---------|-------------|-----------|
+| **Probabilità** | Frequenza limite in infinite repliche | Grado di credenza dato lo stato d'informazione |
+| **Parametri** | Fissi ma ignoti | Variabili casuali con distribuzioni |
+| **Inferenza** | Proprietà di procedure ripetute | Aggiornamento di credenze |
+| **Prior** | Non esistono | Essenziali, quantificano conoscenza pregressa |
+| **Incertezza** | Intervalli di confidenza | Intervalli di credibilità (probabilistici) |
+| **P-value** | P(dati | H₀ vera) | Non direttamente rilevante |
+| **Interpretazione** | Frequenza ipotetica | Plausibilità diretta |
+
+::: {.callout-note}
+## Complementarità
+
+Sebbene questo corso adotti la prospettiva bayesiana, è importante riconoscere che i due approcci non sono sempre in conflitto. In molti contesti:
+
+- convergono a conclusioni simili (con dati abbondanti e prior vaghi);
+- possono essere usati in modo complementare;
+- la scelta dipende dagli obiettivi e dalla natura del problema.
+
+Tuttavia, per costruire una comprensione coerente della probabilità, è pedagogicamente vantaggioso iniziare con una prospettiva chiara—in questo caso, quella bayesiana.
+:::
+
+## Riflessioni conclusive {.unnumbered .unlisted}
+
+In questo capitolo abbiamo introdotto la probabilità come **grado di credenza razionale** anziché come frequenza relativa o proprietà fisica. Questo approccio, radicato nella tradizione di Bayes, Laplace e de Finetti, offre diversi vantaggi per lo studio della psicologia:
+
+1. **Coerenza concettuale**: gli assiomi sono vincoli di coerenza logica, non leggi empiriche da "scoprire" tramite esperimenti.
+
+2. **Applicabilità generale**: possiamo assegnare probabilità a eventi singoli, non ripetibili (es. "questo specifico paziente risponderà al trattamento?").
+
+3. **Trasparenza**: le assunzioni (prior) sono esplicite e possono essere discusse e giustificate.
+
+4. **Dinamicità**: l'aggiornamento bayesiano formalizza come apprendere dall'esperienza.
+
+5. **Naturalità**: modella il ragionamento umano sotto incertezza in modo più diretto.
+
+Nei prossimi capitoli svilupperemo gli strumenti formali (assiomi, eventi, probabilità condizionata) sempre mantenendo questa prospettiva epistemica. Vedremo che anche concetti apparentemente "oggettivi" come l'equiprobabilità derivano in realtà da simmetrie nella nostra informazione, non da proprietà intrinseche del mondo.
+
+La probabilità bayesiana non elimina l'incertezza—la quantifica e la gestisce razionalmente. È questo il suo grande valore per la ricerca psicologica, dove l'incertezza è la regola, non l'eccezione.
+
+::: {.callout-tip}
+## Letture consigliate
+
+Per chi desidera approfondire:
+
+- **De Finetti, B.** (1974). *Theory of Probability*. Wiley. [Classico sulla probabilità soggettivista]
+- **Jaynes, E. T.** (2003). *Probability Theory: The Logic of Science*. Cambridge University Press. [Approccio assiomatico alla probabilità epistemica]
+- **Clayton, A.** (2021). *Bernoulli's Fallacy*. Columbia University Press. [Storia accessibile della controversia frequentismo-bayesiano]
+- **Spiegelhalter, D.** (2024). *The Art of Uncertainty*. Penguin. [Applicazioni moderne della probabilità all'incertezza quotidiana]
+:::
+
+
+## Esercizi {.unnumbered}
+
+::: {.callout-important title="Problemi" collapse="true"}
+
+### Esercizi concettuali
+
+1. Spiega la differenza tra probabilità come frequenza relativa e probabilità come grado di credenza. In quale contesto psicologico questa differenza è particolarmente rilevante?
+
+2. Cos'è un Dutch Book? Perché l'argomento del Dutch Book giustifica gli assiomi della probabilità?
+
+3. Due psicologi assegnano probabilità diverse allo stesso evento (es. efficacia di un nuovo trattamento). Entrambi usano l'approccio bayesiano. Questo è un problema per la teoria bayesiana? Perché?
+
+4. La Legge dei Grandi Numeri gioca un ruolo diverso nell'approccio bayesiano rispetto al frequentista. Spiega questa differenza.
+
+5. Considera l'affermazione: "La probabilità che piova domani è 0.7". Interpreta questa frase dal punto di vista bayesiano e poi da quello frequentista. Quale interpretazione è più naturale?
+
+### Esercizi sulla coerenza
+
+6. Verifica se le seguenti assegnazioni sono coerenti per eventi mutuamente esclusivi ed esaustivi:
+   - $P(A) = 0.4$, $P(B) = 0.3$, $P(C) = 0.3$
+   - $P(A) = 0.5$, $P(B) = 0.5$, $P(C) = 0.2$
+
+7. Un clinico assegna le seguenti probabilità per tre diagnosi mutuamente esclusive:
+   - Depressione: 0.6
+   - Ansia: 0.4
+   - Nessuna condizione: 0.3
+   
+   Identifica l'incoerenza e proponi una correzione.
+
+8. Scrivi un breve script R per verificare se un insieme di probabilità su eventi disgiunti rispetta l'assioma di additività.
+
+### Esercizi su simulazioni
+
+9. Simula 1000 lanci di una moneta con $P(\text{Testa}) = 0.6$ (moneta sbilanciata). Visualizza la convergenza della frequenza cumulativa. La convergenza "definisce" la probabilità 0.6 o la verifica?
+
+10. Un test di ansia ha sensibilità 0.85 e specificità 0.80. La prevalenza è 0.15. Calcola $P(\text{Ansia} \mid \text{Test positivo})$ usando il teorema di Bayes, poi verifica il risultato con una simulazione Monte Carlo.
+
+### Esercizi di pensiero critico
+
+11. Un frequentista afferma: "Non possiamo assegnare probabilità all'evento 'L'Italia vincerà i prossimi Mondiali' perché non è ripetibile". Come risponderebbe un bayesiano?
+
+12. Perché nell'approccio bayesiano è essenziale distinguere tra incertezza epistemica e ontologica, anche se entrambe vengono modellate con probabilità?
+
+13. In un esperimento psicologico, due ricercatori partono con prior diversi sullo stesso parametro. Dopo aver osservato molti dati, i loro posterior convergono. Cosa ci dice questo sulla relazione tra soggettività e oggettività nell'inferenza bayesiana?
+
+14. La frase "La probabilità non esiste" di de Finetti sembra paradossale per una teoria della probabilità. Cosa intendeva de Finetti?
+
+15. Considera un paziente che ha avuto un test positivo per una condizione rara. Il medico dice: "Il test ha sensibilità 99%, quindi c'è il 99% di probabilità che tu abbia la condizione". Identifica l'errore dal punto di vista bayesiano.
+:::
+
+::: {.callout-tip title="Soluzioni" collapse="true"}
+
+### Soluzioni agli esercizi concettuali
+
+1. **Frequenza vs credenza**: La frequenza relativa definisce la probabilità come limite di frequenze in infinite repliche identiche dell'esperimento. La credenza bayesiana quantifica incertezza dato lo stato d'informazione attuale. In psicologia clinica, quando valutiamo "la probabilità che questo specifico paziente risponda al trattamento", l'interpretazione frequentista è problematica (un paziente non è "replicabile"), mentre quella bayesiana è naturale.
+
+2. **Dutch Book**: È una combinazione di scommesse che garantisce perdita certa. Se le probabilità violano gli assiomi, si possono costruire Dutch Books contro chi le ha assegnate. Questo argomento mostra che gli assiomi non sono arbitrari, ma necessari per evitare contraddizioni pragmatiche nelle decisioni sotto incertezza.
+
+3. **Soggettività non è problema**: Nel bayesianesimo, credenze diverse sono legittime se riflettono informazioni diverse. Con gli stessi dati, due bayesiani con prior diversi convergeranno verso posterior simili. La soggettività è nelle assunzioni iniziali (esplicite), non nell'aggiornamento (che segue regole oggettive).
+
+4. **LLN**: Per il frequentista, la LLN *definisce* la probabilità come limite delle frequenze. Per il bayesiano, la LLN *spiega* perché frequenze empiriche convergono alla credenza iniziale—verifica coerenza, non definisce il concetto.
+
+5. **Pioggia domani**: 
+   - Bayesiano: "Dato ciò che so (previsioni, stagione, clima locale), assegno credenza 0.7 all'evento pioggia domani"
+   - Frequentista: "In infiniti 'domani' identici a questo, pioverebbe nel 70% dei casi" (problematico: domani non è replicabile!)
+   
+   L'interpretazione bayesiana è più naturale per eventi singoli.
+
+### Soluzioni agli esercizi sulla coerenza
+
+6. Prima assegnazione: $0.4 + 0.3 + 0.3 = 1.0$ ✓ Coerente  
+   Seconda assegnazione: $0.5 + 0.5 + 0.2 = 1.2 > 1$ ✗ Incoerente
+
+7. Somma: $0.6 + 0.4 + 0.3 = 1.3 > 1$. Incoerente! Possibile correzione (normalizzando):
+   - Depressione: $0.6/1.3 \approx 0.46$
+   - Ansia: $0.4/1.3 \approx 0.31$
+   - Nessuna condizione: $0.3/1.3 \approx 0.23$
+
+8. Script R:
+```r
+check_coherence <- function(probs, tolerance = 1e-9) {
+  s <- sum(probs)
+  if (abs(s - 1) < tolerance) {
+    cat("✓ Coerente: somma =", s, "\n")
+    return(TRUE)
+  } else {
+    cat("✗ Incoerente: somma =", s, "\n")
+    return(FALSE)
+  }
+}
+
+# Test
+check_coherence(c(0.4, 0.3, 0.3))
+check_coherence(c(0.5, 0.5, 0.2))
+```
+
+### Soluzioni esercizi su simulazioni
+
+9. La convergenza **verifica** la credenza 0.6, non la definisce. Abbiamo assegnato 0.6 *prima* di simulare, e la simulazione conferma che questa assegnazione è coerente con il comportamento atteso.
+
+10. Calcolo analitico:
+$$P(\text{Ansia} \mid +) = \frac{0.85 \times 0.15}{0.85 \times 0.15 + 0.20 \times 0.85} = \frac{0.1275}{0.2975} \approx 0.43$$
+
+Verifica Monte Carlo:
+```r
+set.seed(42)
+n <- 1e6
+ansia <- rbinom(n, 1, 0.15)
+test <- ifelse(ansia == 1, 
+               rbinom(n, 1, 0.85),
+               rbinom(n, 1, 0.20))
+mean(ansia[test == 1])  # ≈ 0.43
+```
+
+### Soluzioni esercizi di pensiero critico
+
+11. Risposta bayesiana: "Posso assegnare credenza basandomi su tutto ciò che so: performance passate, rosa giocatori, probabilisti, contesto. Non serve replicabilità fisica—serve razionalità epistemica."
+
+12. Distinguere le due serve per capire che anche l'incertezza "ontologica" è modellata epistemicamente. La casualità intrinseca di un processo è indistinguibile, per noi osservatori limitati, dall'ignoranza sul suo stato. Il bayesianesimo adotta una posizione epistemica unificata.
+
+13. La convergenza dei posterior mostra che, con sufficiente evidenza, l'influenza dei prior soggettivi si diluisce. L'oggettività emerge non dall'assenza di soggettività, ma dal peso crescente dei dati condivisi.
+
+14. De Finetti intendeva che la probabilità non è una proprietà del mondo fisico, ma uno strumento epistemico. "Non esiste" nel senso ontologico, ma "esiste" come struttura logica per quantificare incertezza.
+
+15. Il medico confonde $P(\text{Test+} \mid \text{Malattia}) = 0.99$ (sensibilità) con $P(\text{Malattia} \mid \text{Test+})$ (valore predittivo positivo). Con condizione rara, anche test eccellente produce molti falsi positivi. Serve usare Bayes incorporando la prevalenza!
+:::
+
+## Bibliografia {.unnumbered .unlisted}
