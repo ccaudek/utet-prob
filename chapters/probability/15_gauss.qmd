@@ -28,25 +28,25 @@ pacman::p_load(datawizard, MASS)
 
 ## Introduzione
 
-Nell’analisi dei dati numerici, un aspetto cruciale da affrontare è l’imprecisione delle misurazioni, una caratteristica intrinseca dei dati reali. Anche in condizioni ottimali, le misure sono soggette a incertezze: i dati rappresentano sempre una stima approssimativa della realtà, accurata solo entro un certo margine (ad esempio, pochi punti percentuali). Inoltre, in molti contesti, come quelli demografici, commerciali o sociali, i dati possono essere arrotondati intenzionalmente o risultare imprecisi a causa di stime indirette, incompletezza delle informazioni o altri fattori.  
+Nell'analisi dei dati numerici, un aspetto cruciale da affrontare è l'imprecisione delle misurazioni, una caratteristica intrinseca dei dati reali. Anche in condizioni ottimali, le misure sono soggette a incertezze: i dati rappresentano sempre una stima approssimativa della realtà, accurata solo entro un certo margine (ad esempio, pochi punti percentuali). Inoltre, in molti contesti, come quelli demografici, commerciali o sociali, i dati possono essere arrotondati intenzionalmente o risultare imprecisi a causa di stime indirette, incompletezza delle informazioni o altri fattori.  
 
-Riconoscere e gestire questa incertezza è una componente essenziale del processo analitico. Gli strumenti statistici forniscono un framework formale per descrivere e quantificare l’incertezza, consentendo di trarre inferenze robuste dai dati. Tra le distribuzioni di probabilità, la **distribuzione normale** (o gaussiana) occupa un posto centrale per la sua ubiquità e versatilità. Spesso rappresentata dalla caratteristica "curva a campana," questa distribuzione è utilizzata per descrivere molte variabili naturali. Quando i dati approssimano una distribuzione normale, gran parte dei valori si concentra intorno alla media, con una diminuzione progressiva della probabilità di valori estremi. 
+Riconoscere e gestire questa incertezza è una componente essenziale del processo analitico. Gli strumenti statistici forniscono un framework formale per descrivere e quantificare l'incertezza, consentendo di trarre inferenze robuste dai dati. Tra le distribuzioni di probabilità, la *distribuzione normale* (o gaussiana) occupa un posto centrale per la sua ubiquità e versatilità. Spesso rappresentata dalla caratteristica "curva a campana," questa distribuzione è utilizzata per descrivere molte variabili naturali. Quando i dati approssimano una distribuzione normale, gran parte dei valori si concentra intorno alla media, con una diminuzione progressiva della probabilità di valori estremi. 
 
 Una delle proprietà più utili della distribuzione normale è la possibilità di esprimere affermazioni quantitative rigorose. Ad esempio, si può calcolare la probabilità che un valore cada entro un determinato intervallo dalla media utilizzando parametri semplici come media ($\mu$) e deviazione standard ($\sigma$):
 
-- Circa il **68.3%** dei valori cade entro una deviazione standard dalla media:
+- Circa il *68.3%* dei valori cade entro una deviazione standard dalla media:
   
 ```{r}
 pnorm(1) - pnorm(-1)
 ```
 
-- Circa il **99.7%** cade entro tre deviazioni standard:
+- Circa il *99.7%* cade entro tre deviazioni standard:
 
 ```{r}
 pnorm(3) - pnorm(-3)
 ```
 
-Questi calcoli costituiscono la base della “regola delle tre sigma,” una strategia utilizzata per identificare valori anomali (outlier), come discusso nel @sec-eda-outlier. Tuttavia, tale regola può risultare fuorviante se i dati non seguono effettivamente una distribuzione normale.
+Questi calcoli costituiscono la base della "regola delle tre sigma," una strategia utilizzata per identificare valori anomali (outlier), come discusso nel @sec-eda-outlier. Tuttavia, tale regola può risultare fuorviante se i dati non seguono effettivamente una distribuzione normale.
 
 La densità della distribuzione normale è definita dalla formula:
 
@@ -58,22 +58,40 @@ dove $\mu$ rappresenta la media e $\sigma$ la deviazione standard. Conoscere que
 
 ### Gaussianità e Inferenza Statistica  
 
-La distribuzione normale è particolarmente rilevante per molti metodi statistici, in particolare nell’approccio frequentista. Gran parte dei test di ipotesi e delle procedure inferenziali assume che i dati siano distribuiti normalmente, una condizione necessaria per derivare formalmente i risultati di molti test. Ad esempio, i test t di Student e l’ANOVA richiedono la normalità delle variabili o dei residui. Quando questa assunzione è soddisfatta, tali strumenti offrono inferenze precise e affidabili.
+La distribuzione normale è particolarmente rilevante per molti metodi statistici, sia nell'approccio frequentista che in quello bayesiano, sebbene per ragioni differenti. Nell'approccio *frequentista*, gran parte dei test di ipotesi e delle procedure inferenziali assume che i dati siano distribuiti normalmente, una condizione necessaria per derivare formalmente i risultati di molti test. Ad esempio, i test t di Student e l'ANOVA richiedono la normalità delle variabili o dei residui. Quando questa assunzione è soddisfatta, tali strumenti offrono inferenze precise e affidabili.
 
-Tuttavia, se i dati non sono gaussiani, molti test perdono validità. Sebbene si siano proposti approcci che dimostrano la robustezza di alcuni test a deviazioni moderate dalla normalità [@shatz2024assumption], tale robustezza non è garantita in tutte le situazioni. Inoltre, l’enfasi sui valori-p complica la questione, poiché violazioni dell’assunzione di normalità possono compromettere l’interpretazione di questi indicatori.
+Tuttavia, se i dati non sono gaussiani, molti test frequentisti perdono validità. Sebbene si siano proposti approcci che dimostrano la robustezza di alcuni test a deviazioni moderate dalla normalità [@shatz2024assumption], tale robustezza non è garantita in tutte le situazioni. Inoltre, l'enfasi sui valori-p complica la questione, poiché violazioni dell'assunzione di normalità possono compromettere l'interpretazione di questi indicatori.
 
-Una strategia comune per affrontare la non-gaussianità è l’applicazione di trasformazioni dei dati, come la trasformazione logaritmica o quella della radice quadrata, per avvicinare i dati alla distribuzione normale [@osborne2002notes]. Ad esempio, distribuzioni asimmetriche come quelle dei tempi di reazione possono essere rese più gaussiane attraverso trasformazioni adeguate, rendendo applicabili i test frequentisti standard. Tuttavia, l’uso delle trasformazioni ha un costo: la **perdita di interpretabilità**. Se i dati originali avevano un significato chiaro e intuitivo, la trasformazione può rendere i risultati più difficili da collegare al fenomeno studiato.
+Una strategia comune per affrontare la non-gaussianità nell'approccio frequentista è l'applicazione di *trasformazioni dei dati*, come la trasformazione logaritmica o quella della radice quadrata, per avvicinare i dati alla distribuzione normale [@osborne2002notes]. Ad esempio, distribuzioni asimmetriche come quelle dei tempi di reazione possono essere rese più gaussiane attraverso trasformazioni adeguate, rendendo applicabili i test frequentisti standard. Tuttavia, l'uso delle trasformazioni ha un costo significativo: la *perdita di interpretabilità*. Se i dati originali avevano un significato chiaro e intuitivo, la trasformazione può rendere i risultati più difficili da collegare al fenomeno studiato.
 
-In questo capitolo, esploreremo come verificare se i dati seguono una distribuzione normale, discuteremo l’impatto di questa assunzione sui metodi frequentisti e valuteremo il ruolo delle trasformazioni. Il nostro obiettivo è fornire al data analyst una guida pratica per decidere come trattare i dati non gaussiani, considerando sia i vantaggi che i limiti di ciascun approccio.
+### Gaussianità e Inferenza Bayesiana
 
-### L’assunzione di Gaussianità: Quando è valida?
+La distribuzione normale riveste un ruolo altrettanto centrale nell'*approccio bayesiano*, sebbene per ragioni differenti e con maggiore flessibilità:
 
-Sebbene la distribuzione normale sia spesso un buon modello per i dati numerici, non è sempre una rappresentazione adeguata. Questo può dipendere da caratteristiche intrinseche dei dati, come asimmetrie, code lunghe o la presenza di valori anomali. Valutare l’appropriatezza dell’assunzione di normalità è un passaggio critico in qualsiasi analisi statistica.
+**Prior normali.** Nell'inferenza bayesiana, è comune utilizzare distribuzioni normali come prior per parametri continui (ad esempio, medie, coefficienti di regressione). Questo permette di esprimere credenze concentrate attorno a un valore plausibile con un grado di incertezza controllato. La forma analitica della normale rende inoltre i calcoli più trattabili in molti contesti.
+
+**Posteriori approssimativamente normali.** Una proprietà notevole dell'inferenza bayesiana è che, per il Teorema del Limite Centrale, molte distribuzioni a posteriori tendono ad approssimare una forma normale quando il campione è sufficientemente grande, indipendentemente dalla forma della distribuzione a priori. Questo fenomeno offre una base teorica solida per utilizzare approssimazioni normali anche in situazioni complesse.
+
+**Coniugatezza.** Nel modello normale-normale (quando sia la prior che la verosimiglianza sono normali), la distribuzione a posteriori è anch'essa normale. Questa proprietà di *coniugatezza* permette di ottenere soluzioni analitiche esatte senza ricorrere a simulazioni, semplificando notevolmente il processo inferenziale.
+
+**Flessibilità modellistica.** Un vantaggio chiave dell'approccio bayesiano è che *non è sempre necessario trasformare i dati* per soddisfare l'assunzione di normalità. Invece di forzare i dati in una distribuzione normale attraverso trasformazioni potenzialmente difficili da interpretare, possiamo specificare modelli che utilizzano distribuzioni più appropriate per descrivere i fenomeni osservati. Ad esempio:
+
+- per variabili di conteggio, possiamo usare una verosimiglianza di Poisson o binomiale negativa;
+- per tempi di reazione o dati con asimmetria positiva, possiamo utilizzare distribuzioni log-normali o gamma;
+- per dati con code pesanti, possiamo impiegare distribuzioni t di Student o distribuzioni miste.
+
+Questa flessibilità permette di *mantenere l'interpretabilità* dei risultati, lavorando sulla scala originale dei dati piuttosto che su una scala trasformata. I modelli bayesiani possono incorporare complesse strutture di dipendenza e specificare distribuzioni appropriate per ogni componente del modello senza la necessità di violare la struttura intrinseca dei dati.
+
+**Modelli gerarchici.** Nella modellazione gerarchica bayesiana, la distribuzione normale appare frequentemente a diversi livelli della gerarchia. Ad esempio, in un modello gerarchico, i parametri individuali possono essere assunti provenienti da una distribuzione normale di gruppo, facilitando la condivisione di informazione tra unità di analisi (partial pooling).
+
+### L'assunzione di Gaussianità: Quando è valida?
+
+Sebbene la distribuzione normale sia spesso un buon modello per i dati numerici, non è sempre una rappresentazione adeguata. Questo può dipendere da caratteristiche intrinseche dei dati, come asimmetrie, code lunghe o la presenza di valori anomali. Valutare l'appropriatezza dell'assunzione di normalità è un passaggio critico in qualsiasi analisi statistica.
 
 Per diagnosticare la normalità, presenteremo tre strumenti grafici:
 
-- **Istogrammi**, una visualizzazione semplice ma spesso limitata.
-- **Grafici di densità**, che forniscono un confronto più fluido rispetto agli istogrammi.
+- **istogrammi**, una visualizzazione semplice ma spesso limitata;
+- **grafici di densità**, che forniscono un confronto più fluido rispetto agli istogrammi;
 - **QQ-plot (Quantile-Quantile plot)**, uno strumento visivo particolarmente efficace per rilevare deviazioni dalla normalità. 
 
 Questi strumenti possono anche essere affiancati da test formali per consentire una diagnosi robusta e guidare le decisioni sul trattamento dei dati.
@@ -108,11 +126,11 @@ ggplot(tibble(rt=rt), aes(x = rt)) +
   )
 ```
 
-L’istogramma mostra la distribuzione empirica dei dati, mentre la curva rossa rappresenta la densità normale con la stessa media e deviazione standard. Nel nostro caso, è evidente una discrepanza tra la distribuzione empirica e la densità normale, indicando che l’assunzione di normalità non è appropriata.
+L'istogramma mostra la distribuzione empirica dei dati, mentre la curva rossa rappresenta la densità normale con la stessa media e deviazione standard. Nel nostro caso, è evidente una discrepanza tra la distribuzione empirica e la densità normale, indicando che l'assunzione di normalità non è appropriata.
 
 ## Grafico di densità
 
-Un grafico di densità è una versione lisciata dell’istogramma che facilita il confronto con la distribuzione normale. Utilizzando il dataset precedente, possiamo creare un grafico di densità sovrapposto alla curva gaussiana.
+Un grafico di densità è una versione lisciata dell'istogramma che facilita il confronto con la distribuzione normale. Utilizzando il dataset precedente, possiamo creare un grafico di densità sovrapposto alla curva gaussiana.
 
 ```{r}
 ggplot(tibble(rt=rt), aes(x = rt)) +
@@ -128,7 +146,7 @@ ggplot(tibble(rt=rt), aes(x = rt)) +
   )
 ```
 
-Anche questa rappresentazione rende chiaro come l’assunzione di normalità non sia appropriata.
+Anche questa rappresentazione rende chiaro come l'assunzione di normalità non sia appropriata.
 
 ## Diagramma quantile-quantile
 
@@ -136,242 +154,244 @@ Il *diagramma quantile-quantile* (QQ-plot) è lo strumento più utile per analiz
 
 Un QQ-plot permette di:
 
-- *Valutare graficamente la normalità dei dati*: Se i punti nel diagramma seguono approssimativamente una linea retta, i dati possono essere considerati normalmente distribuiti. In caso contrario, il QQ-plot rivela deviazioni dalla normalità, come code pesanti o asimmetrie.
-- *Confrontare distribuzioni*: Il QQ-plot non si limita solo alla distribuzione normale, ma può essere utilizzato per confrontare la distribuzione del campione con qualsiasi distribuzione teorica, facilitando l'analisi di dati con forme di distribuzione complesse.
+- *Valutare graficamente la normalità dei dati*: se i punti nel diagramma seguono approssimativamente una linea retta, i dati possono essere considerati normalmente distribuiti. In caso contrario, il QQ-plot rivela deviazioni dalla normalità, come code pesanti o asimmetrie.
+- *Confrontare distribuzioni*: il QQ-plot non si limita solo alla distribuzione normale, ma può essere utilizzato per confrontare la distribuzione del campione con qualsiasi distribuzione teorica, facilitando l'analisi di dati con forme di distribuzione complesse.
 - *Identificare outlier*: Gli outlier nei dati saranno visibili come punti che si discostano significativamente dalla linea retta del QQ-plot.
 
-Il QQ-plot è costruito tracciando i *quantili del campione* contro i *quantili teorici* di una distribuzione di riferimento. L’interpretazione è piuttosto semplice:
+Il QQ-plot è costruito tracciando i *quantili del campione* contro i *quantili teorici* di una distribuzione di riferimento. L'interpretazione è piuttosto semplice:
 
-- Se il campione segue la distribuzione teorica, i punti nel QQ-plot si allineano lungo una linea retta di pendenza 1 (e intercetta 0 nel caso di distribuzione normale standardizzata).
-- La deviazione dalla linea retta indica differenze nella distribuzione del campione rispetto alla distribuzione teorica:
-  - *Intercetta diversa da 0*: indica che la media del campione differisce dalla media della distribuzione teorica.
-  - *Pendenza diversa da 1*: indica una differenza nella varianza tra il campione e la distribuzione teorica.
-  - *Curve*: indicano deviazioni sistematiche, come code pesanti o distribuzioni asimmetriche.
+- se il campione segue la distribuzione teorica, i punti nel QQ-plot si allineano lungo una linea retta di pendenza 1 (e intercetta 0 nel caso di distribuzione normale standardizzata);
+- deviazioni dalla retta indicano differenze tra la distribuzione dei dati e la distribuzione teorica;
+- le code che si discostano dalla retta suggeriscono la presenza di code più pesanti (se i punti si allontanano verso l'alto o verso il basso) o valori estremi non previsti dalla distribuzione teorica.
 
-Nella discussione seguente, costruiremo e analizzeremo QQ-plot per tre casi tipici:
+### Interpretazione del QQ-plot
 
-1. *Campione con stessa media e varianza della distribuzione teorica*.
-2. *Campione con media diversa ma stessa varianza*.
-3. *Campione con media e varianza diverse*.
+In questa sezione analizzeremo le deviazioni più comuni dal pattern lineare e cosa suggeriscono riguardo alla distribuzione dei dati.
 
-Simuleremo i dati, li ordineremo, calcoleremo manualmente i quantili teorici e infine utilizzeremo librerie specializzate per replicare e confrontare i risultati. Questo approccio pratico ci permetterà di comprendere a fondo l'utilità e il funzionamento del QQ-plot.
+::: callout-tip
+## Lettura del QQ-plot: Linee guida generali
 
-### Comprendere e Costruire un QQ-Plot (Distribuzione Normale)
+1. **Punti allineati lungo la retta**: i dati seguono approssimativamente una distribuzione normale.
+2. **Curve sistematiche**: i dati presentano asimmetria (skewness) o curtosi (kurtosis) diverse da quelle di una normale.
+3. **Punti isolati agli estremi**: presenza di outlier.
+4. **Pattern irregolari**: i dati potrebbero seguire una distribuzione multimodale o mista.
+:::
 
-Un *QQ-plot* (Quantile-Quantile plot) è uno strumento grafico utilizzato per confrontare la distribuzione di un campione con una distribuzione teorica, spesso la distribuzione normale. Il QQ-plot aiuta a visualizzare se un dataset segue una distribuzione specifica, tracciando i quantili del campione contro i quantili della distribuzione teorica.
+Esaminiamo questi pattern con maggiore dettaglio attraverso simulazioni di dati con caratteristiche diverse. Questo approccio ci permette di confrontare visivamente i pattern osservati con le proprietà note delle distribuzioni simulate.
 
-### Passi per Costruire un QQ-Plot
+#### Distribuzione normale (riferimento)
 
-1. **Ordinare i Dati**: Disporre i dati del campione in ordine crescente.
-2. **Determinare i Quantili Teorici**: Per una distribuzione normale, i quantili corrispondono all'inverso della funzione di distribuzione cumulativa (CDF) della distribuzione normale.
-3. **Confrontare i Quantili**: Tracciare i quantili del campione rispetto ai quantili della distribuzione teorica. Se il campione proviene dalla distribuzione teorica, i punti dovrebbero trovarsi approssimativamente su una linea retta.
-
-### Caso 1: Campione con Stessa Media e Varianza della Distribuzione Normale
-
-Supponiamo che il campione provenga da una distribuzione normale $N(\mu = 0, \sigma^2 = 1)$, esattamente come la distribuzione teorica.
-
-#### Simulazione dei Dati
-
-Iniziamo simulando un piccolo dataset da $N(0, 1)$:
+Iniziamo con dati estratti da una distribuzione normale. Questo è il caso ideale: i punti dovrebbero allinearsi lungo la retta diagonale.
 
 ```{r}
-#| fig.width=5,
-#| fig.asp=1
-#| 
-# Generiamo 20 punti dati da N(0, 1)
-set.seed(42)  # Per garantire la riproducibilità
-dati_campione <- rnorm(20, mean = 0, sd = 1)
-
-# Ordiniamo i dati del campione
-campione_ordinato <- sort(dati_campione)
-
-# Calcoliamo i quantili teorici da N(0, 1)
-quantili_teorici <- qnorm((seq(1, 20) - 0.5) / 20)
-
-# Tracciamo il QQ-plot
-plot(quantili_teorici, campione_ordinato,
-     xlab = "Quantili Teorici", ylab = "Quantili del Campione",
-     main = "QQ-Plot: Stessa Media e Varianza", pch = 16)
-abline(0, 1, lwd = 2)  # Linea y = x
+set.seed(123)
+dati_norm <- rnorm(100, mean = 0, sd = 1)
+qqnorm(dati_norm, main = "QQ-plot: Distribuzione Normale")
+qqline(dati_norm, lwd = 2)
 ```
 
-In questo caso, i punti del QQ-plot dovrebbero allinearsi alla linea rossa, indicando che la distribuzione del campione corrisponde a quella teorica.
+#### Asimmetria positiva (right-skewed)
 
----
-
-### Caso 2: Campione con Media Diversa (Intercetta ≠ 0)
-
-Simuliamo un campione da $N(2, 1)$, con una media diversa ma la stessa varianza:
+Le distribuzioni con asimmetria positiva (code a destra più lunghe) mostrano una curva sistematica: i punti tendono a discostarsi dalla retta nella parte superiore del grafico. Questo pattern è tipico di variabili come i tempi di reazione o i redditi.
 
 ```{r}
-#| fig.width=5,
-#| fig.asp=1
-#| 
-# Generiamo 20 punti dati da N(2, 1)
-dati_campione_media_spostata <- rnorm(20, mean = 2, sd = 1)
-
-# Ordiniamo i dati del campione
-campione_ordinato_media_spostata <- sort(dati_campione_media_spostata)
-
-# Tracciamo il QQ-plot
-plot(quantili_teorici, campione_ordinato_media_spostata,
-     xlab = "Quantili Teorici", ylab = "Quantili del Campione",
-     main = "QQ-Plot: Media Diversa (Intercetta ≠ 0)", pch = 16)
-abline(0, 1, lwd = 2)  # Linea y = x
+set.seed(123)
+dati_exp <- rexp(100, rate = 1)  # Distribuzione esponenziale
+qqnorm(dati_exp, main = "QQ-plot: Distribuzione con Asimmetria Positiva")
+qqline(dati_exp, lwd = 2)
 ```
 
-In questo caso, i punti dovrebbero seguire una linea retta ma essere spostati verticalmente, indicando una media diversa (intercetta ≠ 0).
+#### Asimmetria negativa (left-skewed)
 
----
-
-### Caso 3: Campione con Media e Varianza Diverse (Pendenza ≠ 1)
-
-Simuliamo un campione da $N(2, 2^2)$, con una media e una varianza diverse:
+Dati con asimmetria negativa (code a sinistra più lunghe) presentano una curva opposta: i punti si discostano dalla retta nella parte inferiore del grafico.
 
 ```{r}
-#| fig.width=5,
-#| fig.asp=1
-#| 
-# Generiamo 20 punti dati da N(2, 2^2)
-dati_campione_varianza_spostata <- rnorm(20, mean = 2, sd = 2)
-
-# Ordiniamo i dati del campione
-campione_ordinato_varianza_spostata <- sort(dati_campione_varianza_spostata)
-
-# Tracciamo il QQ-plot
-plot(quantili_teorici, campione_ordinato_varianza_spostata,
-     xlab = "Quantili Teorici", ylab = "Quantili del Campione",
-     main = "QQ-Plot: Media e Varianza Diverse (Pendenza ≠ 1)", pch = 16)
-abline(0, 1, lwd = 2)  # Linea y = x
+set.seed(123)
+dati_beta <- rbeta(100, shape1 = 5, shape2 = 2)  # Beta asimmetrica negativa
+qqnorm(dati_beta, main = "QQ-plot: Distribuzione con Asimmetria Negativa")
+qqline(dati_beta, lwd = 2)
 ```
 
-In questo caso, i punti si discosteranno sia verticalmente (per la media diversa) sia rispetto alla pendenza della linea (per la varianza diversa).
+#### Code pesanti (heavy tails)
 
----
-
-### Calcolo Manuale del QQ-Plot
-
-Per ciascun caso sopra, i passaggi sono i seguenti:
-
-1. **Ordinamento dei dati del campione**: Questo fornisce i quantili del campione.
-2. **Calcolo dei quantili teorici**: Utilizzando la funzione inversa della CDF per la distribuzione normale.
-
-Esempio in R:
+Distribuzioni con code pesanti, come la $t$ di Student con pochi gradi di libertà, mostrano punti che si discostano dalla retta ad entrambi gli estremi. Questo pattern indica una maggiore probabilità di valori estremi rispetto a una distribuzione normale.
 
 ```{r}
-# Calcolo manuale dei quantili teorici
-quantili_teorici_manuali <- function(n) {
-  sapply(1:n, function(i) qnorm((i - 0.5) / n))
-}
-
-n <- length(dati_campione)
-quantili_teorici_calcolati <- quantili_teorici_manuali(n)
-quantili_teorici_calcolati
+set.seed(123)
+dati_t <- rt(100, df = 3)  # t di Student con df=3
+qqnorm(dati_t, main = "QQ-plot: Distribuzione con Code Pesanti")
+qqline(dati_t, lwd = 2)
 ```
 
----
+#### Code leggere (light tails)
 
-### Utilizzo di Funzioni Specializzate
+Al contrario, distribuzioni con code leggere (come l'uniforme) mostrano punti che si avvicinano troppo alla retta agli estremi, mentre si discostano al centro. Questo indica una minore probabilità di valori estremi rispetto a una normale.
 
-In R, il pacchetto base offre la funzione `qqnorm()` per generare QQ-plot. Ad esempio:
+```{r}
+set.seed(123)
+dati_unif <- runif(100, min = -2, max = 2)  # Uniforme
+qqnorm(dati_unif, main = "QQ-plot: Distribuzione con Code Leggere")
+qqline(dati_unif, lwd = 2)
+```
+
+#### Presenza di outlier
+
+Quando ci sono outlier, il QQ-plot mostra punti isolati che si discostano significativamente dalla retta diagonale, soprattutto agli estremi del grafico.
+
+```{r}
+set.seed(123)
+dati_outliers <- c(rnorm(95, mean = 0, sd = 1), c(-5, 6))  # Dati normali + outlier
+qqnorm(dati_outliers, main = "QQ-plot: Presenza di Outlier")
+qqline(dati_outliers, lwd = 2)
+```
+
+#### Distribuzione bimodale
+
+Dati provenienti da una distribuzione bimodale mostrano un pattern a "S" nel QQ-plot, con due regioni curve che corrispondono alle due modalità.
+
+```{r}
+set.seed(123)
+dati_bimod <- c(rnorm(50, mean = -2, sd = 0.5), rnorm(50, mean = 2, sd = 0.5))
+qqnorm(dati_bimod, main = "QQ-plot: Distribuzione Bimodale")
+qqline(dati_bimod, lwd = 2)
+```
+
+
+### Riepilogo dei pattern nel QQ-plot
+
+La tabella seguente riassume i pattern più comuni osservabili nei QQ-plot e le loro interpretazioni.
+
+| **Pattern**                       | **Interpretazione**                                   |
+|-----------------------------------|------------------------------------------------------|
+| Punti lungo la retta              | Dati normali                                         |
+| Curva verso l'alto a destra       | Asimmetria positiva (code a destra)                  |
+| Curva verso il basso a sinistra   | Asimmetria negativa (code a sinistra)                |
+| Punti lontani agli estremi        | Code pesanti (outlier o distribuzione t di Student)  |
+| Punti vicini agli estremi         | Code leggere (uniforme)                              |
+| Punti isolati                     | Presenza di outlier                                  |
+| Curva a "S"                       | Distribuzione bimodale o multimodale                 |
+
+### Esempio Pratico: QQ-plot per i dati di tempo di reazione
+
+Consideriamo i dati di tempi di reazione simulati in precedenza. Il QQ-plot fornisce un modo rapido per visualizzare la deviazione dalla normalità:
 
 ```{r}
 #| fig.width=5,
 #| fig.asp=1
 #| 
 # Generazione del QQ-plot con qqnorm
-qqnorm(dati_campione, main = "QQ-Plot: Stessa Media e Varianza")
-qqline(dati_campione, lwd = 2)  # Linea di riferimento
+qqnorm(rt, main = "QQ-Plot: Tempi di Reazione")
+qqline(rt, lwd = 2) 
 ```
 
-Possiamo ripetere lo stesso per i campioni con media e varianza spostate.
+Il QQ-plot conferma che i tempi di reazione non seguono una distribuzione normale, con evidenti curve sistematiche che suggeriscono asimmetria positiva. Un'ispezione visiva di questo tipo è essenziale per decidere se applicare trasformazioni o utilizzare modelli alternativi.
 
---- 
+## Test statistici di normalità
 
-Questo approccio fornisce un'analisi completa della corrispondenza tra distribuzioni teoriche e campioni simulati utilizzando QQ-plot.
+Sebbene i grafici QQ siano strumenti visivi fondamentali per valutare la normalità, esistono anche test statistici formali per verificare questa assunzione. I test di normalità restituiscono un valore-$p$, che rappresenta la probabilità di osservare i dati (o deviazioni più estreme) sotto l'ipotesi che essi provengano da una distribuzione normale. Se il valore-$p$ è inferiore a una soglia prefissata (ad esempio, 0.05), l'ipotesi di normalità viene rigettata.
 
-Per concludere, esaminiamo la distribuzione dei tempi di reazione simulati con il qq-plot.
+::: callout-warning
+## Limiti dei Test Formali di Normalità
 
-```{r}
-#| fig.width=5,
-#| fig.asp=1
-#| 
-qqnorm(rt, main = "Tempi di Reazione")
-```
+Sebbene i test statistici di normalità siano utili in alcuni contesti, *devono essere utilizzati con cautela* e *non dovrebbero essere l'unico criterio* per valutare la normalità. I principali problemi sono:
 
-Il diagramma quantile-quantile rende molto chiaro che la distribuzione del peso dei pulcini non è gaussiana.
+1. **Eccessiva sensibilità in campioni grandi**: con campioni sufficientemente grandi, i test formali tendono a rigettare la normalità anche in presenza di deviazioni minime e praticamente irrilevanti.
+2. **Bassa potenza in campioni piccoli**: in campioni ridotti, i test possono non essere sufficientemente potenti per rilevare deviazioni significative dalla normalità.
+3. **Dipendenza dalla dimensione del campione**: la decisione di rigettare o meno l'ipotesi di normalità diventa più una questione di dimensione campionaria che di reale rilevanza pratica.
 
-## Valutare la Normalità: Test Statistici 
-
-Sebbene esistano numerosi test statistici formali per valutare la conformità dei dati alla distribuzione normale, questi sono spesso troppo conservativi o sensibili a lievi deviazioni, e nella pratica sono frequentemente sostituiti da metodi visivi più flessibili ed efficaci.
-
-In R sono disponibili diversi test per verificare la normalità dei dati. Di seguito presentiamo i più comuni, insieme a un esempio pratico basato sul dataset `ChickWeight`.
+Per questi motivi, i test statistici devono essere *integrati con strumenti grafici*, che offrono una valutazione più equilibrata e intuitiva della normalità.
+:::
 
 ### Test di Shapiro-Wilk
 
-Il test di Shapiro-Wilk è uno dei test più utilizzati per verificare la normalità. Valuta l'ipotesi nulla che i dati seguano una distribuzione normale.
+Il test di Shapiro-Wilk è uno dei più utilizzati e potenti per valutare la normalità, soprattutto in campioni di piccole e medie dimensioni.
 
 ```{r}
-shapiro_test <- shapiro.test(rt)
-shapiro_test
+shapiro.test(rt)
 ```
 
-- Il p-value è inferiore a 0.05 → Rifiutiamo l'ipotesi nulla, i dati non sono normali.
-- Il p-value è maggiore di 0.05 → Non rifiutiamo l'ipotesi nulla, i dati possono essere considerati normali.
+Nel nostro esempio, il valore-p molto piccolo ($p < 0.001$) indica che i dati non seguono una distribuzione normale.
 
 ### Test di Kolmogorov-Smirnov
 
-Questo test confronta la distribuzione cumulativa dei dati con una distribuzione teorica, come la normale. Tuttavia, è meno sensibile rispetto al test di Shapiro-Wilk.
+Il test di Kolmogorov-Smirnov confronta la distribuzione empirica dei dati con quella teorica. Anche se meno potente del test di Shapiro-Wilk, è applicabile a campioni di grandi dimensioni.
 
 ```{r}
-#| warning: false
-#| 
-ks_test <- ks.test(
-  rt, 
-  "pnorm", 
-  mean = mean(rt), 
-  sd = sd(rt)
-)
-ks_test
+ks.test(rt, "pnorm", mean = mean_rt, sd = sd_rt)
 ```
 
-Il test di Kolmogorov-Smirnov è più adatto per grandi dataset, ma è noto per essere eccessivamente conservativo.
+### Test di Anderson-Darling
 
-### Limitazioni dei test statistici
-
-Nonostante la loro precisione formale, i test statistici per la normalità notevoli  limitazioni:
-
-- **Eccessiva sensibilità ai grandi campioni:** Quando il campione è ampio, anche lievi deviazioni dalla normalità, non rilevanti per l’analisi, possono portare a un risultato di non-normalità.
-
-- **Mancanza di sensibilità nei piccoli campioni:** Con campioni ridotti, i test possono mancare di potere statistico, portando a falsi negativi (ovvero, non rilevare deviazioni significative dalla normalità).
+Il test di Anderson-Darling è simile al Kolmogorov-Smirnov, ma assegna maggiore peso alle code della distribuzione, rendendolo più sensibile a deviazioni estreme.
 
 ```{r}
-set.seed(123)
-shapiro.test(rchisq(20, 4))
+if (!requireNamespace("nortest", quietly = TRUE)) install.packages("nortest")
+nortest::ad.test(rt)
 ```
 
-In questo esempio, vediamo come, con un campione di 20 osservazioni da una distribuzione $\chi^2_4$ si produca un falso negativo.
+### Interpretazione dei Test
 
-- **Difficoltà interpretative:** Un p-value elevato non implica che i dati siano esattamente normali; semplicemente, non c'è evidenza sufficiente per rifiutare l'ipotesi di normalità.
+Tutti e tre i test confermano che i dati simulati non seguono una distribuzione normale. Tuttavia, come abbiamo discusso sopra, i test statistici non dovrebbero essere interpretati in modo rigido:
 
-I metodi visivi, sebbene meno formali, sono spesso più pratici ed efficaci per diagnosticare deviazioni dalla normalità.I metodi visivi sono preferibili sono preferibili perché
+- un valore-p molto basso ($p < 0.05$) suggerisce una deviazione statisticamente significativa dalla normalità, ma questa deviazione potrebbe non avere rilevanza pratica;
+- un valore-p elevato ($p > 0.05$) non garantisce che i dati siano perfettamente normali; potrebbe semplicemente riflettere una mancanza di potenza del test.
 
-- forniscono una diagnosi immediata, che consente di identificare deviazioni rilevanti senza dipendere da un p-value.
-- rivelano non solo se i dati non sono normali, ma anche *come* e *dove* differiscono dalla normalità (ad esempio, asimmetria o code pesanti).
+::: callout-tip
+## Raccomandazione pratica
+
+La *combinazione di visualizzazioni grafiche e test statistici* è l'approccio più robusto. Utilizzate i grafici QQ per identificare la natura delle deviazioni dalla normalità e i test statistici come supporto aggiuntivo, soprattutto per decisioni formali. Tuttavia:
+
+- privilegiate i grafici per valutazioni qualitative e interpretazioni contestuali;
+- usate i test per supportare decisioni formali, ma evitate di fare affidamento esclusivo su di essi;
+- considerate sempre la dimensione del campione e l'effetto pratico delle deviazioni osservate;
 - offrono indicazioni utili anche in presenza di grandi campioni, dove i test statistici possono risultare eccessivamente conservativi.
+:::
 
----
+::: {.callout-note icon=false collapse="true"}
+## Trasformazioni dei dati: prospettive a confronto
+
+L'uso di trasformazioni matematiche per affrontare la non-normalità rappresenta un punto di divergenza significativo tra l'approccio frequentista e quello bayesiano.
+
+### Approccio frequentista
+
+Nell'inferenza frequentista classica, molti test (t-test, ANOVA, regressione lineare) *richiedono l'assunzione di normalità* dei dati o dei residui. Quando questa assunzione è violata:
+
+- **le trasformazioni diventano necessarie** per rendere i dati compatibili con i test disponibili;
+- si privilegiano trasformazioni come log, radice quadrata, o Box-Cox per "normalizzare" la distribuzione;
+- il costo principale è la **perdita di interpretabilità**: i risultati sono espressi sulla scala trasformata, non su quella originale;
+- i coefficienti e gli intervalli di confidenza richiedono una back-transformation per essere interpretati nella scala originale, spesso con complicazioni.
+
+### Approccio bayesiano
+
+L'inferenza bayesiana offre maggiore *flessibilità modellistica*:
+
+- **le trasformazioni sono opzionali**, non necessarie: possiamo specificare direttamente modelli con verosimiglianze appropriate (Poisson, Gamma, log-normale, t di Student, ecc.);
+- i risultati rimangono interpretabili *sulla scala originale dei dati*;
+- i modelli possono incorporare naturalmente eteroschedasticità, overdispersion, o altre complessità senza forzare i dati in una forma normale;
+- la distribuzione a posteriori può essere approssimativamente normale per campioni grandi (Teorema del Limite Centrale), indipendentemente dalla forma dei dati.
+
+### Quando trasformare?
+
+Le trasformazioni mantengono un ruolo legittimo in entrambi gli approcci quando:
+
+1. **stabilizzano la varianza** in maniera rilevante;
+2. **linearizzano relazioni** complesse tra variabili;
+3. **migliorano l'interpretabilità teorica** (es. scale logaritmiche per processi moltiplicativi);
+4. **sono motivate dalla teoria sottostante** (es. log per rapporti, logit per proporzioni).
+
+Tuttavia, quando la trasformazione serve *solo* a soddisfare requisiti tecnici di un test frequentista, l'approccio bayesiano può offrire un'alternativa più diretta e interpretabile attraverso la specificazione di un modello appropriato.
+:::
 
 ## Trasformazione dei dati: affrontare la non-normalità
 
 Quando i dati non rispettano l'assunzione di normalità, è possibile utilizzare diverse strategie per affrontare questa violazione. Una delle più comuni è l'uso di trasformazioni dei dati, che permettono di adattare la distribuzione dei dati a una forma più vicina a quella normale, mantenendo comunque la validità dell'analisi che richiede l'assunzione di normalità. Due approcci comuni sono *Winsorizing* e *trimming*.
 
-### Winsorizing e Trimming
+### Winsorizing e trimming
 
 Questi metodi si concentrano sulla gestione degli outlier, ossia valori estremi che possono distorcere la distribuzione dei dati. Entrambi gli approcci presumono che la non-normalità sia dovuta a dati contaminanti e agiscono in modo differente:
 
-- **Winsorizing**: Sostituisce i valori estremi con valori meno estremi, come i percentili limite della distribuzione.
-- **Trimming**: Rimuove completamente i valori estremi dalla distribuzione.
+- *Winsorizing*: sostituisce i valori estremi con valori meno estremi, come i percentili limite della distribuzione;
+- *Trimming*: rimuove completamente i valori estremi dalla distribuzione.
 
 Consideriamo i seguenti dati di esempio:
 
@@ -397,12 +417,10 @@ dati_trimmed <- dati[
 print(dati_trimmed)
 ```
 
-- **Dati Winsorized**: I valori estremi (inferiori e superiori ai percentili 20° e 80°) sono sostituiti dai valori limite.
-- **Dati Trimmed**: I valori fuori dai percentili 20° e 80° sono completamente rimossi.
+- *Dati winsorized*: i valori estremi (inferiori e superiori ai percentili 20° e 80°) sono sostituiti dai valori limite;
+- *Dati trimmed*: i valori fuori dai percentili 20° e 80° sono completamente rimossi.
 
 Questi metodi riducono l'impatto degli outlier, ma possono introdurre bias se i valori estremi sono effettivamente parte della popolazione target.
-
----
 
 ## Trasformazioni comuni
 
@@ -477,23 +495,23 @@ qqnorm(rt_boxcox, main = "QQ-Plot")
 qqline(rt_boxcox, lwd = 2) 
 ```
 
----
-
 ### Pro e contro delle trasformazioni
 
-**Vantaggi:**  
-Le trasformazioni dei dati offrono molteplici benefici nell'analisi statistica. In primo luogo, possono migliorare l'aderenza alla normalità, un requisito fondamentale per l'applicazione di molti test statistici. Inoltre, contribuiscono a stabilizzare la varianza e a mitigare l'impatto dei valori estremi, riducendo il rischio che questi ultimi influenzino eccessivamente i risultati. Tali vantaggi migliorano la robustezza e l'accuratezza delle analisi.
+**Vantaggi.**  
+Le trasformazioni dei dati offrono molteplici benefici nell'analisi statistica. In primo luogo, possono migliorare l'aderenza alla normalità, un requisito fondamentale per l'applicazione di molti test statistici frequentisti. Inoltre, contribuiscono a stabilizzare la varianza e a mitigare l'impatto dei valori estremi, riducendo il rischio che questi ultimi influenzino eccessivamente i risultati. Tali vantaggi migliorano la robustezza e l'accuratezza delle analisi.
 
-**Svantaggi:**  
-Nonostante i benefici, le trasformazioni presentano limitazioni rilevanti. La **perdita di interpretabilità** è uno degli aspetti più critici: i risultati su dati trasformati possono risultare meno intuitivi. Ad esempio, in un modello di regressione applicato a dati trasformati con il logaritmo, il coefficiente rappresenta un cambiamento percentuale anziché assoluto, rendendo l'interpretazione meno diretta per i non esperti.  
+**Svantaggi.**  
+Nonostante i benefici, le trasformazioni presentano limitazioni rilevanti. La *perdita di interpretabilità* è uno degli aspetti più critici: i risultati su dati trasformati possono risultare meno intuitivi. Ad esempio, in un modello di regressione applicato a dati trasformati con il logaritmo, il coefficiente rappresenta un cambiamento percentuale anziché assoluto, rendendo l'interpretazione meno diretta per i non esperti.  
 
-Inoltre, l'applicazione di una trasformazione deve essere attentamente motivata in base alla natura dei dati e agli obiettivi dell'analisi. Una trasformazione inappropriata può introdurre **distorsioni indesiderate**, compromettendo la validità dei risultati e portando a conclusioni fuorvianti. Per questo motivo, è essenziale valutare attentamente i costi e i benefici della trasformazione nel contesto specifico della ricerca.
+Inoltre, l'applicazione di una trasformazione deve essere attentamente motivata in base alla natura dei dati e agli obiettivi dell'analisi. Una trasformazione inappropriata può introdurre *distorsioni indesiderate*, compromettendo la validità dei risultati e portando a conclusioni fuorvianti. Per questo motivo, è essenziale valutare attentamente i costi e i benefici della trasformazione nel contesto specifico della ricerca.
 
 ## Riflessioni Conclusive
 
-La verifica della normalità dei dati e l’eventuale utilizzo di trasformazioni matematiche costituiscono fasi fondamentali nell’analisi statistica. Sebbene i test formali (come Shapiro-Wilk o Kolmogorov-Smirnov) offrano una valutazione strutturata, essi possono risultare troppo sensibili, portando a rigettare l’assunto di normalità anche in presenza di lievi deviazioni non rilevanti dal punto di vista pratico. In questi casi, l’impiego di strumenti visivi—come istogrammi, grafici di densità o QQ-plot—si rivela spesso più informativo e flessibile, consentendo di individuare la natura e l’entità delle deviazioni.
+La verifica della normalità dei dati e l'eventuale utilizzo di trasformazioni matematiche costituiscono fasi fondamentali nell'analisi statistica. Sebbene i test formali (come Shapiro-Wilk o Kolmogorov-Smirnov) offrano una valutazione strutturata, essi possono risultare troppo sensibili, portando a rigettare l'assunto di normalità anche in presenza di lievi deviazioni non rilevanti dal punto di vista pratico. In questi casi, l'impiego di strumenti visivi—come istogrammi, grafici di densità o QQ-plot—si rivela spesso più informativo e flessibile, consentendo di individuare la natura e l'entità delle deviazioni.
 
-Le trasformazioni dei dati rappresentano una strategia utile per normalizzare la distribuzione, ma richiedono una scelta oculata. È essenziale verificare che la trasformazione adottata non comprometta il significato teorico della variabile in esame. Quando l’interpretabilità risulta compromessa, potrebbe essere preferibile ricorrere a metodi robusti o modelli alternativi (ad esempio, approcci bayesiani) che non presuppongono la normalità. In definitiva, la decisione finale dipenderà dal contesto di ricerca, dalla natura dei dati e dagli obiettivi analitici, privilegiando sempre un equilibrio tra rigore statistico e interpretabilità dei risultati.
+Le trasformazioni dei dati rappresentano una strategia utile nell'approccio frequentista per normalizzare la distribuzione e soddisfare le assunzioni richieste dai test classici, ma richiedono una scelta oculata. È essenziale verificare che la trasformazione adottata non comprometta il significato teorico della variabile in esame e l'interpretabilità dei risultati. Quando queste considerazioni diventano problematiche, l'approccio bayesiano offre un'alternativa particolarmente attraente: attraverso la specificazione di modelli con verosimiglianze appropriate (Poisson, Gamma, log-normale, t di Student), è possibile analizzare i dati sulla loro scala originale senza forzarli in una forma normale. Questa flessibilità modellistica permette di mantenere l'interpretabilità dei risultati e di incorporare naturalmente le caratteristiche intrinseche dei dati.
+
+In definitiva, la scelta dell'approccio—trasformazioni frequentiste, metodi robusti, o modelli bayesiani flessibili—dipenderà dal contesto di ricerca, dalla natura dei dati e dagli obiettivi analitici. L'importante è privilegiare sempre un equilibrio tra rigore statistico, interpretabilità dei risultati e fedeltà alla struttura intrinseca dei fenomeni studiati.
 
 ## Informazioni sull'Ambiente di Sviluppo {.unnumbered}
 
@@ -502,4 +520,3 @@ sessionInfo()
 ```
 
 ## Bibliografia {.unnumbered}
-
