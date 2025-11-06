@@ -366,13 +366,14 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-<li><a href="#cos%C3%A8-la-distribuzione-congiunta" id="toc-cosè-la-distribuzione-congiunta" class="nav-link active" data-scroll-target="#cos%C3%A8-la-distribuzione-congiunta"><span class="header-section-number">10.1</span> Cos’è la distribuzione congiunta?</a></li>
-  <li><a href="#propriet%C3%A0-fondamentali" id="toc-proprietà-fondamentali" class="nav-link" data-scroll-target="#propriet%C3%A0-fondamentali"><span class="header-section-number">10.2</span> Proprietà fondamentali</a></li>
-  <li><a href="#distribuzioni-congiunte-e-inferenza-bayesiana" id="toc-distribuzioni-congiunte-e-inferenza-bayesiana" class="nav-link" data-scroll-target="#distribuzioni-congiunte-e-inferenza-bayesiana"><span class="header-section-number">10.3</span> Distribuzioni congiunte e inferenza bayesiana</a></li>
-  <li><a href="#un-esempio-psicologico-ansia-e-prestazione" id="toc-un-esempio-psicologico-ansia-e-prestazione" class="nav-link" data-scroll-target="#un-esempio-psicologico-ansia-e-prestazione"><span class="header-section-number">10.4</span> Un esempio psicologico: ansia e prestazione</a></li>
-  <li><a href="#distribuzioni-marginali" id="toc-distribuzioni-marginali" class="nav-link" data-scroll-target="#distribuzioni-marginali"><span class="header-section-number">10.5</span> Distribuzioni marginali</a></li>
-  <li><a href="#indipendenza-e-dipendenza" id="toc-indipendenza-e-dipendenza" class="nav-link" data-scroll-target="#indipendenza-e-dipendenza"><span class="header-section-number">10.6</span> Indipendenza e dipendenza</a></li>
-  <li><a href="#il-caso-continuo-una-mappa-termica" id="toc-il-caso-continuo-una-mappa-termica" class="nav-link" data-scroll-target="#il-caso-continuo-una-mappa-termica"><span class="header-section-number">10.7</span> Il caso continuo: una mappa termica</a></li>
+<li><a href="#distribuzione-congiunta" id="toc-distribuzione-congiunta" class="nav-link active" data-scroll-target="#distribuzione-congiunta"><span class="header-section-number">10.1</span> Distribuzione congiunta</a></li>
+  <li><a href="#propriet%C3%A0-fondamentali-come-vincoli-di-coerenza" id="toc-proprietà-fondamentali-come-vincoli-di-coerenza" class="nav-link" data-scroll-target="#propriet%C3%A0-fondamentali-come-vincoli-di-coerenza"><span class="header-section-number">10.2</span> Proprietà fondamentali come vincoli di coerenza</a></li>
+  <li><a href="#dalla-tabella-22-alle-distribuzioni-multidimensionali" id="toc-dalla-tabella-22-alle-distribuzioni-multidimensionali" class="nav-link" data-scroll-target="#dalla-tabella-22-alle-distribuzioni-multidimensionali"><span class="header-section-number">10.3</span> Dalla tabella 2×2 alle distribuzioni multidimensionali</a></li>
+  <li><a href="#distribuzioni-marginali-derivazione-dalla-congiunta" id="toc-distribuzioni-marginali-derivazione-dalla-congiunta" class="nav-link" data-scroll-target="#distribuzioni-marginali-derivazione-dalla-congiunta"><span class="header-section-number">10.4</span> Distribuzioni marginali: derivazione dalla congiunta</a></li>
+  <li><a href="#indipendenza-come-fattorizzazione-della-congiunta" id="toc-indipendenza-come-fattorizzazione-della-congiunta" class="nav-link" data-scroll-target="#indipendenza-come-fattorizzazione-della-congiunta"><span class="header-section-number">10.5</span> Indipendenza come fattorizzazione della congiunta</a></li>
+  <li><a href="#distribuzioni-congiunte-e-inferenza-bayesiana" id="toc-distribuzioni-congiunte-e-inferenza-bayesiana" class="nav-link" data-scroll-target="#distribuzioni-congiunte-e-inferenza-bayesiana"><span class="header-section-number">10.6</span> Distribuzioni congiunte e inferenza bayesiana</a></li>
+  <li><a href="#il-caso-continuo-densit%C3%A0-congiunte" id="toc-il-caso-continuo-densità-congiunte" class="nav-link" data-scroll-target="#il-caso-continuo-densit%C3%A0-congiunte"><span class="header-section-number">10.7</span> Il caso continuo: densità congiunte</a></li>
+  <li><a href="#perch%C3%A9-le-distribuzioni-congiunte-sono-cruciali-in-psicologia" id="toc-perché-le-distribuzioni-congiunte-sono-cruciali-in-psicologia" class="nav-link" data-scroll-target="#perch%C3%A9-le-distribuzioni-congiunte-sono-cruciali-in-psicologia"><span class="header-section-number">10.8</span> Perché le distribuzioni congiunte sono cruciali in psicologia</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/10_joint_prob.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -391,25 +392,39 @@ window.Quarto = {
   
 
 
-</header><div class="epigraph">
-<blockquote class="blockquote">
-<p>“Probability is expectation founded upon partial knowledge. A perfect acquaintance with all the circumstances affecting the occurrence of an event would change expectation into certainty, and leave neither room nor demand for a theory of probabilities..”</p>
-<p>– <strong>George Boole</strong>, An Investigation of the Laws of Thought (1854)</p>
-</blockquote>
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>Nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> abbiamo visto che le tabelle di probabilità congiunta sono lo strumento fondamentale per rappresentare credenze coerenti su sistemi con più variabili. Abbiamo imparato che, una volta specificata una distribuzione congiunta coerente, tutte le altre quantità probabilistiche di interesse, come le distribuzioni marginali e condizionate, nonché le probabilità di eventi complessi, ne derivano automaticamente attraverso operazioni di marginalizzazione e condizionamento.</p>
+<p>In questo capitolo e nel successivo, estendiamo e approfondiamo tale discussione, esplorando le proprietà matematiche delle distribuzioni congiunte e mostrando come queste permettano di esprimere l’incertezza simultanea su più variabili psicologiche. Nell’approccio bayesiano, la distribuzione congiunta non descrive le “frequenze a lungo termine” delle combinazioni di eventi, ma piuttosto il nostro grado di credenza razionale che specifiche configurazioni si verifichino, in base al nostro attuale stato di conoscenza.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
-<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Fino a questo momento abbiamo considerato il concetto di probabilità associato a singole variabili casuali. Tuttavia, in molte situazioni pratiche e psicologiche, è fondamentale analizzare come due o più variabili casuali interagiscono tra loro. La <em>distribuzione congiunta</em> ci permette di descrivere la probabilità che più variabili aleatorie assumano contemporaneamente specifici valori.</p>
-<p>Questo capitolo introduce e approfondisce il concetto di distribuzione congiunta attraverso definizioni, proprietà essenziali e un esempio concreto basato sulla letteratura psicologica.</p>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Collegamento con il <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> abbiamo costruito tabelle congiunte 2×2 per rappresentare credenze su coppie di eventi binari (es. depressione e ansia). In questo capitolo generalizzeremo questi concetti a:</p>
+<ul>
+<li>variabili con più di due categorie (tabelle 3×3, ecc.);</li>
+<li>variabili continue (densità congiunte);</li>
+<li>sistemi con più di due variabili.</li>
+</ul>
+<p>Il principio di fondo rimane lo stesso: la distribuzione congiunta è la rappresentazione più completa e fondamentale delle nostre credenze su un sistema multivariato.</p>
+</div>
+</div>
 <section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
 <ul>
-<li>Definizione di distribuzione congiunta per variabili discrete e continue.</li>
-<li>Le proprietà fondamentali: non-negatività e normalizzazione.</li>
-<li>Come ottenere e interpretare le distribuzioni marginali da una congiunta.</li>
-<li>Il concetto di indipendenza e come verificarla tramite la distribuzione congiunta.</li>
-<li>Estensione al caso continuo, con esempi grafici (mappe termiche) e densità marginali/condizionali.</li>
+<li>Definizione epistemica di distribuzione congiunta per variabili discrete e continue.</li>
+<li>Le proprietà fondamentali come vincoli di coerenza.</li>
+<li>Derivazione di distribuzioni marginali e condizionate dalla congiunta.</li>
+<li>Indipendenza come caso speciale di fattorizzazione.</li>
+<li>Estensione al caso continuo con interpretazioni epistemiche.</li>
+<li>Il ruolo della distribuzione congiunta nell’inferenza bayesiana.</li>
 </ul>
 <div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -418,9 +433,11 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
+<li>
+<a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>: assiomi e coerenza delle credenze.</li>
 <li>Leggere il capitolo <em>Joint Distributions</em> <span class="citation" data-cites="kroese2025statistical">(<a href="#ref-kroese2025statistical" role="doc-biblioref">Chan &amp; Kroese, 2025</a>)</span>.</li>
 <li>Leggere il capitolo <em>Joint Distributions</em> <span class="citation" data-cites="blitzstein2019introduction">(<a href="#ref-blitzstein2019introduction" role="doc-biblioref">Blitzstein &amp; Hwang, 2019</a>)</span>.</li>
 </ul>
@@ -428,7 +445,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout callout-style-simple callout-caution no-icon callout-titled" title="Preparazione del Notebook">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -437,7 +454,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -449,42 +466,48 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section></section><section id="cosè-la-distribuzione-congiunta" class="level2" data-number="10.1"><h2 data-number="10.1" class="anchored" data-anchor-id="cosè-la-distribuzione-congiunta">
-<span class="header-section-number">10.1</span> Cos’è la distribuzione congiunta?</h2>
-<p>Quando studiamo due variabili casuali — ad esempio ansia (<span class="math inline">\(Y\)</span>) e prestazione cognitiva (<span class="math inline">\(X\)</span>) — non ci interessa solo il loro comportamento individuale, ma anche come si manifestano insieme. La <em>distribuzione congiunta</em> descrive proprio questo: la probabilità che <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> assumano contemporaneamente determinati valori.</p>
+</section></section><section id="distribuzione-congiunta" class="level2" data-number="10.1"><h2 data-number="10.1" class="anchored" data-anchor-id="distribuzione-congiunta">
+<span class="header-section-number">10.1</span> Distribuzione congiunta</h2>
+<p>Quando studiamo due variabili casuali, come l’ansia (<span class="math inline">\(Y\)</span>) e la prestazione cognitiva (<span class="math inline">\(X\)</span>), non ci interessa solo esprimere le nostre credenze sul loro comportamento individuale, ma anche su come si manifestano insieme. La <em>distribuzione congiunta</em> descrive proprio questo: il nostro grado di credenza razionale che <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> assumano contemporaneamente determinati valori, in base al nostro attuale stato di conoscenza.</p>
+<div id="def-joint-distribution" class="theorem definition">
+<p><span class="theorem-title"><strong>Definizione 10.1</strong></span> Una <em>distribuzione congiunta</em> assegna a ogni possibile configurazione <span class="math inline">\((x, y)\)</span> un grado di credenza che riflette quanto riteniamo plausibile che le due variabili assumano simultaneamente quei valori.</p>
 <ul>
 <li>
-<strong>Caso discreto</strong> (variabili che possono assumere valori distinti, come categorie o conteggi)::</li>
+<strong>Caso discreto</strong> (variabili che assumono valori distinti, come categorie o conteggi):</li>
 </ul>
 <p><span class="math display">\[
-p(x, y) = P(X = x, Y = y) .
-\]</span></p>
+p(x, y) = P(X = x, Y = y)
+\]</span> rappresenta la nostra credenza nella configurazione <span class="math inline">\((x, y)\)</span>.</p>
 <ul>
 <li>
-<strong>Caso continuo</strong> variabili misurate su scale numeriche con molti possibili valori, come punteggi o tempi di reazione):</li>
+<strong>Caso continuo</strong> (variabili misurate su scale numeriche continue, come punteggi o tempi di reazione):</li>
 </ul>
 <p><span class="math display">\[
 f(x, y)
-\]</span> che rappresenta la densità di probabilità congiunta.</p>
-<p>Grazie a queste funzioni possiamo rispondere a domande del tipo: Qual è la probabilità che uno studente con ansia elevata ottenga una prestazione insufficiente?</p>
-</section><section id="proprietà-fondamentali" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="proprietà-fondamentali">
-<span class="header-section-number">10.2</span> Proprietà fondamentali</h2>
-<p>Perché una distribuzione congiunta sia una corretta distribuzione di probabilità, deve rispettare due condizioni di base.</p>
+\]</span> rappresenta la densità di credenza nella regione intorno a <span class="math inline">\((x, y)\)</span>.</p>
+</div>
+<p><strong>Interpretazione epistemica:</strong> La distribuzione congiunta non afferma “cosa accadrà” o “quale proporzione di casi si verificherà a lungo termine”, ma esprime “quanto riteniamo plausibile” ogni possibile configurazione, alla luce delle informazioni attualmente disponibili (letteratura scientifica, dati preliminari, vincoli logici, ecc.).</p>
+<p>Grazie a questa rappresentazione delle nostre credenze possiamo rispondere a domande come: <em>Quanto è plausibile che uno studente con ansia elevata ottenga una prestazione insufficiente, dato ciò che sappiamo dalla letteratura e dalla nostra esperienza clinica?</em></p>
+</section><section id="proprietà-fondamentali-come-vincoli-di-coerenza" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="proprietà-fondamentali-come-vincoli-di-coerenza">
+<span class="header-section-number">10.2</span> Proprietà fondamentali come vincoli di coerenza</h2>
+<p>Nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> abbiamo visto che gli assiomi di Kolmogorov non sono leggi della natura, ma vincoli logici per evitare incoerenze (<em>Dutch Book</em>). Questi stessi vincoli si applicano anche alle distribuzioni congiunte.</p>
+<p>Perché una distribuzione congiunta possa rappresentare credenze coerenti, deve soddisfare i seguenti requisiti:</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>1. Non-negatività
+<span class="screen-reader-only">Nota</span>1. Non-negatività (coerenza dei gradi di credenza)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
 p(x,y) \geq 0
 \quad \text{oppure} \quad
-f(x,y) \geq 0 .
+f(x,y) \geq 0.
 \]</span></p>
+<p>Un grado di credenza negativo non ha senso: ogni configurazione deve avere una plausibilità non-negativa.</p>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
@@ -493,63 +516,60 @@ f(x,y) \geq 0 .
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>2. Normalizzazione
+<span class="screen-reader-only">Nota</span>2. Normalizzazione (certezza che qualcosa accada)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Caso discreto</strong><br><span class="math display">\[
-\sum_{x}\sum_{y} p(x,y) = 1 .
+\sum_{x}\sum_{y} p(x,y) = 1.
 \]</span></p></li>
 <li><p><strong>Caso continuo</strong><br><span class="math display">\[
-\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} f(x,y)\,dx\,dy = 1 .
+\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} f(x,y)\,dx\,dy = 1.
 \]</span></p></li>
 </ul>
+<p>Siamo certi che almeno una configurazione nello spazio delle possibilità si verificherà. Se la somma fosse inferiore a 1, staremmo ammettendo la possibilità che nessuna delle configurazioni considerate si verifichi, il che è logicamente incoerente.</p>
 </div>
 </div>
-<p>In altre parole:</p>
+<p>Queste proprietà sono conseguenze dirette dei vincoli di coerenza discussi nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>. Violarle significa esporre le nostre credenze a incoerenze logiche dimostrabili.</p>
+</section><section id="dalla-tabella-22-alle-distribuzioni-multidimensionali" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="dalla-tabella-22-alle-distribuzioni-multidimensionali">
+<span class="header-section-number">10.3</span> Dalla tabella 2×2 alle distribuzioni multidimensionali</h2>
+<p>Nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> abbiamo lavorato principalmente con tabelle congiunte 2×2 (due variabili binarie). Ora estendiamo questo framework a situazioni più complesse.</p>
+<section id="tabelle-con-più-categorie" class="level3" data-number="10.3.1"><h3 data-number="10.3.1" class="anchored" data-anchor-id="tabelle-con-più-categorie">
+<span class="header-section-number">10.3.1</span> Tabelle con più categorie</h3>
+<p>Consideriamo un esempio tratto dalla letteratura psicologica: la relazione tra <em>ansia</em> (<span class="math inline">\(Y\)</span>) e <em>prestazione cognitiva</em> (<span class="math inline">\(X\)</span>) in studenti universitari. La ricerca indica spesso una relazione negativa tra questi fattori <span class="citation" data-cites="eysenck2007anxiety">(<a href="#ref-eysenck2007anxiety" role="doc-biblioref">Eysenck et al., 2007</a>)</span>.</p>
+<p>Costruiamo una distribuzione congiunta che rappresenti le nostre credenze su queste variabili:</p>
 <ul>
-<li>tutte le probabilità devono essere <em>positive</em>,<br>
-</li>
-<li>e la loro somma (o integrale) deve essere <em>uguale a 1</em>.</li>
-</ul></section><section id="distribuzioni-congiunte-e-inferenza-bayesiana" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="distribuzioni-congiunte-e-inferenza-bayesiana">
-<span class="header-section-number">10.3</span> Distribuzioni congiunte e inferenza bayesiana</h2>
-<p>In questo libro ci concentreremo soprattutto sull’inferenza bayesiana, che si fonda proprio sul concetto di distribuzione congiunta. In termini generali, l’inferenza bayesiana mira a descrivere la distribuzione a posteriori dei parametri del modello, cioè la probabilità dei parametri dati i dati osservati.</p>
-<p>Questa distribuzione a posteriori deriva dalla combinazione di:</p>
+<li>
+<em>ansia</em>: bassa (0), media (1), alta (2);</li>
+<li>
+<em>prestazione cognitiva</em>: insufficiente (0), sufficiente (1), buona (2).</li>
+</ul></section><section id="costruzione-epistemica-della-tabella-congiunta" class="level3" data-number="10.3.2"><h3 data-number="10.3.2" class="anchored" data-anchor-id="costruzione-epistemica-della-tabella-congiunta">
+<span class="header-section-number">10.3.2</span> Costruzione epistemica della tabella congiunta</h3>
+<p>Come nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>, la nostra distribuzione congiunta deve integrare diverse fonti di conoscenza.</p>
 <ol type="1">
-<li>una distribuzione a priori sui parametri, che esprime le conoscenze (o le ipotesi) disponibili prima di osservare i dati;</li>
-<li>la distribuzione di verosimiglianza, che è una distribuzione congiunta dei dati osservati, condizionata ai parametri.</li>
+<li>
+<strong>Evidenza dalla letteratura</strong>: studi come quello di <span class="citation" data-cites="eysenck2007anxiety">Eysenck et al. (<a href="#ref-eysenck2007anxiety" role="doc-biblioref">2007</a>)</span> documentano una relazione negativa tra ansia e prestazione.</li>
+<li>
+<strong>Principi di coerenza</strong>: vincoli di Fréchet, normalizzazione, additività.</li>
+<li>
+<strong>Eventuali dati preliminari</strong>: osservazioni da studi pilota o esperienza clinica.</li>
 </ol>
-<p>Se i dati costituiscono un campione casuale indipendente e identicamente distribuito (i.i.d.), allora la verosimiglianza — cioè la <em>distribuzione congiunta</em> delle osservazioni — si ottiene come prodotto delle densità di ogni singola osservazione:</p>
-<p><span class="math display">\[
-p(y_1, y_2, \dots, y_n \mid \theta) = \prod_{i=1}^n p(y_i \mid \theta).
-\]</span> Poiché il prodotto di molte densità può rapidamente generare numeri molto piccoli (problema di <em>underflow numerico</em>), nella pratica si lavora quasi sempre con la <em>log-verosimiglianza</em> (o <em>log-densità congiunta</em>):</p>
-<p><span class="math display">\[
-\log p(y_1, \dots, y_n \mid \theta) = \sum_{i=1}^n \log p(y_i \mid \theta).
-\]</span> Questo passaggio non cambia la sostanza matematica del problema, ma rende i calcoli più stabili e più facili da gestire al computer.</p>
-</section><section id="un-esempio-psicologico-ansia-e-prestazione" class="level2" data-number="10.4"><h2 data-number="10.4" class="anchored" data-anchor-id="un-esempio-psicologico-ansia-e-prestazione">
-<span class="header-section-number">10.4</span> Un esempio psicologico: ansia e prestazione</h2>
-<p>Consideriamo un esempio tratto dalla letteratura psicologica: la relazione tra <em>ansia (Y)</em> e <em>prestazione cognitiva (X)</em> in studenti universitari. La ricerca psicologica indica spesso una relazione negativa tra questi due fattori: livelli elevati di ansia possono associarsi a prestazioni cognitive inferiori <span class="citation" data-cites="eysenck2007anxiety">(<a href="#ref-eysenck2007anxiety" role="doc-biblioref">Eysenck et al., 2007</a>)</span>.</p>
-<p>Supponiamo di aver valutato due variabili discrete in un gruppo di studenti:</p>
-<ul>
-<li>
-<em>Ansia</em>: bassa, media, alta (codificata come Y = 0, 1, 2);</li>
-<li>
-<em>Prestazione cognitiva</em>: insufficiente, sufficiente, buona (codificata come X = 0, 1, 2).</li>
-</ul>
-<p>La distribuzione congiunta potrebbe essere rappresentata nella seguente tabella (i dati sono ipotetici ma coerenti con la letteratura):</p>
+<p>Basandoci su queste fonti, potremmo costruire la seguente tabella che rappresenta i nostri gradi di credenza:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 24%">
+<col style="width: 19%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 21%">
+<col style="width: 14%">
 </colgroup>
 <thead><tr class="header">
 <th></th>
 <th>Ansia Bassa (0)</th>
 <th>Ansia Media (1)</th>
 <th>Ansia Alta (2)</th>
+<th>Marginale</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -557,103 +577,227 @@ p(y_1, y_2, \dots, y_n \mid \theta) = \prod_{i=1}^n p(y_i \mid \theta).
 <td>0.05</td>
 <td>0.10</td>
 <td>0.15</td>
+<td>0.30</td>
 </tr>
 <tr class="even">
 <td>Sufficiente (1)</td>
 <td>0.15</td>
 <td>0.20</td>
 <td>0.10</td>
+<td>0.45</td>
 </tr>
 <tr class="odd">
 <td>Buona (2)</td>
 <td>0.10</td>
 <td>0.10</td>
 <td>0.05</td>
+<td>0.25</td>
+</tr>
+<tr class="even">
+<td><strong>Marginale</strong></td>
+<td>0.30</td>
+<td>0.40</td>
+<td>0.30</td>
+<td>1.00</td>
 </tr>
 </tbody>
 </table>
-<p>I valori nella tabella rappresentano stime empiriche delle probabilità congiunte, ovvero le proporzioni osservate di studenti che hanno manifestato una specifica combinazione di livelli delle due variabili. Ad esempio, la cella corrispondente a “Ansia Media” e “Prestazione Sufficiente” indica che il 20% degli studenti nel campione considerato ha un livello medio di ansia ed ha ottenuto prestazioni sufficienti nel compito cognitivo.</p>
-<p>Questa tabella ci consente di calcolare probabilità interessanti. Ad esempio, la probabilità che uno studente raggiunga almeno la sufficienza, indipendentemente dall’ansia:</p>
+<p><strong>Interpretazione epistemica:</strong> ogni cella rappresenta il nostro grado di credenza in una specifica configurazione. Ad esempio:</p>
+<ul>
+<li>
+<span class="math inline">\(P(X=1, Y=1) = 0.20\)</span>: crediamo che la configurazione “prestazione sufficiente con ansia media” sia relativamente plausibile.</li>
+<li>
+<span class="math inline">\(P(X=2, Y=2) = 0.05\)</span>: la configurazione “buona prestazione con alta ansia” è meno plausibile, in linea con quanto riportato in letteratura.</li>
+</ul>
+<p><strong>Verifica di coerenza:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Costruzione della tabella</span></span>
+<span><span class="va">tab_joint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.15</span>,</span>
+<span>    <span class="fl">0.15</span>, <span class="fl">0.20</span>, <span class="fl">0.10</span>,</span>
+<span>    <span class="fl">0.10</span>, <span class="fl">0.10</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    Prestazione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Insufficiente"</span>, <span class="st">"Sufficiente"</span>, <span class="st">"Buona"</span><span class="op">)</span>,</span>
+<span>    Ansia <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bassa"</span>, <span class="st">"Media"</span>, <span class="st">"Alta"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<pre><code>#&gt; Somma di tutte le credenze: 1
+#&gt; ✓ Coerenza verificata: la somma è esattamente 1</code></pre>
+</div>
+</section><section id="significato-delle-probabilità-nella-tabella" class="level3" data-number="10.3.3"><h3 data-number="10.3.3" class="anchored" data-anchor-id="significato-delle-probabilità-nella-tabella">
+<span class="header-section-number">10.3.3</span> Significato delle probabilità nella tabella</h3>
+<p>A differenza di un’interpretazione frequentista che direbbe: “Il 20% degli studenti ha un’ansia media e una prestazione sufficiente”, nell’approccio bayesiano diciamo:</p>
+<blockquote class="blockquote">
+<p>“Dato il nostro stato di conoscenza (basato sulla letteratura, su dati preliminari, e su vincoli di coerenza), assegniamo una credenza pari a 0.20 alla configurazione ‘ansia media e prestazione sufficiente’. Questo riflette quanto riteniamo plausibile questa combinazione prima di osservare un nuovo campione di dati.”</p>
+</blockquote>
+<p>Se raccogliessimo nuovi dati, potremmo aggiornare queste credenze utilizzando il teorema di Bayes, come vedremo nei capitoli successivi.</p>
+</section></section><section id="distribuzioni-marginali-derivazione-dalla-congiunta" class="level2" data-number="10.4"><h2 data-number="10.4" class="anchored" data-anchor-id="distribuzioni-marginali-derivazione-dalla-congiunta">
+<span class="header-section-number">10.4</span> Distribuzioni marginali: derivazione dalla congiunta</h2>
+<p>Nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> abbiamo visto che le probabilità marginali derivano dalla distribuzione congiunta mediante la somma (o l’integrale) su una dimensione. Questo principio si estende naturalmente anche alle tabelle più grandi.</p>
+<div id="def-marginal-distribution" class="theorem definition">
+<p><span class="theorem-title"><strong>Definizione 10.2</strong></span> La <em>distribuzione marginale</em> di una variabile si ottiene sommando (marginalizzando) la distribuzione congiunta rispetto alle altre variabili. Essa rappresenta le nostre credenze su una variabile quando <em>non condizionamo</em> sull’altra.</p>
+</div>
+<p>Per la variabile ansia (<span class="math inline">\(Y\)</span>):</p>
 <p><span class="math display">\[
-P(X \geq 1) = 0.15 + 0.20 + 0.10 + 0.10 + 0.10 + 0.05 = 0.70 .
+P(Y=y) = \sum_{x} P(X=x, Y=y).
 \]</span></p>
-</section><section id="distribuzioni-marginali" class="level2" data-number="10.5"><h2 data-number="10.5" class="anchored" data-anchor-id="distribuzioni-marginali">
-<span class="header-section-number">10.5</span> Distribuzioni marginali</h2>
-<p>Dalla distribuzione congiunta possiamo ricavare le distribuzioni marginali delle singole variabili, cioè la probabilità che una variabile assuma un certo valore indipendentemente dall’altra.</p>
-<p>Per l’ansia:</p>
+<p>Dalle marginali della nostra tabella:</p>
 <ul>
-<li>ansia bassa: <span class="math display">\[P(Y=0)=0.05+0.15+0.10=0.30 .\]</span>
-</li>
-<li>ansia media: <span class="math display">\[P(Y=1)=0.10+0.20+0.10=0.40 .\]</span>
-</li>
-<li>ansia alta: <span class="math display">\[P(Y=2)=0.15+0.10+0.05=0.30 .\]</span>
-</li>
+<li>ansia bassa: <span class="math inline">\(P(Y=0) = 0.05 + 0.15 + 0.10 = 0.30\)</span>.</li>
+<li>ansia media: <span class="math inline">\(P(Y=1) = 0.10 + 0.20 + 0.10 = 0.40\)</span>.</li>
+<li>ansia alta: <span class="math inline">\(P(Y=2) = 0.15 + 0.10 + 0.05 = 0.30\)</span>.</li>
 </ul>
-<p>Queste distribuzioni ci dicono, ad esempio, che nel campione il 40% degli studenti ha ansia media.</p>
-</section><section id="indipendenza-e-dipendenza" class="level2" data-number="10.6"><h2 data-number="10.6" class="anchored" data-anchor-id="indipendenza-e-dipendenza">
-<span class="header-section-number">10.6</span> Indipendenza e dipendenza</h2>
-<p>Due variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> si dicono <em>indipendenti</em> se la loro distribuzione congiunta si fattorizza nelle rispettive distribuzioni marginali:</p>
-<p><span class="math display">\[p(x,y)=p(x)p(y) \quad \text{oppure} \quad f(x,y)=f(x)f(y) .\]</span></p>
-<p>Nel nostro esempio, se ansia e prestazione fossero indipendenti, dovremmo avere:</p>
-<p><span class="math display">\[P(X=0,Y=2)=P(X=0)P(Y=2) .\]</span></p>
-<p>In realtà, come suggerisce la letteratura <span class="citation" data-cites="eysenck2007anxiety">(<a href="#ref-eysenck2007anxiety" role="doc-biblioref">Eysenck et al., 2007</a>)</span>, ansia e prestazione tendono a essere dipendenti: più alta è l’ansia, minore è la probabilità di buone prestazioni.</p>
-</section><section id="il-caso-continuo-una-mappa-termica" class="level2" data-number="10.7"><h2 data-number="10.7" class="anchored" data-anchor-id="il-caso-continuo-una-mappa-termica">
-<span class="header-section-number">10.7</span> Il caso continuo: una mappa termica</h2>
-<p>Se invece misuriamo ansia e prestazione come variabili continue (es. punteggi su scale numeriche), la distribuzione congiunta è una densità. Possiamo rappresentarla come una mappa termica:</p>
+<p><strong>Interpretazione epistemica:</strong> la distribuzione marginale <span class="math inline">\(P(Y)\)</span> rappresenta le nostre credenze sull’ansia quando non conosciamo (o non vogliamo condizionare su) il livello di prestazione cognitiva. Essa “integra” su tutte le possibili prestazioni, pesandole con le credenze congiunte.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calcolo delle marginali</span></span>
+<span><span class="va">marg_prestazione</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">tab_joint</span><span class="op">)</span></span>
+<span><span class="va">marg_ansia</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">tab_joint</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<pre><code>#&gt; Distribuzione marginale della Prestazione:
+#&gt; Insufficiente   Sufficiente         Buona 
+#&gt;          0.30          0.45          0.25
+#&gt; 
+#&gt; Distribuzione marginale dell'Ansia:
+#&gt; Bassa Media  Alta 
+#&gt;   0.3   0.4   0.3</code></pre>
+</div>
+<p>Possiamo usare queste marginali per rispondere a domande come:</p>
+<p><span class="math display">\[
+P(X \geq 1) = P(X=1) + P(X=2) = 0.45 + 0.25 = 0.70
+\]</span></p>
+<p><em>Interpretazione</em>: dato il nostro livello di conoscenza, crediamo con un grado di certezza pari a 0.70 che uno studente scelto a caso raggiunga almeno la sufficienza, indipendentemente dal livello di ansia.</p>
+</section><section id="indipendenza-come-fattorizzazione-della-congiunta" class="level2" data-number="10.5"><h2 data-number="10.5" class="anchored" data-anchor-id="indipendenza-come-fattorizzazione-della-congiunta">
+<span class="header-section-number">10.5</span> Indipendenza come fattorizzazione della congiunta</h2>
+<p>Nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> abbiamo discusso l’indipendenza nel contesto degli eventi. Ora estendiamo questo concetto alle variabili casuali.</p>
+<div id="def-independence" class="theorem definition">
+<p><span class="theorem-title"><strong>Definizione 10.3</strong></span> Due variabili casuali <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> sono <em>indipendenti</em> (dal punto di vista delle nostre credenze) se la conoscenza di una non modifica le nostre credenze sull’altra. Formalmente, ciò accade quando la distribuzione congiunta si fattorizza nel prodotto delle distribuzioni marginali:</p>
+<p><span class="math display">\[
+p(x,y) = p(x) \cdot p(y) \quad \text{oppure} \quad f(x,y) = f(x) \cdot f(y)
+\]</span></p>
+</div>
+<p><strong>Interpretazione epistemica:</strong> l’indipendenza significa che la nostra credenza su <span class="math inline">\(X\)</span> non cambia quando apprendiamo il valore di <span class="math inline">\(Y\)</span>, e viceversa. Le due variabili sono epistemicamente separate nel nostro stato di conoscenza.</p>
+<section id="verifica-dellindipendenza" class="level3" data-number="10.5.1"><h3 data-number="10.5.1" class="anchored" data-anchor-id="verifica-dellindipendenza">
+<span class="header-section-number">10.5.1</span> Verifica dell’indipendenza</h3>
+<p>Nel nostro esempio, verifichiamo se ansia e prestazione sono indipendenti nella nostra rappresentazione delle credenze:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Se fossero indipendenti, dovremmo avere P(X=0,Y=2) = P(X=0) × P(Y=2)</span></span>
+<span><span class="va">p_x0_y2_observed</span> <span class="op">&lt;-</span> <span class="va">tab_joint</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">]</span>  <span class="co"># 0.15</span></span>
+<span><span class="va">p_x0_y2_independence</span> <span class="op">&lt;-</span> <span class="va">marg_prestazione</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="va">marg_ansia</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>  <span class="co"># 0.30 × 0.30</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<pre><code>#&gt; P(X=0, Y=2) osservata: 0.15
+#&gt; P(X=0) × P(Y=2) sotto indipendenza: 0.09
+#&gt; 
+#&gt; Le variabili sono indipendenti? No</code></pre>
+</div>
+<p>Come suggerisce la letteratura <span class="citation" data-cites="eysenck2007anxiety">(<a href="#ref-eysenck2007anxiety" role="doc-biblioref">Eysenck et al., 2007</a>)</span>, ansia e prestazione sono <em>dipendenti</em> nelle nostre credenze: crediamo che un’alta ansia renda meno probabili le buone prestazioni. Questa dipendenza è codificata nella struttura della distribuzione congiunta.</p>
+<p><strong>Implicazione:</strong> se le variabili fossero indipendenti, basterebbe conoscere le distribuzioni marginali per ricostruire completamente la distribuzione congiunta. Tuttavia, quando le variabili sono dipendenti (come nel nostro caso), la distribuzione congiunta contiene informazioni aggiuntive essenziali sulla struttura della loro relazione.</p>
+</section></section><section id="distribuzioni-congiunte-e-inferenza-bayesiana" class="level2" data-number="10.6"><h2 data-number="10.6" class="anchored" data-anchor-id="distribuzioni-congiunte-e-inferenza-bayesiana">
+<span class="header-section-number">10.6</span> Distribuzioni congiunte e inferenza bayesiana</h2>
+<p>La distribuzione congiunta gioca un ruolo centrale nell’inferenza bayesiana, come anticipato nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>.</p>
+<section id="il-modello-generativo-bayesiano" class="level3" data-number="10.6.1"><h3 data-number="10.6.1" class="anchored" data-anchor-id="il-modello-generativo-bayesiano">
+<span class="header-section-number">10.6.1</span> Il modello generativo bayesiano</h3>
+<p>In un’analisi bayesiana, si lavora con tre distribuzioni fondamentali:</p>
+<ol type="1">
+<li>
+<strong>prior</strong> <span class="math inline">\(p(\theta)\)</span>: nostre credenze iniziali sui parametri;</li>
+<li>
+<strong>verosimiglianza</strong> <span class="math inline">\(p(y_1, \ldots, y_n \mid \theta)\)</span>: distribuzione congiunta dei dati condizionata ai parametri;</li>
+<li>
+<strong>posterior</strong> <span class="math inline">\(p(\theta \mid y_1, \ldots, y_n)\)</span>: credenze aggiornate sui parametri dopo aver osservato i dati.</li>
+</ol></section><section id="verosimiglianza-come-distribuzione-congiunta" class="level3" data-number="10.6.2"><h3 data-number="10.6.2" class="anchored" data-anchor-id="verosimiglianza-come-distribuzione-congiunta">
+<span class="header-section-number">10.6.2</span> Verosimiglianza come distribuzione congiunta</h3>
+<p>La verosimiglianza è una distribuzione congiunta particolare che rappresenta le nostre credenze sui dati che osserveremo, dati i valori ipotetici dei parametri <span class="math inline">\(\theta\)</span>.</p>
+<p>Per dati indipendenti e identicamente distribuiti (i.i.d.), la distribuzione congiunta si fattorizza:</p>
+<p><span class="math display">\[
+p(y_1, y_2, \dots, y_n \mid \theta) = \prod_{i=1}^n p(y_i \mid \theta)
+\]</span></p>
+<p><strong>Interpretazione epistemica:</strong> se si assume che le osservazioni siano indipendenti da <span class="math inline">\(\theta\)</span> (cioè, conoscere <span class="math inline">\(\theta\)</span> rende le osservazioni epistemicamente indipendenti), allora la credenza sulla configurazione congiunta dei dati è il prodotto delle credenze sulle singole osservazioni.</p>
+</section><section id="log-verosimiglianza" class="level3" data-number="10.6.3"><h3 data-number="10.6.3" class="anchored" data-anchor-id="log-verosimiglianza">
+<span class="header-section-number">10.6.3</span> Log-verosimiglianza</h3>
+<p>Per motivi di stabilità numerica, lavoriamo quasi sempre con la log-verosimiglianza:</p>
+<p><span class="math display">\[
+\log p(y_1, \dots, y_n \mid \theta) = \sum_{i=1}^n \log p(y_i \mid \theta)
+\]</span></p>
+<p>Questo trasforma il prodotto in somma, evitando problemi di <em>underflow numerico</em> (il prodotto di molte probabilità piccole può generare numeri troppo piccoli per essere rappresentati dal computer).</p>
+<p><strong>Nota importante:</strong> il logaritmo è una trasformazione monotona, quindi massimizzare la log-verosimiglianza equivale a massimizzare la verosimiglianza. Ciò non cambia il valore di <span class="math inline">\(\theta\)</span> che riteniamo più plausibile alla luce dei dati.</p>
+</section></section><section id="il-caso-continuo-densità-congiunte" class="level2" data-number="10.7"><h2 data-number="10.7" class="anchored" data-anchor-id="il-caso-continuo-densità-congiunte">
+<span class="header-section-number">10.7</span> Il caso continuo: densità congiunte</h2>
+<p>Quando le variabili sono continue, la distribuzione congiunta è rappresentata da una <em>densità</em> <span class="math inline">\(f(x,y)\)</span> piuttosto che da probabilità discrete. L’interpretazione epistemica rimane la stessa: la densità indica quanto riteniamo plausibile una determinata configurazione.</p>
+<section id="visualizzazione-mappa-termica-della-credenza" class="level3" data-number="10.7.1"><h3 data-number="10.7.1" class="anchored" data-anchor-id="visualizzazione-mappa-termica-della-credenza">
+<span class="header-section-number">10.7.1</span> Visualizzazione: mappa termica della credenza</h3>
+<p>Possiamo visualizzare una densità congiunta come una mappa termica, in cui:</p>
 <ul>
-<li>asse X = ansia,</li>
-<li>asse Y = prestazione,</li>
-<li>colori più caldi = combinazioni più probabili.</li>
+<li>asse X: punteggio dell’ansia;</li>
+<li>asse Y: punteggio della prestazione cognitiva;</li>
+<li>i colori più caldi indicano le configurazioni a cui assegniamo maggiore credenza.</li>
 </ul>
-<p>Un esempio simulato mostra che la maggior parte degli studenti si concentra intorno a bassa ansia (30) e buona prestazione (70), mentre i punteggi più alti di ansia si associano a prestazioni più basse.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="10_joint_prob_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+<figure class="figure"><p><img src="10_joint_prob_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Questa visualizzazione rende immediato vedere la relazione negativa tra le due variabili <span class="citation" data-cites="eysenck2007anxiety">(<a href="#ref-eysenck2007anxiety" role="doc-biblioref">Eysenck et al., 2007</a>)</span>.</p>
-<section id="marginali-e-condizionali-con-variabili-continue" class="level3" data-number="10.7.1"><h3 data-number="10.7.1" class="anchored" data-anchor-id="marginali-e-condizionali-con-variabili-continue">
-<span class="header-section-number">10.7.1</span> Marginali e condizionali con variabili continue</h3>
-<p>Quando lavoriamo con variabili continue, non possiamo semplicemente contare le combinazioni come nel caso discreto (ad esempio, lanci di un dado). Invece, misuriamo la probabilità calcolando l’area della regione interessata sulla nostra mappa termica:</p>
+<p><strong>Interpretazione epistemica della visualizzazione:</strong></p>
 <ul>
-<li>la probabilità che l’ansia sia tra 50 e 55, e la prestazione tra 30 e 50, è rappresentata dall’area della regione corrispondente nella mappa termica;</li>
-<li>gli integrali (strumenti matematici per calcolare aree) sono semplicemente un modo preciso per fare questa operazione.</li>
-</ul>
-<section id="densità-marginale-proiettare-la-mappa-su-un-asse" class="level4" data-number="10.7.1.1"><h4 data-number="10.7.1.1" class="anchored" data-anchor-id="densità-marginale-proiettare-la-mappa-su-un-asse">
-<span class="header-section-number">10.7.1.1</span> Densità marginale: proiettare la mappa su un asse</h4>
-<p>La densità marginale descrive come si distribuisce una singola variabile, prescindendo completamente dall’altra. Possiamo immaginare questo processo come la proiezione della mappa termica su uno degli assi, ottenendo così un’ombra o una proiezione dell’intera distribuzione:</p>
-<ul>
-<li>proiettando tutti i valori sull’asse dell’ansia, si ottiene la densità marginale dell’ansia;</li>
-<li>proiettando tutti i valori sull’asse della prestazione, si ottiene la densità marginale della prestazione.</li>
-</ul>
-<p>Queste proiezioni rivelano la distribuzione di ciascuna variabile considerata isolatamente. Nella figura a cui si fa riferimento, le distribuzioni marginali sono state elaborate utilizzando in modo indipendente i dati relativi a ciascuna variabile, senza considerare le loro interrelazioni.</p>
-<p>Infatti, i colori più caldi nella mappa termica indicano zone con maggiore densità di osservazioni. Quando proiettiamo questi valori su un asse, otteniamo una curva di densità che rappresenta la distribuzione della variabile. Le aree dove la curva raggiunge valori più alti corrispondono ai valori più frequenti della variabile nella popolazione studiata.</p>
-</section><section id="densità-condizionale-fette-della-mappa-termica" class="level4" data-number="10.7.1.2"><h4 data-number="10.7.1.2" class="anchored" data-anchor-id="densità-condizionale-fette-della-mappa-termica">
-<span class="header-section-number">10.7.1.2</span> Densità condizionale: fette della mappa termica</h4>
-<p>La densità condizionale risponde alla domanda: “Se osservo persone con un determinato punteggio di prestazione cognitiva (ad esempio 40 punti), qual è la distribuzione dell’ansia tra queste persone?”</p>
-<ul>
-<li>Immaginate di prendere una fetta verticale della mappa termica in corrispondenza della prestazione = 40 punti. Questa fetta mostra la distribuzione dell’ansia soltanto tra coloro che hanno esattamente quella prestazione cognitiva.</li>
-<li>Per rendere questa distribuzione coerente, normalizziamo (cioè “aggiustiamo”) la fetta rispetto alla probabilità complessiva della prestazione a quel livello.</li>
-</ul>
-<p>Questa fetta verticale con i suoi vari colori (più caldi dove c’è maggiore densità) può essere convertita in una curva di densità che mostra come si distribuisce l’ansia specificamente per le persone con quel determinato livello di prestazione cognitiva. Il processo di normalizzazione assicura che l’area sotto questa curva di densità condizionale sia uguale a 1, consentendo confronti tra diverse condizioni.</p>
-</section><section id="perché-è-importante-in-psicologia" class="level4" data-number="10.7.1.3"><h4 data-number="10.7.1.3" class="anchored" data-anchor-id="perché-è-importante-in-psicologia">
-<span class="header-section-number">10.7.1.3</span> Perché è importante in psicologia?</h4>
-<p>Studiare distribuzioni congiunte è cruciale perché</p>
-<ul>
-<li>mette in luce relazioni complesse tra variabili psicologiche (lineari, curvilinee, bimodali, cluster);</li>
-<li>rivela informazioni che andrebbero perse se osservassimo solo le marginali;</li>
-<li>permette di analizzare fenomeni realistici, in cui costrutti come ansia, motivazione o prestazione non agiscono mai isolatamente.</li>
-</ul></section></section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
-<p>La distribuzione congiunta rappresenta uno strumento fondamentale per l’analisi multivariata in psicologia, permettendo di studiare simultaneamente il comportamento di multiple variabili aleatorie e le loro interrelazioni. Questo approccio risulta particolarmente prezioso nella ricerca psicologica, dove i fenomeni oggetto di studio - come l’ansia, la prestazione cognitiva, la motivazione o i tratti di personalità - raramente si manifestano in isolamento, ma piuttosto attraverso complesse reti di influenze reciproche.</p>
-<p>I concetti di densità congiunta, marginale e condizionale costituiscono la base per un’analisi rigorosa delle relazioni tra variabili psicologiche continue. Questi strumenti consentono di esplorare come i costrutti psicologici interagiscono e si influenzano reciprocamente, offrendo un quadro analitico per comprendere la complessità dei fenomeni mentali e comportamentali.</p>
-<p>Il passaggio concettuale dalle variabili discrete a quelle continue, pur richiedendo l’adozione di strumenti matematici più sofisticati (integrali invece di somme), mantiene intatta la sua intuizione fondamentale. La logica appresa nel caso discreto continua a fornire una solida base interpretativa anche per i fenomeni continui, che meglio rappresentano la realtà della misurazione psicologica.</p>
-<p>Questo framework analitico prepara il terreno per la successiva quantificazione delle relazioni tra variabili attraverso indicatori come la covarianza e la correlazione. Questi strumenti, che saranno approfonditi nel prossimo capitolo, permetteranno di misurare sistematicamente la forza e la direzione delle associazioni psicologiche, trasformando le osservazioni qualitative in relazioni quantitative verificabili.</p>
-<p>L’approccio attraverso le distribuzioni congiunte non solo fornisce un linguaggio formale per descrivere le relazioni psicologiche, ma stabilisce anche le fondamenta per modelli più avanzati di analisi dei dati, aprendo la strada a una comprensione sempre più sofisticata dei meccanismi che regolano il comportamento umano e i processi mentali.</p>
+<li>La regione più chiara (centro-sinistra in alto) rappresenta le configurazioni a cui assegniamo la massima credenza: bassa ansia e buona prestazione.</li>
+<li>Le regioni più scure (angolo in alto a destra) indicano le configurazioni a cui attribuiamo una bassa probabilità: alta ansia con buona prestazione.</li>
+<li>La correlazione negativa visibile riflette la nostra conoscenza della letteratura <span class="citation" data-cites="eysenck2007anxiety">(<a href="#ref-eysenck2007anxiety" role="doc-biblioref">Eysenck et al., 2007</a>)</span>.</li>
+</ul></section><section id="marginali-e-condizionali-nel-caso-continuo" class="level3" data-number="10.7.2"><h3 data-number="10.7.2" class="anchored" data-anchor-id="marginali-e-condizionali-nel-caso-continuo">
+<span class="header-section-number">10.7.2</span> Marginali e condizionali nel caso continuo</h3>
+<p>Nel caso continuo, le operazioni di marginalizzazione e condizionamento coinvolgono integrali invece di somme, ma l’interpretazione epistemica rimane invariata.</p>
+<section id="densità-marginale-proiettare-la-credenza-su-un-asse" class="level4" data-number="10.7.2.1"><h4 data-number="10.7.2.1" class="anchored" data-anchor-id="densità-marginale-proiettare-la-credenza-su-un-asse">
+<span class="header-section-number">10.7.2.1</span> Densità marginale: proiettare la credenza su un asse</h4>
+<p>La densità marginale si ottiene integrando (marginalizzando) la densità congiunta:</p>
+<p><span class="math display">\[
+f_X(x) = \int_{-\infty}^{+\infty} f(x,y) \, dy
+\]</span></p>
+<p><strong>Interpretazione epistemica:</strong> la distribuzione marginale <span class="math inline">\(f_X(x)\)</span> rappresenta le nostre credenze su <span class="math inline">\(X\)</span> quando non conosciamo (o non condizionamo su) il valore di <span class="math inline">\(Y\)</span>. Essa “integra” su tutti i possibili valori di <span class="math inline">\(Y\)</span>, pesandoli con le credenze congiunte.</p>
+<p><strong>Visualizzazione:</strong> i grafici ai margini della figura mostrano le densità marginali. Questi grafici rappresentano le nostre credenze “proiettate” su ciascuna variabile singolarmente.</p>
+</section><section id="densità-condizionale-aggiornamento-delle-credenze" class="level4" data-number="10.7.2.2"><h4 data-number="10.7.2.2" class="anchored" data-anchor-id="densità-condizionale-aggiornamento-delle-credenze">
+<span class="header-section-number">10.7.2.2</span> Densità condizionale: aggiornamento delle credenze</h4>
+<p>La densità condizionale risponde alla domanda epistemica: “Se venissi a conoscenza del fatto che la prestazione è esattamente di 40 punti, come dovrei aggiornare le mie credenze sull’ansia?”</p>
+<p><span class="math display">\[
+f_{X|Y}(x \mid y) = \frac{f(x,y)}{f_Y(y)}.
+\]</span></p>
+<p><strong>Interpretazione epistemica:</strong> si tratta di un’applicazione del condizionamento bayesiano. A partire dalla congiunta, “selezioniamo” solo le configurazioni compatibili con l’osservazione <span class="math inline">\(Y=y\)</span> e rinormalizziamo per ottenere una distribuzione di credenza valida.</p>
+<p><strong>Visualizzazione mentale:</strong> immagina di prendere una “fetta verticale” della mappa termica corrispondente a un valore specifico di prestazione. Questa fetta, opportunamente normalizzata, rappresenta la distribuzione condizionale dell’ansia in relazione a quel valore di prestazione.</p>
+</section></section></section><section id="perché-le-distribuzioni-congiunte-sono-cruciali-in-psicologia" class="level2" data-number="10.8"><h2 data-number="10.8" class="anchored" data-anchor-id="perché-le-distribuzioni-congiunte-sono-cruciali-in-psicologia">
+<span class="header-section-number">10.8</span> Perché le distribuzioni congiunte sono cruciali in psicologia</h2>
+<div class="callout callout-style-simple callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Importanza per la ricerca psicologica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Studiare le distribuzioni congiunte è fondamentale perché:</p>
+<ol type="1">
+<li><p><strong>Coglie la complessità dei fenomeni psicologici</strong>: i costrutti psicologici (ansia, motivazione, prestazione, tratti di personalità) raramente agiscono in isolamento, ma attraverso reti complesse di influenze reciproche.</p></li>
+<li><p><strong>Rivela strutture nascoste</strong>: relazioni non-lineari, interazioni, cluster di configurazioni plausibili che andrebbero persi osservando solo le distribuzioni marginali.</p></li>
+<li><p><strong>Permette un’inferenza sofisticata</strong>: una volta specificata la distribuzione congiunta, è possibile rispondere a qualsiasi domanda probabilistica di interesse (marginali, condizionali, eventi complessi).</p></li>
+<li><p><strong>Formalizza l’incertezza multidimensionale</strong>: esprime in modo rigoroso l’incertezza simultanea su più aspetti di un fenomeno.</p></li>
+<li><p><strong>Base per modelli bayesiani avanzati</strong>: modelli gerarchici, misture, processi gaussiani si fondano tutti su distribuzioni congiunte opportunamente strutturate.</p></li>
+</ol>
+</div>
+</div>
+</section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+<p>La distribuzione congiunta costituisce lo strumento fondamentale per esprimere in modo coerente le nostre credenze riguardo a sistemi multivariati. In questo capitolo abbiamo esteso i concetti introdotti nel <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>, dimostrando come le tabelle congiunte 2×2 si generalizzino in tre direzioni principali.</p>
+<p>In primo luogo, le tabelle con più categorie rappresentano un’estensione naturale per le variabili che presentano molti livelli. In secondo luogo, le densità continue emergono quando le variabili assumono valori su scale continue. Infine, nell’inferenza bayesiana, la verosimiglianza si configura essa stessa come una distribuzione congiunta.</p>
+<p>Alcuni principi chiave ricorrono costantemente nell’analisi delle distribuzioni congiunte. La distribuzione congiunta rappresenta la rappresentazione più completa delle nostre credenze su un sistema. Tutte le altre quantità probabilistiche, come le distribuzioni marginali e condizionali, derivano direttamente dalla congiunta tramite operazioni matematiche ben definite. Le proprietà di coerenza, come la non negatività e la normalizzazione, sono vincoli logici piuttosto che mere convenzioni matematiche. L’indipendenza, infine, rappresenta un caso speciale in cui la distribuzione congiunta si fattorizza, una condizione che si verifica raramente nei fenomeni psicologici reali.</p>
+<p>Nel prossimo capitolo affronteremo la quantificazione di un aspetto specifico delle relazioni espresse dalle distribuzioni congiunte: la tendenza alla covarianza lineare. Introdurremo la covarianza e la correlazione come indici numerici che sintetizzano in modo compatto la struttura di dipendenza lineare codificata nella distribuzione congiunta.</p>
+<p>È fondamentale sottolineare che questi indici rappresentano soltanto dei riassunti della distribuzione congiunta. Sebbene catturino efficacemente l’aspetto lineare della relazione, la distribuzione congiunta contiene informazioni molto più ricche e complete riguardo alla struttura delle nostre credenze, informazioni che vanno ben oltre quanto possa essere espresso da un singolo indice numerico.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -662,13 +806,13 @@ P(X \geq 1) = 0.15 + 0.20 + 0.10 + 0.10 + 0.10 + 0.05 = 0.70 .
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
-<span><span class="co">#&gt; Running under: macOS Tahoe 26.0</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib </span></span>
@@ -693,38 +837,38 @@ P(X \geq 1) = 0.15 + 0.20 + 0.10 + 0.10 + 0.10 + 0.05 = 0.70 .
 <span><span class="co">#&gt; [19] Rcpp_1.1.0            sessioninfo_1.2.3     conflicted_1.2.0     </span></span>
 <span><span class="co">#&gt; [22] janitor_2.2.1         matrixStats_1.5.0     modelr_0.1.11        </span></span>
 <span><span class="co">#&gt; [25] tibble_3.3.0          dplyr_1.1.4           tidyr_1.3.1          </span></span>
-<span><span class="co">#&gt; [28] rio_1.2.3             here_1.0.2           </span></span>
+<span><span class="co">#&gt; [28] rio_1.2.4             here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] gridExtra_2.3         inline_0.3.21         sandwich_3.1-1       </span></span>
-<span><span class="co">#&gt;  [4] rlang_1.1.6           magrittr_2.0.4        multcomp_1.4-28      </span></span>
-<span><span class="co">#&gt;  [7] snakecase_0.11.1      compiler_4.5.1        systemfonts_1.2.3    </span></span>
-<span><span class="co">#&gt; [10] vctrs_0.6.5           stringr_1.5.2         pkgconfig_2.0.3      </span></span>
-<span><span class="co">#&gt; [13] arrayhelpers_1.1-0    fastmap_1.2.0         backports_1.5.0      </span></span>
-<span><span class="co">#&gt; [16] labeling_0.4.3        promises_1.3.3        rmarkdown_2.29       </span></span>
-<span><span class="co">#&gt; [19] ragg_1.5.0            purrr_1.1.0           xfun_0.53            </span></span>
-<span><span class="co">#&gt; [22] cachem_1.1.0          jsonlite_2.0.0        later_1.4.4          </span></span>
-<span><span class="co">#&gt; [25] broom_1.0.10          parallel_4.5.1        R6_2.6.1             </span></span>
-<span><span class="co">#&gt; [28] stringi_1.8.7         RColorBrewer_1.1-3    lubridate_1.9.4      </span></span>
-<span><span class="co">#&gt; [31] estimability_1.5.1    knitr_1.50            zoo_1.8-14           </span></span>
-<span><span class="co">#&gt; [34] httpuv_1.6.16         Matrix_1.7-4          splines_4.5.1        </span></span>
-<span><span class="co">#&gt; [37] timechange_0.3.0      tidyselect_1.2.1      abind_1.4-8          </span></span>
-<span><span class="co">#&gt; [40] yaml_2.3.10           codetools_0.2-20      miniUI_0.1.2         </span></span>
-<span><span class="co">#&gt; [43] curl_7.0.0            pkgbuild_1.4.8        lattice_0.22-7       </span></span>
-<span><span class="co">#&gt; [46] shiny_1.11.1          withr_3.0.2           bridgesampling_1.1-2 </span></span>
-<span><span class="co">#&gt; [49] S7_0.2.0              coda_0.19-4.1         evaluate_1.0.5       </span></span>
-<span><span class="co">#&gt; [52] survival_3.8-3        isoband_0.2.7         RcppParallel_5.1.11-1</span></span>
-<span><span class="co">#&gt; [55] tensorA_0.36.2.1      checkmate_2.3.3       stats4_4.5.1         </span></span>
-<span><span class="co">#&gt; [58] distributional_0.5.0  generics_0.1.4        rprojroot_2.1.1      </span></span>
-<span><span class="co">#&gt; [61] rstantools_2.5.0      scales_1.4.0          xtable_1.8-4         </span></span>
-<span><span class="co">#&gt; [64] glue_1.8.0            emmeans_1.11.2-8      tools_4.5.1          </span></span>
-<span><span class="co">#&gt; [67] mvtnorm_1.3-3         grid_4.5.1            QuickJSR_1.8.0       </span></span>
-<span><span class="co">#&gt; [70] colorspace_2.1-1      nlme_3.1-168          cli_3.6.5            </span></span>
-<span><span class="co">#&gt; [73] textshaping_1.0.3     svUnit_1.0.8          Brobdingnag_1.2-9    </span></span>
-<span><span class="co">#&gt; [76] V8_7.0.0              gtable_0.3.6          digest_0.6.37        </span></span>
-<span><span class="co">#&gt; [79] TH.data_1.1-4         htmlwidgets_1.6.4     farver_2.1.2         </span></span>
-<span><span class="co">#&gt; [82] memoise_2.0.1         htmltools_0.5.8.1     lifecycle_1.0.4      </span></span>
-<span><span class="co">#&gt; [85] mime_0.13</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt;  [4] rlang_1.1.6           magrittr_2.0.4        multcomp_1.4-29      </span></span>
+<span><span class="co">#&gt;  [7] snakecase_0.11.1      otel_0.2.0            compiler_4.5.1       </span></span>
+<span><span class="co">#&gt; [10] systemfonts_1.3.1     vctrs_0.6.5           stringr_1.5.2        </span></span>
+<span><span class="co">#&gt; [13] pkgconfig_2.0.3       arrayhelpers_1.1-0    fastmap_1.2.0        </span></span>
+<span><span class="co">#&gt; [16] backports_1.5.0       labeling_0.4.3        promises_1.4.0       </span></span>
+<span><span class="co">#&gt; [19] rmarkdown_2.30        ragg_1.5.0            purrr_1.1.0          </span></span>
+<span><span class="co">#&gt; [22] xfun_0.53             cachem_1.1.0          jsonlite_2.0.0       </span></span>
+<span><span class="co">#&gt; [25] later_1.4.4           broom_1.0.10          parallel_4.5.1       </span></span>
+<span><span class="co">#&gt; [28] R6_2.6.1              stringi_1.8.7         RColorBrewer_1.1-3   </span></span>
+<span><span class="co">#&gt; [31] lubridate_1.9.4       estimability_1.5.1    knitr_1.50           </span></span>
+<span><span class="co">#&gt; [34] zoo_1.8-14            httpuv_1.6.16         Matrix_1.7-4         </span></span>
+<span><span class="co">#&gt; [37] splines_4.5.1         timechange_0.3.0      tidyselect_1.2.1     </span></span>
+<span><span class="co">#&gt; [40] abind_1.4-8           yaml_2.3.10           codetools_0.2-20     </span></span>
+<span><span class="co">#&gt; [43] miniUI_0.1.2          curl_7.0.0            pkgbuild_1.4.8       </span></span>
+<span><span class="co">#&gt; [46] lattice_0.22-7        shiny_1.11.1          withr_3.0.2          </span></span>
+<span><span class="co">#&gt; [49] bridgesampling_1.1-2  S7_0.2.0              coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [52] evaluate_1.0.5        survival_3.8-3        isoband_0.2.7        </span></span>
+<span><span class="co">#&gt; [55] RcppParallel_5.1.11-1 tensorA_0.36.2.1      checkmate_2.3.3      </span></span>
+<span><span class="co">#&gt; [58] stats4_4.5.1          distributional_0.5.0  generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [61] rprojroot_2.1.1       rstantools_2.5.0      scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [64] xtable_1.8-4          glue_1.8.0            emmeans_1.11.2-8     </span></span>
+<span><span class="co">#&gt; [67] tools_4.5.1           mvtnorm_1.3-3         grid_4.5.1           </span></span>
+<span><span class="co">#&gt; [70] QuickJSR_1.8.1        colorspace_2.1-2      nlme_3.1-168         </span></span>
+<span><span class="co">#&gt; [73] cli_3.6.5             textshaping_1.0.4     svUnit_1.0.8         </span></span>
+<span><span class="co">#&gt; [76] Brobdingnag_1.2-9     V8_8.0.1              gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [79] digest_0.6.37         TH.data_1.1-4         htmlwidgets_1.6.4    </span></span>
+<span><span class="co">#&gt; [82] farver_2.1.2          memoise_2.0.1         htmltools_0.5.8.1    </span></span>
+<span><span class="co">#&gt; [85] lifecycle_1.0.4       mime_0.13</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -743,7 +887,10 @@ Chan, J. C. C., &amp; Kroese, D. P. (2025). <em>Statistical Modeling and Computa
 Eysenck, M. W., Derakshan, N., Santos, R., &amp; Calvo, M. G. (2007). Anxiety and cognitive performance: attentional control theory. <em>Emotion</em>, <em>7</em>(2), 336–353.
 </div>
 </div>
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p><em>Condizionare</em> significa aggiornare o restringere le nostre credenze a un sottoinsieme dei casi possibili, assumendo che un certo evento o valore di una variabile sia noto. Ad esempio, <span class="math inline">\(P(Y \mid X=x)\)</span> rappresenta la probabilità dell’ansia <span class="math inline">\(Y\)</span> sapendo (cioè condizionando sul fatto) che la prestazione cognitiva <span class="math inline">\(X\)</span> ha assunto il valore <span class="math inline">\(x\)</span>. In termini bayesiani, il condizionamento corrisponde all’atto di incorporare nuova informazione per modificare razionalmente le probabilità precedenti.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
