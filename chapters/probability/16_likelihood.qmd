@@ -35,7 +35,7 @@ here::here("code", "_common.R") |>
 ```
 :::
 
-### Il principio della verosimiglianza
+## Il principio della verosimiglianza
 
 Il principio della verosimiglianza costituisce il fondamento dell'inferenza statistica moderna, fornendo un metodo per quantificare la plausibilità di un valore parametrico (come la media di una popolazione o l'effetto di una terapia) alla luce dei dati osservati.
 
@@ -116,6 +116,21 @@ $$
 \ell(\theta; y_1, \dots, y_n) = \sum_{i=1}^n \log f(y_i \mid \theta),
 $$
 semplificando notevolmente i calcoli.
+
+::: {.callout-caution collapse="true" title"Underflow"}
+
+**Problema:** Il prodotto di molte probabilità produce numeri troppo piccoli per essere rappresentati. I logaritmi trasformano prodotti in somme, evitando l'underflow.
+
+```{r}
+# Esempio di underflow
+n <- 1000
+theta <- 0.3
+# Verosimiglianza normale: può dare 0 per arrotondamento
+prod(dbinom(sample(0:1, n, replace=TRUE), 1, theta))
+# Log-verosimiglianza: stabile
+sum(dbinom(sample(0:1, n, replace=TRUE), 1, theta, log=TRUE))
+```
+:::
 
 Sul piano analitico, la log-verosimiglianza facilita l'ottimizzazione grazie alle proprietà del logaritmo che trasformano prodotti in somme. Le derivate risultano infatti matematicamente più semplici da trattare rispetto a quelle della verosimiglianza originale. Questa semplificazione risulta particolarmente vantaggiosa nei metodi di ottimizzazione numerica come la massimizzazione della verosimiglianza (MLE), dove la stima dei parametri avviene risolvendo il sistema di equazioni ottenuto uguagliando a zero il gradiente. La forma additiva della log-verosimiglianza si dimostra inoltre particolarmente utile nei modelli gerarchici o nei casi in cui i dati provengano da più fonti indipendenti.
 
