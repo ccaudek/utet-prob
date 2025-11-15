@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>16&nbsp; La verosimiglianza – Probabilità per la psicologia</title>
 <style>
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-af5d064118ae80f4bafc3d843c3c3870.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
@@ -288,13 +288,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali discrete</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali continue</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -369,7 +369,7 @@ window.Quarto = {
 <li><a href="#il-principio-della-verosimiglianza" id="toc-il-principio-della-verosimiglianza" class="nav-link active" data-scroll-target="#il-principio-della-verosimiglianza"><span class="header-section-number">16.1</span> Il principio della verosimiglianza</a></li>
   <li><a href="#modellazione-statistica-del-lancio-di-una-moneta" id="toc-modellazione-statistica-del-lancio-di-una-moneta" class="nav-link" data-scroll-target="#modellazione-statistica-del-lancio-di-una-moneta"><span class="header-section-number">16.2</span> Modellazione statistica del lancio di una moneta</a></li>
   <li><a href="#verosimiglianza-binomiale" id="toc-verosimiglianza-binomiale" class="nav-link" data-scroll-target="#verosimiglianza-binomiale"><span class="header-section-number">16.3</span> Verosimiglianza binomiale</a></li>
-  <li><a href="#la-stima-di-massima-verosimiglianza" id="toc-la-stima-di-massima-verosimiglianza" class="nav-link" data-scroll-target="#la-stima-di-massima-verosimiglianza"><span class="header-section-number">16.4</span> La Stima di Massima Verosimiglianza</a></li>
+  <li><a href="#la-stima-di-massima-verosimiglianza" id="toc-la-stima-di-massima-verosimiglianza" class="nav-link" data-scroll-target="#la-stima-di-massima-verosimiglianza"><span class="header-section-number">16.4</span> La Stima di massima verosimiglianza</a></li>
   <li><a href="#calcolo-della-stima-di-massima-verosimiglianza-in-r" id="toc-calcolo-della-stima-di-massima-verosimiglianza-in-r" class="nav-link" data-scroll-target="#calcolo-della-stima-di-massima-verosimiglianza-in-r"><span class="header-section-number">16.5</span> Calcolo della Stima di Massima Verosimiglianza in R</a></li>
   <li><a href="#verosimiglianza-congiunta" id="toc-verosimiglianza-congiunta" class="nav-link" data-scroll-target="#verosimiglianza-congiunta"><span class="header-section-number">16.6</span> Verosimiglianza congiunta</a></li>
   <li><a href="#la-verosimiglianza-marginale-nellinferenza-bayesiana" id="toc-la-verosimiglianza-marginale-nellinferenza-bayesiana" class="nav-link" data-scroll-target="#la-verosimiglianza-marginale-nellinferenza-bayesiana"><span class="header-section-number">16.7</span> La Verosimiglianza marginale nell’inferenza bayesiana</a></li>
@@ -395,13 +395,7 @@ window.Quarto = {
   
 
 
-</header><div class="epigraph">
-<blockquote class="blockquote">
-<p>“In Bayesian inference the likelihood plays the central role: it tells us how to update our prior beliefs in the light of observed data.”</p>
-<p>– <strong>Dennis V. Lindley</strong>, Making Decisions (1971)</p>
-</blockquote>
-</div>
-<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
 <p>I ricercatori utilizzano modelli matematici per descrivere e prevedere il comportamento dei dati osservati. Questi modelli si distinguono per la loro struttura funzionale, che definisce le relazioni tra variabili osservate e parametri teorici. La selezione del modello ottimale avviene attraverso un confronto sistematico tra le previsioni teoriche generate dai diversi modelli e l’evidenza empirica. Il modello che mostra il miglior accordo con i dati sperimentali viene considerato la rappresentazione più adeguata del fenomeno studiato.</p>
 <p>In questo processo di valutazione, la funzione di verosimiglianza svolge un ruolo fondamentale: per ogni possibile valore dei parametri, essa quantifica quanto siano plausibili i dati osservati sotto l’ipotesi che siano stati generati da quel specifico modello. In altre parole, la verosimiglianza costruisce una mappa di plausibilità parametrica, identificando le combinazioni di parametri che massimizzano la coerenza tra modello e realtà osservata.</p>
 <section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
@@ -508,13 +502,12 @@ L(\theta; y) = f(y \mid \theta)
 </ol></section><section id="implicazioni-per-linferenza-statistica" class="level4" data-number="16.1.1.2"><h4 data-number="16.1.1.2" class="anchored" data-anchor-id="implicazioni-per-linferenza-statistica">
 <span class="header-section-number">16.1.1.2</span> Implicazioni per l’inferenza statistica</h4>
 <ul>
-<li><p><strong>Approccio frequentista</strong>: la verosimiglianza è uno strumento per stimare i parametri (es. stima di massima verosimiglianza), senza assegnare loro una distribuzione di probabilità</p></li>
+<li><p><strong>Approccio frequentista</strong>: la verosimiglianza è uno strumento per stimare i parametri (es. stima di massima verosimiglianza), senza assegnare loro una distribuzione di probabilità.</p></li>
 <li><p><strong>Approccio bayesiano</strong>: la verosimiglianza funge da ponte tra dati e parametri, combinando l’informazione empirica con le credenze iniziali (<em>prior</em>) per derivare la distribuzione a posteriori:</p></li>
 </ul>
 <p><span class="math display">\[
-P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta)
-\]</span></p>
-<p>In questa prospettiva, i dati aggiornano la nostra conoscenza su <span class="math inline">\(\theta\)</span> attraverso la verosimiglianza.</p>
+P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta).
+\]</span> In questa prospettiva, i dati aggiornano la nostra conoscenza su <span class="math inline">\(\theta\)</span> attraverso la verosimiglianza.</p>
 </section><section id="sintesi-delle-differenze" class="level4" data-number="16.1.1.3"><h4 data-number="16.1.1.3" class="anchored" data-anchor-id="sintesi-delle-differenze">
 <span class="header-section-number">16.1.1.3</span> Sintesi delle differenze</h4>
 <table class="caption-top table">
@@ -571,7 +564,7 @@ P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta)
 <span><span class="co">#&gt; [1] 0</span></span>
 <span><span class="co"># Log-verosimiglianza: stabile</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="va">n</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">1</span>, <span class="va">theta</span>, log<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -816</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [1] -764</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>:::</p>
 <p>Sul piano analitico, la log-verosimiglianza facilita l’ottimizzazione grazie alle proprietà del logaritmo che trasformano prodotti in somme. Le derivate risultano infatti matematicamente più semplici da trattare rispetto a quelle della verosimiglianza originale. Questa semplificazione risulta particolarmente vantaggiosa nei metodi di ottimizzazione numerica come la massimizzazione della verosimiglianza (MLE), dove la stima dei parametri avviene risolvendo il sistema di equazioni ottenuto uguagliando a zero il gradiente. La forma additiva della log-verosimiglianza si dimostra inoltre particolarmente utile nei modelli gerarchici o nei casi in cui i dati provengano da più fonti indipendenti.</p>
@@ -691,7 +684,8 @@ L(0.4) = 0.4^1 \cdot 0.6^2 = 0.144
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Verosimiglianza"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"darkorange"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"darkorange"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
@@ -744,7 +738,8 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Verosimiglianza"</span></span>
-<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
@@ -766,8 +761,10 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 </ul></section><section id="implementazione-computazionale" class="level3" data-number="16.3.4"><h3 data-number="16.3.4" class="anchored" data-anchor-id="implementazione-computazionale">
 <span class="header-section-number">16.3.4</span> Implementazione computazionale</h3>
 <p>In R, il calcolo della verosimiglianza binomiale può essere efficientemente implementato utilizzando la funzione <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code>, che calcola la funzione di massa di probabilità della distribuzione binomiale:</p>
+<div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calcolo della verosimiglianza</span></span>
 <span><span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">y</span>, size <span class="op">=</span> <span class="va">n</span>, prob <span class="op">=</span> <span class="va">theta</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>dove:</p>
 <ul>
 <li>
@@ -780,7 +777,7 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 <p>Questo approccio dimostra come la verosimiglianza possa essere costruita direttamente a partire dalla distribuzione di probabilità sottostante, utilizzando strumenti computazionali standard. La funzione <code><a href="https://rdrr.io/r/stats/Binomial.html">dbinom()</a></code> calcola automaticamente l’intera espressione binomiale, inclusa la costante moltiplicativa, fornendo così la verosimiglianza completa per ogni valore di <span class="math inline">\(\theta\)</span>.</p>
 <p>La metodologia presentata mostra come concetti teorici di inferenza statistica possano essere efficacemente implementati e visualizzati attraverso strumenti computazionali, facilitando la comprensione intuitiva dei principi di verosimiglianza e stima parametrica.</p>
 </section></section><section id="la-stima-di-massima-verosimiglianza" class="level2" data-number="16.4"><h2 data-number="16.4" class="anchored" data-anchor-id="la-stima-di-massima-verosimiglianza">
-<span class="header-section-number">16.4</span> La Stima di Massima Verosimiglianza</h2>
+<span class="header-section-number">16.4</span> La Stima di massima verosimiglianza</h2>
 <p>Quando osserviamo dati sperimentali e desideriamo stimare un parametro incognito – come la probabilità <span class="math inline">\(\theta\)</span> che una moneta produca “testa” – un approccio fondamentale è rappresentato dalla <em>stima di massima verosimiglianza</em> (Maximum Likelihood Estimation, MLE). Sebbene l’approccio bayesiano si concentri sulla distribuzione completa dei valori plausibili del parametro piuttosto che su una singola stima puntuale, la comprensione del concetto di MLE rimane essenziale. Questo metodo identifica il valore di <span class="math inline">\(\theta\)</span> che massimizza la compatibilità tra il modello e i dati osservati. In contesti bayesiani, sotto specifiche condizioni di prior, la MLE coincide con il massimo della distribuzione a posteriori.</p>
 <section id="il-principio-fondamentale" class="level3" data-number="16.4.1"><h3 data-number="16.4.1" class="anchored" data-anchor-id="il-principio-fondamentale">
 <span class="header-section-number">16.4.1</span> Il principio fondamentale</h3>
@@ -801,12 +798,10 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 <p>Matematicamente, il massimo della funzione di verosimiglianza corrisponde al punto in cui la sua derivata si annulla. Utilizzando la trasformazione in log-verosimiglianza:</p>
 <p><span class="math display">\[
 \ell(\theta) = y \log \theta + (n - y) \log(1 - \theta),
-\]</span></p>
-<p>la soluzione analitica si ottiene ponendo la derivata uguale a zero:</p>
+\]</span> la soluzione analitica si ottiene ponendo la derivata uguale a zero:</p>
 <p><span class="math display">\[
 \hat{\theta} = \frac{y}{n}.
-\]</span></p>
-<p>Nel nostro esempio, questo risulta in <span class="math inline">\(\hat{\theta} = \frac{23}{30} \approx 0.767\)</span>, dimostrando come la MLE corrisponda alla proporzione campionaria osservata.</p>
+\]</span> Nel nostro esempio, questo risulta in <span class="math inline">\(\hat{\theta} = \frac{23}{30} \approx 0.767\)</span>, dimostrando come la MLE corrisponda alla proporzione campionaria osservata.</p>
 </section><section id="relazione-con-linferenza-bayesiana" class="level3" data-number="16.4.5"><h3 data-number="16.4.5" class="anchored" data-anchor-id="relazione-con-linferenza-bayesiana">
 <span class="header-section-number">16.4.5</span> Relazione con l’inferenza bayesiana</h3>
 <p>Nella statistica bayesiana, l’obiettivo principale è la caratterizzazione completa dell’incertezza parametrica attraverso la distribuzione a posteriori. Tuttavia, il punto di massimo di questa distribuzione, noto come stima MAP (Maximum A Posteriori), coincide con la MLE quando si assume una distribuzione a priori uniforme. Questa connessione evidenzia come la MLE rappresenti un caso particolare dell’approccio bayesiano, fornendo un ponte concettuale tra i due paradigmi inferenziali.</p>
@@ -876,8 +871,7 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 <p>Tutti e tre i metodi convergono allo stesso risultato:</p>
 <p><span class="math display">\[
 \hat{\theta} = \frac{23}{30} \approx 0.767 .
-\]</span></p>
-<p>Questa coincidenza dimostra la robustezza del metodo di massima verosimiglianza e conferma che, nel caso della distribuzione binomiale, la stima ottimale corrisponde alla proporzione campionaria osservata.</p>
+\]</span> Questa coincidenza dimostra la robustezza del metodo di massima verosimiglianza e conferma che, nel caso della distribuzione binomiale, la stima ottimale corrisponde alla proporzione campionaria osservata.</p>
 <p><strong>Osservazioni metodologiche:</strong></p>
 <ul>
 <li>Il metodo della griglia offre una visualizzazione completa della funzione di verosimiglianza.</li>
@@ -906,20 +900,15 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 <p>dove <span class="math inline">\(y = \sum_{i=1}^{n} y_i\)</span>. Questo dimostra l’equivalenza tra l’approccio basato sulle osservazioni individuali e quello basato sulla statistica sufficiente binomiale.</p>
 </section><section id="importanza-della-verosimiglianza-congiunta" class="level3" data-number="16.6.2"><h3 data-number="16.6.2" class="anchored" data-anchor-id="importanza-della-verosimiglianza-congiunta">
 <span class="header-section-number">16.6.2</span> Importanza della verosimiglianza congiunta</h3>
-<p>La verosimiglianza congiunta rappresenta uno strumento fondamentale per:</p>
-<ul>
-<li>Integrare informazioni da multiple osservazioni indipendenti.</li>
-<li>Costruire modelli statistici complessi.</li>
-<li>Effettuare stime parametriche basate sull’intero set di dati.</li>
-<li>Generalizzare il concetto di verosimiglianza a contesti multivariati.</li>
-</ul></section><section id="esempio-applicativo-gruppi-di-osservazioni-binomiali" class="level3" data-number="16.6.3"><h3 data-number="16.6.3" class="anchored" data-anchor-id="esempio-applicativo-gruppi-di-osservazioni-binomiali">
+<p>La verosimiglianza congiunta è uno strumento fondamentale nell’inferenza statistica, in quanto permette di integrare in modo coerente le informazioni provenienti da osservazioni indipendenti. Grazie a questo approccio, è possibile costruire modelli statistici complessi che riflettono la struttura dei dati osservati. La sua applicazione consente di effettuare stime parametriche ottimali basate sull’intero insieme di dati disponibili, massimizzando l’informazione estraibile dal campione. Inoltre, la verosimiglianza congiunta estende e generalizza il concetto di verosimiglianza ai contesti multivariati, fornendo un quadro teorico unitario per l’analisi di fenomeni multidimensionali.</p>
+</section><section id="esempio-applicativo-gruppi-di-osservazioni-binomiali" class="level3" data-number="16.6.3"><h3 data-number="16.6.3" class="anchored" data-anchor-id="esempio-applicativo-gruppi-di-osservazioni-binomiali">
 <span class="header-section-number">16.6.3</span> Esempio applicativo: gruppi di osservazioni binomiali</h3>
 <p>Consideriamo quattro gruppi indipendenti di osservazioni binomiali:</p>
 <ul>
-<li>Gruppo 1: 23 successi su 30 prove.</li>
-<li>Gruppo 2: 20 successi su 28 prove.</li>
-<li>Gruppo 3: 29 successi su 40 prove.</li>
-<li>Gruppo 4: 29 successi su 36 prove.</li>
+<li>gruppo 1: 23 successi su 30 prove;</li>
+<li>gruppo 2: 20 successi su 28 prove;</li>
+<li>gruppo 3: 29 successi su 40 prove;</li>
+<li>gruppo 4: 29 successi su 36 prove.</li>
 </ul>
 <p>Assumendo che tutti i gruppi condividano lo stesso parametro <span class="math inline">\(\theta\)</span>, la log-verosimiglianza congiunta è data da:</p>
 <p><span class="math display">\[
@@ -931,7 +920,7 @@ L(\theta \mid y = 23) = \binom{30}{23} \theta^{23} (1 - \theta)^7.
 \log \mathcal{L}(\theta) = &amp;23\log(\theta) + 7\log(1 - \theta) + \\
 &amp;20\log(\theta) + 8\log(1 - \theta) + \\
 &amp;29\log(\theta) + 11\log(1 - \theta) + \\
-&amp;29\log(\theta) + 7\log(1 - \theta)
+&amp;29\log(\theta) + 7\log(1 - \theta).
 \end{aligned}
 \]</span></p>
 <p>Questa formulazione permette di valutare la plausibilità del parametro <span class="math inline">\(\theta\)</span> considerando simultaneamente tutte le informazioni disponibili dai quattro gruppi sperimentali.</p>
@@ -999,13 +988,11 @@ p(k=7 \mid n=10) = \sum_{i=1}^{3} p(k=7 \mid \theta_i)\, p(\theta_i).
 <p><span class="math display">\[
 p(k=7 \mid n=10)
 = \int_{0}^{1} \binom{10}{7}\,\theta^{7}(1-\theta)^{3}\, p(\theta)\, d\theta,
-\]</span></p>
-<p>dove <span class="math inline">\(p(\theta)\)</span> è la distribuzione a priori.</p>
+\]</span> dove <span class="math inline">\(p(\theta)\)</span> è la distribuzione a priori.</p>
 <p>Ad esempio, con una prior <span class="math inline">\(\text{Beta}(2,2)\)</span>:</p>
 <p><span class="math display">\[
 p(\theta) = \frac{\theta(1-\theta)}{B(2,2)},
-\]</span></p>
-<p>si ottiene:</p>
+\]</span> si ottiene:</p>
 <p><span class="math display">\[
 p(k=7 \mid n=10)
 = \int_{0}^{1} \binom{10}{7}\, \theta^{7}(1-\theta)^{3} \,\frac{\theta(1-\theta)}{B(2,2)} \, d\theta.
@@ -1044,8 +1031,7 @@ p(k=7 \mid n=10) = \sum_{i=1}^3 p(k=7 \mid \theta_i)\, p(\theta_i).
 <p>Qui la verosimiglianza marginale viene calcolata come</p>
 <p><span class="math display">\[
 p(k=7 \mid n=10) = \int_0^1 \binom{10}{7}\, \theta^7 (1-\theta)^3 \, p(\theta)\, d\theta,
-\]</span></p>
-<p>dove, con una prior <span class="math inline">\(\text{Beta}(2,2)\)</span>, vale</p>
+\]</span> dove, con una prior <span class="math inline">\(\text{Beta}(2,2)\)</span>, vale</p>
 <p><span class="math display">\[
 p(\theta) = \frac{\theta(1-\theta)}{B(2,2)}.
 \]</span></p>
@@ -1066,8 +1052,7 @@ BF_{12} = \frac{p(D \mid M_1)}{p(D \mid M_2)}.
 <p>Nella formula di Bayes</p>
 <p><span class="math display">\[
 p(\theta \mid D) = \frac{p(D \mid \theta)\,p(\theta)}{p(D)},
-\]</span></p>
-<p>la quantità <span class="math inline">\(p(D)\)</span>, ossia la verosimiglianza marginale:</p>
+\]</span> la quantità <span class="math inline">\(p(D)\)</span>, ossia la verosimiglianza marginale:</p>
 <ul>
 <li>funge da <em>fattore di normalizzazione</em> per ottenere la distribuzione a posteriori;<br>
 </li>
@@ -1076,21 +1061,11 @@ p(\theta \mid D) = \frac{p(D \mid \theta)\,p(\theta)}{p(D)},
 <li>rappresenta una <em>misura complessiva dell’evidenza</em> fornita dai dati.</li>
 </ul></section><section id="considerazioni-pratiche" class="level3" data-number="16.7.6"><h3 data-number="16.7.6" class="anchored" data-anchor-id="considerazioni-pratiche">
 <span class="header-section-number">16.7.6</span> Considerazioni pratiche</h3>
-<p>Il calcolo di <span class="math inline">\(p(D)\)</span> presenta spesso difficoltà:</p>
-<ul>
-<li>l’integrazione diventa rapidamente <em>multidimensionale</em> per modelli complessi;<br>
-</li>
-<li>i risultati possono essere <em>sensibili alla scelta della prior</em>;<br>
-</li>
-<li>sono necessari <em>metodi approssimati</em> (MCMC, bridge sampling, ecc.) per modelli realistici.</li>
-</ul>
-<p>Nonostante queste complessità, la verosimiglianza marginale resta un concetto fondamentale:<br>
-- permette di valutare la bontà di adattamento dei modelli,<br>
-- guida la <em>selezione bayesiana dei modelli</em>,<br>
-- e garantisce un’inferenza che integra in modo coerente l’incertezza sui parametri.</p>
+<p>Il calcolo di <span class="math inline">\(p(D)\)</span> presenta spesso notevoli difficoltà pratiche. L’integrazione diventa rapidamente <em>multidimensionale</em> per modelli complessi, rendendo il calcolo analitico proibitivo. I risultati possono essere sensibili alla scelta della prior, in particolare in spazi parametrici ad alta dimensionalità. Per i modelli realistici, sono necessari <em>metodi approssimati</em> come la MCMC, il bridge sampling, l’approssimazione di Laplace e altre tecniche numeriche sofisticate.</p>
+<p>Nonostante queste complessità computazionali, la verosimiglianza marginale resta un concetto fondamentale per diverse ragioni cruciali: permette di valutare la bontà di adattamento dei modelli ai dati osservati, guida la <em>selezione bayesiana dei modelli</em> e garantisce un’inferenza che integra in modo coerente l’incertezza sui parametri, applicando automaticamente il principio di rasoio di Occam bayesiano.</p>
 </section></section><section id="verosimiglianza-gaussiana" class="level2" data-number="16.8"><h2 data-number="16.8" class="anchored" data-anchor-id="verosimiglianza-gaussiana">
 <span class="header-section-number">16.8</span> Verosimiglianza gaussiana</h2>
-<p>La distribuzione gaussiana (o normale) è uno degli strumenti fondamentali della statistica. La sua importanza deriva dalla capacità di descrivere in modo efficace molte variabili continue di interesse psicologico e scientifico, come il <em>quoziente intellettivo (QI)</em>, i <em>tempi di reazione</em> o diverse <em>misurazioni psicofisiologiche</em>.</p>
+<p>La distribuzione gaussiana è uno strumento fondamentale della statistica. La sua importanza deriva dalla capacità di descrivere in modo efficace molte variabili continue di interesse psicologico e scientifico, come il quoziente intellettivo (QI), i tempi di reazione e diverse misurazioni psicofisiologiche.</p>
 <section id="caso-di-una-singola-osservazione" class="level3" data-number="16.8.1"><h3 data-number="16.8.1" class="anchored" data-anchor-id="caso-di-una-singola-osservazione">
 <span class="header-section-number">16.8.1</span> Caso di una singola osservazione</h3>
 <p>Consideriamo la misurazione del QI di un individuo. Supponiamo che il QI segua una distribuzione normale con media incognita <span class="math inline">\(\mu\)</span> e deviazione standard nota <span class="math inline">\(\sigma = 15\)</span>.</p>
@@ -1098,9 +1073,8 @@ p(\theta \mid D) = \frac{p(D \mid \theta)\,p(\theta)}{p(D)},
 <p><span class="math display">\[
 f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 \exp\!\left(-\frac{(y-\mu)^2}{2\sigma^2}\right),
-\]</span></p>
-<p>dove <span class="math inline">\(y\)</span> rappresenta il valore osservato (nel nostro caso <span class="math inline">\(y=114\)</span>), <span class="math inline">\(\mu\)</span> è il parametro da stimare e <span class="math inline">\(\sigma\)</span> è noto.</p>
-<p>La <em>funzione di verosimiglianza</em> per una singola osservazione è data dalla stessa espressione, considerata ora come funzione di <span class="math inline">\(\mu\)</span>, fissato <span class="math inline">\(y\)</span>.</p>
+\]</span> dove <span class="math inline">\(y\)</span> rappresenta il valore osservato (nel nostro caso <span class="math inline">\(y=114\)</span>), <span class="math inline">\(\mu\)</span> è il parametro da stimare e <span class="math inline">\(\sigma\)</span> è noto.</p>
+<p>La funzione di verosimiglianza per una singola osservazione è data dalla stessa espressione, considerata ora come funzione di <span class="math inline">\(\mu\)</span>, fissato <span class="math inline">\(y\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Osservazione e parametro noto</span></span>
 <span><span class="va">y_obs</span> <span class="op">&lt;-</span> <span class="fl">114</span></span>
@@ -1117,10 +1091,11 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"Media μ"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Verosimiglianza"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+<figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
 </figure>
 </div>
 </div>
@@ -1133,16 +1108,12 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 </div>
 </section><section id="ottimizzazione-tramite-log-verosimiglianza" class="level3" data-number="16.8.2"><h3 data-number="16.8.2" class="anchored" data-anchor-id="ottimizzazione-tramite-log-verosimiglianza">
 <span class="header-section-number">16.8.2</span> Ottimizzazione tramite log-verosimiglianza</h3>
-<p>L’uso della <em>log-verosimiglianza</em> è preferibile per ragioni numeriche:</p>
-<ul>
-<li>trasforma prodotti di probabilità in somme,</li>
-<li>evita problemi di <em>underflow</em> con valori molto piccoli,</li>
-<li>semplifica il calcolo delle derivate.</li>
-</ul>
-<p>Per una singola osservazione da una normale:</p>
+<p>L’uso della <em>log-verosimiglianza</em> è preferibile per ragioni numeriche. Questa trasformazione converte prodotti di probabilità in somme, evitando problemi di <em>underflow</em> con valori di probabilità molto piccoli. Inoltre, semplifica notevolmente il calcolo delle derivate durante i processi di ottimizzazione.</p>
+<p>Per una singola osservazione da una distribuzione normale, la log-verosimiglianza si esprime come:</p>
 <p><span class="math display">\[
 \ell(\mu \mid y, \sigma) \;=\; -\tfrac{1}{2}\log(2\pi)\;-\;\log(\sigma)\;-\;\frac{(y-\mu)^2}{2\sigma^2}.
 \]</span></p>
+<p>Questa formulazione risulta numericamente stabile e computazionalmente efficiente per l’ottimizzazione dei parametri.</p>
 <section id="implementazione-in-r" class="level4" data-number="16.8.2.1"><h4 data-number="16.8.2.1" class="anchored" data-anchor-id="implementazione-in-r">
 <span class="header-section-number">16.8.2.1</span> Implementazione in R</h4>
 <div class="cell" data-layout-align="center">
@@ -1169,22 +1140,16 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 </div>
 </section></section><section id="vantaggi-della-log-verosimiglianza" class="level3" data-number="16.8.3"><h3 data-number="16.8.3" class="anchored" data-anchor-id="vantaggi-della-log-verosimiglianza">
 <span class="header-section-number">16.8.3</span> Vantaggi della log-verosimiglianza</h3>
-<ol type="1">
-<li>
-<em>Stabilità numerica</em>: riduce i rischi di underflow.</li>
-<li>
-<em>Efficienza computazionale</em>: la somma di log-probabilità è più stabile del prodotto di probabilità.</li>
-<li>
-<em>Proprietà additive</em>: la log-verosimiglianza totale è la somma dei contributi dei singoli dati.</li>
-<li>
-<em>Derivazioni semplificate</em>: le derivate della log-verosimiglianza hanno forma più semplice.</li>
-</ol></section><section id="interpretazione-del-risultato" class="level3" data-number="16.8.4"><h3 data-number="16.8.4" class="anchored" data-anchor-id="interpretazione-del-risultato">
+<p>L’adozione della log-verosimiglianza offre numerosi vantaggi pratici nell’analisi statistica.</p>
+<p>La stabilità numerica è il beneficio principale, in quanto riduce significativamente il rischio di underflow quando si lavora con probabilità molto piccole. Questo approccio garantisce una maggiore efficienza computazionale, poiché la somma delle log-probabilità è notevolmente più stabile del prodotto delle probabilità dirette.</p>
+<p>Un altro vantaggio fondamentale è rappresentato dalle proprietà additive: la log-verosimiglianza totale corrisponde esattamente alla somma dei contributi dei singoli dati, il che semplifica l’aggregazione delle informazioni. Inoltre, le derivazioni risultano notevolmente semplificate, poiché le derivate della log-verosimiglianza presentano una forma matematica più semplice e maneggevole rispetto a quelle della verosimiglianza standard.</p>
+<p>Questi vantaggi combinati rendono la log-verosimiglianza uno strumento essenziale per l’inferenza statistica moderna, soprattutto in contesti con dataset di grandi dimensioni o modelli complessi.</p>
+</section><section id="interpretazione-del-risultato" class="level3" data-number="16.8.4"><h3 data-number="16.8.4" class="anchored" data-anchor-id="interpretazione-del-risultato">
 <span class="header-section-number">16.8.4</span> Interpretazione del risultato</h3>
 <p>La stima di massima verosimiglianza (MLE) per <span class="math inline">\(\mu\)</span> risulta:</p>
 <p><span class="math display">\[
 \hat{\mu} = 114,
-\]</span></p>
-<p>ossia il valore osservato. Questo era atteso: per una singola osservazione da una normale con deviazione standard nota, la stima MLE della media coincide esattamente con il dato osservato.</p>
+\]</span> ossia il valore osservato. Questo era atteso: per una singola osservazione da una normale con deviazione standard nota, la stima MLE della media coincide esattamente con il dato osservato.</p>
 </section></section><section id="campione-di-osservazioni-indipendenti" class="level2" data-number="16.9"><h2 data-number="16.9" class="anchored" data-anchor-id="campione-di-osservazioni-indipendenti">
 <span class="header-section-number">16.9</span> Campione di osservazioni indipendenti</h2>
 <p>Supponiamo di avere i punteggi <em>BDI-II</em> raccolti su un campione di <span class="math inline">\(n=30\)</span> partecipanti. Assumiamo che ciascun punteggio sia un’osservazione indipendente da una distribuzione normale con media incognita <span class="math inline">\(\mu\)</span> e deviazione standard nota <span class="math inline">\(\sigma = 6.5\)</span>.</p>
@@ -1197,14 +1162,12 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 <span></span>
 <span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">6.5</span>  <span class="co"># Deviazione standard nota</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<hr>
 <section id="log-verosimiglianza" class="level3" data-number="16.9.1"><h3 data-number="16.9.1" class="anchored" data-anchor-id="log-verosimiglianza">
 <span class="header-section-number">16.9.1</span> Log-verosimiglianza</h3>
 <p>Per un campione di <span class="math inline">\(n\)</span> osservazioni indipendenti, la log-verosimiglianza del parametro <span class="math inline">\(\mu\)</span> è</p>
 <p><span class="math display">\[
 \ell(\mu \mid y, \sigma) \;=\; \sum_{i=1}^n \log f(y_i \mid \mu, \sigma),
-\]</span></p>
-<p>dove <span class="math inline">\(f(y_i \mid \mu, \sigma)\)</span> è la densità normale.</p>
+\]</span> dove <span class="math inline">\(f(y_i \mid \mu, \sigma)\)</span> è la densità normale.</p>
 <p>In R:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">log_likelihood</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">mu</span>, <span class="va">y</span>, <span class="va">sigma</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1216,46 +1179,41 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mu_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sigma</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sigma</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">log_lik_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">mu_range</span>, <span class="kw">function</span><span class="op">(</span><span class="va">mu_val</span><span class="op">)</span> <span class="fu">log_likelihood</span><span class="op">(</span><span class="va">mu_val</span>, <span class="va">y</span>, <span class="va">sigma</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<hr></section><section id="visualizzazione" class="level3" data-number="16.9.2"><h3 data-number="16.9.2" class="anchored" data-anchor-id="visualizzazione">
+</section><section id="visualizzazione" class="level3" data-number="16.9.2"><h3 data-number="16.9.2" class="anchored" data-anchor-id="visualizzazione">
 <span class="header-section-number">16.9.2</span> Visualizzazione</h3>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>mu <span class="op">=</span> <span class="va">mu_range</span>, log_likelihood <span class="op">=</span> <span class="va">log_lik_values</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mu</span>, y <span class="op">=</span> <span class="va">log_likelihood</span><span class="op">)</span></span>
+<span>  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">mu</span>, y <span class="op">=</span> <span class="va">log_likelihood</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Log-verosimiglianza"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">log_lik_values</span><span class="op">)</span> <span class="op">-</span> <span class="fl">5</span>,</span>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">log_lik_values</span><span class="op">)</span> <span class="op">-</span> <span class="fl">5</span>,</span>
 <span>           label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Media campionaria = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>           color <span class="op">=</span> <span class="st">"red"</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>           color <span class="op">=</span> <span class="st">"red"</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+<figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 </section><section id="interpretazione-1" class="level3" data-number="16.9.3"><h3 data-number="16.9.3" class="anchored" data-anchor-id="interpretazione-1">
 <span class="header-section-number">16.9.3</span> Interpretazione</h3>
-<p>La curva mostra come varia la log-verosimiglianza al variare di <span class="math inline">\(\mu\)</span>:</p>
-<ul>
-<li>il massimo si ottiene <em>in corrispondenza della media campionaria</em>, come previsto;</li>
-<li>la forma è <em>concava e parabolica</em>, tipica del modello normale;</li>
-<li>la <em>larghezza della curva</em> riflette l’incertezza della stima.</li>
-</ul>
-<p>In altre parole, lo stimatore di massima verosimiglianza (MLE) di <span class="math inline">\(\mu\)</span> è la media campionaria:</p>
+<p>La curva di log-verosimiglianza mostra chiaramente come questa quantità vari in funzione di <span class="math inline">\(\mu\)</span>. Il punto di massimo si ottiene <em>esattamente in corrispondenza della media campionaria</em>, risultato che conferma le proprietà teoriche dello stimatore. La curva presenta una caratteristica <em>forma concava e parabolica</em>, tipica del modello normale, che riflette la regolarità della distribuzione. La <em>larghezza della curva</em> fornisce un’indicazione immediata dell’incertezza associata alla stima, con curve più ampie che corrispondono a maggiore incertezza.</p>
+<p>Questo risultato formalizza una proprietà fondamentale: lo stimatore di massima verosimiglianza (MLE) per <span class="math inline">\(\mu\)</span> coincide con la media campionaria:</p>
 <p><span class="math display">\[
 \hat{\mu}_{\text{MLE}} = \bar{y}.
 \]</span></p>
-<hr></section><section id="ottimizzazione-numerica" class="level3" data-number="16.9.4"><h3 data-number="16.9.4" class="anchored" data-anchor-id="ottimizzazione-numerica">
+<p>Questa corrispondenza non solo semplifica il calcolo dello stimatore, ma conferma anche l’intuitività della media campionaria come misura della posizione centrale nella distribuzione normale.</p>
+</section><section id="ottimizzazione-numerica" class="level3" data-number="16.9.4"><h3 data-number="16.9.4" class="anchored" data-anchor-id="ottimizzazione-numerica">
 <span class="header-section-number">16.9.4</span> Ottimizzazione numerica</h3>
-<p>Possiamo verificare la stima tramite algoritmi di ottimizzazione:</p>
+<p>Possiamo verificare analiticamente la stima di massima verosimiglianza tramite algoritmi di ottimizzazione numerica:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">negative_log_likelihood</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">mu</span>, <span class="va">y</span>, <span class="va">sigma</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">y</span>, mean <span class="op">=</span> <span class="va">mu</span>, sd <span class="op">=</span> <span class="va">sigma</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -1275,7 +1233,7 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Stima numerica di massima verosimiglianza per μ:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mu_optimal</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Stima numerica di massima verosimiglianza per μ: 30.9</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Confronto con la media campionaria:</p>
+<p>Il confronto diretto con la media campionaria conferma la corrispondenza:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sample_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span></span>
@@ -1288,40 +1246,41 @@ f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}}
 <span><span class="co">#&gt; 1 Ottimizzazione numerica   30.9         NA</span></span>
 <span><span class="co">#&gt; 2       Media campionaria   30.9    1.1e-11</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>In conclusione, la stima ottenuta con l’ottimizzazione coincide perfettamente con la media campionaria. Questo conferma il risultato teorico: <em>per un campione indipendente da una normale con varianza nota, lo stimatore MLE della media è la media campionaria</em>.</p>
+<p>In conclusione, la stima ottenuta tramite ottimizzazione numerica coincide perfettamente con la media campionaria. Questo risultato sperimentale conferma il fondamento teorico: per un campione di variabili casuali indipendenti e identicamente distribuite (i.i.d.) secondo una distribuzione normale con varianza nota, lo stimatore di massima verosimiglianza del parametro <span class="math inline">\(\mu\)</span> corrisponde esattamente alla media campionaria.</p>
 </section></section><section id="il-rapporto-di-verosimiglianze" class="level2" data-number="16.10"><h2 data-number="16.10" class="anchored" data-anchor-id="il-rapporto-di-verosimiglianze">
 <span class="header-section-number">16.10</span> Il rapporto di verosimiglianze</h2>
-<p>In statistica capita spesso di dover <em>confrontare modelli alternativi</em> che cercano di spiegare gli stessi dati osservati. Ad esempio, nella stima della media di una variabile psicologica (punteggi ai test, tempi di reazione, ecc.), potremmo avere due ipotesi contrastanti:</p>
+<p>In statistica capita spesso di dover <em>confrontare modelli alternativi</em> che cercano di spiegare gli stessi dati osservati. Ad esempio, nella stima della media di una variabile psicologica - come punteggi ai test o tempi di reazione - potremmo trovarci di fronte a due ipotesi contrastanti:</p>
 <ul>
 <li>
-<strong>Modello nullo (<span class="math inline">\(H_0\)</span>)</strong>: la media assume un valore fissato <span class="math inline">\(\mu_1\)</span> (tipicamente un valore di riferimento o assenza di effetto);</li>
+<strong>Modello nullo (<span class="math inline">\(H_0\)</span>)</strong>: la media assume un valore fissato <span class="math inline">\(\mu_1\)</span>, tipicamente un valore di riferimento o corrispondente all’assenza di effetto;</li>
 <li>
-<strong>Modello alternativo (<span class="math inline">\(H_1\)</span>)</strong>: la media assume un valore diverso <span class="math inline">\(\mu_2\)</span> (indicativo di un effetto o cambiamento).</li>
+<strong>Modello alternativo (<span class="math inline">\(H_1\)</span>)</strong>: la media assume un valore diverso <span class="math inline">\(\mu_2\)</span>, indicativo della presenza di un effetto o cambiamento.</li>
 </ul>
-<p>Il <em>rapporto di verosimiglianze (Likelihood Ratio, LR)</em> fornisce una misura quantitativa dell’evidenza relativa a favore di un modello rispetto all’altro, basandosi direttamente sui dati.</p>
+<p>Il <em>rapporto di verosimiglianze (Likelihood Ratio, LR)</em> fornisce una misura quantitativa dell’evidenza relativa a favore di un modello rispetto all’altro, basandosi direttamente sui dati osservati.</p>
 <section id="definizione-formale" class="level3" data-number="16.10.1"><h3 data-number="16.10.1" class="anchored" data-anchor-id="definizione-formale">
 <span class="header-section-number">16.10.1</span> Definizione formale</h3>
-<p>Il rapporto di verosimiglianze è definito come</p>
+<p>Il rapporto di verosimiglianze è definito come:</p>
 <p><span class="math display">\[
 \lambda \;=\; \frac{L(\mu_2 \mid \text{dati})}{L(\mu_1 \mid \text{dati})},
 \]</span></p>
 <p>dove:</p>
 <ul>
 <li>
-<span class="math inline">\(L(\mu_2 \mid \text{dati})\)</span> è la verosimiglianza sotto l’ipotesi alternativa,</li>
+<span class="math inline">\(L(\mu_2 \mid \text{dati})\)</span> rappresenta la verosimiglianza sotto l’ipotesi alternativa,</li>
 <li>
-<span class="math inline">\(L(\mu_1 \mid \text{dati})\)</span> è la verosimiglianza sotto l’ipotesi nulla.</li>
+<span class="math inline">\(L(\mu_1 \mid \text{dati})\)</span> rappresenta la verosimiglianza sotto l’ipotesi nulla.</li>
 </ul></section><section id="interpretazione-2" class="level3" data-number="16.10.2"><h3 data-number="16.10.2" class="anchored" data-anchor-id="interpretazione-2">
 <span class="header-section-number">16.10.2</span> Interpretazione</h3>
+<p>Il valore del rapporto di verosimiglianze fornisce un’indicazione immediata della direzione e intensità dell’evidenza:</p>
 <ul>
 <li>
-<span class="math inline">\(\lambda &gt; 1\)</span>: i dati favoriscono il modello alternativo;</li>
+<strong><span class="math inline">\(\lambda &gt; 1\)</span></strong>: i dati supportano il modello alternativo;</li>
 <li>
-<span class="math inline">\(\lambda &lt; 1\)</span>: i dati favoriscono il modello nullo;</li>
+<strong><span class="math inline">\(\lambda &lt; 1\)</span></strong>: i dati supportano il modello nullo;</li>
 <li>
-<span class="math inline">\(\lambda \approx 1\)</span>: i dati non discriminano tra i modelli.</li>
+<strong><span class="math inline">\(\lambda \approx 1\)</span></strong>: i dati non forniscono evidenza discriminante tra i due modelli.</li>
 </ul>
-<p>La distanza dall’unità indica <em>quanto più probabili</em> sono i dati sotto un modello rispetto all’altro.</p>
+<p>L’entità della deviazione dall’unità indica <em>quanto più probabili</em> sono i dati osservati sotto un modello rispetto all’altro, offrendo così una misura graduata della forza dell’evidenza empirica.</p>
 </section><section id="esempio-lancio-di-una-moneta" class="level3" data-number="16.10.3"><h3 data-number="16.10.3" class="anchored" data-anchor-id="esempio-lancio-di-una-moneta">
 <span class="header-section-number">16.10.3</span> Esempio: lancio di una moneta</h3>
 <p>Supponiamo di osservare <span class="math inline">\(x = 7\)</span> successi su <span class="math inline">\(n = 10\)</span> lanci. Confrontiamo due modelli:</p>
@@ -1373,118 +1332,102 @@ L(\theta \mid x, n) \;=\; \binom{n}{x}\,\theta^x(1-\theta)^{n-x}.
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta_seq</span>, likelihood <span class="op">=</span> <span class="va">likelihood_vals</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">likelihood</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.7</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">likelihood</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.7</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
 <span>             color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"darkgreen"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="va">L_null</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.7</span>, y <span class="op">=</span> <span class="va">L_alt</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"darkgreen"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="va">L_null</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.7</span>, y <span class="op">=</span> <span class="va">L_alt</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"darkgreen"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Verosimiglianza"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="va">L_null</span> <span class="op">+</span> <span class="fl">0.01</span>, label <span class="op">=</span> <span class="st">"H₀: θ = 0.5"</span>,</span>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="va">L_null</span> <span class="op">+</span> <span class="fl">0.01</span>, label <span class="op">=</span> <span class="st">"H₀: θ = 0.5"</span>,</span>
 <span>           color <span class="op">=</span> <span class="st">"red"</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fl">0.7</span>, y <span class="op">=</span> <span class="va">L_alt</span> <span class="op">+</span> <span class="fl">0.01</span>, label <span class="op">=</span> <span class="st">"H₁: θ = 0.7"</span>,</span>
-<span>           color <span class="op">=</span> <span class="st">"darkgreen"</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fl">0.7</span>, y <span class="op">=</span> <span class="va">L_alt</span> <span class="op">+</span> <span class="fl">0.01</span>, label <span class="op">=</span> <span class="st">"H₁: θ = 0.7"</span>,</span>
+<span>           color <span class="op">=</span> <span class="st">"darkgreen"</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+<figure class="figure"><p><img src="16_likelihood_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 </section></section><section id="interpretazione-dei-risultati-1" class="level3" data-number="16.10.4"><h3 data-number="16.10.4" class="anchored" data-anchor-id="interpretazione-dei-risultati-1">
 <span class="header-section-number">16.10.4</span> Interpretazione dei risultati</h3>
-<p>Il valore <span class="math inline">\(\lambda \approx 2.28\)</span> indica che i dati sono circa <em>2.3 volte più probabili sotto l’ipotesi alternativa</em> rispetto all’ipotesi nulla. Si tratta di un’evidenza <em>moderata ma non decisiva</em> a favore dell’ipotesi che la moneta sia predisposta verso il successo.</p>
+<p>Il valore <span class="math inline">\(\lambda \approx 2.28\)</span> indica che i dati osservati sono circa <em>2.3 volte più probabili</em> sotto l’ipotesi alternativa rispetto all’ipotesi nulla. Questa evidenza, sebbene moderata, suggerisce una preferenza per il modello che considera la moneta predisposta verso il successo, senza tuttavia costituire una prova decisiva.</p>
 </section><section id="considerazioni-metodologiche" class="level3" data-number="16.10.5"><h3 data-number="16.10.5" class="anchored" data-anchor-id="considerazioni-metodologiche">
 <span class="header-section-number">16.10.5</span> Considerazioni metodologiche</h3>
-<ol type="1">
-<li>
-<strong>Evidenza relativa</strong>: il rapporto di verosimiglianze non misura la bontà assoluta del modello, ma solo la preferenza relativa.</li>
-<li>
-<strong>Scala di interpretazione</strong>: valori tra 1 e 3 suggeriscono un’evidenza debole-moderata, mentre valori più grandi indicano supporto crescente.</li>
-<li>
-<strong>Generalità</strong>: la logica del LR si applica a qualsiasi modello parametrico.</li>
-<li>
-<strong>Connessione bayesiana</strong>: con prior poco informative, <span class="math inline">\(\lambda\)</span> si avvicina al <em>fattore di Bayes</em>, strumento principe della selezione di modelli in ottica bayesiana.</li>
-</ol></section></section><section id="rapporti-di-verosimiglianza-aggiustati-e-criterio-di-akaike" class="level2" data-number="16.11"><h2 data-number="16.11" class="anchored" data-anchor-id="rapporti-di-verosimiglianza-aggiustati-e-criterio-di-akaike">
+<p>Il rapporto di verosimiglianze presenta diverse caratteristiche fondamentali da considerare:</p>
+<p><strong>Evidenza relativa</strong>: questo strumento non valuta la bontà assoluta di un modello, ma esclusivamente la preferenza relativa tra due ipotesi specifiche.</p>
+<p><strong>Scala di interpretazione</strong>: i valori compresi tra 1 e 3 suggeriscono un’evidenza debole-moderata, mentre valori superiori indicano un supporto progressivamente più forte per l’ipotesi alternativa.</p>
+<p><strong>Generalità applicativa</strong>: la logica del rapporto di verosimiglianze si applica a qualsiasi modello parametrico, dimostrandosi uno strumento flessibile e ampiamente utilizzabile.</p>
+<p><strong>Connessione bayesiana</strong>: in presenza di distribuzioni a priori poco informative, <span class="math inline">\(\lambda\)</span> approssima il <em>fattore di Bayes</em>, rappresentando così un ponte metodologico verso gli strumenti principali per la selezione di modelli in ottica bayesiana.</p>
+</section></section><section id="rapporti-di-verosimiglianza-aggiustati-e-criterio-di-akaike" class="level2" data-number="16.11"><h2 data-number="16.11" class="anchored" data-anchor-id="rapporti-di-verosimiglianza-aggiustati-e-criterio-di-akaike">
 <span class="header-section-number">16.11</span> Rapporti di verosimiglianza aggiustati e criterio di Akaike</h2>
 <p>Quando si confrontano modelli statistici, occorre tenere presente che i modelli più complessi, dotati di un numero maggiore di parametri, tendono <em>naturalmente</em> a produrre un miglior adattamento ai dati osservati. Questo vantaggio, tuttavia, può dipendere solo dalla maggiore flessibilità del modello, senza riflettere una reale capacità esplicativa. Il fenomeno, noto come <em>sovradattamento</em> (<em>overfitting</em>), richiede quindi criteri che penalizzino opportunamente la complessità.</p>
 <section id="il-ruolo-dellaic" class="level3" data-number="16.11.1"><h3 data-number="16.11.1" class="anchored" data-anchor-id="il-ruolo-dellaic">
 <span class="header-section-number">16.11.1</span> Il ruolo dell’AIC</h3>
-<p>Il <em>Criterio di Informazione di Akaike (AIC)</em> rappresenta una soluzione semplice ed efficace. La sua formulazione è:</p>
+<p>Il <em>Criterio di Informazione di Akaike (AIC)</em> rappresenta una soluzione semplice ed efficace per il problema della selezione dei modelli. La sua formulazione matematica è la seguente:</p>
 <p><span class="math display">\[
 \text{AIC} = 2k - 2 \log(L),
-\]</span> dove:</p>
-<ul>
-<li>
-<span class="math inline">\(k\)</span> è il numero di parametri del modello,</li>
-<li>
-<span class="math inline">\(L\)</span> è la massima verosimiglianza del modello.</li>
-</ul>
-<p>In questo modo l’AIC combina due aspetti:</p>
-<ul>
-<li>la bontà di adattamento, catturata da <span class="math inline">\(-2 \log(L)\)</span>;</li>
-<li>la parsimonia, garantita dal termine di penalizzazione <span class="math inline">\(2k\)</span>.</li>
-</ul></section><section id="esempio-memoria-visiva-ed-emozione" class="level3" data-number="16.11.2"><h3 data-number="16.11.2" class="anchored" data-anchor-id="esempio-memoria-visiva-ed-emozione">
-<span class="header-section-number">16.11.2</span> Esempio: memoria visiva ed emozione</h3>
-<p>Supponiamo di voler valutare l’effetto del contenuto emotivo delle immagini sulla memoria visiva. In un esperimento, 30 partecipanti per condizione hanno ottenuto:</p>
+\]</span></p>
+<p>dove <span class="math inline">\(k\)</span> indica il numero di parametri del modello e <span class="math inline">\(L\)</span> rappresenta la massima verosimiglianza raggiunta dal modello.</p>
+<p>Questa formulazione elegante combina in un’unica misura due principi fondamentali dell’analisi statistica: la bontà di adattamento ai dati, catturata dal termine <span class="math inline">\(-2 \log(L)\)</span>, e il principio di parsimonia, garantito dal termine di penalizzazione <span class="math inline">\(2k\)</span> che scoraggia la sovraparametrizzazione. Il criterio di Informazione di Akaike trova quindi un equilibrio ottimale tra la complessità del modello e la sua capacità esplicativa, premiando i modelli che raggiungono un buon adattamento con il minor numero possibile di parametri.</p>
+</section><section id="esempio-memoria-visiva-ed-elaborazione-emotiva" class="level3" data-number="16.11.2"><h3 data-number="16.11.2" class="anchored" data-anchor-id="esempio-memoria-visiva-ed-elaborazione-emotiva">
+<span class="header-section-number">16.11.2</span> Esempio: memoria visiva ed elaborazione emotiva</h3>
+<p>Supponiamo di voler valutare l’effetto del contenuto emotivo delle immagini sulla memoria visiva. In un esperimento controllato, 30 partecipanti per condizione hanno mostrato i seguenti risultati:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">successi_neutro</span> <span class="op">&lt;-</span> <span class="fl">14</span></span>
 <span><span class="va">successi_emozione</span> <span class="op">&lt;-</span> <span class="fl">22</span></span>
 <span><span class="va">prove</span> <span class="op">&lt;-</span> <span class="fl">30</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="modello-nullo-h_0-probabilità-comune" class="level4" data-number="16.11.2.1"><h4 data-number="16.11.2.1" class="anchored" data-anchor-id="modello-nullo-h_0-probabilità-comune">
-<span class="header-section-number">16.11.2.1</span> Modello nullo (<span class="math inline">\(H_0\)</span>): probabilità comune</h4>
+<section id="modello-nullo-probabilità-comune" class="level4" data-number="16.11.2.1"><h4 data-number="16.11.2.1" class="anchored" data-anchor-id="modello-nullo-probabilità-comune">
+<span class="header-section-number">16.11.2.1</span> Modello nullo: probabilità comune</h4>
+<p>Il modello nullo assume che il contenuto emotivo non influenzi la memoria, postulando una probabilità comune per entrambe le condizioni:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Probabilità congiunta stimata</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Probabilità congiunta stimata sotto H₀</span></span>
 <span><span class="va">p_null</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">successi_neutro</span> <span class="op">+</span> <span class="va">successi_emozione</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">prove</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Log-verosimiglianza</span></span>
+<span><span class="co"># Log-verosimiglianza del modello nullo</span></span>
 <span><span class="va">ll_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">successi_neutro</span>, <span class="va">prove</span>, <span class="va">p_null</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>           <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">successi_emozione</span>, <span class="va">prove</span>, <span class="va">p_null</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section><section id="modello-alternativo-h_1-probabilità-distinte" class="level4" data-number="16.11.2.2"><h4 data-number="16.11.2.2" class="anchored" data-anchor-id="modello-alternativo-h_1-probabilità-distinte">
-<span class="header-section-number">16.11.2.2</span> Modello alternativo (<span class="math inline">\(H_1\)</span>): probabilità distinte</h4>
+</section><section id="modello-alternativo-probabilità-distinte" class="level4" data-number="16.11.2.2"><h4 data-number="16.11.2.2" class="anchored" data-anchor-id="modello-alternativo-probabilità-distinte">
+<span class="header-section-number">16.11.2.2</span> Modello alternativo: probabilità distinte</h4>
+<p>Il modello alternativo consente probabilità differenziate, riconoscendo il possibile effetto dell’emozione:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Probabilità stimate separatamente</span></span>
 <span><span class="va">p_neutro</span> <span class="op">&lt;-</span> <span class="va">successi_neutro</span> <span class="op">/</span> <span class="va">prove</span></span>
 <span><span class="va">p_emozione</span> <span class="op">&lt;-</span> <span class="va">successi_emozione</span> <span class="op">/</span> <span class="va">prove</span></span>
 <span></span>
-<span><span class="co"># Log-verosimiglianza</span></span>
+<span><span class="co"># Log-verosimiglianza del modello alternativo</span></span>
 <span><span class="va">ll_alt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">successi_neutro</span>, <span class="va">prove</span>, <span class="va">p_neutro</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">successi_emozione</span>, <span class="va">prove</span>, <span class="va">p_emozione</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section><section id="confronto-tramite-aic" class="level4" data-number="16.11.2.3"><h4 data-number="16.11.2.3" class="anchored" data-anchor-id="confronto-tramite-aic">
-<span class="header-section-number">16.11.2.3</span> Confronto tramite AIC</h4>
+</section><section id="confronto-tramite-laic" class="level4" data-number="16.11.2.3"><h4 data-number="16.11.2.3" class="anchored" data-anchor-id="confronto-tramite-laic">
+<span class="header-section-number">16.11.2.3</span> Confronto tramite l’AIC</h4>
+<p>La valutazione mediante AIC bilancia adattamento e complessità:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AIC_null</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">ll_null</span>  <span class="co"># Modello con 1 parametro</span></span>
 <span><span class="va">AIC_alt</span>  <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">ll_alt</span>   <span class="co"># Modello con 2 parametri</span></span>
 <span></span>
 <span><span class="va">delta_AIC</span> <span class="op">&lt;-</span> <span class="va">AIC_alt</span> <span class="op">-</span> <span class="va">AIC_null</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<ul>
-<li>Un valore di AIC più basso indica il modello preferito.</li>
-<li>Differenze <span class="math inline">\(&gt; 2\)</span> suggeriscono evidenza sostanziale a favore del modello migliore.</li>
-<li>Differenze <span class="math inline">\(&gt; 10\)</span> forniscono evidenza decisiva.</li>
-</ul></section><section id="test-del-rapporto-di-verosimiglianza" class="level4" data-number="16.11.2.4"><h4 data-number="16.11.2.4" class="anchored" data-anchor-id="test-del-rapporto-di-verosimiglianza">
+<p>Nell’interpretazione dell’AIC, valori più bassi indicano il modello preferito. Differenze superiori a 2 unità suggeriscono evidenza sostanziale a favore del modello migliore, mentre differenze superiori a 10 unità forniscono evidenza decisiva.</p>
+</section><section id="test-del-rapporto-di-verosimiglianza" class="level4" data-number="16.11.2.4"><h4 data-number="16.11.2.4" class="anchored" data-anchor-id="test-del-rapporto-di-verosimiglianza">
 <span class="header-section-number">16.11.2.4</span> Test del rapporto di verosimiglianza</h4>
+<p>Il test formale fornisce una prospettiva complementare:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LR_stat</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">ll_null</span> <span class="op">-</span> <span class="va">ll_alt</span><span class="op">)</span></span>
 <span><span class="va">p_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq</a></span><span class="op">(</span><span class="va">LR_stat</span>, df <span class="op">=</span> <span class="fl">1</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section></section><section id="interpretazione-3" class="level3" data-number="16.11.3"><h3 data-number="16.11.3" class="anchored" data-anchor-id="interpretazione-3">
-<span class="header-section-number">16.11.3</span> Interpretazione</h3>
-<p>Il confronto tra modelli fornisce due prospettive complementari:</p>
-<ol type="1">
-<li>
-<em>AIC</em>: valuta la qualità relativa dei modelli, bilanciando adattamento e complessità.</li>
-<li>
-<em>Rapporto di verosimiglianza</em>: consente un test formale della differenza tra modelli.</li>
-</ol>
-<p>Nell’esempio, il test produce <span class="math inline">\(p \approx 0.034\)</span>, mentre l’AIC mostra una chiara preferenza per il modello alternativo. Entrambi i criteri concordano: il modello che assegna probabilità distinte ai due gruppi descrive meglio i dati, suggerendo che il <em>contenuto emotivo delle immagini facilita la memoria visiva</em>.</p>
-<p>In conclusione, l’uso integrato di <em>AIC</em> e <em>rapporti di verosimiglianza</em> permette di prendere decisioni modellistiche fondate, evitando il rischio di sovradattamento. In psicologia, dove i dati sono spesso rumorosi e complessi, questo approccio consente di mantenere un equilibrio cruciale tra <em>capacità esplicativa</em> e <em>parsimonia</em>.</p>
+</section></section><section id="interpretazione-dei-risultati-2" class="level3" data-number="16.11.3"><h3 data-number="16.11.3" class="anchored" data-anchor-id="interpretazione-dei-risultati-2">
+<span class="header-section-number">16.11.3</span> Interpretazione dei risultati</h3>
+<p>Il confronto tra modelli rivela una convergenza di evidenze: il test del rapporto di verosimiglianza produce un valore-<span class="math inline">\(p\)</span> di circa 0.034, mentre l’AIC mostra una chiara preferenza per il modello alternativo. Entrambi i criteri concordano nel sostenere che il modello che assegna probabilità distinte ai due gruppi descrive meglio i dati osservati.</p>
+<p>Questo pattern di risultati suggerisce che il contenuto emotivo delle immagini facilita in maniera rilevante la memoria visiva, supportando l’ipotesi che l’elaborazione emotiva potenzi i processi mnestici.</p>
+<p>In conclusione, l’uso integrato di AIC e rapporti di verosimiglianza permette di prendere decisioni modellistiche fondate, evitando il rischio di sovradattamento. In psicologia sperimentale, dove i dati sono spesso caratterizzati da variabilità intrinseca e complessità, questo approccio consente di mantenere un equilibrio cruciale tra capacità esplicativa e parsimonia, guidando il ricercatore verso interpretazioni sia statisticamente robuste che teoricamente rilevanti.</p>
 </section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
 <p>La funzione di verosimiglianza rappresenta il fondamento concettuale e operativo dell’inferenza statistica moderna, fornendo un ponte metodologico tra modelli teorici ed evidenza empirica. La sua efficacia deriva dalla capacità di quantificare sistematicamente la plausibilità dei parametri di un modello condizionatamente ai dati osservati, creando così un collegamento formale tra astrazione teorica e osservazione sperimentale.</p>
 <p>L’impianto teorico della verosimiglianza si basa su tre componenti essenziali: la specificazione del modello probabilistico generatore dei dati, la definizione dello spazio parametrico e l’incorporazione delle osservazioni empiriche. Questo framework si dimostra particolarmente efficace nei modelli binomiali e gaussiani, dove assume forme analiticamente trattabili che facilitano sia la stima puntuale che la verifica di ipotesi.</p>
@@ -1555,12 +1498,12 @@ L(\theta \mid x, n) \;=\; \binom{n}{x}\,\theta^x(1-\theta)^{n-x}.
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
+<span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
 <span><span class="co">#&gt; Running under: macOS Tahoe 26.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
-<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib </span></span>
+<span><span class="co">#&gt; BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
 <span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; locale:</span></span>
@@ -1573,9 +1516,9 @@ L(\theta \mid x, n) \;=\; \binom{n}{x}\,\theta^x(1-\theta)^{n-x}.
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.13.0      patchwork_1.3.2      </span></span>
+<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.15.1      patchwork_1.3.2      </span></span>
 <span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.14.0     </span></span>
-<span><span class="co">#&gt;  [7] ggplot2_4.0.0         reliabilitydiag_0.2.1 priorsense_1.1.1     </span></span>
+<span><span class="co">#&gt;  [7] ggplot2_4.0.0         reliabilitydiag_0.2.1 priorsense_1.2.0     </span></span>
 <span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.8.0             rstan_2.32.7         </span></span>
 <span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
 <span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
@@ -1588,17 +1531,17 @@ L(\theta \mid x, n) \;=\; \binom{n}{x}\,\theta^x(1-\theta)^{n-x}.
 <span><span class="co">#&gt;  [4] S7_0.2.0              fastmap_1.2.0         TH.data_1.1-4        </span></span>
 <span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.37         timechange_0.3.0     </span></span>
 <span><span class="co">#&gt; [10] estimability_1.5.1    lifecycle_1.0.4       survival_3.8-3       </span></span>
-<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.1        rlang_1.1.6          </span></span>
-<span><span class="co">#&gt; [16] tools_4.5.1           knitr_1.50            labeling_0.4.3       </span></span>
+<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.2        rlang_1.1.6          </span></span>
+<span><span class="co">#&gt; [16] tools_4.5.2           knitr_1.50            labeling_0.4.3       </span></span>
 <span><span class="co">#&gt; [19] bridgesampling_1.1-2  htmlwidgets_1.6.4     curl_7.0.0           </span></span>
 <span><span class="co">#&gt; [22] pkgbuild_1.4.8        RColorBrewer_1.1-3    abind_1.4-8          </span></span>
-<span><span class="co">#&gt; [25] multcomp_1.4-29       withr_3.0.2           purrr_1.1.0          </span></span>
-<span><span class="co">#&gt; [28] grid_4.5.1            stats4_4.5.1          colorspace_2.1-2     </span></span>
-<span><span class="co">#&gt; [31] xtable_1.8-4          inline_0.3.21         emmeans_1.11.2-8     </span></span>
+<span><span class="co">#&gt; [25] multcomp_1.4-29       withr_3.0.2           purrr_1.2.0          </span></span>
+<span><span class="co">#&gt; [28] grid_4.5.2            stats4_4.5.2          colorspace_2.1-2     </span></span>
+<span><span class="co">#&gt; [31] xtable_1.8-4          inline_0.3.21         emmeans_2.0.0        </span></span>
 <span><span class="co">#&gt; [34] scales_1.4.0          MASS_7.3-65           cli_3.6.5            </span></span>
 <span><span class="co">#&gt; [37] mvtnorm_1.3-3         rmarkdown_2.30        ragg_1.5.0           </span></span>
 <span><span class="co">#&gt; [40] generics_0.1.4        RcppParallel_5.1.11-1 cachem_1.1.0         </span></span>
-<span><span class="co">#&gt; [43] stringr_1.5.2         splines_4.5.1         parallel_4.5.1       </span></span>
+<span><span class="co">#&gt; [43] stringr_1.6.0         splines_4.5.2         parallel_4.5.2       </span></span>
 <span><span class="co">#&gt; [46] vctrs_0.6.5           V8_8.0.1              Matrix_1.7-4         </span></span>
 <span><span class="co">#&gt; [49] sandwich_3.1-1        jsonlite_2.0.0        arrayhelpers_1.1-0   </span></span>
 <span><span class="co">#&gt; [52] systemfonts_1.3.1     glue_1.8.0            codetools_0.2-20     </span></span>
@@ -1609,7 +1552,7 @@ L(\theta \mid x, n) \;=\; \binom{n}{x}\,\theta^x(1-\theta)^{n-x}.
 <span><span class="co">#&gt; [67] backports_1.5.0       memoise_2.0.1         broom_1.0.10         </span></span>
 <span><span class="co">#&gt; [70] snakecase_0.11.1      rstantools_2.5.0      gridExtra_2.3        </span></span>
 <span><span class="co">#&gt; [73] coda_0.19-4.1         nlme_3.1-168          checkmate_2.3.3      </span></span>
-<span><span class="co">#&gt; [76] xfun_0.53             zoo_1.8-14            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [76] xfun_0.54             zoo_1.8-14            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

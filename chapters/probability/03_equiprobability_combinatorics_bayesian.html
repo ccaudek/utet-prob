@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>3&nbsp; Equiprobabilità e calcolo combinatorio come caso limite – Probabilità per la psicologia</title>
 <style>
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-af5d064118ae80f4bafc3d843c3c3870.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
@@ -243,8 +243,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/09_sampling_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
+  <a href="../../chapters/probability/09_incertezza_inferenza.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Incertezza, dati e inferenza</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -268,13 +268,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali discrete</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali continue</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -403,7 +403,7 @@ window.Quarto = {
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li>Aver letto il <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a> e il <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>.</li>
+<li>Aver letto il <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a> e il <span class="quarto-unresolved-ref">?sec-prob-models</span>.</li>
 <li>Leggere l’<a href="../appendix/a14_combinatorics.html" class="quarto-xref"><span>Appendice E</span></a> (calcolo combinatorio).</li>
 <li>Familiarità con R e simulazioni Monte Carlo.</li>
 </ul>
@@ -428,7 +428,7 @@ window.Quarto = {
 <span></span>
 <span><span class="co"># Load packages</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
-<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">ggplot2</span>, <span class="va">dplyr</span>, <span class="va">tidyr</span>, <span class="va">gtools</span>, <span class="va">combinat</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">ggplot2</span>, <span class="va">dplyr</span>, <span class="va">tidyr</span>, <span class="va">gtools</span>, <span class="va">combinat</span>, <span class="va">gtools</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -824,9 +824,8 @@ C_{12,2} = \binom{12}{2} = \frac{12!}{2!(12-2)!} = \frac{12 \times 11}{2} = 66.
 <span><span class="co">#&gt; Probabilità di ciascuna coppia specifica: 0.0152</span></span>
 <span></span>
 <span><span class="co"># Generiamo alcune coppie casuali usando combinazioni</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-gregmisc/gtools">gtools</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">789</span><span class="op">)</span></span>
-<span><span class="va">tutte_coppie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gtools/man/combinations.html">combinations</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_volontari</span>, r <span class="op">=</span> <span class="fl">2</span>, v <span class="op">=</span> <span class="va">volontari</span><span class="op">)</span></span>
+<span><span class="va">tutte_coppie</span> <span class="op">&lt;-</span> <span class="fu">combinations</span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_volontari</span>, r <span class="op">=</span> <span class="fl">2</span>, v <span class="op">=</span> <span class="va">volontari</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"ESEMPI DI COPPIE EQUIPROBABILI:\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ESEMPI DI COPPIE EQUIPROBABILI:</span></span>
@@ -1332,7 +1331,7 @@ f(\theta) = 1 \quad \text{per ogni } \theta \in [0, 1].
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_uniforme</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">Densita</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">1.2</span>, </span>
 <span>           label <span class="op">=</span> <span class="st">"Beta(1,1) ≡ Uniforme\n(massima ignoranza epistemica)"</span>, </span>
@@ -1571,9 +1570,7 @@ Figura&nbsp;3.4: Processo di aggiornamento bayesiano dalle credenze a priori bas
 <span>    y <span class="op">=</span> <span class="st">"Densità di probabilità"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"Numero di domande\nosservate"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-sequential-update" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-sequential-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1642,8 +1639,8 @@ P(\text{corretto} \mid \theta, b) = \frac{1}{1 + e^{-(θ - b)}}
 <span><span class="co">#&gt; 5 Item5        1.0                 0.26</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_IRT</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Difficolta</span>, y <span class="op">=</span> <span class="va">Proporzione_Successo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.5</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Item Response Theory: Relazione tra difficoltà e proporzione di successo"</span>,</span>
@@ -1800,8 +1797,7 @@ Figura&nbsp;3.6: Simulazione di un modello Rasch: relazione tra difficoltà degl
 <span>    y <span class="op">=</span> <span class="st">"Densità di probabilità"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"Distribuzione"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-cbt-efficacy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-cbt-efficacy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1899,14 +1895,13 @@ Figura&nbsp;3.7: Stima bayesiana dell’efficacia della terapia cognitivo-compor
 <span>               names_to <span class="op">=</span> <span class="st">"Tipo"</span>, values_to <span class="op">=</span> <span class="st">"Probabilita"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_ex1_long</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">R_rosse</span>, y <span class="op">=</span> <span class="va">Probabilita</span>, fill <span class="op">=</span> <span class="va">Tipo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Inferenza bayesiana: composizione urna ignota"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Dati: 3 estrazioni con reinserimento (R, R, B)"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Numero di palline rosse (R)"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Probabilità"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">

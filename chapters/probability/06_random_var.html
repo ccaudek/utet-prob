@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>6&nbsp; Variabili casuali – Probabilità per la psicologia</title>
 <style>
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-af5d064118ae80f4bafc3d843c3c3870.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
@@ -263,8 +263,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/09_sampling_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Stime, stimatori e parametri</span></span></a>
+  <a href="../../chapters/probability/09_incertezza_inferenza.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Incertezza, dati e inferenza</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -288,13 +288,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_discr_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. discrete</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali discrete</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/14_cont_rv_distr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di v.c. continue</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali continue</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -394,7 +394,7 @@ window.Quarto = {
 <p>Finora abbiamo studiato le probabilità di eventi discreti, come vincere il gioco di Monty Hall o ricevere una diagnosi medica accurata. Tuttavia, molte situazioni pratiche richiedono una comprensione più sottile e quantitativa dell’incertezza. Invece di chiederci semplicemente se qualcosa accadrà, spesso abbiamo bisogno di sapere con quale frequenza accadrà, per quanto tempo durerà o quale valore numerico possiamo aspettarci.</p>
 <p>Per esempio, potremmo voler determinare quanti tentativi sono necessari prima che un concorrente vinca in uno scenario simile a quello del gioco di Monty Hall o stimare la durata attesa di un trattamento medico. Allo stesso modo, giocando per molte ore con un dado sbilanciato, potremmo essere interessati a calcolare la perdita finanziaria media che possiamo aspettarci nel lungo periodo.</p>
 <p>Queste domande richiedono un approccio più sofisticato rispetto alla semplice valutazione della probabilità di eventi isolati. Implicano la quantificazione di risultati numerici che emergono da processi casuali. Per affrontare in modo sistematico questo tipo di problemi, introduciamo il concetto fondamentale di <em>variabile casuale</em>.</p>
-<p>Una variabile casuale è, in sostanza, una funzione che associa un valore numerico a ogni possibile risultato di un esperimento casuale. Questo potente strumento matematico ci permette di tradurre l’incertezza qualitativa in quantità misurabili e di calcolare valori attesi, varianze e altre caratteristiche distributive. Grazie alle variabili casuali, possiamo non solo prevedere se un evento si verificherà, ma anche come si manifesterà numericamente quando si verifica.</p>
+<p>Una variabile casuale è una funzione che associa un valore numerico a ogni possibile risultato di un esperimento casuale. Questo strumento matematico ci permette di tradurre l’incertezza qualitativa in quantità misurabili e di calcolare valori attesi, varianze e altre caratteristiche distributive. Grazie alle variabili casuali, possiamo non solo prevedere se un evento si verificherà, ma anche come si manifesterà numericamente quando si verifica.</p>
 <p>In questo capitolo esploreremo le proprietà fondamentali delle variabili casuali, gettando le basi per affrontare le questioni pratiche che richiedono una comprensione quantitativa del comportamento aleatorio nei sistemi complessi.</p>
 <section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
 <ul>
@@ -446,8 +446,9 @@ window.Quarto = {
 </div>
 </section></section><section id="definizione-di-variabile-casuale" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="definizione-di-variabile-casuale">
 <span class="header-section-number">6.1</span> Definizione di variabile casuale</h2>
-<p>Nel linguaggio del calcolo delle probabilità, una <em>variabile casuale</em> rappresenta un ponte formale tra il mondo degli eventi qualitativi e quello dell’analisi numerica. Essa formalizza l’idea di assegnare un valore numerico a ciascun possibile risultato di un esperimento aleatorio, trasformando così esiti anche non numerici — come il seme di una carta da gioco o l’esito di un test medico — in quantità misurabili. Questa traduzione in valori numerici è fondamentale per applicare gli strumenti propri della teoria della probabilità e dell’analisi statistica allo studio dei fenomeni aleatori.</p>
-<p>In termini formali, sia <span class="math inline">\(\Omega\)</span> uno spazio campionario, ovvero l’insieme di tutti i possibili risultati di un esperimento. Una variabile casuale <span class="math inline">\(X\)</span> è una funzione<br><span class="math display">\[
+<p>Nel linguaggio del calcolo delle probabilità, una <em>variabile casuale</em> rappresenta un ponte formale tra il mondo degli eventi qualitativi e quello dell’analisi numerica. Essa formalizza l’idea di assegnare un valore numerico a ciascun possibile risultato di un esperimento casuale, trasformando così esiti anche non numerici — come il seme di una carta da gioco o l’esito di un test medico — in quantità misurabili. Questa traduzione in valori numerici è fondamentale per applicare gli strumenti propri della teoria della probabilità e dell’analisi statistica allo studio dei fenomeni aleatori.</p>
+<p>In termini formali, sia <span class="math inline">\(\Omega\)</span> uno spazio campionario, ovvero l’insieme di tutti i possibili risultati di un esperimento. Una variabile casuale <span class="math inline">\(X\)</span> è una funzione</p>
+<p><span class="math display">\[
 X : \Omega \longrightarrow \mathbb{R}
 \]</span> che assegna a ogni elemento <span class="math inline">\(\omega \in \Omega\)</span> un unico numero reale <span class="math inline">\(X(\omega)\)</span>.</p>
 <p>Ad esempio, nel lancio di una moneta, dove <span class="math inline">\(\Omega = \{T, C\}\)</span>, potremmo definire una variabile casuale <span class="math inline">\(X\)</span> tale che <span class="math inline">\(X(T) = 1\)</span> e <span class="math inline">\(X(C) = 0\)</span>. In questo modo, un esito qualitativo viene codificato numericamente, permettendo di calcolare proprietà come il valore atteso o la varianza, e facilitando operazioni altrimenti complesse o impossibili su oggetti non numerici.</p>
@@ -475,7 +476,7 @@ X(i,j) = i + j.
 <p>Ad esempio, se il primo dado mostra 4 e il secondo dado mostra 4, allora l’esito è <span class="math inline">\((4,4)\)</span> e la variabile casuale <span class="math inline">\(X\)</span> assume il valore 8.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="../../figures/random_variable_definition.png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>La variabile aleatoria <span class="math inline">\(X\)</span> rappresenta la somma di due dadi <span class="citation" data-cites="kroese2025statistical">(figura tratta da <a href="#ref-kroese2025statistical" role="doc-biblioref">Chan &amp; Kroese, 2025</a>)</span>.</figcaption></figure>
+<figcaption>La variabile casuale <span class="math inline">\(X\)</span> rappresenta la somma di due dadi <span class="citation" data-cites="kroese2025statistical">(figura tratta da <a href="#ref-kroese2025statistical" role="doc-biblioref">Chan &amp; Kroese, 2025</a>)</span>.</figcaption></figure>
 </div>
 <p>Consideriamo il valore specifico <span class="math inline">\(X=8\)</span>: questo valore può essere ottenuto attraverso cinque diversi esiti dello spazio campionario: <span class="math inline">\((2,6), (3,5), (4,4), (5,3), (6,2)\)</span>. Indichiamo con <span class="math inline">\(\{X=8\}\)</span> l’insieme di questi esiti. Poiché tutti gli esiti in <span class="math inline">\(\Omega\)</span> sono equiprobabili, possiamo calcolare la probabilità di ottenere una somma pari a 8 come:</p>
 <p><span class="math display">\[
@@ -486,7 +487,7 @@ P(X=8) = \frac{5}{36}.
 </div>
 </section><section id="tipologie-di-variabili-casuali" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="tipologie-di-variabili-casuali">
 <span class="header-section-number">6.2</span> Tipologie di variabili casuali</h2>
-<p>Le variabili casuali si dividono in due categorie principali:</p>
+<p>Le variabili casuali si dividono in due categorie principali: le variabili casuali discrete e le variabili casuali continue.</p>
 <section id="variabili-casuali-discrete" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="variabili-casuali-discrete">
 <span class="header-section-number">6.2.1</span> Variabili casuali discrete</h3>
 <p>Una <em>variabile casuale discreta</em> assume un insieme finito o numerabile di valori. Gli esempi includono il numero di teste ottenute in lanci di moneta o la somma dei risultati di due dadi. Per queste variabili, la <em>funzione di massa di probabilità (PMF)</em> assegna a ciascun valore <span class="math inline">\(x\)</span> la probabilità <span class="math inline">\(P(X = x)\)</span>.</p>
@@ -827,7 +828,7 @@ Supponiamo che in un questionario, il punteggio <span class="math inline">\(x = 
 <span></span>
 <span><span class="co"># Visualizza i primi 20 risultati</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Primi 20 risultati:"</span>, <span class="va">risultati_simulazione</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Primi 20 risultati: 5 5 4 5 5 8 5 8 6 12 7 7 6 9 7 7 11 10 7 6</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; Primi 20 risultati: 2 10 9 5 8 9 2 6 10 11 8 10 4 6 5 3 6 8 3 7</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>4. Calcolare e visualizzare la distribuzione empirica</strong></p>
 <div class="cell" data-layout-align="center">
@@ -836,14 +837,14 @@ Supponiamo che in un questionario, il punteggio <span class="math inline">\(x = 
 <span><span class="va">frequenze_assolute</span></span>
 <span><span class="co">#&gt; risultati_simulazione</span></span>
 <span><span class="co">#&gt;     2     3     4     5     6     7     8     9    10    11    12 </span></span>
-<span><span class="co">#&gt;  2919  5489  8216 11140 13909 16884 13931 11059  8248  5408  2797</span></span>
+<span><span class="co">#&gt;  2842  5525  8280 11057 13732 16741 13933 11147  8446  5489  2808</span></span>
 <span></span>
 <span><span class="co"># Calcola direttamente le frequenze relative (probabilità empiriche)</span></span>
 <span><span class="va">probabilita_empiriche</span> <span class="op">&lt;-</span> <span class="va">frequenze_assolute</span> <span class="op">/</span> <span class="va">numero_lanci</span></span>
 <span><span class="va">probabilita_empiriche</span></span>
 <span><span class="co">#&gt; risultati_simulazione</span></span>
 <span><span class="co">#&gt;      2      3      4      5      6      7      8      9     10     11     12 </span></span>
-<span><span class="co">#&gt; 0.0292 0.0549 0.0822 0.1114 0.1391 0.1688 0.1393 0.1106 0.0825 0.0541 0.0280</span></span>
+<span><span class="co">#&gt; 0.0284 0.0553 0.0828 0.1106 0.1373 0.1674 0.1393 0.1115 0.0845 0.0549 0.0281</span></span>
 <span></span>
 <span><span class="co"># Crea una tabella finale chiara e semplice</span></span>
 <span><span class="va">distribuzione_empirica</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
@@ -854,17 +855,17 @@ Supponiamo che in un questionario, il punteggio <span class="math inline">\(x = 
 <span><span class="co"># Mostra la distribuzione empirica</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">distribuzione_empirica</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Somma Probabilita</span></span>
-<span><span class="co">#&gt; 1      2      0.0292</span></span>
-<span><span class="co">#&gt; 2      3      0.0549</span></span>
-<span><span class="co">#&gt; 3      4      0.0822</span></span>
-<span><span class="co">#&gt; 4      5      0.1114</span></span>
-<span><span class="co">#&gt; 5      6      0.1391</span></span>
-<span><span class="co">#&gt; 6      7      0.1688</span></span>
+<span><span class="co">#&gt; 1      2      0.0284</span></span>
+<span><span class="co">#&gt; 2      3      0.0553</span></span>
+<span><span class="co">#&gt; 3      4      0.0828</span></span>
+<span><span class="co">#&gt; 4      5      0.1106</span></span>
+<span><span class="co">#&gt; 5      6      0.1373</span></span>
+<span><span class="co">#&gt; 6      7      0.1674</span></span>
 <span><span class="co">#&gt; 7      8      0.1393</span></span>
-<span><span class="co">#&gt; 8      9      0.1106</span></span>
-<span><span class="co">#&gt; 9     10      0.0825</span></span>
-<span><span class="co">#&gt; 10    11      0.0541</span></span>
-<span><span class="co">#&gt; 11    12      0.0280</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; 8      9      0.1115</span></span>
+<span><span class="co">#&gt; 9     10      0.0845</span></span>
+<span><span class="co">#&gt; 10    11      0.0549</span></span>
+<span><span class="co">#&gt; 11    12      0.0281</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Chiarimento sintetico dei concetti chiave.</strong></p>
 <ul>
@@ -980,12 +981,12 @@ Le distribuzioni continue sono utilizzate per rappresentare grandezze misurabili
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
+<span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
-<span><span class="co">#&gt; Running under: macOS Tahoe 26.0</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
-<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib </span></span>
+<span><span class="co">#&gt; BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
 <span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; locale:</span></span>
@@ -998,42 +999,42 @@ Le distribuzioni continue sono utilizzate per rappresentare grandezze misurabili
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.13.0      patchwork_1.3.2      </span></span>
+<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.15.1      patchwork_1.3.2      </span></span>
 <span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.14.0     </span></span>
-<span><span class="co">#&gt;  [7] ggplot2_4.0.0         reliabilitydiag_0.2.1 priorsense_1.1.1     </span></span>
+<span><span class="co">#&gt;  [7] ggplot2_4.0.0         reliabilitydiag_0.2.1 priorsense_1.2.0     </span></span>
 <span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.8.0             rstan_2.32.7         </span></span>
 <span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
 <span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
 <span><span class="co">#&gt; [19] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
-<span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.1           rio_1.2.3            </span></span>
+<span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.1           rio_1.2.4            </span></span>
 <span><span class="co">#&gt; [25] here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
 <span><span class="co">#&gt;  [4] S7_0.2.0              fastmap_1.2.0         TH.data_1.1-4        </span></span>
-<span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.37         timechange_0.3.0     </span></span>
+<span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.38         timechange_0.3.0     </span></span>
 <span><span class="co">#&gt; [10] estimability_1.5.1    lifecycle_1.0.4       survival_3.8-3       </span></span>
-<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.1        rlang_1.1.6          </span></span>
-<span><span class="co">#&gt; [16] tools_4.5.1           knitr_1.50            bridgesampling_1.1-2 </span></span>
+<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.2        rlang_1.1.6          </span></span>
+<span><span class="co">#&gt; [16] tools_4.5.2           knitr_1.50            bridgesampling_1.1-2 </span></span>
 <span><span class="co">#&gt; [19] htmlwidgets_1.6.4     curl_7.0.0            pkgbuild_1.4.8       </span></span>
-<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           multcomp_1.4-28      </span></span>
-<span><span class="co">#&gt; [25] withr_3.0.2           purrr_1.1.0           grid_4.5.1           </span></span>
-<span><span class="co">#&gt; [28] stats4_4.5.1          colorspace_2.1-1      xtable_1.8-4         </span></span>
-<span><span class="co">#&gt; [31] inline_0.3.21         emmeans_1.11.2-8      scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           multcomp_1.4-29      </span></span>
+<span><span class="co">#&gt; [25] withr_3.0.2           purrr_1.2.0           grid_4.5.2           </span></span>
+<span><span class="co">#&gt; [28] stats4_4.5.2          colorspace_2.1-2      xtable_1.8-4         </span></span>
+<span><span class="co">#&gt; [31] inline_0.3.21         emmeans_2.0.0         scales_1.4.0         </span></span>
 <span><span class="co">#&gt; [34] MASS_7.3-65           cli_3.6.5             mvtnorm_1.3-3        </span></span>
-<span><span class="co">#&gt; [37] rmarkdown_2.29        ragg_1.5.0            generics_0.1.4       </span></span>
-<span><span class="co">#&gt; [40] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.5.2        </span></span>
-<span><span class="co">#&gt; [43] splines_4.5.1         parallel_4.5.1        vctrs_0.6.5          </span></span>
-<span><span class="co">#&gt; [46] V8_7.0.0              Matrix_1.7-4          sandwich_3.1-1       </span></span>
-<span><span class="co">#&gt; [49] jsonlite_2.0.0        arrayhelpers_1.1-0    systemfonts_1.2.3    </span></span>
+<span><span class="co">#&gt; [37] rmarkdown_2.30        ragg_1.5.0            generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [40] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.6.0        </span></span>
+<span><span class="co">#&gt; [43] splines_4.5.2         parallel_4.5.2        vctrs_0.6.5          </span></span>
+<span><span class="co">#&gt; [46] V8_8.0.1              Matrix_1.7-4          sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt; [49] jsonlite_2.0.0        arrayhelpers_1.1-0    systemfonts_1.3.1    </span></span>
 <span><span class="co">#&gt; [52] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
 <span><span class="co">#&gt; [55] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
-<span><span class="co">#&gt; [58] QuickJSR_1.8.0        htmltools_0.5.8.1     Brobdingnag_1.2-9    </span></span>
-<span><span class="co">#&gt; [61] R6_2.6.1              textshaping_1.0.3     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [58] QuickJSR_1.8.1        htmltools_0.5.8.1     Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [61] R6_2.6.1              textshaping_1.0.4     rprojroot_2.1.1      </span></span>
 <span><span class="co">#&gt; [64] evaluate_1.0.5        lattice_0.22-7        backports_1.5.0      </span></span>
 <span><span class="co">#&gt; [67] memoise_2.0.1         broom_1.0.10          snakecase_0.11.1     </span></span>
 <span><span class="co">#&gt; [70] rstantools_2.5.0      gridExtra_2.3         coda_0.19-4.1        </span></span>
-<span><span class="co">#&gt; [73] nlme_3.1-168          checkmate_2.3.3       xfun_0.53            </span></span>
+<span><span class="co">#&gt; [73] nlme_3.1-168          checkmate_2.3.3       xfun_0.54            </span></span>
 <span><span class="co">#&gt; [76] zoo_1.8-14            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
