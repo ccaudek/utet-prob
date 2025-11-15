@@ -1,12 +1,5 @@
 # Distribuzioni di massa e di densità {#sec-prob-distr}
 
-::: {.epigraph}
-> “Ma una densità non è una probabilità. Integrando una densità su un intervallo continuo si ottiene una probabilità.”
->
-> — **Allen B. Downey**, *Think Bayes*.  
-:::
-
-
 ## Introduzione {.unnumbered .unlisted} 
 
 Nel @sec-prob-random-var abbiamo introdotto il concetto di variabile casuale, distinguendo tra variabili casuali discrete e continue. Per le prime, abbiamo descritto formalmente come assegnare una *distribuzione di massa di probabilità*, mentre per le seconde abbiamo introdotto la nozione di *funzione di densità di probabilità*. Fino a questo punto, i concetti di distribuzione di massa e densità sono stati trattati in termini prevalentemente formali e matematici.
@@ -323,9 +316,6 @@ Graficamente, la funzione di ripartizione rappresenta l'area sotto la curva dell
 - Per $\theta = -1$, $F_{\Theta}(-1) \approx 0.1587$, poiché la coda sinistra della distribuzione contiene il 15.87% della probabilità.
 
 ```{r}
-#| fig-asp: 1
-#| fig-width: 6
-#| fig-height: 6
 #| echo: false
 #| 
 # Definisci i parametri della distribuzione normale standard
@@ -385,38 +375,27 @@ In questo capitolo, abbiamo introdotto la funzione di densità di probabilità c
 - *Esempio intuitivo:*  
   Se misuriamo l'altezza degli individui in una popolazione, nel contesto frequentista, la PDF ci dice quale frazione di individui cade in un certo intervallo di altezza se potessimo misurare ogni possibile individuo (o eseguire ripetutamente misurazioni indipendenti in una popolazione "ideale").
 
+### Interpretazione bayesiana
 
-### Interpretazione bayesiana 
+**Concetto di incertezza e credenza**
 
-**Concetto di incertezza e credenza:**
+Nella statistica bayesiana, l'incertezza non è solo un limite da ridurre, ma una componente fondamentale da quantificare e gestire. Questo approccio si basa su una ridefinizione radicale del concetto di parametro: non più una quantità fissa da scoprire, ma una variabile casuale che riflette il nostro stato di conoscenza imperfetta.
 
-- *Parametro come variabile casuale:*  
-  In statistica bayesiana, i parametri non sono visti come quantità fisse, ma come incerti. Si assume che ogni parametro (o dato osservato) abbia una propria distribuzione che riflette la nostra incertezza su di esso.  
-  - Ad esempio, se stiamo stimando un parametro $\theta$ (ad esempio la media di una distribuzione), in un approccio bayesiano attribuiamo a $\theta$ una distribuzione di probabilità che esprime quanto sia plausibile ciascun valore di $\theta$, dati i dati osservati e le nostre conoscenze pregresse.
+Ad esempio, quando si stima un parametro come la media $\theta$ di una popolazione, l'approccio bayesiano assegna a $\theta$ una distribuzione di probabilità completa. Questa distribuzione non descrive una variabilità intrinseca del parametro (che potrebbe essere un valore fisso), ma esprime quantitativamente la plausibilità soggettiva di ciascun suo possibile valore sulla base dei dati osservati e delle conoscenze pregresse.
 
-- *PDF come distribuzione di credenze:*  
-  La PDF, in questo contesto, non descrive una frequenza relativa osservabile sperimentalmente (perché l’esperimento non viene ripetuto infinite volte, o perché $x$ è un valore fisso ma incerto), ma esprime il grado di fiducia o la plausibilità che il valore “vero” di $x$ (o di un parametro) si trovi in un certo intervallo.  
-  - È come “spalmare” la nostra incertezza su tutti i valori possibili: la sfumatura lungo l’asse $x$ rappresenta la distribuzione delle nostre credenze.
+In questo contesto, la funzione di densità di probabilità (PDF) assume un significato completamente diverso. Non rappresenta più una frequenza relativa osservabile in esperimenti ripetuti, ma una sorta di "mappa" della nostra fiducia. Essa codifica il grado di credenza che il valore vero di un parametro o di una quantità incerta si trovi in un determinato intervallo. È come se "spalmassimo" la nostra incertezza su tutti i valori possibili: la forma della distribuzione, con le sue sfumature lungo l'asse $x$, visualizza la distribuzione delle nostre credenze.
 
-- *Analogia con la densità di materia:*  
-  Un’utile analogia è quella della densità di materia $\rho(x)$ in meccanica classica: la densità non descrive la posizione precisa di ogni atomo, ma come la materia (o, in questo caso, la probabilità) è distribuita lungo l’asse $x$. Allo stesso modo, in una PDF bayesiana, non sono i “valori di $x$” ad essere distribuiti (in termini di frequenza osservabile), ma è la nostra “incertezza” a essere distribuita sui possibili valori.
+Un'analogia efficace è quella della densità di materia in fisica. La funzione di densità $\rho(x)$ non specifica la posizione esatta di ogni singolo atomo, ma descrive come la massa è distribuita nello spazio. Allo stesso modo, una PDF bayesiana non descrive dove "cadrà" un dato in ipotetiche ripetizioni, ma come la nostra "massa di incertezza" è distribuita tra i diversi valori possibili.
 
-- *Esempio intuitivo:*  
-  Immagina di dover stimare la probabilità che una certa ipotesi sia vera, ad esempio la media dell’altezza in una popolazione. Invece di pensare a misurazioni ripetute, consideri il valore medio come fisso ma incerto. La PDF bayesiana esprime il grado di credenza per ciascun possibile valore della media, in base ai dati raccolti e alle informazioni a priori.
+Per rendere l'idea con un esempio concreto, immagina di dover stimare l'altezza media di una popolazione. Un bayesiano non pensa a infinite misurazioni ripetute, ma considera il valore medio stesso come un'incognita. La PDF bayesiana che ne risulta rappresenta, in ogni punto, quanto fortemente crediamo che quel valore specifico sia la media vera, avendo a disposizione un campione di dati e un'idea preliminare.
 
+### Confronto
 
-### Confronto 
+Le differenze tra l'approccio bayesiano e quello frequentista emergono chiaramente proprio nell'interpretazione della PDF.
 
-- *Frequentista:*  
-  - *Focus:* Distribuzione dei dati.
-  - *Interpretazione:* La PDF descrive come i valori di $x$ sarebbero distribuiti se ripetessimo l’esperimento infinite volte.
-  - *Esempio:* L’istogramma dei dati osservati in una lunga serie di esperimenti.
+L'interpretazione *frequentista* mantiene un focus sulla distribuzione dei dati. In questa prospettiva, la PDF descrive come i valori di una variabile $x$ si distribuirebbero se fosse possibile ripetere il processo di campionamento o l'esperimento un numero infinito di volte, mantenendo condizioni identiche. L'oggetto dell'analisi è il comportamento a lungo termine dei dati. Un esempio emblematico è l'istogramma che si otterrebbe da una serie molto lunga di esperimenti, che approssimerebbe la PDF teorica.
 
-- *Bayesiano:*  
-  - *Focus:* Distribuzione della nostra incertezza o credenza.
-  - *Interpretazione:* La PDF riflette quanto sia plausibile ciascun valore di $x$ (o di un parametro) dato l’informazione disponibile, senza necessità di ripetere l’esperimento.
-  - *Esempio:* La distribuzione a posteriori di un parametro dopo aver combinato dati osservati e informazioni a priori.
-
+Al contrario, l'interpretazione *bayesiana* sposta l'attenzione sulla distribuzione della nostra incertezza o credenza. In questo caso, la PDF non ha bisogno del concetto di ripetizione infinita; essa riflette direttamente la plausibilità che attribuiamo a ciascun valore di $x$ (o di un parametro), sulla base di tutte le informazioni disponibili in quel momento. L'oggetto dell'analisi è lo stato della nostra conoscenza. L'esempio più rappresentativo è la distribuzione a posteriori di un parametro che sintetizza in modo coerente quanto imparato dai dati osservati con quanto si sapeva prima (l'informazione a priori).
 
 ::: {#fig-loredo2024}
 ![](../../figures/loredo_2024.png){width="80%"}
@@ -424,18 +403,15 @@ In questo capitolo, abbiamo introdotto la funzione di densità di probabilità c
 Interpretazioni frequentista e bayesiana di una PDF (curva blu) per una quantità reale $x$. A sinistra: interpretazione frequentista come istogramma limite dei valori di $x$ nelle ripetizioni; i valori di $x$ sono distribuiti secondo la PDF. A destra: interpretazione bayesiana, con $x$ che assume un valore fisso ma incerto per il caso specifico (rappresentato dal punto sull'asse $x$), con la probabilità distribuita sui valori possibili (raffigurata con una sfumatura lungo l'asse $x$). [Figura tratta da @loredo2024bayesian]
 :::
 
-
-In sintesi, questa distinzione tra interpretazioni non è solo una questione di semantica, ma ha implicazioni pratiche nella formulazione di modelli statistici e nell'interpretazione dei risultati. Mentre l'approccio frequentista è spesso utilizzato quando si può concettualmente pensare a ripetizioni infinite dell’esperimento, l'approccio bayesiano è particolarmente utile quando si vuole esprimere e aggiornare la propria incertezza su una quantità basandosi sia su dati che su conoscenze pregresse.
-
+In sintesi, questa distinzione tra interpretazioni non è solo una questione di semantica, ma ha implicazioni pratiche nella formulazione di modelli statistici e nell'interpretazione dei risultati. Mentre l'approccio frequentista è spesso utilizzato quando è possibile pensare concettualmente a un numero infinito di ripetizioni dell'esperimento, l'approccio bayesiano è particolarmente utile quando si desidera esprimere e aggiornare il proprio livello di incertezza riguardo a una quantità, basandosi sia su dati che su conoscenze pregresse.
 
 ## Riflessioni conclusive {.unnumbered .unlisted} 
 
-La funzione di densità di probabilità (PDF) costituisce il fondamento per la descrizione delle variabili casuali continue, consentendo di associare le probabilità ad intervalli, tramite il calcolo dell'area sottesa alla curva. In questo contesto, la probabilità di osservare un valore esatto risulta zero, non per impossibilità dell’evento, ma perché in un insieme continuo ogni singolo punto contribuisce con un’area infinitesimale.
+La funzione di densità di probabilità (PDF) costituisce il fondamento per la descrizione delle variabili casuali continue e consente di associare le probabilità agli intervalli tramite il calcolo dell'area sottesa alla curva. In questo contesto, la probabilità di osservare un valore esatto è pari a zero, non perché l'evento è impossibile, ma perché in un insieme continuo ogni singolo punto contribuisce con un'area infinitesimale.
 
-Il paradosso apparente, secondo cui la somma di infiniti contributi nulli porta a una probabilità totale positiva, si risolve grazie alla teoria dell’integrazione. Integrando i contributi infinitesimali lungo un intervallo, si ottiene una quantità finita che rappresenta la probabilità complessiva dell’evento. Un’interpretazione alternativa, fornita dalla teoria degli infinitesimi di Abraham Robinson, consente di attribuire a tali eventi probabilità infinitesimali, distinguendo tra diverse “grandezze” e chiarendo ulteriormente il processo di aggregazione verso un valore unitario.
+Il paradosso apparente secondo cui la somma di infiniti contributi nulli porta a una probabilità totale positiva si risolve grazie alla teoria dell'integrazione. Integrando i contributi infinitesimali lungo un intervallo, si ottiene una quantità finita che rappresenta la probabilità complessiva dell'evento. Un'interpretazione alternativa, fornita dalla teoria degli infinitesimi di Abraham Robinson, consente di attribuire a tali eventi probabilità infinitesimali, distinguendo diverse "grandezze" e chiarendo ulteriormente il processo di aggregazione verso il valore unitario.
 
-Nel campo della *data science*, le distribuzioni di probabilità—formalmente rappresentate da $p(x)$—sono strumenti indispensabili per modellare la variabilità osservabile in una popolazione. Queste distribuzioni non mirano a riprodurre in maniera dettagliata ogni aspetto della realtà, ma offrono un modello semplificato che consente di generalizzare i dati osservati e di formulare previsioni rigorose sui fenomeni futuri. In altre parole, $p(x)$ non rappresenta la popolazione nel suo complesso, bensì un’astrazione matematica che cattura l’incertezza e la variabilità del fenomeno studiato.
-
+Nel campo della *data science*, le distribuzioni di probabilità, formalmente rappresentate da $p(x)$, sono strumenti indispensabili per modellare la variabilità osservabile in una popolazione. Tali distribuzioni non mirano a riprodurre ogni aspetto della realtà in maniera dettagliata, ma offrono un modello semplificato che consente di generalizzare i dati osservati e di formulare previsioni rigorose sui fenomeni futuri. In altre parole, $p(x)$ non rappresenta la popolazione nel suo complesso, ma un'astrazione matematica che cattura l'incertezza e la variabilità del fenomeno studiato.
 
 ::: {.callout-tip title="Esercizio" collapse="true"}
 **Esercizio 1: Variabili Casuali Discrete e Continue**

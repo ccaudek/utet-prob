@@ -1,11 +1,5 @@
 # La verosimiglianza {#sec-prob-likelihood}
 
-::: {.epigraph}
-> “In Bayesian inference the likelihood plays the central role: it tells us how to update our prior beliefs in the light of observed data.”
->
-> -- **Dennis V. Lindley**, Making Decisions (1971)
-:::
-
 ## Introduzione {.unnumbered .unlisted}
 
 I ricercatori utilizzano modelli matematici per descrivere e prevedere il comportamento dei dati osservati. Questi modelli si distinguono per la loro struttura funzionale, che definisce le relazioni tra variabili osservate e parametri teorici. La selezione del modello ottimale avviene attraverso un confronto sistematico tra le previsioni teoriche generate dai diversi modelli e l'evidenza empirica. Il modello che mostra il miglior accordo con i dati sperimentali viene considerato la rappresentazione più adeguata del fenomeno studiato.
@@ -79,14 +73,13 @@ Sebbene la funzione di probabilità (o densità) e la funzione di verosimiglianz
 
 #### Implicazioni per l'inferenza statistica
 
-- **Approccio frequentista**: la verosimiglianza è uno strumento per stimare i parametri (es. stima di massima verosimiglianza), senza assegnare loro una distribuzione di probabilità
+- **Approccio frequentista**: la verosimiglianza è uno strumento per stimare i parametri (es. stima di massima verosimiglianza), senza assegnare loro una distribuzione di probabilità.
 
 - **Approccio bayesiano**: la verosimiglianza funge da ponte tra dati e parametri, combinando l'informazione empirica con le credenze iniziali (*prior*) per derivare la distribuzione a posteriori:
 
 $$
-P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta)
+P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta).
 $$
-
 In questa prospettiva, i dati aggiornano la nostra conoscenza su $\theta$ attraverso la verosimiglianza.
 
 #### Sintesi delle differenze
@@ -138,7 +131,6 @@ Sul piano analitico, la log-verosimiglianza facilita l'ottimizzazione grazie all
 
 In sintesi, la log-verosimiglianza combina efficienza computazionale e semplicità analitica, rendendola uno strumento fondamentale per l'inferenza statistica e l'analisi dati moderna. La sua adozione consente di affrontare problemi complessi con maggiore stabilità numerica e minore complessità computazionale, mantenendo inalterate le proprietà inferenziali della verosimiglianza originale.
 
-
 ## Modellazione statistica del lancio di una moneta
 
 Un esempio classico per introdurre il concetto di *verosimiglianza* è quello del lancio di una moneta.
@@ -169,7 +161,6 @@ $$
 
 Essa indica quali valori di $\theta$ sono più compatibili con i dati osservati.
 Il valore che massimizza questa funzione è lo *stimatore di massima verosimiglianza (MLE)*.
-
 
 ### Esempio 1: due lanci
 
@@ -238,7 +229,6 @@ Rispetto al caso precedente, la curva è più *stretta*, segnalando una maggiore
 
 In sintesi: la verosimiglianza traduce l’idea intuitiva che “il valore migliore del parametro è quello che rende i dati osservati più probabili”. Questo principio, applicato in modo generale, costituisce la base della *stima per massima verosimiglianza*.
 
-
 ### Confronto tra due e tre lanci
 
 Mettiamo ora a confronto le due situazioni:
@@ -270,7 +260,8 @@ ggplot(df, aes(x = theta, y = likelihood, color = caso)) +
     x = expression(theta),
     y = "Verosimiglianza"
   ) +
-  scale_color_manual(values = c("steelblue", "darkorange"))
+  scale_color_manual(values = c("steelblue", "darkorange")) +
+  theme_minimal()
 ```
 
 ### Interpretazione del grafico
@@ -326,7 +317,8 @@ ggplot(data, aes(x = theta, y = likelihood)) +
   labs(
     x = expression(theta),
     y = "Verosimiglianza"
-  ) 
+  ) +
+  theme_minimal()
 ```
 
 ### Interpretazione dei risultati
@@ -343,7 +335,7 @@ L'analisi grafica rivele che:
 
 In R, il calcolo della verosimiglianza binomiale può essere efficientemente implementato utilizzando la funzione `dbinom()`, che calcola la funzione di massa di probabilità della distribuzione binomiale:
 
-```r
+```{r}
 # Calcolo della verosimiglianza
 likelihood <- dbinom(y, size = n, prob = theta)
 ```
@@ -357,8 +349,7 @@ Questo approccio dimostra come la verosimiglianza possa essere costruita diretta
 
 La metodologia presentata mostra come concetti teorici di inferenza statistica possano essere efficacemente implementati e visualizzati attraverso strumenti computazionali, facilitando la comprensione intuitiva dei principi di verosimiglianza e stima parametrica.
 
-
-## La Stima di Massima Verosimiglianza
+## La Stima di massima verosimiglianza
 
 Quando osserviamo dati sperimentali e desideriamo stimare un parametro incognito – come la probabilità $\theta$ che una moneta produca "testa" – un approccio fondamentale è rappresentato dalla *stima di massima verosimiglianza* (Maximum Likelihood Estimation, MLE). Sebbene l'approccio bayesiano si concentri sulla distribuzione completa dei valori plausibili del parametro piuttosto che su una singola stima puntuale, la comprensione del concetto di MLE rimane essenziale. Questo metodo identifica il valore di $\theta$ che massimizza la compatibilità tra il modello e i dati osservati. In contesti bayesiani, sotto specifiche condizioni di prior, la MLE coincide con il massimo della distribuzione a posteriori.
 
@@ -387,13 +378,11 @@ Matematicamente, il massimo della funzione di verosimiglianza corrisponde al pun
 $$
 \ell(\theta) = y \log \theta + (n - y) \log(1 - \theta),
 $$
-
 la soluzione analitica si ottiene ponendo la derivata uguale a zero:
 
 $$
 \hat{\theta} = \frac{y}{n}.
 $$
-
 Nel nostro esempio, questo risulta in $\hat{\theta} = \frac{23}{30} \approx 0.767$, dimostrando come la MLE corrisponda alla proporzione campionaria osservata.
 
 ### Relazione con l'inferenza bayesiana
@@ -472,7 +461,6 @@ Tutti e tre i metodi convergono allo stesso risultato:
 $$
 \hat{\theta} = \frac{23}{30} \approx 0.767 .
 $$
-
 Questa coincidenza dimostra la robustezza del metodo di massima verosimiglianza e conferma che, nel caso della distribuzione binomiale, la stima ottimale corrisponde alla proporzione campionaria osservata.
 
 **Osservazioni metodologiche:**
@@ -512,21 +500,16 @@ dove $y = \sum_{i=1}^{n} y_i$. Questo dimostra l'equivalenza tra l'approccio bas
 
 ### Importanza della verosimiglianza congiunta
 
-La verosimiglianza congiunta rappresenta uno strumento fondamentale per:
-
-- Integrare informazioni da multiple osservazioni indipendenti.
-- Costruire modelli statistici complessi.
-- Effettuare stime parametriche basate sull'intero set di dati.
-- Generalizzare il concetto di verosimiglianza a contesti multivariati.
+La verosimiglianza congiunta è uno strumento fondamentale nell'inferenza statistica, in quanto permette di integrare in modo coerente le informazioni provenienti da osservazioni indipendenti. Grazie a questo approccio, è possibile costruire modelli statistici complessi che riflettono la struttura dei dati osservati. La sua applicazione consente di effettuare stime parametriche ottimali basate sull'intero insieme di dati disponibili, massimizzando l'informazione estraibile dal campione. Inoltre, la verosimiglianza congiunta estende e generalizza il concetto di verosimiglianza ai contesti multivariati, fornendo un quadro teorico unitario per l'analisi di fenomeni multidimensionali.
 
 ### Esempio applicativo: gruppi di osservazioni binomiali
 
 Consideriamo quattro gruppi indipendenti di osservazioni binomiali:
 
-- Gruppo 1: 23 successi su 30 prove.
-- Gruppo 2: 20 successi su 28 prove.
-- Gruppo 3: 29 successi su 40 prove.
-- Gruppo 4: 29 successi su 36 prove.
+- gruppo 1: 23 successi su 30 prove;
+- gruppo 2: 20 successi su 28 prove;
+- gruppo 3: 29 successi su 40 prove;
+- gruppo 4: 29 successi su 36 prove.
 
 Assumendo che tutti i gruppi condividano lo stesso parametro $\theta$, la log-verosimiglianza congiunta è data da:
 
@@ -541,7 +524,7 @@ $$
 \log \mathcal{L}(\theta) = &23\log(\theta) + 7\log(1 - \theta) + \\
 &20\log(\theta) + 8\log(1 - \theta) + \\
 &29\log(\theta) + 11\log(1 - \theta) + \\
-&29\log(\theta) + 7\log(1 - \theta)
+&29\log(\theta) + 7\log(1 - \theta).
 \end{aligned}
 $$
 
@@ -568,7 +551,6 @@ log_verosimiglianza_congiunta(0.7)
 ## La Verosimiglianza marginale nell'inferenza bayesiana
 
 La verosimiglianza marginale rappresenta un concetto fondamentale nell'inferenza bayesiana, permettendo di valutare la compatibilità complessiva di un modello con i dati osservati, considerando l'intera distribuzione dei parametri. A differenza della verosimiglianza classica che valuta la plausibilità dei dati per valori fissi dei parametri, la verosimiglianza marginal integra l'incertezza parametrica attraverso la distribuzione a priori.
-
 
 ### Caso di parametri discreti
 
@@ -615,7 +597,6 @@ $$
 p(k=7 \mid n=10) 
 = \int_{0}^{1} \binom{10}{7}\,\theta^{7}(1-\theta)^{3}\, p(\theta)\, d\theta,
 $$
-
 dove $p(\theta)$ è la distribuzione a priori.
 
 Ad esempio, con una prior $\text{Beta}(2,2)$:
@@ -623,7 +604,6 @@ Ad esempio, con una prior $\text{Beta}(2,2)$:
 $$
 p(\theta) = \frac{\theta(1-\theta)}{B(2,2)},
 $$
-
 si ottiene:
 
 $$
@@ -653,7 +633,6 @@ $$
 p(k=7 \mid n=10) = \sum_{i=1}^3 p(k=7 \mid \theta_i)\, p(\theta_i).
 $$
 
-
 #### Parametri continui
 
 ```{r}
@@ -671,7 +650,6 @@ Qui la verosimiglianza marginale viene calcolata come
 $$
 p(k=7 \mid n=10) = \int_0^1 \binom{10}{7}\, \theta^7 (1-\theta)^3 \, p(\theta)\, d\theta,
 $$
-
 dove, con una prior $\text{Beta}(2,2)$, vale
 
 $$
@@ -696,33 +674,21 @@ Nella formula di Bayes
 $$
 p(\theta \mid D) = \frac{p(D \mid \theta)\,p(\theta)}{p(D)},
 $$
-
 la quantità $p(D)$, ossia la verosimiglianza marginale:  
 
 - funge da *fattore di normalizzazione* per ottenere la distribuzione a posteriori;  
 - costituisce la *base del confronto tra modelli*;  
 - rappresenta una *misura complessiva dell’evidenza* fornita dai dati.  
 
-
 ### Considerazioni pratiche
 
-Il calcolo di $p(D)$ presenta spesso difficoltà:  
+Il calcolo di $p(D)$ presenta spesso notevoli difficoltà pratiche. L'integrazione diventa rapidamente *multidimensionale* per modelli complessi, rendendo il calcolo analitico proibitivo. I risultati possono essere sensibili alla scelta della prior, in particolare in spazi parametrici ad alta dimensionalità. Per i modelli realistici, sono necessari *metodi approssimati* come la MCMC, il bridge sampling, l'approssimazione di Laplace e altre tecniche numeriche sofisticate.
 
-- l’integrazione diventa rapidamente *multidimensionale* per modelli complessi;  
-- i risultati possono essere *sensibili alla scelta della prior*;  
-- sono necessari *metodi approssimati* (MCMC, bridge sampling, ecc.) per modelli realistici.  
-
-Nonostante queste complessità, la verosimiglianza marginale resta un concetto fondamentale:  
-- permette di valutare la bontà di adattamento dei modelli,  
-- guida la *selezione bayesiana dei modelli*,  
-- e garantisce un’inferenza che integra in modo coerente l’incertezza sui parametri.  
-
+Nonostante queste complessità computazionali, la verosimiglianza marginale resta un concetto fondamentale per diverse ragioni cruciali: permette di valutare la bontà di adattamento dei modelli ai dati osservati, guida la *selezione bayesiana dei modelli*  e garantisce un'inferenza che integra in modo coerente l'incertezza sui parametri, applicando automaticamente il principio di rasoio di Occam bayesiano.
 
 ## Verosimiglianza gaussiana
 
-La distribuzione gaussiana (o normale) è uno degli strumenti fondamentali della statistica.
-La sua importanza deriva dalla capacità di descrivere in modo efficace molte variabili continue di interesse psicologico e scientifico, come il *quoziente intellettivo (QI)*, i *tempi di reazione* o diverse *misurazioni psicofisiologiche*.
-
+La distribuzione gaussiana è uno strumento fondamentale della statistica. La sua importanza deriva dalla capacità di descrivere in modo efficace molte variabili continue di interesse psicologico e scientifico, come il quoziente intellettivo (QI), i tempi di reazione e diverse misurazioni psicofisiologiche.
 
 ### Caso di una singola osservazione
 
@@ -734,10 +700,9 @@ $$
 f(y \mid \mu, \sigma) \;=\; \frac{1}{\sigma \sqrt{2\pi}} 
 \exp\!\left(-\frac{(y-\mu)^2}{2\sigma^2}\right),
 $$
-
 dove $y$ rappresenta il valore osservato (nel nostro caso $y=114$), $\mu$ è il parametro da stimare e $\sigma$ è noto.
 
-La *funzione di verosimiglianza* per una singola osservazione è data dalla stessa espressione, considerata ora come funzione di $\mu$, fissato $y$.
+La funzione di verosimiglianza per una singola osservazione è data dalla stessa espressione, considerata ora come funzione di $\mu$, fissato $y$.
 
 ```{r}
 # Osservazione e parametro noto
@@ -755,7 +720,8 @@ ggplot(data.frame(mu = mu_values, likelihood = likelihood),
   labs(
     x = "Media μ",
     y = "Verosimiglianza"
-  )
+  ) +
+  theme_minimal()
 ```
 
 Il valore di $\mu$ che massimizza la verosimiglianza coincide con l’osservazione stessa:
@@ -765,21 +731,17 @@ mu_optimal <- mu_values[which.max(likelihood)]
 cat("Stima di massima verosimiglianza per μ:", mu_optimal)
 ```
 
-
 ### Ottimizzazione tramite log-verosimiglianza
 
-L’uso della *log-verosimiglianza* è preferibile per ragioni numeriche:
+L'uso della *log-verosimiglianza* è preferibile per ragioni numeriche.  Questa trasformazione converte prodotti di probabilità in somme, evitando problemi di *underflow* con valori di probabilità molto piccoli. Inoltre, semplifica notevolmente il calcolo delle derivate durante i processi di ottimizzazione.
 
-* trasforma prodotti di probabilità in somme,
-* evita problemi di *underflow* con valori molto piccoli,
-* semplifica il calcolo delle derivate.
-
-Per una singola osservazione da una normale:
+Per una singola osservazione da una distribuzione normale, la log-verosimiglianza si esprime come:
 
 $$
 \ell(\mu \mid y, \sigma) \;=\; -\tfrac{1}{2}\log(2\pi)\;-\;\log(\sigma)\;-\;\frac{(y-\mu)^2}{2\sigma^2}.
 $$
 
+Questa formulazione risulta numericamente stabile e computazionalmente efficiente per l'ottimizzazione dei parametri.
 
 #### Implementazione in R
 
@@ -805,14 +767,15 @@ mu_mle <- result$par
 cat("Stima di massima verosimiglianza per μ:", round(mu_mle, 2))
 ```
 
-
 ### Vantaggi della log-verosimiglianza
 
-1. *Stabilità numerica*: riduce i rischi di underflow.
-2. *Efficienza computazionale*: la somma di log-probabilità è più stabile del prodotto di probabilità.
-3. *Proprietà additive*: la log-verosimiglianza totale è la somma dei contributi dei singoli dati.
-4. *Derivazioni semplificate*: le derivate della log-verosimiglianza hanno forma più semplice.
+L'adozione della log-verosimiglianza offre numerosi vantaggi pratici nell'analisi statistica.
 
+La stabilità numerica è il beneficio principale, in quanto riduce significativamente il rischio di underflow quando si lavora con probabilità molto piccole. Questo approccio garantisce una maggiore efficienza computazionale, poiché la somma delle log-probabilità è notevolmente più stabile del prodotto delle probabilità dirette.
+
+Un altro vantaggio fondamentale è rappresentato dalle proprietà additive: la log-verosimiglianza totale corrisponde esattamente alla somma dei contributi dei singoli dati, il che semplifica l'aggregazione delle informazioni. Inoltre, le derivazioni risultano notevolmente semplificate, poiché le derivate della log-verosimiglianza presentano una forma matematica più semplice e maneggevole rispetto a quelle della verosimiglianza standard.
+
+Questi vantaggi combinati rendono la log-verosimiglianza uno strumento essenziale per l'inferenza statistica moderna, soprattutto in contesti con dataset di grandi dimensioni o modelli complessi.
 
 ### Interpretazione del risultato
 
@@ -821,7 +784,6 @@ La stima di massima verosimiglianza (MLE) per $\mu$ risulta:
 $$
 \hat{\mu} = 114,
 $$
-
 ossia il valore osservato. Questo era atteso: per una singola osservazione da una normale con deviazione standard nota, la stima MLE della media coincide esattamente con il dato osservato.
 
 
@@ -839,7 +801,6 @@ y <- c(
 sigma <- 6.5  # Deviazione standard nota
 ```
 
----
 
 ### Log-verosimiglianza
 
@@ -848,7 +809,6 @@ Per un campione di $n$ osservazioni indipendenti, la log-verosimiglianza del par
 $$
 \ell(\mu \mid y, \sigma) \;=\; \sum_{i=1}^n \log f(y_i \mid \mu, \sigma),
 $$
-
 dove $f(y_i \mid \mu, \sigma)$ è la densità normale.
 
 In R:
@@ -866,13 +826,9 @@ mu_range <- seq(mean(y) - 2 * sigma, mean(y) + 2 * sigma, length.out = 1000)
 log_lik_values <- sapply(mu_range, function(mu_val) log_likelihood(mu_val, y, sigma))
 ```
 
----
-
 ### Visualizzazione
 
 ```{r}
-library(ggplot2)
-
 ggplot(
   data.frame(mu = mu_range, log_likelihood = log_lik_values),
   aes(x = mu, y = log_likelihood)
@@ -885,28 +841,25 @@ ggplot(
   ) +
   annotate("text", x = mean(y) + 2, y = max(log_lik_values) - 5,
            label = paste0("Media campionaria = ", round(mean(y), 2)),
-           color = "red", hjust = 0)
+           color = "red", hjust = 0) +
+  theme_minimal()
 ```
 
 ### Interpretazione
 
-La curva mostra come varia la log-verosimiglianza al variare di $\mu$:
+La curva di log-verosimiglianza mostra chiaramente come questa quantità vari in funzione di $\mu$. Il punto di massimo si ottiene *esattamente in corrispondenza della media campionaria*, risultato che conferma le proprietà teoriche dello stimatore. La curva presenta una caratteristica *forma concava e parabolica*, tipica del modello normale, che riflette la regolarità della distribuzione. La *larghezza della curva* fornisce un'indicazione immediata dell'incertezza associata alla stima, con curve più ampie che corrispondono a maggiore incertezza.
 
-* il massimo si ottiene *in corrispondenza della media campionaria*, come previsto;
-* la forma è *concava e parabolica*, tipica del modello normale;
-* la *larghezza della curva* riflette l’incertezza della stima.
-
-In altre parole, lo stimatore di massima verosimiglianza (MLE) di $\mu$ è la media campionaria:
+Questo risultato formalizza una proprietà fondamentale: lo stimatore di massima verosimiglianza (MLE) per $\mu$ coincide con la media campionaria:
 
 $$
 \hat{\mu}_{\text{MLE}} = \bar{y}.
 $$
 
----
+Questa corrispondenza non solo semplifica il calcolo dello stimatore, ma conferma anche l'intuitività della media campionaria come misura della posizione centrale nella distribuzione normale.
 
 ### Ottimizzazione numerica
 
-Possiamo verificare la stima tramite algoritmi di ottimizzazione:
+Possiamo verificare analiticamente la stima di massima verosimiglianza tramite algoritmi di ottimizzazione numerica:
 
 ```{r}
 negative_log_likelihood <- function(mu, y, sigma) {
@@ -927,7 +880,7 @@ mu_optimal <- result$par
 cat("Stima numerica di massima verosimiglianza per μ:", round(mu_optimal, 4))
 ```
 
-Confronto con la media campionaria:
+Il confronto diretto con la media campionaria conferma la corrispondenza:
 
 ```{r}
 sample_mean <- mean(y)
@@ -939,23 +892,20 @@ data.frame(
 )
 ```
 
-In conclusione, la stima ottenuta con l’ottimizzazione coincide perfettamente con la media campionaria. Questo conferma il risultato teorico: *per un campione indipendente da una normale con varianza nota, lo stimatore MLE della media è la media campionaria*.
-
+In conclusione, la stima ottenuta tramite ottimizzazione numerica coincide perfettamente con la media campionaria. Questo risultato sperimentale conferma il fondamento teorico: per un campione di variabili casuali indipendenti e identicamente distribuite (i.i.d.) secondo una distribuzione normale con varianza nota, lo stimatore di massima verosimiglianza del parametro $\mu$ corrisponde esattamente alla media campionaria.
 
 ## Il rapporto di verosimiglianze
 
-In statistica capita spesso di dover *confrontare modelli alternativi* che cercano di spiegare gli stessi dati osservati.
-Ad esempio, nella stima della media di una variabile psicologica (punteggi ai test, tempi di reazione, ecc.), potremmo avere due ipotesi contrastanti:
+In statistica capita spesso di dover *confrontare modelli alternativi* che cercano di spiegare gli stessi dati osservati. Ad esempio, nella stima della media di una variabile psicologica - come punteggi ai test o tempi di reazione - potremmo trovarci di fronte a due ipotesi contrastanti:
 
-* **Modello nullo ($H_0$)**: la media assume un valore fissato $\mu_1$ (tipicamente un valore di riferimento o assenza di effetto);
-* **Modello alternativo ($H_1$)**: la media assume un valore diverso $\mu_2$ (indicativo di un effetto o cambiamento).
+* **Modello nullo ($H_0$)**: la media assume un valore fissato $\mu_1$, tipicamente un valore di riferimento o corrispondente all'assenza di effetto;
+* **Modello alternativo ($H_1$)**: la media assume un valore diverso $\mu_2$, indicativo della presenza di un effetto o cambiamento.
 
-Il *rapporto di verosimiglianze (Likelihood Ratio, LR)* fornisce una misura quantitativa dell’evidenza relativa a favore di un modello rispetto all’altro, basandosi direttamente sui dati.
-
+Il *rapporto di verosimiglianze (Likelihood Ratio, LR)* fornisce una misura quantitativa dell'evidenza relativa a favore di un modello rispetto all'altro, basandosi direttamente sui dati osservati.
 
 ### Definizione formale
 
-Il rapporto di verosimiglianze è definito come
+Il rapporto di verosimiglianze è definito come:
 
 $$
 \lambda \;=\; \frac{L(\mu_2 \mid \text{dati})}{L(\mu_1 \mid \text{dati})},
@@ -963,18 +913,18 @@ $$
 
 dove:
 
-* $L(\mu_2 \mid \text{dati})$ è la verosimiglianza sotto l’ipotesi alternativa,
-* $L(\mu_1 \mid \text{dati})$ è la verosimiglianza sotto l’ipotesi nulla.
-
+* $L(\mu_2 \mid \text{dati})$ rappresenta la verosimiglianza sotto l'ipotesi alternativa,
+* $L(\mu_1 \mid \text{dati})$ rappresenta la verosimiglianza sotto l'ipotesi nulla.
 
 ### Interpretazione
 
-* $\lambda > 1$: i dati favoriscono il modello alternativo;
-* $\lambda < 1$: i dati favoriscono il modello nullo;
-* $\lambda \approx 1$: i dati non discriminano tra i modelli.
+Il valore del rapporto di verosimiglianze fornisce un'indicazione immediata della direzione e intensità dell'evidenza:
 
-La distanza dall’unità indica *quanto più probabili* sono i dati sotto un modello rispetto all’altro.
+* **$\lambda > 1$**: i dati supportano il modello alternativo;
+* **$\lambda < 1$**: i dati supportano il modello nullo;
+* **$\lambda \approx 1$**: i dati non forniscono evidenza discriminante tra i due modelli.
 
+L'entità della deviazione dall'unità indica *quanto più probabili* sono i dati osservati sotto un modello rispetto all'altro, offrendo così una misura graduata della forza dell'evidenza empirica.
 
 ### Esempio: lancio di una moneta
 
@@ -1021,7 +971,6 @@ cat("L(H1, θ=0.7):", round(L_alt, 3), "\n")
 cat("Rapporto di verosimiglianze λ:", round(lambda, 2), "\n")
 ```
 
-
 #### Visualizzazione grafica
 
 ```{r}
@@ -1043,23 +992,25 @@ ggplot(df, aes(x = theta, y = likelihood)) +
   annotate("text", x = 0.5, y = L_null + 0.01, label = "H₀: θ = 0.5",
            color = "red", hjust = -0.1) +
   annotate("text", x = 0.7, y = L_alt + 0.01, label = "H₁: θ = 0.7",
-           color = "darkgreen", hjust = -0.1) 
+           color = "darkgreen", hjust = -0.1) +
+  theme_minimal()
 ```
-
 
 ### Interpretazione dei risultati
 
-Il valore $\lambda \approx 2.28$ indica che i dati sono circa *2.3 volte più probabili sotto l’ipotesi alternativa* rispetto all’ipotesi nulla.
-Si tratta di un’evidenza *moderata ma non decisiva* a favore dell’ipotesi che la moneta sia predisposta verso il successo.
-
+Il valore $\lambda \approx 2.28$ indica che i dati osservati sono circa *2.3 volte più probabili* sotto l'ipotesi alternativa rispetto all'ipotesi nulla. Questa evidenza, sebbene moderata, suggerisce una preferenza per il modello che considera la moneta predisposta verso il successo, senza tuttavia costituire una prova decisiva.
 
 ### Considerazioni metodologiche
 
-1. **Evidenza relativa**: il rapporto di verosimiglianze non misura la bontà assoluta del modello, ma solo la preferenza relativa.
-2. **Scala di interpretazione**: valori tra 1 e 3 suggeriscono un’evidenza debole-moderata, mentre valori più grandi indicano supporto crescente.
-3. **Generalità**: la logica del LR si applica a qualsiasi modello parametrico.
-4. **Connessione bayesiana**: con prior poco informative, $\lambda$ si avvicina al *fattore di Bayes*, strumento principe della selezione di modelli in ottica bayesiana.
+Il rapporto di verosimiglianze presenta diverse caratteristiche fondamentali da considerare:
 
+**Evidenza relativa**: questo strumento non valuta la bontà assoluta di un modello, ma esclusivamente la preferenza relativa tra due ipotesi specifiche. 
+
+**Scala di interpretazione**: i valori compresi tra 1 e 3 suggeriscono un'evidenza debole-moderata, mentre valori superiori indicano un supporto progressivamente più forte per l'ipotesi alternativa.
+
+**Generalità applicativa**: la logica del rapporto di verosimiglianze si applica a qualsiasi modello parametrico, dimostrandosi uno strumento flessibile e ampiamente utilizzabile.
+
+**Connessione bayesiana**: in presenza di distribuzioni a priori poco informative, $\lambda$ approssima il *fattore di Bayes*, rappresentando così un ponte metodologico verso gli strumenti principali per la selezione di modelli in ottica bayesiana.
 
 ## Rapporti di verosimiglianza aggiustati e criterio di Akaike
 
@@ -1067,25 +1018,19 @@ Quando si confrontano modelli statistici, occorre tenere presente che i modelli 
 
 ### Il ruolo dell’AIC
 
-Il *Criterio di Informazione di Akaike (AIC)* rappresenta una soluzione semplice ed efficace. La sua formulazione è:
+Il *Criterio di Informazione di Akaike (AIC)* rappresenta una soluzione semplice ed efficace per il problema della selezione dei modelli. La sua formulazione matematica è la seguente:
 
 $$
 \text{AIC} = 2k - 2 \log(L),
 $$
-dove:
 
-* $k$ è il numero di parametri del modello,
-* $L$ è la massima verosimiglianza del modello.
+dove $k$ indica il numero di parametri del modello e $L$ rappresenta la massima verosimiglianza raggiunta dal modello.
 
-In questo modo l’AIC combina due aspetti:
+Questa formulazione elegante combina in un'unica misura due principi fondamentali dell'analisi statistica: la bontà di adattamento ai dati, catturata dal termine $-2 \log(L)$, e il principio di parsimonia, garantito dal termine di penalizzazione $2k$ che scoraggia la sovraparametrizzazione. Il criterio di Informazione di Akaike trova quindi un equilibrio ottimale tra la complessità del modello e la sua capacità esplicativa, premiando i modelli che raggiungono un buon adattamento con il minor numero possibile di parametri.
 
-* la bontà di adattamento, catturata da $-2 \log(L)$;
-* la parsimonia, garantita dal termine di penalizzazione $2k$.
+### Esempio: memoria visiva ed elaborazione emotiva
 
-
-### Esempio: memoria visiva ed emozione
-
-Supponiamo di voler valutare l’effetto del contenuto emotivo delle immagini sulla memoria visiva. In un esperimento, 30 partecipanti per condizione hanno ottenuto:
+Supponiamo di voler valutare l'effetto del contenuto emotivo delle immagini sulla memoria visiva. In un esperimento controllato, 30 partecipanti per condizione hanno mostrato i seguenti risultati:
 
 ```{r}
 successi_neutro <- 14
@@ -1093,33 +1038,36 @@ successi_emozione <- 22
 prove <- 30
 ```
 
+#### Modello nullo: probabilità comune
 
-#### Modello nullo ($H_0$): probabilità comune
+Il modello nullo assume che il contenuto emotivo non influenzi la memoria, postulando una probabilità comune per entrambe le condizioni:
 
 ```{r}
-# Probabilità congiunta stimata
+# Probabilità congiunta stimata sotto H₀
 p_null <- (successi_neutro + successi_emozione) / (2 * prove)
 
-# Log-verosimiglianza
+# Log-verosimiglianza del modello nullo
 ll_null <- dbinom(successi_neutro, prove, p_null, log = TRUE) +
            dbinom(successi_emozione, prove, p_null, log = TRUE)
 ```
 
+#### Modello alternativo: probabilità distinte
 
-#### Modello alternativo ($H_1$): probabilità distinte
+Il modello alternativo consente probabilità differenziate, riconoscendo il possibile effetto dell'emozione:
 
 ```{r}
 # Probabilità stimate separatamente
 p_neutro <- successi_neutro / prove
 p_emozione <- successi_emozione / prove
 
-# Log-verosimiglianza
+# Log-verosimiglianza del modello alternativo
 ll_alt <- dbinom(successi_neutro, prove, p_neutro, log = TRUE) +
           dbinom(successi_emozione, prove, p_emozione, log = TRUE)
 ```
 
+#### Confronto tramite l'AIC
 
-#### Confronto tramite AIC
+La valutazione mediante AIC bilancia adattamento e complessità:
 
 ```{r}
 AIC_null <- 2 * 1 - 2 * ll_null  # Modello con 1 parametro
@@ -1128,31 +1076,24 @@ AIC_alt  <- 2 * 2 - 2 * ll_alt   # Modello con 2 parametri
 delta_AIC <- AIC_alt - AIC_null
 ```
 
-* Un valore di AIC più basso indica il modello preferito.
-* Differenze $> 2$ suggeriscono evidenza sostanziale a favore del modello migliore.
-* Differenze $> 10$ forniscono evidenza decisiva.
-
+Nell'interpretazione dell'AIC, valori più bassi indicano il modello preferito. Differenze superiori a 2 unità suggeriscono evidenza sostanziale a favore del modello migliore, mentre differenze superiori a 10 unità forniscono evidenza decisiva.
 
 #### Test del rapporto di verosimiglianza
+
+Il test formale fornisce una prospettiva complementare:
 
 ```{r}
 LR_stat <- -2 * (ll_null - ll_alt)
 p_value <- pchisq(LR_stat, df = 1, lower.tail = FALSE)
 ```
 
+### Interpretazione dei risultati
 
-### Interpretazione
+Il confronto tra modelli rivela una convergenza di evidenze: il test del rapporto di verosimiglianza produce un valore-$p$ di circa 0.034, mentre l'AIC mostra una chiara preferenza per il modello alternativo. Entrambi i criteri concordano nel sostenere che il modello che assegna probabilità distinte ai due gruppi descrive meglio i dati osservati.
 
-Il confronto tra modelli fornisce due prospettive complementari:
+Questo pattern di risultati suggerisce che il contenuto emotivo delle immagini facilita in maniera rilevante la memoria visiva, supportando l'ipotesi che l'elaborazione emotiva potenzi i processi mnestici.
 
-1. *AIC*: valuta la qualità relativa dei modelli, bilanciando adattamento e complessità.
-2. *Rapporto di verosimiglianza*: consente un test formale della differenza tra modelli.
-
-Nell’esempio, il test produce $p \approx 0.034$, mentre l’AIC mostra una chiara preferenza per il modello alternativo. Entrambi i criteri concordano: il modello che assegna probabilità distinte ai due gruppi descrive meglio i dati, suggerendo che il *contenuto emotivo delle immagini facilita la memoria visiva*.
-
-In conclusione, l’uso integrato di *AIC* e *rapporti di verosimiglianza* permette di prendere decisioni modellistiche fondate, evitando il rischio di sovradattamento. In psicologia, dove i dati sono spesso rumorosi e complessi, questo approccio consente di mantenere un equilibrio cruciale tra *capacità esplicativa* e *parsimonia*.
-
-
+In conclusione, l'uso integrato di AIC e rapporti di verosimiglianza permette di prendere decisioni modellistiche fondate, evitando il rischio di sovradattamento. In psicologia sperimentale, dove i dati sono spesso caratterizzati da variabilità intrinseca e complessità, questo approccio consente di mantenere un equilibrio cruciale tra capacità esplicativa e parsimonia, guidando il ricercatore verso interpretazioni sia statisticamente robuste che teoricamente rilevanti.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
@@ -1168,7 +1109,6 @@ La verosimiglianza, nelle sue molteplici manifestazioni, non si limita a collega
 
 La padronanza dei concetti di verosimiglianza e log-verosimiglianza rappresenta quindi una competenza essenziale per lo psicologo ricercatore, permettendo non solo l'analisi appropriata dei dati sperimentali, ma anche la comprensione critica dei modelli teorici che sottendono i processi psicologici investigati.
 
-
 ::: {.callout-important title="Problemi" collapse="true"}
 
 Spiega ciascuno dei concetti seguenti con una frase:
@@ -1181,7 +1121,6 @@ Spiega ciascuno dei concetti seguenti con una frase:
 - distribuzione di probabilità continua.
 - funzione di distribuzione cumulativa (cdf).
 - verosimiglianza
-
 :::
 
 

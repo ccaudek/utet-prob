@@ -40,7 +40,7 @@ here::here("code", "_common.R") |>
 
 # Load packages
 if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(ggplot2, dplyr, tidyr, gtools, combinat)
+pacman::p_load(ggplot2, dplyr, tidyr, gtools, combinat, gtools)
 ```
 :::
 
@@ -429,7 +429,6 @@ cat("Numero di coppie possibili:", n_coppie, "\n")
 cat("Probabilità di ciascuna coppia specifica:", round(1/n_coppie, 4), "\n\n")
 
 # Generiamo alcune coppie casuali usando combinazioni
-library(gtools)
 set.seed(789)
 tutte_coppie <- combinations(n = n_volontari, r = 2, v = volontari)
 
@@ -821,7 +820,7 @@ df_uniforme <- data.frame(
 )
 
 ggplot(df_uniforme, aes(x = theta, y = Densita)) +
-  geom_line(linewidth = 1.5, color = "darkblue") +
+  geom_line(linewidth = 1.5) +
   geom_hline(yintercept = 1, linetype = "dashed", color = "red", alpha = 0.6) +
   annotate("text", x = 0.5, y = 1.2, 
            label = "Beta(1,1) ≡ Uniforme\n(massima ignoranza epistemica)", 
@@ -1038,9 +1037,7 @@ ggplot(df_chiave, aes(x = theta, y = Densita, color = factor(n_osservazioni))) +
     y = "Densità di probabilità",
     color = "Numero di domande\nosservate"
   ) +
-  scale_color_brewer(palette = "Set1") +
-  theme_minimal() +
-  theme(legend.position = "right")
+  theme_minimal() 
 ```
 
 **Analisi del processo di aggiornamento sequenziale**:
@@ -1100,8 +1097,8 @@ cat("Analisi IRT simulata:\n")
 print(df_IRT)
 
 ggplot(df_IRT, aes(x = Difficolta, y = Proporzione_Successo)) +
-  geom_point(size = 4, color = "darkblue") +
-  geom_line(linewidth = 1, color = "darkblue") +
+  geom_point(size = 4) +
+  geom_line(linewidth = 1) +
   geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
   labs(
     title = "Item Response Theory: Relazione tra difficoltà e proporzione di successo",
@@ -1235,8 +1232,7 @@ ggplot(df_cbt_long, aes(x = theta, y = Densita, color = Distribuzione)) +
     y = "Densità di probabilità",
     color = "Distribuzione"
   ) +
-  theme_minimal() +
-  theme(legend.position = "top")
+  theme_minimal() 
 ```
 
 ```{r}
@@ -1318,14 +1314,13 @@ df_ex1_long <- df_esercizio1 %>%
                names_to = "Tipo", values_to = "Probabilita")
 
 ggplot(df_ex1_long, aes(x = R_rosse, y = Probabilita, fill = Tipo)) +
-  geom_col(position = "dodge", alpha = 0.7) +
+  geom_col(position = "dodge") +
   labs(
     title = "Inferenza bayesiana: composizione urna ignota",
     subtitle = "Dati: 3 estrazioni con reinserimento (R, R, B)",
     x = "Numero di palline rosse (R)",
     y = "Probabilità"
   ) +
-  scale_fill_brewer(palette = "Set1") +
   theme_minimal()
 ```
 
