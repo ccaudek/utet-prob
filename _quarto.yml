@@ -24,7 +24,10 @@ book:
     right: |
       Realizzato con <a href="https://quarto.org/">Quarto</a>.
   favicon: style/gauss.png
+  
   sidebar:
+    style: "docked"
+    search: true
     collapse-level: 1
 
   chapters:
@@ -69,56 +72,65 @@ biblio-style: apalike
 csl: apa.csl
 link-citations: true
 
+google-scholar: true
+
 format:
   html:
-    theme: cosmo
-    # include-in-header:
-    #   - style/_mathjax-config.html
-    # include-after-body:
-    #   - style/_after-body.html
-    # theme: style/mystyle.scss
-    # css:
-    #   - style/_typography-extras.css
-    #   - style/_code-extras.css
-    #   - style/_math-extras.css
-    #   - style/styles.css
-    fig-format: png
-    dpi: 192
-    fig-responsive: true
-    smooth-scroll: true
+    theme: 
+      light: cosmo
+      dark: darkly
+    mainfont: "system-ui"
     page-layout: article
-    max-width: 72ch
+    max-width: 74ch
     number-sections: true
+    lang: it
+    reader-mode: true
+    toc: true
+    toc-title: "Sommario"
+    toc-expand: 2
+    smooth-scroll: true
+    footnotes-hover: true
     link-external-icon: true
     link-external-newwindow: true
-    footnotes-hover: true
-    reader-mode: true
-    callout-appearance: minimal
-    lang: it
-    title-block-banner: false
-    toc-title: "Sommario"
-    date-format: "D MMMM YYYY"
+
+    # Figure 
+    fig-align: center
+    fig-responsive: true
+    fig-cap-location: bottom
+    fig-format: png 
+  
+    # Matematica
+    html-math-method:
+      method: mathjax
+      # macros: { "\\E": "\\mathbb{E}", "\\Var": "\\mathrm{Var}" }
+
+    # Codice
     code-copy: hover
     code-link: true
     code-overflow: scroll
     code-line-numbers: false
-    code-block-bg: false
+    code-block-bg: true
     code-block-border-left: false
+    code-tools: true
+    highlight-style: github
+
+    # Media
+    lightbox: auto
 
 execute:
-  freeze: auto
-  echo: true
-  warning: false
-  message: false
-  fig.width: 6
-  fig.asp: 0.618
-  fig.retina: 2
-  fig.align: "center"
-  fig.show: "hold"
+  freeze: auto  # Skip re-executing unchanged code chunks
+  echo: true  # Display code in the output document
+  warning: false  # Suppress warnings in output
+  message: false  # Suppress messages in output
+  fig.width: 6  # Set figure width (in inches)
+  fig.asp: 0.618  # Set figure aspect ratio (golden ratio for aesthetics)
+  fig.retina: 2  # High resolution for retina displays
+  fig.align: "center"  # Center-align all figures
+  fig.show: "hold"  # Group multiple figures from a chunk
   options:
-    width: 120
-    pillar.width: Inf
-    tibble.width: Inf
+    width: 120            # allarga la console virtuale
+    pillar.width: Inf      # disattiva il riassunto colonne
+    tibble.width: Inf      # idem, per sicurezza
 
 website:
   cookie-consent:

@@ -2,21 +2,56 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Finora abbiamo studiato le probabilità di eventi discreti, come vincere il gioco di Monty Hall o ricevere una diagnosi medica accurata. Tuttavia, molte situazioni pratiche richiedono una comprensione più sottile e quantitativa dell'incertezza. Invece di chiederci semplicemente se qualcosa accadrà, spesso abbiamo bisogno di sapere con quale frequenza accadrà, per quanto tempo durerà o quale valore numerico possiamo aspettarci.
+Finora abbiamo lavorato con probabilità associate a *eventi discreti*, come vincere al gioco di Monty Hall o ottenere una diagnosi medica accurata. Questi esempi ci hanno permesso di introdurre l'idea fondamentale secondo cui una probabilità rappresenta un *grado di incertezza*: assegniamo il valore 0 a ciò che riteniamo impossibile, il valore 1 a ciò che consideriamo certo, e valori intermedi quando non siamo completamente sicuri.
 
-Per esempio, potremmo voler determinare quanti tentativi sono necessari prima che un concorrente vinca in uno scenario simile a quello del gioco di Monty Hall o stimare la durata attesa di un trattamento medico. Allo stesso modo, giocando per molte ore con un dado sbilanciato, potremmo essere interessati a calcolare la perdita finanziaria media che possiamo aspettarci nel lungo periodo. 
+Tuttavia, molti problemi reali richiedono una descrizione dell'incertezza più articolata. In psicologia, ad esempio, non ci interessa solo se un paziente possa migliorare, ma di quanto ci aspettiamo che migliori; non solo se una decisione sarà presa correttamente, ma con che frequenza nel lungo periodo; non solo se un comportamento si verificherà, ma quale valore assumerà una variabile fisiologica o cognitiva quando il comportamento si manifesta.
 
-Queste domande richiedono un approccio più sofisticato rispetto alla semplice valutazione della probabilità di eventi isolati. Implicano la quantificazione di risultati numerici che emergono da processi casuali. Per affrontare in modo sistematico questo tipo di problemi, introduciamo il concetto fondamentale di *variabile casuale*. 
+In queste situazioni, non vogliamo misurare la probabilità di un singolo evento, ma descrivere l'*intera distribuzione dei possibili risultati numerici* prodotti da un processo aleatorio.
 
-Una variabile casuale è una funzione che associa un valore numerico a ogni possibile risultato di un esperimento casuale. Questo strumento matematico ci permette di tradurre l'incertezza qualitativa in quantità misurabili e di calcolare valori attesi, varianze e altre caratteristiche distributive. Grazie alle variabili casuali, possiamo non solo prevedere se un evento si verificherà, ma anche come si manifesterà numericamente quando si verifica.
+Per esempio:
 
-In questo capitolo esploreremo le proprietà fondamentali delle variabili casuali, gettando le basi per affrontare le questioni pratiche che richiedono una comprensione quantitativa del comportamento aleatorio nei sistemi complessi.
+* in uno scenario tipo Monty Hall ripetuto più volte, potremmo voler stimare il *numero atteso di tentativi* necessari per ottenere una vittoria;
+* in un contesto clinico, potremmo voler modellare la *durata prevista* di un trattamento;
+* giocando con un dado sbilanciato per molte ore, potremmo voler valutare la *perdita economica media* sul lungo periodo.
+
+Queste domande vanno oltre il “succede / non succede” e richiedono un linguaggio quantitativo più potente.
+
+## Il ruolo delle variabili casuali
+
+Per affrontare questi problemi introduciamo il concetto centrale di *variabile casuale*.
+Una variabile casuale è una *funzione* che assegna un numero a ogni possibile esito di un esperimento aleatorio.
+
+Si tratta di uno strumento fondamentale che permette di tradurre gli esiti qualitativi (per esempio "piove"/"non piove", "successo"/"fallimento", "tono emotivo positivo"/"tono emotivo negativo") in quantità numeriche analizzabili.
+
+Da questo punto di vista:
+
+* la mappatura dagli esiti ai numeri è *deterministica* (una funzione è sempre una funzione);
+* la *casualità* proviene dall’incertezza sull’esito dell’esperimento, non dal fatto che la funzione cambi;
+* la scelta dei numeri è spesso *arbitraria*, a condizione che sia mantenuta coerentemente durante l’analisi.
+
+Una volta compiuto questo passo concettuale, è possibile applicare gli strumenti dell’analisi matematica per studiare il comportamento della variabile, calcolare i valori attesi, le varianze, le funzioni di ripartizione, le densità, le trasformazioni, le approssimazioni, e così via.
+
+### Variabili casuali discrete e continue
+
+Le variabili casuali si presentano principalmente in due forme:
+
+* *discrete*, quando possono assumere un insieme *numerabile* di valori (come la categoria del tempo atmosferico domani, il numero di errori in un test, o il numero di tentativi fino al successo).
+* *continue*, quando possono assumere *qualsiasi valore* in un intervallo reale (come il tempo di reazione, la temperatura corporea, o la latenza di una risposta neurale).
+
+Ciascuna di queste tipologie richiede formulazioni matematiche specifiche per descrivere la distribuzione dei valori possibili e le loro proprietà.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
-- Le definizioni e le caratteristiche delle variabili casuali discrete e continue, e le relative distribuzioni di probabilità.
-- Come calcolare e interpretare il valore atteso di variabili casuali, sia discrete che continue.
-- Determinare e comprendere la varianza e la deviazione standard di variabili casuali.
+In questo capitolo faremo un passo decisivo che ci permetterà di passare dalle probabilità degli eventi alle probabilità dei valori numerici generati da processi aleatori, entrando così nel mondo delle distribuzioni di probabilità utilizzate nella modellazione statistica.
+
+In particolare:
+
+* definiremo in modo rigoroso le variabili casuali, discrete e continue, insieme alle loro distribuzioni di probabilità;
+* introdurremo il *valore atteso*, strumento essenziale per comprendere il comportamento medio di una variabile casuale;
+* discuteremo la *varianza* e la *deviazione standard*, che quantificano l’incertezza attorno al valore atteso;
+* vedremo come queste idee costituiscano la base dell’inferenza statistica, sia frequentista che bayesiana.
+
+Questo capitolo fornisce quindi il linguaggio tecnico indispensabile per tutto ciò che segue: distribuzioni a priori, modelli probabilistici, simulazioni predittive e, più avanti, la costruzione formale dell'inferenza bayesiana.
 
 ::: {.callout-tip collapse=true}
 ## Prerequisiti
