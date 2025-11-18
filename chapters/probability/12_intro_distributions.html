@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -60,10 +95,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-af5d064118ae80f4bafc3d843c3c3870.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6754518f538b8e5d55f1a4bf7f770a7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -321,7 +356,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
     <h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
@@ -337,7 +372,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/12_intro_distributions.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-prob-intro-distr" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></h1>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-prob-intro-distr" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Codice</button></div></div>
 </div>
 
 
@@ -354,16 +389,10 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </header>
 
 
-<div class="epigraph">
-<blockquote class="blockquote">
-<p>“All models are wrong, but some are useful.”</p>
-<p>– <strong>George E. P. Box</strong>, Science and Statistics (1976)</p>
-</blockquote>
-</div>
 <section id="introduzione" class="level2 unnumbered unlisted">
 <h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
 <p>Le distribuzioni di probabilità, sia discrete che continue, rappresentano un pilastro fondamentale dell’analisi quantitativa in psicologia. Strumenti come la distribuzione normale o binomiale non sono semplici modelli teorici astratti, ma strutture matematiche che ci permettono di esprimere e quantificare l’incertezza che proviamo di fronte a fenomeni dominati dalla variabilità.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -390,10 +419,10 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <li><strong>come rappresentazioni dell’incertezza</strong>: esprimono l’incertezza sui parametri del modello (prior e posterior).</li>
 </ol>
 <p>Questa dualità rende le distribuzioni di probabilità strumenti centrali per l’inferenza scientifica: ci permettono, infatti, sia di formulare ipotesi falsificabili, sia di quantificare quanto dovremmo credere in tali ipotesi alla luce dei dati.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Consiglio</span>Prerequisiti
@@ -456,7 +485,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <section id="il-ruolo-delle-distribuzioni-nellapproccio-bayesiano" class="level3" data-number="12.2.1">
 <h3 data-number="12.2.1" class="anchored" data-anchor-id="il-ruolo-delle-distribuzioni-nellapproccio-bayesiano"><span class="header-section-number">12.2.1</span> Il ruolo delle distribuzioni nell’approccio bayesiano</h3>
 <p>Nell’inferenza bayesiana, le distribuzioni di probabilità ci permettono di:</p>
-<div class="callout callout-style-simple callout-important no-icon callout-titled">
+<div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -540,7 +569,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <section id="riflessioni-conclusive" class="level2 unnumbered unlisted">
 <h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
 <p>La teoria della probabilità, e in particolare le distribuzioni di probabilità, fornisce gli strumenti concettuali necessari per affrontare la complessità intrinseca dei dati psicologici. Come sottolineato da <span class="citation" data-cites="segal2025embracing">Segal et al. (<a href="#ref-segal2025embracing" role="doc-biblioref">2025</a>)</span>, solo <em>integrando sistematicamente la variabilità nell’analisi empirica</em> — e non trattandola come rumore da ignorare — è possibile sviluppare modelli predittivi robusti e interventi terapeutici realmente mirati alla diversità individuale.</p>
-<div class="callout callout-style-simple callout-important no-icon callout-titled">
+<div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -566,6 +595,8 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <section id="bibliografia" class="level2 unnumbered unlisted">
 <h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
+
+<!-- -->
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-segal2025embracing" class="csl-entry" role="listitem">
@@ -645,6 +676,57 @@ Segal, A., Tiego, J., Parkes, L., Holmes, A. J., Marquand, A. F., &amp; Fornito,
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -993,7 +1075,211 @@ Segal, A., Tiego, J., Parkes, L., Holmes, A. J., Marquand, A. F., &amp; Fornito,
         <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Distribuzioni di variabili casuali discrete</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Eseguire il codice</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduzione alle distribuzioni di probabilità {#sec-prob-intro-distr}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduzione {.unnumbered .unlisted}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Le distribuzioni di probabilità, sia discrete che continue, rappresentano un pilastro fondamentale dell'analisi quantitativa in psicologia. Strumenti come la distribuzione normale o binomiale non sono semplici modelli teorici astratti, ma strutture matematiche che ci permettono di esprimere e quantificare l'incertezza che proviamo di fronte a fenomeni dominati dalla variabilità.</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Collegamento con i capitoli precedenti</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Nei @sec-prob-axioms-coherence, @sec-prob-join-prob e @sec-prob-cov-cor abbiamo sviluppato il framework per costruire e manipolare le distribuzioni di probabilità come rappresentazioni coerenti delle nostre credenze. Ora esploreremo alcune *famiglie parametriche* di distribuzioni che si sono rivelate particolarmente utili per modellare i fenomeni psicologici.</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Queste famiglie non rappresentano "la verità" sui fenomeni psicologici, ma sono *strumenti epistemici flessibili* che ci permettono di:</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>codificare in modo parsimonioso la nostra incertezza (attraverso pochi parametri);</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>aggiornare le nostre credenze quando osserviamo dati (inferenza bayesiana);</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>fare previsioni su osservazioni future;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>confrontare modelli alternativi del fenomeno.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>In psicologia, disciplina che si occupa della comprensione della mente e del comportamento, potrebbe apparire paradossale ricorrere a strumenti matematici che sembrano distanti dai fenomeni complessi che ci interessano. Tuttavia, è proprio la *variabilità* intrinseca dei processi psicologici, che varia da individuo a individuo, nel tempo e in base ai contesti, a renderli indispensabili. Senza modelli formali in grado di rappresentare e analizzare la variabilità, ogni tentativo di generalizzazione rischia di diventare un'approssimazione inefficace, se non addirittura fuorviante.</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>**Prospettiva bayesiana:** nell'approccio bayesiano, le distribuzioni di probabilità assumono un duplice ruolo:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**come modelli generativi**: rappresentano le nostre credenze su come i dati potrebbero essere generati (verosimiglianza);</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**come rappresentazioni dell'incertezza**: esprimono l'incertezza sui parametri del modello (prior e posterior).</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Questa dualità rende le distribuzioni di probabilità strumenti centrali per l'inferenza scientifica: ci permettono, infatti, sia di formulare ipotesi falsificabili, sia di quantificare quanto dovremmo credere in tali ipotesi alla luce dei dati.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse=true}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prerequisiti</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Leggere l'articolo *Embracing variability in the search for biological mechanisms of psychiatric illness* <span class="co">[</span><span class="ot">@segal2025embracing</span><span class="co">]</span>.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>@sec-prob-axioms-coherence: assiomi e coerenza delle credenze;</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>@sec-prob-join-prob: probabilità congiunta.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## La variabilità come fattore costitutivo dei disturbi mentali</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>Questa riflessione sulla centralità della variabilità è ben espressa in un recente articolo di @segal2025embracing sui disturbi mentali. L'autore osserva che i limiti nella comprensione della loro eziologia derivano dalla sottovalutazione sistematica della variabilità. Storicamente, la ricerca in psichiatria e psicologia ha messo a confronto gruppi di pazienti con gruppi di controllo sani, identificando marcatori medi (biologici o comportamentali) come tratti distintivi. </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>Sebbene questo approccio abbia prodotto risultati utili, trascura un dato fondamentale: i disturbi psichiatrici, come gran parte dei fenomeni psicologici, sono caratterizzati da un'estrema eterogeneità interindividuale, incompatibile con i modelli basati esclusivamente su medie di gruppo.</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Eterogeneità sintomatologica</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>I disturbi psichiatrici sfuggono a definizioni rigide e uniformi. Persone con la stessa diagnosi categoriale possono mostrare profili sintomatologici radicalmente diversi.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>nel *disturbo da stress post-traumatico* si osservano oltre *636,000 possibili combinazioni* di sintomi che soddisfano i criteri diagnostici;</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>nella *depressione maggiore* esistono più di *16,000 configurazioni* sintomatologiche compatibili con la diagnosi;</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>uno studio discusso da @segal2025embracing rivela che *meno del 50% dei pazienti depressi* presenta un'unica configurazione di sintomi condivisa.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>Questa variabilità si estende ben oltre i sintomi specifici, manifestandosi anche nell'età di esordio, nella gravità, nella durata e nella dinamica temporale dei disturbi.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sovrapposizione e comorbilità</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>Un singolo sintomo può inoltre manifestarsi in più disturbi, spiegando i tassi elevati di comorbilità: circa il 50% dei pazienti soddisfa contemporaneamente criteri diagnostici multipli. Questa sovrapposizione suggerisce che i disturbi non siano entità discrete e indipendenti, ma piuttosto manifestazioni diverse di meccanismi psicopatologici condivisi.</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>I dati sono eloquenti:</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>il *37% dei sintomi* presenti nel DSM-5 non è specifico di un singolo disturbo;</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>questi sintomi non specifici rappresentano complessivamente il *72% di tutti i sintomi* inclusi nei criteri diagnostici.</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>Questa massiccia mancanza di specificità sintomatologica evidenzia l'inadeguatezza dei modelli categoriali rigidi.</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">### Il problema delle medie di gruppo</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>**Focalizzarsi esclusivamente sulle medie di gruppo rischia di occultare questa complessità**, producendo risultati scientificamente inconsistenti e clinicamente poco utili. Come osservato da Thomas Insel nel riassumere il suo mandato alla guida dei *National Institutes of Mental Health* (NIMH) degli Stati Uniti:</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Nonostante consistenti investimenti in neuroscienze e genetica, i progressi concreti nella riduzione dei suicidi, nella diminuzione dei ricoveri e nel miglioramento delle prognosi sono stati deludentemente limitati.</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>**Interpretazione epistemica:** quando confrontiamo le medie di due gruppi (clinico vs controllo) e troviamo una differenza statisticamente significativa, stiamo facendo un'affermazione sulla popolazione nella sua interezza. Tuttavia, tale affermazione può essere **epistemicamente inadeguata** se:</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>la variabilità all'interno del gruppo è molto maggiore della differenza tra i gruppi;</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>le distribuzioni si sovrappongono sostanzialmente;</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>esistono sottogruppi eterogenei all'interno di ciascun gruppo.</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>In questi casi, la media diventa un *riassunto fuorviante* della nostra incertezza sulla popolazione, portandoci a credere di sapere più di quanto effettivamente sappiamo.</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## Distribuzioni di probabilità come strumenti epistemici</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>La variabilità, dunque, non è un "rumore di fondo" da eliminare o minimizzare statisticamente, ma un **elemento informativo cruciale** che richiede di essere rappresentato, modellato e compreso. Integrare questa prospettiva richiede non solo strumenti statistici avanzati, ma anche una riconfigurazione metodologica ed epistemologica che ponga la *diversità individuale al centro dell'indagine*.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Il ruolo delle distribuzioni nell'approccio bayesiano</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>Nell'inferenza bayesiana, le distribuzioni di probabilità ci permettono di:</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>::: {.callout-important icon=false}</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Funzioni epistemiche delle distribuzioni parametriche</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Modellare la variabilità osservata**: invece di ridurre i dati a una media, una distribuzione (es. normale, gamma, beta) cattura l'intero pattern di variabilità, codificando sia la tendenza centrale che la dispersione.</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Rappresentare l'incertezza sui parametri**: non stimiamo solo "il valore più probabile" di un parametro (ad esempio, la media della popolazione), ma otteniamo un'intera distribuzione posteriore che quantifica la nostra incertezza.</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Incorporare conoscenze pregresse**: le distribuzioni a priori ci permettono di codificare formalmente ciò che già sappiamo (dalla letteratura, da studi pilota, da vincoli teorici) prima di osservare nuovi dati.</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Fare previsioni probabilistiche**: possiamo generare distribuzioni predittive che catturano sia l'incertezza sui parametri sia la variabilità intrinseca del fenomeno.</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Identificare sottogruppi e outlier**: i modelli di miscela (*mixture models*) ci permettono di ipotizzare e testare l'esistenza di sottopopolazioni eterogenee.</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Quantificare deviazioni individuali**: i modelli gerarchici/multilivello stimano sia parametri di popolazione che parametri individuali, quantificando quanto ogni individuo si discosti dalla tendenza generale.</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>**Esempio concreto:** immaginiamo di studiare i tempi di reazione in un compito cognitivo. Invece di riportare solo "media = 450 ms, SD = 80 ms", un approccio bayesiano potrebbe:</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>modellare i tempi con una distribuzione gamma (che cattura l'asimmetria tipica dei tempi di reazione);</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>stimare non solo i parametri medi, ma ottenere distribuzioni posteriori complete che quantificano l'incertezza;</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>incorporare una prior basata su studi precedenti;</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>identificare se esistono sottogruppi di partecipanti con pattern diversi;</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>calcolare per ogni individuo una stima della loro velocità tipica, con i relativi intervalli di credibilità.</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>In questo modo, la distribuzione non nasconde la variabilità, ma la rappresenta esplicitamente e la sfrutta a livello informativo.</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verso un cambiamento di prospettiva</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>Per superare i limiti dell'approccio tradizionale basato su medie di gruppo, secondo @segal2025embracing, è necessario **riconoscere la variabilità come una proprietà costitutiva dei fenomeni psicologici** e non come un artefatto metodologico. Ciò implica diverse trasformazioni metodologiche ed epistemologiche.</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Adottare approcci analitici centrati sull'individuo</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>Invece di confrontare gruppi, dovremmo *quantificare la variabilità biologica e comportamentale a livello individuale*. </span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>**Strumenti bayesiani:** modelli gerarchici (*hierarchical/multilevel models*) che stimano simultaneamente:</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>iperparametri di popolazione;</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>parametri specifici per ogni individuo;</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>la variabilità tra gli individui (quantificata probabilisticamente).</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>Questo approccio consente di "prendere in prestito informazione" (*partial pooling*) dai dati di gruppo per migliorare le stime individuali, senza cancellare le differenze individuali.</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Utilizzare modelli normativi personalizzati</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>Invece di classificare i soggetti in categorie diagnostiche rigide, dovremmo identificare le deviazioni significative dalle traiettorie attese per ogni individuo.</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>**Strumenti bayesiani:** </span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>distribuzioni predittive posteriori che quantificano "ciò che ci aspettiamo per questo specifico individuo, dati gli osservazioni fatte finora";</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>intervalli di credibilità che permettono di valutare quando un'osservazione è "anomala" rispetto alle credenze aggiornate;</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>modelli di crescita che catturano l'evoluzione temporale, con parametri individuali per pendenze e intercette.</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Abbandonare l'idea di causalità univoca</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>Una singola regione cerebrale può contribuire a sintomi multipli (pleiotropia); allo stesso modo, meccanismi eterogenei possono generare manifestazioni simili dello stesso disturbo (multifinalità).</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>**Strumenti bayesiani:**</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>reti bayesiane per rappresentare relazioni causali complesse con incertezza;</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*model averaging* per tenere conto di molteplici strutture causali plausibili;</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*posterior predictive checks* per verificare se il modello cattura la complessità osservata.</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. Adottare framework dimensionali</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>I framework come l'*HiTOP* (*Hierarchical Taxonomy of Psychopathology*) organizzano i sintomi in dimensioni gerarchiche continue, massimizzando la cattura della variabilità fenotipica.</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>**Strumenti bayesiani:**</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>modelli fattoriali che stimano dimensioni latenti continue;</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Item Response Theory (IRT) bayesiana per modellare le risposte ai questionari;</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>modelli a variabili latenti che catturano la struttura gerarchica dei sintomi.</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>In questo paradigma, le *distribuzioni di probabilità diventano alleati indispensabili*. Consentono di:</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>modellare esplicitamente la dispersione dei dati;</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>identificare outlier in modo probabilisticamente fondato;</span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>mappare traiettorie individuali con quantificazione dell'incertezza;</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>trasformare la variabilità da "problema metodologico" a "chiave interpretativa".</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>L'analisi della *distribuzione completa* dei sintomi, dei tratti o delle risposte comportamentali, e non solo della loro media, permette di superare le limitazioni dei confronti tra gruppi e di raggiungere una comprensione più profonda e personalizzata dei fenomeni psicologici.</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Le distribuzioni come linguaggio condiviso</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>Nei prossimi capitoli, esploreremo famiglie specifiche di distribuzioni di probabilità.</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distribuzioni discrete** (<span class="co">[</span><span class="ot">@sec-prob-discr-distr</span><span class="co">]</span>): Bernoulli, binomiale, Poisson — per modellare conteggi e eventi categoriali.</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distribuzioni continue** (<span class="co">[</span><span class="ot">@sec-prob-cont-distr</span><span class="co">]</span>): Normale, gamma, beta, t di Student — per modellare variabili continue.</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>**Prospettiva unificante:** queste distribuzioni non sono "ricette da cucina" da applicare meccanicamente, ma *linguaggi probabilistici* che ci permettono di:</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**comunicare assunzioni**: specificando una distribuzione, rendiamo esplicite le nostre ipotesi sulla natura del fenomeno;</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**ragionare formalmente**: le proprietà matematiche delle distribuzioni garantiscono che le nostre inferenze siano logicamente coerenti;</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**confrontare modelli**: possiamo valutare quale famiglia di distribuzioni rappresenta meglio le nostre credenze aggiornate dai dati;</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**prevedere**: possiamo generare distribuzioni predittive per osservazioni future.</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>**Nota epistemologica importante:** nessuna distribuzione è "vera" in senso assoluto. Come sottolineato da George Box, "tutti i modelli sono sbagliati, ma alcuni sono utili". La scelta di una famiglia parametrica è sempre un'*approssimazione pragmatica*: cerchiamo la distribuzione che cattura gli aspetti salienti del fenomeno con sufficiente accuratezza e parsimonia, non la "verità definitiva".</span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>Nel framework bayesiano, possiamo anche quantificare formalmente l'incertezza sulla scelta del modello stesso (*model uncertainty*) attraverso tecniche come il Bayesian *model averaging*.</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="fu">## Riflessioni conclusive {.unnumbered .unlisted}</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>La teoria della probabilità, e in particolare le distribuzioni di probabilità, fornisce gli strumenti concettuali necessari per affrontare la complessità intrinseca dei dati psicologici. Come sottolineato da @segal2025embracing, solo *integrando sistematicamente la variabilità nell'analisi empirica* — e non trattandola come rumore da ignorare — è possibile sviluppare modelli predittivi robusti e interventi terapeutici realmente mirati alla diversità individuale.</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>::: {.callout-important icon=false}</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## La variabilità non è un problema, è il fenomeno</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>Nell'approccio bayesiano contemporaneo:</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>la *variabilità* è una caratteristica costitutiva dei fenomeni psicologici, non un artefatto da eliminare;</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>le *distribuzioni di probabilità* sono strumenti epistemici per rappresentare, modellare e ragionare su questa variabilità;</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>l'obiettivo non è ridurre tutto a una media, ma *caratterizzare l'intera distribuzione* — forma, dispersione, asimmetria, multimodalità;</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>l'*inferenza bayesiana* permette di aggiornare queste rappresentazioni alla luce dei dati, quantificando esplicitamente l'incertezza residua.</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>La sfida scientifica non è eliminare l'incertezza (obiettivo impossibile), ma *rappresentarla accuratamente* attraverso modelli probabilistici che riflettano la complessità dei fenomeni che studiamo.</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>Nei prossimi capitoli esploreremo le famiglie parametriche di distribuzioni che si sono rivelate più utili in psicologia, mantenendo sempre questa prospettiva epistemica: non cerchiamo "la distribuzione vera", ma distribuzioni che ci permettano di fare scienza rigorosa in presenza di incertezza e variabilità irriducibili.</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>Come vedremo, la varietà delle distribuzioni disponibili, ciascuna con le proprie proprietà e la propria "personalità" matematica, ci fornisce un vocabolario espressivo per modellare l'incredibile diversità dei fenomeni psicologici.</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bibliografia {.unnumbered .unlisted}</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
