@@ -2,11 +2,11 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Dopo aver introdotto la probabilità come *grado di credenza razionale* nel @sec-prob-interpretation, questo capitolo sviluppa il framework matematico per operare in modo coerente con le credenze.  Esploreremo come lo *spazio campionario* e gli *eventi* rappresentino possibilità epistemiche, e come gli *assiomi di Kolmogorov* fungano da vincoli di coerenza logica.
+Dopo aver introdotto la probabilità come *grado di credenza razionale* nel @sec-prob-interpretation, il presente capitolo sviluppa il quadro matematico per operare coerentemente con tali credenze.   Verrà esaminato come lo *spazio campionario* e gli *eventi* rappresentino possibilità epistemiche, e come gli *assiomi di Kolmogorov* fungano da vincoli di coerenza logica per le nostre assegnazioni probabilistiche.
 
-Un aspetto cruciale che affronteremo è la costruzione e manipolazione di *tabelle di probabilità congiunta*, che costituiscono lo strumento operativo fondamentale per rappresentare credenze su sistemi complessi. Queste tabelle, in particolare nel caso semplice 2×2, rendono esplicita la relazione tra probabilità *congiunte*, *marginali* e *condizionate*, mostrando che tutte le probabilità di interesse derivano da un'unica struttura coerente.
+Un aspetto centrale della trattazione concerne la costruzione e manipolazione di *tabelle di probabilità congiunta*, che costituiscono lo strumento operativo fondamentale per rappresentare credenze su sistemi complessi. Queste tabelle, in particolare nel caso semplice 2×2, rendono esplicita la relazione tra probabilità *congiunte*, *marginali* e *condizionate*, dimostrando come tutte le probabilità di interesse derivino da un'unica struttura coerente.
 
-Attraverso esempi psicologici concreti e simulazioni in R, vedremo come diagnosticare e correggere le incoerenze nelle assegnazioni probabilistiche e come verificare empiricamente che le credenze coerenti producano i dati attesi.
+Attraverso esempi tratti dalla psicologia e mediante simulazioni in R, verranno illustrate metodologie per diagnosticare e correggere incoerenze nelle assegnazioni probabilistiche, nonché per verificare empiricamente come credenze coerenti generino i comportamenti attesi nei dati osservati.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
@@ -40,21 +40,19 @@ pacman::p_load(ggplot2, dplyr, tidyr, viridis)
 
 ## Spazio campionario come possibilità epistemiche
 
-Nel linguaggio classico, lo spazio campionario $\Omega$ (o $S$) viene definito come "l'insieme di tutti gli esiti possibili di un esperimento casuale". Nell'approccio bayesiano, tale definizione va reinterpretata in chiave epistemica.
+Nel linguaggio probabilistico classico, lo spazio campionario $\Omega$ viene definito come l'insieme di tutti gli esiti possibili di un esperimento casuale. Nell'approccio bayesiano, questa definizione richiede una rilettura in chiave epistemica.
 
 ::: {#def-sample-space-bayesian}
 ### Spazio campionario (visione bayesiana)
 
-Lo *spazio campionario* $\Omega$ rappresenta l'insieme delle *possibilità epistemiche* compatibili con le informazioni disponibili. Esso non rappresenta ciò che può accadere fisicamente, ma ciò che, dati gli attuali limiti della nostra conoscenza, consideriamo possibile.
+Lo *spazio campionario* $\Omega$ rappresenta l'insieme delle *possibilità epistemiche* compatibili con lo stato attuale delle informazioni disponibili. Esso non descrive necessariamente ciò che può accadere fisicamente, ma piuttosto ciò che, dati i limiti della nostra conoscenza attuale, consideriamo logicamente possibile.
 :::
 
 ### Caratteristiche dello spazio campionario epistemico
 
-1. **Dipendente dall'informazione**: lo spazio campionario può cambiare si acquisiscono nuove informazioni. Prima di osservare i risultati di un test diagnostico, lo spazio include i i valori {positivo, negativo}. Dopo aver osservato "positivo", lo spazio si riduce.
+Lo spazio campionario epistemico presenta caratteristiche distintive che riflettono la natura soggettiva e informazionale della probabilità bayesiana. La sua composizione dipende criticamente dall'informazione disponibile e può modificarsi in seguito all'acquisizione di nuove evidenze. Ad esempio, prima di osservare l'esito di un test diagnostico, lo spazio campionario comprende i valori "positivo" e "negativo"; successivamente all'osservazione di un risultato positivo, lo spazio si riduce di conseguenza.
 
-2. **Non univoco**: ricercatori diversi, con informazioni diverse, possono definire spazi campionari diversi per lo stesso fenomeno.
-
-3. **Costruzione**: definire $\Omega$ richiede di specificare il *livello di dettaglio rilevante* per la domanda di interesse.
+La definizione dello spazio campionario non è univoca: ricercatori diversi, con informazioni diverse o con assunzioni diverse, possono legittimamente definire spazi campionari diversi per lo stesso fenomeno. La costruzione di $\Omega$ richiede infine la specificazione attenta del livello di dettaglio rilevante per la particolare domanda di ricerca, riflettendo un bilanciamento tra completezza descrittiva e pertinenza analitica.
 
 ::: {.callout-note collapse="true" title="Esempio psicologico"}
 ### Spazio campionario per una valutazione clinica {.unnumbered .unlisted}
@@ -81,24 +79,19 @@ Ogni spazio è legittimo nel proprio contesto. La probabilità assegnata riflett
 
 ## Eventi come proposizioni sul mondo
 
-Un *evento* è un sottoinsieme di $\Omega$ che rappresenta una *proposizione* sul mondo che può essere vera o falsa.
+Nella prospettiva bayesiana, un *evento* rappresenta un sottoinsieme di $\Omega$ che corrisponde a una *proposizione* sul mondo, suscettibile di essere vera o falsa.
 
 ::: {#def-event-bayesian}
 ### Evento
 
-Un *evento* $A \subseteq \Omega$ è una *proposizione* sul mondo a cui possiamo assegnare un grado di credenza $P(A)$, dato lo stato di informazione corrente.
+Un *evento* $A \subseteq \Omega$ costituisce una *proposizione* sul mondo alla quale possiamo assegnare un grado di credenza $P(A)$, condizionato allo stato informativo corrente.
 :::
 
 ### Operazioni su eventi
 
-Le operazioni insiemistiche classiche hanno interpretazioni epistemiche naturali:
+Le operazioni insiemistiche tradizionali possiedono interpretazioni epistemiche naturali nel contesto bayesiano. L'*unione* $A \cup B$ corrisponde all'affermazione che "la proposizione $A$ oppure la proposizione $B$ è vera". L'*intersezione* $A \cap B$ rappresenta la situazione in cui "entrambe le proposizioni $A$ e $B$ sono vere". Il *complemento* $A^c$ esprime la negazione "la proposizione $A$ non è vera".
 
-- **Unione** $A \cup B$: "La proposizione $A$ *oppure* la proposizione $B$ è vera".
-- **Intersezione** $A \cap B$: "Entrambe le proposizioni $A$ *e* $B$ sono vere".
-- **Complemento** $A^c$: "La proposizione $A$ *non* è vera".
-- **Insieme vuoto** $\varnothing$: "Proposizione logicamente contraddittoria 
-  (sempre falsa per necessità logica)".
-- **Spazio campionario** $\Omega$: "Proposizione logicamente vera: qualcosa accade nell'insieme".
+L'*insieme vuoto* $\varnothing$ identifica una proposizione logicamente contraddittoria, necessariamente falsa per vincoli logici. Lo *spazio campionario* $\Omega$ rappresenta invece una proposizione logicamente vera, affermando che qualcosa accade all'interno dell'insieme delle possibilità epistemiche definite.
 
 ::: {.callout-note collapse="true" title="Esempio: Eventi in un test psicometrico"}
 ### Proposizioni nella Satisfaction with Life Scale (SWLS)
@@ -140,132 +133,61 @@ Una *funzione di probabilità* $P: \mathcal{F} \to [0,1]$ assegna a ogni evento 
 
 ### Interpretazione epistemica degli assiomi
 
-1. **Non-negatività**: un grado di credenza negativo non ha senso; zero significa "impossibile dato ciò che so", uno significa "certo dato ciò che so".
-
-2. **Normalizzazione**: sono certo che *qualcosa* nello spazio delle possibilità si verificherà. Se $P(\Omega) < 1$, sto ammettendo la possibilità che nulla di ciò che ho preso in considerazione accada, il che è incoerente.
-
-3. **Additività**: se due affermazioni sono mutualmente esclusive, la credenza nella loro disgiunzione è la somma delle credenze separate; violare questo principio porta al cosiddetto *Dutch Book*.
+La non negatività riflette l'impossibilità di un grado di credenza negativo, dove lo 0 corrisponde a "impossibile, dato lo stato informativo attuale" e l'1 a "certo, dato lo stato informativo attuale". La normalizzazione esprime la certezza che almeno una delle possibilità epistemiche nello spazio campionario si realizzi. Un valore $P(\Omega) < 1$ implicherebbe incoerentemente la possibilità che nessuna delle opzioni considerate si verifichi. L'additività stabilisce che, per affermazioni mutualmente esclusive, la credenza nella loro disgiunzione deve equivalere alla somma delle credenze individuali; la violazione di questo principio rende possibile la costruzione di un *Dutch book*.
 
 ### Conseguenze immediate degli assiomi
 
-Dagli assiomi derivano diverse proprietà utili:
+Dagli assiomi fondamentali discendono diverse proprietà derivate di notevole utilità pratica.
 
 ::: {#thm-probability-properties}
 ### Proprietà derivate della probabilità
 
 1. **Probabilità del complemento**: $P(A^c) = 1 - P(A)$.
 2. **Probabilità dell'insieme vuoto**: $P(\varnothing) = 0$.
-3. **Monotonia**: se $A \subseteq B$, allora $P(A) \leq P(B)$.
+3. **Monotonia (della probabilità)**: se $A \subseteq B$, allora $P(A) \leq P(B)$.
 4. **Regola dell'unione** (eventi non disgiunti):
    $$P(A \cup B) = P(A) + P(B) - P(A \cap B).$$
 5. **Principio di inclusione-esclusione** (generalizzazione):
    $$P(A_1 \cup A_2 \cup A_3) = \sum P(A_i) - \sum P(A_i \cap A_j) + P(A_1 \cap A_2 \cap A_3).$$
 :::
 
-Queste proprietà non sono assiomi aggiuntivi, ma conseguenze logiche dei tre assiomi di base. Una volta accettati i vincoli di coerenza, tutto il resto ne consegue necessariamente.
+Queste proprietà non costituiscono assiomi aggiuntivi, ma emergono come conseguenze logiche necessarie dei tre assiomi di base. Una volta accettati i vincoli di coerenza fondamentali, l'intero edificio della teoria della probabilità si sviluppa in modo deduttivo.
 
 ## Diagnosi di incoerenze: casi tipici
 
-Vediamo come identificare e correggere incoerenze comuni nelle assegnazioni probabilistiche.
+Esaminiamo come identificare e correggere le incoerenze più frequenti nelle assegnazioni probabilistiche.
 
-### Incoerenza 1: Violazione dell'additività
+### Incoerenza 1: violazione dell'additività
 
-L'errore più frequente è violare l'additività per eventi disgiunti, assegnando una probabilità maggiore di quella logicamente possibile.
+L'errore più comune consiste nel violare il principio di additività per eventi disgiunti, assegnando una probabilità complessiva superiore a quanto logicamente possibile.
 
 ::: {.callout-warning title="Esempio di incoerenza clinica"}
 #### Sovrastima delle probabilità {.unlisted .unnumbered}
 
-Un clinico assegna le seguenti credenze per tre diagnosi mutualmente esclusive:
+Un clinico valuta un paziente con sintomi psicotici e assegna i seguenti gradi di credenza a tre diagnosi mutualmente esclusive:
 
-- $P(\text{Depressione}) = 0.6$;
-- $P(\text{Ansia}) = 0.5$;  
-- $P(\text{Nessuna condizione}) = 0.2$.
+- $P(\text{Schizofrenia}) = 0.6$;
+- $P(\text{Disturbo Bipolare}) = 0.5$;  
+- $P(\text{Nessun disturbo psicotico}) = 0.2$.
 
-Il problema è che $0.6 + 0.5 + 0.2 = 1.3 > 1$.
+La somma $0.6 + 0.5 + 0.2 = 1.3$ eccede il valore massimo consentito di 1.
 
-Questa assegnazione è incoerente perché i tre eventi sono:
+Questa assegnazione risulta incoerente poiché i tre eventi sono:
 
-- *mutualmente esclusivi*: il paziente può avere solo una delle tre condizioni;
-- *collettivamente esaustivi*: coprono tutti i casi possibili.
+- *mutualmente esclusivi*: il paziente può ricevere solo una delle tre diagnosi;
+- *collettivamente esaustivi*: coprono tutti gli esiti diagnostici possibili.
 
-Il clinico ha quindi "speso" più credenza (1.3) di quanta ne disponesse (1.0), come se avesse il 130% di certezza invece del 100%.
+Il clinico ha quindi attribuito più credenza (1.3) di quanta fosse disponibile (1.0), come se possedesse il 130% di certezza invece del 100%.
 :::
 
-```{r}
-#| echo: false
-# Diagnosticare l'incoerenza
-diagnosi <- c(Depressione = 0.6, Ansia = 0.5, Nessuna = 0.2)
-somma <- sum(diagnosi)
+### Incoerenza 2: violazione dei vincoli di Fréchet per congiunzioni di eventi
 
-cat("Probabilità assegnate:\n")
-print(diagnosi)
-cat("\nSomma totale:", somma, "\n")
-
-if (abs(somma - 1) > 1e-9) {
-  cat("⚠️ INCOERENZA RILEVATA: Per eventi mutuamente esclusivi ed esaustivi,\n")
-  cat("   la somma delle probabilità deve essere esattamente 1.\n")
-  cat("   Eccesso di credenza:", somma - 1, "\n")
-} else {
-  cat("✓ Coerenza rispettata.\n")
-}
-```
-
-**Strategie di correzione**:
-
-1. **Normalizzazione proporzionale** (se le proporzioni relative sono giudicate corrette):
-```{r}
-#| echo: false
-diagnosi_corrette <- diagnosi / somma
-cat("Probabilità normalizzate (mantenendo le proporzioni):\n")
-print(round(diagnosi_corrette, 3))
-cat("Nuova somma:", sum(diagnosi_corrette), "\n")
-```
-
-2. **Revisione critica** (approccio preferibile): rivalutare ciascuna assegnazione alla luce dell'incoerenza scoperta, considerando:
-
-   - prevalenze nella popolazione di riferimento;
-   - evidenze cliniche specifiche del caso;
-   - possibile sovrastima di condizioni ritenute più salienti.
-
-### Visualizzazione dell'incoerenza
-
-```{r}
-#| echo: false
-# Creare dataframe per visualizzazione
-df_incoerente <- data.frame(
-  Diagnosi = names(diagnosi),
-  Probabilita = as.numeric(diagnosi),
-  Stato = "Originale (incoerente)"
-)
-
-df_corretta <- data.frame(
-  Diagnosi = names(diagnosi_corrette),
-  Probabilita = as.numeric(diagnosi_corrette),
-  Stato = "Normalizzata (coerente)"
-)
-
-df_confronto <- rbind(df_incoerente, df_corretta)
-
-ggplot(df_confronto, aes(x = Diagnosi, y = Probabilita, fill = Stato)) +
-  geom_col(position = "dodge") +
-  geom_hline(yintercept = 1, linetype = "dashed", alpha = 0.5) +
-  labs(
-    title = "Correzione di incoerenza per eventi disgiunti",
-    subtitle = "La normalizzazione ristabilisce la coerenza",
-    y = "Probabilità",
-    fill = "Versione"
-  ) +
-  theme_minimal()
-```
-
-## Vincoli di Fréchet per congiunzioni di eventi
-
-Quando consideriamo due eventi che *possono verificarsi insieme*, la probabilità della loro intersezione $P(A \cap B)$ non può essere scelta liberamente, ma deve rispettare precisi vincoli matematici.
+Quando consideriamo due eventi che possono verificarsi congiuntamente, la probabilità della loro intersezione $P(A \cap B)$ non può essere assegnata liberamente, ma deve rispettare precisi vincoli matematici derivanti dalla struttura logica della probabilità.
 
 ::: {#thm-frechet-bounds}
 ### Vincoli di Fréchet
 
-Per qualsiasi coppia di eventi $A$ e $B$ vale:
+Per qualsiasi coppia di eventi $A$ e $B$ vale la disuguaglianza:
 
 $$
 \max\{0,\, P(A) + P(B) - 1\} \;\leq\; P(A \cap B) \;\leq\; \min\{P(A), P(B)\}.
@@ -273,56 +195,23 @@ $$
 
 **Interpretazione intuitiva:**
 
-- **Limite superiore**: l'evento "$A$ e $B$ insieme" non può essere più probabile dell'evento singolo meno probabile tra $A$ e $B$.
-- **Limite inferiore**: se la somma delle probabilità individuali supera 1, allora $A$ e $B$ *devono* sovrapporsi almeno in parte.
+Il limite superiore stabilisce che l'evento congiunto "$A$ e $B$ insieme" non può essere più probabile dell'evento singolo meno probabile tra $A$ e $B$. Il limite inferiore indica che quando la somma delle probabilità individuali supera 1, allora $A$ e $B$ devono necessariamente sovrapporsi almeno in parte.
 :::
 
 ::: {.callout-note collapse="true" title="Esempio clinico: Depressione e Ansia"}
 #### Applicazione alla comorbidità psicologica {.unnumbered .unlisted}
 
-Consideriamo uno studio su una popolazione clinica in cui:
+Consideriamo uno studio su una popolazione clinica in cui la probabilità di depressione è $P(\text{Depressione}) = 0.6$ e la probabilità di ansia è $P(\text{Ansia}) = 0.5$. I vincoli di Fréchet determinano l'intervallo di valori logicamente possibili per la comorbidità $P(\text{Depressione} \cap \text{Ansia})$.
 
-- $P(\text{Depressione}) = 0.6$ (60% è depresso);
-- $P(\text{Ansia}) = 0.5$ (50% è ansioso).
+Il limite inferiore risulta $\max(0, 0.6 + 0.5 - 1) = 0.1$, mentre il limite superiore è $\min(0.6, 0.5) = 0.5$. Pertanto, l'intervallo ammissibile per la probabilità di comorbidità è compreso tra 0.1 e 0.5.
 
-Quali valori sono logicamente possibili per la comorbidità $P(\text{Depressione} \cap \text{Ansia})$?
-
-**Calcolo dei limiti:**
-```{r}
-P_Depressione <- 0.6
-P_Ansia <- 0.5
-
-limite_inferiore <- max(0, P_Depressione + P_Ansia - 1)
-limite_superiore <- min(P_Depressione, P_Ansia)
-```
-
-```{r}
-#| echo: false
-cat("VINCOLI DI FRÉCHET - Depressione e Ansia\n")
-cat("=========================================\n")
-cat("P(Depressione) =", P_Depressione, "\n")
-cat("P(Ansia) =", P_Ansia, "\n")
-cat("---\n")
-cat("Limite inferiore: max(0, 0.6 + 0.5 - 1) =", limite_inferiore, "\n")
-cat("Limite superiore: min(0.6, 0.5) =", limite_superiore, "\n")
-cat("---\n")
-cat("INTERVALLO AMMISSIBILE:\n")
-cat(limite_inferiore, "≤ P(Depressione ∩ Ansia) ≤", limite_superiore, "\n")
-```
-
-**Risultato:** $0.1 \leq P(\text{Comorbidità}) \leq 0.5$.
-
-**Cosa significa nella pratica:**
-
-- ❌ **Incoerente**: dire che solo il 5% ha comorbidità ($< 0.1$) è impossibile;
-- ❌ **Incoerente**: dire che il 60% ha comorbidità ($> 0.5$) è impossibile;
-- ✅ **Coerente**: qualsiasi valore tra 10% e 50% è logicamente possibile.
+Questa delimitazione ha implicazioni pratiche immediate: sarebbe logicamente incoerente affermare che solo il 5% della popolazione presenta comorbidità, così come sarebbe incoerente sostenere che il 60% mostra comorbidità. Qualsiasi valore compreso tra il 10% e il 50% risulta invece logicamente possibile.
 :::
 
 ### Mappa dei valori ammissibili
 
 ```{r}
-#| fig-cap: "Regione dei valori ammissibili per P(A ∩ B) in funzione di P(A) e P(B)"
+#| fig-cap: "Regione dei valori ammissibili per P(A ∩ B) in funzione di P(A) e P(B)."
 #| out.width: "80%"
 
 # Creare griglia di valori
@@ -352,73 +241,40 @@ ggplot(grid, aes(x = P_A, y = P_B, fill = ampiezza_lecita)) +
     caption = "Colori più chiari = maggiore libertà nella scelta di P(A ∩ B)"
   ) +
   theme_minimal() +
-  theme(legend.position = "right") +
   coord_fixed()
 ```
 
-**Come leggere questa mappa:**
+La mappa visualizza la relazione tra le probabilità marginali e l'ampiezza dell'intervallo ammissibile per la loro intersezione. Le regioni in blu scuro, corrispondenti agli angoli del quadrato unitario, indicano vincoli particolarmente stringenti che limitano fortemente i valori possibili per $P(A \cap B)$. Al contrario, le regioni in giallo, situate verso il centro della mappa, segnalano la massima libertà nella scelta della probabilità dell'intersezione.
 
-- **🔵 Blu scuro** (angoli): vincoli molto stringenti - pochi valori di $P(A \cap B)$ sono possibili;
-- **🟡 Giallo** (centro): massima libertà - molti valori di $P(A \cap B)$ sono ammissibili;
-- **Regione in alto a destra**: quando $P(A) + P(B) > 1$, è necessaria una sovrapposizione minima obbligatoria;
-- **Regione in basso a sinistra**: quando $P(A) + P(B) \leq 1$, la sovrapposizione può essere anche nulla.
+Nella regione in alto a destra, dove $P(A) + P(B) > 1$, esiste una sovrapposizione minima obbligatoria tra gli eventi. Nella regione in basso a sinistra, dove $P(A) + P(B) \leq 1$, la sovrapposizione può teoricamente essere nulla.
 
-> **Importante per la pratica clinica**: questi vincoli ci proteggono dall'assegnare probabilità logicamente impossibili a sintomi che si presentano insieme o a condizioni che co-occorrono.
+Questi vincoli matematici offrono una protezione formale contro l'assegnazione di probabilità logicamente impossibili a sintomi che si presentano insieme o a condizioni psicologiche che co-occorrono, risultando particolarmente utili nella pratica clinica e nella ricerca psicometrica.
 
 ## Tabelle di probabilità congiunta
 
-Le **tabelle di probabilità congiunta** sono lo strumento fondamentale per rappresentare le credenze su sistemi con più variabili. Rendono esplicite tutte le relazioni tra gli eventi.
+Le **tabelle di probabilità congiunta** consentono di rappresentare sistematicamente l'intero sistema di credenze relative a un fenomeno caratterizzato da molteplici eventi. Tali tabelle rendono esplicite tutte le possibili combinazioni degli esiti e costituiscono la base da cui emergono coerentemente le probabilità marginali, quelle condizionate e le relazioni di indipendenza statistica.
 
 ### Struttura di una tabella 2×2
 
-Consideriamo due eventi binari $A$ e $B$. La tabella congiunta ha questa struttura:
+Consideriamo due eventi dicotomici $A$ e $B$. La loro distribuzione congiunta trova rappresentazione in una tabella 2×2 che organizza le probabilità secondo la seguente struttura:
 
-|       | $B$  | $B^c$ | Marginale |
-|-------|------|-------|-----------|
-| $A$   | $P(A \cap B)$ | $P(A \cap B^c)$ | $P(A)$ |
-| $A^c$ | $P(A^c \cap B)$ | $P(A^c \cap B^c)$ | $P(A^c)$ |
-| **Marginale** | $P(B)$ | $P(B^c)$ | $1$ |
+|               | $B$             | $B^c$             | Marginale |
+| ------------- | --------------- | ----------------- | --------- |
+| $A$           | $P(A \cap B)$   | $P(A \cap B^c)$   | $P(A)$    |
+| $A^c$         | $P(A^c \cap B)$ | $P(A^c \cap B^c)$ | $P(A^c)$  |
+| **Marginale** | $P(B)$          | $P(B^c)$          | $1$       |
 
-**Proprietà chiave:**
+Le celle interne della tabella contengono le quattro probabilità congiunte che specificano il grado di credenza in ciascuna combinazione di eventi. Le probabilità marginali, collocate sui bordi della tabella, si ottengono mediante la somma lungo le righe e le colonne: $P(A)$ è uguale alla somma $P(A\cap B) + P(A\cap B^c)$, mentre $P(B)$ deriva da $P(A\cap B) + P(A^c\cap B)$.
 
-1. **Celle interne**: probabilità congiunte (4 valori)
-2. **Marginali di riga**: $P(A) = P(A \cap B) + P(A \cap B^c)$
-3. **Marginali di colonna**: $P(B) = P(A \cap B) + P(A^c \cap B)$
-4. **Normalizzazione**: la somma di tutte le celle è uguale a 1.
+La coerenza complessiva della distribuzione è garantita dal vincolo di normalizzazione che impone che la somma di tutte le probabilità congiunte sia pari a 1. Una volta stabilita una tabella congiunta coerente, tutte le ulteriori quantità probabilistiche di interesse diventano accessibili attraverso operazioni algebriche elementari di somma e normalizzazione.
 
-Una volta specificata in modo coerente la tabella congiunta, tutte le altre probabilità ne derivano automaticamente.
+::: {.callout-note collapse=true title="Esempio di costruzione di una tabella di probabilità congiunta 2×2"}
 
-::: {.callout-important title="Principio fondamentale"}
-### Dalla distribuzione congiunta derivano tutte le probabilità
-
-Specificare una distribuzione di probabilità congiunta coerente su uno spazio finito richiede di:
-
-- assegnare probabilità a ogni combinazione possibile degli eventi;
-- da questa specificazione completa discendono automaticamente, tramite operazioni di somma e condizionamento:
-  - le probabilità marginali dei singoli eventi;
-  - le probabilità condizionate tra eventi;
-  - la verifica di eventuali relazioni di indipendenza.
-
-La distribuzione congiunta rappresenta quindi lo *stato di conoscenza completo* sul sistema in esame.
-:::
-
-### Costruzione di una tabella di probabilità congiunta 2×2
-
-::: {.callout-note collapse="true" title="Esempio: Test diagnostico per la depressione"}
 #### Definizione dello scenario {.unnumbered .unlisted}
 
-Consideriamo un test diagnostico per la depressione con:
+Consideriamo un test diagnostico per la depressione caratterizzato da due variabili dicotomiche: lo stato reale del paziente ($D$ per depresso, $D^c$ per non depresso) e l'esito del test ($T^+$ per positivo, $T^-$ per negativo). I parametri noti dalla letteratura clinica includono una prevalenza della depressione $P(D) = 0.15$, una sensibilità del test $P(T^+ \mid D) = 0.85$, e un tasso di falsi positivi $P(T^+ \mid D^c) = 0.20$.
 
-- **$D$**: il paziente è effettivamente depresso
-- **$T^+$**: il test risulta positivo
-
-Dati ricavati dalla letteratura clinica:
-
-- **Prevalenza**: $P(D) = 0.15$ (15% dei pazienti sono depressi)
-- **Sensibilità**: $P(T^+ \mid D) = 0.85$ (l'85% dei depressi risulta positivo)
-- **Falsi positivi**: $P(T^+ \mid D^c) = 0.20$ (il 20% dei non depressi risulta positivo)
-
-**Costruzione passo-passo della tabella:**
+**Costruzione della tabella di probabilità congiunta:**
 
 ```{r}
 #| echo: true
@@ -447,28 +303,12 @@ tabella_congiunta <- matrix(
   )
 )
 
-cat("TABELLA DI PROBABILITÀ CONGIUNTA\n")
-cat("===============================\n")
 print(round(tabella_congiunta, 4))
-
-# Verifica della coerenza
-cat("\nVERIFICA DELLA COERENZA:\n")
-cat("Marginali per stato reale:", round(rowSums(tabella_congiunta), 4), "\n")
-cat("Marginali per risultato test:", round(colSums(tabella_congiunta), 4), "\n")
-cat("Somma totale (deve essere 1):", round(sum(tabella_congiunta), 4), "\n")
 ```
 
-**Interpretazione dei risultati:**
+La tabella risultante presenta una struttura coerente: la probabilità che un paziente sia depresso e risulti positivo al test ammonta a 0.1275, mentre la probabilità di un falso negativo è 0.0225. Per i non depressi, la probabilità di un falso positivo è 0.1700 e quella di un risultato corretto negativo è 0.6800. La coerenza della tabella è verificata dalla non negatività di tutte le probabilità e dalla somma totale pari a 1, conformemente agli assiomi della probabilità.
 
-- **12.75%**: probabilità che un paziente sia depresso e risulti positivo al test
-- **2.25%**: probabilità che un paziente sia depresso ma risulti negativo (falsi negativi)
-- **17.00%**: probabilità che un paziente non sia depresso ma risulti positivo (falsi positivi)
-- **68.00%**: probabilità che un paziente non sia depresso e risulti negativo
-
-La tabella è **coerente**: tutte le probabilità sono non negative e la somma totale è 1, come richiesto dagli assiomi della probabilità.
-:::
-
-### Visualizzazione della tabella congiunta
+#### Visualizzazione della tabella congiunta {.unnumbered .unlisted}
 
 ```{r}
 #| echo: false
@@ -487,23 +327,18 @@ ggplot(df_tab, aes(x = Test, y = Stato, fill = Probabilita)) +
     x = "Risultato Test",
     y = "Stato reale"
   ) +
-  theme_minimal() +
-  theme(
-    legend.position = "right",
-    axis.text = element_text(size = 12)
-  )
+  theme_minimal() 
 ```
 
-### Verifica empirica con simulazione
+#### Verifica empirica mediante simulazione {.unnumbered .unlisted}
 
-Possiamo verificare che la tabella congiunta sia coerente simulando dati e confrontando frequenze empiriche con probabilità teoriche.
+La coerenza della distribuzione congiunta può essere verificata empiricamente attraverso simulazione:
 
 ```{r}
 set.seed(123)
 N <- 100000
 
 # Simulare secondo la distribuzione congiunta
-# Esiti possibili: (D,T+), (D,T-), (D^c,T+), (D^c,T-)
 probs_vector <- c(p_depresso_positivo, p_depresso_negativo, 
                   p_non_depresso_positivo, p_non_depresso_negativo)
 
@@ -512,24 +347,21 @@ outcomes <- sample(1:4, size = N, replace = TRUE, prob = probs_vector)
 # Contare frequenze empiriche
 freq_empiriche <- table(outcomes) / N
 
-# Confronto
+# Confronto tra probabilità teoriche e frequenze empiriche
 df_verifica <- data.frame(
   Configurazione = c("D∩T+", "D∩T-", "D^c∩T+", "D^c∩T-"),
   Teorica = probs_vector,
   Empirica = as.numeric(freq_empiriche)
 )
 
-cat("Confronto teorico vs empirico:\n")
-# Correzione: applica round solo alle colonne numeriche
-df_verifica_numeric <- df_verifica
-df_verifica_numeric$Teorica <- round(df_verifica_numeric$Teorica, 4)
-df_verifica_numeric$Empirica <- round(df_verifica_numeric$Empirica, 4)
-print(df_verifica_numeric)
+df_verifica$Teorica <- round(df_verifica$Teorica, 4)
+df_verifica$Empirica <- round(df_verifica$Empirica, 4)
+print(df_verifica)
 ```
 
 ```{r}
 #| echo: false
-# Visualizzare
+# Visualizzazione del confronto
 df_verifica_long <- df_verifica %>%
   pivot_longer(cols = c(Teorica, Empirica), 
                names_to = "Tipo", 
@@ -545,27 +377,29 @@ ggplot(df_verifica_long, aes(x = Configurazione, y = Probabilita, fill = Tipo)) 
   theme_minimal()
 ```
 
-**Interpretazione**: le frequenze empiriche convergono verso le probabilità teoriche, confermando che la tabella rappresenta credenze coerenti che producono dati attesi.
+La convergenza delle frequenze empiriche verso le probabilità teoriche conferma che la tabella di probabilità congiunta rappresenta un sistema di credenze coerente in grado di generare i dati attesi.
+:::
 
-## Calcolo di probabilità marginali e condizionate
+### Calcolo di probabilità marginali e condizionate
 
-Una volta costruita una tabella congiunta coerente, possiamo ricavare qualsiasi altra quantità probabilistica di interesse.
+La distribuzione congiunta rappresenta la conoscenza completa del sistema analizzato e costituisce il fondamento da cui è possibile dedurre in modo coerente tutte le altre probabilità di interesse.
 
 ### Probabilità marginali
 
-Le probabilità *marginali* si ottengono sommando (marginalizzando) lungo una dimensione:
+Le probabilità *marginali* si ottengono mediante sommazione lungo una dimensione della tabella congiunta. Formalmente:
 
 $$
-P(A) = \sum_{B} P(A \cap B) = P(A \cap B) + P(A \cap B^c),
+P(A) = P(A \cap B) + P(A \cap B^c),
 $$
 
 $$
-P(B) = \sum_{A} P(A \cap B) = P(A \cap B) + P(A^c \cap B).
+P(B) = P(A \cap B) + P(A^c \cap B).
 $$
+
+Questo calcolo corrisponde a proiettare la distribuzione congiunta su ciascuna variabile singolarmente, ignorando l'altra dimensione.
 
 ```{r}
 #| echo: false
-# Esempio: marginali dalla tabella precedente
 cat("Probabilità marginali derivate:\n")
 cat("P(D) =", rowSums(tabella_congiunta)[1], "\n")
 cat("P(D^c) =", rowSums(tabella_congiunta)[2], "\n")
@@ -575,58 +409,46 @@ cat("P(T-) =", colSums(tabella_congiunta)[2], "\n")
 
 ### Probabilità condizionate
 
-Le probabilità *condizionate* si ottengono come rapporti:
+Le probabilità *condizionate* emergono come rapporto tra probabilità congiunta e probabilità marginale dell'evento condizionante:
 
 $$
 P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
 $$
 
-**Interpretazione epistemica**: dopo aver appreso che $B$ è vero, "riduciamo" lo spazio delle possibilità a quelle compatibili con $B$, e rinormalizziamo.
+Epistemicamente, esse rappresentano l'aggiornamento delle nostre credenze una volta acquisita l'informazione che l'evento $B$ si è verificato: lo spazio delle possibilità si restringe alle configurazioni compatibili con $B$, e le probabilità vengono conseguentemente rinormalizzate.
 
 ```{r}
 #| echo: false
-# Calcolare condizionate dalla tabella
-p_T_plus <- colSums(tabella_congiunta)[1]  # P(T+)
-p_T_minus <- colSums(tabella_congiunta)[2]  # P(T-)
+p_T_plus <- colSums(tabella_congiunta)[1]
+p_T_minus <- colSums(tabella_congiunta)[2]
 
-# P(D | T+) - valore predittivo positivo
 p_D_given_Tplus <- tabella_congiunta[1, 1] / p_T_plus
-
-# P(D | T-) - probabilità dopo test negativo
 p_D_given_Tminus <- tabella_congiunta[1, 2] / p_T_minus
 
 cat("Probabilità condizionate derivate:\n")
-cat("P(D | T+) =", round(p_D_given_Tplus, 4), 
-    "(Valore predittivo positivo)\n")
-cat("P(D | T-) =", round(p_D_given_Tminus, 4), 
-    "(Probabilità residua dopo test negativo)\n")
+cat("P(D | T+) =", round(p_D_given_Tplus, 4), "(Valore predittivo positivo)\n")
+cat("P(D | T-) =", round(p_D_given_Tminus, 4), "(Probabilità residua dopo test negativo)\n")
 ```
 
 ::: {.callout-important}
+
 ### Messaggio chiave: la coerenza delle probabilità condizionate
 
-Le probabilità condizionate non sono assegnazioni arbitrarie, ma *relazioni strutturate* che derivano necessariamente dalla distribuzione congiunta. 
+Le probabilità condizionate non rappresentano assegnazioni indipendenti, ma derivano necessariamente dalla distribuzione congiunta attraverso operazioni matematiche ben definite.
 
-Questa dipendenza matematica garantisce che tutte le probabilità siano *coerenti tra loro*: una volta specificata la distribuzione congiunta, le probabilità condizionate sono determinate univocamente attraverso la relazione:
+Questa dipendenza strutturale garantisce la coerenza interna dell'intero sistema probabilistico. Qualora si tentasse di specificare probabilità condizionate in modo arbitrario e indipendente dalla distribuzione congiunta, si incorrerebbe in serie incoerenze quali:
 
-$$
-P(A \mid B) = \frac{P(A \cap B)}{P(B)}
-$$
+* discrepanze tra il prodotto $P(A \mid B) \cdot P(B)$ e la probabilità congiunta $P(A \cap B)$;
+* violazioni degli assiomi fondamentali della probabilità;
+* esposizione al rischio di un *Dutch book*, situazione in cui una combinazione di scommesse condurrebbe a una perdita certa.
 
-Se invece assegnassimo le probabilità condizionate in modo indipendente dalla congiunta, rischieremmo di creare **incoerenze logiche**, come ad esempio:
-
-- $P(A \mid B) \cdot P(B) \neq P(A \cap B)$;
-- Probabilità che violano gli assiomi fondamentali;
-- Assegnazioni che porterebbero al *Dutch book*.
-
-La struttura congiunta funge quindi da *fondamento coerente* da cui tutte le altre probabilità derivano naturalmente.
+La distribuzione congiunta funge dunque da fondamento coerente da cui tutte le altre quantità probabilistiche discendono logicamente.
 :::
 
-### Visualizzazione: dalla distribuzione congiunta alle probabilità condizionate
+### Visualizzazione: dalla congiunta alle condizionate
 
 ```{r}
 #| echo: false
-# Preparare dati per visualizzazione
 df_derive <- data.frame(
   Tipo = c("Congiunta", "Congiunta", "Marginale", "Condizionata"),
   Quantita = c("P(D∩T+)", "P(D^c∩T+)", "P(T+)", "P(D|T+)"),
@@ -644,7 +466,6 @@ df_derive <- data.frame(
   )
 )
 
-# Grafico a cascata
 ggplot(df_derive, aes(x = reorder(Quantita, -Valore), y = Valore, fill = Tipo)) +
   geom_col() +
   geom_text(aes(label = round(Valore, 3)), vjust = -0.5) +
@@ -660,33 +481,38 @@ ggplot(df_derive, aes(x = reorder(Quantita, -Valore), y = Valore, fill = Tipo)) 
 
 ## Esercizio guidato: costruire e analizzare una tabella 2×2
 
-Lavoriamo passo-passo sulla costruzione di una tabella congiunta da informazioni psicologiche.
+Lavoriamo attraverso un approccio sistematico per la costruzione di una tabella di probabilità congiunta a partire da informazioni cliniche.
 
 ::: {.callout-tip title="Scenario clinico"}
 ### Comorbidità Depressione-Ansia in terapia
 
-Uno psicoterapeuta vuole modellare la probabilità di comorbidità nel proprio ambulatorio. Dalla letteratura e dall'esperienza clinica, stabilisce:
+Uno psicoterapeuta intende modellare probabilisticamente la comorbidità nel proprio contesto clinico. Sulla base della letteratura scientifica e dell'esperienza clinica accumulata, stabilisce i seguenti parametri:
 
-- $P(\text{Depressione}) = 0.50$ (prevalenza nell'ambulatorio);
+- $P(\text{Depressione}) = 0.50$ (prevalenza nel setting ambulatoriale);
 - $P(\text{Ansia}) = 0.40$;
-- $P(\text{Ansia} \mid \text{Depressione}) = 0.60$ (comorbidità).
+- $P(\text{Ansia} \mid \text{Depressione}) = 0.60$ (probabilità di comorbidità condizionata).
 
-**Obiettivo**: Costruire la tabella congiunta completa e rispondere a domande cliniche.
+**Obiettivo**: Costruire la tabella di probabilità congiunta completa e derivare risposte a specifiche domande cliniche.
 :::
 
+Parametri:
+
 ```{r}
-# Parametri
 P_D <- 0.50
 P_A <- 0.40
 P_A_given_D <- 0.60
+```
 
-# Passo 1: Calcolare congiunta P(D ∩ A)
+Passo 1: Calcolare congiunta $P(D \cap A)$:
+
+```{r}
 P_D_and_A <- P_A_given_D * P_D
-
-cat("=== COSTRUZIONE TABELLA CONGIUNTA ===\n\n")
 cat("Passo 1: P(D ∩ A) = P(A|D) × P(D) =", P_A_given_D, "×", P_D, "=", P_D_and_A, "\n\n")
+```
 
-# Passo 2: Altre celle usando additività
+Passo 2: le altre celle si possono calcolare usando l'additività:
+
+```{r}
 P_D_and_notA <- P_D - P_D_and_A
 P_notD_and_A <- P_A - P_D_and_A
 P_notD_and_notA <- 1 - (P_D_and_A + P_D_and_notA + P_notD_and_A)
@@ -695,13 +521,19 @@ cat("Passo 2: Altre celle\n")
 cat("  P(D ∩ A^c) =", P_D_and_notA, "\n")
 cat("  P(D^c ∩ A) =", P_notD_and_A, "\n")
 cat("  P(D^c ∩ A^c) =", P_notD_and_notA, "\n\n")
+```
 
-# Passo 3: Verificare coerenza
+Passo 3: Verificare coerenza:
+
+```{r}
 somma_celle <- P_D_and_A + P_D_and_notA + P_notD_and_A + P_notD_and_notA
 cat("Passo 3: Verifica coerenza\n")
 cat("  Somma celle =", somma_celle, "(deve essere 1) ✓\n\n")
+```
 
-# Creare tabella
+Creare tabella:
+
+```{r}
 tab_comorbid <- matrix(
   c(P_D_and_A, P_D_and_notA,
     P_notD_and_A, P_notD_and_notA),
@@ -714,34 +546,46 @@ tab_comorbid <- matrix(
 
 cat("TABELLA CONGIUNTA FINALE:\n")
 print(round(tab_comorbid, 3))
+```
 
+```{r}
 cat("\nMARGINALI:\n")
 cat("Riga (Depressione):", round(rowSums(tab_comorbid), 3), "\n")
 cat("Colonna (Ansia):", round(colSums(tab_comorbid), 3), "\n")
 ```
 
-### Rispondere a domande cliniche
+### Risposte a domande cliniche
+
+Q1: Probabilità di almeno una condizione:
 
 ```{r}
-#| echo: false
-cat("\n=== DOMANDE CLINICHE ===\n\n")
-
-# Q1: Probabilità di almeno una condizione
 P_D_or_A <- P_D + P_A - P_D_and_A
 cat("Q1: P(D ∪ A) = P(almeno una condizione) =", round(P_D_or_A, 3), "\n")
+```
 
-# Q2: Probabilità di nessuna condizione
+Q2: Probabilità di nessuna condizione:
+
+```{r}
 P_neither <- P_notD_and_notA
 cat("Q2: P(D^c ∩ A^c) = P(nessuna condizione) =", round(P_neither, 3), "\n")
+```
 
-# Q3: Probabilità di comorbidità
+Q3: Probabilità di comorbidità:
+
+```{r}
 cat("Q3: P(D ∩ A) = P(entrambe le condizioni) =", round(P_D_and_A, 3), "\n")
+```
 
-# Q4: P(D | A) - Se il paziente ha ansia, prob di depressione?
+Q4: $P(D \mid A)$ -- Se un paziente manifesta un disturbo d'ansia, qual è la probabilità che sia anche depresso?
+
+```{r}
 P_D_given_A <- P_D_and_A / P_A
 cat("Q4: P(D | A) = P(Depressione dato Ansia) =", round(P_D_given_A, 3), "\n")
+```
 
-# Q5: Le condizioni sono indipendenti?
+Q5: Le condizioni sono indipendenti?
+
+```{r}
 # Test: P(D ∩ A) =? P(D) × P(A)
 P_D_times_P_A <- P_D * P_A
 cat("\nQ5: Test di indipendenza\n")
@@ -769,22 +613,22 @@ ggplot(df_comorbid, aes(x = Ansia, y = Depressione, fill = Probabilita)) +
   scale_fill_viridis_c(option = "plasma") +
   labs(
     title = "Tabella congiunta: Depressione × Ansia",
-    subtitle = "Comorbidità P(D ∩ A) = 0.30 (cella in basso a sinistra)"
+    subtitle = "Comorbidità P(D ∩ A) = 0.30 (cella in alto a sinistra)"
   ) +
-  theme_minimal(base_size = 14) +
+  theme_minimal() +
   coord_fixed()
 ```
 
 ## Estensione a tabelle multidimensionali
 
-Il principio della distribuzione congiunta si generalizza naturalmente a sistemi con più variabili e categorie, permettendo di modellare situazioni cliniche più complesse.
+Il principio della distribuzione congiunta si generalizza naturalmente a sistemi caratterizzati da molteplici variabili e categorie, consentendo la modellazione di scenari clinici di maggiore complessità.
 
 ### Esempio: depressione e livelli di ansia
 
-Consideriamo uno scenario clinico con due dimensioni:
+Consideriamo uno scenario clinico che coinvolge due dimensioni distinte:
 
-- Depressione: presenza/assenza (variabile binaria);
-- Severità dell'ansia: nessuna/lieve/grave (variabile ternaria).
+- depressione: presenza/assenza (variabile dicotomica);
+- severità dell'ansia: nessuna/lieve/grave (variabile a tre livelli).
 
 ```{r}
 # Scenario: Depressione × Severità Ansia (Nessuna/Lieve/Grave)
@@ -800,7 +644,9 @@ tab_2x3 <- matrix(
 
 cat("Tabella 2×3:\n")
 print(tab_2x3)
+```
 
+```{r}
 cat("\nMarginali:\n")
 cat("Depressione:", rowSums(tab_2x3), "\n")
 cat("Ansia:", colSums(tab_2x3), "\n")
@@ -820,55 +666,31 @@ ggplot(df_2x3, aes(x = SeveritaAnsia, y = Depressione, fill = Probabilita)) +
   scale_fill_viridis_c(option = "plasma") +
   labs(
     title = "Tabella congiunta 2×3: Depressione × Severità Ansia",
-    subtitle = "Ogni cella = credenza nella configurazione specifica"
+    x = "Ansia",
+    subtitle = "Ogni cella rappresenta la credenza in una specifica configurazione clinica"
   ) +
-  theme_minimal(base_size = 12)
+  theme_minimal()
 ```
 
 **Interpretazione clinica:**
-
-- 15%: pazienti depressi con ansia grave;
-- 20%: pazienti depressi con ansia lieve;  
-- 35%: pazienti non depressi senza ansia;
-- le probabilità marginali mostrano la prevalenza complessiva di ciascuna condizione.
+la distribuzione congiunta rivela i pattern della presentazione clinica: il 15% dei pazienti presenta una comorbilità di depressione con ansia grave, mentre il 20% mostra una depressione associata a un'ansia lieve. Una porzione consistente del 35% comprende pazienti non depressi, senza sintomi d'ansia. Le probabilità marginali, ottenute sommando i valori lungo le rispettive dimensioni, forniscono una stima della prevalenza complessiva di ciascuna condizione nella popolazione clinica di riferimento.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-In questo capitolo abbiamo gettato le basi matematiche per esprimere e manipolare le nostre credenze in modo rigorosamente coerente.
+In questo capitolo abbiamo gettato le basi matematiche per esprimere e manipolare le nostre credenze in modo coerente. Lo spazio campionario è stato ridefinito in chiave epistemologica: non è l'insieme di tutto ciò che può accadere fisicamente, ma l'insieme di ciò che riteniamo possibile, in base al nostro attuale stato di conoscenza.
 
-1. **Spazio campionario epistemico**: abbiamo ridefinito lo spazio campionario non come "tutto ciò che può fisicamente accadere", ma come "tutto ciò che riteniamo possibile", in base al nostro attuale stato di conoscenza.
+Gli assiomi della probabilità non emergono come leggi naturali, ma come condizioni necessarie per garantire la coerenza logica e proteggere da situazioni di svantaggio certo, come dimostrato dall'argomento del Dutch Book. I vincoli di Fréchet dimostrano che le probabilità congiunte non possono essere assegnate arbitrariamente, ma devono rispettare precise relazioni matematiche con le probabilità marginali.
 
-2. **Assiomi come garanzia di coerenza**: gli assiomi della probabilità non sono leggi della natura, ma come condizioni necessarie per evitare contraddizioni logiche e situazioni di svantaggio certo (Dutch Book).
+La distribuzione congiunta si rivela la rappresentazione più completa e operativa del nostro stato di credenza. Da questa matrice fondamentale derivano sistematicamente le probabilità marginali mediante la somma lungo righe o colonne, le probabilità condizionate come rapporti tra celle, le verifiche di indipendenza mediante il confronto tra prodotti e probabilità congiunte e qualsiasi altra quantità probabilistica di interesse.
 
-3. **Vincoli strutturali**: i vincoli di Fréchet ci mostrano che le probabilità congiunte non possono essere assegnate arbitrariamente, ma devono rispettare relazioni matematiche precise con le probabilità marginali.
+Le verifiche empiriche mediante simulazione confermano che le credenze coerenti generano pattern di dati attesi, ribadendo il principio fondamentale secondo cui i dati non definiscono le credenze, ma piuttosto le credenze esprimono il nostro stato di incertezza prima dell'osservazione dei dati.
 
-4. **La potenza delle tabelle congiunte**: la distribuzione congiunta si rivela come la rappresentazione più completa e operativa del nostro stato di credenza. Da questa matrice fondamentale derivano in modo sistematico:
+Questo approccio basato sulle distribuzioni congiunte offre vantaggi concreti sia alla ricerca che alla pratica psicologica. La trasparenza garantisce che tutte le assunzioni probabilistiche siano esplicite e verificabili, mentre il potere diagnostico consente di individuare e correggere immediatamente le incoerenze logiche. La flessibilità operativa consente di incorporare agevolmente nuove informazioni aggiornando la distribuzione, mentre la chiarezza comunicativa rende le tabelle intuitive e accessibili anche per chi non possiede competenze statistiche avanzate.
 
-   - **probabilità marginali** (per somma lungo righe o colonne);
-   - **probabilità condizionate** (come rapporti tra celle);
-   - **verifiche di indipendenza** (confrontando prodotti con congiunte);
-   - **qualsiasi altra quantità probabilistica** di interesse.
+Questo capitolo non solo ha stabilito le modalità di calcolo delle probabilità, ma ha anche chiarito le ragioni per cui determinate regole sono necessarie per pensare in modo razionale in condizioni di incertezza, fornendo le basi concettuali per sviluppare un approccio bayesiano coerente alla ricerca psicologica.
 
-5. **Validazione attraverso la simulazione**: le verifiche empiriche confermano che le credenze coerenti generano pattern di dati attesi, ma è fondamentale ricordare che i dati non definiscono le credenze, bensì le credenze esprimono il nostro stato di incertezza prima di osservare i dati.
+Nei prossimi capitoli, utilizzeremo questo solido framework per esplorare l'equiprobabilità come caso speciale di simmetria epistemica, approfondire l'aggiornamento bayesiano attraverso il calcolo delle probabilità condizionate e applicare questi strumenti a scenari psicologici sempre più complessi.
 
-### Vantaggi per la ricerca e la pratica psicologica
-
-Questo approccio basato su distribuzioni congiunte offre vantaggi concreti:
-
-- **trasparenza**: tutte le assunzioni probabilistiche sono esplicite e verificabili;
-- **potere diagnostico**: le incoerenze logiche diventano immediatamente visibili e correggibili;
-- **flessibilità operativa**: è semplice incorporare nuove informazioni aggiornando la distribuzione;
-- **chiarezza comunicativa**: le tabelle sono intuitive e accessibili anche per chi non è esperto di statistica.
-
-### Prossime direzioni
-
-Nei prossimi capitoli utilizzeremo questo solido framework per:
-
-- esplorare l'*equiprobabilità* come caso speciale di simmetria epistemica;
-- approfondire l'*aggiornamento bayesiano* attraverso il calcolo delle probabilità condizionate;
-- applicare questi strumenti a scenari psicologici sempre più complessi.
-
-Questo capitolo ha stabilito non solo *come* calcolare probabilità, ma *perché* certe regole sono necessarie per pensare in modo razionale in situazioni di incertezza.
 
 ## Esercizi {.unnumbered .unlisted}
 

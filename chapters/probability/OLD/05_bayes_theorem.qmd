@@ -1,787 +1,978 @@
 # Il teorema di Bayes {#sec-prob-bayes-theorem}
 
-::: {.epigraph}
-> “It is, without exaggeration, perhaps the most important single equation in history.”
->
-> -- **Tom Chivers** (2024)
-:::
-
 ## Introduzione {.unnumbered .unlisted}
 
-Il teorema di Bayes costituisce un metodo matematico ottimale per risolvere problemi di *inferenza induttiva*, ovvero situazioni in cui si deducono cause sottostanti, principi generali o strutture complesse a partire da dati parziali e incerti. Trova applicazione in scenari disparati: dalla ricostruzione della percezione tridimensionale basata su segnali retinici all'interpretazione degli stati mentali altrui attraverso il comportamento osservabile, fino alla stima di parametri fisici in condizioni sperimentali rumorose [@ma2023bayesian; @baker2011bayesian]. La sua efficacia emerge soprattutto in contesti dove le evidenze disponibili non permettono di discriminare univocamente tra ipotesi concorrenti.
+Il teorema di Bayes costituisce il punto di arrivo concettuale del percorso bayesiano che abbiamo sviluppato progressivamente. Questo sviluppo si basa su solide fondamenta teoriche: la concezione della probabilità come grado di credenza razionale in uno stato di informazione (@sec-prob-interpretation), la comprensione degli assiomi come vincoli di coerenza tra credenze (@sec-prob-axioms-coherence), il riconoscimento dell'equiprobabilità come caso particolare derivante dalla simmetria epistemica (@sec-equiprobability-combinatorics) e l'identificazione della probabilità condizionata come meccanismo fondamentale di aggiornamento delle credenze (@sec-prob-conditional-prob).
+
+Il teorema di Bayes emerge direttamente dalla definizione di probabilità condizionata e fornisce la soluzione formale al problema centrale dell'inferenza induttiva: come aggiornare razionalmente le credenze relative a ipotesi o cause non direttamente osservabili quando sono disponibili evidenze empiriche osservabili.
+
+In questo capitolo analizzeremo il teorema non soltanto come strumento tecnico, ma anche come principio di razionalità epistemica che specifica il metodo ottimale per integrare in modo sistematico la conoscenza pregressa (*distribuzione a priori*) con nuove osservazioni (*funzione di verosimiglianza*) per ottenere credenze aggiornate e coerenti (*distribuzione a posteriori*). Esamineremo applicazioni concrete in ambito diagnostico-clinico, nella ricerca psicologica sperimentale e nel ragionamento quotidiano in condizioni di incertezza.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
-- L'importanza dell teorema di Bayes.
-- l'utilizzo del teorema di Bayes per analizzare e interpretare i test diagnostici, tenendo in considerazione la prevalenza della malattia in questione.
-- Soluzione di problemi di probabilità discreta che necessitano dell'applicazione del teorema di Bayes.
+- Derivazione del teorema di Bayes dalla probabilità condizionata.
+- Interpretazione epistemica dei componenti (prior, likelihood, posterior).
+- Forma in odds e likelihood ratio per applicazioni cliniche.
+- Probabilità inversa: il problema fondamentale dell'inferenza.
+- Applicazioni a test diagnostici e decisioni cliniche.
+- Fallacia del tasso base e fallacia del procuratore.
+- Visualizzazioni con distribuzioni Beta.
+- Collegamenti al flusso di lavoro bayesiano completo.
 
 ::: {.callout-tip collapse=true}
 ## Prerequisiti
-- Leggere *Everything is Predictable: How Bayesian Statistics Explain Our World* [@chivers2024everything]. Questo libro offre una descrizione chiara e accessibile dell'impatto che il teorema di Bayes ha avuto sulla vita moderna.
-- Leggere [Bayesian Models of Cognition](https://oecs.mit.edu/pub/lwxmte1p/release/2) di Thomas L. Griffiths, una voce della [Open Encyclopedia of Cognitive Science](https://oecs.mit.edu).
-- Leggere il capitolo *Conditional Probability* [@schervish2014probability].
+
+- Aver letto i capitoli precedenti, specialmente @sec-prob-conditional-prob.
+- Leggere *Everything is Predictable: How Bayesian Statistics Explain Our World* [@chivers2024everything].
+- Leggere [Bayesian Models of Cognition](https://oecs.mit.edu/pub/lwxmte1p/release/2) di Thomas L. Griffiths.
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
 ```{r}
+#| output: false
 here::here("code", "_common.R") |> 
   source()
+
+# Load packages
+if (!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(ggplot2, dplyr, tidyr, patchwork)
 ```
 :::
 
+## Derivazione del teorema di Bayes
 
-### Incertezza come fondamento dell'inferenza  
+Il teorema di Bayes non rappresenta un principio nuovo o indipendente, ma emerge in modo naturale dalla definizione di probabilità condizionata attraverso una semplice trasformazione algebrica.
 
-Un principio cardine del ragionamento bayesiano è il riconoscimento dell’*incertezza intrinseca* a qualsiasi processo conoscitivo. Anche in un universo deterministico, la complessità dei sistemi e i limiti dei nostri sensi rendono impossibile una conoscenza completa. Ad esempio, non possiamo determinare con esattezza infiniti dettagli (come posizione e stato di ogni neurone nel cervello di un interlocutore) né accedere direttamente a variabili latenti (come emozioni o intenzioni). Di conseguenza, ogni inferenza conserva un margine probabilistico, che Bayes quantifica e trasforma in uno strumento operativo.
+### La simmetria fondamentale della probabilità congiunta
 
-### Dinamica bayesiana: aggiornare le credenze
-
-La realtà assomiglia più a una partita di poker che a una di scacchi: operiamo costantemente in condizioni di *informazione imperfetta e incompleta*. Le decisioni si basano su un bilanciamento dinamico tra conoscenze pregresse (*prior*) e nuovi indizi (*evidenza*), un processo formalizzato dall'equazione di Bayes:
+Come abbiamo esaminato nel @sec-prob-conditional-prob, la probabilità che due eventi si verifichino congiuntamente può essere espressa in due modi equivalenti:
 
 $$
-P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)} , \tag{1}
-$$
-dove:
+P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A).
+$$ {#eq-joint-symmetry}
 
-- $P(H \mid E)$ (*probabilità a posteriori*): plausibilità rivista dell'ipotesi $H$ dopo aver osservato l'evidenza $E$;
-- $P(E \mid H)$ (*verosimiglianza*): probabilità di osservare $E$ nell'ipotesi che $H$ sia vera;
-- $P(H)$ (*probabilità a priori*): grado di fiducia iniziale in $H$, prima di raccogliere $E$;
-- $P(E)$ (*probabilità marginale dell'evidenza*): fattore di normalizzazione, calcolato tramite il teorema della probabilità totale.
+Questa **simmetria fondamentale** deriva direttamente dall'applicazione della definizione di probabilità condizionata in entrambe le direzioni. Quando uguagliamo le due espressioni e risolviamo per $P(A \mid B)$, otteniamo la formulazione classica del teorema di Bayes:
 
-Questo meccanismo consente di *ricalibrare razionalmente le convinzioni* alla luce di nuove informazioni, riducendo progressivamente l'incertezza attraverso un aggiornamento sequenziale e coerente.
+::: {#thm-bayes-theorem}
+### Teorema di Bayes (forma fondamentale)
 
-### Inferenza induttiva e razionalità adattiva  
-
-L’*inferenza induttiva bayesiana* rappresenta un pilastro della razionalità scientifica e quotidiana. A differenza della logica deduttiva (dove le conclusioni derivano necessariamente dalle premesse), Bayes riconcilia teoria ed evidenza empirica, consentendo previsioni robuste nonostante dati incompleti. Le applicazioni spaziano:  
-
-- in *psicologia cognitiva*, modellando come il cervello interpreta segnali ambigui [@domini20033; @caudek2024fenomeni];  
-- nell'*intelligenza artificiale*, guidando algoritmi di apprendimento automatico [@chivers2024everything];  
-- nelle *scienze sociali*, per stimare preferenze nascoste da comportamenti osservati.  
-
-Il teorema non elimina l’incertezza, ma fornisce un protocollo formale per gestirla, trasformando l’induzione da atto intuitivo a procedura rigorosa. In questo senso, incarna un principio di *razionalità adattiva*, dove l’ottimalità non richiede onniscienza, bensì un aggiornamento coerente delle credenze in risposta all’esperienza.
-
-
-<!-- ## Il teorema di Bayes nella psicologia: il modello Rescorla-Wagner come esempio di adattamento all'ambiente {#sec-bayes-rescorla-wagner} -->
-
-<!-- Per illustrare concretamente il ruolo del teorema di Bayes in psicologia, possiamo considerare un fenomeno molto comune nella vita quotidiana: l'apprendimento associativo. Questa capacità permette a esseri umani e altri organismi viventi di prevedere eventi futuri sulla base delle esperienze passate, adattando continuamente il proprio comportamento a un ambiente in costante mutamento. -->
-
-<!-- Un modello psicologico particolarmente influente che formalizza questo processo è il modello Rescorla-Wagner. Nato inizialmente per spiegare come gli animali apprendano ad associare segnali ambientali a specifiche conseguenze, questo modello si è rivelato utile anche per comprendere l'apprendimento umano. Esso mostra chiaramente come le persone aggiornino le proprie aspettative ogni volta che si trovano davanti a nuove informazioni o situazioni inattese, evidenziando un processo continuo di adattamento alle condizioni mutevoli dell'ambiente circostante. -->
-
-<!-- ### Il modello Rescorla-Wagner e l'adattamento all’ambiente   -->
-
-<!-- Secondo il modello Rescorla-Wagner, quando ci troviamo di fronte a situazioni nuove o imprevedibili, sviluppiamo aspettative su ciò che potrebbe accadere. Se queste aspettative vengono disattese (ad esempio, ricevendo una ricompensa diversa da quella prevista), sperimentiamo quello che il modello definisce "errore di previsione". Questo errore, fondamentale per l’apprendimento, funge da meccanismo chiave per aggiornare rapidamente la nostra comprensione della realtà.   -->
-
-<!-- Facciamo un esempio: immaginiamo un agente che, in un contesto in cui premere un pulsante genera solitamente una ricompensa (una moneta, una caramella, ecc.), si trovi improvvisamente a non riceverla più. L’errore di previsione generato da questa discrepanza modifica le aspettative dell’agente. Di conseguenza, nelle occasioni successive, le sue previsioni si adatteranno alla nuova realtà, riducendo la probabilità attesa della ricompensa.   -->
-
-<!-- Il principale vantaggio del modello Rescorla-Wagner risiede nella sua essenzialità: basandosi su pochi principi fondamentali, riesce a descrivere in modo efficace come gli individui regolino le proprie aspettative in risposta a cambiamenti ambientali, garantendo un adattamento rapido e dinamico.   -->
-
-<!-- ### Una prospettiva bayesiana sull'apprendimento -->
-
-<!-- Anche se il modello di Rescorla-Wagner non nasce direttamente dal teorema di Bayes, può essere interpretato facilmente come un caso speciale di aggiornamento bayesiano. Il teorema di Bayes, infatti, descrive come dovremmo modificare razionalmente le nostre credenze alla luce di nuove evidenze. In psicologia, questa "evidenza" può essere pensata come la differenza tra ciò che ci aspettavamo e ciò che realmente accade—proprio come fa il modello Rescorla-Wagner. -->
-
-<!-- Nella prospettiva bayesiana, le aspettative di una persona vengono considerate come "credenze" che vengono aggiornate costantemente sulla base delle nuove informazioni che emergono. Ogni volta che riceviamo un'informazione che contraddice le nostre aspettative iniziali, la nostra credenza viene rivista. Questo processo bayesiano permette di adattarsi in modo ottimale alle situazioni nuove o incerte, proprio come avviene con il modello Rescorla-Wagner (si veda l'esempio presentato nella @sec-bayes-coin-hypotheses). -->
-
-<!-- In sintesi, il modello Rescorla-Wagner non solo rappresenta efficacemente come avviene l'apprendimento associativo nella vita quotidiana, ma fornisce anche un esempio pratico e intuitivo del ruolo del teorema di Bayes in psicologia: aiuta a capire come la nostra mente sia continuamente impegnata ad adattarsi razionalmente e rapidamente ai cambiamenti di un ambiente imprevedibile. -->
-
-### Una rivoluzione nel pensiero probabilistico  
-
-Per comprendere appieno il teorema di Bayes, è necessario delineare le sue origini storiche. Nel XVIII secolo, *Thomas Bayes* (1701-1761), ecclesiastico presbiteriano e matematico britannico, pose le basi di una rivoluzione concettuale nel campo della probabilità e della statistica. Il suo contributo teorico, passato alla storia come *teorema di Bayes*, ha plasmato in modo decisivo lo sviluppo scientifico e tecnologico dei secoli successivi, influenzando discipline che spaziano dalla medicina all’intelligenza artificiale [@chivers2024everything].  
-
-#### La figura di Thomas Bayes
-
-Bayes proveniva da una famiglia benestante e studiò teologia a Edimburgo, preparandosi al ministero religioso. Come ricorda il biografo David Bellhouse, Bayes non era un accademico nel senso moderno del termine, ma un erudito libero, interessato alla conoscenza per passione personale [@bellhouse2004].
-
-Durante la sua vita, Bayes pubblicò due testi:
-
-1. *un trattato di teologia*: *Divine Benevolence: Or, an Attempt to Prove that the Principal End of the Divine Providence and Government is the Happiness of His Creatures* (1731), una teodicea che cerca di spiegare come la legge naturale possa ottimizzare il benessere universale;  
-2. *una difesa del calcolo infinitesimale*: *An Introduction to the Doctrine of Fluxions* (1736), in risposta alle critiche di George Berkeley sugli infinitesimi e i concetti fondamentali del calcolo newtoniano [@jesseph1993berkeley].
-
-Il lavoro che segnò la svolta nella teoria della probabilità fu però pubblicato postumo, nel 1763, sulle *Philosophical Transactions of the Royal Society*: *An Essay towards Solving a Problem in the Doctrine of Chances*. Per la prima volta, si formalizzava un metodo per aggiornare le ipotesi probabilistiche alla luce di nuove evidenze, ponendo le fondamenta dell’inferenza bayesiana [@stigler1990history].
-
-#### Bayes e il ruolo culturale della scienza
-
-Come sottolinea ancora Bellhouse, nel XVIII secolo era comune, tra le élite colte, dedicarsi allo studio di discipline scientifiche per prestigio sociale. Per Bayes, la matematica era dunque una passione coltivata con spirito libero. Il suo merito straordinario fu di spingere l’interpretazione della probabilità verso una prospettiva *epistemologica* innovativa, dove la probabilità diventa espressione quantitativa della nostra ignoranza sul mondo. 
-
-In contrapposizione alla visione “classica”, che vedeva la probabilità come frequenza osservabile in eventi ripetuti, Bayes propose che essa potesse rappresentare il *grado di fiducia* di un osservatore, inevitabilmente influenzato da conoscenze pregresse e da pregiudizi individuali. In questo senso, la probabilità assume un carattere dinamico e soggettivo, configurandosi come uno *strumento di conoscenza* che si aggiorna di continuo al variare dei dati [@spiegelhalter2019art].
-
-#### Un esperimento mentale illuminante
-
-Per illustrare la sua idea, Bayes propose un semplice esempio: immagina di lanciare alcune palline su un tavolo da biliardo. Dopo aver segnato con una linea il punto in cui si ferma una pallina bianca (e averla poi rimossa), si lanciano altre palline rosse e si conta quante cadono a destra e quante a sinistra di quella linea. Sulla base di queste osservazioni, come si può “indovinare” la posizione della linea? E con quale probabilità la prossima pallina rossa cadrà a sinistra di essa?
-
-La soluzione di Bayes combina i *dati osservati* (numero di palline cadute a sinistra o a destra) con le *convinzioni iniziali* dell’osservatore (il cosiddetto “prior”), delineando un processo di apprendimento graduale che guida la revisione critica delle ipotesi.
-
-#### Il ruolo di Richard Price
-
-Dopo la morte di Bayes, fu un altro ecclesiastico, *Richard Price (1723-1791)*, a dare impulso alla diffusione del saggio bayesiano. Price aveva un’ottima reputazione negli ambienti intellettuali dell’epoca, grazie anche alle sue relazioni con figure di spicco come *Benjamin Franklin*, *Thomas Jefferson* e *John Adams*.
-
-Price prese in carico il manoscritto di Bayes, lo sottopose al fisico *John Canton* e ne curò la pubblicazione postuma, operando modifiche significative. Rispetto alla versione originale di Bayes, concentrata quasi esclusivamente sugli aspetti teorici, Price aggiunse una parte dedicata alle applicazioni pratiche, rendendo il testo più fruibile a un pubblico più ampio. Per questo motivo, lo storico Stephen Stigler lo definisce «il primo bayesiano della storia».
-
-#### Dal silenzio alla riscoperta
-
-Per oltre cinquant’anni, il lavoro di Bayes rimase in ombra, oscurato dall’opera pionieristica di *Pierre-Simon Laplace*. Già nel 1774, Laplace pervenne indipendentemente a principi analoghi, e successivamente li sistematizzò nella monumentale *Théorie analytique des probabilités* (1812). Solo in tempi più recenti, con l’avvento dei metodi di calcolo moderno e dell’informatica, la statura del teorema di Bayes è emersa in tutta la sua importanza.
-
-Oggi, il teorema di Bayes è considerato un cardine della statistica moderna: formalizza il modo in cui aggiorniamo le nostre credenze alla luce di nuovi dati. Questo schema è cruciale in ogni disciplina scientifica e tecnologica che debba fare i conti con incertezza e dati incompleti. Dalla genomica all’econometria, dalla fisica delle particelle alle scienze cognitive, il paradigma bayesiano risulta prezioso per gestire e interpretare informazioni in continuo aggiornamento.
-
-#### L’eredità di Bayes nell’era digitale
-
-Nell’intelligenza artificiale, le idee bayesiane sono alla base di sistemi di apprendimento automatico e modelli probabilistici complessi. Strumenti come i moderni modelli linguistici (ad esempio ChatGPT e Claude) sfruttano strategie di inferenza bayesiana – anche se in forme estremamente avanzate – per generare risposte, fare previsioni e adattarsi costantemente agli input degli utenti.
-
-La parabola storica di questo teorema, nato dalle speculazioni di un pastore presbiteriano del Settecento, mostra chiaramente il potenziale trasformativo delle idee matematiche. Come sottolinea Tom Chivers nel suo *Everything Is Predictable: How Bayesian Statistics Explain Our World*, la statistica bayesiana è diventata una sorta di *“grammatica universale”* per interpretare la realtà, permettendoci di affrontare con metodo situazioni complesse, modellare l’incertezza e formulare previsioni in contesti dove l’informazione è inevitabilmente limitata [@chivers2024everything].
-
-In sintesi, la forza del teorema di Bayes non risiede soltanto nella sua eleganza formale, ma soprattutto nella sua *portata epistemologica*: esso traduce in termini matematici la nostra naturale tendenza ad apprendere da ciò che osserviamo e a rivedere continuamente ciò che crediamo. Per questo rimane, ancora oggi, un punto di riferimento fondamentale in qualunque disciplina che affronti il problema della conoscenza in condizioni di incertezza.
-
-## La regola di Bayes e l'inferenza probabilistica
-
-L'inferenza bayesiana utilizza un principio centrale della teoria delle probabilità noto come *regola di Bayes*. Questo principio consente di aggiornare in modo razionale le nostre credenze sulla base di nuovi dati osservati, integrandoli con conoscenze pregresse.
-
-### Derivazione della regola di Bayes
-
-Consideriamo due eventi $A$ e $B$. La probabilità congiunta $P(A \cap B)$, ovvero la probabilità che entrambi gli eventi si verifichino, può essere espressa in due modi equivalenti:
-
-1. Applicando la *regola della catena* (o teorema del prodotto):
-   $$
-   P(A \cap B) = P(A \mid B) \cdot P(B).
-   $$
-   In questa formulazione, $P(A \mid B)$ rappresenta la probabilità di $A$ condizionata al verificarsi di $B$, mentre $P(B)$ è la probabilità marginale di $B$.
-
-2. Sfruttando la *simmetria* della probabilità congiunta:
-   $$
-   P(A \cap B) = P(B \mid A) \cdot P(A).
-   $$
-   Qui, $P(B \mid A)$ è la probabilità di $B$ dato $A$, e $P(A)$ è la probabilità marginale di $A$.
-
-Uguagliando le due espressioni:
-$$
-P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A).
-$$
-
-Isolando $P(B \mid A)$ si ottiene la *regola di Bayes*:
-$$
-P(B \mid A) = \frac{P(A \mid B) \cdot P(B)}{P(A)}. 
-$$ {#eq-bayes-def1}
-Questa relazione fondamentale permette di "invertire" le probabilità condizionate, aggiornando la credenza nell'evento $B$ dopo aver osservato $A$.
-
-### Interpretazione dei termini della regola di Bayes
-
-La regola di Bayes fornisce un framework formale per aggiornare la credenza in un'ipotesi $B$ dopo l'osservazione di un'evidenza $A$. I suoi componenti chiave sono:
-
-- *$P(B)$ (probabilità a priori)*: rappresenta la probabilità iniziale assegnata all'ipotesi $B$ prima di considerare l'evidenza $A$. Riflette la conoscenza pregressa o le aspettative basate sul contesto.
-
-- *$P(A \mid B)$ (verosimiglianza)*: esprime la probabilità di osservare l'evidenza $A$ nell'ipotesi che $B$ sia vero. Quantifica la compatibilità tra l'evidenza e l'ipotesi.
-
-- *$P(B \mid A)$ (probabilità a posteriori)*: corrisponde alla probabilità rivista dell'ipotesi $B$ dopo aver considerato l'evidenza $A$. Rappresenta l'aggiornamento bayesiano delle credenze.
-
-- *$P(A)$ (probabilità marginale dell'evidenza)*: agisce come fattore di normalizzazione, calcolato integrando o sommando su tutte le possibili ipotesi che potrebbero generare $A$. Garantisce che la probabilità a posteriori sia coerente e normalizzata.
-
-In sintesi, la regola di Bayes trasforma una probabilità a priori in una probabilità a posteriori, ponderando la verosimiglianza dell'evidenza osservata e normalizzando per l'evidenza complessiva.
-
-### Applicazioni della regola di Bayes
-
-Nella pratica, l'aggiornamento bayesiano si articola attraverso i seguenti passi fondamentali:
-
-1.  *Definizione dello spazio delle ipotesi*: Si identifica l'insieme $\mathcal{H}$ di tutte le ipotesi, modelli o spiegazioni plausibili che potrebbero aver generato i dati osservati $D$. Questo spazio può essere *discreto* (es.: un insieme finito di modelli) o *continuo* (es.: un intervallo di valori per un parametro).
-2.  *Specificazione dei priori*: Ad ogni ipotesi $H \in \mathcal{H}$ viene assegnata una *probabilità a priori* $P(H)$. Questa quantifica il nostro grado di fiducia in $H$ *prima* di osservare i dati $D$, basandosi su conoscenza pregressa, letteratura scientifica o esperienza soggettiva.
-3.  *Aggiornamento bayesiano*: Osservati i dati $D$, le probabilità a priori vengono aggiornate calcolando le probabilità *a posteriori* $P(H \mid D)$ utilizzando il teorema di Bayes:
-
-    $$
-    P(H \mid D) = \frac{P(D \mid H) \, P(H)}{P(D)}
-    $$ {#eq-bayes-def2}
-    dove:
-    -   $P(D \mid H)$ è la *funzione di verosimiglianza* (likelihood). Essa rappresenta la probabilità (o densità di probabilità) di osservare i dati $D$ *sotto l'ipotesi* $H$.
-    -   $P(H)$ è la probabilità a priori, come definita sopra.
-    -   $P(D)$ è la *probabilità marginale dei dati* o *evidenza*. Questo termine funziona da costante di normalizzazione, assicurando che le probabilità a posteriori sommino (o integrino) a 1.
-
-4.  *Calcolo dell'evidenza ($P(D)$)*: La probabilità marginale viene calcolata considerando *tutte* le possibili ipotesi nello spazio $\mathcal{H}$:
-    -   *Caso discreto* (somma su tutte le ipotesi):
-        $$
-        P(D) = \sum_{H' \in \mathcal{H}} P(D \mid H')\, P(H')
-        $$
-    -   *Caso continuo* (integrale su tutto lo spazio delle ipotesi):
-        $$
-        P(D) = \int_{\mathcal{H}} P(D \mid H')\, P(H') \, dH'
-        $$
-
-Il risultato di questo processo è la *distribuzione a posteriori* $P(H \mid D)$, che sintetizza in modo probabilistico tutto ciò che sappiamo su tutte le ipotesi considerate, *dopo* aver tenuto conto sia della nostra conoscenza iniziale (il priori) che delle nuove osservazioni (la verosimiglianza).
-
-#### Un processo iterativo e dinamico
-
-È cruciale sottolineare che l'inferenza bayesiana non è un procedimento statico che conduce a una verità finale. Al contrario, è un *ciclo iterativo e perpetuo di apprendimento*. La distribuzione a posteriori ottenuta ($P(H \mid D)$) diventa, a sua volta, la nuova distribuzione a priori per il successivo round di inferenza non appena diventano disponibili nuovi dati ($D'$):
+Per eventi $A$ e $B$ con $P(B) > 0$:
 
 $$
-P(H \mid D, D') = \frac{P(D' \mid H, D) \, P(H \mid D)}{P(D' \mid D)}
+P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}.
+$$ {#eq-bayes-basic}
+
+Ogni termine in questa espressione assume un preciso significato epistemico:
+
+- **la distribuzione a priori** ($P(A)$): rappresenta il grado di credenza iniziale nell'ipotesi $A$ prima di osservare l'evidenza $B$;
+- **la funzione di verosimiglianza** ($P(B \mid A)$): quantifica quanto sia probabile osservare l'evidenza $B$ nell'ipotesi che $A$ sia vera;
+- **l'evidenza marginale** ($P(B)$): costituisce la probabilità complessiva di osservare $B$ indipendentemente dallo stato di $A$, agendo come costante di normalizzazione;
+- **la distribuzione a posteriori** ($P(A \mid B)$): esprime la credenza rivista nell'ipotesi $A$ dopo aver osservato l'evidenza $B$.
+
+Una forma spesso più intuitiva nelle applicazioni pratiche è la **versione proporzionale**:
 $$
-Questo processo di aggiornamento sequenziale riflette l'essenza stessa del metodo scientifico: le nostre credenze si evolvono e si affinano in modo dinamico, diventando sempre più informate man mano che accumuliamo evidenze. Non si giunge mai a un "punto di arrivo" assoluto, ma a uno stato di conoscenza sempre provvisorio e migliorabile, pronto a essere aggiornato dalla prossima osservazione.
-
-::: {.callout-note collapse="true" title="Esempio"}
-
-Immagina di avere ricevuto un messaggio anonimo sul tuo cellulare con scritto solo "Ci vediamo stasera!". Vuoi capire chi può essere stato a mandartelo. In questo esempio, il tuo "spazio delle ipotesi" sarà rappresentato da tre persone possibili: Alice, Bruno e Carla.
-
-Quindi, hai un insieme di ipotesi molto semplice:
-
-$$
-\mathcal{H} = \{\text{Alice},\, \text{Bruno},\, \text{Carla}\} .
-$$
-
-*1. Probabilità a priori (prima di guardare i dati).*
-
-Supponi che ciascuna persona abbia una probabilità diversa di scriverti:
-
-| Ipotesi | $P(H)$ |
-|---------|----------|
-| Alice   | 0.5      |
-| Bruno   | 0.3      |
-| Carla   | 0.2      |
-
-Queste sono le tue probabilità *a priori*, basate sulla tua esperienza o conoscenza passata (ad esempio, Alice tende a scriverti spesso, Carla raramente).
-
-*2. Come le ipotesi generano i dati (informazioni aggiuntive).*
-
-Ora raccogli alcune informazioni utili (i tuoi dati $D$): 
-
-- Il messaggio dice "Ci vediamo stasera!". 
-
-Rifletti sul fatto che ciascuna delle tre persone usa questa frase con frequenze diverse (sai, ad esempio, che Alice usa spesso frasi brevi come questa, mentre Bruno e Carla la usano meno spesso, ovvero tendono a scrivere messaggi più lunghi):
-
-| Ipotesi | Probabilità di inviare questa specifica frase ($P(D \mid H)$) |
-|---------|-------------------------------------------------------|
-| Alice   | 0.7                                                   |
-| Bruno   | 0.4                                                   |
-| Carla   | 0.1                                                   |
-
-Queste probabilità rappresentano il *"meccanismo generatore dei dati"*, ovvero come ciascuna persona (ipotesi) potrebbe generare proprio il messaggio che hai ricevuto.
-
-*3. Aggiornamento delle probabilità a posteriori (dopo aver osservato il messaggio).*
-
-Ora applichiamo la formula di Bayes per aggiornare la nostra fiducia iniziale:
-
-$$
-P(H \mid D) = \frac{P(D \mid H) \, P(H)}{P(D)} .
+P(A \mid B) \propto P(B \mid A) \cdot P(A).
 $$
 
-Prima calcoliamo la probabilità totale di ricevere quello specifico messaggio, indipendentemente da chi l'ha inviato. Usiamo il teorema della probabilità totale:
-
-$$
-P(D) = P(D\mid\text{Alice})P(\text{Alice}) + P(D\mid\text{Bruno})P(\text{Bruno}) + P(D\mid\text{Carla})P(\text{Carla}) .
-$$
-
-Cioè:
-
-$$
-P(D) = (0.7 \times 0.5) + (0.4 \times 0.3) + (0.1 \times 0.2) 
-= 0.35 + 0.12 + 0.02 
-= 0.49 .
-$$
-
-Ora aggiorniamo ciascuna ipotesi:
-
-- *Alice:*
-
-$$
-P(\text{Alice}\mid D) = \frac{0.7\times0.5}{0.49} = \frac{0.35}{0.49} \approx 0.714 .
-$$
-
-- *Bruno:*
-
-$$
-P(\text{Bruno}\mid D) = \frac{0.4\times0.3}{0.49} = \frac{0.12}{0.49} \approx 0.245 .
-$$
-
-- *Carla:*
-
-$$
-P(\text{Carla}\mid D) = \frac{0.1\times0.2}{0.49} = \frac{0.02}{0.49} \approx 0.041 .
-$$
-
-*4. Interpretazione finale (intuizione bayesiana).*
-
-Dopo aver osservato il messaggio ("dati"), la tua fiducia si è aggiornata  rispetto alle probabilità iniziali:
-
-| Ipotesi | Probabilità a priori | Probabilità a posteriori |
-|---------|----------------------|--------------------------|
-| Alice   | 0.5                  | *0.714*                |
-| Bruno   | 0.3                  | *0.245*                |
-| Carla   | 0.2                  | *0.041*                |
-
-Ora credi molto più fortemente che sia stata Alice a scriverti.
-
-In sintesi, in questo esempio semplice, lo *spazio delle ipotesi* era costituito da tre persone possibili. Ciascuna ipotesi poteva "generare" (cioè produrre o inviare) lo specifico messaggio che hai ricevuto con una diversa probabilità ("meccanismo generatore dei dati"). Prima dei dati avevi delle credenze su chi poteva averti scritto ("probabilità a priori"), poi lo specifico messaggio osservato ("i dati") ha modificato le tue convinzioni ("probabilità a posteriori"), secondo la logica della Regola di Bayes.
-
-Questo esempio chiarisce intuitivamente il significato di:
-
-- *spazio delle ipotesi* (le possibili spiegazioni);
-- *meccanismo generatore dei dati* (la probabilità con cui ciascuna ipotesi produce il dato osservato);
-- *aggiornamento bayesiano* (come cambia la fiducia nelle ipotesi dopo aver visto i dati).
+Questa ci ricorda che la distribuzione a posteriori è proporzionale al prodotto tra verosimiglianza e distribuzione a priori, mentre il denominatore $P(B)$ serve principalmente a garantire che la probabilità risultante rispetti l'assioma di normalizzazione.
 :::
 
-#### Considerazioni pratiche
+### Interpretazione attraverso le tabelle di probabilità congiunta
 
-Nelle applicazioni reali, il calcolo diretto della *probabilità marginale* $P(D)$ (o *evidenza*) rappresenta spesso la sfida computazionale principale. Questo termine, che nell'esempio del messaggio corrisponde alla probabilità di osservare quello specifico pattern di notifiche indipendentemente dalla sorgente, richiede di valutare *tutte* le possibili ipotesi.
+Il teorema di Bayes diventa intuitivo quando lo esaminiamo attraverso le tabelle di probabilità congiunta introdotte nei capitoli precedenti:
 
-Quando lo spazio delle ipotesi è vasto, discreto e complesso o continuo ad alta dimensionalità, il calcolo esatto dell'integrale (o della somma) diventa *proibitivo* o *analiticamente intrattabile*.
+|       | $B$  | $B^c$ | Marginali |
+|-------|------|-------|-----------|
+| $A$   | $P(A \cap B)$ | $P(A \cap B^c)$ | $P(A)$ |
+| $A^c$ | $P(A^c \cap B)$ | $P(A^c \cap B^c)$ | $P(A^c)$ |
+| **Marginali** | $P(B)$ | $P(B^c)$ | $1$ |
 
-Per superare questo ostacolo, si ricorre a sofisticati *metodi numerici approssimati*:
+In questa rappresentazione tabellare, i termini del teorema di Bayes assumono un significato  immediato:
 
-*   *Metodi Monte Carlo Markov Chain (MCMC)*: Tecniche di campionamento che permettono di stimare la distribuzione a posteriori generando un campione rappresentativo delle ipotesi, senza dover calcolare $P(D)$ direttamente.
-*   *Inferenza Variazionale (VI)*: Un approccio alternativo che trasforma il problema di integrazione in un problema di ottimizzazione, approssimando la vera distribuzione a posteriori con una famiglia di distribuzioni più semplice da calcolare.
+- la **distribuzione a priori** $P(A)$ corrisponde alla probabilità marginale della riga associata ad $A$;
+- la **funzione di verosimiglianza** $P(B \mid A) = P(A \cap B) / P(A)$ rappresenta la proporzione della riga di $A$ che cade nella colonna di $B$;
+- la **distribuzione a posteriori** $P(A \mid B) = P(A \cap B) / P(B)$ costituisce la proporzione della colonna di $B$ che appartiene alla riga di $A$.
 
-Queste tecniche permettono di applicare l'inferenza bayesiana in scenari complessi e realistici—dall'apprendimento automatico all'analisi genomica—rendendo fattibile l'aggiornamento delle credenze laddove un calcolo esatto sarebbe impossibile.
+Questa visualizzazione ci permette di interpretare il teorema di Bayes come un'operazione che **ruota la prospettiva** dalla visione per righe (verosimiglianza) alla visione per colonne (probabilità a posteriori), sfruttando la struttura simmetrica della distribuzione congiunta.
 
-In sintesi, la regola di Bayes fornisce uno *schema formale e razionale* per integrare sistematicamente il know-how pregresso (il *prior*) con l'evidenza empirica (i dati). La sua potenza risiede proprio in questa capacità di quantificare dinamicamente l'incertezza e di aggiornare coerentemente il nostro stato di conoscenza. È questa caratteristica a renderla il fondamento del ragionamento probabilistico moderno e uno strumento indispensabile in una vastissima gamma di discipline scientifiche e ingegneristiche.
+```{r}
+# Esempio numerico con tabella congiunta
+# Depressione (D) e Test positivo (T+)
 
-::: {.callout-note collapse="true" title="Esempio"}
-Immaginiamo questo scenario: sospettiamo che una moneta possa essere truccata e vogliamo verificarlo attraverso due lanci. Utilizzeremo il ragionamento bayesiano per combinare le nostre convinzioni iniziali con i dati osservati.
+P_D <- 0.15
+sens <- 0.85
+fp_rate <- 0.10
 
-*Le Due Ipotesi.*
+# Costruire la tabella 
+P_D_and_Tpos <- sens * P_D
+P_D_and_Tneg <- (1 - sens) * P_D
+P_Dc_and_Tpos <- fp_rate * (1 - P_D)
+P_Dc_and_Tneg <- (1 - fp_rate) * (1 - P_D)
 
-Supponiamo che la moneta possa essere:
+tab <- matrix(
+  c(P_D_and_Tpos, P_D_and_Tneg, P_Dc_and_Tpos, P_Dc_and_Tneg),
+  nrow = 2, byrow = TRUE,
+  dimnames = list(Stato = c("D", "D^c"), Test = c("T+", "T-"))
+)
 
-- *bilanciata* (pari probabilità di Testa e Croce: 50% ciascuna);
-- *truccata* (sbilanciata, con probabilità di Testa del 80% e Croce del 20%).
+cat("Tabella congiunta:\n")
+print(round(tab, 4))
+```
 
-Il nostro obiettivo è capire quale ipotesi sia più plausibile dopo ogni lancio.
+```{r}
+# Calcolare via Bayes
+P_B <- sum(tab[, 1])  # P(T+) = marginale colonna
+P_A_given_B <- tab[1, 1] / P_B  # P(D | T+)
+```
 
-*Fase 1: credenze iniziali (prior).*
+```{r}
+#| echo: false
+cat("\n=== TEOREMA DI BAYES DALLA TABELLA ===\n")
+cat("Prior: P(D) =", P_D, "\n")
+cat("Likelihood: P(T+ | D) =", sens, "\n")
+cat("Evidenza: P(T+) =", round(P_B, 4), "\n")
+cat("Posterior: P(D | T+) =", round(P_A_given_B, 4), "\n\n")
 
-Prima di lanciare la moneta, abbiamo una certa idea di quanto sia probabile ciascuna ipotesi:
+cat("Verifica mediante la formula:\n")
+posterior_formula <- (sens * P_D) / P_B
+cat("  (sens × P(D)) / P(T+) =", round(posterior_formula, 4), "✓\n")
+```
 
-$$ 
-P(\text{Bilanciata}) = 0.85 \quad\text{e}\quad P(\text{Truccata}) = 0.15. 
-$$
+## Interpretazione epistemica: il meccanismo di aggiornamento
 
-Queste probabilità rappresentano il *prior*, ovvero le nostre convinzioni iniziali prima di osservare qualunque risultato.
+Il teorema di Bayes formalizza il *ragionamento induttivo razionale*. Vediamo come opera.
 
-*Fase 2: primo lancio - esce Testa.*
+### I tre ingredienti
 
-Lanciamo la moneta una volta e osserviamo il risultato: esce *Testa*.
+1. **Prior $P(H)$:** rappresenta la nostra credenza iniziale nell'ipotesi $H$ prima dell'osservazione dei dati. Questa valutazione preliminare si basa su diverse fonti di informazione, come le conoscenze pregresse derivanti da studi precedenti, l'esperienza clinica consolidata, le stime di prevalenza o i tassi di base nella popolazione rilevante, o, in condizioni di massima ignoranza, l'applicazione del principio di indifferenza.
 
-Ci chiediamo: "Quanto è probabile osservare Testa se ciascuna delle due ipotesi fosse vera?"
+2. **Likelihood $P(E \mid H)$:** quantifica quanto l'evidenza osservata $E$ sia compatibile con l'ipotesi $H$. È cruciale distinguere questa quantità da $P(H \mid E)$, confusione frequente nota come "fallacia della probabilità inversa". La funzione di verosimiglianza rappresenta la capacità predittiva dell'ipotesi e, nei contesti diagnostici, corrisponde ai concetti di sensibilità e specificità dei test.
 
-- Se la moneta è bilanciata, la probabilità di osservare Testa è 0.5 (50%).
-- Se la moneta è truccata, la probabilità di osservare Testa è 0.8 (80%).
+3. **Posterior $P(H \mid E)$:** esprime la credenza rivista nell'ipotesi $H$ dopo l'osservazione dell'evidenza $E$. Questa quantità integra coerentemente la distribuzione a priori con la funzione di verosimiglianza tramite il meccanismo bayesiano. Essa fornisce la risposta formalmente corretta alla domanda inferenziale di interesse pratico e, nei processi sequenziali di apprendimento, funge da nuova distribuzione a priori per gli aggiornamenti successivi basati su nuove evidenze.
 
-Queste due probabilità rappresentano la *verosimiglianza*:
+### Formulazione con partizione dello spazio delle ipotesi
 
-$$ 
-P(\text{Testa} \mid \text{Bilanciata}) = 0.5 \quad\text{e}\quad P(\text{Testa} \mid \text{Truccata}) = 0.8. 
-$$
-
-*Evidenza: Probabilità Complessiva dell'Evento Osservato.*
-
-Vogliamo ora sapere quanto sia probabile osservare Testa in generale, considerando entrambe le ipotesi possibili. Per calcolarlo, usiamo la *probabilità totale*, che tiene conto di tutte le possibili ipotesi:
-
-$$ 
-P(\text{Testa}) = P(\text{Testa} \mid \text{Bilanciata}) \times P(\text{Bilanciata}) + P(\text{Testa} \mid \text{Truccata}) \times P(\text{Truccata}). 
-$$
-
-Sostituiamo i valori numerici:
-
-$$
-P(\text{Testa}) = (0.5 \times 0.85) + (0.8 \times 0.15) = 0.425 + 0.12 = 0.545.
-$$
-
-Questa è la *probabilità marginale* o *evidenza* del risultato osservato.
-
-*Posterior: Aggiornamento delle Credenze dopo l'Evidenza.*
-
-Ora possiamo usare il Teorema di Bayes per aggiornare le nostre credenze iniziali alla luce dell'evento osservato (Testa):
-
-$$
-\begin{aligned}
-P(\text{Bilanciata} \mid \text{Testa}) &= \frac{P(\text{Testa} \mid \text{Bilanciata}) \times P(\text{Bilanciata})}{P(\text{Testa})}\notag\\ 
-&= \frac{0.5 \times 0.85}{0.545} \notag\\
-&= 0.7798 \quad (77.98\%).
-\end{aligned} \notag
-$$
+Nelle applicazioni pratiche, la probabilità marginale dell'evidenza $P(E)$ risulta spesso non direttamente disponibile. Tuttavia, è possibile calcolarla ricorrendo alla *legge della probabilità totale* (discussa nel Capitolo 4), che consente di scomporre $P(E)$ rispetto a una partizione dello spazio delle ipotesi:
 
 $$
-\begin{aligned}
-P(\text{Truccata} \mid \text{Testa}) &= \frac{P(\text{Testa} \mid \text{Truccata}) \times P(\text{Truccata})}{P(\text{Testa})} \notag\\ 
-&= \frac{0.8 \times 0.15}{0.545} \notag\\ 
-&= 0.2202 \quad (22.02\%). \notag
-\end{aligned}
-$$
+P(E) = P(E \mid H) P(H) + P(E \mid H^c) P(H^c).
+$$ {#eq-evidence-partition}
 
-*Interpretazione Intuitiva.*
-
-Prima del lancio, eravamo abbastanza sicuri (85%) che la moneta fosse bilanciata. Dopo aver osservato un singolo lancio che mostra Testa, questa certezza diminuisce (passa a circa 77.98%), mentre la probabilità che la moneta sia truccata aumenta (passa da 15% a circa 22.02%).
-
-Questo esempio mostra come il *prior*, la *verosimiglianza* e l'*evidenza* si combinino nel ragionamento bayesiano per produrre un aggiornamento razionale e coerente delle credenze.
-
-*Fase 3: secondo Lancio - esce Testa.*
-
-Supponiamo ora di lanciare la moneta una seconda volta, osservando ancora *Testa*. Usiamo le nuove probabilità ottenute (posterior) come prior aggiornati:
+Sostituendo questa espressione nel teorema di Bayes si ottiene la formulazione estesa:
 
 $$
-P(\text{Bilanciata}) = 0.7798 \quad\text{e}\quad P(\text{Truccata}) = 0.2202.
-$$
+P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E \mid H) P(H) + P(E \mid H^c) P(H^c)}.
+$$ {#eq-bayes-expanded}
 
-Calcoliamo nuovamente l'evidenza:
+Questa rappresentazione è particolarmente utile nei contesti diagnostici e decisionali, in cui le probabilità condizionate $P(E \mid H)$ e $P(E \mid H^c)$—corrispondenti rispettivamente alla sensibilità e al tasso di falsi positivi—sono solitamente note grazie alla validazione degli strumenti di misurazione.
 
-$$
-P(\text{Testa}) = (0.5 \times 0.7798) + (0.8 \times 0.2202) = 0.3899 + 0.1762 = 0.5661.
-$$
+::: {.callout-important title="Interpretazione della probabilità dell'evidenza"}
 
-Aggiorniamo quindi le credenze con il teorema di Bayes:
+#### Il ruolo epistemico di $P(E)$ {.unnumbered .unlisted}
 
-$$
-P(\text{Bilanciata} \mid \text{Testa}) = \frac{0.5 \times 0.7798}{0.5661} = 0.6887 \quad (68.87\%).
-$$
+La quantità $P(E)$ rappresenta la *probabilità marginale* di osservare l'evidenza $E$, ottenuta mediante la media di tutte le possibili ipotesi alternative. Questa misura quantifica "quanto l'evidenza $E$ sia sorprendente o attesa nel contesto generale della nostra conoscenza".
 
-$$
-P(\text{Truccata} \mid \text{Testa}) = \frac{0.8 \times 0.2202}{0.5661} = 0.3113 \quad (31.13\%).
-$$
+- Quando $P(E \mid H^c)$ è elevato, l'evidenza $E$ perde capacità di discriminare tra $H$ e la sua alternativa.
+- Quando l'evidenza $E$ risulta probabile esclusivamente o prevalentemente nell'ipotesi che $H$ sia vera (valore ridotto di $P(E \mid H^c)$), l'evidenza $E$ fornisce un forte supporto all'ipotesi $H$.
 
-*Interpretazione del Secondo Aggiornamento.*
-
-Dopo il secondo lancio che mostra ancora Testa, la probabilità che la moneta sia bilanciata scende ulteriormente da 0.7798 a 0.6887, mentre la probabilità che la moneta sia truccata sale a 0.3113. Questo esempio mostra come l'*aggiornamento bayesiano* consenta di modificare progressivamente le nostre credenze, adattandole coerentemente a ogni nuova evidenza osservata.
+La distribuzione a posteriori aumenta rispetto a quella a priori solo quando il *rapporto di verosimiglianza* $P(E \mid H) / P(E \mid H^c)$ supera il valore 1, indicando che l'evidenza osservata è più compatibile con l'ipotesi $H$ che con la sua alternativa.
 :::
 
-### Applicazioni in psicologia
+## Probabilità inversa: il cuore dell'inferenza bayesiana
 
-Negli ultimi anni, i *modelli bayesiani* hanno acquisito un ruolo centrale nello studio della cognizione umana, fornendo una struttura formale per comprendere come il cervello costruisca rappresentazioni del mondo e prenda decisioni sulla base di dati incerti. Come discusso da @griffiths2024bayesian, questi modelli sono stati applicati a una vasta gamma di processi cognitivi, tra cui:
+Il teorema di Bayes fornisce la soluzione al *problema fondamentale dell'inferenza scientifica e clinica*: l'inversione della direzione del condizionamento probabilistico.
 
-- *Apprendimento e generalizzazione*: i modelli bayesiani descrivono come gli individui apprendano nuove categorie e concetti sulla base di dati limitati e rumorosi (Tenenbaum, Griffiths, & Kemp, 2006).
-- *Percezione e interpretazione sensoriale*: la percezione visiva e il riconoscimento di oggetti possono essere spiegati come un'inferenza bayesiana sulla base di segnali sensoriali ambigui [@yuille2006vision; @domini20033].
-- *Controllo motorio*: il sistema motorio umano sembra ottimizzare i movimenti attraverso una combinazione di modelli interni e aggiornamenti bayesiani (Kording & Wolpert, 2006).
-- *Memoria e recupero delle informazioni*: i processi mnemonici, come il richiamo della memoria semantica, possono essere modellati come inferenze bayesiane basate su conoscenze pregresse (Steyvers, Griffiths, & Dennis, 2006).
-- *Acquisizione del linguaggio*: l'apprendimento del linguaggio nei bambini può essere descritto attraverso processi probabilistici che permettono di inferire le strutture grammaticali sulla base di dati linguistici limitati (Chater & Manning, 2006; Xu & Tenenbaum, in press).
-- *Apprendimento causale*: la capacità di inferire relazioni causali dagli eventi osservati è coerente con un modello bayesiano, in cui la mente valuta la probabilità di una relazione causale sulla base dell'evidenza disponibile (Griffiths & Tenenbaum, 2005, 2007).
-- *Ragionamento e decisione*: il ragionamento simbolico e il processo decisionale possono essere formalizzati come un aggiornamento bayesiano delle credenze sulla base di nuove informazioni (Oaksford & Chater, 2001).
-- *Cognizione sociale*: le inferenze sulle intenzioni e credenze altrui possono essere modellate attraverso processi bayesiani, permettendo di spiegare come le persone comprendano il comportamento altrui (Baker, Tenenbaum, & Saxe, 2007).
+### La sfida inferenziale
 
-#### L’inferenza bayesiana nella cognizione umana
+Nella ricerca scientifica e nella pratica clinica, le informazioni disponibili riguardano tipicamente:
 
-Un tema centrale che emerge da questi programmi di ricerca è la seguente domanda: *come fa la mente umana ad andare oltre i dati dell'esperienza?* In altre parole, come riesce il cervello a costruire modelli complessi del mondo a partire da informazioni limitate e spesso ambigue?
+- $P(\text{Dati} \mid \text{Ipotesi})$ — la probabilità di osservare determinati dati nell'ipotesi che una teoria sia vera.
 
-L’approccio bayesiano propone che il cervello utilizzi un processo di *inferenza probabilistica* per aggiornare continuamente le proprie credenze, combinando informazioni pregresse con nuove osservazioni per affinare le proprie rappresentazioni mentali. Questo meccanismo consente di spiegare molte delle capacità cognitive umane, dall’apprendimento rapido di nuove categorie alla capacità di adattarsi a un ambiente mutevole, fino alla formulazione di inferenze sociali e alla presa di decisioni in condizioni di incertezza.
+Tuttavia, la domanda di reale interesse è:
 
-L’adozione dei modelli bayesiani nella psicologia cognitiva ha portato a una nuova comprensione della mente come *sistema predittivo*, in grado di formulare ipotesi probabilistiche sugli eventi futuri e di correggerle dinamicamente sulla base dell’esperienza. Questo approccio ha profonde implicazioni per lo studio del comportamento umano e per lo sviluppo di nuove tecniche di modellizzazione nei campi della psicologia, delle neuroscienze e dell’intelligenza artificiale.
+- $P(\text{Ipotesi} \mid \text{Dati})$ — il grado di credibilità dell'ipotesi alla luce dei dati effettivamente osservati.
 
-## Test medici
+**La confusione tra queste due quantità probabilistiche costituisce un errore inferenziale grave e purtroppo diffuso**.
 
-Uno degli esempi più comuni per comprendere il teorema di Bayes riguarda i test diagnostici.
+::: {.callout-warning title="Errori inferenziali comuni"}
+#### Confusione tra $P(E \mid H)$ e $P(H \mid E)$ {.unnumbered .unlisted}
 
-::: {.callout-note collapse="true" title="Esempio"}
-Consideriamo un test di mammografia utilizzato per diagnosticare il cancro al seno che abbiamo già discusso nel @sec-prob-conditional-prob. Definiamo le seguenti ipotesi:
+**Errore nella diagnostica clinica**:
 
-- *$M^+$*: la persona ha il cancro al seno;
-- *$M^-$*: la persona non ha il cancro al seno.
+> "Questo test ha una sensibilità del 95%, quindi se il risultato è positivo c'è il 95% di probabilità che il paziente abbia la malattia."
 
-L'evidenza è il risultato positivo del test, indicato con $T^+$. Il nostro obiettivo è calcolare la probabilità che una persona abbia il cancro al seno, dato un risultato positivo al test, ovvero $P(M^+ \mid T^+)$.
+Questa affermazione è erronea! La sensibilità rappresenta $P(T^+ \mid M)$, non $P(M \mid T^+)$. La probabilità corretta di malattia dato un test positivo dipende criticamente dalla prevalenza della condizione nella popolazione.
 
-*Definizione dei termini nella regola di Bayes.*  
-Il teorema di Bayes afferma che:
+**Errore nel contesto giuridico** (fallacia del procuratore):
 
-$$
-P(M^+ \mid T^+) = \frac{P(T^+ \mid M^+) P(M^+)}{P(T^+)} ,
-$$
+> "La probabilità che un individuo innocente possieda questo profilo DNA è di 1 su 1 milione, quindi la probabilità che l'imputato sia innocente è di 1 su 1 milione."
 
-dove:
+Questa inferenza è logicamente invalida! Confonde $P(\text{DNA} \mid \text{Innocente})$ con $P(\text{Innocente} \mid \text{DNA})$. La probabilità di innocenza dato il profilo DNA dipende dalla frequenza base del profilo nella popolazione e da altre evidenze.
 
-- *$P(T^+ \mid M^+)$* è la *sensibilità* del test, cioè la probabilità che il test risulti positivo se la persona ha effettivamente il cancro. Nel nostro caso, $P(T^+ \mid M^+) = 0.90$.
-- *$P(M^+)$* è la *probabilità a priori* di avere il cancro al seno, ovvero la prevalenza della malattia nella popolazione. Supponiamo che sia $P(M^+) = 0.01$ (1%).
-- *$P(T^+ \mid M^-)$* è la *probabilità di un falso positivo*, cioè la probabilità che il test risulti positivo anche in assenza di malattia. Questa è complementare alla specificità del test:
-
- $$
-  P(T^+ \mid M^-) = 1 - \text{Specificità} = 1 - 0.90 = 0.10.
- $$
-
-- *$P(M^-)$* è la probabilità a priori che una persona non abbia il cancro, ovvero:
-
- $$
-  P(M^-) = 1 - P(M^+) = 1 - 0.01 = 0.99.
- $$
-
-- *$P(T^+)$* è la probabilità marginale che il test risulti positivo, calcolata considerando entrambe le possibilità (cioè che la persona abbia o non abbia il cancro):
-
- $$
-  P(T^+) = P(T^+ \mid M^+) P(M^+) + P(T^+ \mid M^-) P(M^-).
- $$
-
-  Sostituendo i valori numerici:
-
- $$
-  P(T^+) = (0.90 \cdot 0.01) + (0.10 \cdot 0.99) = 0.009 + 0.099 = 0.108.
- $$
-
-*Applicazione della Regola di Bayes.*  
-Ora possiamo calcolare la probabilità a posteriori $P(M^+ \mid T^+)$:
-
-$$
-P(M^+ \mid T^+) = \frac{0.90 \cdot 0.01}{0.108} = \frac{0.009}{0.108} = 0.0833.
-$$
-
-*Interpretazione del Risultato.*  
-Questo risultato indica che, nonostante il test abbia una sensibilità e una specificità del 90%, la probabilità che una persona con un test positivo abbia effettivamente il cancro è solo dell’*8.3%*. Questo effetto è dovuto alla bassa prevalenza della malattia: anche se il test è relativamente accurato, il numero di falsi positivi è ancora alto rispetto ai veri positivi. Tale risultato conferma quanto precedentemente ottenuto nel @sec-prob-conditional-prob, attraverso un metodo di calcolo alternativo.
-
-Questa formulazione mostra come la regola di Bayes permetta di aggiornare la probabilità di avere la malattia dopo aver osservato il risultato del test, combinando la sensibilità, la specificità e la prevalenza della malattia nella popolazione.
+Il teorema di Bayes rappresenta l'*unico approccio formalmente corretto* per effettuare questa inversione probabilistica in modo logicamente coerente.
 :::
 
-In un secondo esempio, vogliamo valutare l’affidabilità di un test per l’HIV e capire come la nostra stima di infezione *cambia dopo due test consecutivi positivi*. Utilizzeremo la *regola di Bayes* per aggiornare la probabilità di avere l’HIV man mano che otteniamo nuovi risultati.
+### Esempio: inferenza su moneta potenzialmente sbilanciata
 
-::: {.callout-note collapse="true" title="Esempio"} 
+::: {.callout-note collapse="true" title="Inferenza bayesiana su parametro ignoto"}
+#### Moneta sospetta {.unnumbered .unlisted}
 
-Immaginiamo che una persona esegua due volte un test per l’HIV.
+**Scenario sperimentale**: Si eseguono 10 lanci di una moneta ottenendo 8 risultati "testa". La questione inferenziale riguarda la natura della moneta: è equa ($\theta = 0.5$) oppure presenta uno sbilanciamento a favore di testa ($\theta = 0.7$)?
 
-*Notazione e dati iniziali.*
+**Approccio frequentista** (con limitazioni evidenti):
+- Calcola $P(\text{8 teste} \mid \theta = 0.5) = \binom{10}{8} (0.5)^{10} \approx 0.044$
+- Conclude: "L'ipotesi di equità è statisticamente significativa al livello 0.05"
+- Tuttavia, questo approccio non fornisce informazioni su **quanto credere** nell'ipotesi alternativa di sbilanciamento
 
-Indichiamo con:
+**Approccio bayesiano** (inferenza completa):
 
-- $M^+$: la persona ha l’HIV;
-- $M^-$: la persona non ha l’HIV;
-- $T^+$: il test è positivo;
-- $T^-$: il test è negativo.
+```{r}
+# Specificazione dei dati sperimentali
+n <- 10
+k <- 8
 
-Abbiamo inoltre i seguenti dati:
+# Definizione delle ipotesi in esame
+theta_fair <- 0.5
+theta_biased <- 0.7
 
-- *Prevalenza* (probabilità a priori di avere l’HIV):  
-$$
-P(M^+) = 0.003 \quad (0.3\%).
-$$
+# Distribuzione a priori (assumiamo equiprobabilità iniziale tra le ipotesi)
+prior_fair <- 0.5
+prior_biased <- 0.5
 
-- *Sensibilità* del test (probabilità che il test sia positivo se la persona è malata):  
-$$
-P(T^+ \mid M^+) = 0.95.
-$$
+# Calcolo delle funzioni di verosimiglianza
+lik_fair <- dbinom(k, n, theta_fair)
+lik_biased <- dbinom(k, n, theta_biased)
 
-- *Specificità* del test (probabilità che il test sia negativo se la persona è sana):  
-$$
-P(T^- \mid M^-) = 0.9928 \quad \Longrightarrow \quad P(T^+ \mid M^-) = 0.0072.
-$$
+# Aggiornamento bayesiano
+evidence <- lik_fair * prior_fair + lik_biased * prior_biased
+post_fair <- (lik_fair * prior_fair) / evidence
+post_biased <- (lik_biased * prior_biased) / evidence
+```
 
-*Passo 1: dopo il primo test positivo.*
+```{r}
+#| echo: false
+cat("ANALISI BAYESIANA: MONETA EQUA VERSUS SBILANCIATA\n")
+cat("=================================================\n\n")
+cat("DATI SPERIMENTALI: 8 risultati 'testa' su 10 lanci\n\n")
 
-Usiamo la regola di Bayes per aggiornare la probabilità di essere malati, dopo un primo risultato positivo:
+cat("DISTRIBUZIONE A PRIORI:\n")
+cat("  P(Moneta equa) =", prior_fair, "\n")
+cat("  P(Moneta sbilanciata) =", prior_biased, "\n\n")
 
-$$
-P(M^+ \mid T^+) = \frac{P(T^+ \mid M^+)P(M^+)}{P(T^+)}.
-$$
+cat("FUNZIONI DI VEROSIMIGLIANZA:\n")
+cat("  P(8 teste | Moneta equa) =", round(lik_fair, 4), "\n")
+cat("  P(8 teste | Moneta sbilanciata) =", round(lik_biased, 4), "\n\n")
 
-Calcoliamo la probabilità marginale di un test positivo, considerando entrambe le ipotesi:
+cat("RAPPORTO DI VEROSIMIGLIANZA:\n")
+cat("  LR = P(dati|Sbilanciata) / P(dati|Equa) =", round(lik_biased / lik_fair, 2), "\n")
+cat("  Interpretazione: I dati osservati sono", round(lik_biased / lik_fair, 2), 
+    "volte più probabili nell'ipotesi di moneta sbilanciata\n\n")
 
-$$
-P(T^+) = P(T^+ \mid M^+)P(M^+) + P(T^+ \mid M^-)P(M^-).
-$$
+cat("DISTRIBUZIONE A POSTERIORI:\n")
+cat("  P(Moneta equa | 8 teste) =", round(post_fair, 3), "\n")
+cat("  P(Moneta sbilanciata | 8 teste) =", round(post_biased, 3), "\n\n")
 
-Sostituendo i valori noti, otteniamo:
+cat("CONCLUSIONE INFERENZIALE: I dati forniscono un supporto moderato all'ipotesi\n")
+cat("di sbilanciamento, ma permane un'incertezza sostanziale riguardo alla vera\n")
+cat("natura della moneta. Ulteriori osservazioni potrebbero ridurre questa incertezza.\n")
+```
 
-$$
-P(T^+) = (0.95 \times 0.003) + (0.0072 \times 0.997) = 0.00285 + 0.00718 = 0.01003.
-$$
+**Visualizzazione dell'aggiornamento delle credenze**:
 
-La probabilità aggiornata (posterior) diventa quindi:
+```{r}
+#| label: coin-inference
+#| fig-cap: "Aggiornamento bayesiano delle credenze riguardanti la natura della moneta."
+#| echo: false
+df_coin <- data.frame(
+  Ipotesi = rep(c("Moneta equa", "Moneta sbilanciata"), 2),
+  Tipo = rep(c("A priori", "A posteriori"), each = 2),
+  Probabilita = c(prior_fair, prior_biased, post_fair, post_biased)
+)
+```
 
-$$
-P(M^+ \mid T^+) = \frac{0.00285}{0.01003} \approx 0.2844 \quad (28.44\%).
-$$
+```{r}
+#| echo: false
+ggplot(df_coin, aes(x = Ipotesi, y = Probabilita, fill = Tipo)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = round(Probabilita, 3)), 
+            position = position_dodge(width = 0.9), vjust = -0.5, size = 3.5) +
+  labs(
+    title = "Aggiornamento bayesiano: inferenza sulla natura della moneta",
+    subtitle = "Transizione dalle credenze a priori a quelle a posteriori dopo 8 teste su 10 lanci",
+    y = "Probabilità",
+    x = "Ipotesi",
+    fill = "Stato delle credenze"
+  ) +
+  ylim(0, 0.8) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
 
-Dopo un primo test positivo, la probabilità che la persona sia effettivamente HIV-positiva sale da un valore iniziale molto basso (0.3%) a 28.44%, aumentando notevolmente ma senza ancora garantire la certezza.
-
-*Passo 2: aggiornamento dopo un secondo test positivo.*
-
-Adesso immaginiamo di ripetere il test e ottenere nuovamente un risultato positivo. La nuova probabilità si calcola applicando ancora la regola di Bayes, utilizzando come prior il risultato appena trovato:
-
-$$
-P(M^+ \mid T_1^+, T_2^+) = \frac{P(T_2^+ \mid M^+, T_1^+)P(M^+ \mid T_1^+)}{P(T_2^+ \mid T_1^+)}.
-$$
-
-Assumendo che i risultati dei test siano indipendenti dato lo stato di malattia o meno, possiamo semplificare:
-
-- $P(T_2^+ \mid M^+, T_1^+) = P(T^+ \mid M^+) = 0.95$
-- $P(T_2^+ \mid M^-, T_1^+) = P(T^+ \mid M^-) = 0.0072$
-
-La probabilità di ottenere un secondo test positivo diventa quindi:
-
-$$
-P(T_2^+ \mid T_1^+) = P(T^+ \mid M^+)P(M^+ \mid T_1^+) + P(T^+ \mid M^-)P(M^- \mid T_1^+).
-$$
-
-Sostituendo i valori numerici calcolati in precedenza:
-
-$$
-P(T_2^+ \mid T_1^+) = (0.95 \times 0.2844) + (0.0072 \times 0.7156) = 0.2702 + 0.00515 = 0.27535.
-$$
-
-Ora calcoliamo la nuova probabilità a posteriori dopo due test positivi:
-
-$$
-P(M^+ \mid T_1^+, T_2^+) = \frac{0.95 \times 0.2844}{0.27535} \approx 0.981 \quad (98.1\%).
-$$
-
-*Interpretazione finale.*
-
-- Dopo il *primo test positivo*, la probabilità passa dallo 0.3% iniziale a circa il 28.44%, aumentando notevolmente ma restando incerta.
-- Dopo il *secondo test positivo*, la probabilità sale drasticamente al 98.1%, rendendo quasi certa la diagnosi.
-
-Questo esempio dimostra chiaramente il valore dell’aggiornamento bayesiano: un singolo risultato positivo incrementa la probabilità, ma in presenza di una bassa prevalenza non basta per una diagnosi certa. Ripetere il test e ottenere conferme successive permette invece di raggiungere una certezza diagnostica molto elevata.
 :::
 
-## La fallacia del procuratore 
+## Applicazioni cliniche e psicologiche del teorema di Bayes
 
-Il *teorema di Bayes* non trova applicazione solo in campo medico, ma è essenziale anche nei procedimenti giudiziari. Infatti, fraintendimenti nell’interpretazione di probabilità e statistiche possono portare a *gravi errori di giudizio*. Uno degli errori più comuni in questo contesto è la *fallacia del procuratore*.
+### Test diagnostico per il disturbo depressivo maggiore
 
-::: {.callout-note collapse="true" title= "Esempio"}
+Riprendiamo l'esempio precedente, ipotizzando una prevalenza della depressione maggiore di circa l'8%, e consideriamo l'utilizzo di un test diagnostico con caratteristiche tecniche validate.
 
-### Che cos’è la fallacia del procuratore?
+```{r}
+# Prevalenza nella popolazione
+P_D <- 0.08          # Prevalenza nella medicina generale
 
-La fallacia del procuratore consiste nel confondere la probabilità di osservare una certa evidenza se una persona è innocente, *$P(T^+ \mid I)$*, con la probabilità che una persona sia innocente dopo aver osservato quella evidenza, *$P(I \mid T^+)$*.
+# Caratteristiche del test
+sens <- 0.85         # Sensibilità: P(T+|D)
+spec <- 0.90         # Specificità: P(T-|sano)
+fp_rate <- 1 - spec  # Tasso di falsi positivi
 
-- In termini giudiziari, questo equivale a dire: "Poiché è estremamente improbabile ottenere un certo riscontro (ad es. un test positivo) se la persona è innocente, allora è estremamente improbabile che la persona sia innocente se si è ottenuto un esito positivo".
-- In realtà, per stabilire se la persona è innocente o colpevole *dopo* aver visto il risultato, occorre considerare sia la bassa frequenza delle persone effettivamente colpevoli nella popolazione (*prevalenza*) sia la possibilità di *falsi positivi*. Il *teorema di Bayes* fornisce lo strumento formale per integrare questi elementi.
+# Calcolo delle probabilità posteriori con Bayes
+P_Tpos <- sens * P_D + fp_rate * (1 - P_D)  # Probabilità totale test positivo
+P_D_given_Tpos <- (sens * P_D) / P_Tpos     # P(Depresso | Test positivo)
 
-Consideriamo il seguente esempio. Supponiamo di utilizzare un test del DNA per identificare un sospetto tra *65 milioni* di persone. Il test ha:
+P_Tneg <- (1 - sens) * P_D + spec * (1 - P_D)  # Probabilità totale test negativo
+P_D_given_Tneg <- ((1 - sens) * P_D) / P_Tneg  # P(Depresso | Test negativo)
+```
 
-- *Sensibilità* ($P(T^+ \mid C)$) = 99%  
-  $\rightarrow$ Se la persona è effettivamente colpevole, il test risulta positivo il 99% delle volte.
-- *Specificità* ($P(T^- \mid I)$) = 99.99997%  
-  $\rightarrow$ Se la persona è innocente, il test risulta negativo il 99.99997% delle volte.  
-  Da cui segue che il tasso di falso positivo è $1 - 0.9999997 = 0.0000003 = 0.00003\%$.
-- *Prevalenza* ($P(C)$) = $1/65{,}000{,}000 \approx 1.54 \times 10^{-8}$  
-  $\rightarrow$ Un individuo scelto a caso ha una probabilità di circa $1.54 \times 10^{-8}$ (cioè 1 su 65 milioni) di essere il vero colpevole.
+Interpretazione clinica dei risultati:
 
-Un campione di DNA coincide con quello di una persona trovata nel database e il test dà *risultato positivo*. Qual è la probabilità che costui sia davvero colpevole? Formalmente, vogliamo $P(C \mid T^+)$.
+```{r}
+#| echo: false
+cat("=== ANALISI BAYESIANA DEL TEST DIAGNOSTICO ===\n\n")
+cat("Contesto: Screening in medicina generale\n")
+cat("Prevalenza base: 8%\n\n")
 
-*Passo 1: Calcolare $P(T^+)$, la probabilità di un test positivo.*
+cat("CARATTERISTICHE DEL TEST:\n")
+cat("• Sensibilità (riconosce i veri malati):", sens*100, "%\n")
+cat("• Specificità (riconosce i sani):", spec*100, "%\n")
+cat("• Tasso falsi positivi:", fp_rate*100, "%\n\n")
 
-La probabilità complessiva di un esito positivo deriva da due scenari alternativi:
+cat("RISULTATI BAYESIANI:\n")
+cat("• Probabilità pre-test (prior):", P_D*100, "%\n")
+cat("• Probabilità post-test positivo (VPP):", round(P_D_given_Tpos*100, 1), "%\n")
+cat("• Probabilità post-test negativo:", round(P_D_given_Tneg*100, 2), "%\n\n")
 
-1. *La persona è colpevole* e il test è positivo:  
-   $P(T^+ \mid C) \times P(C)$.
-2. *La persona è innocente* e il test è positivo per errore (falso positivo):  
-   $P(T^+ \mid I) \times P(I)$.
+cat("INTERPRETAZIONE CLINICA:\n")
+cat("• Un test POSITIVO aumenta la probabilità da 8% a", round(P_D_given_Tpos*100, 1), "%\n")
+cat("  → Ancora sotto il 50%: molti falsi positivi in popolazioni a bassa prevalenza\n")
+cat("• Un test NEGATIVO riduce la probabilità a", round(P_D_given_Tneg*100, 2), "%\n")
+cat("  → Test negativo è fortemente rassicurante in questo contesto\n")
+```
 
-Perciò, usando la regola della probabilità totale:
+### Fallacia del tasso base
+
+```{r}
+# Analisi sistematica del VPP al variare della prevalenza
+prevalences <- seq(0.01, 0.50, by = 0.01)
+
+VPP <- function(prev, sens, spec) {
+  fp <- 1 - spec
+  P_Tpos <- sens * prev + fp * (1 - prev)
+  (sens * prev) / P_Tpos
+}
+
+vpps <- VPP(prevalences, sens, spec)
+
+df_baseRate <- data.frame(
+  Prevalenza = prevalences,
+  VPP = vpps
+)
+```
+
+Visualizzazione dell'effetto del tasso base:
+
+```{r}
+#| echo: false
+ggplot(df_baseRate, aes(x = Prevalenza, y = VPP)) +
+  geom_line(size = 1.2, color = "#2E86AB") +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "#A23B72", alpha = 0.7) +
+  geom_vline(xintercept = P_D, linetype = "dotted", alpha = 0.5) +
+  geom_point(aes(x = P_D, y = VPP(P_D, sens, spec)), 
+             color = "#F18F01", size = 3) +
+  annotate("text", x = P_D + 0.02, y = 0.15, 
+           label = "Medicina\ngenerale", hjust = 0, size = 3.5, 
+           color = "#555555") +
+  annotate("text", x = 0.35, y = 0.55, 
+           label = "Soglia di accuratezza\nclinica (50%)", 
+           color = "#A23B72", size = 3.8) +
+  scale_x_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Effetto del tasso base sul valore predittivo positivo",
+    subtitle = "Il medesimo test ha utilità clinica diversa in popolazioni con prevalenza differente",
+    x = "Prevalenza del disturbo nella popolazione",
+    y = "Valore Predittivo Positivo (VPP)",
+    caption = "Test: sensibilità 85%, specificità 90%"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5, color = "#555555")
+  )
+```
+
+**In sintesi:** l'utilità di un test dipende criticamente dal contesto. Lo stesso strumento fornisce risultati con affidabilità diversa in popolazioni con prevalenze differenti. Trascurare il tasso di base può alterare l'interpretazione diagnostica, portando a una sovrastima dell'accuratezza dei test positivi in contesti a bassa prevalenza e compromettendo la validità delle conclusioni cliniche.
+
+### Test sequenziali: ADHD in età scolare
+
+```{r}
+# Due test indipendenti per ADHD
+P_ADHD <- 0.05       # Prevalenza popolazione generale scolare
+sens_T1 <- 0.80      # Questionario genitori
+spec_T1 <- 0.85
+sens_T2 <- 0.75      # Osservazione in classe
+spec_T2 <- 0.88
+
+# Calcolare likelihood ratios
+LR_pos_T1 <- sens_T1 / (1 - spec_T1)
+LR_pos_T2 <- sens_T2 / (1 - spec_T2)
+
+# Aggiornamento sequenziale in odds
+prior_odds <- P_ADHD / (1 - P_ADHD)
+
+# Dopo T1+
+post_odds_T1 <- prior_odds * LR_pos_T1
+post_prob_T1 <- post_odds_T1 / (1 + post_odds_T1)
+
+# Dopo T1+ e T2+ (assumendo indipendenza condizionale)
+post_odds_both <- post_odds_T1 * LR_pos_T2
+post_prob_both <- post_odds_both / (1 + post_odds_both)
+```
+
+```{r}
+#| echo: false
+cat("\n=== DIAGNOSTICA SEQUENZIALE PER ADHD ===\n\n")
+cat("Probabilità pre-test: 5% (prevalenza popolazione scolare)\n\n")
+
+cat("DOPO QUESTIONARIO GENITORI (positivo):\n")
+cat("• Likelihood ratio positivo:", round(LR_pos_T1, 2), "\n")
+cat("• Probabilità post-test:", round(post_prob_T1, 3), "\n")
+cat("• Aumento: da 5% a", round(post_prob_T1*100, 1), "%\n\n")
+
+cat("DOPO OSSERVAZIONE IN CLASSE (positiva):\n")
+cat("• Likelihood ratio positivo:", round(LR_pos_T2, 2), "\n")
+cat("• Probabilità finale:", round(post_prob_both, 3), "\n")
+cat("• Aumento cumulativo: da", round(post_prob_T1*100, 1), "% a", 
+    round(post_prob_both*100, 1), "%\n")
+```
+
+Visualizzazione della cascata di aggiornamenti:
+
+```{r}
+#| echo: false
+# Visualizzare cascata di aggiornamenti
+df_sequential <- data.frame(
+  Momento = factor(c("Prior", "Dopo T1+", "Dopo T1+ e T2+"),
+                   levels = c("Prior", "Dopo T1+", "Dopo T1+ e T2+")),
+  Probabilita = c(P_ADHD, post_prob_T1, post_prob_both)
+)
+
+ggplot(df_sequential, aes(x = Momento, y = Probabilita)) +
+  geom_col(fill = "#4E79A7", alpha = 0.8, width = 0.6) +
+  geom_text(aes(label = sprintf("%.1f%%", Probabilita * 100)), 
+            vjust = -0.8, size = 4.5, fontface = "bold") +
+  geom_line(aes(group = 1), size = 1.2, color = "#2E5984", alpha = 0.8) +
+  geom_point(size = 3.5, color = "#2E5984") +
+  labs(
+    title = "Processo diagnostico sequenziale nell'ADHD",
+    subtitle = "Aggiornamento bayesiano della probabilità con test multipli",
+    y = "Probabilità di ADHD",
+    x = "Fase valutativa"
+  ) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 0.35)) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+```
+
+**Osservazioni conclusive**: questo caso illustra l'applicazione diretta del teorema di Bayes nel processo diagnostico. Ogni test positivo aggiorna iterativamente la probabilità precedente, trasformandola in una nuova probabilità a priori per la valutazione successiva. La probabilità evolve quindi da un iniziale 5% a un 22% dopo il primo test e a un 32% dopo il secondo, dimostrando come l'accumulo di evidenze convergenti incrementi progressivamente la certezza diagnostica. Questo approccio sequenziale formalizza matematicamente il ragionamento clinico e mostra come il teorema di Bayes strutturi il processo decisionale basato sulle prove nella pratica psicologica.
+
+## Applicazioni psicologiche
+
+### Comorbidità e aggiornamento delle credenze diagnostiche
+
+Immaginiamo di essere uno psicologo clinico che deve valutare un nuovo paziente. Il nostro ragionamento inizia con ciò che sappiamo già, prima ancora di incontrare il paziente. Sulla base della letteratura, stimiamo che la **probabilità a priori** di depressione $P(D)$ sia del 40%. Questa è la nostra credenza iniziale.
+
+Sappiamo anche che la depressione e l'ansia spesso coesistono. In particolare, la letteratura ci dice che la **probabilità condizionata** di osservare ansia in un paziente che già sappiamo essere depresso, $P(A \mid D)$, è molto alta, circa il 60%. Questa è una misura della comorbidità. Conosciamo inoltre la prevalenza generale dell'ansia nella popolazione, $P(A)$, che è del 35%.
+
+Ora il nostro paziente inizia a descrivere i suoi sintomi e noi notiamo un'evidente ansia. A questo punto, la semplice probabilità a priori $P(D) = 0.40$ non è più sufficiente. Dobbiamo aggiornare la nostra credenza alla luce di questa nuova evidenza. La domanda cruciale diventa: **qual è la probabilità che il paziente sia depresso, dato che ha l'ansia?** Stiamo cercando la probabilità a posteriori, $P(D \mid A)$.
+
+Per calcolarla, usiamo il teorema di Bayes che "capovolge" la probabilità condizionata:
 
 $$
-P(T^+) 
-= P(T^+ \mid C) \, P(C) \;+\; P(T^+ \mid I) \, P(I).
+P(D \mid A) = \frac{P(A \mid D) \times P(D)}{P(A)}.
 $$
 
-Assegniamo i valori numerici:
-
-- $P(T^+ \mid C) = 0.99$ (sensibilità).
-- $P(C) = 1.54 \times 10^{-8}$.
-- $P(T^+ \mid I) = 1 - P(T^- \mid I) = 1 - 0.9999997 = 0.0000003$.
-- $P(I) = 1 - P(C) \approx 0.99999998$.
-
-Eseguiamo il calcolo:
-
+Sostituendo i valori, otteniamo:
 $$
-\begin{aligned}
-P(T^+) 
-&= (0.99 \times 1.54 \times 10^{-8}) + (0.0000003 \times 0.99999998)\\
-&= 1.5231 \times 10^{-8} + 2.9999994 \times 10^{-7}\\
-&= 3.1523 \times 10^{-7}.
-\end{aligned}
+P(D \mid A) = \frac{0.60 \times 0.40}{0.35} \approx 0.686.
 $$
 
-*Passo 2: Applicare la regola di Bayes per $P(C \mid T^+)$.*
+Questo calcolo rivela che, dopo aver osservato l'ansia, la nostra credenza nella diagnosi di depressione si è aggiornata, salendo da una probabilità a priori del 40% a una probabilità a posteriori di circa il 69%. L'evidenza dell'ansia ha quasi raddoppiato la nostra confidenza iniziale.
 
-Ora possiamo calcolare la probabilità di essere colpevoli dato che il test è positivo:
+Ma cosa succederebbe se, al contrario, durante il colloquio avessimo escluso la presenza di ansia? Dobbiamo calcolare $P(D \mid \neg A)$. Per farlo, abbiamo prima bisogno della probabilità che un paziente non sia ansioso, $P(\neg A) = 1 - P(A) = 0.65$.
 
-$$
-P(C \mid T^+) 
-= \frac{P(T^+ \mid C)\,P(C)}{P(T^+)}.
-$$
-
-Inseriamo i valori:
+Il passo successivo è trovare la probabilità congiunta che un paziente sia depresso e *non* ansioso, $P(D \cap \neg A)$. Come si ricava questa quantità? L'insieme di tutti i pazienti depressi ($D$) può essere suddiviso in due gruppi mutualmente esclusivi: quelli che *sono* anche ansiosi ($D \cap A$) e quelli che *non sono* ansiosi ($D \cap \neg A$). La probabilità totale di depressione $P(D)$ non è altro che la somma delle probabilità di questi due gruppi.
 
 $$
-\begin{aligned}
-P(C \mid T^+) 
-&= \frac{(0.99 \times 1.54 \times 10^{-8})}{3.1523 \times 10^{-7}}\\
-&= \frac{1.5231 \times 10^{-8}}{3.1523 \times 10^{-7}}\\
-&\approx 0.0483 \quad (\text{cioè } 4.83\%).
-\end{aligned}
+P(D) = P(D \cap A) + P(D \cap \neg A).
+$$
+Questa uguaglianza ci permette di ricavare la probabilità che ci interessa, $P(D \cap \neg A)$, semplicemente riarrangiando i termini:
+
+$$
+P(D \cap \neg A) = P(D) - P(D \cap A).
+$$
+Sappiamo già che $P(D \cap A) = P(A \mid D) \cdot P(D) = 0.60 \cdot 0.40 = 0.24$. Quindi:
+$$
+P(D \cap \neg A) = 0.40 - 0.24 = 0.16.
+$$
+Ora abbiamo tutti gli elementi per calcolare la probabilità a posteriori di depressione dato che l'ansia è *assente*. La formula è analoga a quella di Bayes, ma applicata all'evidenza contraria:
+
+$$
+P(D \mid \neg A) = \frac{P(D \cap \neg A)}{P(\neg A)} = \frac{0.16}{0.65} \approx 0.246.
 $$
 
-*Interpretazione: perché è “solo” il 4.83%?*
+In questo caso, l'assenza di un sintomo fortemente correlato ci porta a rivedere drasticamente la nostra ipotesi iniziale al ribasso, da un 40% a un 25%.
 
-Sebbene *sensibilità e specificità* del test siano entrambe molto alte, la *prevalenza estremamente bassa* del colpevole (1 su 65 milioni) riduce notevolmente la probabilità a posteriori $P(C \mid T^+)$. In una popolazione di 65 milioni di individui, anche un esiguo tasso di falsi positivi *($0.0000003$)* genera un numero assoluto di risultati positivi fra gli innocenti molto più grande del numero di colpevoli reali.
+Questo processo è il cuore del ragionamento diagnostico bayesiano. Ogni nuovo dato, in questo caso, un sintomo osservato o assente, modifica in modo rigoroso e quantificabile la probabilità delle nostre ipotesi, trasformando un sospetto clinico iniziale in una valutazione sempre più informata e personalizzata.
 
-In pratica, pur avendo un test positivo, la probabilità che la persona sia davvero colpevole *resta modesta* (circa 4.83%), perché i “falsi allarmi” nella massa di individui innocenti superano di gran lunga i (pochi) veri positivi.
+### Valore diagnostico incrementale di test multipli
 
-### Evitare la fallacia del procuratore
+Immaginiamo di essere uno psicologo che deve valutare un possibile caso di ADHD in un bambino. Iniziamo con ciò che sappiamo dalla letteratura: nella popolazione di riferimento, la prevalenza del disturbo, ovvero la nostra probabilità a priori $P(ADHD)$, è stimata intorno al 10%.
 
-La fallacia del procuratore consiste nel confondere:
+Per la valutazione, disponiamo di due strumenti complementari. Il primo è un questionario per i genitori (ad esempio, il Conners), che ha una sensibilità $P(T1+ \mid ADHD)$ dell'80% (indica correttamente il disturbo quando è presente) e una specificità $P(T1- \mid \neg ADHD)$ dell'85% (indica correttamente l'assenza del disturbo). Il secondo è un'osservazione strutturata in classe, con una sensibilità $P(T2+ \mid ADHD)$ del 75% e una specificità $P(T2- \mid \neg ADHD)$ del 90%.
 
-- *$P(T^+ \mid I)$*: la probabilità che un innocente risulti positivo (falso positivo),
-- *$P(I \mid T^+)$*: la probabilità di essere innocenti dopo un test positivo.
+Il questionario per i genitori risulta positivo. Non possiamo dunque più basarci solo sulla prevalenza del 10%, ma dobbiamo aggiornare la nostra credenza. Applichiamo il teorema di Bayes per calcolare la probabilità a posteriori $P(ADHD \mid T1+)$.
 
-Questa confusione porta a sovrastimare la colpevolezza di un individuo basandosi su una singola evidenza statistica. Applicando il *teorema di Bayes*, invece, si comprende che un test positivo non implica automaticamente colpevolezza, soprattutto quando la malattia (o il reato, in questo caso) è molto raro. Nei processi giudiziari, ciò significa che *un dato probabilistico deve sempre essere contestualizzato* alla popolazione di riferimento: la corretta interpretazione delle prove è fondamentale per evitare errori giudiziari.
+La formula per calcolare la probabilità di un test positivo, $P(T1+)$, considera sia i veri positivi che i falsi positivi:
+$$
+P(T1+) = P(T1+ \mid ADHD) \cdot P(ADHD) + P(T1+ \mid \neg ADHD) \cdot P(\neg ADHD)
+$$
+Sapendo che la probabilità di un falso positivo è $P(T1+ \mid \neg ADHD) = 1 - spec_T1 = 0.15$, possiamo calcolare:
+$$
+P(T1+) = (0.80 \times 0.10) + (0.15 \times 0.90) = 0.215
+$$
+Ora possiamo applicare il teorema di Bayes:
+$$
+P(ADHD \mid T1+) = \frac{P(T1+ \mid ADHD) \times P(ADHD)}{P(T1+)} = \frac{0.80 \times 0.10}{0.215} \approx 0.372.
+$$
+Dunque, dopo il primo test positivo, la probabilità di ADHD sale dal 10% a circa il 37.2%.
 
-#### Conclusione epistemologica
+Successivamente, anche l'osservazione strutturata in classe fornisce un risultato positivo. Per aggiornare nuovamente la nostra credenza, dobbiamo calcolare $P(ADHD \mid T1+, T2+)$. Assumendo che i due test siano *condizionatamente indipendenti* dato lo stato del disturbo (una comune ipotesi semplificativa), possiamo combinare le loro evidenze.
 
-L’impiego di test probabilistici in ambito giudiziario richiede un'applicazione rigorosa del *teorema di Bayes* per evitare distorsioni interpretative. Solo un corretto aggiornamento delle credenze, integrando:  
+Calcoliamo prima la probabilità congiunta che un bambino sia effettivamente ADHD e risulti positivo ad entrambi i test:
+$$
+P(ADHD, T1+, T2+) = P(T1+ \mid ADHD) \cdot P(T2+ \mid ADHD) \cdot P(ADHD) = 0.80 \cdot 0.75 \cdot 0.10 = 0.06.
+$$
+Poi calcoliamo la probabilità totale di ottenere due test positivi, $P(T1+, T2+)$, che comprende sia il caso in cui il bambino sia ADHD (veri positivi) che il caso in cui non lo sia (falsi positivi):
+$$
+P(T1+, T2+) = [sens_{T1} \cdot sens_{T2} \cdot P(ADHD)] + [fp_1 \cdot fp_2 \cdot P(\neg ADHD)], 
+$$
+dove i tassi di falso positivo sono $fp_1 = 1 - spec_{T1} = 0.15$ e $fp_2 = 1 - spec_{T2} = 0.10$
+$$
+P(T1+, T2+) = (0.80 \cdot 0.75 \cdot 0.10) + (0.15 \cdot 0.10 \cdot 0.90) = 0.06 + 0.0135 = 0.0735.
+$$
 
-- *la probabilità pre-test* ($P(C)$, prevalenza del colpevole nella popolazione investigata),  
-- *la potenza diagnostica del test* (sensibilità e specificità),  
-- *il tasso di errore strumentale* (falsi positivi e falsi negativi),  
+Infine, applichiamo ancora una volta il teorema di Bayes per fondere tutta l'evidenza:
+$$
+P(ADHD \mid T1+, T2+) = \frac{P(ADHD, T1+, T2+)}{P(T1+, T2+)} = \frac{0.06}{0.0735} \approx 0.816.
+$$
+Ora la nostra probabilità a posteriori è salita a circa l'81.6%.
 
-consente di ridurre il rischio di *errori giudiziari sistematici*. In assenza di questa integrazione, anche test estremamente precisi possono condurre a *ingiuste condanne*, trasformando strumenti scientifici affidabili in fonti di distorsione probatoria.
+Questo processo dimostra l'efficacia dell'aggiornamento bayesiano sequenziale nel percorso diagnostico. Il risultato positivo del primo test ha prodotto un primo aggiornamento della probabilità a posteriori, incrementandola dall'11% al 37.2%. Il risultato positivo del secondo test, essendo condizionatamente indipendente dal primo dato lo stato del disturbo, ha generato un ulteriore aggiornamento, elevando la probabilità a posteriori a circa l'81.6%. L'integrazione di test multipli, che sfruttano fonti di informazione eterogenee e complementari (come un questionario anamnestico e un'osservazione sistematica del comportamento in contesto) permette di ottenere un cumulo moltiplicativo dell'evidenza. Questo trasforma una stima iniziale basata su dati epidemiologici in una probabilità a posteriori clinicamente utile, riducendo in modo sostanziale l'incertezza diagnostica. Questo approccio è fondamentale per le condizioni complesse e multidimensionali, come l'ADHD, dove la convergenza di evidenze da più fonti è spesso necessaria per una diagnosi accurata.
+
+## Visualizzazioni con distribuzioni Beta
+
+Per parametri continui come le probabilità, le distribuzioni di probabilità forniscono lo strumento naturale per rappresentare in modo completo le nostre credenze epistemiche.
+
+### Prior, likelihood e posterior nel modello Beta-Binomiale
+
+La distribuzione *Beta* costituisce la scelta naturale per esprimere credenze riguardanti probabilità $\theta \in [0,1]$. In combinazione con dati di tipo binomiale, il processo di aggiornamento bayesiano assume una forma particolarmente elegante e computazionalmente efficiente.
+
+::: {.callout-note title="Proprietà di coniugazione Beta-Binomiale"}
+#### Aggiornamento Beta-Binomiale {.unnumbered .unlisted}
+
+**Distribuzione a priori**: $\theta \sim \text{Beta}(\alpha, \beta)$.
+
+**Modello dei dati**: $k$ successi osservati in $n$ prove indipendenti (distribuzione Binomiale).
+
+**Distribuzione a posteriori**: $\theta \mid \text{dati} \sim \text{Beta}(\alpha + k, \beta + n - k)$.
+
+**Interpretazione epistemica**:
+
+- la distribuzione a priori può essere interpretata come equivalente a "$\alpha - 1$ pseudo-successi e $\beta - 1$ pseudo-fallimenti" osservati precedentemente;
+- la distribuzione a posteriori si ottiene semplicemente sommando i successi e fallimenti osservati ai corrispondenti parametri a priori.
+
+Questa proprietà costituisce un caso di *coniugazione perfetta*: le distribuzioni a priori e a posteriori appartengono alla stessa famiglia parametrica, semplificando notevolmente il calcolo dell'aggiornamento bayesiano.
 :::
 
-## La probabilità inversa
+```{r}
+#| label: beta-binomial-update
+#| fig-cap: "Aggiornamento bayesiano nel modello Beta-Binomiale per un test a scelta multipla."
+# Esempio: Test a scelta multipla con 4 opzioni
+# Distribuzione a priori centrata sull'ipotesi di risposta casuale (1/4)
 
-Gli esempi precedenti illustrano due domande probabilistiche fondamentalmente diverse, che distinguono l'approccio classico (frequentista) da quello bayesiano.
+alpha0 <- 1
+beta0 <- 3  # Valore atteso = 1/(1+3) = 0.25
 
-La *probabilità diretta* risponde a domande come: "Supposto che un'ipotesi sia vera, qual è la probabilità di osservare questi dati?". Questo è il tipico ambito della statistica frequentista, che calcola la probabilità di risultati sotto ipotesi fissate.
+# Dati osservati: 12 risposte corrette su 30 tentativi
+n <- 30
+k <- 12
 
-La *probabilità inversa*, invece, capovolge completamente questa prospettiva, chiedendo: "Alla luce dei dati osservati, qual è la probabilità che un'ipotesi sia vera?". Questa domanda, che riguarda direttamente la credibilità delle ipotesi date le evidenze, è al centro dell'approccio bayesiano.
+# Distribuzione a posteriori
+alpha1 <- alpha0 + k
+beta1 <- beta0 + (n - k)
 
-### Il problema fondamentale: da $P(D \mid H)$ a $P(H \mid D)$
+# Griglia per la visualizzazione
+theta <- seq(0, 1, length.out = 500)
 
-Consideriamo il lancio di una moneta. La probabilità diretta ci chiede: se la moneta è equa ($P(\text{Testa})$ = 0.5), qual è la probabilità di osservare zero teste in cinque lanci? Calcoliamo $P(D \mid H) = (0.5)^5 = 0.03125$.
+# Funzioni di densità
+prior_dens <- dbeta(theta, alpha0, beta0)
+posterior_dens <- dbeta(theta, alpha1, beta1)
 
-La probabilità inversa affronta la questione opposta: dopo aver osservato zero teste in cinque lanci, quanto è probabile che la moneta sia effettivamente equa? Questa domanda cerca $P(H \mid D)$, non $P(D \mid H)$.
+# Funzione di verosimiglianza (proporzionale, normalizzata per visualizzazione)
+likelihood_dens <- dbeta(theta, k + 1, n - k + 1)  # Proporzionale alla Binomiale
+likelihood_dens <- likelihood_dens / max(likelihood_dens) * max(posterior_dens)
+```
 
-In questo contesto emerge il contributo fondamentale di Thomas Bayes, che ha riconosciuto come, per rispondere alla seconda domanda - l'unica rilevante dal punto di vista scientifico nella maggior parte dei contesti reali - non sia sufficiente la verosimiglianza $P(D \mid H)$. È necessario combinarla con una probabilità a priori, $P(H)$, che esprime la nostra convinzione iniziale sull'ipotesi prima di osservare i dati.
+```{r}
+#| echo: false
+# Preparazione dei dati per la visualizzazione
+df_beta <- data.frame(
+  theta = theta,
+  Prior = prior_dens,
+  Likelihood = likelihood_dens,
+  Posterior = posterior_dens
+)
 
-### La rivoluzione bayesiana: dall'ipotesi ai dati, e ritorno
+df_beta_long <- df_beta %>%
+  pivot_longer(cols = c(Prior, Likelihood, Posterior),
+               names_to = "Componente", values_to = "Densita")
+# Visualizzazione
+ggplot(df_beta_long, aes(x = theta, y = Densita, color = Componente, linetype = Componente)) +
+  geom_line(linewidth = 1.2) +
+  geom_vline(xintercept = 0.25, linetype = "dotted", alpha = 0.5) +
+  annotate("text", x = 0.27, y = max(posterior_dens) * 0.9, 
+           label = "Risposta casuale\n(θ = 0.25)", hjust = 0, size = 3.5) +
+  scale_linetype_manual(values = c("solid", "dashed", "solid")) +
+  labs(
+    title = "Aggiornamento bayesiano nel modello Beta-Binomiale",
+    subtitle = "Transizione da credenze a priori a posteriori per 12 risposte corrette su 30 (test a 4 opzioni)",
+    x = expression(theta ~ "(probabilità di risposta corretta)"),
+    y = "Densità di probabilità",
+    color = "Componente",
+    linetype = "Componente"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
 
-Prima di Bayes, la probabilità si occupava principalmente del calcolo diretto P(D|H). La geniale intuizione di Bayes fu di invertire la prospettiva, mostrando come fosse possibile  ritornare dall'osservazione dei dati alla valutazione delle ipotesi che li avevano generati.
+**Interpretazione del processo di aggiornamento.**
 
-Questa inversione concettuale ha reso possibile l'inferenza bayesiana, fornendo uno strumento formale per aggiornare sistematicamente le nostre credenze alla luce di nuove evidenze. Il teorema di Bayes permette infatti di combinare rigorosamente:
+- **Distribuzione a priori** (rosso): rappresenta le credenze iniziali centrate attorno a 0.25, corrispondente all'ipotesi di risposta puramente casuale.
+- **Funzione di verosimiglianza** (verde tratteggiato): mostra la compatibilità dei dati osservati (12/30 = 0.40) con diversi valori del parametro $\theta$.
+- **Distribuzione a posteriori** (blu): costituisce la sintesi bayesiana che bilancia credenze iniziali ed evidenza empirica, spostata verso 0.40 ma non completamente.
 
-- la verosimiglianza dei dati sotto l'ipotesi [$P(D \mid H)$];
-- la nostra conoscenza pregressa [$P(H)$]
+```{r}
+#| echo: false
+# Calcolo delle statistiche riassuntive
+prior_mean <- alpha0 / (alpha0 + beta0)
+post_mean <- alpha1 / (alpha1 + beta1)
+mle <- k / n
 
-per ottenere la probabilità a posteriori [$P(H \mid D)$], ovvero la nostra convinzione aggiornata.
+cat("CONFRONTO TRA LE STIME DI θ\n")
+cat("============================\n\n")
+cat("Stima basata sulla distribuzione a priori:", round(prior_mean, 3), "\n")
+cat("Stima di massima verosimiglianza (MLE):", round(mle, 3), "\n")
+cat("Stima basata sulla distribuzione a posteriori:", round(post_mean, 3), "\n\n")
+cat("ANALISI: La distribuzione a posteriori rappresenta un compromesso bayesiano tra\n")
+cat("le credenze iniziali e l'evidenza empirica. Con l'aumentare della dimensione\n")
+cat("campionaria, la distribuzione a posteriori convergerebbe progressivamente\n")
+cat("verso la stima di massima verosimiglianza.\n")
+```
 
-### L'importanza epistemologica della probabilità inversa
+### Intervalli di credibilità bayesiani
 
-La capacità di calcolare $P(H \mid D)$ invece che solo $P(D \mid H)$ ha profonde implicazioni in quasi tutti i campi del sapere:
+A differenza degli intervalli di confidenza nell'approccio frequentista, gli *intervalli di credibilità* bayesiani ammettono un'interpretazione probabilistica diretta e intuitiva riguardo al parametro di interesse.
 
-- In *ambito scientifico*, permette di quantificare direttamente quanto i dati supportino un'ipotesi rispetto ad altre, superando la logica del puro rifiuto/accettazione di ipotesi.
+```{r}
+# Calcolo dell'intervallo di credibilità bayesiano al 95%
+ci_lower <- qbeta(0.025, alpha1, beta1)
+ci_upper <- qbeta(0.975, alpha1, beta1)
+```
 
-- In *ambito medico*, consente di rispondere alla domanda clinicamente rilevante: "Data una positività del test, qual è la probabilità che il paziente abbia realmente la malattia?" anziché limitarsi a "Data la malattia, qual è la probabilità di un test positivo?".
+```{r}
+#| echo: false
+cat("INTERVALLO DI CREDIBILITÀ BAYESIANO AL 95%\n")
+cat("==========================================\n\n")
+cat("Intervallo di credibilità: [", round(ci_lower, 3), ", ", round(ci_upper, 3), "]\n\n")
+cat("INTERPRETAZIONE EPISTEMICA DIRETTA:\n")
+cat("Alla luce della distribuzione a posteriori, assegniamo una probabilità del 95%\n")
+cat("che il vero valore del parametro θ si trovi all'interno di questo intervallo,\n")
+cat("dato lo specifico insieme di dati osservati e le nostre credenze iniziali.\n\n")
+cat("CONTRASTO CON L'APPROCCIO FREQUENTISTA:\n")
+cat("Questa interpretazione differisce fondamentalmente da quella degli intervalli\n")
+cat("di confidenza, che si riferiscono alle proprietà a lungo termine di una\n")
+cat("procedura di stima piuttosto che alla probabilità riguardante il parametro.\n")
+```
 
-- Nel *sistema giudiziario*, aiuta a valutare la domanda "Data l'evidenza forense, qual è la probabilità che l'imputato sia colpevole?" piuttosto che limitarsi a "Data la colpevolezza, qual è la probabilità di trovare questa evidenza?".
+```{r}
+#| echo: false
+#| label: credibility-interval
+#| fig-cap: "Distribuzione a posteriori con intervallo di credibilità bayesiano al 95%"
+# Visualizzazione dell'intervallo di credibilità
+ggplot(df_beta, aes(x = theta, y = Posterior)) +
+  geom_line(linewidth = 1.2, color = "blue") +
+  geom_area(data = df_beta %>% filter(theta >= ci_lower & theta <= ci_upper),
+            aes(x = theta, y = Posterior), fill = "blue", alpha = 0.3) +
+  geom_vline(xintercept = c(ci_lower, ci_upper), linetype = "dashed", color = "blue") +
+  geom_vline(xintercept = post_mean, color = "red", linewidth = 1) +
+  annotate("text", x = post_mean, y = max(posterior_dens) * 0.5,
+           label = paste0("Valore atteso: ", round(post_mean, 3)), 
+           angle = 90, vjust = -0.5, color = "red", size = 4) +
+  annotate("text", x = mean(c(ci_lower, ci_upper)), y = max(posterior_dens) * 0.8,
+           label = paste0("95% di credibilità\n[", round(ci_lower, 3), ", ", round(ci_upper, 3), "]"),
+           color = "darkblue", size = 4) +
+  labs(
+    title = "Distribuzione a posteriori con intervallo di credibilità bayesiano",
+    subtitle = "Rappresentazione dell'incertezza residua sul parametro θ dopo l'aggiornamento",
+    x = expression(theta ~ "(probabilità di risposta corretta)"),
+    y = "Densità di probabilità a posteriori"
+  ) +
+  theme_minimal()
+```
 
-Senza il concetto di probabilità inversa, infatti, rimarremmo intrappolati in un paradosso epistemologico: potremmo calcolare la probabilità dei dati sotto varie ipotesi, ma non potremmo mai stabilire quale ipotesi sia più credibile alla luce dei dati osservati. Il teorema di Bayes fornisce questo ponte logico che collega razionalmente l'evidenza empirica alla valutazione delle ipotesi, rendendo possibile un ragionamento probabilistico scientificamente fondato.
+**Interpretazione della visualizzazione**: l'area ombreggiata in blu rappresenta la regione all'interno della quale assegniamo una probabilità del 95% che si trovi il vero valore del parametro $\theta$. La linea verticale rossa indica il valore atteso della distribuzione a posteriori, mentre le linee tratteggiate delimitano i confini dell'intervallo di credibilità. Questa rappresentazione fornisce una caratterizzazione completa dell'incertezza residua riguardante il parametro dopo aver considerato sia l'evidenza empirica che le credenze iniziali.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-In questo capitolo abbiamo esplorato vari esempi, principalmente nel campo medico e forense, per illustrare come il teorema di Bayes permetta di combinare le informazioni derivate dalle osservazioni con le conoscenze precedenti (priori), aggiornando così il nostro grado di convinzione rispetto a un'ipotesi. Il teorema di Bayes fornisce un meccanismo razionale, noto come "aggiornamento bayesiano", che ci consente di ricalibrare le nostre convinzioni iniziali alla luce di nuove evidenze.
+Il teorema di Bayes rappresenta il principio fondamentale del ragionamento razionale in condizioni di incertezza e sintetizza e completa il percorso concettuale sviluppato nei capitoli precedenti. Esso deriva naturalmente dalla probabilità condizionata, attraverso la simmetria della distribuzione congiunta, e formalizza il processo di inversione probabilistica che trasforma la probabilità dell'evidenza data un'ipotesi nella probabilità dell'ipotesi data l'evidenza osservata.
 
-La lezione fondamentale che emerge, tanto nella ricerca scientifica quanto nella vita quotidiana, è che raramente ci interessa soltanto la probabilità di osservare un dato presupposta vera un'ipotesi, $P(D \mid H)$. Ciò che realmente conta è spesso la probabilità inversa: stabilire quanto un'ipotesi sia credibile dato ciò che abbiamo osservato, $P(H \mid D)$. La potenza del teorema di Bayes risiede proprio nella sua capacità di affrontare direttamente questo problema inverso, permettendoci di dedurre la plausibilità delle ipotesi a partire dalle osservazioni empiriche.
+Il teorema integra matematicamente in modo ottimale il prior e la likelihood, producendo un posterior che quantifica in modo coerente e trasparente l'aggiornamento delle credenze. Questa struttura si applica naturalmente ai problemi psicologici e clinici, dalla diagnostica alla valutazione della comorbilità fino alle decisioni terapeutiche, dimostrando come il formalismo bayesiano traduca operativamente i processi di ragionamento clinico.
 
-Il framework bayesiano offre così un approccio generale per comprendere come i problemi induttivi possano essere affrontati razionalmente, e fornisce anche un modello plausibile per interpretare come la mente umana elabori l'incertezza e aggiorni le proprie credenze.
+Il percorso attraverso i capitoli ha costruito una progressione concettuale coerente: si è partiti dalla probabilità come grado di credenza razionale, si è passati agli assiomi di coerenza, all'equiprobabilità come caso speciale e al condizionamento come aggiornamento, per poi giungere al teorema di Bayes come sintesi e applicazione di questi principi fondamentali.
 
-In questo capitolo ci siamo concentrati su applicazioni che utilizzano probabilità puntuali, per rendere i concetti più accessibili. Tuttavia, il teorema di Bayes esprime pienamente il suo potenziale quando sia l'evidenza che i gradi di incertezza iniziali vengono rappresentati attraverso distribuzioni di probabilità continue. Questo approccio più generale e potente, che consente di modellare situazioni realistiche in tutta la loro complessità, sarà l'argomento centrale della prossima sezione della dispensa, dove approfondiremo il flusso di lavoro bayesiano completo e l'uso di distribuzioni continue nell'aggiornamento probabilistico.
+Questo capitolo conclude la trattazione dei fondamenti della probabilità bayesiana, aprendo naturalmente a sviluppi più avanzati quali l'inferenza su parametri continui mediante distribuzioni prior e posterior complete, i modelli gerarchici con iperparametri, la selezione di modelli mediante i fattori di Bayes e l'impiego di metodi computazionali sofisticati per problemi complessi. Tuttavia, i principi fondamentali rimangono invariati: la specificazione del prior che incorpora la conoscenza pregressa, la definizione della funzione di verosimiglianza che modella i dati, il calcolo del posterior che aggiorna le credenze e l'inferenza basata sulla distribuzione risultante.
 
-## Esercizi {.unnumbered .unlisted}
+L'approccio bayesiano offre vantaggi distintivi per la ricerca e la pratica in psicologia: fornisce un'interpretabilità diretta attraverso la probabilità delle ipotesi, dati i dati; incorpora esplicitamente la conoscenza esistente dalla letteratura e dall'esperienza clinica; permette inferenze flessibili, non limitate ai test binari; quantifica completamente l'incertezza attraverso distribuzioni, piuttosto che stime puntuali; e supporta naturalmente l'aggiornamento sequenziale, essenziale per la ricerca iterativa e i trial clinici adattivi.
 
-È facile trovare online esercizi sull'applicazione del teorema di Bayes. Ad esempio, consiglio gli esercizi 1--6 disponibili sulla seguente [pagina web](https://mathcenter.oxford.emory.edu/site/math117/probSetBayesTheorem/).
+Come osservò Laplace oltre due secoli fa, la probabilità bayesiana rappresenta il buon senso ridotto a calcolo, con il teorema di Bayes che ne costituisce il motore matematico fondamentale, offrendo agli psicologi uno strumento coerente e potente per il ragionamento scientifico e clinico in condizioni di incertezza.
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
-```{r}
-sessionInfo()
-```
+## Esercizi {.unnumbered}
+
+È facile trovare online esercizi sull'applicazione del teorema di Bayes. Consigliamo gli esercizi 1–6 disponibili su [questa pagina](https://mathcenter.oxford.emory.edu/site/math117/probSetBayesTheorem/).
+
+::: {.callout-important title="Problemi aggiuntivi" collapse="true"}
+
+### Esercizi concettuali
+
+1. Spiega perché il teorema di Bayes è una conseguenza algebrica della definizione di probabilità condizionata, non un nuovo assioma.
+
+2. La simmetria $P(A \cap B) = P(A \mid B) P(B) = P(B \mid A) P(A)$ è il cuore di Bayes. Spiega cosa significa epistemicamente questa simmetria.
+
+3. Perché $P(E \mid H)$ (likelihood) e $P(H \mid E)$ (posterior) possono essere molto diversi? Fai un esempio concreto.
+
+4. Nel teorema di Bayes, $P(E)$ è spesso chiamata "evidence". Perché questo termine è appropriato? Cosa "evidenzia"?
+
+5. La forma in odds semplifica calcoli e intuizione. Spiega perché moltiplicare odds per LR è più intuitivo che la formula classica.
+
+### Esercizi su applicazioni diagnostiche
+
+6. Test per disturbo d'ansia sociale:
+   - Prevalenza università: 4%
+   - Sensibilità: 88%
+   - Specificità: 92%
+   
+   a. Calcola VPP e VPN
+   b. Visualizza come VPP cambia con prevalenza (grafico)
+   c. Quale prevalenza minima per VPP > 0.5?
+
+7. Due test indipendenti per depressione:
+   - Prior: 12%
+   - Test 1: sens=0.85, spec=0.88
+   - Test 2: sens=0.80, spec=0.90
+   - Entrambi positivi
+   
+   Calcola posterior finale usando:
+   a. Formula di Bayes ripetuta
+   b. Forma in odds con LR moltiplicati
+
+8. Screening per PTSD in veterani (prevalenza 15%) vs popolazione generale (prevalenza 3%). Stesso test (sens=0.82, spec=0.85).
+   
+   a. Calcola VPP in ciascun contesto
+   b. Commenta l'importanza del contesto per interpretazione
+
+### Esercizi su forma odds/LR
+
+9. Converti:
+   a. Probabilità 0.20 in odds
+   b. Odds 3:1 in probabilità
+   c. Prior 0.30, LR=5 → Posterior in odds e probabilità
+
+10. Un test ha LR+=15 e LR-=0.1.
+    a. È un "buon" test? Perché?
+    b. Con prior 10%, calcola posterior per test+ e test-
+    c. Quanto deve essere alto il prior per avere posterior>0.9 dopo test+?
+
+11. Dimostra algebricamente che:
+    $$\text{Odds}(H \mid E) = \text{Odds}(H) \times \frac{P(E \mid H)}{P(E \mid H^c)}$$
+    partendo dal teorema di Bayes in forma classica.
+
+### Esercizi su Beta-Binomiale
+
+12. Prior $\text{Beta}(2, 5)$ (media ≈ 0.29). Osservo 15 successi in 40 prove.
+    a. Calcola parametri del posterior
+    b. Media e IC 95% del posterior
+    c. Visualizza prior, likelihood, posterior
+
+13. Test a 5 opzioni (guessing = 0.20). Studente risponde correttamente a 18 su 50.
+    a. Scegli prior appropriato centrato su 0.20
+    b. Calcola posterior
+    c. Qual è P(θ > 0.25 | dati)? (migliore del guessing)
+
+14. Confronta due prior:
+    - Vago: Beta(1,1)
+    - Informativo: Beta(8,2) (centrato su 0.8)
+    
+    Con gli stessi dati (7 successi su 10), calcola i due posterior e confronta.
+
+### Esercizi su fallacia del tasso base
+
+15. Test per malattia rara (prevalenza 0.1%):
+    - Sensibilità: 99%
+    - Specificità: 98%
+    
+    a. Calcola VPP
+    b. Molte persone stimano VPP ≈ 99%. Spiega l'errore
+    c. Crea grafico VPP vs prevalenza per visualizzare
+
+16. In tribunale, DNA matching probabilità 1 su 100,000 se innocente. Procuratore sostiene "quindi 99.999% colpevole".
+    a. Identifica l'errore (quale confusione probabilistica?)
+    b. Con prior 1% (basato su altre evidenze), calcola posterior corretto
+
+17. Un medico dice: "Il test è accurato al 95%, quindi se positivo c'è il 95% di probabilità di malattia". 
+    a. Perché è sbagliato?
+    b. Quali informazioni servono per calcolare il valore corretto?
+
+### Esercizi applicati psicologia
+
+18. **Comorbidità e Bayes**: Paziente con diagnosi confermata di depressione (D). Qual è P(Ansia | D)?
+    - Prevalenza ansia in popolazione: 15%
+    - Prevalenza depressione: 20%
+    - P(Ansia ∩ Depressione) = 10%
+    
+    [Hint: Usa tabella congiunta, poi Bayes]
+
+19. **Efficacia terapia**: 
+    - Prior: P(Terapia efficace) = 0.60 (da meta-analisi)
+    - Studio pilota: 8 migliorati su 10 trattati
+    - Sotto ipotesi "efficace": P(miglioramento) = 0.75
+    - Sotto ipotesi "non efficace": P(miglioramento) = 0.40
+    
+    Calcola posterior sull'efficacia.
+
+20. **Screening autismo** (M-CHAT):
+    - Prevalenza 18 mesi: 1.5%
+    - Sensibilità: 0.85
+    - Specificità: 0.93
+    
+    a. Bambino risulta positivo. P(Autismo)?
+    b. Secondo screening (indipendente) anche positivo. Nuovo posterior?
+    c. Visualizza aggiornamento sequenziale
+
+### Esercizi computazionali
+
+21. Scrivi funzione R che:
+    - Input: prior (prob), sens, spec, test_result (+/-)
+    - Output: posterior, con visualizzazione barplot
+
+22. Crea visualizzazione interattiva (Shiny o animazione) che mostra come posterior cambia al variare di:
+    - Prior (slider 0-1)
+    - Sensibilità (slider)
+    - Specificità (slider)
+
+23. Simula esperimento bayesiano:
+    - Prior Beta(2,2) su θ
+    - Genera dati binomiali con θ vero = 0.7
+    - Aggiorna posterior dopo ogni osservazione
+    - Anima convergenza del posterior verso θ vero
+
+:::
+
+::: {.callout-tip title="Soluzioni selezionate" collapse="true"}
+
+### Soluzioni concettuali
+
+1. Il teorema segue da: $P(A \cap B) = P(A \mid B) P(B)$ e $P(A \cap B) = P(B \mid A) P(A)$. Uguagliando e dividendo per $P(B)$ si ottiene Bayes. Non serve nuovo assioma—è algebra su definizioni esistenti.
+
+2. La simmetria significa: la congiunta può essere costruita in due modi equivalenti (condizionare su A poi B, o su B poi A). Epistemicamente: non importa l'ordine in cui acquisiamo informazioni—la credenza congiunta finale è la stessa.
+
+3. Esempio: $P(\text{Test+} \mid \text{Malattia}) = 0.95$ (sensibilità alta), ma $P(\text{Malattia} \mid \text{Test+}) = 0.30$ (VPP basso) se prevalenza è molto bassa. Il prior (tasso base) è cruciale!
+
+4. "Evidence" normalizza: $P(E) = \sum_i P(E \mid H_i) P(H_i)$. Rappresenta "quanto E è probabile marginalmente". Se E è molto raro, osservarlo è più informativo (forte evidenza).
+
+5. Odds sono additive in log-scala: $\log(\text{Odds posterior}) = \log(\text{Odds prior}) + \log(\text{LR})$. Moltiplicare odds per LR è quindi "sommare evidenze" in scala naturale.
+
+### Soluzioni diagnostica
+
+6. a. VPP = $\frac{0.88 \times 0.04}{0.88 \times 0.04 + 0.08 \times 0.96} \approx 0.32$
+      VPN = $\frac{0.92 \times 0.96}{0.12 \times 0.04 + 0.92 \times 0.96} \approx 0.995$
+   
+   c. Per VPP > 0.5: prevalenza deve essere ≥ 10% circa
+
+7. a. Dopo T1+: $P(D \mid T1+) = \frac{0.85 \times 0.12}{0.85 \times 0.12 + 0.12 \times 0.88} \approx 0.49$
+      Dopo T2+: $P(D \mid T1+, T2+) = \frac{0.80 \times 0.49}{0.80 \times 0.49 + 0.10 \times 0.51} \approx 0.88$
+   
+   b. Odds: $\frac{0.12}{0.88} \times \frac{0.85}{0.12} \times \frac{0.80}{0.10} = 7.26$ → prob = 0.88 ✓
+
+8. a. Veterani: VPP ≈ 0.45; Pop. generale: VPP ≈ 0.13
+   b. Stesso test, interpretazioni diverse! Il contesto (prior) è essenziale.
+
+### Soluzioni odds/LR
+
+9. a. Odds = 0.20/0.80 = 0.25 (1:4)
+   b. Prob = 3/(3+1) = 0.75
+   c. Odds posterior = (0.30/0.70) × 5 ≈ 2.14 → prob ≈ 0.68
+
+10. a. Ottimo test! LR+ molto alto (forte evidenza positiva), LR- molto basso (forte evidenza negativa)
+    b. Test+: Odds = 0.11 × 15 = 1.67 → prob ≈ 0.63
+       Test-: Odds = 0.11 × 0.1 = 0.011 → prob ≈ 0.01
+    c. Serve prior ≈ 0.06 (6%)
+
+11. Dimostrazione:
+    ```
+    Odds(H|E) = P(H|E)/P(H^c|E)
+              = [P(E|H)P(H)/P(E)] / [P(E|H^c)P(H^c)/P(E)]
+              = [P(E|H)P(H)] / [P(E|H^c)P(H^c)]
+              = [P(H)/P(H^c)] × [P(E|H)/P(E|H^c)]
+              = Odds(H) × LR
+    ```
+
+### Soluzioni Beta-Binomiale
+
+12. a. Posterior: Beta(2+15, 5+25) = Beta(17, 30)
+    b. Media = 17/47 ≈ 0.36; IC95% = [0.24, 0.49]
+
+13. a. Prior: Beta(2, 8) ha media 0.20
+    b. Posterior: Beta(20, 40) con media 20/60 = 0.33
+    c. `pbeta(0.25, 20, 40, lower.tail=FALSE)` ≈ 0.95
+
+14. Prior vago → posterior più influenzato dai dati
+    Prior informativo → posterior "tira" verso prior
+    Con pochi dati (10), prior informativo domina ancora
+
+### Soluzioni applicazioni
+
+18. Dalla tabella: P(A|D) = P(A∩D)/P(D) = 0.10/0.20 = 0.50
+
+19. LR = P(8/10|Efficace)/P(8/10|Non efficace)
+       = [dbinom(8,10,0.75)] / [dbinom(8,10,0.40)]
+       ≈ 0.282/0.121 ≈ 2.33
+    Posterior: (0.60/0.40) × 2.33 ≈ 3.5 → prob ≈ 0.78
+
+20. a. VPP ≈ 0.17 (prevalenza molto bassa!)
+    b. Dopo secondo test: posterior primo diventa prior secondo
+       Nuovo posterior ≈ 0.63
+
 :::
 
 ## Bibliografia {.unnumbered .unlisted}
-
-

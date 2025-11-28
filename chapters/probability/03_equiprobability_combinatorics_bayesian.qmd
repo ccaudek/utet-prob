@@ -2,15 +2,15 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Nei capitoli precedenti abbiamo sviluppato una concezione della probabilità come grado di credenza razionale, in cui gli assiomi rappresentano vincoli di coerenza logica. In questo capitolo, ci poniamo una domanda cruciale: *quando è possibile applicare legittimamente la formula classica "casi favorevoli / casi possibili"?*
+Nei capitoli precedenti abbiamo sviluppato una concezione della probabilità come grado di credenza razionale, in cui gli assiomi rappresentano vincoli di coerenza logica. In questo capitolo, ci poniamo una domanda di base: quando è lecito applicare la formula classica del rapporto tra "casi favorevoli" e  "casi possibili"?
 
-La risposta risiede nel riconoscere che *questa formula presuppone implicitamente l'equiprobabilità di tutti i casi possibili*. Solo quando ogni esito è ugualmente plausibile, il rapporto tra i casi favorevoli e il totale corrisponde effettivamente alla probabilità dell'evento.
+La risposta a questo interrogativo risiede nel riconoscimento che tale formula presuppone implicitamente l'equiprobabilità di tutti gli esiti possibili. Solo quando ogni risultato è altrettanto plausibile, il rapporto tra casi favorevoli e totale corrisponde effettivamente alla probabilità dell'evento considerato.
 
-La prospettiva bayesiana fornisce una fondazione precisa per questo approccio: l'equiprobabilità non è una proprietà intrinseca del mondo fisico, ma deriva da uno stato di *simmetria epistemica*, ovvero dalla nostra mancanza di ragioni per considerare un esito più plausibile di un altro. Questo approccio formalizza il *principio di indifferenza* (o principio di ragione insufficiente): quando non disponiamo di informazioni che ci permettano di discriminare tra diverse possibilità, assegniamo loro credenze uguali.
+La prospettiva bayesiana fornisce una fondazione concettuale rigorosa per questo approccio: l'equiprobabilità non rappresenta una proprietà intrinseca del mondo fisico, ma deriva da uno stato di *simmetria epistemica*, ovvero dall'assenza di ragioni valide per considerare un esito più plausibile di un altro. Questa visione formalizza il *principio di indifferenza*, noto anche come *principio di ragione insufficiente*: in assenza di informazioni discriminanti tra diverse possibilità, a queste ultime vengono assegnate credenze probabilistiche uguali.
 
-In questa luce, il calcolo combinatorio assume un nuovo significato: non costituisce una definizione di probabilità, ma diventa uno *strumento di modellazione* per elencare le configurazioni in contesti che riteniamo simmetrici.
+Alla luce di questa interpretazione, il calcolo combinatorio assume un significato epistemologico rinnovato: esso non costituisce una definizione di probabilità, ma diventa uno *strumento di modellazione* per elencare sistematicamente le configurazioni in contesti che riteniamo caratterizzati da simmetria informativa.
 
-Tuttavia, quando emergono informazioni asimmetriche, come palline con pesi differenti in un'urna o item di test con diversa difficoltà, l'ipotesi di equiprobabilità viene meno. In questi casi, dobbiamo abbandonare il modello uniforme semplice e passare a modelli parametrici più sofisticati, in grado di catturare le differenze sistematiche tra le alternative.
+Tuttavia, quando emergono informazioni asimmetriche, come nel caso di palline con pesi differenti in un'urna o di item di test con diversa difficoltà, l'ipotesi di equiprobabilità non è più sostenibile. In tali circostanze, è necessario abbandonare il modello uniforme semplice e adottare modelli parametrici più sofisticati, in grado di catturare adeguatamente le differenze sistematiche tra le alternative considerate.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
@@ -43,7 +43,6 @@ if (!requireNamespace("pacman")) install.packages("pacman")
 pacman::p_load(ggplot2, dplyr, tidyr, gtools, combinat, gtools)
 ```
 :::
-
 ## Il principio di indifferenza (simmetria epistemica)
 
 ::: {#def-principle-indifference}
@@ -54,7 +53,7 @@ Se, in base alle informazioni di cui disponiamo attualmente, non abbiamo *ragion
 
 ### Fondamento epistemico
 
-Il principio di indifferenza non afferma che gli esiti sono "fisicamente equiprobabili", ma che la *nostra ignoranza è simmetrica*. In assenza di informazioni discriminanti, la distribuzione uniforme rappresenta il massimo livello di incertezza (massima entropia).
+Il principio di indifferenza non afferma che gli esiti siano "fisicamente equiprobabili", ma che la *nostra ignoranza è simmetrica*. In assenza di informazioni discriminanti, la distribuzione uniforme rappresenta il massimo livello di incertezza (massima entropia).
 
 ::: {.callout-important title="Distinzione cruciale"}
 **Non bayesiano**: "Il dado è equo, quindi ogni faccia ha una probabilità pari a 1/6" (l'equiprobabilità è una proprietà fisica).
@@ -64,9 +63,9 @@ Il principio di indifferenza non afferma che gli esiti sono "fisicamente equipro
 
 ### Quando si applica il principio
 
-Il principio di indifferenza trova giustificazione epistemica in tre condizioni specifiche. La prima condizione riguarda la presenza di simmetria fisica nel sistema oggetto di studio, come nel caso di dadi regolari, monete bilanciate o urne omogenee, in cui le proprietà fisiche garantiscono un'effettiva equivalenza tra gli esiti possibili.
+Il principio di indifferenza trova giustificazione epistemica in tre condizioni specifiche. La prima condizione riguarda la presenza di simmetria fisica nel sistema oggetto di studio: ad esempio, i dadi regolari, le monete bilanciate o le urne omogenee, in cui le proprietà fisiche garantiscono un'effettiva equivalenza tra gli esiti possibili.
 
-La seconda condizione si verifica in situazioni di ignoranza totale, quando non disponiamo di alcuna informazione rilevante che ci permetterebbe di operare distinzioni tra i diversi esiti considerati. In tali circostanze, l'assegnazione di probabilità uniformi rappresenta l'unica scelta coerente con il nostro stato di conoscenza.
+La seconda condizione si verifica in situazioni di ignoranza totale, quando non si dispone di alcuna informazione rilevante che permetta di operare distinzioni tra i diversi esiti considerati. In tali circostanze, l'assegnazione di probabilità uniformi rappresenta l'unica scelta coerente con il nostro stato di conoscenza.
 
 La terza condizione necessaria è l'assenza di una struttura sottostante, ovvero la mancanza di dipendenze note, di pattern sistematici o di relazioni che potrebbero favorire determinati esiti rispetto ad altri. Quando non emergono elementi che suggeriscono l'esistenza di tali strutture latenti, il principio di indifferenza rappresenta un approccio ragionevole per l'assegnazione delle probabilità iniziali.
 
@@ -75,20 +74,20 @@ La terza condizione necessaria è l'assenza di una struttura sottostante, ovvero
 
 L'applicazione automatica del principio di indifferenza, svincolata da un'analisi critica, può condurre a conclusioni paradossali e contraddittorie. Un esempio particolarmente illuminante è rappresentato dal celebre paradosso di Bertrand sulla produzione di cubi.
 
-**Il paradosso di Bertrand dei cubi**: si consideri una fabbrica che produce cubi con una lunghezza del lato compresa tra 0 e 1 metro. La questione investigata riguarda la probabilità che un cubo selezionato casualmente presenti un lato superiore a 0.5 metri.
+**Il paradosso dei cubi di Bertrand**: si consideri una fabbrica che produce cubi con una lunghezza del lato compresa tra 0 e 1 metro. La questione investigata riguarda la probabilità che un cubo selezionato casualmente presenti un lato superiore a 0.5 metri.
 
-Adottando un primo approccio basato sull'indifferenza rispetto alla lunghezza del lato, assumendo cioè che tutte le lunghezze siano ugualmente probabili, si giunge alla conclusione che $P(\text{lato} > 0.5) = 0.5$.
+Se si adotta un primo approccio basato sull'indifferenza rispetto alla lunghezza del lato, assumendo cioè che tutte le lunghezze siano ugualmente probabili, si giunge alla conclusione che $P(\text{lato} > 0.5) = 0.5$.
 
-Un secondo approccio, basato invece sull'indifferenza rispetto al volume e sull'equiprobabilità di tutti i volumi possibili, conduce a un risultato differente. Considerando che il volume è dato da $L^3$, si ottiene $P(\text{volume} > 0.125) = P(L > 0.5) \neq 0.5$.
+Un secondo approccio, basato invece sull'indifferenza rispetto al volume e sull'equiprobabilità di tutti i volumi possibili, conduce a un risultato diverso. Considerando che il volume è dato da $L^3$, si ottiene $P(\text{volume} > 0.125) = P(L > 0.5) \neq 0.5$.
 
-L'origine della contraddizione risiede nell'ambiguità fondamentale riguardante la scelta della variabile considerata "naturale" per l'applicazione del principio di indifferenza. Il conflitto emerge dalla mancanza di criteri oggettivi per stabilire se sia più rilevante la lunghezza del lato o il volume del cubo.
+La contraddizione nasce dall'ambiguità fondamentale riguardo alla scelta della variabile considerata "naturale" per applicare il principio di indifferenza. Il conflitto emerge dalla mancanza di criteri oggettivi per stabilire se sia più rilevante la lunghezza del lato o il volume del cubo.
 
 La prospettiva bayesiana risolve questo paradosso riconoscendo che non esiste una scelta "corretta" a priori tra le diverse parametrizzazioni. La soluzione richiede invece una specificazione esplicita della parametrizzazione ritenuta rilevante per il problema specifico, basata sulle informazioni concrete disponibili riguardo al processo di produzione. L'equiprobabilità non è una proprietà oggettiva del sistema in esame, ma piuttosto una scelta di modellazione che deve essere giustificata in base al contesto conoscitivo e agli obiettivi inferenziali.
 :::
 
 ## La formula classica come caso particolare dell'equiprobabilità
 
-Quando accettiamo il principio di indifferenza per uno spazio campionario finito, la formula classica della probabilità emerge come conseguenza logica e matematica.
+Quando accettiamo il principio di indifferenza per uno spazio campionario finito, la formula classica della probabilità emerge come conseguenza logica.
 
 ::: {#thm-classical-formula}
 ### La formula classica nella prospettiva bayesiana
@@ -101,31 +100,31 @@ $$
 P(A) = \frac{|A|}{|\Omega|} = \frac{\text{numero di esiti favorevoli}}{\text{numero totale di esiti possibili}}.
 $$
 
-**Dimostrazione**: Per l'assioma di additività degli eventi disgiunti:
+**Dimostrazione**: per l'assioma di additività degli eventi disgiunti:
 $$
 P(A) = \sum_{\omega_i \in A} P(\omega_i) = \sum_{\omega_i \in A} \frac{1}{n} = |A| \cdot \frac{1}{n} = \frac{|A|}{n} = \frac{|A|}{|\Omega|}.
 $$
 
-**Nota fondamentale**: La validità di questa formula dipende criticamente dall'ipotesi di equiprobabilità degli esiti elementari.
+**Nota fondamentale**: la validità di questa formula dipende criticamente dall'ipotesi di equiprobabilità degli esiti elementari.
 :::
 
 ### Una conseguenza, non una definizione
 
 È fondamentale riconoscere che la formula classica "casi favorevoli diviso casi possibili" non costituisce una *definizione* del concetto di probabilità, bensì rappresenta una *conseguenza matematica* della teoria probabilistica che risulta valida esclusivamente sotto condizioni specifiche e circoscritte.
 
-Questa formula emerge naturalmente dall'interazione sinergica di tre componenti fondamentali. In primo luogo, gli *assiomi di coerenza* garantiscono la consistenza logica formale delle nostre assegnazioni probabilistiche. In secondo luogo, il *principio di indifferenza* introduce un'assunzione epistemica concernente la simmetria delle nostre credenze preliminari rispetto ai diversi esiti possibili. Infine, il *calcolo combinatorio* fornisce lo strumento operativo per enumerare sistematicamente le configurazioni che vengono considerate equiprobabili.
+Questa formula emerge naturalmente dall'interazione sinergica di tre componenti fondamentali. In primo luogo, gli *assiomi di coerenza* garantiscono la consistenza logica formale delle nostre assegnazioni probabilistiche. In secondo luogo, il *principio di indifferenza* introduce un'assunzione epistemica riguardante la simmetria delle nostre credenze preliminari rispetto ai diversi esiti possibili. Infine, il *calcolo combinatorio* fornisce lo strumento operativo per elencare sistematicamente le configurazioni che vengono considerate equiprobabili.
 
-La validità della formula classica risulta quindi *condizionata criticamente* all'appropriatezza dell'assunzione di equiprobabilità. Quando questa assunzione non risulta giustificata dal nostro stato informativo—ovvero quando disponiamo di evidenza che contraddice la simmetria epistemica—la formula classica perde il suo fondamento logico e deve essere necessariamente sostituita da modelli probabilistici più sofisticati in grado di incorporare le asimmetrie informative disponibili.
+La validità della formula classica risulta quindi *condizionata criticamente* all'appropriatezza dell'assunzione di equiprobabilità. Quando questa assunzione non è giustificata dal nostro stato informativo, ovvero quando disponiamo di prove che contraddicono la simmetria epistemica, la formula classica perde il suo fondamento logico e deve essere sostituita da modelli probabilistici più sofisticati in grado di incorporare le asimmetrie informative disponibili.
 
 ## Calcolo combinatorio come modellazione bayesiana
 
 ### Un cambio di prospettiva
 
-Nella trattazione classica della probabilità, il calcolo combinatorio viene solitamente presentato come una "tecnica di conteggio" neutrale e puramente operativa. La prospettiva bayesiana introduce invece un cambiamento epistemologico fondamentale: ogni formula combinatoria rappresenta l'implementazione di un modello specifico di credenze equiprobabili su un particolare tipo di configurazione.
+Nella trattazione classica della probabilità, il calcolo combinatorio viene solitamente presentato come una tecnica di conteggio neutrale e puramente operativa. La prospettiva bayesiana introduce invece una trasformazione epistemologica fondamentale: ogni formula combinatoria rappresenta l'implementazione di un modello specifico di credenze equiprobabili su una determinata configurazione.
 
-Quando applichiamo il calcolo combinatorio a contesti probabilistici, operiamo implicitamente una serie di assunzioni epistemologiche precise. In primo luogo, identifichiamo uno spazio di configurazioni che riteniamo rilevante per il problema in esame, definendo così l'insieme delle possibilità ammissibili. In secondo luogo, si assume l'esistenza di una simmetria epistemica su tale spazio, postulando che tutte le configurazioni identificate siano ugualmente credibili, date le informazioni attuali. Infine, procediamo all'enumerazione sistematica delle configurazioni per calcolare probabilità coerenti con questa assunzione di simmetria.
+Quando applichiamo il calcolo combinatorio a contesti probabilistici, operiamo implicitamente sulla base di una serie di assunzioni epistemologiche ben definite. Inizialmente, identifichiamo uno spazio di configurazioni che riteniamo rilevante per il problema in esame, delineando l'insieme delle possibilità logicamente ammissibili. In seguito, si assume l'esistenza di una simmetria epistemica su tale spazio, postulando che tutte le configurazioni identificate siano ugualmente credibili alla luce delle informazioni attualmente disponibili. Infine, si procede all'enumerazione sistematica delle configurazioni per calcolare probabilità coerenti con tale assunzione di simmetria.
 
-Questa riconcettualizzazione trasforma il calcolo combinatorio da mero strumento computazionale a componente integrante di un più ampio framework epistemico, in cui le scelte combinatorie riflettono precise posizioni riguardo alla struttura delle credenze preliminari.
+Questa riconcettualizzazione trasforma il calcolo combinatorio da mero strumento computazionale a componente integrante di un più ampio framework epistemico in cui le scelte combinatorie riflettono posizioni precise riguardo alla struttura delle credenze preliminari.
 
 ::: {.callout-note title="Esempio psicologico: formazione di gruppi terapeutici"}
 Immaginiamo di dover costituire dei gruppi per una terapia di gruppo. Abbiamo a disposizione 10 pazienti e dobbiamo sceglierne 4 per formare il primo gruppo.
@@ -136,40 +135,34 @@ Immaginiamo di dover costituire dei gruppi per una terapia di gruppo. Abbiamo a 
 "Si tratta di una combinazione di 10 elementi presi 4 alla volta, pertanto $\binom{10}{4} = 210$."
 
 **Interpretazione bayesiana**:  
-Questa risposta numerica cela un'assunzione epistemica di fondamentale importanza:
-
-Stiamo implicitamente presupponendo che ogni possibile gruppo di quattro pazienti sia, a priori, equivalente rispetto alle nostre credenze preliminari. Questo assunto si basa sull'assenza di informazioni che ci porterebbero a considerare alcune composizioni più plausibili di altre. La simmetria epistemica tra tutti i possibili sottoinsiemi giustifica dunque l'applicazione del calcolo combinatorio nella sua forma standard.
+Questa risposta numerica cela un'importante assunzione: stiamo implicitamente presupponendo che ogni possibile gruppo di quattro pazienti sia, a priori, equivalente rispetto alle nostre credenze preliminari. Questo assunto si basa sull'assenza di informazioni che ci porterebbero a considerare alcune composizioni più plausibili di altre. La simmetria epistemica tra tutti i possibili sottoinsiemi giustifica dunque l'applicazione del calcolo combinatorio nella sua forma standard.
 
 Tuttavia, se disponessimo di informazioni aggiuntive, come la conoscenza di dinamiche conflittuali pregresse tra specifici pazienti o l'evidenza di profili clinici particolarmente complementari, l'ipotesi di equiprobabilità risulterebbe ingiustificata. In tali circostanze, l'applicazione acritica del modello combinatorio uniforme condurrebbe a rappresentazioni inadeguate delle nostre credenze effettive.
 
-Implicazione pratica: il numero 210 rappresenta il conteggio delle configurazioni che consideriamo ugualmente plausibili, ma solo in assenza di informazioni specifiche sulla compatibilità interpersonale tra i pazienti.
+L'implicazione pratica è chiara: il numero 210 rappresenta il conteggio delle configurazioni che consideriamo ugualmente plausibili, ma solo in assenza di informazioni specifiche sulla compatibilità interpersonale tra i pazienti.
 :::
 
-### Principio della somma (prospettiva bayesiana)
+### Principio della somma 
 
-Il *principio della somma* corrisponde alla *regola di additività* per eventi disgiunti nel calcolo delle probabilità. Quando uno spazio può essere partizionato in categorie mutualmente esclusive, le nostre credenze si distribuiscono additivamente tra queste categorie.
+Il *principio della somma* corrisponde alla *regola di additività* per eventi disgiunti nel calcolo delle probabilità. Quando uno spazio può essere suddiviso in categorie mutualmente esclusive, le nostre credenze si distribuiscono additivamente tra queste categorie secondo la relazione:
 
 $$
 n_{\text{totale}} = n_1 + n_2 + \dots + n_k.
 $$
 
-**Interpretazione bayesiana**: Se dobbiamo scegliere tra alternative che appartengono a categorie disgiunte, e assegniamo equiprobabilità all'interno di ciascuna categoria, allora il numero totale di configurazioni che consideriamo ugualmente plausibili è la somma delle configurazioni in ciascuna categoria.
+Epistemicamente, questo principio stabilisce che, se dobbiamo scegliere tra alternative appartenenti a categorie disgiunte e assegniamo a ciascuna categoria la stessa probabilità, allora il numero totale di configurazioni che consideriamo ugualmente plausibili corrisponde alla somma delle configurazioni presenti in ciascuna categoria.
 
-**Esempio psicologico: scelta di trattamenti**
+**Esempio psicologico: scelta di trattamenti.**
 
-Immaginiamo che un paziente debba scegliere un protocollo terapeutico tra tre categorie mutualmente esclusive:
+Consideriamo un paziente che deve scegliere un protocollo terapeutico tra tre categorie mutualmente esclusive: la categoria A comprende 8 protocolli di terapie cognitive, la categoria B include 6 protocolli di terapie comportamentali e la categoria C offre 10 protocolli di terapie integrate.
 
-- **Categoria A** (terapie cognitive): 8 protocolli diversi;
-- **Categoria B** (terapie comportamentali): 6 protocolli diversi; 
-- **Categoria C** (terapie integrate): 10 protocolli diversi.
-
-Se non disponiamo di informazioni che favoriscano un protocollo rispetto agli altri (principio di indifferenza), il numero totale di opzioni equiprobabili è:
+In assenza di informazioni che favoriscano un protocollo rispetto agli altri, condizione che giustifica l'applicazione del principio di indifferenza, il numero totale di opzioni equiprobabili è:
 
 $$
 n_{\text{totale}} = 8 + 6 + 10 = 24.
 $$
 
-La probabilità di scegliere un protocollo specifico, sotto l'ipotesi di equiprobabilità, è quindi $1/24$.
+La probabilità di scegliere un protocollo specifico, sotto l'ipotesi di equiprobabilità, è quindi pari a $1/24$.
 
 ```{r}
 # Calcolo delle probabilità per la scelta di trattamenti
@@ -178,46 +171,26 @@ B <- 6   # Terapie comportamentali
 C <- 10  # Terapie integrate
 
 n_totale <- A + B + C
-
-cat("ANALISI DELLE OPZIONI TERAPEUTICHE\n")
-cat("===================================\n")
-cat("Numero totale di protocolli disponibili:", n_totale, "\n")
-cat("Probabilità di ciascun protocollo (equiprobabilità):", round(1/n_totale, 4), "\n")
-cat("\nPROBABILITÀ PER CATEGORIA:\n")
-cat("Terapie cognitive (A):", round(A/n_totale, 3), "\n")
-cat("Terapie comportamentali (B):", round(B/n_totale, 3), "\n")
-cat("Terapie integrate (C):", round(C/n_totale, 3), "\n")
-cat("\nVerifica coerenza (somma = 1):", round((A + B + C)/n_totale, 3))
 ```
 
 **Interpretazione clinica**: 
+in questo modello, ogni protocollo terapeutico ha la stessa plausibilità a priori, pari a circa il 4,17%. Le terapie integrate sono collettivamente più probabili (41,7%) in virtù del maggior numero di opzioni disponibili in questa categoria. È importante sottolineare che questo modello è appropriato esclusivamente in assenza di informazioni specifiche sulla compatibilità tra il singolo paziente e i diversi approcci terapeutici.
 
-- ogni protocollo ha la stessa plausibilità a priori (4.17%);
-- le terapie integrate sono collettivamente più probabili (41.7%) perché offrono più opzioni;
-- questo modello è appropriato solo se non abbiamo informazioni sulla compatibilità tra paziente e approccio terapeutico.
+### Principio del prodotto 
 
-### Principio del prodotto (prospettiva bayesiana)
-
-Il *principio del prodotto* si applica quando dobbiamo fare *scelte sequenziali indipendenti*. Dal punto di vista bayesiano, questo principio corrisponde alla moltiplicazione delle probabilità per eventi considerati indipendenti nel nostro stato di conoscenza:
+Il *principio del prodotto* trova applicazione quando ci troviamo di fronte a scelte sequenziali che consideriamo epistemicamente indipendenti. Dal punto di vista bayesiano, questo principio corrisponde alla moltiplicazione delle probabilità per eventi ritenuti indipendenti nel nostro attuale stato di conoscenza:
 
 $$
 n_{\text{totale}} = n_1 \times n_2 \times \dots \times n_k.
 $$
 
-**Interpretazione bayesiana**: Se dobbiamo effettuare $k$ scelte successive e indipendenti, e per ciascuna scelta abbiamo $n_i$ opzioni che consideriamo ugualmente plausibili, allora il numero totale di sequenze equiprobabili è dato dal prodotto delle opzioni disponibili a ogni passo.
+Questa relazione esprime il fatto che, quando dobbiamo effettuare una serie di scelte successive che consideriamo indipendenti, delle quali abbiamo a disposizione un certo numero di opzioni che riteniamo ugualmente plausibili, allora il numero totale di sequenze equiprobabili è dato dal prodotto delle opzioni disponibili a ogni passo decisionale.
 
 **Esempio psicologico: progettazione di uno studio longitudinale**
 
-Immaginiamo di progettare uno studio longitudinale che richiede tre decisioni sequenziali.
+Consideriamo la progettazione di uno studio longitudinale che richiede tre decisioni sequenziali. La prima fase riguarda la selezione del metodo di valutazione, per il quale sono disponibili tre opzioni: intervista clinica, questionario standardizzato o osservazione diretta. La seconda fase riguarda la scelta della frequenza di misurazione, con quattro opzioni: settimanale, bisettimanale, mensile o bimestrale. La terza fase prevede la scelta della durata del follow-up, con due opzioni: breve termine (6 mesi) o lungo termine (12 mesi).
 
-- **Fase 1**: Selezione del metodo di assessment  
-  (3 opzioni: intervista clinica, questionario standardizzato, osservazione diretta).
-- **Fase 2**: Scelta della frequenza di misurazione  
-  (4 opzioni: settimanale, bisettimanale, mensile, bimestrale).
-- **Fase 3**: Decisione sulla durata del follow-up  
-  (2 opzioni: breve termine [6 mesi], lungo termine [12 mesi]).
-
-Se non abbiamo informazioni che favoriscano opzioni specifiche (simmetria epistemica), il numero totale di design considerati ugualmente plausibili è:
+In assenza di informazioni che favoriscano opzioni specifiche, condizione che giustifica l'assunzione di simmetria epistemica, il numero totale di design considerati ugualmente plausibili è:
 
 $$
 n_{\text{totale}} = 3 \times 4 \times 2 = 24.
@@ -230,36 +203,26 @@ frequenze <- 4
 follow_up <- 2
 
 n_design <- metodi_assessment * frequenze * follow_up
-
-cat("ANALISI DEI DESIGN DI STUDIO POSSIBILI\n")
-cat("======================================\n")
-cat("Metodi di assessment disponibili:", metodi_assessment, "\n")
-cat("Frequenze di misurazione:", frequenze, "\n")
-cat("Opzioni di follow-up:", follow_up, "\n")
-cat("\nNumero totale di design possibili:", n_design, "\n")
-cat("Probabilità di ciascun design specifico:", round(1/n_design, 4), "\n")
-cat("\nEsempio: probabilità di 'intervista + settimanale + lungo termine':", 
-    round(1/n_design, 4))
 ```
 
-**Condizione cruciale per l'applicabilità**: l'equiprobabilità di tutte le 24 combinazioni vale *solo se* consideriamo le tre scelte come indipendenti e non abbiamo informazioni che suggeriscano preferenze tra le opzioni.
+Una condizione cruciale per l'applicabilità di questo modello risiede nel fatto che l'equiprobabilità di tutte le 24 combinazioni vale esclusivamente se consideriamo le tre scelte come epistemicamente indipendenti e non disponiamo di informazioni che suggeriscano delle preferenze tra le diverse opzioni.
 
-**Situazione realistica**: se la letteratura ci indica che le misurazioni settimanali sono più accurate per certi fenomeni psicologici, o che certi metodi di assessment sono più appropriati per specifiche popolazioni, dovremmo *revisionare le nostre credenze* e abbandonare il modello equiprobabile a favore di una distribuzione più informata.
+In una situazione realistica, se la letteratura scientifica indicasse che le misurazioni settimanali sono più accurate per determinati fenomeni psicologici o che alcuni metodi di valutazione sono più appropriati per specifiche popolazioni, dovremmo necessariamente rivedere le nostre credenze preliminari e abbandonare il modello equiprobabile a favore di una distribuzione probabilistica più informata che incorpori queste evidenze.
 
 ### Permutazioni: ordinamenti equiprobabili
 
-Le **permutazioni** rappresentano l'insieme completo dei possibili ordinamenti di $n$ oggetti distinti. Dal punto di vista bayesiano, questa nozione implica l'assunzione che *ogni possibile sequenza ordinata sia a priori ugualmente credibile*:
+Le **permutazioni** rappresentano l'insieme completo di tutti gli ordinamenti possibili di $n$ oggetti distinti. Dal punto di vista bayesiano, questa nozione implica l'assunzione che *ogni possibile sequenza ordinata sia a priori ugualmente credibile*:
 
 $$
 P_n = n! = n \times (n-1) \times (n-2) \times \dots \times 2 \times 1.
 $$ {#eq-permutations-def}
 
-**Intuizione della formula**. Consideriamo $n$ elementi distinti da disporre in sequenza. La scelta del primo elemento può avvenire in $n$ modi differenti. Una volta selezionato il primo elemento, rimangono $n-1$ possibilità per il secondo. Il terzo elemento avrà a disposizione $n-2$ opzioni, e così via fino all'ultimo elemento che avrà una sola collocazione possibile. Applicando il principio del prodotto, si ottiene l'equazione @eq-permutations-def.
+L'intuizione alla base di questa formula può essere compresa considerando il processo sequenziale di disposizione di $n$ elementi distinti. La scelta del primo elemento può avvenire in $n$ modi differenti. Una volta selezionato il primo elemento, rimangono $n-1$ possibilità per il secondo. Il terzo elemento avrà a disposizione $n-2$ opzioni e così via, fino all'ultimo elemento che avrà una sola collocazione possibile. Applicando il principio del prodotto a questa sequenza di scelte, si ottiene l'equazione @eq-permutations-def.
 
-**Interpretazione bayesiana**: quando dobbiamo ordinare $n$ elementi in assenza di informazioni che favoriscano sequenze specifiche, ciascuna delle $n!$ permutazioni possiede la medesima credibilità iniziale, pari a $1/n!$.
+Dal punto di vista bayesiano, quando dobbiamo ordinare $n$ elementi in assenza di informazioni che favoriscano sequenze specifiche, ciascuna delle $n!$ permutazioni possiede la stessa credibilità iniziale, pari a  $1/n!$. Questa assegnazione uniforme riflette uno stato di simmetria epistemica rispetto a tutti i possibili ordinamenti, giustificato esclusivamente dalla mancanza di evidenze che distinguano una sequenza dalle altre in termini di plausibilità.
 
 ::: {.callout-note title="Esempio psicologico: ordine di presentazione degli stimoli"}
-In un esperimento sulla memoria, vengono presentate 5 parole distinte ai partecipanti. Per evitare che i risultati siano influenzati dagli effetti di posizione (primacy e recency), l'ordine di presentazione viene randomizzato.
+In un esperimento sulla memoria, vengono presentate 5 parole distinte ai partecipanti. Per evitare che i risultati siano influenzati dagli effetti di posizione (*primacy* e *recency*), l'ordine di presentazione viene randomizzato.
 
 **Domanda metodologica**: Quanti ordinamenti distinti è possibile generare?
 
@@ -296,44 +259,35 @@ for(i in 1:3) {
 }
 ```
 
-**Significato metodologico**: nella ricerca psicologica, la procedura di randomizzazione degli ordini di presentazione implementa operativamente il principio bayesiano di indifferenza. Questo approccio metodologico garantisce che il disegno sperimentale non introduca distorsioni sistematiche e favorisce l'elaborazione di interpretazioni causali più robuste.
+Il significato metodologico di questo approccio risiede nel fatto che, nella ricerca psicologica, la procedura di randomizzazione degli ordini di presentazione implementa operativamente il principio bayesiano di indifferenza. Tale strategia metodologica assicura che il disegno sperimentale non introduca distorsioni sistematiche e promuove l'elaborazione di interpretazioni causali più robuste e affidabili.
 
 ### Disposizioni: selezioni ordinate equiprobabili
 
-Le **disposizioni** (denominate anche *permutazioni parziali*) rappresentano il numero di modi per scegliere e ordinare $k$ oggetti da un insieme di $n$ oggetti. Dal punto di vista bayesiano, questa nozione implica l'assunzione di equiprobabilità su tutte le possibili sequenze ordinate di lunghezza $k$.
+Le **disposizioni** (denominate anche *permutazioni parziali*) rappresentano il numero di modi per scegliere e ordinare $k$ oggetti da un insieme di $n$ oggetti. Dal punto di vista bayesiano, questa nozione implica l'assunzione di equiprobabilità su tutte le possibili sequenze ordinate di lunghezza $k$:
 
 $$
 D_{n,k} = \frac{n!}{(n-k)!} = n \times (n-1) \times \cdots \times (n-k+1).
 $$ {#eq-dispositions-def}
 
-**Intuizione della formula**. Si consideri il processo di formazione di una sequenza ordinata composta da $k$ elementi selezionati da un insieme di $n$ oggetti distinti. Questo processo si sviluppa attraverso $k$ passi sequenziali. Nel primo passo, la scelta del primo elemento presenta $n$ possibilità distinte. Nel secondo passo, la scelta del secondo elemento offre $n-1$ opzioni residue. Il terzo passo prevede $n-2$ opzioni, e questa progressione decrescente continua fino al $k$-esimo passo, in cui rimangono $n-k+1$ possibilità.
+L'intuizione alla base di questa formula emerge considerando il processo di formazione di una sequenza ordinata composta da $k$ elementi selezionati da un insieme di $n$ oggetti distinti. Questo processo si articola attraverso $k$ passi sequenziali. Nel primo passo, la scelta del primo elemento presenta $n$ possibilità distinte. Nel secondo passo, la scelta del secondo elemento offre $n-1$ opzioni residue. Il terzo passo prevede $n-2$ opzioni, e questa progressione decrescente continua fino al $k$-esimo passo, in cui rimangono $n-k+1$ possibilità.
 
-Il prodotto delle scelte disponibili a ogni passo conduce alla formula:
-$$
-D_{n,k} = n \times (n-1) \times (n-2) \times \dots \times (n-k+1).
-$$
+Il prodotto delle scelte disponibili a ogni passo conduce alla formula che, concettualmente, equivale a interrompere il fattoriale di $n$ dopo $k$ fattori. Formalmente, essa corrisponde alla divisione di $n!$ per il fattoriale degli elementi non selezionati $(n-k)!$, come illustrato nell'equazione @eq-dispositions-def.
 
-Questa espressione equivale concettualmente a interrompere il fattoriale di $n$ dopo $k$ fattori. Formalmente, essa corrisponde alla divisione di $n!$ per il fattoriale degli elementi non selezionati $(n-k)!$, come illustrato nell'equazione @eq-dispositions-def.
-
-**Interpretazione bayesiana**: quando dobbiamo selezionare $k$ elementi da $n$ in sequenza senza reinserimento, e l'ordine di selezione risulta rilevante, ciascuna possibile sequenza possiede una credibilità iniziale pari a $1/D_{n,k}$.
+Dal punto di vista bayesiano, quando dobbiamo selezionare $k$ elementi da $n$ in sequenza senza reinserimento, e l'ordine di selezione è rilevante, ciascuna possibile sequenza possiede una credibilità iniziale pari a $1/D_{n,k}$.
 
 ::: {.callout-note title="Esempio psicologico: assegnazione di ruoli in terapia di gruppo"}
-In un contesto di terapia di gruppo che coinvolge 8 partecipanti, è necessario assegnare tre ruoli specifici e distinti:
+In un contesto di terapia di gruppo che coinvolge otto partecipanti, è necessario assegnare tre ruoli specifici e distinti: il facilitatore, che guida le discussioni; l'osservatore, che annota le dinamiche interpersonali; e il timekeeper, che gestisce i tempi.
 
-- il **facilitatore**, responsabile della guida delle discussioni;
-- l'**osservatore**, incaricato di annotare le dinamiche interpersonali;
-- il **timekeeper**, deputato alla gestione dei tempi.
-
-**Domanda metodologica**: Quante assegnazioni distinte di questi ruoli è possibile realizzare?
+**Domanda metodologica**: quante assegnazioni distinte di questi ruoli è possibile realizzare?
 
 **Analisi bayesiana**: 
 $$
 D_{8,3} = \frac{8!}{(8-3)!} = 8 \times 7 \times 6 = 336.
 $$
 
-Nell'ipotesi di simmetria epistemica—che presuppone l'assenza di informazioni sulle preferenze individuali o sulle competenze specifiche—ciascuna assegnazione possiede una probabilità di $1/336 \approx 0.003$.
+Nell'ipotesi di simmetria epistemica, che presuppone l'assenza di informazioni sulle preferenze individuali o sulle competenze specifiche, ciascuna assegnazione ha una probabilità di $1/336 \approx 0.003$.
 
-**Scenario realistico**: qualora si disponga di informazioni aggiuntive, come la conoscenza di esperienze pregresse di alcuni partecipanti nel ruolo di facilitatore, l'assunzione di equiprobabilità risulterebbe inappropriata. In tali circostanze, diverrebbe necessario adottare un modello probabilistico più sofisticato in grado di riflettere questa informazione aggiuntiva, ad esempio assegnando probabilità più elevate alle configurazioni che includono facilitatori esperti.
+**Scenario realistico**: qualora si disponga di informazioni aggiuntive, come la conoscenza delle esperienze pregresse di alcuni partecipanti nel ruolo di facilitatore, l'assunzione di equiprobabilità risulterebbe inappropriata. In tali circostanze, sarebbe necessario adottare un modello probabilistico più sofisticato in grado di riflettere questa informazione aggiuntiva, ad esempio assegnando probabilità più elevate alle configurazioni che includono facilitatori esperti.
 :::
 
 ```{r}
@@ -366,8 +320,7 @@ for(i in 1:3) {
 }
 ```
 
-**Insight bayesiano**: l'applicazione del modello delle disposizioni presuppone il soddisfacimento di due condizioni fondamentali: la rilevanza dell'ordine o della specificità dei ruoli, e l'equivalenza a priori di tutte le possibili assegnazioni. Quando una di queste condizioni non risulta verificata, a causa di informazioni aggiuntive o di caratteristiche contestuali, diventa necessario modificare il modello probabilistico per incorporare adeguatamente queste complessità.
-
+L'insight bayesiano fondamentale rivela che l'applicazione del modello delle disposizioni presuppone il soddisfacimento di due condizioni essenziali: la rilevanza dell'ordine o della specificità dei ruoli, e l'equivalenza a priori di tutte le possibili assegnazioni. Quando una di queste condizioni non viene soddisfatta a causa di informazioni aggiuntive o di caratteristiche contestuali, diventa necessario modificare il modello probabilistico per incorporare adeguatamente queste complessità.
 
 ### Combinazioni: selezioni non ordinate equiprobabili
 
@@ -377,17 +330,13 @@ $$
 C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 $$ {#eq-combinations-def}
 
-**Intuizione della formula**. Si consideri il processo di formazione di gruppi composti da $k$ elementi selezionati da un insieme di $n$, in cui l'ordine di selezione non è rilevante.
-
-Se contassimo le sequenze ordinate (disposizioni), noteremmo che il primo elemento offre $n$ opzioni, il secondo $n-1$, e così via fino al $k$-esimo elemento, che offre $n-k+1$ possibilità. Il numero totale di sequenze ordinate risulterebbe dunque:
+L'intuizione alla base di questa formula emerge considerando il processo di formazione di gruppi composti da $k$ elementi selezionati da un insieme di $n$, in cui l'ordine di selezione non è rilevante. Se si considerano le sequenze ordinate (disposizioni), si osserva che il primo elemento offre $n$ opzioni, il secondo $n-1$, e così via fino all'ultimo elemento, che offre $n-k+1$ possibilità. Il numero totale di sequenze ordinate risulterebbe dunque:
 
 $$
 D_{n,k} = n \times (n-1) \times \dots \times (n-k+1).
 $$
 
-Tuttavia, nella prospettiva delle combinazioni, l'ordine non è rilevante: il gruppo {A, B} è equivalente al gruppo {B, A}. 
-
-Ogni gruppo di $k$ elementi appare replicato in tutte le sue possibili permutazioni, che ammontano esattamente a $k!$. Per ottenere il numero di gruppi distinti, ovvero eliminando le ripetizioni dovute alle differenti ordinazioni, è necessario dividere per $k!$:
+Tuttavia, in termini di combinazioni, l'ordine non è rilevante: il gruppo {A, B} è equivalente al gruppo {B, A}. Ogni gruppo di $k$ elementi appare replicato in tutte le sue possibili permutazioni, che ammontano esattamente a $k!$. Per ottenere il numero di gruppi distinti, ovvero per eliminare le ripetizioni dovute alle diverse ordinazioni, è necessario dividere per $k!$:
 
 $$
 C_{n,k} = \frac{D_{n,k}}{k!} = \frac{n \times (n-1) \times \dots \times (n-k+1)}{k!}.
@@ -395,7 +344,7 @@ $$
 
 Questa espressione coincide esattamente con la formula delle combinazioni presentata nell'equazione @eq-combinations-def.
 
-**Interpretazione bayesiana**: quando dobbiamo costituire gruppi di $k$ elementi selezionati da $n$, e non disponiamo di informazioni che favoriscano composizioni specifiche, ciascun gruppo possiede una credibilità iniziale pari a $1/\binom{n}{k}$.
+Dal punto di vista bayesiano, quando dobbiamo costituire gruppi di $k$ elementi selezionati da $n$, e non disponiamo di informazioni che favoriscano composizioni specifiche, ciascun gruppo possiede una credibilità iniziale pari a $1/\binom{n}{k}$.
 
 ::: {.callout-note title="Esempio psicologico: formazione di coppie terapeutiche"}
 Un programma di peer counseling richiede la formazione di coppie di supporto reciproco tra 12 volontari.
@@ -409,7 +358,7 @@ $$
 
 Nell'ipotesi del principio di indifferenza, ciascuna coppia possiede una probabilità di $1/66 \approx 0.015$.
 
-**Considerazione psicologica**: nella pratica clinica, alcune coppie potrebbero rivelarsi più compatibili di altre in virtù di fattori quali l'affinità di personalità, la condivisione di esperienze pregresse o la similarità anagrafica. Se si dispone di tali informazioni, l'assunzione di equiprobabilità risulterebbe inappropriata e sarebbe necessario adottare un modello alternativo in grado di incorporare i fattori di compatibilità, ad esempio assegnando probabilità più elevate alle coppie caratterizzate da complementarità ottimale.
+**Considerazione psicologica**: nella pratica clinica, alcune coppie potrebbero rivelarsi più compatibili di altre in virtù di fattori quali l'affinità di personalità, la condivisione di esperienze pregresse o la similarità anagrafica. Se si dispone di tali informazioni, l'ipotesi di equiprobabilità risulterebbe inappropriata e sarebbe necessario adottare un modello alternativo in grado di incorporare i fattori di compatibilità, assegnando, ad esempio, probabilità più elevate alle coppie caratterizzate da una complementarità ottimale.
 :::
 
 ```{r}
@@ -421,242 +370,124 @@ volontari <- paste0("V", 1:12)
 # Numero di coppie possibili
 n_volontari <- length(volontari)
 n_coppie <- choose(n_volontari, 2)
-
-cat("ANALISI DELLE COMBINAZIONI PER FORMAZIONE DI COPPIE\n")
-cat("===================================================\n")
-cat("Numero di volontari:", n_volontari, "\n")
-cat("Numero di coppie possibili:", n_coppie, "\n")
-cat("Probabilità di ciascuna coppia specifica:", round(1/n_coppie, 4), "\n\n")
-
-# Generiamo alcune coppie casuali usando combinazioni
-set.seed(789)
-tutte_coppie <- combinations(n = n_volontari, r = 2, v = volontari)
-
-cat("ESEMPI DI COPPIE EQUIPROBABILI:\n")
-for(i in 1:5) {
-  cat("Coppia", i, ": (", tutte_coppie[i,1], ",", tutte_coppie[i,2], ")\n")
-}
-
-# Verifica
-cat("\nVerifica - Totale coppie uniche generate:", nrow(tutte_coppie))
 ```
 
-**Lezione bayesiana fondamentale**: il modello delle combinazioni rappresenta una formalizzazione dell'ignoranza simmetrica riguardo alla composizione dei gruppi. Quando questa condizione di ignoranza viene meno, in seguito all'acquisizione di informazioni sulle relazioni interpersonali, sulle competenze complementari o su altri fattori rilevanti, diventa necessario abbandonare il modello uniforme a favore di un approccio parametrico, in grado di riflettere adeguatamente la struttura delle conoscenze disponibili.
+Il modello delle combinazioni rappresenta quindi una formalizzazione dell'ignoranza simmetrica riguardo alla composizione dei gruppi. Quando questa condizione di ignoranza viene meno, in seguito dell'acquisizione di informazioni sulle relazioni interpersonali, sulle competenze complementari o su altri fattori rilevanti, diventa necessario abbandonare il modello uniforme a favore di un approccio parametrico, in grado di riflettere adeguatamente la struttura delle conoscenze disponibili.
 
 ### Sintesi: quando usare ciascun metodo
 
-Dal punto di vista bayesiano, la scelta tra permutazioni, disposizioni e combinazioni riflette *quali aspetti del problema consideriamo rilevanti* e su quali *assumiamo simmetria epistemica*.
+Dal punto di vista bayesiano, la scelta tra permutazioni, disposizioni e combinazioni riflette una decisione epistemica riguardo agli aspetti del problema che consideriamo rilevanti e a quelli per i quali assumiamo una simmetria epistemica.
 
-| Metodo | Ordine rilevante? | Modello bayesiano | Formula | Esempio psicologico |
-|--------|-------------------|-------------------|---------|---------------------|
-| **Permutazioni** | **Importante** | Tutti gli ordinamenti completi di $n$ elementi sono ugualmente plausibili | $n!$ | Ordine di presentazione di $n$ stimoli in un esperimento |
-| **Disposizioni** | **Importante** | Tutte le sequenze ordinate di $k$ elementi (scelti da $n$) sono ugualmente plausibili | $\frac{n!}{(n-k)!}$ | Assegnazione di $k$ compiti specifici a $n$ partecipanti |
-| **Combinazioni** | **Irrilevante** | Tutti i sottoinsiemi di $k$ elementi (scelti da $n$) sono ugualmente plausibili | $\binom{n}{k}$ | Selezione di $k$ partecipanti per un gruppo terapeutico |
+Le **permutazioni** si applicano quando l'ordine è importante e tutti gli ordinamenti completi di $n$ elementi sono considerati ugualmente plausibili. La formula corrispondente è $n!$ e un tipico esempio psicologico è l'ordine di presentazione di $n$ stimoli in un esperimento.
+
+Le **disposizioni** sono appropriate quando l'ordine rimane rilevante ma consideriamo ugualmente plausibili tutte le sequenze ordinate di $k$ elementi scelti da $n$. La formula $\frac{n!}{(n-k)!}$ trova applicazione in contesti come l'assegnazione di $k$ compiti specifici a $n$ partecipanti.
+
+Le **combinazioni** risultano pertinenti quando l'ordine è irrilevante e tutti i sottoinsiemi di $k$ elementi scelti da $n$ sono ritenuti ugualmente plausibili. La formula $\binom{n}{k}$ si applica, ad esempio, alla selezione di $k$ partecipanti per un gruppo terapeutico.
 
 ::: {.callout-important title="Principio bayesiano fondamentale"}
-**Il calcolo combinatorio non è "oggettivo"**: ogni formula incorpora specifiche assunzioni epistemiche. Quando applichiamo una formula combinatoria, stiamo implicitamente:
+**Il calcolo combinatorio non è "oggettivo"**: ogni formula incorpora specifiche assunzioni epistemiche. Quando applichiamo una formula combinatoria, stiamo implicitamente definendo uno spazio di configurazioni che riteniamo possibili, assumendo la simmetria epistemica di quello spazio (nessuna configurazione è a priori più credibile di un'altra) e calcolando le credenze coerenti con tali assunzioni.
 
-1. *definendo* uno spazio di configurazioni che consideriamo possibili;
-2. *assumendo* simmetria epistemica su quello spazio (nessuna configurazione è a priori più credibile di altre);
-3. *calcolando* le credenze coerenti date quelle assunzioni.
-
-Se si acquisiscono nuove informazioni che rompono la simmetria (per esempio, si scopre che determinati ordini di presentazione influenzano la memoria o che alcune composizioni di gruppo sono più efficaci), è necessario abbandonare il modello uniforme e sviluppare un modello probabilistico più sofisticato che rifletta la conoscenza aggiornata.
+Se si acquisiscono nuove informazioni che rompono la simmetria, per esempio se si scopre che determinati ordini di presentazione influenzano la memoria o che alcune composizioni di gruppo sono più efficaci, è necessario abbandonare il modello uniforme e sviluppare un modello probabilistico più sofisticato che rifletta la conoscenza aggiornata.
 :::
 
-## Quando l'equiprobabilità NON si applica
+## Quando l'equiprobabilità non si applica
 
-Il principio di indifferenza decade quando si dispone di *informazioni asimmetriche* che ci permettono di distinguere tra le diverse possibilità. In psicologia e nelle scienze del comportamento, questa situazione è la *regola* piuttosto che l'eccezione.
+Il principio di indifferenza decade quando si dispone di *informazioni asimmetriche* che permettono di distinguere le diverse possibilità. In psicologia e nelle scienze del comportamento, questa situazione è la norma piuttosto che l'eccezione.
 
 ### Esempio 1: palline con pesi diversi
 
 ```{r}
-# Urna con 3 palline: A (leggera), B (media), C (pesante)
-# Le probabilità di estrazione sono proporzionali ai pesi
-
+# Urna con palline di peso differente
 pesi <- c(A = 1, B = 2, C = 3)
-prob_corrette <- pesi / sum(pesi)  # Normalizziamo per ottenere probabilità
+prob_corrette <- pesi / sum(pesi)
 
-cat("DISTRIBUZIONE CORRETTA (considerando i pesi)\n")
-cat("===========================================\n")
-for(i in 1:3) {
-  cat(names(pesi)[i], ": peso =", pesi[i], "→ prob =", round(prob_corrette[i], 3), "\n")
-}
-
-cat("\nDISTRIBUZIONE ERRATA (ignorando i pesi)\n")
-cat("=======================================\n")
-prob_equiprobabili <- rep(1/3, 3)
-names(prob_equiprobabili) <- names(pesi)
-print(round(prob_equiprobabili, 3))
-
-# Simulazione per verificare il modello corretto
+# Simulazione empirica
 set.seed(123)
-n_sim <- 10000
-estrazioni <- sample(names(pesi), size = n_sim, replace = TRUE, prob = prob_corrette)
-freq_sim <- table(estrazioni) / n_sim
-
-cat("\nVERIFICA EMPIRICA (", n_sim, "estrazioni simulate)\n")
-cat("================================================\n")
-print(round(freq_sim, 3))
+estrazioni <- sample(names(pesi), size = 10000, replace = TRUE, prob = prob_corrette)
+freq_sim <- table(estrazioni) / 10000
 ```
 
-**Interpretazione bayesiana**: se *sappiamo* che i pesi sono diversi, applicare l'equiprobabilità sarebbe *incoerente* con il nostro stato di informazione. Le nostre credenze devono necessariamente riflettere le asimmetrie che conosciamo.
+Quando conosciamo la differenza di peso tra le palline, applicare l'equiprobabilità risulterebbe incoerente con le informazioni in nostro possesso. La pallina C presenta una probabilità di estrazione tripla rispetto alla pallina A (0.5 vs 0.167), nonostante tutte e tre siano fisicamente possibili.
 
-**Conseguenza pratica**: in questo caso, la pallina $C$ ha una probabilità di estrazione *tripla* rispetto alla pallina $A$ (0.5 vs 0.167), nonostante tutte e tre siano ugualmente "possibili" in senso fisico.
-
-### Esempio 2: item di un test con difficoltà variabile
-
-In psicometria, gli item di un test presentano tipicamente *diversi livelli di difficoltà*. Assumere che tutte le domande siano ugualmente facili sarebbe un grave errore di modellazione.
+### Esempio 2: item di test con difficoltà variabile
 
 ```{r}
-# 5 item con probabilità di risposta corretta realisticamente variabili
-item_difficolta <- c(
-  Item1 = 0.9,  # Molto facile
-  Item2 = 0.7,  # Facile
-  Item3 = 0.5,  # Difficoltà media
-  Item4 = 0.3,  # Difficile
-  Item5 = 0.1   # Molto difficile
-)
+# Item con diversi livelli di difficoltà
+item_difficolta <- c(0.9, 0.7, 0.5, 0.3, 0.1)
 
-cat("PROFILO DI DIFFICOLTÀ DEGLI ITEM\n")
-cat("================================\n")
-for(i in 1:5) {
-  cat(names(item_difficolta)[i], ": P(corretta) =", item_difficolta[i], "\n")
-}
-
-# Simulare le risposte di studenti con abilità media
+# Simulazione risposte studenti
 set.seed(123)
-n_studenti <- 1000
-risposte <- matrix(nrow = n_studenti, ncol = 5)
-
-for (studente in 1:n_studenti) {
-  risposte[studente, ] <- rbinom(5, size = 1, prob = item_difficolta)
-}
-
-# Calcolare la frequenza empirica di risposte corrette
-freq_empiriche <- colMeans(risposte)
-
-cat("\nRISULTATI DELLA SIMULAZIONE (", n_studenti, "studenti)\n")
-cat("==================================================\n")
-print(round(freq_empiriche, 3))
-
-# Confronto con l'assunzione ingenua di equiprobabilità
-cat("\nCONFRONTO CON MODELLO INGENUO\n")
-cat("=============================\n")
-cat("Equiprobabilità (modello errato): P(corretta) = 0.5 per ogni item\n")
-cat("Differenza media:", round(mean(abs(freq_empiriche - 0.5)), 3), "\n")
+risposte <- replicate(1000, rbinom(5, size = 1, prob = item_difficolta))
+freq_empiriche <- rowMeans(risposte)
 ```
 
-**Interpretazione bayesiana:** in ambito psicometrico, l'assunzione di equiprobabilità risulta quasi sistematicamente inappropriata. Il modello ingenuo che attribuisce una probabilità di risposta corretta P(corretta) = 0.5 a tutti gli item comporta distorsioni metodologicamente rilevanti. Questo approccio porta a una sottostima sostanziale della performance relativa agli item facili, come evidenziato dal confronto tra il valore empirico di 0.9 per l'Item1 e l'assunzione uniforme di 0.5, e a una sovrastima drammatica della performance sugli item difficili, come dimostrato dal caso dell'Item5, dove il valore osservato di 0.1 contrasta nettamente con l'assunzione di equiprobabilità. Inoltre, questo modello trascura completamente la complessa struttura psicometrica sottostante al test, ignorando le differenze sistematiche di difficoltà tra gli item.
-
-**Conseguenza metodologica:** questa evidenza rende necessario l'utilizzo di modelli parametrici sofisticati, come quelli sviluppati nell'ambito della teoria della risposta all'item. Questi modelli permettono di stimare la difficoltà specifica di ciascun item, di modellare l'abilità degli studenti in modo differenziato e di incorporare sistematicamente le asimmetrie informative che emergono dall'osservazione empirica, superando i limiti fondamentali dell'approccio equiprobabilistico.
+In psicometria, l'assunzione di equiprobabilità risulta sistematicamente inappropriata. Il modello ingenuo che attribuisce P(corretta) = 0.5 a tutti gli item comporta distorsioni metodologicamente rilevanti, sottostimando la performance sugli item facili e sovrastimando quella sugli item difficili.
 
 ### Esempio 3: estrazioni dipendenti senza reinserimento
 
-Quando le estrazioni avvengono senza reinserimento, i risultati successivi *dipendono* da quelli precedenti, creando vincoli strutturali che violano l'equiprobabilità delle sequenze.
-
 ```{r}
-# Confronto tra estrazioni con e senza reinserimento
+# Confronto estrazioni con/senza reinserimento
 set.seed(123)
 n_sim <- 5000
 
-# Scenario A: CON reinserimento (eventi indipendenti)
-risultati_indip <- replicate(n_sim, {
-  sample(c("R", "B"), size = 2, replace = TRUE, prob = c(0.5, 0.5))
-})
+# Con reinserimento (eventi indipendenti)
+risultati_indip <- replicate(n_sim, sample(c("R", "B"), 2, replace = TRUE))
 
-# Scenario B: SENZA reinserimento (eventi dipendenti)
-risultati_dip <- replicate(n_sim, {
-  sample(c("R", "B"), size = 2, replace = FALSE)
-})
+# Senza reinserimento (eventi dipendenti)  
+risultati_dip <- replicate(n_sim, sample(c("R", "B"), 2, replace = FALSE))
 
-# Analisi delle coppie possibili
-conta_indip <- table(paste0(risultati_indip[1, ], risultati_indip[2, ]))
-conta_dip <- table(paste0(risultati_dip[1, ], risultati_dip[2, ]))
-
-cat("DISTRIBUZIONE DELLE COPPIE - CONFRONTO\n")
-cat("=====================================\n")
-cat("CON REINSERIMENTO (eventi indipendenti):\n")
-cat("----------------------------------------\n")
-distrib_indip <- round(conta_indip / n_sim, 3)
-for(coppia in c("RR", "RB", "BR", "BB")) {
-  if(coppia %in% names(distrib_indip)) {
-    cat(coppia, ":", distrib_indip[coppia], "\n")
-  } else {
-    cat(coppia, ": 0.000\n")
-  }
-}
-
-cat("\nSENZA REINSERIMENTO (eventi dipendenti):\n")
-cat("----------------------------------------\n")
-distrib_dip <- round(conta_dip / n_sim, 3)
-for(coppia in c("RR", "RB", "BR", "BB")) {
-  if(coppia %in% names(distrib_dip)) {
-    cat(coppia, ":", distrib_dip[coppia], "\n")
-  } else {
-    cat(coppia, ": 0.000\n")
-  }
-}
-
-# Verifica teorica
-cat("\nVERIFICA TEORICA\n")
-cat("---------------\n")
-cat("Con reinserimento: tutte le coppie equiprobabili = 0.25\n")
-cat("Senza reinserimento: RR e BB impossibili, RB e BR equiprobabili = 0.5\n")
+freq_indip <- table(paste0(risultati_indip[1,], risultati_indip[2,])) / n_sim
+freq_dip <- table(paste0(risultati_dip[1,], risultati_dip[2,])) / n_sim
 ```
 
-**Interpretazione bayesiana:** nel contesto di estrazioni senza reinserimento da un'urna contenente una pallina rossa e una blu, si osserva una trasformazione radicale della distribuzione probabilistica. Le coppie RR e BB diventano logicamente impossibili, acquisendo quindi una probabilità nulla. Al contrario, le coppie RB e BR diventano necessarie, con una probabilità di 0.5 per ciascuna. Questa configurazione viola completamente il principio di equiprobabilità, che presupporrebbe una probabilità uniforme di 0.25 per ciascuna delle quattro coppie possibili.
+Nel campionamento senza reinserimento da un'urna contenente una pallina rossa e una blu, le coppie RR e BB diventano logicamente impossibili, mentre le coppie RB e BR hanno una probabilità di 0.5. Questa configurazione viola radicalmente il principio di equiprobabilità, che presupporrebbe probabilità uniformi di 0.25 per tutte le coppie.
 
-**Implicazione epistemica:** le nostre credenze riguardo alle possibili sequenze devono necessariamente incorporare i vincoli strutturali intrinseci al processo di generazione dei dati. Quando si conosce il fatto che il campionamento avviene senza reinserimento, risulterebbe incoerente dal punto di vista epistemologico assegnare probabilità positive a sequenze che, date le condizioni del processo, diventano logicamente impossibili.
+**Implicazione epistemica**: le nostre credenze devono incorporare i vincoli strutturali del processo di generazione dei dati. Assegnare probabilità positive a sequenze logicamente impossibili è epistemicamente incoerente quando si conoscono le condizioni del processo di campionamento.
 
 ## Dal discreto al continuo: parametri ignoti
 
-Nella ricerca psicologica, il passaggio dal conteggio di casi equiprobabili alla stima di parametri ignoti rappresenta una transizione fondamentale. Questa evoluzione concettuale trova una trattazione naturale all'interno del framework bayesiano.
+Nella ricerca psicologica, il passaggio dal conteggio di casi equiprobabili alla stima di parametri sconosciuti rappresenta una transizione concettuale fondamentale, che trova una trattazione particolarmente naturale nel framework bayesiano.
 
 ### Motivazione: oltre il conteggio
 
-Consideriamo la situazione in cui si osservano k successi in n prove, come tipicamente avviene nella valutazione delle risposte corrette in un test psicometrico.
+Consideriamo la situazione tipica in cui si osservano $k$ successi in $n$ prove, come accade nella valutazione delle risposte corrette in un test psicometrico. L'approccio frequentista classico tende a interpretare la proporzione osservata $\hat{p} = k/n$ come una stima puntuale definitiva della probabilità di successo, trattandola come un valore fisso e deterministico.
 
-L'approccio frequentista classico tende a interpretare la proporzione osservata, $\hat{p} = k/n$, come una stima puntuale definitiva della probabilità di successo, trattandola come un valore fisso e deterministico.
-
-L'approccio bayesiano, al contrario, introduce una prospettiva epistemologicamente più sofisticata, riconoscendo tre dimensioni fondamentali dell'inferenza probabilistica. In primo luogo, esso afferma che il vero parametro $\theta$, che rappresenta la probabilità di successo, rimane intrinsecamente sconosciuto e soggetto a un'incertezza che non può essere eliminata. In secondo luogo, tale incertezza deve essere formalmente rappresentata mediante una distribuzione di probabilità completa su $\theta$, che quantifichi la plausibilità relativa di tutti i suoi valori possibili. In terzo luogo, il framework bayesiano supporta un processo di apprendimento sequenziale che permette di aggiornare le credenze in modo coerente e incrementale, man mano che nuovi dati empirici diventano disponibili.
+L'approccio bayesiano introduce invece una prospettiva epistemologicamente più sofisticata, riconoscendo che il vero parametro $\theta$, ovvero la probabilità di successo, rimane intrinsecamente sconosciuto e soggetto a un'incertezza ineliminabile. Tale incertezza viene formalmente rappresentata attraverso una distribuzione di probabilità completa su $\theta$, che quantifica la plausibilità relativa di tutti i suoi valori possibili e supporta un processo di apprendimento sequenziale che aggiorna coerentemente le credenze alla luce di nuovi dati empirici.
 
 ### La transizione epistemologica: dalle frequenze ai parametri
 
 ::: {.callout-important title="Transizione concettuale"}
 L'*equiprobabilità discreta* corrisponde a una credenza uniforme distribuita su un numero finito di casi possibili, mentre la situazione di *parametro continuo ignoto* richiede la specificazione di una distribuzione di probabilità completa su $\theta \in [0,1]$.
 
-Nel campo della psicologia, questa seconda condizione è la norma piuttosto che l'eccezione, poiché i costrutti fondamentali della disciplina presentano caratteristiche intrinseche di latenza e incertezza. L'abilità latente di un esaminando non è direttamente osservabile, ma deve essere inferita da indicatori comportamentali. L'efficacia genuina di un trattamento psicologico rimane soggetta a un'elevata incertezza e richiede processi inferenziali sofisticati. La proporzione di risposte affermative a un item di un questionario è un parametro che deve essere stimato piuttosto che osservato direttamente.
+In psicologia, questa seconda condizione costituisce la norma piuttosto che l'eccezione, poiché i costrutti fondamentali della disciplina presentano caratteristiche intrinseche di latenza e incertezza. L'abilità latente di un esaminando non è direttamente osservabile ma deve essere inferita da indicatori comportamentali; l'efficacia genuina di un trattamento psicologico rimane soggetta a elevata incertezza; la proporzione di risposte affermative a un item di questionario è un parametro da stimare piuttosto che osservare direttamente.
 
-L'approccio bayesiano fornisce gli strumenti formali necessari per rappresentare in modo appropriato, quantificare con precisione e aggiornare coerentemente questa incertezza epistemica, attraverso processi inferenziali rigorosi.
+L'approccio bayesiano fornisce gli strumenti formali per rappresentare, quantificare e aggiornare in modo coerente questa incertezza epistemica attraverso processi inferenziali rigorosi.
 :::
 
 ## La distribuzione Beta: un'intuizione concettuale
 
-La distribuzione Beta costituisce lo strumento fondamentale per rappresentare le credenze bayesiane riguardo a probabilità ignote $\theta \in [0, 1]$. Prima di affrontarne la formalizzazione matematica, è essenziale svilupparne una comprensione intuitiva.
+La distribuzione Beta costituisce lo strumento fondamentale per rappresentare le credenze bayesiane riguardo a probabilità sconosciute $\theta \in [0, 1]$. Prima di affrontarne la formalizzazione matematica, è essenziale svilupparne una comprensione intuitiva.
 
 ### Metafora: la Beta come "memoria di esperienze virtuali"
 
-Si consideri il compito di stimare la probabilità che uno studente risponda correttamente a domande di una determinata tipologia. Anche in assenza di osservazioni dirette del soggetto in esame, è possibile formulare una valutazione preliminare basata su diversi elementi conoscitivi. Questi includono le esperienze virtuali pregresse con studenti analoghi, le credenze consolidate riguardo alla distribuzione delle abilità nella popolazione di riferimento e le conoscenze contestuali relative alla difficoltà intrinseca del compito.
+Si consideri il compito di stimare la probabilità che uno studente risponda correttamente a domande di una determinata tipologia. Anche in assenza di osservazioni dirette del soggetto in esame, è possibile formulare una valutazione preliminare basata su esperienze virtuali pregresse con studenti analoghi, credenze consolidate riguardo alla distribuzione delle abilità nella popolazione di riferimento e conoscenze contestuali relative alla difficoltà intrinseca del compito.
 
-La distribuzione Beta (Beta($\alpha, \beta$)) formalizza queste informazioni preliminari attraverso una rappresentazione parametrica che equivale, concettualmente, a possedere una "memoria" di esperienze virtuali. In particolare, essa codifica l'informazione pregressa come se avessimo già osservato $\alpha - 1$ successi virtuali, corrispondenti a risposte corrette immaginarie, e $\beta - 1$ insuccessi virtuali, corrispondenti a risposte errate immaginarie.
+La distribuzione Beta (Beta($\alpha, \beta$)) formalizza queste informazioni preliminari attraverso una rappresentazione parametrica che equivale, concettualmente, a possedere una "memoria" di esperienze virtuali. Essa codifica l'informazione pregressa come se avessimo già osservato $\alpha - 1$ successi virtuali (risposte corrette immaginarie) e $\beta - 1$ insuccessi virtuali (risposte errate immaginarie).
 
 ::: {.callout-note title="Esempio concreto: valutazione di un nuovo studente"}
 **Scenario**: un nuovo studente si presenta per sostenere un test di matematica. Non disponiamo di osservazioni empiriche dirette sulle sue prestazioni.
 
-**Domanda**: quale distribuzione Beta dovremmo adottare per rappresentare le nostre credenze iniziali sulla probabilità $\theta$ di risposta corretta?
+**Opzione 1** - $\text{Beta}(1, 1)$ (stato di ignoranza epistemica): ogni valore di $\theta$ nell'intervallo $[0, 1]$ è ugualmente plausibile, riflettendo una distribuzione uniforme.
 
-**Opzione 1** - $\text{Beta}(1, 1)$ (stato di ignoranza epistemica):
-questa configurazione è appropriata in assenza di esperienze con studenti simili. Ogni valore di $\theta$ nell'intervallo $[0, 1]$ è ugualmente plausibile, riflettendo una distribuzione uniforme. L'interpretazione corrispondente è: "La probabilità di risposta corretta potrebbe assumere qualsiasi valore compreso tra 0% e 100%".
+**Opzione 2** - $\text{Beta}(5, 5)$ (preferenza moderata per i valori centrali): basata sull'evidenza che studenti con caratteristiche simili mostrano abilità prevalentemente intermedie.
 
-**Opzione 2** - $\text{Beta}(5, 5)$ (preferenza moderata per i valori centrali): questa parametrizzazione si basa sull'evidenza che gli studenti con caratteristiche simili tendono a mostrare abilità prevalentemente intermedie. I valori estremi di $\theta$ sono meno probabili, concentrando la massa probabilistica attorno alla regione centrale. L'interpretazione conseguente è: "La probabilità di risposta corretta si colloca verosimilmente intorno al 50%".
+**Opzione 3** - $\text{Beta}(20, 10)$ (aspettativa di abilità elevate): giustificata quando lo studente proviene da un contesto scolastico caratterizzato da eccellenza accademica.
 
-**Opzione 3** - $\text{Beta}(20, 10)$ (aspettativa di abilità elevate): questa scelta è giustificata quando lo studente proviene da un contesto scolastico caratterizzato da eccellenza accademica. Le esperienze pregresse con popolazioni analoghe suggeriscono probabilità di successo costantemente elevate. L'interpretazione appropriata è: "Mi aspetto una probabilità di risposta corretta compresa approssimativamente tra il 60% e il 70%".
-
-**Opzione 4** - $\text{Beta}(2, 8)$ (aspettativa di difficoltà):
-Questa parametrizzazione è pertinente in presenza di difficoltà di apprendimento documentate. L'evidenza derivante da esperienze con studenti con profili analoghi indica prestazioni tipicamente modeste. L'interpretazione corrispondente è: "Prevedo una probabilità di risposta corretta situata attorno al 20%".
+**Opzione 4** - $\text{Beta}(2, 8)$ (aspettativa di difficoltà): pertinente in presenza di difficoltà di apprendimento documentate.
 :::
 
 ```{r}
+#| echo: false
 #| label: fig-beta-distributions
 #| fig-cap: "Rappresentazione grafica di diverse distribuzioni Beta come stati di conoscenza iniziale"
 # Visualizzazione delle quattro distribuzioni Beta
@@ -699,20 +530,21 @@ ggplot(df_beta_examples, aes(x = theta, y = Densita, color = Distribuzione)) +
 ::: {.callout-tip title="Interpretazione intuitiva dei parametri α e β"}
 **Forza delle credenze: $\alpha + \beta$**
 
-La somma $\alpha + \beta$ determina il grado di concentrazione della distribuzione Beta e riflette la solidità delle nostre credenze preliminari. Valori elevati di questa somma producono distribuzioni marcatamente concentrate, indicando credenze ben definite e caratterizzate da bassa incertezza. Al contrario, valori ridotti generano distribuzioni ampie e diffuse, indicando credenze deboli e associate a un'elevata incertezza.
+La somma $\alpha + \beta$ determina il grado di concentrazione della distribuzione Beta e riflette la solidità delle nostre credenze preliminari. Valori elevati producono distribuzioni marcatamente concentrate, indicando credenze ben definite con bassa incertezza. Valori ridotti, invece, generano distribuzioni ampie e diffuse, segnalando credenze deboli associate a un'elevata incertezza.
 
-Dal punto di vista psicologico, la somma $\alpha + \beta$ quantifica l'entità dell'"esperienza virtuale" accumulata riguardo alla situazione in esame. La configurazione Beta(1, 1) corrisponde a una condizione di assenza di esperienza e di incertezza totale. Beta(10, 10) riflette un'esperienza moderata, con incertezza significativa persistente, mentre Beta(100, 100) indica un'esperienza sostanziale, accompagnata da una relativa certezza.
+Dal punto di vista psicologico, questa somma quantifica l'entità dell'"esperienza virtuale" accumulata. La configurazione Beta(1, 1) corrisponde a un'incertezza totale, la configurazione Beta(10, 10) riflette un'esperienza moderata con un'incertezza persistente, la configurazione Beta(100, 100) indica un'esperienza sostanziale con una relativa certezza.
 
 **Posizione delle credenze: $\alpha / (\alpha + \beta)$**
 
-La media della distribuzione Beta, $\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}$, rappresenta il valore atteso per il parametro $\theta$ in base al nostro stato di conoscenza. La configurazione Beta(6, 4), con media 0.6, esprime l'aspettativa che il valore $\theta$ si collochi intorno al 60%. La configurazione Beta(3, 7), con media 0.3, suggerisce che il valore di $\theta$ si aggiri intorno al 30%. Beta(5, 5), con media 0.5, indica che la credenza è che il valore di $\theta$ sia prossimo al 50%.
+La media $\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}$ rappresenta il valore atteso del parametro $\theta$ in base al nostro stato di conoscenza. Beta(6, 4) con media 0.6 esprime l'aspettativa che il valore di $\theta$ si collochi intorno al 60%, Beta(3, 7) con media 0.3 suggerisce valori intorno al 30%, mentre Beta(5, 5) con media 0.5 indica una credenza in valori prossimi al 50%.
 
 **Equilibrio delle credenze: simmetria e asimmetria**
 
-La relazione tra $\alpha$ e $\beta$ determina la simmetria della distribuzione, riflettendo eventuali preferenze direzionali nelle nostre aspettative. Le distribuzioni simmetriche, con  $\alpha = \beta$, esprimono credenze bilanciate, senza preferenze per valori particolari di $\theta$. Le distribuzioni asimmetriche con $\alpha > \beta$ manifestano una preferenza per valori elevati di $\theta$, mentre quelle con $\alpha < \beta$ rivelano una preferenza per valori ridotti di $\theta$.
+La relazione tra $\alpha$ e $\beta$ determina la simmetria della distribuzione, riflettendo eventuali preferenze direzionali nelle aspettative. Le distribuzioni simmetriche, con $\alpha = \beta$, esprimono credenze bilanciate, mentre le asimmetrie con $\alpha > \beta$ o $\alpha < \beta$ rivelano preferenze rispettivamente per valori elevati o ridotti di $\theta$.
 :::
 
 ```{r}
+#| echo: false
 #| label: fig-beta-strength
 #| fig-cap: "Effetto della forza delle credenze (α + β) sulla concentrazione della distribuzione Beta"
 # Visualizzazione dell'effetto di α + β sulla forma della distribuzione
@@ -760,8 +592,7 @@ Una variabile casuale $\theta$ segue una distribuzione **Beta** con parametri $\
 
 $$
 f(\theta; \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1}, \quad \theta \in [0, 1],
-$$
-
+$$ {#eq-beta-distr-def}
 dove $\Gamma(\cdot)$ rappresenta la funzione gamma, che generalizza il concetto di fattoriale ai numeri reali.
 
 **Proprietà fondamentali**:
@@ -770,44 +601,31 @@ dove $\Gamma(\cdot)$ rappresenta la funzione gamma, che generalizza il concetto 
 - **moda**: $\text{Mode}[\theta] = \frac{\alpha - 1}{\alpha + \beta - 2}$ (definita per $\alpha, \beta > 1$);
 - **varianza**: $\text{Var}(\theta) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$.
 
-**Interpretazione bayesiana**:
-I parametri $\alpha$ e $\beta$ ammettono un'interpretazione naturale in termini di evidenza pseudo-osservata:
+**Interpretazione bayesiana**: 
+i parametri $\alpha$ e $\beta$ ammettono un'interpretazione naturale in termini di pseudo-osservazioni: $\alpha - 1$ rappresenta il numero di successi virtuali nelle credenze preliminari, $\beta - 1$ il numero di insuccessi virtuali, e $\alpha + \beta$ la dimensione campionaria equivalente che quantifica la forza delle credenze iniziali.
 
-- $\alpha - 1$: numero di successi virtuali nelle credenze preliminari;
-- $\beta - 1$: numero di insuccessi virtuali nelle credenze preliminari;
-- $\alpha + \beta$: dimensione campionaria equivalente che quantifica la forza delle credenze iniziali.
+**Configurazioni parametriche notevoli.**
 
-**Configurazioni parametriche notevoli**:
-
-- $\text{Beta}(1, 1)$: Distribuzione *uniforme* sull'intervallo $[0, 1]$, corrispondente a uno stato di massima ignoranza;
-- $\text{Beta}(0.5, 0.5)$: *Prior di Jeffreys*, caratterizzata da invarianza per riparametrizzazione;
-- $\text{Beta}(\alpha, \beta)$ con $\alpha = \beta$: Distribuzioni *simmetriche* attorno al valore 0.5;
-- $\text{Beta}(\alpha, \beta)$ con $\alpha > \beta$: Distribuzioni *asimmetriche* con preferenza per valori elevati di $\theta$;
-- $\text{Beta}(\alpha, \beta)$ con $\alpha < \beta$: Distribuzioni *asimmetriche* con preferenza per valori ridotti di $\theta$.
+- $\text{Beta}(1, 1)$: distribuzione *uniforme* sull'intervallo $[0, 1]$, corrispondente a uno stato di massima ignoranza;
+- $\text{Beta}(0.5, 0.5)$: *prior di Jeffreys*, caratterizzata da invarianza per riparametrizzazione;
+- $\text{Beta}(\alpha, \beta)$ con $\alpha = \beta$: distribuzioni *simmetriche* attorno al valore 0.5;
+- $\text{Beta}(\alpha, \beta)$ con $\alpha > \beta$: distribuzioni *asimmetriche* con preferenza per valori elevati di $\theta$;
+- $\text{Beta}(\alpha, \beta)$ con $\alpha < \beta$: distribuzioni *asimmetriche* con preferenza per valori ridotti di $\theta$.
 :::
 
 ### Dalla Beta(1,1) all'aggiornamento bayesiano
 
-La distribuzione $\text{Beta}(1, 1)$ riveste particolare importanza poiché stabilisce un *collegamento fondamentale* tra il concetto di equiprobabilità discreta e il framework bayesiano continuo.
+La distribuzione $\text{Beta}(1, 1)$ riveste un'importanza particolare, in quanto stabilisce un collegamento fondamentale tra il concetto di equiprobabilità discreta e il framework bayesiano continuo.
 
 ::: {.callout-important title="Beta(1,1) come generalizzazione continua dell'equiprobabilità"}
-La distribuzione Beta(1, 1) coincide esattamente con la distribuzione uniforme sull'intervallo $[0, 1]$, caratterizzata dalla funzione di densità costante:
+La distribuzione Beta(1, 1) coincide esattamente con la distribuzione uniforme sull'intervallo $[0, 1]$, caratterizzata dalla funzione di densità costante $f(\theta) = 1$ per ogni $\theta \in [0, 1]$.
 
-$$
-f(\theta) = 1 \quad \text{per ogni } \theta \in [0, 1].
-$$
+Dal punto di vista epistemico, questa configurazione implica che ogni possibile valore del parametro $\theta$ sia credibile a priori con la stessa probabilità, rappresentando l'analogo continuo del principio di indifferenza tradizionalmente applicato ai contesti discreti.
 
-**Interpretazione epistemica**: questa configurazione implica che ogni possibile valore del parametro $\theta$ sia credibile a priori con la stessa probabilità. Tale distribuzione rappresenta l'analogo continuo del principio di indifferenza tradizionalmente applicato ai contesti discreti.
-
-**Parallelismo concettuale tra i due dominii**:
-
-- nel caso discreto, l'equiprobabilità si esprime attraverso l'assegnazione $P(\omega_i) = \frac{1}{n}$ per ogni esito elementare $\omega_i$ dello spazio campionario;
-- nel caso continuo, l'equiprobabilità si manifesta attraverso la funzione di densità costante $f(\theta) = 1$ per ogni valore di $\theta$ compreso tra 0 e 1.
-
-In entrambi i contesti, queste rappresentazioni formalizzano uno stato di massima ignoranza epistemica o simmetria perfetta tra tutte le possibilità considerate, costituendo il punto di partenza neutrale per i processi inferenziali successivi.
-:::
+Il parallelismo concettuale tra i due domini si manifesta attraverso due rappresentazioni complementari dell'ignoranza simmetrica: nel caso discreto, l'equiprobabilità si esprime attraverso l'assegnazione $P(\omega_i) = \frac{1}{n}$ per ogni esito elementare; nel caso continuo, essa si manifesta attraverso la funzione di densità costante $f(\theta) = 1$ per ogni valore di $\theta$ compreso tra 0 e 1. Entrambe le rappresentazioni formalizzano uno stato di massima ignoranza epistemica e costituiscono il punto di partenza neutrale per i processi inferenziali successivi.
 
 ```{r}
+#| echo: false
 #| label: fig-beta-uniform
 #| fig-cap: "La distribuzione Beta(1,1) come caso particolare di distribuzione uniforme sull'intervallo [0,1]"
 # Visualizzazione della distribuzione Beta(1,1) come uniforme
@@ -834,22 +652,17 @@ ggplot(df_uniforme, aes(x = theta, y = Densita)) +
   ) +
   theme_minimal()
 ```
+:::
 
-### Dall'equiprobabilità discreta all'inferenza bayesiana: un esempio psicologico
-
-::: {.callout-note collapse="false" title="Esempio completo: valutazione delle abilità in un test a scelta multipla"}
+::: {.callout-note collapse=true title="Esempio completo: valutazione delle abilità in un test a scelta multipla"}
 
 **Scenario sperimentale**: uno studente completa un test composto da 20 domande a scelta multipla con 4 opzioni ciascuna. L'obiettivo inferenziale consiste nello stimare la sua abilità latente $\theta$, definita operativamente come la probabilità di fornire una risposta corretta.
 
 **Fase 1: Specificazione della distribuzione a priori**
 
-In condizioni di risposte completamente casuali, il valore atteso di $\theta$ sarebbe 0.25, corrispondente a una probabilità su quattro. Tuttavia, poiché il reale livello di preparazione dello studente rimane ignoto, adottiamo una distribuzione a priori che incorpori questa aspettativa conservando un'adeguata quantificazione dell'incertezza:
+In condizioni di risposte completamente casuali, il valore atteso di $\theta$ sarebbe 0.25, corrispondente a una probabilità su quattro. Poiché il reale livello di preparazione dello studente rimane ignoto, adottiamo una distribuzione a priori che incorpori questa aspettativa conservando un'adeguata quantificazione dell'incertezza: $\theta \sim \text{Beta}(1, 3)$.
 
-$$
-\theta \sim \text{Beta}(1, 3).
-$$
-
-**La giustificazione della scelta Beta(1,3)** si fonda su tre considerazioni fondamentali. Il valore atteso di $\frac{1}{1+3} = 0.25$ risulta coerente con l'ipotesi di equiprobabilità delle opzioni di risposta. Inoltre, la varianza associata a questa parametrizzazione è sufficientemente elevata da riflettere adeguatamente l'incertezza relativa alla preparazione effettiva dello studente. Dal punto di vista epistemico, questa configurazione corrisponde a un'evidenza virtuale equivalente all'osservazione di 0 successi e 2 insuccessi.
+La scelta di Beta(1,3) si fonda su tre considerazioni fondamentali: il valore atteso di 0.25 risulta coerente con l'ipotesi di equiprobabilità delle opzioni di risposta; la varianza associata riflette adeguatamente l'incertezza relativa alla preparazione effettiva; dal punto di vista epistemico, questa configurazione corrisponde a un'evidenza virtuale equivalente all'osservazione di 0 successi e 2 insuccessi.
 
 **Fase 2: Raccolta dei dati empirici**
 
@@ -857,28 +670,9 @@ Dalla somministrazione del test emergono i seguenti risultati empirici: 7 rispos
 
 **Fase 3: Aggiornamento bayesiano**
 
-Il modello Beta-Binomiale, che appartiene alla classe delle famiglie coniugate, permette un aggiornamento particolarmente elegante delle credenze attraverso la seguente regola:
+Il modello Beta-Binomiale permette un aggiornamento particolarmente elegante delle credenze attraverso la regola: $\theta \mid \text{dati} \sim \text{Beta}(\alpha + k, \beta + n - k)$. Applicando questa regola al caso in esame, si ottiene: $\theta \mid \text{dati} \sim \text{Beta}(8, 16)$.
 
-$$
-\text{Prior: } \theta \sim \text{Beta}(\alpha, \beta);
-$$
-$$
-\text{Dati osservati: } k \text{ successi su } n \text{ prove};
-$$
-$$
-\text{Posterior: } \theta \mid \text{dati} \sim \text{Beta}(\alpha + k, \beta + n - k).
-$$
-
-Applicando questa regola al caso in esame, si ottiene:
-
-$$
-\text{Posterior: } \theta \mid \text{dati} \sim \text{Beta}(1 + 7, 3 + 13) = \text{Beta}(8, 16).
-$$
-
-**Interpretazione della distribuzione a posteriori**:
-
-Il valore atteso della distribuzione a posteriori è pari a $\frac{8}{8+16} = \frac{8}{24} \approx 0.33$. Questo valore indica un significativo aggiornamento delle credenze, che si spostano dalla stima a priori di 0.25 verso il dato empirico di 0.35 ($7/20$). Questo risultato esemplifica efficacemente il metodo bayesiano, in cui la distribuzione a posteriori rappresenta un compromesso ponderato tra le credenze iniziali e l'evidenza empirica osservata.
-:::
+La distribuzione a posteriori presenta un valore atteso di 0.33, indicando un significativo aggiornamento delle credenze che si spostano dalla stima a priori di 0.25 verso il dato empirico di 0.35. Questo risultato esemplifica efficacemente il metodo bayesiano, in cui la distribuzione a posteriori rappresenta un compromesso ponderato tra le credenze iniziali e l'evidenza empirica osservata.
 
 ```{r}
 #| label: fig-bayesian-update
@@ -935,47 +729,36 @@ ggplot(df_inferenza_long, aes(x = theta, y = Densita, color = Distribuzione)) +
   theme(legend.position = "top")
 ```
 
-**Analisi del processo inferenziale**:
+La distribuzione a priori (in rosso) rappresenta le credenze iniziali basate sul principio di equiprobabilità delle opzioni di risposta, con un valore atteso di 0.25. La funzione di verosimiglianza (in verde) illustra la compatibilità dei dati osservati con i diversi valori possibili del parametro $\theta$. La distribuzione a posteriori (in blu) sintetizza le credenze aggiornate che integrano coerentemente le informazioni a priori con l'evidenza empirica.
 
-La *distribuzione a priori* (in rosso) rappresenta le credenze iniziali basate sul principio di equiprobabilità delle opzioni di risposta, con un valore atteso di 0.25. La *funzione di verosimiglianza* (in verde) illustra la compatibilità dei dati osservati con i diversi valori possibili del parametro $\theta$. La *distribuzione a posteriori* (in blu) sintetizza le credenze aggiornate che integrano coerentemente le informazioni a priori con l'evidenza empirica.
-
-Dal punto di vista quantitativo, la media a posteriori di 0.33 costituisce un tipico compromesso bayesiano tra la stima a priori di 0.25 e la stima di massima verosimiglianza di 0.35. Un ulteriore aspetto significativo è la *riduzione dell'incertezza*: la distribuzione a posteriori presenta infatti una minore dispersione rispetto a quella a priori, riflettendo l'informazione aggiuntiva acquisita attraverso i dati osservati.
+Dal punto di vista quantitativo, la media a posteriori di 0.33 costituisce un tipico compromesso bayesiano tra la stima a priori di 0.25 e la stima di massima verosimiglianza di 0.35. Un ulteriore aspetto significativo è la riduzione dell'incertezza: la distribuzione a posteriori presenta infatti una minore dispersione rispetto a quella a priori, riflettendo l'informazione aggiuntiva acquisita attraverso i dati osservati.
+:::
 
 ### Intervallo di credibilità: quantificare l'incertezza
 
-Un vantaggio cruciale dell'approccio bayesiano è che possiamo quantificare direttamente l'incertezza attraverso gli *intervalli di credibilità*.
+Un vantaggio cruciale dell'approccio bayesiano è la possibilità di quantificare direttamente l'incertezza tramite gli *intervalli di credibilità*.
 
 ```{r}
-# Intervallo di credibilità al 95%
+# Calcolo dell'intervallo di credibilità al 95%
 alpha_post <- 8
 beta_post <- 16
 ci_lower <- qbeta(0.025, alpha_post, beta_post)
 ci_upper <- qbeta(0.975, alpha_post, beta_post)
-
-cat("=== RISULTATI DELL'INFERENZA BAYESIANA ===\n\n")
-cat("Media posterior:", round(alpha_post / (alpha_post + beta_post), 3), "\n")
-cat("Intervallo di credibilità 95%: [", 
-    round(ci_lower, 3), ",", round(ci_upper, 3), "]\n\n")
-cat("Interpretazione bayesiana:\n")
-cat("Dopo aver osservato 7 risposte corrette su 20, siamo 95% certi\n")
-cat("(date le nostre assunzioni) che la vera abilità θ dello studente\n")
-cat("sia compresa tra", round(ci_lower, 3), "e", round(ci_upper, 3), "\n\n")
-cat("Confronto con approccio frequentista:\n")
-cat("Stima puntuale MLE:", round(7/20, 3), "(no quantificazione incertezza)\n")
-cat("Intervallo di confidenza (approssimato):", 
-    sprintf("[%.3f, %.3f]", 7/20 - 1.96*sqrt((7/20)*(13/20)/20), 
-                             7/20 + 1.96*sqrt((7/20)*(13/20)/20)))
 ```
 
+Dopo aver osservato 7 risposte corrette su 20, possiamo affermare con un livello di credibilità del 95% che il valore della vera abilità $\theta$ dello studente sia compreso tra 0.18 e 0.52. Questo risultato si basa sulla distribuzione a posteriori Beta(8, 16), che presenta una media di 0.33.
+
+Il confronto con l'approccio frequentista evidenzia differenze metodologiche sostanziali: mentre la stima di massima verosimiglianza fornisce un valore puntuale di 0.35 senza quantificare l'incertezza, l'intervallo bayesiano offre una rappresentazione completa delle nostre credenze aggiornate riguardo al parametro.
+
 ::: {.callout-tip title="Differenza fondamentale: credibilità vs confidenza"}
-L'*intervallo di credibilità bayesiano* al 95% consente l'affermazione diretta: "Esiste una probabilità del 95% che $\theta$ sia compreso nell'intervallo [0.18, 0.52]". Questa formulazione esprime esplicitamente le nostre credenze aggiornate riguardo al parametro ignoto.
+L'*intervallo di credibilità bayesiano* al 95% consente di affermare direttamente: "Esiste una probabilità del 95% che $\theta$ sia compreso nell'intervallo [0.18, 0.52]". Questa formulazione esprime esplicitamente le nostre credenze aggiornate riguardo al parametro sconosciuto.
 
 Al contrario, l'*intervallo di confidenza frequentista* al 95% richiede l'interpretazione: "Se l'esperimento fosse ripetuto infinite volte, il 95% degli intervalli così costruiti conterrebbe il vero valore di $\theta$". Questa affermazione caratterizza le proprietà a lungo termine della procedura di stima, senza quantificare direttamente le credenze riguardo al parametro specifico oggetto di studio.
 :::
 
 ### Accumulazione di evidenza: aggiornamento sequenziale
 
-Un vantaggio particolarmente significativo dell'approccio bayesiano risiede nella capacità di **aggiornare le credenze in modo incrementale** man mano che nuovi dati diventano disponibili.
+Un vantaggio particolarmente rilevante dell'approccio bayesiano risiede nella capacità di **aggiornare le credenze in modo incrementale** man mano che nuovi dati diventano disponibili.
 
 ```{r}
 #| label: fig-sequential-update
@@ -1040,21 +823,17 @@ ggplot(df_chiave, aes(x = theta, y = Densita, color = factor(n_osservazioni))) +
   theme_minimal() 
 ```
 
-**Analisi del processo di aggiornamento sequenziale**:
+**Analisi del processo di aggiornamento sequenziale**
 
-Nella fase *iniziale*, le credenze sono caratterizzate da un'ampia dispersione e centrate sul valore di 0.25, riflettendo l'incertezza della distribuzione a priori. *Progressivamente*, con l'accumularsi dei dati osservati, la distribuzione a posteriori manifesta una duplice evoluzione: da un lato si osserva una marcata concentrazione della densità di probabilità, dall'altro uno spostamento progressivo verso il valore vero del parametro. Al *termine* del processo, dopo l'osservazione di 20 domande, le credenze risultano notevolmente concentrate attorno al valore $\theta = 0.4$, dimostrando l'efficacia dell'aggiornamento bayesiano. Un aspetto fondamentale di questo processo è l'*indipendenza dall'ordine*: la distribuzione a posteriori finale dipende esclusivamente dal numero complessivo di successi e insuccessi osservati, non dalla sequenza temporale in cui questi si sono manifestati.
+Nella fase iniziale, le credenze sono caratterizzate da un'ampia dispersione e centrate sul valore di 0.25, riflettendo l'incertezza della distribuzione a priori. Progressivamente, con l'accumularsi dei dati osservati, la distribuzione a posteriori manifesta una marcata concentrazione della densità di probabilità e uno spostamento verso il valore vero del parametro. Al termine del processo, dopo l'osservazione di 20 domande, le credenze risultano notevolmente concentrate attorno al valore $\theta = 0.4$, dimostrando l'efficacia dell'aggiornamento bayesiano. Un aspetto fondamentale è l'indipendenza dall'ordine: la distribuzione a posteriori finale dipende esclusivamente dal numero complessivo di successi e insuccessi osservati, non dalla loro sequenza temporale.
 
 ## Applicazioni psicologiche
 
-### Test psicometrici: dalla conta alla modellazione IRT
+### Test psicometrici: dai conteggi alla modellazione IRT
 
-Nella *Item Response Theory* (IRT), la probabilità di risposta corretta non costituisce una quantità fissa ma dipende da variabili latenti specifiche:
+Nella *Item Response Theory* (IRT), la probabilità di risposta corretta non costituisce una quantità fissa ma dipende da variabili latenti specifiche come il livello di abilità dello studente ($\theta$) e il grado di difficoltà dell'item ($b$).
 
-- il livello di *abilità* dello studente ($\theta$);
-- il grado di *difficoltà* dell'item ($b$);
-- ulteriori parametri psicometrici (capacità discriminativa, probabilità di guessing).
-
-**Modello 1PL (Rasch)**:
+Il modello Rasch (1PL) formalizza questa relazione attraverso la funzione logistica:
 $$
 P(\text{corretto} \mid \theta, b) = \frac{1}{1 + e^{-(θ - b)}}
 $$
@@ -1062,20 +841,19 @@ $$
 Questo approccio rappresenta un *superamento concettuale* dell'equiprobabilità, poiché modella esplicitamente l'eterogeneità sistematica presente nei dati psicometrici.
 
 ```{r}
+#| echo: false
 #| label: fig-irt-simulation
 #| fig-cap: "Simulazione di un modello Rasch: relazione tra difficoltà degli item e proporzione di risposte corrette"
 # Simulare risposte secondo modello Rasch
 set.seed(123)
 
-abilita_studenti <- rnorm(100, mean = 0, sd = 1)  # Studenti con abilità varie
-difficolta_item <- c(-1, -0.5, 0, 0.5, 1)         # 5 item con difficoltà crescente
+abilita_studenti <- rnorm(100, mean = 0, sd = 1)
+difficolta_item <- c(-1, -0.5, 0, 0.5, 1)
 
-# Funzione logistica (modello Rasch)
 prob_corretta <- function(theta, b) {
   1 / (1 + exp(-(theta - b)))
 }
 
-# Simulare matrice risposte (100 studenti × 5 item)
 risposte_IRT <- matrix(nrow = 100, ncol = 5)
 for (i in 1:100) {
   for (j in 1:5) {
@@ -1084,7 +862,6 @@ for (i in 1:100) {
   }
 }
 
-# Analizzare proporzioni di successo per item
 prop_successo <- colMeans(risposte_IRT)
 
 df_IRT <- data.frame(
@@ -1092,9 +869,6 @@ df_IRT <- data.frame(
   Difficolta = difficolta_item,
   Proporzione_Successo = prop_successo
 )
-
-cat("Analisi IRT simulata:\n")
-print(df_IRT)
 
 ggplot(df_IRT, aes(x = Difficolta, y = Proporzione_Successo)) +
   geom_point(size = 4) +
@@ -1109,96 +883,53 @@ ggplot(df_IRT, aes(x = Difficolta, y = Proporzione_Successo)) +
   theme_minimal()
 ```
 
-**Implicazione bayesiana**: la probabilità di successo non rappresenta una quantità fissa (né equiprobabile né deterministica), ma assume un carattere *parametrico* che dipende da fattori latenti come l'abilità individuale e la difficoltà degli item. Il framework bayesiano consente di stimare questi parametri mantenendo una quantificazione esplicita dell'incertezza associata.
-
 ### Pattern di risposta in questionari: oltre l'equiprobabilità
 
-Nei questionari psicologici, come il Big Five Inventory o il Minnesota Multiphasic Personality Inventory, le distribuzioni delle risposte raramente seguono un pattern equiprobabile a causa della presenza di molteplici fattori distorsivi sistematici. Tra questi, emergono in particolare il bias di acquiescenza, che si manifesta con una tendenza sistematica a concordare con gli item indipendentemente dal loro contenuto, la desiderabilità sociale, che orienta le risposte verso opzioni percepite come socialmente accettabili o approvabili, e gli stili di risposta individuali, che danno origine a pattern di risposta personali e consistenti attraverso item e contesti differenti.
-
-L'adozione di un modello bayesiano fornisce un solido framework metodologico per stimare quantitativamente questi pattern sistematici e applicare correzioni appropriate che migliorino la validità delle misurazioni psicologiche.
+Nei questionari psicologici, le distribuzioni delle risposte raramente seguono un pattern equiprobabile a causa di fattori distorsivi sistematici come il bias di acquiescenza, la desiderabilità sociale e gli stili di risposta individuali.
 
 ```{r}
+#| echo: false
 #| label: fig-response-bias
 #| fig-cap: "Analisi bayesiana del bias di acquiescenza in questionari psicologici"
 # Simulare bias di acquiescenza
 set.seed(42)
 n_risposte <- 100
 
-# Scenario 1: Senza bias (equiprobabile tra Agree/Disagree)
 risposte_neutre <- sample(c("Agree", "Disagree"), n_risposte, replace = TRUE)
-
-# Scenario 2: Con bias di acquiescenza (70% Agree)
 risposte_biased <- sample(c("Agree", "Disagree"), n_risposte, 
                           replace = TRUE, prob = c(0.7, 0.3))
 
-# Confronto
-cat("CONFRONTO TRA SCENARI: EQUIPROBABILITÀ VS BIAS DI ACQUIESCENZA\n\n")
-cat("Scenario 1 - Distribuzione neutra (equiprobabile):\n")
-print(table(risposte_neutre) / n_risposte)
-
-cat("\nScenario 2 - Distribuzione con bias di acquiescenza:\n")
-print(table(risposte_biased) / n_risposte)
-
-cat("\nINFERENZA BAYESIANA SUL BIAS\n\n")
-
-# Stima bayesiana della probabilità di "Agree" per Scenario 2
+# Stima bayesiana del bias
 n_agree <- sum(risposte_biased == "Agree")
 n_total <- length(risposte_biased)
 
-# Prior: Beta(1, 1) - equiprobabilità come punto di partenza
-# Posterior: Beta(1 + n_agree, 1 + n_total - n_agree)
 alpha_post <- 1 + n_agree
 beta_post <- 1 + (n_total - n_agree)
 
-cat("Distribuzione a priori: Beta(1, 1) - assunzione iniziale di equiprobabilità\n")
-cat("Dati osservati:", n_agree, "risposte 'Agree' su", n_total, "osservazioni\n")
-cat("Distribuzione a posteriori: Beta(", alpha_post, ",", beta_post, ")\n\n")
-
 media_post <- alpha_post / (alpha_post + beta_post)
 ic_post <- qbeta(c(0.025, 0.975), alpha_post, beta_post)
-
-cat("Stima bayesiana della probabilità di 'Agree':", round(media_post, 3), "\n")
-cat("Intervallo di credibilità 95%: [", round(ic_post[1], 3), ",", round(ic_post[2], 3), "]\n\n")
-cat("Conclusione inferenziale: L'ipotesi di equiprobabilità (p = 0.5) risulta incompatibile con i dati osservati.\n")
-cat("Esiste evidenza robusta della presenza di bias di acquiescenza nel campione.\n")
 ```
 
-**Implicazioni metodologiche**: l'assunzione di equiprobabilità nelle risposte ai questionari psicologici conduce tipicamente a inferenze distorte e conclusioni erronee, compromettendo la validità delle misurazioni psicologiche. Il framework bayesiano offre invece un approccio alternativo e più sofisticato che permette di verificare empiricamente l'adeguatezza dell'ipotesi di equiprobabilità attraverso l'analisi di adattamento del modello. Questo framework consente inoltre di quantificare precisamente l'entità della deviazione dall'equiprobabilità, fornendo stime parametriche della magnitudine dei bias di risposta. Infine, esso supporta l'applicazione di correzioni sistematiche mediante l'incorporazione di modelli espliciti che rappresentano formalmente i meccanismi sottostanti ai bias di risposta.
+L'analisi bayesiana rivela una probabilità stimata di risposta "Agree" pari a 0.71, con un intervallo di credibilità 95% compreso tra 0.62 e 0.79. Questo risultato fornisce evidenza robusta della presenza di bias di acquiescenza, contraddicendo l'ipotesi di equiprobabilità.
 
-### Esempio avanzato: stima dell'efficacia di un intervento psicologico
+### Valutazione dell'efficacia di interventi psicologici
 
-::: {.callout-note title="Caso di studio: valutazione dell'efficacia della CBT per il disturbo d'ansia"}
-**Contesto clinico**: si desidera valutare l'efficacia di un intervento di terapia cognitivo-comportamentale (CBT) per il trattamento del disturbo d'ansia. La variabile outcome è definita come il raggiungimento di un miglioramento clinicamente significativo in un campione di pazienti trattati.
-
-**Domanda di ricerca**: qual è la vera probabilità di successo $\theta$ associata all'intervento CBT?
-
-**Approccio bayesiano.**
-
-La specificazione di una *distribuzione a priori informativa* si basa sull'evidenza consolidata in letteratura, che indica come gli interventi CBT mostrino tipicamente tassi di successo compresi tra il 60% e l'80%. Questa conoscenza pregressa viene incorporata attraverso una distribuzione Beta(60, 30), caratterizzata da un valore atteso di 60/90 ≈ 0.67 e in grado di catturare appropriatamente l'incertezza associata ai risultati degli studi precedenti.
-
-I *dati osservati* nel presente studio consistono in 45 successi registrati su un totale di 60 pazienti trattati.
-
-La distribuzione *a posteriori* risulta quindi Beta(60 + 45, 30 + 15) = Beta(105, 45), sintetizzando coerentemente l'evidenza pregressa con i nuovi dati empirici.
-:::
+Consideriamo un caso di studio relativo alla valutazione dell'efficacia della terapia cognitivo-comportamentale (CBT) nel trattamento del disturbo d'ansia. L'approccio bayesiano permette di integrare sistematicamente l'evidenza pregressa, ad esempio rappresentata da una distribuzione a priori Beta(60, 30) basata sui risultati consolidati in letteratura, con i dati osservati nello studio in corso, che registrano 45 successi terapeutici su 60 pazienti trattati. Nel caso di questo esempio, il processo inferenziale produce una distribuzione a posteriori Beta(105, 45), che sintetizza coerentemente le informazioni disponibili e fornisce una stima della probabilità di successo della CBT pari a 0.70, con un intervallo di credibilità al 95% compreso tra 0.63 e 0.76.
 
 ```{r}
+#| echo: false
 #| label: fig-cbt-efficacy
 #| fig-cap: "Stima bayesiana dell'efficacia della terapia cognitivo-comportamentale per il disturbo d'ansia"
-# Prior informativa basata su letteratura
+# Prior informativa e posterior
 alpha_prior <- 60
 beta_prior <- 30
-
-# Dati osservati
 n_successi <- 45
 n_pazienti <- 60
 
-# Posterior
 alpha_posterior <- alpha_prior + n_successi
 beta_posterior <- beta_prior + (n_pazienti - n_successi)
 
-# Visualizzazione
 theta <- seq(0, 1, length.out = 500)
-
 prior_cbt <- dbeta(theta, alpha_prior, beta_prior)
 posterior_cbt <- dbeta(theta, alpha_posterior, beta_posterior)
 
@@ -1206,143 +937,29 @@ df_cbt <- data.frame(
   theta = theta,
   Prior = prior_cbt,
   Posterior = posterior_cbt
-)
+) %>%
+  pivot_longer(cols = c(Prior, Posterior), names_to = "Distribuzione", values_to = "Densita")
 
-df_cbt_long <- df_cbt %>%
-  pivot_longer(cols = c(Prior, Posterior),
-               names_to = "Distribuzione", values_to = "Densita")
-
-media_prior_cbt <- alpha_prior / (alpha_prior + beta_prior)
-media_post_cbt <- alpha_posterior / (alpha_posterior + beta_posterior)
-
-ggplot(df_cbt_long, aes(x = theta, y = Densita, color = Distribuzione)) +
+ggplot(df_cbt, aes(x = theta, y = Densita, color = Distribuzione)) +
   geom_line(linewidth = 1.3) +
-  geom_vline(xintercept = media_prior_cbt, linetype = "dashed", color = "red", alpha = 0.6) +
-  geom_vline(xintercept = media_post_cbt, linetype = "dashed", color = "blue", alpha = 0.6) +
-  geom_vline(xintercept = n_successi/n_pazienti, linetype = "dotted", color = "green", alpha = 0.6) +
-  annotate("text", x = media_prior_cbt, y = max(posterior_cbt) * 0.9,
-           label = sprintf("Prior\n(%.2f)", media_prior_cbt), hjust = 1.1, size = 3.5) +
-  annotate("text", x = media_post_cbt, y = max(posterior_cbt) * 0.9,
-           label = sprintf("Posterior\n(%.2f)", media_post_cbt), hjust = -0.1, size = 3.5) +
   labs(
     title = "Stima bayesiana dell'efficacia della terapia cognitivo-comportamentale",
-    subtitle = sprintf("Integrazione di evidenza pregressa (prior) con dati osservati (%d successi su %d pazienti)", 
-                       n_successi, n_pazienti),
+    subtitle = "Integrazione di evidenza pregressa con dati osservati (45/60 successi)",
     x = expression(theta ~ " (probabilità di successo del trattamento)"),
-    y = "Densità di probabilità",
-    color = "Distribuzione"
-  ) +
-  theme_minimal() 
-```
-
-```{r}
-#| echo: false
-# Statistiche riassuntive
-cat("RISULTATI DELL'INFERENZA BAYESIANA\n")
-cat("===================================\n\n")
-cat("DISTRIBUZIONE A PRIORI (basata su letteratura):\n")
-cat("  Valore atteso: ", round(media_prior_cbt, 3), "\n")
-cat("  Intervallo di credibilità 95%: [", round(qbeta(0.025, alpha_prior, beta_prior), 3), ", ",
-    round(qbeta(0.975, alpha_prior, beta_prior), 3), "]\n\n")
-
-cat("EVIDENZA EMPIRICA OSSERVATA:\n")
-cat("  Successi osservati: ", n_successi, "/", n_pazienti, " = ", round(n_successi/n_pazienti, 3), "\n\n")
-
-cat("DISTRIBUZIONE A POSTERIORI (sintesi bayesiana):\n")
-cat("  Valore atteso: ", round(media_post_cbt, 3), "\n")
-cat("  Intervallo di credibilità 95%: [", round(qbeta(0.025, alpha_posterior, beta_posterior), 3), ", ",
-    round(qbeta(0.975, alpha_posterior, beta_posterior), 3), "]\n\n")
-
-cat("INTERPRETAZIONE CLINICA:\n")
-cat("L'integrazione dell'evidenza pregressa con i dati del presente studio consente di stimare\n")
-cat("una probabilità di successo della CBT pari a ", round(media_post_cbt, 3), " con un intervallo\n")
-cat("di credibilità 95% compreso tra ", round(qbeta(0.025, alpha_posterior, beta_posterior), 3), 
-    " e ", round(qbeta(0.975, alpha_posterior, beta_posterior), 3), ".\n")
-cat("Questa stima rappresenta una sintesi bayesiana che bilancia consapevolmente la conoscenza\n")
-cat("accumulata dalla letteratura con l'evidenza specifica del campione in esame.\n")
-```
-
-## Esercizi guidati
-
-### Esercizio 1: Urna con composizione ignota
-
-```{r}
-# Urna con composizione ignota: R rosse, B bianche (R + B = 10)
-# Osserviamo 3 estrazioni con reinserimento: R, R, B
-
-# Prior uniforme su R: R ~ Uniform(0, 10)
-# Likelihood: dato R, prob di osservare RRB
-
-set.seed(123)
-R_values <- 0:10
-n_estrazioni <- 3
-dati <- c("R", "R", "B")
-
-# Calcolare likelihood per ogni valore di R
-likelihoods <- numeric(11)
-for (r in R_values) {
-  p_r <- r / 10
-  # P(RRB | R) = p_r * p_r * (1 - p_r)
-  likelihoods[r + 1] <- p_r^2 * (1 - p_r)
-}
-
-# Prior uniforme
-prior <- rep(1/11, 11)
-
-# Posterior (proporzionale a prior × likelihood, poi normalizzare)
-posterior <- prior * likelihoods
-posterior <- posterior / sum(posterior)
-
-df_esercizio1 <- data.frame(
-  R_rosse = R_values,
-  Prior = prior,
-  Likelihood = likelihoods / max(likelihoods),  # scala per vis.
-  Posterior = posterior
-)
-
-cat("Distribuzione posterior per numero di palline rosse:\n")
-print(round(df_esercizio1[, c("R_rosse", "Posterior")], 4))
-
-# Valore più probabile (moda posterior)
-moda_post <- R_values[which.max(posterior)]
-cat("\nStima MAP (massimo a posteriori): R =", moda_post, "\n")
-cat("Media posterior:", round(sum(R_values * posterior), 2), "\n")
-
-# Visualizzazione
-df_ex1_long <- df_esercizio1 %>%
-  pivot_longer(cols = c(Prior, Posterior),
-               names_to = "Tipo", values_to = "Probabilita")
-
-ggplot(df_ex1_long, aes(x = R_rosse, y = Probabilita, fill = Tipo)) +
-  geom_col(position = "dodge") +
-  labs(
-    title = "Inferenza bayesiana: composizione urna ignota",
-    subtitle = "Dati: 3 estrazioni con reinserimento (R, R, B)",
-    x = "Numero di palline rosse (R)",
-    y = "Probabilità"
+    y = "Densità di probabilità"
   ) +
   theme_minimal()
 ```
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-In questo capitolo abbiamo analizzato il ruolo dell'equiprobabilità all'interno del framework bayesiano, mostrando come il calcolo combinatorio e la distribuzione Beta si integrino in un'unica visione coerente e unificata dell'inferenza probabilistica.
+In questo capitolo abbiamo esaminato il ruolo dell'equiprobabilità all'interno del framework bayesiano, dimostrando come il calcolo combinatorio e la distribuzione beta si integrino in una visione coerente e unificata dell'inferenza probabilistica. L'equiprobabilità non è una proprietà intrinseca del mondo fisico, ma emerge da uno stato di simmetria epistemica formalizzato attraverso il principio di indifferenza. La formula classica dei "casi favorevoli sui casi possibili" rappresenta dunque un caso speciale valido esclusivamente quando l'ignoranza si distribuisce in modo simmetrico e sussistono ragioni fondate per presupporre una corrispondente simmetria fisica.
 
-L'equiprobabilità non è una proprietà intrinseca del mondo fisico, ma emerge da uno stato di simmetria epistemica formalizzato attraverso il principio di indifferenza. La formula classica dei "casi favorevoli sui casi possibili" rappresenta dunque un caso speciale valido esclusivamente quando l'ignoranza si distribuisce in modo simmetrico e sussistono ragioni fondate per presupporre una corrispondente simmetria fisica.
+Il calcolo combinatorio funge da strumento di modellazione bayesiana in cui ciascuna formula incorpora specifiche assunzioni di equiprobabilità su spazi di configurazione definiti. Tuttavia, l'equiprobabilità decade inevitabilmente in presenza di informazioni asimmetriche, rendendo necessario l'utilizzo di modelli parametrici più sofisticati. La transizione dal discreto al continuo trova nella distribuzione Beta la sua naturale generalizzazione: la Beta(1,1) rappresenta lo stato di massima ignoranza, mentre le distribuzioni Beta(α, β) parametrizzano credenze di varia intensità.
 
-Il calcolo combinatorio svolge il ruolo di strumento di modellazione bayesiana, in cui ciascuna formula incorpora specifiche assunzioni di equiprobabilità su spazi di configurazione definiti. Le permutazioni presuppongono l'equiprobabilità di tutti i possibili ordinamenti, le disposizioni assumono l'equiprobabilità delle sequenze ordinate e le combinazioni postulano l'equiprobabilità dei sottoinsiemi non ordinati.
+Nelle applicazioni psicologiche, dalla teoria della risposta agli item allo studio dei bias di risposta, la condizione di equiprobabilità è raramente soddisfatta. Il framework bayesiano fornisce gli strumenti concettuali e computazionali per modellare queste situazioni complesse e supporta una transizione naturale dall'equiprobabilità all'aggiornamento delle credenze basato sull'evidenza empirica. Questo approccio supera i limiti dell'inferenza frequentista classica, soprattutto nella gestione di eventi singolari, nella quantificazione dell'incertezza parametrica e nell'integrazione delle conoscenze pregresse.
 
-Tuttavia, l'equiprobabilità decade inevitabilmente in presenza di informazioni asimmetriche, come differenze di peso, variabilità di difficoltà o relazioni di dipendenza. In tali circostanze, è necessario adottare modelli parametrici più sofisticati in grado di catturare queste complessità.
-
-La transizione dal discreto al continuo trova nella distribuzione Beta la sua naturale generalizzazione. La distribuzione Beta(1,1) corrisponde alla distribuzione uniforme, che rappresenta lo stato di massima ignoranza, mentre le distribuzioni Beta(α, β) parametrizzano credenze caratterizzate da una "forza" data da α + β. L'aggiornamento bayesiano consente il passaggio dalle credenze a priori a quelle a posteriori mediante l'applicazione coerente del teorema di Bayes.
-
-Nelle applicazioni psicologiche, dalla teoria della risposta agli item allo studio dei bias di risposta, dalla valutazione degli interventi clinici all'analisi dei questionari, la condizione di equiprobabilità risulta raramente soddisfatta. Il framework bayesiano fornisce tuttavia gli strumenti concettuali e computazionali per modellare queste situazioni complesse e stimare i parametri rilevanti, mantenendo una quantificazione esplicita dell'incertezza.
-
-L'approccio bayesiano consente una transizione concettuale naturale dall'equiprobabilità, implementata attraverso prior uniformi che rappresentano lo stato di massima ignoranza, all'aggiornamento delle credenze basato sull'osservazione di dati empirici. Questo processo genera distribuzioni a posteriori che quantificano formalmente l'incertezza residua sui parametri di interesse e supporta un accumulo sequenziale di evidenza attraverso aggiornamenti iterativi.
-
-Questo approccio supera i limiti intrinseci dell'approccio frequentista classico, che risulta inadeguato a trattare eventi singolari non ripetibili, a quantificare l'incertezza parametrica, a supportare aggiornamenti sequenziali delle credenze e a integrare sistematicamente le conoscenze pregresse nell'inferenza statistica.
-
-Nei prossimi capitoli, questo framework teorico verrà applicato allo studio della probabilità condizionata, che funge da meccanismo fondamentale per l'aggiornamento delle credenze, e al teorema di Bayes, che emerge come principio unificante dell'inferenza probabilistica in condizioni di incertezza.
+Nei prossimi capitoli, questo framework teorico verrà applicato allo studio della probabilità condizionata e al teorema di Bayes, che emergono come principi unificanti dell'inferenza probabilistica in condizioni di incertezza.
 
 ## Esercizi {.unnumbered}
 
