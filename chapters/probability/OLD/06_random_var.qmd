@@ -1,0 +1,718 @@
+# Variabili casuali {#sec-prob-random-var}
+
+## Introduzione {.unnumbered .unlisted}
+
+Nei capitoli precedenti abbiamo sviluppato il concetto di probabilità come "grado di credenza razionale", costruendo un sistema coerente per quantificare l'incertezza relativa a eventi discreti, quali la diagnosi di un paziente, l'esito di un test psicometrico o la presenza di una condizione clinica. Questi strumenti ci hanno permesso di ragionare in modo rigoroso su proposizioni come "il paziente ha la condizione" o "il trattamento sarà efficace".
+
+Tuttavia, la ricerca psicologica raramente si limita a domande binarie. Lo psicologo clinico, infatti, non si limita a chiedersi se un paziente migliorerà, ma vuole anche sapere di quanto ci si aspetta che migliori. Il neuropsicologo, per esempio, non si chiede solo se una risposta sarà corretta, ma anche quanto tempo richiederà. Il ricercatore della personalità non si chiede solo se un tratto è presente, ma anche quale valore assume su una scala continua.
+
+Per rispondere a queste domande, abbiamo bisogno di un linguaggio che estenda il concetto di probabilità dagli eventi ai **valori numerici**. Questo linguaggio è quello delle **variabili casuali**, funzioni che traducono gli esiti di un processo aleatorio in numeri, consentendoci di applicare l'intero apparato dell'analisi matematica allo studio dell'incertezza.
+
+Le variabili casuali rappresentano il ponte concettuale tra la teoria della probabilità sviluppata finora e i modelli statistici che utilizzeremo nell'inferenza bayesiana. Comprendere questo concetto significa acquisire il vocabolario tecnico necessario per descrivere le distribuzioni a priori, le verosimiglianze e le distribuzioni a posteriori, i pilastri dell'intero edificio bayesiano.
+
+### Panoramica del capitolo {.unnumbered .unlisted}
+
+- Definizione formale di variabile casuale come funzione dallo spazio campionario ai numeri reali.
+- Distinzione tra variabili casuali discrete e continue.
+- Funzione di massa di probabilità (PMF) e funzione di densità di probabilità (PDF).
+- Funzione di distribuzione cumulativa (CDF) e sue proprietà.
+- Valore atteso come centro di gravità della distribuzione.
+- Varianza e deviazione standard come misure di dispersione.
+- Verifiche computazionali in R delle proprietà teoriche.
+
+::: {.callout-tip collapse=true}
+## Prerequisiti
+
+- Aver letto i capitoli @sec-prob-interpretation, @sec-prob-axioms-coherence e @sec-bayes-theorem.
+- Leggere l'appendice @sec-apx-calculus per i concetti base di calcolo integrale.
+- Familiarità con R e le operazioni vettoriali di base.
+:::
+
+::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+
+```{r}
+#| output: false
+here::here("code", "_common.R") |> 
+  source()
+
+# Pacchetti necessari
+if (!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(ggplot2, dplyr, tidyr)
+```
+:::
+
+## Dalla probabilità degli eventi ai valori numerici
+
+Nel framework bayesiano sviluppato nei capitoli precedenti, abbiamo assegnato delle probabilità a degli **eventi**, ovvero a dei sottoinsiemi dello spazio campionario che rappresentano delle proposizioni sul mondo.  Quando un clinico valuta $P(\text{Depressione}) = 0.3$, sta quantificando la propria credenza in una proposizione binaria. Questa struttura è potente ma limitata:  non riesce a catturare la ricchezza dell'incertezza riguardo a sia *quanto* severa la depressione, a *quale* punteggio otterrà il paziente a un test, o a *quanto tempo* richiederà il recupero.
+
+Il passaggio concettuale fondamentale consiste nel riconoscere che molti esperimenti producono naturalmente *risultati numerici*. Un test psicometrico genera un punteggio, una misurazione fisiologica produce un valore continuo, un compito cognitivo registra un tempo di reazione. Anche quando gli esiti originari non sono numerici, è sempre possibile *codificarli* come tali, assegnando 1 al successo e 0 al fallimento, o codificando le categorie diagnostiche con numeri ordinali.
+
+Questa traduzione sistematica degli esiti in numeri è ciò che realizza una *variabile casuale*. La "casualità" non risiede nella funzione in sé, che è perfettamente deterministica, ma nell'incertezza riguardo a quale esito dello spazio campionario si verificherà. Una volta determinato l'esito, il valore numerico segue automaticamente dalla definizione della funzione.
+
+## Definizione formale di variabile casuale
+
+::: {#def-random-variable}
+### Variabile casuale
+
+Sia $\Omega$ uno spazio campionario. Una *variabile casuale* è una funzione 
+$$
+X : \Omega \longrightarrow \mathbb{R}
+$$
+che associa a ogni esito $\omega \in \Omega$ un unico numero reale $X(\omega)$.
+:::
+
+Questa definizione merita un'analisi attenta. Lo spazio campionario $\Omega$ rappresenta, nella nostra interpretazione epistemica, l'insieme delle *possibilità* compatibili con le informazioni disponibili. La variabile casuale $X$ traduce ciascuna di queste possibilità in un numero. Il termine "casuale" è quindi in qualche modo fuorviante: la funzione $X$ è completamente deterministica. L'incertezza deriva esclusivamente dal fatto che non conosciamo l'elemento di $\Omega$ che si realizzerà.
+
+Nella notazione standard, la lettera maiuscola ($X$, $Y$, $Z$) indica la variabile casuale come funzione, mentre la corrispondente lettera minuscola ($x$, $y$, $z$) indica un valore specifico che la funzione può assumere. Questa convenzione permette di scrivere espressioni come $P(X = x)$ o $P(X \leq x)$, in cui si distingue chiaramente tra l'oggetto aleatorio e i suoi possibili valori.
+
+::: {.callout-note collapse="true" title="Esempio: Lancio di due dadi"}
+### La somma come variabile casuale
+
+Consideriamo il lancio di due dadi equilibrati. Lo spazio campionario è costituito dalle 36 coppie ordinate:
+$$
+\Omega = \{(1,1), (1,2), \ldots, (6,5), (6,6)\}.
+$$
+
+Definiamo la variabile casuale $X$ che associa a ogni coppia $(i,j)$ la somma dei valori:
+$$
+X(i,j) = i + j.
+$$
+
+Per l'esito $(4,4)$, abbiamo $X(4,4) = 8$. La funzione $X$ è perfettamente deterministica: dato l'esito, il valore è univocamente determinato. L'incertezza riguarda solo *quale* coppia si realizzerà.
+
+L'insieme $\{X = 8\}$ denota tutti gli esiti che producono somma 8:
+$$
+\{X = 8\} = \{(2,6), (3,5), (4,4), (5,3), (6,2)\}.
+$$
+
+Poiché ogni coppia ha probabilità $1/36$ e gli esiti sono equiprobabili, otteniamo:
+$$
+P(X = 8) = \frac{|\{X = 8\}|}{|\Omega|} = \frac{5}{36}.
+$$
+:::
+
+## Variabili casuali discrete
+
+La distinzione più fondamentale tra le variabili casuali riguarda la natura dell'insieme dei valori che possono assumere. Una variabile casuale è *discreta* quando l'insieme dei valori che può assumere è finito o numerabile, ovvero quando i possibili valori possono essere elencati in una sequenza.
+
+::: {#def-discrete-rv}
+### Variabile casuale discreta
+
+Una variabile casuale $X$ è *discreta* se esiste un insieme finito o numerabile $\mathcal{X} = \{x_1, x_2, \ldots\}$ tale che $P(X \in \mathcal{X}) = 1$. In altre parole, $X$ assume con certezza uno dei valori nell'insieme $\mathcal{X}$.
+:::
+
+In psicologia, le variabili discrete emergono naturalmente in numerosi contesti. Esempi paradigmatici includono il numero di risposte corrette in un test cognitivo, i punteggi su scale Likert di atteggiamento, la frequenza di episodi depressivi in un determinato periodo e le categorie diagnostiche assegnate secondo sistemi di classificazione standardizzati. La loro caratteristica distintiva è che tra due valori consecutivi non è possibile inserire valori intermedi: non è possibile, per esempio, esprimere un valore di 2.5 punti su una scala Likert a cinque punti.
+
+### Funzione di massa di probabilità
+
+Per caratterizzare completamente una variabile casuale discreta, è sufficiente specificare la probabilità associata a ciascun valore possibile. Questa specificazione prende il nome di *funzione di massa di probabilità*.
+
+::: {#def-pmf}
+### Funzione di massa di probabilità (PMF)
+
+La *funzione di massa di probabilità* di una variabile casuale discreta $X$ è la funzione $p_X : \mathcal{X} \to [0,1]$ definita da
+$$
+p_X(x) = P(X = x)
+$$
+per ogni $x \in \mathcal{X}$.
+:::
+
+La PMF deve soddisfare due condizioni che discendono direttamente dagli assiomi di coerenza della probabilità. La *non-negatività* richiede che $p_X(x) \geq 0$ per ogni $x$, riflettendo l'impossibilità di credenze negative. La *normalizzazione* impone che $\sum_{x \in \mathcal{X}} p_X(x) = 1$, garantendo che la credenza totale sia distribuita esattamente tra tutti i valori possibili.
+
+Una volta nota la PMF, possiamo calcolare la probabilità di qualsiasi evento relativo a $X$. Per un sottoinsieme $B \subseteq \mathcal{X}$:
+$$
+P(X \in B) = \sum_{x \in B} p_X(x).
+$$
+
+::: {.callout-note collapse="true" title="Esempio: PMF della somma di due dadi"}
+### Derivazione completa della distribuzione
+
+Riprendiamo la variabile $X$ che rappresenta la somma di due dadi equilibrati. Per costruire la PMF, dobbiamo contare, per ogni possibile somma $x$, quante coppie $(i,j)$ la producono.
+
+La somma minima è 2 (ottenuta solo con $(1,1)$) e la massima è 12 (ottenuta solo con $(6,6)$). Per i valori intermedi, il conteggio richiede un'analisi sistematica. Ad esempio, la somma 7 può essere ottenuta con $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$, ovvero sei combinazioni.
+
+La distribuzione completa è:
+
+| $x$  | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|:----:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:--:|:--:|:--:|
+| Casi | 1 | 2 | 3 | 4 | 5 | 6 | 5 | 4 | 3  | 2  | 1  |
+| $p_X(x)$ | $\frac{1}{36}$ | $\frac{2}{36}$ | $\frac{3}{36}$ | $\frac{4}{36}$ | $\frac{5}{36}$ | $\frac{6}{36}$ | $\frac{5}{36}$ | $\frac{4}{36}$ | $\frac{3}{36}$ | $\frac{2}{36}$ | $\frac{1}{36}$ |
+
+Si noti la simmetria della distribuzione attorno a 7, che è il valore più probabile. Questa forma "triangolare" riflette la struttura combinatoria del problema.
+:::
+
+### Verifica computazionale della PMF
+
+La simulazione al computer offre un potente strumento per verificare empiricamente le proprietà teoriche della funzione di ripartizione. Generando un gran numero di realizzazioni della variabile casuale, è possibile osservare come le frequenze relative convergano alle probabilità teoriche, una manifestazione della legge dei grandi numeri che conferma la coerenza delle nostre assegnazioni probabilistiche.
+
+```{r}
+#| label: fig-pmf-dice
+#| fig-cap: "Confronto tra distribuzione teorica (linea) e frequenze empiriche (barre) per la somma di due dadi. Con 100,000 simulazioni, la convergenza è evidente."
+
+set.seed(42)
+
+# Simulazione
+n_sim <- 100000
+dado1 <- sample(1:6, n_sim, replace = TRUE)
+dado2 <- sample(1:6, n_sim, replace = TRUE)
+somme <- dado1 + dado2
+
+# Frequenze empiriche
+freq_emp <- table(somme) / n_sim
+
+# Probabilità teoriche
+valori <- 2:12
+prob_teor <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+
+# Confronto
+df_confronto <- data.frame(
+  x = valori,
+  empirica = as.numeric(freq_emp),
+  teorica = prob_teor
+)
+
+ggplot(df_confronto, aes(x = x)) +
+  geom_col(aes(y = empirica), fill = "steelblue", alpha = 0.7, width = 0.6) +
+  geom_point(aes(y = teorica), color = "darkred", size = 3) +
+  geom_line(aes(y = teorica), color = "darkred", linewidth = 1) +
+  scale_x_continuous(breaks = 2:12) +
+  labs(x = "Somma dei due dadi", y = "Probabilità") +
+  theme_minimal()
+```
+
+La convergenza delle frequenze empiriche alle probabilità teoriche non le definisce, ma ne verifica la coerenza, confermando che le nostre assegnazioni di credenza producono il comportamento atteso quando sottoposte a test ripetuti.
+
+## Variabili casuali continue
+
+Molte grandezze psicologiche non possono essere rappresentate adeguatamente da variabili discrete. Il tempo di reazione in un compito cognitivo, il livello di cortisolo in una misurazione fisiologica, la latenza di una risposta: tutte queste quantità possono assumere, almeno in linea di principio, **qualsiasi** valore in un intervallo continuo. Per questo motivo, introduciamo le variabili casuali continue.
+
+::: {#def-continuous-rv}
+### Variabile casuale continua
+
+Una variabile casuale $X$ è *continua* se esiste una funzione non negativa $f_X : \mathbb{R} \to [0, +\infty)$, detta *funzione di densità di probabilità* (PDF), tale che per ogni intervallo $[a, b]$:
+$$
+P(a \leq X \leq b) = \int_a^b f_X(x) \, dx.
+$$
+:::
+
+### Funzione di densità di probabilità
+
+La PDF ha per le variabili continue un ruolo analogo a quello della PMF per le variabili discrete, ma con una differenza cruciale: $f_X(x)$ *non* rappresenta la probabilità che $X$ assuma il valore $x$. Infatti, per una variabile continua, la probabilità di assumere un valore *esatto* è sempre zero:
+$$
+P(X = x_0) = \int_{x_0}^{x_0} f_X(x) \, dx = 0.
+$$
+
+Questo risultato, apparentemente controintuitivo, riflette il fatto che in un continuum ci sono "troppi" punti perché ciascuno possa avere una probabilità positiva, mantenendo la normalizzazione. La probabilità si "distribuisce" sull'intera retta reale e solo gli intervalli possono avere una probabilità non nulla.
+
+La densità $f_X(x)$ può essere interpretata come una misura di *concentrazione* della probabilità: valori elevati di $f_X(x)$ indicano regioni in cui la variabile è più probabile che si verifichi, nel senso che piccoli intervalli attorno a quei punti hanno una probabilità relativamente alta.
+
+::: {#thm-pdf-properties}
+### Proprietà delle funzioni di densità di probabilità
+
+Una funzione $f_X(x)$ costituisce una valida funzione di densità di probabilità se e solo se soddisfa le seguenti condizioni necessarie e sufficienti:
+
+* **non-negatività**: la funzione deve assumere valori non negativi su tutto il suo dominio, ovvero $f_X(x) \geq 0$ per ogni $x \in \mathbb{R}$. Questa proprietà garantisce che la probabilità associata a qualsiasi intervallo sia sempre non negativa.
+
+* **normalizzazione**: l'integrale della funzione esteso all'intero asse reale deve essere uguale a 1, formalmente $\int_{-\infty}^{+\infty} f_X(x)  dx = 1$. Questa condizione garantisce che la probabilità totale dello spazio campionario sia unitaria, coerentemente con gli assiomi della probabilità.
+
+:::
+
+Si noti che il valore della funzione di densità di probabilità $f_X(x)$ può superare l'unità, in quanto essa non rappresenta una probabilità, bensì una densità di probabilità. Solo l'integrale di questa funzione su un intervallo misurabile restituisce una probabilità propriamente detta. Formalmente, la probabilità che la variabile casuale $X$ assuma valori nell'intervallo $[a,b]$ è data da $P(a \leq X \leq b) = \int_a^b f_X(x)  dx$, dove l'area sottesa dalla curva nell'intervallo corrisponde alla probabilità dell'evento.
+
+::: {.callout-note collapse="true" title="Esempio: tempo di reazione in un intervallo"}
+
+Consideriamo una variabile casuale continua $T$ che rappresenta il tempo di reazione in un compito sperimentale. Supponiamo che $T$ segua una distribuzione log-normale con parametri $\mu = 5.7$ e $\sigma = 0.3$. Ciò significa che il logaritmo naturale del tempo di reazione, $\ln(T)$, segue una distribuzione normale.
+
+La sua funzione di densità di probabilità (PDF) è data da:
+
+$$
+f_T(t) = \frac{1}{t \sigma \sqrt{2\pi}} \exp\left(-\frac{(\ln(t) - \mu)^2}{2\sigma^2}\right) \quad \text{per } t > 0
+$$
+e $f_T(t) = 0$ per $t \leq 0$.
+
+```{r}
+# Parametri della distribuzione log-normale
+mu <- 5.7   # Parametro di location (media del log(T))
+sigma <- 0.3 # Parametro di scale (deviazione standard del log(T))
+
+# Calcolo di media e mediana della distribuzione originale
+media_T <- exp(mu + sigma^2 / 2)
+mediana_T <- exp(mu)
+
+cat("Parametri per ln(T): µ =", mu, ", σ =", sigma, "\n")
+cat("Mediana del tempo di reazione T:", round(mediana_T, 1), "ms\n")
+cat("Media del tempo di reazione T:", round(media_T, 1), "ms\n")
+```
+
+Ora, calcoliamo la probabilità che il tempo di reazione sia compreso tra 300 e 400 millisecondi. Questo richiede di integrare la funzione di densità in quell'intervallo.
+
+$$
+P(300 \leq T \leq 400) = \int_{300}^{400} f_T(t) \, dt .
+$$
+
+```{r}
+# Calcolo della probabilità tra 300 e 400 ms usando la CDF
+prob_300_400 <- plnorm(400, meanlog = mu, sdlog = sigma) - plnorm(300, meanlog = mu, sdlog = sigma)
+
+cat("Probabilità P(300 ≤ T ≤ 400):", round(prob_300_400, 4))
+cat(" (", round(prob_300_400 * 100, 1), "%)\n", sep="")
+```
+
+Verifichiamo la proprietà fondamentale di normalizzazione, che garantisce che la probabilità totale su tutti i tempi di reazione possibili sia uguale a 1.
+
+$$
+\int_{0}^{\infty} f_T(t) \, dt = 1.
+$$
+
+```{r}
+# Verifica della normalizzazione (la CDF a +infinito deve essere 1)
+prob_totale <- plnorm(Inf, meanlog = mu, sdlog = sigma)
+cat("Verifica normalizzazione [P(0 < T < ∞)]:", prob_totale, "->", ifelse(prob_totale == 1, "✓ OK", "✗ ERRORE"), "\n")
+```
+
+**Calcoli aggiuntivi per comprendere la forma della distribuzione:**
+
+```{r}
+# Calcolo di altri intervalli probabilistici di interesse
+cat("\nProbabilità per altri intervalli:\n")
+cat("P(T ≤ 250 ms):", round(plnorm(250, mu, sigma), 3), "\n")
+cat("P(T ≥ 500 ms):", round(1 - plnorm(500, mu, sigma), 3), "\n")
+cat("P(T tra mediana e media):", round(plnorm(media_T, mu, sigma) - plnorm(mediana_T, mu, sigma), 3), "\n")
+
+# Intervallo che cattura il 95% della distribuzione
+intervallo_95 <- qlnorm(c(0.025, 0.975), meanlog = mu, sdlog = sigma)
+cat("\nIntervallo centrale al 95% per T: [", round(intervallo_95[1], 1), ", ", round(intervallo_95[2], 1), "] ms\n", sep="")
+```
+:::
+
+## Funzione di distribuzione cumulativa
+
+Esiste una descrizione alternativa, valida sia per variabili discrete che continue, che specifica la probabilità che la variabile assuma valori *fino a* una certa soglia.
+
+::: {#def-cdf}
+### Funzione di distribuzione cumulativa (CDF)
+
+La *funzione di distribuzione cumulativa* di una variabile casuale $X$ è la funzione $F_X : \mathbb{R} \to [0,1]$ definita da
+$$
+F_X(x) = P(X \leq x).
+$$
+:::
+
+La CDF fornisce una descrizione completa della distribuzione di $X$. Dalla CDF si può sempre recuperare la PMF (per variabili discrete) o la PDF (per variabili continue), e viceversa. Per le variabili continue, la relazione è:
+$$
+F_X(x) = \int_{-\infty}^{x} f_X(t) \, dt, \qquad f_X(x) = \frac{d}{dx} F_X(x).
+$$
+
+::: {#thm-cdf-properties}
+### Proprietà della CDF
+
+Ogni funzione di distribuzione cumulativa soddisfa:
+
+1. **Monotonia**: $F_X$ è non decrescente: se $a < b$, allora $F_X(a) \leq F_X(b)$.
+2. **Limiti**: $\lim_{x \to -\infty} F_X(x) = 0$ e $\lim_{x \to +\infty} F_X(x) = 1$.
+3. **Continuità a destra**: $\lim_{h \to 0^+} F_X(x + h) = F_X(x)$.
+:::
+
+La monotonia riflette il fatto che, ampliando l'intervallo $(-\infty, x]$, la probabilità non può diminuire. I limiti garantiscono che la probabilità totale sia correttamente normalizzata. La continuità a destra è una convenzione tecnica che risolve ambiguità per variabili discrete.
+
+Per variabili continue, la CDF è continua ovunque; per variabili discrete, presenta "salti" nei punti dove la variabile ha massa positiva.
+
+```{r}
+#| label: fig-cdf-dice
+#| fig-cap: "CDF della somma di due dadi. I salti corrispondono ai valori possibili, e l'altezza di ogni salto è pari alla probabilità di quel valore."
+
+# CDF teorica per la somma di due dadi
+valori <- 2:12
+prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+cdf <- cumsum(prob)
+
+# Creiamo i dati per il grafico a gradini
+df_cdf <- data.frame(
+  x_start = c(1, valori),
+  x_end = c(valori, 13),
+  y = c(0, cdf)
+)
+
+ggplot() +
+  geom_segment(data = df_cdf, 
+               aes(x = x_start, xend = x_end, y = y, yend = y),
+               linewidth = 1, color = "steelblue") +
+  geom_point(data = data.frame(x = valori, y = cdf), 
+             aes(x = x, y = y), 
+             size = 3, color = "steelblue") +
+  scale_x_continuous(breaks = 2:12, limits = c(1, 13)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  labs(x = "x", y = expression(F[X](x) == P(X <= x))) +
+  theme_minimal()
+```
+
+## Valore atteso
+
+Il *valore atteso* di una variabile casuale rappresenta il suo "centro di gravità" probabilistico—il valore medio che ci aspetteremmo di osservare se ripetessimo l'esperimento molte volte. Nell'interpretazione bayesiana, il valore atteso quantifica la nostra *aspettativa razionale* dato lo stato informativo corrente.
+
+::: {#def-expected-value}
+### Valore atteso
+
+Il *valore atteso* (o *media* o *speranza matematica*) di una variabile casuale $X$ è definito come:
+
+Per $X$ **discreta** con PMF $p_X$:
+$$
+\mathbb{E}[X] = \sum_{x \in \mathcal{X}} x \cdot p_X(x).
+$$
+
+Per $X$ **continua** con PDF $f_X$:
+$$
+\mathbb{E}[X] = \int_{-\infty}^{+\infty} x \cdot f_X(x) \, dx.
+$$
+:::
+
+Il valore atteso rappresenta una *media ponderata* dei possibili valori, dove i pesi sono le rispettive probabilità (o densità). Non è necessariamente un valore che la variabile può effettivamente assumere: per la somma di due dadi, $\mathbb{E}[X] = 7$, che è un valore possibile; per un dado singolo, $\mathbb{E}[X] = 3.5$, che non lo è.
+
+::: {.callout-note collapse="true" title="Esempio: Valore atteso della somma di due dadi"}
+### Calcolo e verifica
+
+Il valore atteso della somma $X$ di due dadi è:
+$$
+\mathbb{E}[X] = \sum_{x=2}^{12} x \cdot p_X(x) = 2 \cdot \frac{1}{36} + 3 \cdot \frac{2}{36} + \cdots + 12 \cdot \frac{1}{36}.
+$$
+
+Calcoliamo esplicitamente:
+```{r}
+valori <- 2:12
+prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+
+# Valore atteso teorico
+E_teorico <- sum(valori * prob)
+cat("Valore atteso teorico:", E_teorico, "\n")
+
+# Verifica con simulazione
+set.seed(123)
+n_sim <- 100000
+somme_sim <- sample(1:6, n_sim, replace = TRUE) + 
+             sample(1:6, n_sim, replace = TRUE)
+E_empirico <- mean(somme_sim)
+cat("Media empirica (n =", n_sim, "):", E_empirico, "\n")
+```
+
+La convergenza della media empirica al valore atteso teorico illustra nuovamente la *legge dei grandi numeri*: le nostre credenze probabilistiche, se coerenti, generano comportamenti empirici prevedibili.
+:::
+
+### Proprietà del valore atteso
+
+Il valore atteso gode di proprietà algebriche che ne facilitano enormemente il calcolo.
+
+::: {#thm-expected-value-properties}
+### Proprietà del valore atteso
+
+Per variabili casuali $X$ e $Y$, e costanti $a, b \in \mathbb{R}$:
+
+1. **Linearità**: $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$.
+2. **Additività**: $\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$ (sempre, indipendentemente dalla dipendenza tra $X$ e $Y$).
+3. **Monotonia**: Se $X \leq Y$ con probabilità 1, allora $\mathbb{E}[X] \leq \mathbb{E}[Y]$.
+:::
+
+La linearità afferma che traslazioni e riscalamenti operano in modo prevedibile sulla media. L'additività è particolarmente notevole: il valore atteso di una somma è *sempre* la somma dei valori attesi, anche quando le variabili sono dipendenti. Questa proprietà semplifica enormemente i calcoli in molti contesti applicativi.
+
+::: {.callout-note collapse="true" title="Esempio: Linearità del valore atteso"}
+### Applicazione alla somma di dadi
+
+La somma di due dadi $X = X_1 + X_2$, dove $X_1$ e $X_2$ sono i risultati dei singoli dadi, ha valore atteso:
+$$
+\mathbb{E}[X] = \mathbb{E}[X_1 + X_2] = \mathbb{E}[X_1] + \mathbb{E}[X_2].
+$$
+
+Per un dado equilibrato, $\mathbb{E}[X_i] = \frac{1+2+3+4+5+6}{6} = 3.5$. Quindi:
+$$
+\mathbb{E}[X] = 3.5 + 3.5 = 7.
+$$
+
+Questo calcolo, molto più semplice della somma diretta, conferma il risultato precedente.
+:::
+
+## Varianza e deviazione standard
+
+Il valore atteso fornisce informazione sul "centro" della distribuzione, ma non dice nulla sulla sua *dispersione*. Due variabili possono avere lo stesso valore atteso ma distribuzioni molto diverse: una concentrata attorno alla media, l'altra molto dispersa. Per quantificare questa dispersione, introduciamo la *varianza*.
+
+::: {#def-variance}
+### Varianza e deviazione standard
+
+La *varianza* di una variabile casuale $X$ è definita come:
+$$
+\text{Var}(X) = \mathbb{E}\left[(X - \mathbb{E}[X])^2\right].
+$$
+
+La *deviazione standard* è la radice quadrata della varianza:
+$$
+\text{SD}(X) = \sqrt{\text{Var}(X)}.
+$$
+:::
+
+La varianza misura la "distanza quadratica media" della variabile dalla sua media. L'elevamento al quadrato garantisce che scostamenti positivi e negativi contribuiscano ugualmente (non si annullino). La deviazione standard riporta la misura di dispersione nelle stesse unità della variabile originaria, rendendola più interpretabile.
+
+### Formula computazionale della varianza
+
+Una formula algebricamente equivalente, ma spesso più conveniente per i calcoli, è:
+$$
+\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2.
+$$
+
+Questa espressione richiede solo il calcolo di due valori attesi: quello di $X$ e quello di $X^2$.
+
+::: {.callout-note collapse="true" title="Esempio: Varianza della somma di due dadi"}
+### Calcolo e verifica
+
+Per calcolare la varianza, determiniamo prima $\mathbb{E}[X^2]$:
+```{r}
+valori <- 2:12
+prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+
+E_X <- sum(valori * prob)
+E_X2 <- sum(valori^2 * prob)
+
+var_teorica <- E_X2 - E_X^2
+sd_teorica <- sqrt(var_teorica)
+
+cat("E[X] =", E_X, "\n")
+cat("E[X²] =", E_X2, "\n")
+cat("Var(X) =", round(var_teorica, 4), "\n")
+cat("SD(X) =", round(sd_teorica, 4), "\n")
+
+# Verifica con simulazione
+set.seed(456)
+n_sim <- 100000
+somme_sim <- sample(1:6, n_sim, replace = TRUE) + 
+             sample(1:6, n_sim, replace = TRUE)
+
+cat("\nVerifica empirica:\n")
+cat("Varianza empirica:", round(var(somme_sim), 4), "\n")
+cat("SD empirica:", round(sd(somme_sim), 4), "\n")
+```
+
+La deviazione standard di circa 2.42 indica che i valori della somma tipicamente si discostano dalla media di circa 2-3 unità.
+:::
+
+### Proprietà della varianza
+
+::: {#thm-variance-properties}
+### Proprietà della varianza
+
+Per una variabile casuale $X$ e costanti $a, b \in \mathbb{R}$:
+
+1. **Non-negatività**: $\text{Var}(X) \geq 0$, con uguaglianza se e solo se $X$ è costante.
+2. **Invarianza per traslazioni**: $\text{Var}(X + b) = \text{Var}(X)$.
+3. **Scaling quadratico**: $\text{Var}(aX) = a^2 \text{Var}(X)$.
+4. **Per variabili indipendenti**: $\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$.
+:::
+
+La proprietà 4 vale solo per variabili *indipendenti*, a differenza dell'additività del valore atteso che vale sempre. Per variabili dipendenti, la varianza della somma coinvolge anche la *covarianza*, un concetto che svilupperemo nei capitoli successivi.
+
+## Variabili casuali multiple
+
+In molti contesti sperimentali, è necessario considerare simultaneamente più variabili casuali. Ad esempio, in uno studio su ansia e depressione, potremmo voler modellare congiuntamente i punteggi di entrambi i costrutti. Il framework delle variabili casuali si estende naturalmente a questo caso.
+
+::: {#def-joint-distribution}
+### Distribuzione congiunta
+
+Per due variabili casuali discrete $X$ e $Y$, la *funzione di massa di probabilità congiunta* è:
+$$
+p_{X,Y}(x, y) = P(X = x, Y = y).
+$$
+
+Le *distribuzioni marginali* si ottengono sommando:
+$$
+p_X(x) = \sum_y p_{X,Y}(x, y), \qquad p_Y(y) = \sum_x p_{X,Y}(x, y).
+$$
+:::
+
+Le variabili $X$ e $Y$ sono *indipendenti* se e solo se $p_{X,Y}(x, y) = p_X(x) \cdot p_Y(y)$ per tutti i valori $x$ e $y$. L'indipendenza implica che conoscere il valore di una variabile non modifica le nostre credenze sull'altra.
+
+::: {.callout-note collapse="true" title="Esempio: Tre lanci di moneta"}
+### Variabili multiple derivate
+
+Consideriamo tre lanci di una moneta equilibrata. Definiamo $X_1, X_2, X_3$ come le variabili indicatrici dei singoli lanci (1 per testa, 0 per croce). Ciascuna ha $P(X_i = 1) = P(X_i = 0) = 0.5$.
+
+Definiamo la variabile derivata:
+$$
+Z = X_1 + X_2 + X_3,
+$$
+che rappresenta il numero totale di teste.
+
+Per il teorema di linearità:
+$$
+\mathbb{E}[Z] = \mathbb{E}[X_1] + \mathbb{E}[X_2] + \mathbb{E}[X_3] = 0.5 + 0.5 + 0.5 = 1.5.
+$$
+
+Poiché i lanci sono indipendenti:
+$$
+\text{Var}(Z) = \text{Var}(X_1) + \text{Var}(X_2) + \text{Var}(X_3).
+$$
+
+Per una singola variabile Bernoulli con $p = 0.5$: $\text{Var}(X_i) = 0.5 \times 0.5 = 0.25$. Quindi:
+$$
+\text{Var}(Z) = 0.25 + 0.25 + 0.25 = 0.75, \qquad \text{SD}(Z) = \sqrt{0.75} \approx 0.866.
+$$
+:::
+
+## Riflessioni conclusive {.unnumbered .unlisted}
+
+Il concetto di variabile casuale rappresenta il ponte fondamentale tra la teoria della probabilità come sistema di credenze coerenti e l'analisi quantitativa dei fenomeni incerti. Attraverso questa formalizzazione, possiamo tradurre qualsiasi esito sperimentale—qualitativo o quantitativo—in un oggetto matematico sul quale applicare l'intero apparato del calcolo delle probabilità.
+
+Le due grandi famiglie di variabili casuali—discrete e continue—richiedono trattamenti formali distinti ma concettualmente paralleli. La PMF per le variabili discrete e la PDF per quelle continue svolgono ruoli analoghi nel descrivere come la probabilità si distribuisce sui possibili valori. La CDF fornisce una descrizione unificata, valida per entrambe le tipologie.
+
+Il valore atteso e la varianza costituiscono i primi strumenti per sintetizzare le proprietà di una distribuzione. Il valore atteso localizza il centro della distribuzione; la varianza ne misura la dispersione. Le proprietà algebriche di queste quantità—in particolare la linearità del valore atteso e l'additività della varianza per variabili indipendenti—semplificano enormemente i calcoli pratici.
+
+Questi concetti troveranno applicazione immediata nei capitoli successivi, dove studieremo specifiche famiglie di distribuzioni (Beta, Normale, Poisson, Binomiale) che costituiscono i mattoni fondamentali della modellazione statistica bayesiana. Le distribuzioni a priori, le verosimiglianze e le distribuzioni a posteriori—i tre pilastri dell'inferenza bayesiana—sono tutte espresse nel linguaggio delle variabili casuali che abbiamo qui introdotto.
+
+::: {.callout-important title="Esercizi" collapse="true"}
+
+### Esercizi concettuali
+
+1. Spiega, con parole tue, perché una variabile casuale è definita come una "funzione" nonostante il nome suggerisca qualcosa di "casuale". Dove risiede effettivamente la casualità?
+
+2. Per una variabile casuale continua, la probabilità di assumere un valore esatto è zero: $P(X = x_0) = 0$. Questo significa che osservare $X = x_0$ è "impossibile"? Discuti dal punto di vista bayesiano.
+
+3. Due variabili casuali $X$ e $Y$ hanno lo stesso valore atteso $\mathbb{E}[X] = \mathbb{E}[Y] = 10$. Cosa possiamo concludere sulla loro distribuzione? Fornisci un controesempio che mostri quanto possano essere diverse.
+
+### Esercizi sulla PMF e CDF
+
+4. Un test psicometrico produce punteggi da 0 a 5 con le seguenti probabilità:
+
+   | Punteggio | 0 | 1 | 2 | 3 | 4 | 5 |
+   |:---------:|:-:|:-:|:-:|:-:|:-:|:-:|
+   | $P(X = x)$ | 0.05 | 0.15 | 0.30 | 0.25 | 0.15 | 0.10 |
+   
+   a. Verifica che questa sia una PMF valida.
+   b. Calcola $P(X \geq 3)$.
+   c. Costruisci la CDF $F_X(x)$.
+   d. Calcola $P(1 < X \leq 4)$ usando la CDF.
+
+5. Un dado truccato ha probabilità proporzionali al numero sulla faccia: $P(X = k) \propto k$ per $k = 1, \ldots, 6$.
+   a. Trova la costante di normalizzazione.
+   b. Calcola la PMF completa.
+   c. Confronta con un dado equilibrato: qual è la differenza principale?
+
+### Esercizi su valore atteso e varianza
+
+6. Per il test psicometrico dell'esercizio 4:
+   a. Calcola il valore atteso $\mathbb{E}[X]$.
+   b. Calcola la varianza $\text{Var}(X)$ usando la formula $\mathbb{E}[X^2] - (\mathbb{E}[X])^2$.
+   c. Interpreta la deviazione standard nel contesto del test.
+
+7. Il tempo di reazione $X$ in un compito è uniformemente distribuito tra 200 e 600 ms.
+   a. Scrivi la PDF.
+   b. Calcola $\mathbb{E}[X]$.
+   c. Calcola $\text{Var}(X)$.
+   d. Qual è la probabilità che $X$ sia entro una deviazione standard dalla media?
+
+8. Se $X$ rappresenta il punteggio di un singolo item con $\mathbb{E}[X] = 3$ e $\text{Var}(X) = 2$, e un test è composto da 10 item indipendenti con punteggio totale $Y = \sum_{i=1}^{10} X_i$:
+   a. Calcola $\mathbb{E}[Y]$.
+   b. Calcola $\text{Var}(Y)$ e $\text{SD}(Y)$.
+   c. Se gli item non fossero indipendenti, cosa cambierebbe?
+
+### Esercizi computazionali
+
+9. Scrivi una funzione R che, data una PMF (come vettore di probabilità e vettore di valori), calcoli e restituisca valore atteso, varianza e deviazione standard.
+
+10. Simula 50,000 realizzazioni della somma di tre dadi equilibrati. Confronta media e varianza empiriche con i valori teorici (usa le proprietà di linearità e additività).
+
+### Esercizi di pensiero critico
+
+11. Un bayesiano afferma che "il valore atteso è la nostra migliore predizione per un valore futuro". Discuti questa affermazione: è sempre vera? Quando potrebbe essere fuorviante?
+
+12. La varianza di una somma di variabili indipendenti è la somma delle varianze. Questa proprietà *non* vale per variabili dipendenti. Costruisci un esempio concreto (anche numerico) che illustri come la dipendenza possa far sì che $\text{Var}(X + Y)$ sia maggiore o minore di $\text{Var}(X) + \text{Var}(Y)$.
+
+13. Nella definizione frequentista, il valore atteso è "il valore medio in infinite ripetizioni". Nella visione bayesiana, come interpreteresti $\mathbb{E}[X]$ per un evento non ripetibile, come "il punteggio che otterrà questo specifico paziente al test"?
+:::
+
+::: {.callout-tip title="Soluzioni" collapse="true"}
+
+### Soluzioni esercizi concettuali
+
+1. La variabile casuale è una funzione *deterministica* che mappa esiti in numeri. La "casualità" deriva dall'incertezza su *quale esito* si realizzerà, non dalla funzione stessa. Una volta noto l'esito $\omega$, il valore $X(\omega)$ è completamente determinato.
+
+2. $P(X = x_0) = 0$ non significa impossibilità logica, ma che l'evento ha "misura zero" nel continuum. Dal punto di vista bayesiano, l'osservazione di $x_0$ *aggiorna* le nostre credenze (tramite la verosimiglianza), anche se non avevamo assegnato probabilità positiva a quel singolo punto. La distinzione è tra "impossibile" (probabilità zero per ragioni logiche) e "probabilità zero" (conseguenza della continuità).
+
+3. Nulla sulla distribuzione specifica. Esempio: $X$ costante a 10 ($\text{Var}(X) = 0$) e $Y$ uniforme su $\{0, 20\}$ ($\text{Var}(Y) = 100$) hanno entrambi $\mathbb{E} = 10$ ma distribuzioni completamente diverse.
+
+### Soluzioni esercizi PMF e CDF
+
+4. a. $\sum p = 0.05 + 0.15 + 0.30 + 0.25 + 0.15 + 0.10 = 1.00$ ✓
+   
+   b. $P(X \geq 3) = 0.25 + 0.15 + 0.10 = 0.50$
+   
+   c. CDF: $F_X(0) = 0.05$, $F_X(1) = 0.20$, $F_X(2) = 0.50$, $F_X(3) = 0.75$, $F_X(4) = 0.90$, $F_X(5) = 1.00$
+   
+   d. $P(1 < X \leq 4) = F_X(4) - F_X(1) = 0.90 - 0.20 = 0.70$
+
+5. a. $\sum_{k=1}^6 c \cdot k = c \cdot 21 = 1 \Rightarrow c = 1/21$
+   
+   b. $P(X = k) = k/21$ per $k = 1, \ldots, 6$
+   
+   c. Le facce alte sono più probabili: $P(X = 6) = 6/21 \approx 0.286$ vs $1/6 \approx 0.167$ per dado equilibrato
+
+### Soluzioni valore atteso e varianza
+
+6. a. $\mathbb{E}[X] = 0(0.05) + 1(0.15) + 2(0.30) + 3(0.25) + 4(0.15) + 5(0.10) = 2.60$
+   
+   b. $\mathbb{E}[X^2] = 0 + 0.15 + 1.20 + 2.25 + 2.40 + 2.50 = 8.50$
+      $\text{Var}(X) = 8.50 - 2.60^2 = 8.50 - 6.76 = 1.74$
+   
+   c. $\text{SD}(X) \approx 1.32$. I punteggi tipicamente si discostano dalla media di circa 1.3 punti.
+
+7. a. $f_X(x) = 1/400$ per $200 \leq x \leq 600$, 0 altrimenti
+   
+   b. $\mathbb{E}[X] = (200 + 600)/2 = 400$ ms
+   
+   c. $\text{Var}(X) = (600-200)^2/12 = 160000/12 \approx 13333$ ms²
+   
+   d. $\text{SD}(X) \approx 115.5$ ms. Intervallo $[284.5, 515.5]$. Probabilità: $(515.5 - 284.5)/400 = 0.5775$
+
+8. a. $\mathbb{E}[Y] = 10 \times 3 = 30$
+   
+   b. $\text{Var}(Y) = 10 \times 2 = 20$, $\text{SD}(Y) = \sqrt{20} \approx 4.47$
+   
+   c. Con dipendenza, $\text{Var}(Y) = \sum \text{Var}(X_i) + 2\sum_{i<j}\text{Cov}(X_i, X_j)$. La varianza potrebbe aumentare (correlazione positiva) o diminuire (correlazione negativa).
+
+### Soluzioni esercizi computazionali
+
+9. ```r
+   calcola_statistiche <- function(valori, prob) {
+     E_X <- sum(valori * prob)
+     E_X2 <- sum(valori^2 * prob)
+     Var_X <- E_X2 - E_X^2
+     SD_X <- sqrt(Var_X)
+     return(list(media = E_X, varianza = Var_X, sd = SD_X))
+   }
+   ```
+
+10. ```r
+    set.seed(789)
+    n <- 50000
+    somme <- replicate(n, sum(sample(1:6, 3, replace = TRUE)))
+    
+    # Teorici (usando linearità e additività)
+    E_teorico <- 3 * 3.5  # = 10.5
+    Var_teorica <- 3 * 35/12  # = 8.75
+    
+    cat("Teorico: E =", E_teorico, ", Var =", round(Var_teorica, 2), "\n")
+    cat("Empirico: E =", round(mean(somme), 2), ", Var =", round(var(somme), 2))
+    ```
+
+### Soluzioni pensiero critico
+
+11. Il valore atteso minimizza l'errore quadratico medio atteso, quindi è "ottimo" in quel senso. Tuttavia, può essere fuorviante per distribuzioni molto asimmetriche (dove la mediana potrebbe essere più rappresentativa) o multimodali. Inoltre, non cattura l'incertezza: una predizione completa dovrebbe includere anche informazioni sulla dispersione.
+
+12. Esempio con correlazione positiva: $X = Y$ uniforme su $\{0, 1\}$. Allora $\text{Var}(X) = \text{Var}(Y) = 0.25$, ma $\text{Var}(X + Y) = \text{Var}(2X) = 4 \times 0.25 = 1 > 0.5$.
+    
+    Esempio con correlazione negativa: $X$ uniforme su $\{0, 1\}$, $Y = 1 - X$. Allora $\text{Var}(X + Y) = \text{Var}(1) = 0 < 0.5$.
+
+13. Nell'interpretazione bayesiana, $\mathbb{E}[X]$ rappresenta la nostra *aspettativa* per il punteggio, dato tutto ciò che sappiamo su questo paziente e sulla popolazione di riferimento. Non richiede ripetibilità: è il valore che useremmo come predizione puntuale se costretti a darne una, sapendo che minimizza l'errore quadratico atteso rispetto alle nostre credenze attuali.
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
+:::
+
+## Bibliografia {.unnumbered .unlisted}

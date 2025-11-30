@@ -2,413 +2,400 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Finora abbiamo lavorato con probabilità associate a *eventi discreti*, come vincere al gioco di Monty Hall o ottenere una diagnosi medica accurata. Questi esempi ci hanno permesso di introdurre l'idea fondamentale secondo cui una probabilità rappresenta un *grado di incertezza*: assegniamo il valore 0 a ciò che riteniamo impossibile, il valore 1 a ciò che consideriamo certo, e valori intermedi quando non siamo completamente sicuri.
+Nei capitoli precedenti abbiamo sviluppato il concetto di probabilità come "grado di credenza razionale", costruendo un sistema coerente per quantificare l'incertezza relativa a eventi discreti, quali la diagnosi di un paziente, l'esito di un test psicometrico o la presenza di una condizione clinica. Questi strumenti ci hanno permesso di ragionare in modo rigoroso su proposizioni come "il paziente ha la condizione" o "il trattamento sarà efficace".
 
-Tuttavia, molti problemi reali richiedono una descrizione dell'incertezza più articolata. In psicologia, ad esempio, non ci interessa solo se un paziente possa migliorare, ma di quanto ci aspettiamo che migliori; non solo se una decisione sarà presa correttamente, ma con che frequenza nel lungo periodo; non solo se un comportamento si verificherà, ma quale valore assumerà una variabile fisiologica o cognitiva quando il comportamento si manifesta.
+Tuttavia, la ricerca psicologica raramente si limita a domande binarie. Lo psicologo clinico, infatti, non si limita a chiedersi se un paziente migliorerà, ma vuole anche sapere di quanto ci si aspetta che migliori. Il neuropsicologo, per esempio, non si chiede solo se una risposta sarà corretta, ma anche quanto tempo richiederà. Il ricercatore della personalità non si chiede solo se un tratto è presente, ma anche quale valore assume su una scala continua.
 
-In queste situazioni, non vogliamo misurare la probabilità di un singolo evento, ma descrivere l'*intera distribuzione dei possibili risultati numerici* prodotti da un processo aleatorio.
+Per rispondere a queste domande, abbiamo bisogno di un linguaggio che estenda il concetto di probabilità dagli eventi ai **valori numerici**. Questo linguaggio è quello delle **variabili casuali**, funzioni che traducono gli esiti di un processo aleatorio in numeri, consentendoci di applicare l'intero apparato dell'analisi matematica allo studio dell'incertezza.
 
-Per esempio:
-
-* in uno scenario tipo Monty Hall ripetuto più volte, potremmo voler stimare il *numero atteso di tentativi* necessari per ottenere una vittoria;
-* in un contesto clinico, potremmo voler modellare la *durata prevista* di un trattamento;
-* giocando con un dado sbilanciato per molte ore, potremmo voler valutare la *perdita economica media* sul lungo periodo.
-
-Queste domande vanno oltre il “succede / non succede” e richiedono un linguaggio quantitativo più potente.
-
-## Il ruolo delle variabili casuali
-
-Per affrontare questi problemi introduciamo il concetto centrale di *variabile casuale*.
-Una variabile casuale è una *funzione* che assegna un numero a ogni possibile esito di un esperimento aleatorio.
-
-Si tratta di uno strumento fondamentale che permette di tradurre gli esiti qualitativi (per esempio "piove"/"non piove", "successo"/"fallimento", "tono emotivo positivo"/"tono emotivo negativo") in quantità numeriche analizzabili.
-
-Da questo punto di vista:
-
-* la mappatura dagli esiti ai numeri è *deterministica* (una funzione è sempre una funzione);
-* la *casualità* proviene dall’incertezza sull’esito dell’esperimento, non dal fatto che la funzione cambi;
-* la scelta dei numeri è spesso *arbitraria*, a condizione che sia mantenuta coerentemente durante l’analisi.
-
-Una volta compiuto questo passo concettuale, è possibile applicare gli strumenti dell’analisi matematica per studiare il comportamento della variabile, calcolare i valori attesi, le varianze, le funzioni di ripartizione, le densità, le trasformazioni, le approssimazioni, e così via.
-
-### Variabili casuali discrete e continue
-
-Le variabili casuali si presentano principalmente in due forme:
-
-* *discrete*, quando possono assumere un insieme *numerabile* di valori (come la categoria del tempo atmosferico domani, il numero di errori in un test, o il numero di tentativi fino al successo).
-* *continue*, quando possono assumere *qualsiasi valore* in un intervallo reale (come il tempo di reazione, la temperatura corporea, o la latenza di una risposta neurale).
-
-Ciascuna di queste tipologie richiede formulazioni matematiche specifiche per descrivere la distribuzione dei valori possibili e le loro proprietà.
+Le variabili casuali rappresentano il ponte concettuale tra la teoria della probabilità sviluppata finora e i modelli statistici che utilizzeremo nell'inferenza bayesiana. Comprendere questo concetto significa acquisire il vocabolario tecnico necessario per descrivere le distribuzioni a priori, le verosimiglianze e le distribuzioni a posteriori, i pilastri dell'intero edificio bayesiano.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
-In questo capitolo faremo un passo decisivo che ci permetterà di passare dalle probabilità degli eventi alle probabilità dei valori numerici generati da processi aleatori, entrando così nel mondo delle distribuzioni di probabilità utilizzate nella modellazione statistica.
-
-In particolare:
-
-* definiremo in modo rigoroso le variabili casuali, discrete e continue, insieme alle loro distribuzioni di probabilità;
-* introdurremo il *valore atteso*, strumento essenziale per comprendere il comportamento medio di una variabile casuale;
-* discuteremo la *varianza* e la *deviazione standard*, che quantificano l’incertezza attorno al valore atteso;
-* vedremo come queste idee costituiscano la base dell’inferenza statistica, sia frequentista che bayesiana.
-
-Questo capitolo fornisce quindi il linguaggio tecnico indispensabile per tutto ciò che segue: distribuzioni a priori, modelli probabilistici, simulazioni predittive e, più avanti, la costruzione formale dell'inferenza bayesiana.
+- Definizione formale di variabile casuale come funzione dallo spazio campionario ai numeri reali.
+- Distinzione tra variabili casuali discrete e continue.
+- Funzione di massa di probabilità (PMF) per variabili discrete.
+- Funzione di densità di probabilità (PDF) per variabili continue.
+- Funzione di distribuzione cumulativa (CDF) come rappresentazione unificata.
+- Variabili casuali multiple e nozione di indipendenza.
 
 ::: {.callout-tip collapse=true}
 ## Prerequisiti
 
-Per seguire al meglio questo capitolo, è consigliato aver letto i seguenti riferimenti:  
-
-- l'appendice @sec-apx-calculus;
-- il capitolo *Random Variables and Probability Distributions* in @kroese2025statistical;
-- il capitolo *Random variables and their distributions* in @blitzstein2019introduction;  
-- il capitolo *Random Variables and Distributions* in @schervish2014probability.
+- Aver letto i capitoli @sec-prob-interpretation, @sec-prob-axioms-coherence e @sec-bayes-theorem.
+- Leggere l'appendice @sec-apx-calculus per i concetti base di calcolo integrale.
+- Familiarità con R e le operazioni vettoriali di base.
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
 ```{r}
+#| output: false
 here::here("code", "_common.R") |> 
   source()
+
+# Pacchetti necessari
+if (!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(ggplot2, dplyr, tidyr)
 ```
 :::
 
-## Definizione di variabile casuale
+## Dalla probabilità degli eventi ai valori numerici
 
-Nel linguaggio del calcolo delle probabilità, una *variabile casuale* rappresenta un ponte formale tra il mondo degli eventi qualitativi e quello dell'analisi numerica. Essa formalizza l'idea di assegnare un valore numerico a ciascun possibile risultato di un esperimento casuale, trasformando così esiti anche non numerici — come il seme di una carta da gioco o l'esito di un test medico — in quantità misurabili. Questa traduzione in valori numerici è fondamentale per applicare gli strumenti propri della teoria della probabilità e dell'analisi statistica allo studio dei fenomeni aleatori.
+Nel framework bayesiano sviluppato nei capitoli precedenti, abbiamo assegnato delle probabilità a degli **eventi**, ovvero a dei sottoinsiemi dello spazio campionario che rappresentano delle proposizioni sul mondo.  Quando un clinico valuta $P(\text{Depressione}) = 0.3$, sta quantificando la propria credenza in una proposizione binaria. Questa struttura è potente ma limitata:  non riesce a catturare la ricchezza dell'incertezza riguardo a sia *quanto* severa la depressione, a *quale* punteggio otterrà il paziente a un test, o a *quanto tempo* richiederà il recupero.
 
-In termini formali, sia $\Omega$ uno spazio campionario, ovvero l'insieme di tutti i possibili risultati di un esperimento. Una variabile casuale $X$ è una funzione  
+Il passaggio concettuale fondamentale consiste nel riconoscere che molti esperimenti producono naturalmente *risultati numerici*. Un test psicometrico genera un punteggio, una misurazione fisiologica produce un valore continuo, un compito cognitivo registra un tempo di reazione. Anche quando gli esiti originari non sono numerici, è sempre possibile *codificarli* come tali, assegnando 1 al successo e 0 al fallimento, o codificando le categorie diagnostiche con numeri ordinali.
 
+Questa traduzione sistematica degli esiti in numeri è ciò che realizza una *variabile casuale*. La "casualità" non risiede nella funzione in sé, che è perfettamente deterministica, ma nell'incertezza riguardo a quale esito dello spazio campionario si verificherà. Una volta determinato l'esito, il valore numerico segue automaticamente dalla definizione della funzione.
+
+## Definizione formale di variabile casuale
+
+::: {#def-random-variable}
+### Variabile casuale
+
+Sia $\Omega$ uno spazio campionario. Una *variabile casuale* è una funzione 
 $$
 X : \Omega \longrightarrow \mathbb{R}
 $$
-che assegna a ogni elemento $\omega \in \Omega$ un unico numero reale $X(\omega)$. 
+che associa a ogni esito $\omega \in \Omega$ un unico numero reale $X(\omega)$.
+:::
 
-Ad esempio, nel lancio di una moneta, dove $\Omega = \{T, C\}$, potremmo definire una variabile casuale $X$ tale che $X(T) = 1$ e $X(C) = 0$. In questo modo, un esito qualitativo viene codificato numericamente, permettendo di calcolare proprietà come il valore atteso o la varianza, e facilitando operazioni altrimenti complesse o impossibili su oggetti non numerici.
+Questa definizione merita un'analisi attenta. Lo spazio campionario $\Omega$ rappresenta, nella nostra interpretazione epistemica, l'insieme delle *possibilità* compatibili con le informazioni disponibili. La variabile casuale $X$ traduce ciascuna di queste possibilità in un numero. Il termine "casuale" è quindi in qualche modo fuorviante: la funzione $X$ è completamente deterministica. L'incertezza deriva esclusivamente dal fatto che non conosciamo l'elemento di $\Omega$ che si realizzerà.
 
-Grazie a questa definizione, è possibile modellare matematicamente il comportamento aleatorio e analizzare attraverso un quadro analitico coerente fenomeni probabilistici anche molto diversi tra loro.
+Nella notazione standard, la lettera maiuscola ($X$, $Y$, $Z$) indica la variabile casuale come funzione, mentre la corrispondente lettera minuscola ($x$, $y$, $z$) indica un valore specifico che la funzione può assumere. Questa convenzione permette di scrivere espressioni come $P(X = x)$ o $P(X \leq x)$, in cui si distingue chiaramente tra l'oggetto aleatorio e i suoi possibili valori.
 
-::: {.callout-note collapse="true" title="Esempio"}
-Lanciamo due dadi equilibrati e annotiamo la somma dei valori delle loro facce. Ogni lancio genera una coppia di valori $(i,j)$, dove $i$ è il risultato del primo dado e $j$ il risultato del secondo dado. Lo spazio campionario completo dei possibili esiti è:
+::: {.callout-note collapse="true" title="Esempio: lancio di due dadi"}
+#### La somma come variabile casuale {.unnumbered .unlisted}
 
+Consideriamo il lancio di due dadi equilibrati. Lo spazio campionario è costituito dalle 36 coppie ordinate:
 $$
-\Omega = \{(1,1), (1,2), \dots, (6,5), (6,6)\}.
+\Omega = \{(1,1), (1,2), \ldots, (6,5), (6,6)\}.
 $$
 
-Definiamo una *variabile casuale* $X$ che associa ciascun esito $(i,j)$ alla somma dei valori ottenuti dai due dadi, cioè:
-
+Definiamo la variabile casuale $X$ che associa a ogni coppia $(i,j)$ la somma dei valori:
 $$
 X(i,j) = i + j.
 $$
 
-Ad esempio, se il primo dado mostra 4 e il secondo dado mostra 4, allora l'esito è $(4,4)$ e la variabile casuale $X$ assume il valore 8.
+Per l'esito $(4,4)$, abbiamo $X(4,4) = 8$. La funzione $X$ è perfettamente deterministica: dato l'esito, il valore è univocamente determinato. L'incertezza riguarda solo *quale* coppia si realizzerà.
 
-![La variabile casuale $X$ rappresenta la somma di due dadi [figura tratta da @kroese2025statistical].](../../figures/random_variable_definition.png){ width=70% }
-
-Consideriamo il valore specifico $X=8$: questo valore può essere ottenuto attraverso cinque diversi esiti dello spazio campionario: $(2,6), (3,5), (4,4), (5,3), (6,2)$. Indichiamo con $\{X=8\}$ l'insieme di questi esiti. Poiché tutti gli esiti in $\Omega$ sono equiprobabili, possiamo calcolare la probabilità di ottenere una somma pari a 8 come:
-
+L'insieme $\{X = 8\}$ denota tutti gli esiti che producono somma 8:
 $$
-P(X=8) = \frac{5}{36}.
+\{X = 8\} = \{(2,6), (3,5), (4,4), (5,3), (6,2)\}.
 $$
-::: 
 
-## Tipologie di variabili casuali
-
-Le variabili casuali si dividono in due categorie principali: le variabili casuali discrete e le variabili casuali continue.
-
-### Variabili casuali discrete
-
-Una *variabile casuale discreta* assume un insieme finito o numerabile di valori. Gli esempi includono il numero di teste ottenute in lanci di moneta o la somma dei risultati di due dadi. Per queste variabili, la *funzione di massa di probabilità (PMF)* assegna a ciascun valore $x$ la probabilità $P(X = x)$.
-
-::: {#exm-}
-Nel lancio di due dadi, la variabile $X$ (somma dei punti) può assumere valori interi da 2 a 12. La distribuzione di $X$ si ottiene contando i casi favorevoli per ciascun valore e dividendo per il numero totale di esiti (36).
+Poiché ogni coppia ha probabilità $1/36$ e gli esiti sono equiprobabili, otteniamo:
+$$
+P(X = 8) = \frac{|\{X = 8\}|}{|\Omega|} = \frac{5}{36}.
+$$
 :::
 
-### Variabili casuali continue
+## Variabili casuali discrete
 
-Una *variabile casuale continua* può assumere infiniti valori in un intervallo (ad esempio, l’altezza di una persona). In questo caso non si assegna una probabilità a un singolo valore (che risulterebbe essere zero), ma si definisce una *funzione di densità di probabilità (PDF)*, tale che l’integrale della funzione su un intervallo fornisce la probabilità che la variabile cada in quell’intervallo.
+La distinzione più fondamentale tra le variabili casuali riguarda la natura dell'insieme dei valori che possono assumere. Una variabile casuale è *discreta* quando l'insieme dei valori che può assumere è finito o numerabile, ovvero quando i possibili valori possono essere elencati in una sequenza.
 
-::: {#exm-}
-Considera una variabile $X$ che rappresenta l’altezza in centimetri. Invece di $P(X = 170)$, calcoliamo probabilità come $P(170 \leq X \leq 180)$ mediante l’integrale della PDF in quell’intervallo.
+::: {#def-discrete-rv}
+### Variabile casuale discreta
+
+Una variabile casuale $X$ è *discreta* se esiste un insieme finito o numerabile $\mathcal{X} = \{x_1, x_2, \ldots\}$ tale che $P(X \in \mathcal{X}) = 1$. In altre parole, $X$ assume con certezza uno dei valori nell'insieme $\mathcal{X}$.
 :::
 
-## Notazione convenzionale
+In psicologia, le variabili discrete emergono naturalmente in numerosi contesti. Esempi paradigmatici includono il numero di risposte corrette in un test cognitivo, i punteggi su scale Likert di atteggiamento, la frequenza di episodi depressivi in un determinato periodo e le categorie diagnostiche assegnate secondo sistemi di classificazione standardizzati. La loro caratteristica distintiva è che tra due valori consecutivi non è possibile inserire valori intermedi: non è possibile, per esempio, esprimere un valore di 2.5 punti su una scala Likert a cinque punti.
 
-Nella teoria della probabilità si adotta una convenzione chiara per distinguere una variabile casuale dal suo valore osservato o realizzato:
+### Funzione di massa di probabilità
 
-- la variabile casuale viene indicata con lettere maiuscole (es. $X$);
-- il valore specifico assunto dalla variabile casuale viene indicato con lettere minuscole (es. $x$).
+Per caratterizzare completamente una variabile casuale discreta, è sufficiente specificare la probabilità associata a ciascun valore possibile. Questa specificazione prende il nome di *funzione di massa di probabilità*.
 
-Questa convenzione aiuta a evitare ambiguità, soprattutto quando si definiscono:
+::: {#def-pmf}
+### Funzione di massa di probabilità (PMF)
 
-- probabilità cumulative: $P(X \leq x)$;
-- valore atteso: $E[X]$;
-- funzioni di densità o massa di probabilità: $f_X(x)$.
+La *funzione di massa di probabilità* di una variabile casuale discreta $X$ è la funzione $p_X : \mathcal{X} \to [0,1]$ definita da
+$$
+p_X(x) = P(X = x)
+$$
+per ogni $x \in \mathcal{X}$.
+:::
+
+La PMF deve soddisfare due condizioni che discendono direttamente dagli assiomi di coerenza della probabilità. La *non-negatività* richiede che $p_X(x) \geq 0$ per ogni $x$, riflettendo l'impossibilità di credenze negative. La *normalizzazione* impone che $\sum_{x \in \mathcal{X}} p_X(x) = 1$, garantendo che la credenza totale sia distribuita esattamente tra tutti i valori possibili.
+
+Una volta nota la PMF, possiamo calcolare la probabilità di qualsiasi evento relativo a $X$. Per un sottoinsieme $B \subseteq \mathcal{X}$:
+$$
+P(X \in B) = \sum_{x \in B} p_X(x).
+$$
+
+::: {.callout-note collapse="true" title="Esempio: PMF della somma di due dadi"}
+#### Derivazione completa della distribuzione {.unnumbered .unlisted}
+
+Riprendiamo la variabile $X$ che rappresenta la somma di due dadi equilibrati. Per costruire la PMF, dobbiamo contare, per ogni possibile somma $x$, quante coppie $(i,j)$ la producono.
+
+La somma minima è 2 (ottenuta solo con $(1,1)$) e la massima è 12 (ottenuta solo con $(6,6)$). Per i valori intermedi, il conteggio richiede un'analisi sistematica. Ad esempio, la somma 7 può essere ottenuta con $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$, ovvero sei combinazioni.
+
+La distribuzione completa è:
+
+| $x$  | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|:----:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:--:|:--:|:--:|
+| Casi | 1 | 2 | 3 | 4 | 5 | 6 | 5 | 4 | 3  | 2  | 1  |
+| $p_X(x)$ | $\frac{1}{36}$ | $\frac{2}{36}$ | $\frac{3}{36}$ | $\frac{4}{36}$ | $\frac{5}{36}$ | $\frac{6}{36}$ | $\frac{5}{36}$ | $\frac{4}{36}$ | $\frac{3}{36}$ | $\frac{2}{36}$ | $\frac{1}{36}$ |
+
+Si noti la simmetria della distribuzione attorno a 7, che è il valore più probabile. Questa forma "triangolare" riflette la struttura combinatoria del problema.
+:::
+
+### Verifica computazionale della PMF
+
+La simulazione al computer offre un potente strumento per verificare empiricamente le proprietà teoriche della funzione di ripartizione. Generando un gran numero di realizzazioni della variabile casuale, è possibile osservare come le frequenze relative convergano alle probabilità teoriche, una manifestazione della legge dei grandi numeri che conferma la coerenza delle nostre assegnazioni probabilistiche.
+
+```{r}
+#| label: fig-pmf-dice
+#| fig-cap: "Confronto tra distribuzione teorica (linea) e frequenze empiriche (barre) per la somma di due dadi. Con 100,000 simulazioni, la convergenza è evidente."
+
+set.seed(42)
+
+# Simulazione
+n_sim <- 100000
+dado1 <- sample(1:6, n_sim, replace = TRUE)
+dado2 <- sample(1:6, n_sim, replace = TRUE)
+somme <- dado1 + dado2
+
+# Frequenze empiriche
+freq_emp <- table(somme) / n_sim
+
+# Probabilità teoriche
+valori <- 2:12
+prob_teor <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+
+# Confronto
+df_confronto <- data.frame(
+  x = valori,
+  empirica = as.numeric(freq_emp),
+  teorica = prob_teor
+)
+
+ggplot(df_confronto, aes(x = x)) +
+  geom_col(aes(y = empirica), fill = "steelblue", alpha = 0.7, width = 0.6) +
+  geom_point(aes(y = teorica), color = "darkred", size = 3) +
+  geom_line(aes(y = teorica), color = "darkred", linewidth = 1) +
+  scale_x_continuous(breaks = 2:12) +
+  labs(x = "Somma dei due dadi", y = "Probabilità") +
+  theme_minimal()
+```
+
+La convergenza delle frequenze empiriche alle probabilità teoriche non le definisce, ma ne verifica la coerenza, confermando che le nostre assegnazioni di credenza producono il comportamento atteso quando sottoposte a test ripetuti.
+
+## Variabili casuali continue
+
+Molte grandezze psicologiche non possono essere rappresentate adeguatamente da variabili discrete. Il tempo di reazione in un compito cognitivo, il livello di cortisolo in una misurazione fisiologica, la latenza di una risposta: tutte queste quantità possono assumere, almeno in linea di principio, **qualsiasi** valore in un intervallo continuo. Per questo motivo, introduciamo le variabili casuali continue.
+
+::: {#def-continuous-rv}
+### Variabile casuale continua
+
+Una variabile casuale $X$ è *continua* se esiste una funzione non negativa $f_X : \mathbb{R} \to [0, +\infty)$, detta *funzione di densità di probabilità* (PDF), tale che per ogni intervallo $[a, b]$:
+$$
+P(a \leq X \leq b) = \int_a^b f_X(x) \, dx.
+$$
+:::
+
+### Funzione di densità di probabilità
+
+La PDF ha per le variabili continue un ruolo analogo a quello della PMF per le variabili discrete, ma con una differenza cruciale: $f_X(x)$ *non* rappresenta la probabilità che $X$ assuma il valore $x$. Infatti, per una variabile continua, la probabilità di assumere un valore *esatto* è sempre zero:
+$$
+P(X = x_0) = \int_{x_0}^{x_0} f_X(x) \, dx = 0.
+$$
+
+Questo risultato, apparentemente controintuitivo, riflette il fatto che in un continuum ci sono "troppi" punti perché ciascuno possa avere una probabilità positiva, mantenendo la normalizzazione. La probabilità si "distribuisce" sull'intera retta reale e solo gli intervalli possono avere una probabilità non nulla.
+
+La densità $f_X(x)$ può essere interpretata come una misura di *concentrazione* della probabilità: valori elevati di $f_X(x)$ indicano regioni in cui la variabile è più probabile che si verifichi, nel senso che piccoli intervalli attorno a quei punti hanno una probabilità relativamente alta.
+
+::: {#thm-pdf-properties}
+### Proprietà delle funzioni di densità di probabilità
+
+Una funzione $f_X(x)$ costituisce una valida funzione di densità di probabilità se e solo se soddisfa le seguenti condizioni necessarie e sufficienti:
+
+* **non-negatività**: la funzione deve assumere valori non negativi su tutto il suo dominio, ovvero $f_X(x) \geq 0$ per ogni $x \in \mathbb{R}$. Questa proprietà garantisce che la probabilità associata a qualsiasi intervallo sia sempre non negativa.
+
+* **normalizzazione**: l'integrale della funzione esteso all'intero asse reale deve essere uguale a 1, formalmente $\int_{-\infty}^{+\infty} f_X(x)  dx = 1$. Questa condizione garantisce che la probabilità totale dello spazio campionario sia unitaria, coerentemente con gli assiomi della probabilità.
+
+:::
+
+Si noti che il valore della funzione di densità di probabilità $f_X(x)$ può superare l'unità, in quanto essa non rappresenta una probabilità, bensì una densità di probabilità. Solo l'integrale di questa funzione su un intervallo misurabile restituisce una probabilità propriamente detta. Formalmente, la probabilità che la variabile casuale $X$ assuma valori nell'intervallo $[a,b]$ è data da $P(a \leq X \leq b) = \int_a^b f_X(x)  dx$, dove l'area sottesa dalla curva nell'intervallo corrisponde alla probabilità dell'evento.
+
+::: {.callout-note collapse="true" title="Esempio: tempo di reazione in un intervallo"}
+
+Consideriamo una variabile casuale continua $T$ che rappresenta il tempo di reazione in un compito sperimentale. Supponiamo che $T$ segua una distribuzione log-normale con parametri $\mu = 5.7$ e $\sigma = 0.3$. Ciò significa che il logaritmo naturale del tempo di reazione, $\ln(T)$, segue una distribuzione normale.
+
+La sua funzione di densità di probabilità (PDF) è data da:
+
+$$
+f_T(t) = \frac{1}{t \sigma \sqrt{2\pi}} \exp\left(-\frac{(\ln(t) - \mu)^2}{2\sigma^2}\right) \quad \text{per } t > 0
+$$
+e $f_T(t) = 0$ per $t \leq 0$.
+
+```{r}
+# Parametri della distribuzione log-normale
+mu <- 5.7   # Parametro di location (media del log(T))
+sigma <- 0.3 # Parametro di scale (deviazione standard del log(T))
+
+# Calcolo di media e mediana della distribuzione originale
+media_T <- exp(mu + sigma^2 / 2)
+mediana_T <- exp(mu)
+```
+
+```{r}
+#| echo: false
+cat("Parametri per ln(T): µ =", mu, ", σ =", sigma, "\n")
+cat("Mediana del tempo di reazione T:", round(mediana_T, 1), "ms\n")
+cat("Media del tempo di reazione T:", round(media_T, 1), "ms\n")
+```
+
+
+Ora, calcoliamo la probabilità che il tempo di reazione sia compreso tra 300 e 400 millisecondi. Questo richiede di integrare la funzione di densità in quell'intervallo.
+
+$$
+P(300 \leq T \leq 400) = \int_{300}^{400} f_T(t) \, dt .
+$$
+
+```{r}
+# Calcolo della probabilità tra 300 e 400 ms usando la CDF
+prob_300_400 <- plnorm(400, meanlog = mu, sdlog = sigma) - plnorm(300, meanlog = mu, sdlog = sigma)
+```
+
+```{r}
+#| echo: false
+cat("Probabilità P(300 ≤ T ≤ 400):", round(prob_300_400, 4))
+```
+
+
+Verifichiamo la proprietà fondamentale di normalizzazione, che garantisce che la probabilità totale su tutti i tempi di reazione possibili sia uguale a 1.
+
+$$
+\int_{0}^{\infty} f_T(t) \, dt = 1.
+$$
+
+```{r}
+# Verifica della normalizzazione (la CDF a +infinito deve essere 1)
+prob_totale <- plnorm(Inf, meanlog = mu, sdlog = sigma)
+```
+
+```{r}
+#| echo: false
+cat("Verifica normalizzazione [P(0 < T < ∞)]:", prob_totale, "->", ifelse(prob_totale == 1, "✓ OK", "✗ ERRORE"), "\n")
+```
+
+**Calcoli aggiuntivi per comprendere la forma della distribuzione:**
+
+```{r}
+# Calcolo di altri intervalli probabilistici di interesse
+cat("\nProbabilità per altri intervalli:\n")
+cat("P(T ≤ 250 ms):", round(plnorm(250, mu, sigma), 3), "\n")
+cat("P(T ≥ 500 ms):", round(1 - plnorm(500, mu, sigma), 3), "\n")
+cat("P(T tra mediana e media):", round(plnorm(media_T, mu, sigma) - plnorm(mediana_T, mu, sigma), 3), "\n")
+```
+
+```{r}
+# Intervallo che cattura il 95% della distribuzione
+intervallo_95 <- qlnorm(c(0.025, 0.975), meanlog = mu, sdlog = sigma)
+```
+
+```{r}
+#| echo: false
+cat("\nIntervallo centrale al 95% per T: [", round(intervallo_95[1], 1), ", ", round(intervallo_95[2], 1), "] ms\n", sep="")
+```
+:::
+
+## Funzione di distribuzione cumulativa
+
+Esiste una descrizione alternativa, valida sia per variabili discrete che continue, che specifica la probabilità che la variabile assuma valori inferiori o uguali a un determinato livello soglia.
+
+::: {#def-cdf}
+### Funzione di distribuzione cumulativa (CDF)
+
+La *funzione di ripartizione* (o funzione di distribuzione cumulativa) di una variabile casuale $X$ è la funzione $F_X : \mathbb{R} \to [0,1]$ definita da
+$$
+F_X(x) = P(X \leq x).
+$$
+:::
+
+La funzione di ripartizione fornisce una caratterizzazione completa della distribuzione di probabilità di $X$. Da essa è possibile ricavare la funzione di massa di probabilità per le variabili discrete o la funzione di densità di probabilità per le variabili continue e viceversa. Per le variabili continue, sussiste la relazione:
+$$
+F_X(x) = \int_{-\infty}^{x} f_X(t) \, dt, \qquad f_X(x) = \frac{d}{dx} F_X(x).
+$$
+
+::: {#thm-cdf-properties}
+
+### Proprietà della funzione di ripartizione
+
+Ogni funzione di ripartizione soddisfa le seguenti proprietà fondamentali:
+
+1. **Monotonia non decrescente**: per ogni coppia $a < b$, risulta $F_X(a) \leq F_X(b)$.
+2. **Comportamento asintotico**: $\lim_{x \to -\infty} F_X(x) = 0$ e $\lim_{x \to +\infty} F_X(x) = 1$.
+3. **Continuità da destra**: $\lim_{h \to 0^+} F_X(x + h) = F_X(x)$ per ogni $x \in \mathbb{R}$.
+:::
+
+La proprietà di monotonia riflette il fatto che, estendendo l'intervallo $(-\infty, x]$ verso destra, la probabilità cumulata non può diminuire. I limiti asintotici garantiscono la corretta normalizzazione della probabilità totale. La continuità da destra è una convenzione matematica che risolve le ambiguità nel caso di variabili discrete.
+
+Per le variabili continue, la funzione di ripartizione risulta continua su tutto il suo dominio, mentre per le variabili discrete presenta discontinuità di prima specie nei punti corrispondenti ai valori assunti con probabilità positiva.
+
+```{r}
+#| label: fig-cdf-dice
+#| fig-cap: "CDF della somma di due dadi. I salti corrispondono ai valori possibili, e l'altezza di ogni salto è pari alla probabilità di quel valore."
+
+# CDF teorica per la somma di due dadi
+valori <- 2:12
+prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+cdf <- cumsum(prob)
+
+# Creiamo i dati per il grafico a gradini
+df_cdf <- data.frame(
+  x_start = c(1, valori),
+  x_end = c(valori, 13),
+  y = c(0, cdf)
+)
+
+ggplot() +
+  geom_segment(data = df_cdf, 
+               aes(x = x_start, xend = x_end, y = y, yend = y),
+               linewidth = 1, color = "steelblue") +
+  geom_point(data = data.frame(x = valori, y = cdf), 
+             aes(x = x, y = y), 
+             size = 3, color = "steelblue") +
+  scale_x_continuous(breaks = 2:12, limits = c(1, 13)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  labs(x = "x", y = expression(F[X](x) == P(X <= x))) +
+  theme_minimal()
+```
 
 ## Variabili casuali multiple
 
-In molti esperimenti, è utile considerare contemporaneamente più variabili casuali. Ad esempio, supponiamo di lanciare una moneta equilibrata tre volte. Definiamo tre variabili casuali indipendenti $X_1$, $X_2$ e $X_3$, ciascuna associata all'esito di un lancio:
+In numerosi contesti sperimentali, risulta necessario modellare simultaneamente più fenomeni aleatori. Ad esempio, in uno studio psicometrico che indaga la relazione tra ansia e depressione, potrebbe essere necessario rappresentare congiuntamente i punteggi di entrambi i costrutti. Il framework probabilistico si estende naturalmente a questo scenario multivariato.
 
+::: {#def-joint-distribution}
+### Distribuzione congiunta
+
+Per due variabili casuali discrete $X$ e $Y$, la *funzione di massa di probabilità congiunta* è definita come:
 $$
-P(X_n = 1) = 0.5 \quad (\text{testa}), \qquad P(X_n = 0) = 0.5 \quad (\text{croce}), \quad n = 1, 2, 3.
+p_{X,Y}(x, y) = P(X = x, Y = y).
 $$
-Possiamo poi definire una nuova variabile casuale derivata, ad esempio:
 
+Le corrispondenti *distribuzioni marginali* si ottengono mediante la somma sulle variabili non interessate:
 $$
-Z = X_1 + X_2 + X_3,
+p_X(x) = \sum_y p_{X,Y}(x, y), \qquad p_Y(y) = \sum_x p_{X,Y}(x, y).
 $$
-che rappresenta il numero totale di teste ottenute nei tre lanci. In questo scenario, $Z$ è una variabile casuale discreta che può assumere esclusivamente i valori 0, 1, 2 o 3.
-
-
-## Distribuzione di probabilità
-
-::: {#def-}
-La *distribuzione di probabilità* di una variabile casuale descrive come le probabilità sono assegnate ai possibili valori (o intervalli di valori) della variabile.
 :::
 
-### Funzione di massa di probabilità (PMF) per variabili discrete
+Le variabili $X$ e $Y$ si dicono *stocasticamente indipendenti* se e solo se $p_{X,Y}(x, y) = p_X(x) \cdot p_Y(y)$ per ogni coppia di valori $(x, y)$. L'indipendenza implica che l'informazione sul valore assunto da una variabile non modifichi la distribuzione di probabilità dell'altra.
 
-Per una variabile casuale discreta $X$, la distribuzione è definita tramite la funzione di massa di probabilità (PMF), indicata con $f(x)$, dove:
-
-$$
-f(x) = P(X = x).
-$$
-
-Nota la PMF, è possibile calcolare la probabilità di qualsiasi evento associato a $X$. Ad esempio, per un insieme $B$ di valori:
-
-$$
-P(X \in B) = \sum_{x \in B} f(x).
-$$
-
-::: {.callout-note collapse="true" title="Esempio"}
-Consideriamo nuovamente il lancio di due dadi, definendo $X$ come la somma dei loro valori. La tabella seguente mostra chiaramente tutti i casi possibili, il numero di combinazioni per ogni somma, e la relativa probabilità:
-
-| $X$ | Casi Favorevoli                           | Numero di Casi | $P(X = x)$                      |
-|:---:|-------------------------------------------|:--------------:|---------------------------------|
-| 2   | $(1,1)$                                   | 1              | $\frac{1}{36}$                  |
-| 3   | $(1,2), (2,1)$                            | 2              | $\frac{2}{36} = \frac{1}{18}$   |
-| 4   | $(1,3), (2,2), (3,1)$                     | 3              | $\frac{3}{36} = \frac{1}{12}$   |
-| 5   | $(1,4), (2,3), (3,2), (4,1)$              | 4              | $\frac{4}{36} = \frac{1}{9}$    |
-| 6   | $(1,5), (2,4), (3,3), (4,2), (5,1)$       | 5              | $\frac{5}{36}$                  |
-| 7   | $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$| 6              | $\frac{6}{36} = \frac{1}{6}$    |
-| 8   | $(2,6), (3,5), (4,4), (5,3), (6,2)$       | 5              | $\frac{5}{36}$                  |
-| 9   | $(3,6), (4,5), (5,4), (6,3)$              | 4              | $\frac{4}{36} = \frac{1}{9}$    |
-| 10  | $(4,6), (5,5), (6,4)$                     | 3              | $\frac{3}{36} = \frac{1}{12}$   |
-| 11  | $(5,6), (6,5)$                            | 2              | $\frac{2}{36} = \frac{1}{18}$   |
-| 12  | $(6,6)$                                   | 1              | $\frac{1}{36}$                  |
-
-Per esempio, la probabilità di ottenere una somma pari a 7 è $\frac{1}{6}$ perché ci sono 6 combinazioni favorevoli su 36 possibili.
-:::
-
-### Funzione di distribuzione cumulativa (CDF)
-
-::: {#def-}
-La *funzione di distribuzione cumulativa (CDF)* di una variabile casuale $X$ è definita come:
-$$
-F(x) = P(X \leq x).
-$$
-La CDF indica la probabilità che $X$ assuma valori minori o uguali a un valore specifico $x$.
-:::
-
-
-### Proprietà della CDF (funzione di ripartizione)
-
-La CDF descrive la probabilità che una variabile casuale $X$ assuma un valore *minore o uguale* a $x$. Per capirla in psicologia (ad esempio, per analizzare dati di test, questionari, o esperimenti), bastano tre idee chiave:
-
-1. *Non diminuisce mai:*  
-   Se consideriamo valori $x$ sempre più grandi, la probabilità cumulata *non può diminuire*.  
-   - **Esempio:** Se la CDF a $x = 50$ in un test è $0.7$, a $x = 60$ sarà almeno $0.7$ (potrebbe salire, ma non scendere).  
-   - *Perché?* Aggiungendo nuovi risultati (es.: punteggi più alti), la probabilità totale può solo aumentare o restare uguale.
-
-2. *Estremi prevedibili:*  
-   - Per valori *molto bassi* (es.: $x \to -\infty$), la probabilità cumulata è *0*: non esistono punteggi infinitamente bassi.  
-   - Per valori *molto alti* (es.: $x \to +\infty$), la probabilità cumulata è **1**: tutti i possibili risultati sono inclusi.  
-   - **Esempio:** In una scala Likert da 1 a 5, la CDF a $x = 0$ è 0, e a $x = 10$ è 1.
-
-3. *Niente salti "a sorpresa" verso destra:*  
-   La CDF è costruita in modo che, se ci spostiamo di pochissimo a destra di un punto $x$, la probabilità cumulata *non crolla improvvisamente*.  
-   - **Esempio:**  
-     Supponiamo che in un questionario, il punteggio $x = 10$ corrisponda a una certa probabilità cumulata (es.: $0.8$). Se ci spostiamo di un millesimo a destra (es.: $x = 10.001$), la probabilità rimane $0.8$, a meno che $10.001$ non sia un punteggio valido.  
-   - *A cosa serve?* Garantisce coerenza: se un punteggio $x$ ha una certa probabilità, questa non viene "persa" spostandosi di poco a destra.
-
-
-### CDF per variabili discrete 
-
-In psicologia, spesso lavoriamo con dati discreti (es.: risposte a item di un test, come "1 = Mai" a "5 = Sempre"). In questi casi:  
-
-- La CDF si calcola *sommando le probabilità* di tutti i valori $\leq x$.  
-- **Esempio:** Se in una scala da 1 a 5, il 30% degli studenti risponde 1 o 2, allora $F(2) = 0.3$.  
-- **Graficamente:** La CDF avrà "gradini" nei punti corrispondenti ai valori possibili (es.: 1, 2, 3, 4, 5).
-
-#### Perché serve saperlo?  
-
-Queste proprietà aiutano a:  
-
-1. Interpretare grafici cumulativi (es.: quanto è probabile che un partecipante abbia un punteggio $\leq$ 20?).  
-2. Evitare errori logici (es.: non ha senso aspettarsi un calo della probabilità cumulata all’aumentare di $x$).  
-3. Leggere correttamente salti nei dati discreti (es.: un gradino in $x = 4$ indica un accumulo di probabilità in quel punto).
-
-::: {.callout-note collapse="true" title="Esempio"}
-Riprendendo l'esempio della variabile casuale $X$ definita come la somma di due dadi, possiamo riassumere PMF e CDF in una tabella unica:
-
-| $x$ | $P(X = x)$    | $F(x)$                       |
-|:---:|:-------------:|:-----------------------------:|
-| 2   | $\frac{1}{36}$| $\frac{1}{36}$                |
-| 3   | $\frac{2}{36}$| $\frac{3}{36}$                |
-| 4   | $\frac{3}{36}$| $\frac{6}{36}$                |
-| 5   | $\frac{4}{36}$| $\frac{10}{36}$               |
-| 6   | $\frac{5}{36}$| $\frac{15}{36}$               |
-| 7   | $\frac{6}{36}$| $\frac{21}{36}$               |
-| 8   | $\frac{5}{36}$| $\frac{26}{36}$               |
-| 9   | $\frac{4}{36}$| $\frac{30}{36}$               |
-| 10  | $\frac{3}{36}$| $\frac{33}{36}$               |
-| 11  | $\frac{2}{36}$| $\frac{35}{36}$               |
-| 12  | $\frac{1}{36}$| $1$                           |
-:::
-
-### Simulazione della distribuzione di probabilità
-
-Spesso, anche se è possibile calcolare analiticamente la distribuzione di probabilità (come nel caso dei due dadi), può essere utile ottenere una stima empirica attraverso la simulazione. Questo approccio prevede di ripetere l’esperimento molte volte e di analizzare le frequenze relative dei risultati ottenuti.
-
-::: {.callout-note collapse="true" title="Esempio"}
-Simulazione del lancio di due dadi in R.
-
-**1. Simulare il lancio di un singolo dado**
-```{r}
-# Funzione per simulare un dado a sei facce
-lancia_dado <- function() {
-  sample(1:6, 1)
-}
-```
-
-**2. Simulare il lancio di due dadi**
-```{r}
-# Funzione per simulare il lancio di due dadi ripetuto n volte
-lancia_due_dadi <- function(n) {
-  risultati <- numeric(n)
-  
-  for (i in 1:n) {
-    risultati[i] <- lancia_dado() + lancia_dado()
-  }
-  
-  risultati
-}
-```
-
-**3. Eseguire la simulazione**
-```{r}
-# Numero totale di simulazioni
-numero_lanci <- 100000
-
-# Simulazione dei lanci
-risultati_simulazione <- lancia_due_dadi(numero_lanci)
-
-# Visualizza i primi 20 risultati
-cat("Primi 20 risultati:", risultati_simulazione[1:20], "\n")
-```
-
-**4. Calcolare e visualizzare la distribuzione empirica**
-```{r}
-# Calcola la frequenza assoluta per ciascuna somma
-frequenze_assolute <- table(risultati_simulazione)
-frequenze_assolute
-
-# Calcola direttamente le frequenze relative (probabilità empiriche)
-probabilita_empiriche <- frequenze_assolute / numero_lanci
-probabilita_empiriche
-
-# Crea una tabella finale chiara e semplice
-distribuzione_empirica <- data.frame(
-  Somma = as.numeric(names(probabilita_empiriche)),
-  Probabilita = as.vector(probabilita_empiriche)
-)
-
-# Mostra la distribuzione empirica
-print(distribuzione_empirica)
-```
-
-**Chiarimento sintetico dei concetti chiave.**
-
-- *Cos'è una simulazione?*  
-  È un esperimento realizzato al computer che replica più volte un evento casuale per osservare i possibili risultati e la loro frequenza.
-
-- *Distribuzione empirica*  
-  È la frequenza con cui ogni risultato (in questo caso, la somma di due dadi) appare nella simulazione. Con più simulazioni, questa distribuzione si avvicina sempre di più a quella prevista dalla teoria.
-
-- *Probabilità teorica ed empirica*  
-  La probabilità *teorica* è calcolata matematicamente: ad esempio, la somma "7" è teoricamente più frequente perché ci sono più modi di ottenerla (6+1, 5+2, 4+3, ecc.).  
-  La probabilità *empirica*, invece, si ottiene dalla simulazione pratica, ed è una buona approssimazione della probabilità teorica quando il numero di prove è grande.
-:::
-
-## Distribuzioni per variabili continue
-
-::: {#def-}
-Una *variabile casuale continua* è una variabile aleatoria $X$ caratterizzata da una distribuzione di probabilità continua. Formalmente, $X$ si definisce continua se soddisfa le seguenti proprietà:
-
-1. *Esistenza della funzione di densità (pdf):*  
-   Esiste una funzione non negativa $f(x)$, detta *funzione di densità di probabilità* (pdf, dall'inglese *probability density function*), tale che:  
-   
-   - $f(x) \geq 0$ per ogni $x \in \mathbb{R}$;  
-   - L’area totale sotto la curva di $f(x)$ è pari a 1:  
-     $$
-     \int_{-\infty}^{+\infty} f(x) \, dx = 1.
-     $$
-
-2. *Calcolo delle probabilità tramite integrazione:*  
-   Per ogni intervallo $(a, b] \subseteq \mathbb{R}$ (con $a < b$), la probabilità che $X$ assuma valori in $(a, b]$ è data dall’integrale della pdf su tale intervallo:  
-   
-   $$
-   P(a < X \leq b) = \int_{a}^{b} f(x) \, dx.
-   $$ 
-   
-   Questa probabilità coincide anche con la differenza della *funzione di ripartizione* (CDF, *cumulative distribution function*) $F(x) = P(X \leq x)$ agli estremi dell’intervallo:  
-   
-   $$
-   P(a < X \leq b) = F(b) - F(a).
-   $$
-:::
-
-### Proprietà chiave delle variabili continue
-
-- *Probabilità in un punto nulla:*  
-  A differenza delle variabili discrete, per una variabile continua la probabilità di assumere un *valore esatto* $x_0$ è sempre zero:  
-  
-  $$
-  P(X = x_0) = 0.
-  $$  
-  
-  Questo avviene perché la probabilità è legata all’*area* sotto la curva $f(x)$, e un singolo punto ha "larghezza zero", risultando in un’area nulla. Di conseguenza, per variabili continue:  
-  
-  $$
-  P(a \leq X \leq b) = P(a < X \leq b) = P(a \leq X < b) = P(a < X < b).
-  $$
-
-- *Interpretazione della densità:*  
-  La funzione $f(x)$ non rappresenta direttamente una probabilità, ma descrive come la probabilità si distribuisce nello spazio campionario. Valori maggiori di $f(x)$ indicano regioni in cui è più probabile che $X$ assuma valori (*densità di probabilità*).
-
-- *Modellizzazione di fenomeni continui:*  
-  Le distribuzioni continue sono utilizzate per rappresentare grandezze misurabili con precisione arbitraria, come tempo, lunghezze, o temperature. Esempi comuni includono la distribuzione normale, esponenziale e uniforme continua.
 
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-In questo capitolo abbiamo introdotto e approfondito il concetto fondamentale di variabile casuale, illustrando come questo strumento permetta di formalizzare e analizzare matematicamente fenomeni casuali complessi. Attraverso esempi intuitivi, come il lancio di dadi o la simulazione di situazioni reali, abbiamo osservato come le variabili casuali consentano di tradurre domande astratte in analisi concrete e interpretabili.
+Il concetto di variabile casuale rappresenta il ponte fondamentale tra la teoria della probabilità, intesa come sistema di credenze coerenti, e l'analisi quantitativa dei fenomeni incerti. Attraverso questa formalizzazione, è possibile tradurre qualsiasi risultato sperimentale, di natura qualitativa o quantitativa, in un oggetto matematico suscettibile di essere trattato con gli strumenti del calcolo delle probabilità.
 
-Abbiamo esaminato le due principali tipologie di variabili casuali—discrete e continue—e discusso le relative distribuzioni di probabilità. Le distribuzioni discrete, caratterizzate da una funzione di massa di probabilità (PMF), si prestano particolarmente bene a modellare situazioni in cui gli eventi possono essere enumerati (come punteggi in test psicologici o risultati di giochi). Al contrario, le distribuzioni continue, descritte dalla funzione di densità di probabilità (PDF), sono essenziali per modellare misure precise, come l'altezza o il tempo, dove il numero di possibili valori è teoricamente infinito.
+Le due grandi classi di variabili casuali, discrete e continue, richiedono formalizzazioni distinte, ma concettualmente omogenee. La funzione di massa di probabilità (PMF) per le variabili discrete e la funzione di densità di probabilità (PDF) per quelle continue svolgono un ruolo analogo nel caratterizzare la distribuzione della probabilità nello spazio dei possibili valori. La funzione di ripartizione (CDF) fornisce invece una rappresentazione unificante applicabile a entrambe le tipologie.
 
-Un aspetto importante trattato è la funzione di distribuzione cumulativa (CDF), che fornisce una descrizione completa della distribuzione di una variabile casuale, facilitando la comprensione intuitiva della probabilità che un evento accada entro certi limiti. Conoscere le proprietà della CDF aiuta a prevenire errori comuni nella sua interpretazione e a trarre conclusioni più affidabili dai dati empirici.
+Il valore atteso e la varianza sono gli strumenti principali per sintetizzare le caratteristiche distributive. Il valore atteso localizza il baricentro probabilistico della distribuzione, mentre la varianza ne quantifica la dispersione attorno a tale centro. Le proprietà algebriche di questi operatori, in particolare la linearità del valore atteso e l'additività della varianza per variabili indipendenti, costituiscono strumenti di notevole efficacia per semplificare i calcoli applicativi.
 
-Infine, attraverso l'utilizzo della simulazione, abbiamo mostrato come sia possibile avvicinarsi empiricamente a una distribuzione teorica, confermando e visualizzando in modo pratico e immediato concetti astratti. Questa capacità di simulare e verificare empiricamente le distribuzioni è estremamente utile, soprattutto quando i modelli teorici diventano troppo complessi da risolvere analiticamente.
-
-Nei prossimi capitoli approfondiremo ulteriormente questi concetti, esaminando alcune distribuzioni di probabilità specifiche che sono comunemente usate nella ricerca psicologica e nelle applicazioni pratiche. Questo ci permetterà di passare da una conoscenza teorica delle variabili casuali a una competenza concreta nel loro utilizzo e nella loro interpretazione, sviluppando strumenti che miglioreranno le nostre capacità di analisi e di decisione in ambito psicologico e statistico.
+Questi fondamenti troveranno immediata applicazione nei capitoli successivi, dedicati allo studio di specifiche famiglie parametriche di distribuzioni (Beta, Normale, Poisson e Binomiale), che rappresentano i costituenti elementari della modellazione statistica bayesiana. Le distribuzioni a priori, le funzioni di verosimiglianza e le distribuzioni a posteriori, i tre pilastri concettuali dell'inferenza bayesiana, trovano infatti piena espressione nel linguaggio delle variabili casuali qui introdotto.
 
 
-::: {.callout-important title="Problemi 1" collapse="true"}
-Consiglio gli esercizi di base disponibili nella seguente [pagina web](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/04%3A_Discrete_Random_Variables/4.E%3A_Discrete_Random_Variables_(Exercises)).
-:::
-
-::: {.callout-important title="Problemi 2" collapse="true"}
-Esercizi sulla distribuzione normale, risolvibili usando R, sono disponibili sulla seguente [pagina web](https://mathcenter.oxford.emory.edu/site/math117/probSetNormalDistribution/).
-:::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}
@@ -417,5 +404,3 @@ sessionInfo()
 :::
 
 ## Bibliografia {.unnumbered .unlisted}
-
-
