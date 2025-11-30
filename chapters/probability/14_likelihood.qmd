@@ -8,11 +8,11 @@ In questo processo di valutazione, la funzione di verosimiglianza svolge un ruol
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
-- Misura della plausibilità dei parametri alla luce dei dati osservati
-- Applicazione a distribuzioni binomiali (lancio di monete) e gaussiane (misura del QI)
-- Metodi per identificare i parametri più plausibili con implementazioni in R
-- Utilizzo del rapporto di verosimiglianze e criteri aggiustati (AIC)
-- La verosimiglianza come componente fondamentale per l'inferenza bayesiana
+- Misura della plausibilità dei parametri alla luce dei dati osservati.
+- Applicazione alle distribuzioni binomiali e gaussiane.
+- Metodi per identificare i parametri più plausibili con implementazioni in R.
+- Utilizzo del rapporto di verosimiglianze e dei criteri aggiustati (AIC).
+- La verosimiglianza come componente fondamentale per l'inferenza bayesiana.
 
 ::: {.callout-tip collapse=true}
 ## Prerequisiti
@@ -54,33 +54,13 @@ La funzione $L(\theta; y)$ assegna quindi a ogni possibile valore di $\theta$ un
 
 ### Relazione tra verosimiglianza e funzione di probabilità
 
-Sebbene la funzione di probabilità (o densità) e la funzione di verosimiglianza condividano la stessa forma matematica $f(y \mid \theta)$, il loro significato concettuale differisce sostanzialmente in base al contesto inferenziale.
+Sebbene la funzione di probabilità (o densità) e la funzione di verosimiglianza abbiano la stessa forma matematica, $f(y \mid \theta)$, il loro significato concettuale cambia sostanzialmente a seconda del contesto inferenziale, riflettendo due prospettive complementari dello stesso formalismo matematico.
 
-#### Due prospettive a confronto
+La funzione di probabilità opera in un contesto in cui i parametri $\theta$ sono considerati fissi e noti, mentre i dati $y$ sono trattati come variabili aleatorie. In questo contesto, la funzione $f(y \mid \theta)$ quantifica la probabilità di osservare determinati risultati campionari $y$ in un modello con parametri $\theta$ predeterminati. La domanda a cui risponde è: "Se il modello fosse effettivamente caratterizzato dal parametro $\theta$, quanto sarebbero probabili i diversi esiti osservabili?"
 
-1. **Funzione di probabilità (densità/massa)**
-   - *Parametri ($\theta$) fissi*: assumiamo che siano noti o ipotizzati
-   - *Dati ($y$) aleatori*: descrive la distribuzione dei possibili risultati
-   - *Interpretazione*: $f(y \mid \theta)$ quantifica la probabilità (o densità) di osservare $y$ sotto un modello con parametri $\theta$
-   - *Domanda chiave*: "Se il modello fosse $\theta$, quanto sarebbero probabili questi dati?"
+Al contrario, la funzione di verosimiglianza inverte questo rapporto concettuale: i dati $y$ corrispondono alle osservazioni effettive e sono quindi fissati, mentre i parametri $\theta$ rappresentano la fonte di incertezza da risolvere. In questa ottica, la notazione $L(\theta; y) = f(y \mid \theta)$ misura la plausibilità relativa dei diversi valori parametrici $\theta$ alla luce delle evidenze empiriche $y$. La domanda diventa quindi: "Alla luce di questi dati specifici, quanto sono credibili le diverse specificazioni del parametro $\theta$?"
 
-2. **Funzione di verosimiglianza**
-   - *Dati ($y$) fissi*: corrispondono alle osservazioni effettive
-   - *Parametri ($\theta$) variabili*: rappresentano l'incertezza da risolvere
-   - *Interpretazione*: $L(\theta; y) = f(y \mid \theta)$ misura la plausibilità relativa di $\theta$ alla luce di $y$
-   - *Domanda chiave*: "Alla luce di questi dati, quanto sono credibili i diversi $\theta$?"
-
-
-#### Implicazioni per l'inferenza statistica
-
-- **Approccio frequentista**: la verosimiglianza è uno strumento per stimare i parametri (es. stima di massima verosimiglianza), senza assegnare loro una distribuzione di probabilità.
-
-- **Approccio bayesiano**: la verosimiglianza funge da ponte tra dati e parametri, combinando l'informazione empirica con le credenze iniziali (*prior*) per derivare la distribuzione a posteriori:
-
-$$
-P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta).
-$$
-In questa prospettiva, i dati aggiornano la nostra conoscenza su $\theta$ attraverso la verosimiglianza.
+Questa distinzione concettuale ha implicazioni operative divergenti per l'inferenza statistica. Nell'approccio frequentista, la verosimiglianza è principalmente uno strumento per la stima parametrica, come nel caso della stima di massima verosimiglianza, senza tuttavia assegnare ai parametri una distribuzione di probabilità formalizzata. Nell'approccio bayesiano, invece, la verosimiglianza funge da ponte tra l'evidenza empirica e i parametri oggetto di studio, combinando l'informazione contenuta nei dati con le credenze iniziali codificate nella distribuzione a priori per derivare la distribuzione a posteriori attraverso la relazione fondamentale $P(\theta \mid y) \propto L(\theta; y) \cdot P(\theta)$. In questa prospettiva, i dati aggiornano sistematicamente la nostra conoscenza su $\theta$ proprio attraverso il meccanismo formale della verosimiglianza.
 
 #### Sintesi delle differenze
 
@@ -220,7 +200,6 @@ likelihood <- p_H^y * (1 - p_H)^(n - y)
 La curva raggiunge il massimo in $\hat\theta = y/n = 1/3 \approx 0.33$.
 Rispetto al caso precedente, la curva è più *stretta*, segnalando una maggiore precisione della stima grazie al numero maggiore di osservazioni.
 
-
 ### Interpretazione complessiva
 
 * Lo *stimatore di massima verosimiglianza* $\hat\theta$ corrisponde sempre alla *proporzione osservata di teste* ($y/n$).
@@ -272,7 +251,6 @@ ggplot(df, aes(x = theta, y = likelihood, color = caso)) +
 
 Questo semplice confronto mostra visivamente come *aumentare la quantità di dati restringe l’incertezza* e rende la stima più precisa.
 
-
 ## Verosimiglianza binomiale
 
 Consideriamo ora un esperimento più ampio: lanciamo una moneta $n = 30$ volte e osserviamo $y = 23$ teste. Per modellare il numero totale di successi utilizziamo la distribuzione binomiale, che descrive la probabilità di ottenere esattamente $y$ successi in $n$ prove indipendenti, con probabilità di successo $\theta$ costante:
@@ -323,13 +301,9 @@ ggplot(data, aes(x = theta, y = likelihood)) +
 
 ### Interpretazione dei risultati
 
-L'analisi grafica rivele che:
+L'analisi grafica della funzione di verosimiglianza rivela un profilo caratterizzato da un picco marcato in corrispondenza di $\theta \approx 0.77$. Questo punto di massimo rappresenta la stima di massima verosimiglianza (MLE) della probabilità di successo del processo bernoulliano in esame. Si osserva che tale stima corrisponde esattamente alla proporzione campionaria osservata, ovvero $\hat{\theta} = 23/30. Questo risultato conferma la proprietà di consistenza dello stimatore di massima verosimiglianza per questo modello.
 
-- La funzione di verosimiglianza raggiunge il suo massimo in corrispondenza di $\theta \approx 0.77$
-- Questo valore rappresenta la stima di massima verosimiglianza (MLE) per la probabilità di successo
-- La stima corrisponde esattamente alla proporzione campionaria: $\hat{\theta} = \frac{23}{30} \approx 0.767$
-- La curva mostra una dispersione limitata, indicando una relativa precisione nella stima
-- I valori estremi di $\theta$ (vicini a 0 o 1) presentano verosimiglianze trascurabili
+La forma della curva di verosimiglianza mostra una dispersione limitata attorno al valore massimo, indicando una relativa precisione della stima ottenuta. Ciò suggerisce che il campione fornisce un'informazione sufficientemente affidabile sul parametro della popolazione. Al contrario, i valori estremi di $\theta$, specialmente quelli prossimi agli estremi 0 e 1 dell'intervallo parametrico, presentano verosimiglianze trascurabili e sono quindi sostanzialmente incompatibili con i dati osservati.
 
 ### Implementazione computazionale
 
@@ -365,11 +339,7 @@ Consideriamo una moneta lanciata 30 volte che produce 23 teste. Un risultato cos
 
 La funzione di verosimiglianza $L(\theta)$ può essere visualizzata come una curva che descrive l'andamento della plausibilità al variare di $\theta$. Questa curva presenta tipicamente un massimo globale ben definito, corrispondente alla stima MLE. Geometricamente, questo punto rappresenta il vertice della "collina" di verosimiglianza.
 
-La forma della curva fornisce preziose informazioni:
-
-- una curva appuntita indica alta certezza nella stima,
-- una curva più piatta suggerisce maggiore incertezza parametrica,
-- la pendenza della curva riflette la sensibilità della verosimiglianza alle variazioni del parametro.
+La forma complessiva della curva fornisce preziose indicazioni sulla qualità delle informazioni contenute nei dati riguardo al parametro. Una curva appuntita e strettamente concentrata attorno al massimo segnala un'elevata certezza nella stima ottenuta. Al contrario, un profilo più appiattito e disperso riflette una maggiore incertezza parametrica e suggerisce che diversi valori di $\theta$ sono quasi altrettanto plausibili, alla luce dei dati osservati. La pendenza della curva, infine, indica la sensibilità della verosimiglianza alle variazioni del parametro: pendenze più accentuate indicano una maggiore influenza delle piccole variazioni di $\theta$ sulla plausibilità del modello.
 
 ### Determinazione analitica del massimo
 
@@ -414,11 +384,7 @@ optimal_theta <- theta[max_index]
 optimal_theta
 ```
 
-Questo metodo offre una soluzione numerica precisa attraverso:
-
-- la generazione di una griglia densa di valori possibili per $\theta$,
-- il calcolo diretto della verosimiglianza per ogni punto della griglia,
-- l'identificazione del valore ottimale mediante ricerca del massimo.
+Questo approccio fornisce una soluzione numerica di elevata precisione attraverso un processo articolato in tre fasi fondamentali. Inizialmente, viene generata una griglia sufficientemente densa di valori plausibili per il parametro $\theta$, garantendo un'adeguata risoluzione nell'esplorazione dello spazio parametrico. In seguito, per ogni punto della griglia viene calcolato il valore della funzione di verosimiglianza corrispondente, mappando sistematicamente il profilo di plausibilità del parametro. La procedura si conclude con l'identificazione del valore ottimale mediante un'operazione di ricerca del massimo che localizza il picco della funzione di verosimiglianza con l'accuratezza permessa dalla densità della griglia impostata.
 
 ### Metodo 2: Ottimizzazione Numerica
 
@@ -463,14 +429,11 @@ $$
 $$
 Questa coincidenza dimostra la robustezza del metodo di massima verosimiglianza e conferma che, nel caso della distribuzione binomiale, la stima ottimale corrisponde alla proporzione campionaria osservata.
 
-**Osservazioni metodologiche:**
+**Osservazioni metodologiche.**
 
-- Il metodo della griglia offre una visualizzazione completa della funzione di verosimiglianza.
-- L'ottimizzazione numerica è più efficiente per problemi multidimensionali.
-- La soluzione analitica fornisce un riferimento teorico esatto.
-- La scelta del metodo dipende dalle specifiche esigenze analitiche e computazionali.
+Il metodo basato su griglia si distingue per la sua capacità di fornire una rappresentazione completa e dettagliata del profilo della funzione di verosimiglianza, consentendo di comprenderne intuitivamente il comportamento sull'intero spazio parametrico. Tuttavia, per i problemi di stima multidimensionale, le tecniche di ottimizzazione numerica diretta si rivelano generalmente più efficienti dal punto di vista computazionale. La soluzione analitica mantiene comunque un ruolo fondamentale come riferimento teorico esatto e come benchmark per validare i risultati ottenuti con gli approcci numerici. La scelta tra queste metodologie dipende quindi da un bilanciamento tra le specifiche esigenze analitiche del problema in esame e le risorse computazionali disponibili.
 
-L'implementazione in R dimostra come concetti statistici avanzati possano essere efficacemente applicati attraverso strumenti computazionali, facilitando sia l'analisi che l'interpretazione dei risultati.
+L'implementazione in R mostra chiaramente come i concetti statistici avanzati possano essere efficacemente tradotti in pratica tramite strumenti computazionali, facilitando l'analisi e l'interpretazione dei risultati.
 
 ## Verosimiglianza congiunta
 
@@ -658,27 +621,23 @@ $$
 
 ### Interpretazione
 
-La *verosimiglianza marginale* $p(D)$ quantifica la probabilità complessiva dei dati $D$ tenendo conto di tutte le possibili configurazioni parametriche:  
+La *verosimiglianza marginale* $p(D)$ quantifica la probabilità complessiva dei dati $D$ considerando tutte le possibili configurazioni parametriche del modello. Valori elevati di questa quantità indicano una maggiore compatibilità tra la struttura del modello specificato e i dati osservati. Al contrario, valori più bassi suggeriscono che i dati siano poco plausibili nell'ambito del modello adottato.
 
-- valori *più alti* indicano maggiore compatibilità tra modello e dati;  
-- valori *più bassi* suggeriscono che i dati siano poco plausibili sotto quel modello;  
-- il *confronto tra modelli* si basa sul *fattore di Bayes*:  
-  $$
-  BF_{12} = \frac{p(D \mid M_1)}{p(D \mid M_2)}.
-  $$
+Per il confronto tra modelli concorrenti, la verosimiglianza marginale costituisce la base per il calcolo del *fattore di Bayes*, definito come:
+$$
+BF_{12} = \frac{p(D \mid M_1)}{p(D \mid M_2)}.
+$$
+Questo rapporto fornisce una misura della forza dell'evidenza empirica a favore di un modello rispetto a un altro, consentendo un confronto quantitativo diretto tra le diverse strutture modellistiche.
 
 ### Ruolo nell’inferenza bayesiana
 
-Nella formula di Bayes
+Nella formulazione del teorema di Bayes
 
 $$
 p(\theta \mid D) = \frac{p(D \mid \theta)\,p(\theta)}{p(D)},
 $$
-la quantità $p(D)$, ossia la verosimiglianza marginale:  
 
-- funge da *fattore di normalizzazione* per ottenere la distribuzione a posteriori;  
-- costituisce la *base del confronto tra modelli*;  
-- rappresenta una *misura complessiva dell’evidenza* fornita dai dati.  
+la verosimiglianza marginale $p(D)$ assolve a molteplici funzioni fondamentali. In primo luogo, essa funge da fattore di normalizzazione, garantendo che la distribuzione a posteriori $p(\theta \mid D)$ integri a uno, trasformando così il prodotto tra verosimiglianza e prior in una distribuzione di probabilità propriamente definita. In secondo luogo, essa costituisce la base per il confronto tra modelli in competizione, in quanto rappresenta la probabilità dei dati sotto un modello completo integrata su tutto lo spazio dei parametri. Infine, la verosimiglianza marginale fornisce una misura complessiva dell'evidenza fornita dai dati a supporto di un modello specifico, sintetizzando in un unico valore numerico il grado di accordo tra la struttura del modello e le osservazioni empiriche.
 
 ### Considerazioni pratiche
 
@@ -786,7 +745,6 @@ $$
 $$
 ossia il valore osservato. Questo era atteso: per una singola osservazione da una normale con deviazione standard nota, la stima MLE della media coincide esattamente con il dato osservato.
 
-
 ## Campione di osservazioni indipendenti
 
 Supponiamo di avere i punteggi *BDI-II* raccolti su un campione di $n=30$ partecipanti. Assumiamo che ciascun punteggio sia un’osservazione indipendente da una distribuzione normale con media incognita $\mu$ e deviazione standard nota $\sigma = 6.5$.
@@ -800,7 +758,6 @@ y <- c(
 
 sigma <- 6.5  # Deviazione standard nota
 ```
-
 
 ### Log-verosimiglianza
 
@@ -854,7 +811,6 @@ Questo risultato formalizza una proprietà fondamentale: lo stimatore di massima
 $$
 \hat{\mu}_{\text{MLE}} = \bar{y}.
 $$
-
 Questa corrispondenza non solo semplifica il calcolo dello stimatore, ma conferma anche l'intuitività della media campionaria come misura della posizione centrale nella distribuzione normale.
 
 ### Ottimizzazione numerica
@@ -898,8 +854,8 @@ In conclusione, la stima ottenuta tramite ottimizzazione numerica coincide perfe
 
 In statistica capita spesso di dover *confrontare modelli alternativi* che cercano di spiegare gli stessi dati osservati. Ad esempio, nella stima della media di una variabile psicologica - come punteggi ai test o tempi di reazione - potremmo trovarci di fronte a due ipotesi contrastanti:
 
-* **Modello nullo ($H_0$)**: la media assume un valore fissato $\mu_1$, tipicamente un valore di riferimento o corrispondente all'assenza di effetto;
-* **Modello alternativo ($H_1$)**: la media assume un valore diverso $\mu_2$, indicativo della presenza di un effetto o cambiamento.
+* **modello nullo ($H_0$)**: la media assume un valore fissato $\mu_1$, tipicamente un valore di riferimento o corrispondente all'assenza di effetto;
+* **modello alternativo ($H_1$)**: la media assume un valore diverso $\mu_2$, indicativo della presenza di un effetto o cambiamento.
 
 Il *rapporto di verosimiglianze (Likelihood Ratio, LR)* fornisce una misura quantitativa dell'evidenza relativa a favore di un modello rispetto all'altro, basandosi direttamente sui dati osservati.
 
@@ -953,7 +909,6 @@ $$
 \lambda = \frac{0.267}{0.117} \;\approx\; 2.28.
 $$
 
-
 #### Implementazione in R
 
 ```{r}
@@ -1002,15 +957,13 @@ Il valore $\lambda \approx 2.28$ indica che i dati osservati sono circa *2.3 vol
 
 ### Considerazioni metodologiche
 
-Il rapporto di verosimiglianze presenta diverse caratteristiche fondamentali da considerare:
+Il rapporto di verosimiglianze presenta diverse caratteristiche fondamentali che meritano un'attenta analisi. In primo luogo, questo strumento fornisce una misura di evidenza relativa, in quanto non valuta la bontà assoluta di un modello, ma esclusivamente la preferenza comparativa tra due ipotesi specifiche.
 
-**Evidenza relativa**: questo strumento non valuta la bontà assoluta di un modello, ma esclusivamente la preferenza relativa tra due ipotesi specifiche. 
+Per quanto riguarda l'interpretazione quantitativa, la scala dei valori fornisce indicazioni progressive sulla forza dell'evidenza: i valori compresi tra 1 e 3 indicano un supporto debole o moderato, mentre i valori superiori indicano un sostegno progressivamente più convincente per l'ipotesi alternativa.
 
-**Scala di interpretazione**: i valori compresi tra 1 e 3 suggeriscono un'evidenza debole-moderata, mentre valori superiori indicano un supporto progressivamente più forte per l'ipotesi alternativa.
+La generalità applicativa costituisce un ulteriore vantaggio metodologico: la logica del rapporto di verosimiglianze si applica a qualsiasi modello parametrico, rendendolo uno strumento flessibile e ampiamente utilizzabile in contesti statistici diversificati.
 
-**Generalità applicativa**: la logica del rapporto di verosimiglianze si applica a qualsiasi modello parametrico, dimostrandosi uno strumento flessibile e ampiamente utilizzabile.
-
-**Connessione bayesiana**: in presenza di distribuzioni a priori poco informative, $\lambda$ approssima il *fattore di Bayes*, rappresentando così un ponte metodologico verso gli strumenti principali per la selezione di modelli in ottica bayesiana.
+Infine, il rapporto presenta una significativa connessione con l'inferenza bayesiana: in condizioni di distribuzioni a priori poco informative, la statistica $\lambda$ fornisce un'approssimazione del fattore di Bayes, rappresentando un importante ponte metodologico verso gli strumenti principali per la selezione dei modelli in ottica bayesiana.
 
 ## Rapporti di verosimiglianza aggiustati e criterio di Akaike
 
@@ -1023,7 +976,6 @@ Il *Criterio di Informazione di Akaike (AIC)* rappresenta una soluzione semplice
 $$
 \text{AIC} = 2k - 2 \log(L),
 $$
-
 dove $k$ indica il numero di parametri del modello e $L$ rappresenta la massima verosimiglianza raggiunta dal modello.
 
 Questa formulazione elegante combina in un'unica misura due principi fondamentali dell'analisi statistica: la bontà di adattamento ai dati, catturata dal termine $-2 \log(L)$, e il principio di parsimonia, garantito dal termine di penalizzazione $2k$ che scoraggia la sovraparametrizzazione. Il criterio di Informazione di Akaike trova quindi un equilibrio ottimale tra la complessità del modello e la sua capacità esplicativa, premiando i modelli che raggiungono un buon adattamento con il minor numero possibile di parametri.
@@ -1108,38 +1060,6 @@ Il rapporto di verosimiglianza si configura come uno strumento particolarmente v
 La verosimiglianza, nelle sue molteplici manifestazioni, non si limita a collegare modelli teorici e dati empirici, ma costituisce il motore propulsivo dell'inferenza bayesiana. Attraverso il teorema di Bayes, la verosimiglianza trasforma sistematicamente l'informazione a priori in distribuzioni posteriori, aggiornando razionalmente le nostre credenze alla luce dell'evidenza osservata. Questo duplice ruolo - sia nell'ambito frequentista che in quello bayesiano - testimonia la profondità e l'utilità di questo strumento statistico fondamentale.
 
 La padronanza dei concetti di verosimiglianza e log-verosimiglianza rappresenta quindi una competenza essenziale per lo psicologo ricercatore, permettendo non solo l'analisi appropriata dei dati sperimentali, ma anche la comprensione critica dei modelli teorici che sottendono i processi psicologici investigati.
-
-::: {.callout-important title="Problemi" collapse="true"}
-
-Spiega ciascuno dei concetti seguenti con una frase:
-
-- probabilità.
-- funzione di massa di probabilità.
-- funzione di densità di probabilità.
-- distribuzione di probabilità.
-- distribuzione di probabilità discreta.
-- distribuzione di probabilità continua.
-- funzione di distribuzione cumulativa (cdf).
-- verosimiglianza
-:::
-
-
-::: {.callout-important title="Problemi" collapse="true"}
-
-Supponi di aver misurato il livello di ansia (ad esempio usando una scala standardizzata) in un campione di 15 persone con i seguenti punteggi:
-
-```r
-ansia <- c(23, 27, 30, 29, 25, 28, 26, 24, 31, 29, 27, 26, 28, 30, 25)
-```
-
-Assumendo che la deviazione standard sia nota e pari a 3.5, svolgi le seguenti attività in R:
-
-1. Calcola la funzione di verosimiglianza gaussiana per diversi valori di $\mu$ nell'intervallo da 20 a 35.
-2. Trova numericamente il valore di $\mu$ che rende massima la verosimiglianza (stima di massima verosimiglianza, MLE).
-3. Disegna un grafico della funzione di verosimiglianza per visualizzare il risultato.
-
-:::
-
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}

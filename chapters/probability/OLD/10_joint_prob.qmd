@@ -1,30 +1,37 @@
 # Probabilità congiunta {#sec-prob-join-prob}
 
-::: {.epigraph}
-> “Probability is expectation founded upon partial knowledge. A perfect acquaintance with all the circumstances affecting the occurrence of an event would change expectation into certainty, and leave neither room nor demand for a theory of probabilities..”
->
-> -- **George Boole**, An Investigation of the Laws of Thought (1854)
-:::
-
-
 ## Introduzione {.unnumbered .unlisted}
 
-Fino a questo momento abbiamo considerato il concetto di probabilità associato a singole variabili casuali. Tuttavia, in molte situazioni pratiche e psicologiche, è fondamentale analizzare come due o più variabili casuali interagiscono tra loro. La *distribuzione congiunta* ci permette di descrivere la probabilità che più variabili aleatorie assumano contemporaneamente specifici valori.
+Nel @sec-prob-axioms-coherence abbiamo visto che le tabelle di probabilità congiunta sono lo strumento fondamentale per rappresentare credenze coerenti su sistemi con più variabili. Abbiamo imparato che, una volta specificata una distribuzione congiunta coerente, tutte le altre quantità probabilistiche di interesse, come le distribuzioni marginali e condizionate, nonché le probabilità di eventi complessi, ne derivano automaticamente attraverso operazioni di marginalizzazione e condizionamento.
 
-Questo capitolo introduce e approfondisce il concetto di distribuzione congiunta attraverso definizioni, proprietà essenziali e un esempio concreto basato sulla letteratura psicologica.
+In questo capitolo e nel successivo, estendiamo e approfondiamo tale discussione, esplorando le proprietà matematiche delle distribuzioni congiunte e mostrando come queste permettano di esprimere l'incertezza simultanea su più variabili psicologiche. Nell'approccio bayesiano, la distribuzione congiunta non descrive le "frequenze a lungo termine" delle combinazioni di eventi, ma piuttosto il nostro grado di credenza razionale che specifiche configurazioni si verifichino, in base al nostro attuale stato di conoscenza.
+
+::: {.callout-note icon=false}
+## Collegamento con il @sec-prob-axioms-coherence
+
+Nel @sec-prob-axioms-coherence abbiamo costruito tabelle congiunte 2×2 per rappresentare credenze su coppie di eventi binari (es. depressione e ansia). In questo capitolo generalizzeremo questi concetti a:
+
+- variabili con più di due categorie (tabelle 3×3, ecc.);
+- variabili continue (densità congiunte);
+- sistemi con più di due variabili.
+
+Il principio di fondo rimane lo stesso: la distribuzione congiunta è la rappresentazione più completa e fondamentale delle nostre credenze su un sistema multivariato.
+:::
 
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
-* Definizione di distribuzione congiunta per variabili discrete e continue.
-* Le proprietà fondamentali: non-negatività e normalizzazione.
-* Come ottenere e interpretare le distribuzioni marginali da una congiunta.
-* Il concetto di indipendenza e come verificarla tramite la distribuzione congiunta.
-* Estensione al caso continuo, con esempi grafici (mappe termiche) e densità marginali/condizionali.
+* Definizione epistemica di distribuzione congiunta per variabili discrete e continue.
+* Le proprietà fondamentali come vincoli di coerenza.
+* Derivazione di distribuzioni marginali e condizionate dalla congiunta.
+* Indipendenza come caso speciale di fattorizzazione.
+* Estensione al caso continuo con interpretazioni epistemiche.
+* Il ruolo della distribuzione congiunta nell'inferenza bayesiana.
 
 ::: {.callout-tip collapse=true}
 ## Prerequisiti
 
+- [@sec-prob-axioms-coherence]: assiomi e coerenza delle credenze.
 - Leggere il capitolo *Joint Distributions* [@kroese2025statistical].
 - Leggere il capitolo *Joint Distributions* [@blitzstein2019introduction].
 :::
@@ -40,156 +47,276 @@ library(ggExtra)
 ```
 :::
 
+## Distribuzione congiunta
 
-## Cos'è la distribuzione congiunta?
+Quando studiamo due variabili casuali, come l'ansia ($Y$) e la prestazione cognitiva ($X$), non ci interessa solo esprimere le nostre credenze sul loro comportamento individuale, ma anche su come si manifestano insieme. La *distribuzione congiunta* descrive proprio questo: il nostro grado di credenza razionale che $X$ e $Y$ assumano contemporaneamente determinati valori, in base al nostro attuale stato di conoscenza.
 
-Quando studiamo due variabili casuali — ad esempio ansia ($Y$) e prestazione cognitiva ($X$) — non ci interessa solo il loro comportamento individuale, ma anche come si manifestano insieme. La *distribuzione congiunta* descrive proprio questo: la probabilità che $X$ e $Y$ assumano contemporaneamente determinati valori.
+::: {#def-joint-distribution}
+Una *distribuzione congiunta* assegna a ogni possibile configurazione $(x, y)$ un grado di credenza che riflette quanto riteniamo plausibile che le due variabili assumano simultaneamente quei valori.
 
-- **Caso discreto** (variabili che possono assumere valori distinti, come categorie o conteggi)::
-
-$$
-p(x, y) = P(X = x, Y = y) .
-$$
-
-- **Caso continuo** variabili misurate su scale numeriche con molti possibili valori, come punteggi o tempi di reazione):
+- **Caso discreto** (variabili che assumono valori distinti, come categorie o conteggi):
 
 $$
-f(x, y) 
+p(x, y) = P(X = x, Y = y)
 $$
-che rappresenta la densità di probabilità congiunta.
+rappresenta la nostra credenza nella configurazione $(x, y)$.
 
-Grazie a queste funzioni possiamo rispondere a domande del tipo: Qual è la probabilità che uno studente con ansia elevata ottenga una prestazione insufficiente?
+- **Caso continuo** (variabili misurate su scale numeriche continue, come punteggi o tempi di reazione):
 
+$$
+f(x, y)
+$$
+rappresenta la densità di credenza nella regione intorno a $(x, y)$.
+:::
 
-## Proprietà fondamentali
+**Interpretazione epistemica:** La distribuzione congiunta non afferma "cosa accadrà" o "quale proporzione di casi si verificherà a lungo termine", ma esprime "quanto riteniamo plausibile" ogni possibile configurazione, alla luce delle informazioni attualmente disponibili (letteratura scientifica, dati preliminari, vincoli logici, ecc.).
 
-Perché una distribuzione congiunta sia una corretta distribuzione di probabilità, deve rispettare due condizioni di base.
+Grazie a questa rappresentazione delle nostre credenze possiamo rispondere a domande come: *Quanto è plausibile che uno studente con ansia elevata ottenga una prestazione insufficiente, dato ciò che sappiamo dalla letteratura e dalla nostra esperienza clinica?*
+
+## Proprietà fondamentali come vincoli di coerenza
+
+Nel @sec-prob-axioms-coherence abbiamo visto che gli assiomi di Kolmogorov non sono leggi della natura, ma vincoli logici per evitare incoerenze (*Dutch Book*). Questi stessi vincoli si applicano anche alle distribuzioni congiunte.
+
+Perché una distribuzione congiunta possa rappresentare credenze coerenti, deve soddisfare i seguenti requisiti:
 
 ::: {.callout-note}
-### 1. Non-negatività  
+### 1. Non-negatività (coerenza dei gradi di credenza)
 $$
 p(x,y) \geq 0 
 \quad \text{oppure} \quad 
-f(x,y) \geq 0 .
+f(x,y) \geq 0.
 $$
+
+Un grado di credenza negativo non ha senso: ogni configurazione deve avere una plausibilità non-negativa.
 :::
 
 ::: {.callout-note}
-### 2. Normalizzazione  
+### 2. Normalizzazione (certezza che qualcosa accada)
 
 - **Caso discreto**  
 $$
-\sum_{x}\sum_{y} p(x,y) = 1 .
+\sum_{x}\sum_{y} p(x,y) = 1.
 $$
 
 - **Caso continuo**  
 $$
-\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} f(x,y)\,dx\,dy = 1 .
+\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} f(x,y)\,dx\,dy = 1.
+$$
+
+Siamo certi che almeno una configurazione nello spazio delle possibilità si verificherà. Se la somma fosse inferiore a 1, staremmo ammettendo la possibilità che nessuna delle configurazioni considerate si verifichi, il che è logicamente incoerente.
+:::
+
+Queste proprietà sono conseguenze dirette dei vincoli di coerenza discussi nel  @sec-prob-axioms-coherence. Violarle significa esporre le nostre credenze a incoerenze logiche dimostrabili.
+
+## Dalla tabella 2×2 alle distribuzioni multidimensionali
+
+Nel @sec-prob-axioms-coherence abbiamo lavorato principalmente con tabelle congiunte 2×2 (due variabili binarie). Ora estendiamo questo framework a situazioni più complesse.
+
+### Tabelle con più categorie
+
+Consideriamo un esempio tratto dalla letteratura psicologica: la relazione tra *ansia* ($Y$) e *prestazione cognitiva* ($X$) in studenti universitari. La ricerca indica spesso una relazione negativa tra questi fattori [@eysenck2007anxiety].
+
+Costruiamo una distribuzione congiunta che rappresenti le nostre credenze su queste variabili:
+
+- *ansia*: bassa (0), media (1), alta (2);
+- *prestazione cognitiva*: insufficiente (0), sufficiente (1), buona (2).
+
+### Costruzione epistemica della tabella congiunta
+
+Come nel @sec-prob-axioms-coherence, la nostra distribuzione congiunta deve integrare diverse fonti di conoscenza.
+
+1. **Evidenza dalla letteratura**: studi come quello di @eysenck2007anxiety documentano una relazione negativa tra ansia e prestazione.
+2. **Principi di coerenza**: vincoli di Fréchet, normalizzazione, additività.
+3. **Eventuali dati preliminari**: osservazioni da studi pilota o esperienza clinica.
+
+Basandoci su queste fonti, potremmo costruire la seguente tabella che rappresenta i nostri gradi di credenza:
+
+|               | Ansia Bassa (0) | Ansia Media (1) | Ansia Alta (2) | Marginale |
+|---------------|-----------------|-----------------|----------------|-----------|
+| Insufficiente (0) | 0.05            | 0.10            | 0.15           | 0.30      |
+| Sufficiente (1)   | 0.15            | 0.20            | 0.10           | 0.45      |
+| Buona (2)         | 0.10            | 0.10            | 0.05           | 0.25      |
+| **Marginale**     | 0.30            | 0.40            | 0.30           | 1.00      |
+
+**Interpretazione epistemica:** ogni cella rappresenta il nostro grado di credenza in una specifica configurazione. Ad esempio:
+
+- $P(X=1, Y=1) = 0.20$: crediamo che la configurazione "prestazione sufficiente con ansia media" sia relativamente plausibile.
+- $P(X=2, Y=2) = 0.05$: la configurazione "buona prestazione con alta ansia" è meno plausibile, in linea con quanto riportato in letteratura.
+
+**Verifica di coerenza:**
+
+```{r}
+# Costruzione della tabella
+tab_joint <- matrix(
+  c(0.05, 0.10, 0.15,
+    0.15, 0.20, 0.10,
+    0.10, 0.10, 0.05),
+  nrow = 3, byrow = TRUE,
+  dimnames = list(
+    Prestazione = c("Insufficiente", "Sufficiente", "Buona"),
+    Ansia = c("Bassa", "Media", "Alta")
+  )
+)
+```
+
+```{r}
+#| echo: false
+# Verifica normalizzazione
+cat("Somma di tutte le credenze:", sum(tab_joint), "\n")
+cat("✓ Coerenza verificata: la somma è esattamente 1\n")
+```
+
+
+### Significato delle probabilità nella tabella
+
+A differenza di un'interpretazione frequentista che direbbe: "Il 20% degli studenti ha un'ansia media e una prestazione sufficiente", nell'approccio bayesiano diciamo: 
+
+> "Dato il nostro stato di conoscenza (basato sulla letteratura, su dati preliminari, e su vincoli di coerenza), assegniamo una credenza pari a 0.20 alla configurazione 'ansia media e prestazione sufficiente'. Questo riflette quanto riteniamo plausibile questa combinazione prima di osservare un nuovo campione di dati."
+
+Se raccogliessimo nuovi dati, potremmo aggiornare queste credenze utilizzando il teorema di Bayes, come vedremo nei capitoli successivi.
+
+## Distribuzioni marginali: derivazione dalla congiunta
+
+Nel @sec-prob-axioms-coherence abbiamo visto che le probabilità marginali derivano dalla distribuzione congiunta mediante la somma (o l'integrale) su una dimensione. Questo principio si estende naturalmente anche alle tabelle più grandi.
+
+::: {#def-marginal-distribution}
+La *distribuzione marginale* di una variabile si ottiene sommando (marginalizzando) la distribuzione congiunta rispetto alle altre variabili. Essa rappresenta le nostre credenze su una variabile quando *non condizionamo* sull'altra.
+:::
+
+Per la variabile ansia ($Y$):
+
+$$
+P(Y=y) = \sum_{x} P(X=x, Y=y).
+$$
+
+Dalle marginali della nostra tabella:
+
+- ansia bassa: $P(Y=0) = 0.05 + 0.15 + 0.10 = 0.30$.
+- ansia media: $P(Y=1) = 0.10 + 0.20 + 0.10 = 0.40$.
+- ansia alta: $P(Y=2) = 0.15 + 0.10 + 0.05 = 0.30$.
+
+**Interpretazione epistemica:** la distribuzione marginale $P(Y)$ rappresenta le nostre credenze sull'ansia quando non conosciamo (o non vogliamo condizionare su) il livello di prestazione cognitiva. Essa "integra" su tutte le possibili prestazioni, pesandole con le credenze congiunte.[^condizionare]
+
+[^condizionare]: *Condizionare* significa aggiornare o restringere le nostre credenze a un sottoinsieme dei casi possibili, assumendo che un certo evento o valore di una variabile sia noto. Ad esempio, $P(Y \mid X=x)$ rappresenta la probabilità dell’ansia $Y$ sapendo (cioè condizionando sul fatto) che la prestazione cognitiva $X$ ha assunto il valore $x$. In termini bayesiani, il condizionamento corrisponde all’atto di incorporare nuova informazione per modificare razionalmente le probabilità precedenti.
+
+
+```{r}
+# Calcolo delle marginali
+marg_prestazione <- rowSums(tab_joint)
+marg_ansia <- colSums(tab_joint)
+```
+
+```{r}
+#| echo: false
+cat("Distribuzione marginale della Prestazione:\n")
+print(round(marg_prestazione, 2))
+cat("\nDistribuzione marginale dell'Ansia:\n")
+print(round(marg_ansia, 2))
+```
+
+Possiamo usare queste marginali per rispondere a domande come:
+
+$$
+P(X \geq 1) = P(X=1) + P(X=2) = 0.45 + 0.25 = 0.70
+$$
+
+*Interpretazione*: dato il nostro livello di conoscenza, crediamo con un grado di certezza pari a 0.70 che uno studente scelto a caso raggiunga almeno la sufficienza, indipendentemente dal livello di ansia.
+
+## Indipendenza come fattorizzazione della congiunta
+
+Nel @sec-prob-axioms-coherence abbiamo discusso l'indipendenza nel contesto degli eventi. Ora estendiamo questo concetto alle variabili casuali.
+
+::: {#def-independence}
+Due variabili casuali $X$ e $Y$ sono *indipendenti* (dal punto di vista delle nostre credenze) se la conoscenza di una non modifica le nostre credenze sull'altra. Formalmente, ciò accade quando la distribuzione congiunta si fattorizza nel prodotto delle distribuzioni marginali:
+
+$$
+p(x,y) = p(x) \cdot p(y) \quad \text{oppure} \quad f(x,y) = f(x) \cdot f(y)
 $$
 :::
 
-In altre parole: 
+**Interpretazione epistemica:** l'indipendenza significa che la nostra credenza su $X$ non cambia quando apprendiamo il valore di $Y$, e viceversa. Le due variabili sono epistemicamente separate nel nostro stato di conoscenza.
 
-- tutte le probabilità devono essere *positive*,  
-- e la loro somma (o integrale) deve essere *uguale a 1*.
+### Verifica dell'indipendenza
 
+Nel nostro esempio, verifichiamo se ansia e prestazione sono indipendenti nella nostra rappresentazione delle credenze:
+
+```{r}
+# Se fossero indipendenti, dovremmo avere P(X=0,Y=2) = P(X=0) × P(Y=2)
+p_x0_y2_observed <- tab_joint[1, 3]  # 0.15
+p_x0_y2_independence <- marg_prestazione[1] * marg_ansia[3]  # 0.30 × 0.30
+```
+
+```{r}
+#| echo: false
+cat("P(X=0, Y=2) osservata:", p_x0_y2_observed, "\n")
+cat("P(X=0) × P(Y=2) sotto indipendenza:", 
+    round(p_x0_y2_independence, 3), "\n")
+cat("\nLe variabili sono indipendenti?", 
+    ifelse(abs(p_x0_y2_observed - p_x0_y2_independence) < 0.01, "Sì", "No"), "\n")
+```
+
+Come suggerisce la letteratura [@eysenck2007anxiety], ansia e prestazione sono *dipendenti* nelle nostre credenze: crediamo che un'alta ansia renda meno probabili le buone prestazioni. Questa dipendenza è codificata nella struttura della distribuzione congiunta.
+
+**Implicazione:** se le variabili fossero indipendenti, basterebbe conoscere le distribuzioni marginali per ricostruire completamente la distribuzione congiunta. Tuttavia, quando le variabili sono dipendenti (come nel nostro caso), la distribuzione congiunta contiene informazioni aggiuntive essenziali sulla struttura della loro relazione.
 
 ## Distribuzioni congiunte e inferenza bayesiana
 
-In questo libro ci concentreremo soprattutto sull’inferenza bayesiana, che si fonda proprio sul concetto di distribuzione congiunta. In termini generali, l’inferenza bayesiana mira a descrivere la distribuzione a posteriori dei parametri del modello, cioè la probabilità dei parametri dati i dati osservati.
+La distribuzione congiunta gioca un ruolo centrale nell'inferenza bayesiana, come anticipato nel @sec-prob-axioms-coherence.
 
-Questa distribuzione a posteriori deriva dalla combinazione di:
+### Il modello generativo bayesiano
 
-1. una distribuzione a priori sui parametri, che esprime le conoscenze (o le ipotesi) disponibili prima di osservare i dati;
-2. la distribuzione di verosimiglianza, che è una distribuzione congiunta dei dati osservati, condizionata ai parametri.
+In un'analisi bayesiana, si lavora con tre distribuzioni fondamentali:
 
-Se i dati costituiscono un campione casuale indipendente e identicamente distribuito (i.i.d.), allora la verosimiglianza — cioè la *distribuzione congiunta* delle osservazioni — si ottiene come prodotto delle densità di ogni singola osservazione:
+1. **prior** $p(\theta)$: nostre credenze iniziali sui parametri;
+2. **verosimiglianza** $p(y_1, \ldots, y_n \mid \theta)$: distribuzione congiunta dei dati condizionata ai parametri;
+3. **posterior** $p(\theta \mid y_1, \ldots, y_n)$: credenze aggiornate sui parametri dopo aver osservato i dati.
 
-$$
-p(y_1, y_2, \dots, y_n \mid \theta) = \prod_{i=1}^n p(y_i \mid \theta).
-$$
-Poiché il prodotto di molte densità può rapidamente generare numeri molto piccoli (problema di *underflow numerico*), nella pratica si lavora quasi sempre con la *log-verosimiglianza* (o *log-densità congiunta*):
+### Verosimiglianza come distribuzione congiunta
 
-$$
-\log p(y_1, \dots, y_n \mid \theta) = \sum_{i=1}^n \log p(y_i \mid \theta).
-$$
-Questo passaggio non cambia la sostanza matematica del problema, ma rende i calcoli più stabili e più facili da gestire al computer.
+La verosimiglianza è una distribuzione congiunta particolare che rappresenta le nostre credenze sui dati che osserveremo, dati i valori ipotetici dei parametri $\theta$.
 
-
-## Un esempio psicologico: ansia e prestazione
-
-Consideriamo un esempio tratto dalla letteratura psicologica: la relazione tra *ansia (Y)* e *prestazione cognitiva (X)* in studenti universitari. La ricerca psicologica indica spesso una relazione negativa tra questi due fattori: livelli elevati di ansia possono associarsi a prestazioni cognitive inferiori [@eysenck2007anxiety].
-
-Supponiamo di aver valutato due variabili discrete in un gruppo di studenti:
-
-- *Ansia*: bassa, media, alta (codificata come Y = 0, 1, 2);
-- *Prestazione cognitiva*: insufficiente, sufficiente, buona (codificata come X = 0, 1, 2).
-
-La distribuzione congiunta potrebbe essere rappresentata nella seguente tabella (i dati sono ipotetici ma coerenti con la letteratura):
-
-|               | Ansia Bassa (0) | Ansia Media (1) | Ansia Alta (2) |
-|---------------|-----------------|-----------------|----------------|
-| Insufficiente (0) | 0.05            | 0.10            | 0.15           |
-| Sufficiente (1)   | 0.15            | 0.20            | 0.10           |
-| Buona (2)         | 0.10            | 0.10            | 0.05           |
-
-
-I valori nella tabella rappresentano stime empiriche delle probabilità congiunte, ovvero le proporzioni osservate di studenti che hanno manifestato una specifica combinazione di livelli delle due variabili. Ad esempio, la cella corrispondente a "Ansia Media" e "Prestazione Sufficiente" indica che il 20% degli studenti nel campione considerato ha un livello medio di ansia ed ha ottenuto prestazioni sufficienti nel compito cognitivo.
-
-Questa tabella ci consente di calcolare probabilità interessanti. Ad esempio, la probabilità che uno studente raggiunga almeno la sufficienza, indipendentemente dall’ansia:
+Per dati indipendenti e identicamente distribuiti (i.i.d.), la distribuzione congiunta si fattorizza:
 
 $$
-P(X \geq 1) = 0.15 + 0.20 + 0.10 + 0.10 + 0.10 + 0.05 = 0.70 .
+p(y_1, y_2, \dots, y_n \mid \theta) = \prod_{i=1}^n p(y_i \mid \theta)
 $$
 
-## Distribuzioni marginali
+**Interpretazione epistemica:** se si assume che le osservazioni siano indipendenti da $\theta$ (cioè, conoscere $\theta$ rende le osservazioni epistemicamente indipendenti), allora la credenza sulla configurazione congiunta dei dati è il prodotto delle credenze sulle singole osservazioni.
 
-Dalla distribuzione congiunta possiamo ricavare le distribuzioni marginali delle singole variabili, cioè la probabilità che una variabile assuma un certo valore indipendentemente dall’altra.
+### Log-verosimiglianza
 
-Per l'ansia:
+Per motivi di stabilità numerica, lavoriamo quasi sempre con la log-verosimiglianza:
 
-- ansia bassa:
-$$P(Y=0)=0.05+0.15+0.10=0.30 .$$
-- ansia media:
-$$P(Y=1)=0.10+0.20+0.10=0.40 .$$
-- ansia alta:
-$$P(Y=2)=0.15+0.10+0.05=0.30 .$$
+$$
+\log p(y_1, \dots, y_n \mid \theta) = \sum_{i=1}^n \log p(y_i \mid \theta)
+$$
 
-Queste distribuzioni ci dicono, ad esempio, che nel campione il 40% degli studenti ha ansia media.
+Questo trasforma il prodotto in somma, evitando problemi di *underflow numerico* (il prodotto di molte probabilità piccole può generare numeri troppo piccoli per essere rappresentati dal computer).
 
+**Nota importante:** il logaritmo è una trasformazione monotona, quindi massimizzare la log-verosimiglianza equivale a massimizzare la verosimiglianza. Ciò non cambia il valore di $\theta$ che riteniamo più plausibile alla luce dei dati.
 
-## Indipendenza e dipendenza 
+## Il caso continuo: densità congiunte
 
-Due variabili casuali $X$ e $Y$ si dicono *indipendenti* se la loro distribuzione congiunta si fattorizza nelle rispettive distribuzioni marginali:
+Quando le variabili sono continue, la distribuzione congiunta è rappresentata da una *densità* $f(x,y)$ piuttosto che da probabilità discrete. L'interpretazione epistemica rimane la stessa: la densità indica quanto riteniamo plausibile una determinata configurazione.
 
-$$p(x,y)=p(x)p(y) \quad \text{oppure} \quad f(x,y)=f(x)f(y) .$$
+### Visualizzazione: mappa termica della credenza
 
-Nel nostro esempio, se ansia e prestazione fossero indipendenti, dovremmo avere:
+Possiamo visualizzare una densità congiunta come una mappa termica, in cui:
 
-$$P(X=0,Y=2)=P(X=0)P(Y=2) .$$
-
-In realtà, come suggerisce la letteratura [@eysenck2007anxiety], ansia e prestazione tendono a essere dipendenti: più alta è l’ansia, minore è la probabilità di buone prestazioni.
-
-
-## Il caso continuo: una mappa termica
-
-Se invece misuriamo ansia e prestazione come variabili continue (es. punteggi su scale numeriche), la distribuzione congiunta è una densità. Possiamo rappresentarla come una mappa termica:
-
-- asse X = ansia,
-- asse Y = prestazione,
-- colori più caldi = combinazioni più probabili.
-
-Un esempio simulato mostra che la maggior parte degli studenti si concentra intorno a bassa ansia (30) e buona prestazione (70), mentre i punteggi più alti di ansia si associano a prestazioni più basse.
+- asse X: punteggio dell'ansia;
+- asse Y: punteggio della prestazione cognitiva;
+- i colori più caldi indicano le configurazioni a cui assegniamo maggiore credenza.
 
 ```{r fig.asp=1}
 #| echo: false
-# Parametri
-mu <- c(30, 70)
-sigma_x <- 10
-sigma_y <- 15
-rho <- -0.7
+# Parametri della distribuzione bivariata normale
+# Questi parametri codificano le nostre credenze basate sulla letteratura
+mu <- c(30, 70)  # Ansia media bassa, prestazione media alta
+sigma_x <- 10    # Incertezza sull'ansia
+sigma_y <- 15    # Incertezza sulla prestazione
+rho <- -0.7      # Correlazione negativa (dalla letteratura)
 
-# Matrice di covarianza
+# Matrice di covarianza che codifica la struttura delle nostre credenze
 Sigma <- matrix(
   c(
     sigma_x^2, rho * sigma_x * sigma_y,
@@ -198,90 +325,111 @@ Sigma <- matrix(
   nrow = 2
 )
 
-# Generiamo 500 osservazioni casuali
+# Simuliamo dati da questa distribuzione di credenza
 set.seed(123)
 dati <- as.data.frame(mvrnorm(500, mu, Sigma))
 colnames(dati) <- c("Ansia", "Prestazione")
 
-# Grafico con mappa termica della densità congiunta e punti
+# Grafico con mappa termica della densità congiunta
 grafico <- ggplot(
   dati, aes(x = Ansia, y = Prestazione)
 ) +
   stat_density_2d(
-    aes(fill = ..density..),
+    aes(fill = after_stat(density)),
     geom = "raster", contour = FALSE
   ) +
-  scale_fill_viridis(option = "viridis") +
-  geom_density_2d(
-    color = "black", linewidth = 0.5, linetype = "dotted"
+  scale_fill_viridis(
+    option = "viridis",
+    name = "Densità di\ncredenza"
   ) +
-  geom_point(alpha = 0.3, size = 0.8) +
+  geom_density_2d(
+    color = "white", linewidth = 0.5, linetype = "dotted"
+  ) +
+  geom_point(alpha = 0.2, size = 0.8, color = "white") +
   labs(
+    title = "Distribuzione congiunta di credenza: Ansia e Prestazione",
+    subtitle = "Colori più chiari = configurazioni cui assegniamo maggiore plausibilità",
     x = "Punteggio Ansia",
-    y = "Punteggio Prestazione Cognitiva"
-  )
+    y = "Punteggio Prestazione Cognitiva",
+    caption = "Basata su Eysenck et al. (2007)"
+  ) +
+  theme_minimal()
 
 # Aggiungere grafici marginali delle densità
 grafico_finale <- ggMarginal(
   grafico,
   type = "density",
-  fill = "lightblue", color = "black"
+  fill = "lightblue", 
+  color = "black"
 )
 
 # Visualizza il grafico
 grafico_finale
 ```
 
-Questa visualizzazione rende immediato vedere la relazione negativa tra le due variabili [@eysenck2007anxiety].
+**Interpretazione epistemica della visualizzazione:**
 
-### Marginali e condizionali con variabili continue
+- La regione più chiara (centro-sinistra in alto) rappresenta le configurazioni a cui assegniamo la massima credenza: bassa ansia e buona prestazione.
+- Le regioni più scure (angolo in alto a destra) indicano le configurazioni a cui attribuiamo una bassa probabilità: alta ansia con buona prestazione.
+- La correlazione negativa visibile riflette la nostra conoscenza della letteratura [@eysenck2007anxiety].
 
-Quando lavoriamo con variabili continue, non possiamo semplicemente contare le combinazioni come nel caso discreto (ad esempio, lanci di un dado). Invece, misuriamo la probabilità calcolando l'area della regione interessata sulla nostra mappa termica:
+### Marginali e condizionali nel caso continuo
 
-- la probabilità che l'ansia sia tra 50 e 55, e la prestazione tra 30 e 50, è rappresentata dall'area della regione corrispondente nella mappa termica;
-- gli integrali (strumenti matematici per calcolare aree) sono semplicemente un modo preciso per fare questa operazione.
+Nel caso continuo, le operazioni di marginalizzazione e condizionamento coinvolgono integrali invece di somme, ma l'interpretazione epistemica rimane invariata.
 
-#### Densità marginale: proiettare la mappa su un asse
+#### Densità marginale: proiettare la credenza su un asse
 
-La densità marginale descrive come si distribuisce una singola variabile, prescindendo completamente dall'altra. Possiamo immaginare questo processo come la proiezione della mappa termica su uno degli assi, ottenendo così un'ombra o una proiezione dell'intera distribuzione:
+La densità marginale si ottiene integrando (marginalizzando) la densità congiunta:
 
-- proiettando tutti i valori sull'asse dell'ansia, si ottiene la densità marginale dell'ansia;
-- proiettando tutti i valori sull'asse della prestazione, si ottiene la densità marginale della prestazione.
+$$
+f_X(x) = \int_{-\infty}^{+\infty} f(x,y) \, dy
+$$
 
-Queste proiezioni rivelano la distribuzione di ciascuna variabile considerata isolatamente. Nella figura a cui si fa riferimento, le distribuzioni marginali sono state elaborate utilizzando in modo indipendente i dati relativi a ciascuna variabile, senza considerare le loro interrelazioni.
+**Interpretazione epistemica:** la distribuzione marginale $f_X(x)$ rappresenta le nostre credenze su $X$ quando non conosciamo (o non condizionamo su) il valore di $Y$. Essa "integra" su tutti i possibili valori di $Y$, pesandoli con le credenze congiunte.
 
-Infatti, i colori più caldi nella mappa termica indicano zone con maggiore densità di osservazioni. Quando proiettiamo questi valori su un asse, otteniamo una curva di densità che rappresenta la distribuzione della variabile. Le aree dove la curva raggiunge valori più alti corrispondono ai valori più frequenti della variabile nella popolazione studiata.
+**Visualizzazione:** i grafici ai margini della figura mostrano le densità marginali. Questi grafici rappresentano le nostre credenze "proiettate" su ciascuna variabile singolarmente.
 
-#### Densità condizionale: fette della mappa termica
+#### Densità condizionale: aggiornamento delle credenze
 
-La densità condizionale risponde alla domanda: "Se osservo persone con un determinato punteggio di prestazione cognitiva (ad esempio 40 punti), qual è la distribuzione dell'ansia tra queste persone?"
+La densità condizionale risponde alla domanda epistemica: "Se venissi a conoscenza del fatto che la prestazione è esattamente di 40 punti, come dovrei aggiornare le mie credenze sull'ansia?"
 
-- Immaginate di prendere una fetta verticale della mappa termica in corrispondenza della prestazione = 40 punti. Questa fetta mostra la distribuzione dell'ansia soltanto tra coloro che hanno esattamente quella prestazione cognitiva.
-- Per rendere questa distribuzione coerente, normalizziamo (cioè "aggiustiamo") la fetta rispetto alla probabilità complessiva della prestazione a quel livello.
+$$
+f_{X|Y}(x \mid y) = \frac{f(x,y)}{f_Y(y)}.
+$$
 
-Questa fetta verticale con i suoi vari colori (più caldi dove c'è maggiore densità) può essere convertita in una curva di densità che mostra come si distribuisce l'ansia specificamente per le persone con quel determinato livello di prestazione cognitiva. Il processo di normalizzazione assicura che l'area sotto questa curva di densità condizionale sia uguale a 1, consentendo confronti tra diverse condizioni.
+**Interpretazione epistemica:** si tratta di un'applicazione del condizionamento bayesiano. A partire dalla congiunta, "selezioniamo" solo le configurazioni compatibili con l'osservazione $Y=y$ e rinormalizziamo per ottenere una distribuzione di credenza valida.
 
-#### Perché è importante in psicologia?
+**Visualizzazione mentale:** immagina di prendere una "fetta verticale" della mappa termica corrispondente a un valore specifico di prestazione. Questa fetta, opportunamente normalizzata, rappresenta la distribuzione condizionale dell'ansia in relazione a quel valore di prestazione.
 
-Studiare distribuzioni congiunte è cruciale perché
+## Perché le distribuzioni congiunte sono cruciali in psicologia
 
-- mette in luce relazioni complesse tra variabili psicologiche (lineari, curvilinee, bimodali, cluster);
-- rivela informazioni che andrebbero perse se osservassimo solo le marginali;
-- permette di analizzare fenomeni realistici, in cui costrutti come ansia, motivazione o prestazione non agiscono mai isolatamente.
+::: {.callout-important icon=false}
+## Importanza per la ricerca psicologica
 
+Studiare le distribuzioni congiunte è fondamentale perché:
+
+1. **Coglie la complessità dei fenomeni psicologici**: i costrutti psicologici (ansia, motivazione, prestazione, tratti di personalità) raramente agiscono in isolamento, ma attraverso reti complesse di influenze reciproche.
+
+2. **Rivela strutture nascoste**: relazioni non-lineari, interazioni, cluster di configurazioni plausibili che andrebbero persi osservando solo le distribuzioni marginali.
+
+3. **Permette un'inferenza sofisticata**: una volta specificata la distribuzione congiunta, è possibile rispondere a qualsiasi domanda probabilistica di interesse (marginali, condizionali, eventi complessi).
+
+4. **Formalizza l'incertezza multidimensionale**: esprime in modo rigoroso l'incertezza simultanea su più aspetti di un fenomeno.
+
+5. **Base per modelli bayesiani avanzati**: modelli gerarchici, misture, processi gaussiani si fondano tutti su distribuzioni congiunte opportunamente strutturate.
+:::
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-La distribuzione congiunta rappresenta uno strumento fondamentale per l'analisi multivariata in psicologia, permettendo di studiare simultaneamente il comportamento di multiple variabili aleatorie e le loro interrelazioni. Questo approccio risulta particolarmente prezioso nella ricerca psicologica, dove i fenomeni oggetto di studio - come l'ansia, la prestazione cognitiva, la motivazione o i tratti di personalità - raramente si manifestano in isolamento, ma piuttosto attraverso complesse reti di influenze reciproche.
+La distribuzione congiunta costituisce lo strumento fondamentale per esprimere in modo coerente le nostre credenze riguardo a sistemi multivariati. In questo capitolo abbiamo esteso i concetti introdotti nel @sec-prob-axioms-coherence, dimostrando come le tabelle congiunte 2×2 si generalizzino in tre direzioni principali.
 
-I concetti di densità congiunta, marginale e condizionale costituiscono la base per un'analisi rigorosa delle relazioni tra variabili psicologiche continue. Questi strumenti consentono di esplorare come i costrutti psicologici interagiscono e si influenzano reciprocamente, offrendo un quadro analitico per comprendere la complessità dei fenomeni mentali e comportamentali.
+In primo luogo, le tabelle con più categorie rappresentano un'estensione naturale per le variabili che presentano molti livelli. In secondo luogo, le densità continue emergono quando le variabili assumono valori su scale continue. Infine, nell'inferenza bayesiana, la verosimiglianza si configura essa stessa come una distribuzione congiunta.
 
-Il passaggio concettuale dalle variabili discrete a quelle continue, pur richiedendo l'adozione di strumenti matematici più sofisticati (integrali invece di somme), mantiene intatta la sua intuizione fondamentale. La logica appresa nel caso discreto continua a fornire una solida base interpretativa anche per i fenomeni continui, che meglio rappresentano la realtà della misurazione psicologica.
+Alcuni principi chiave ricorrono costantemente nell'analisi delle distribuzioni congiunte. La distribuzione congiunta rappresenta la rappresentazione più completa delle nostre credenze su un sistema. Tutte le altre quantità probabilistiche, come le distribuzioni marginali e condizionali, derivano direttamente dalla congiunta tramite operazioni matematiche ben definite. Le proprietà di coerenza, come la non negatività e la normalizzazione, sono vincoli logici piuttosto che mere convenzioni matematiche. L'indipendenza, infine, rappresenta un caso speciale in cui la distribuzione congiunta si fattorizza, una condizione che si verifica raramente nei fenomeni psicologici reali.
 
-Questo framework analitico prepara il terreno per la successiva quantificazione delle relazioni tra variabili attraverso indicatori come la covarianza e la correlazione. Questi strumenti, che saranno approfonditi nel prossimo capitolo, permetteranno di misurare sistematicamente la forza e la direzione delle associazioni psicologiche, trasformando le osservazioni qualitative in relazioni quantitative verificabili.
+Nel prossimo capitolo affronteremo la quantificazione di un aspetto specifico delle relazioni espresse dalle distribuzioni congiunte: la tendenza alla covarianza lineare. Introdurremo la covarianza e la correlazione come indici numerici che sintetizzano in modo compatto la struttura di dipendenza lineare codificata nella distribuzione congiunta.
 
-L'approccio attraverso le distribuzioni congiunte non solo fornisce un linguaggio formale per descrivere le relazioni psicologiche, ma stabilisce anche le fondamenta per modelli più avanzati di analisi dei dati, aprendo la strada a una comprensione sempre più sofisticata dei meccanismi che regolano il comportamento umano e i processi mentali.
-
+È fondamentale sottolineare che questi indici rappresentano soltanto dei riassunti della distribuzione congiunta. Sebbene catturino efficacemente l'aspetto lineare della relazione, la distribuzione congiunta contiene informazioni molto più ricche e complete riguardo alla struttura delle nostre credenze, informazioni che vanno ben oltre quanto possa essere espresso da un singolo indice numerico.
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}
@@ -290,5 +438,3 @@ sessionInfo()
 :::
 
 ## Bibliografia {.unnumbered .unlisted}
-
-

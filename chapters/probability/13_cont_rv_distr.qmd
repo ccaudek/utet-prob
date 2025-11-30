@@ -1,0 +1,616 @@
+# Distribuzioni di variabili casuali continue {#sec-prob-cont-distr}
+
+::: {.callout-tip}
+## Prerequisiti
+
+- @sec-prob-intro-distr: introduzione alle distribuzioni di probabilità.
+- @sec-prob-discr-distr: distribuzioni discrete.
+:::
+
+::: {.callout-caution}
+## Preparazione del Notebook
+
+```{r}
+here::here("code", "_common.R") |> 
+  source()
+```
+:::
+
+## Introduzione {.unnumbered .unlisted}
+
+Nel @sec-prob-discr-distr abbiamo esplorato le distribuzioni discrete come strumenti per rappresentare credenze su fenomeni con esiti numerabili. In questo capitolo estendiamo il framework alle *distribuzioni continue*, che permettono di esprimere credenze su quantità che assumono valori su scale numeriche continue, come tempi, distanze, proporzioni, tassi e punteggi psicometrici.
+
+Le distribuzioni continue svolgono un ruolo complementare a quello delle distribuzioni discrete nel framework bayesiano. Come **verosimiglianza per i dati continui**, diverse famiglie di distribuzioni catturano diversi tipi di processi generativi: la normale per le misurazioni con errori simmetrici, l'esponenziale per i tempi di attesa e la gamma per le variabili positive asimmetriche. Queste distribuzioni esprimono e aggiornano le nostre credenze come prior e posterior su parametri continui: la beta per probabilità $p \in (0,1)$, la gamma per tassi $\lambda > 0$, la normale per medie $\mu \in \mathbb{R}$, e la Cauchy e la $t$ di Student per prior robusti con code pesanti.
+
+Una caratteristica elegante dell'inferenza bayesiana è la **dualità discreta-continua** espressa dalle famiglie coniugate: la distribuzione binomiale si accompagna alla beta e la Poisson alla gamma. Questa simmetria, introdotta nel capitolo precedente, trova ora il suo completamento con l'esplorazione delle distribuzioni continue che fungono da prior naturali per i parametri delle distribuzioni discrete.
+
+### Struttura del capitolo {.unnumbered .unlisted}
+
+L'esplorazione seguirà una progressione che partirà da distribuzioni più semplici per arrivare a quelle con ruoli più specifici nell'inferenza bayesiana. Inizieremo con la distribuzione **uniforme**, che rappresenta il caso di massima ignoranza su un intervallo. Poi passeremo all'**esponenziale**, fondamentale per modellare tempi di attesa, e alla **normale**, centrale per il Teorema del Limite Centrale. Esamineremo poi la distribuzione **chi-quadrato** e la **$t$ di Student**, che derivano dalla distribuzione normale e trovano applicazione come prior robusti. Concluderemo con le distribuzioni di maggiore rilevanza bayesiana: la **beta** come prior per le proporzioni, la **gamma** come prior per tassi e varianze e la **Cauchy** come prior robusto a code pesanti.
+
+Per ciascuna di queste distribuzioni, presenteremo la definizione matematica, l'interpretazione epistemica dei parametri, il ruolo nell'inferenza bayesiana e le applicazioni pratiche in R.
+
+## Distribuzione uniforme continua
+
+### Definizione e interpretazione epistemica
+
+La distribuzione uniforme continua rappresenta lo stato di massima ignoranza all'interno di un intervallo definito: ogni valore nell'intervallo è ritenuto ugualmente plausibile.
+
+::: {#def-uniform-cont}
+Una variabile casuale $X$ segue una distribuzione uniforme sull'intervallo $[a, b]$ se la sua densità è costante:
+
+$$
+X \sim \text{Uniforme}(a, b), \quad f(x) = \frac{1}{b-a} \text{ per } x \in [a,b].
+$$
+
+**Proprietà**: $\mathbb{E}(X) = \frac{a+b}{2}$, $\mathbb{V}(X) = \frac{(b-a)^2}{12}$.
+:::
+
+**Interpretazione epistemica**: la distribuzione uniforme codifica il *principio di indifferenza*, secondo il quale, quando non abbiamo ragioni per preferire un valore rispetto a un altro all'interno dell'intervallo, assegniamo la stessa probabilità a tutti i valori. Si tratta dell'analogo continuo della distribuzione uniforme discreta.
+
+### Ruolo nell'inferenza bayesiana
+
+La distribuzione uniforme viene impiegata come **prior non informativa** quando si vuole esprimere l'assenza di conoscenze pregresse su un parametro vincolato a un intervallo. Ad esempio, $\text{Uniforme}(0, 1)$ è equivalente alla distribuzione $\text{Beta}(1, 1)$ e rappresenta l'ignoranza riguardo a una proporzione.
+
+**Limiti come prior**: la distribuzione uniforme può essere "troppo informativa" in alcuni contesti, in quanto assegna una credenza pari a zero ai valori esterni all'intervallo. Prior come la Cauchy o la $t$ di Student sono spesso preferite quando non si desidera escludere completamente i valori estremi.
+
+### Calcolo delle probabilità
+
+La probabilità che $X$ assuma valori in un sottointervallo $[c, d] \subseteq [a, b]$ è proporzionale alla lunghezza del sottointervallo:
+
+$$
+P(c \leq X \leq d) = \frac{d - c}{b - a}.
+$$
+
+```{r}
+# Esempio: probabilità che uno spinner (0-360°) si fermi tra 150° e 250°
+prob <- (250 - 150) / 360
+cat("P(150 ≤ X ≤ 250) =", round(prob, 4), "\n")
+
+# Equivalente con funzione R
+punif(250, min = 0, max = 360) - punif(150, min = 0, max = 360)
+```
+
+### Visualizzazione
+
+```{r}
+x <- seq(-50, 410, length.out = 500)
+density_uniform <- dunif(x, min = 0, max = 360)
+
+ggplot(data.frame(x = x, y = density_uniform), aes(x = x, y = y)) +
+  geom_line(linewidth = 1.2, color = "blue") +
+  geom_area(
+    data = subset(data.frame(x, y = density_uniform), x >= 150 & x <= 250),
+    aes(x = x, y = y), 
+    fill = "steelblue", alpha = 0.5
+  ) +
+  labs(
+    title = "Distribuzione Uniforme (0, 360)",
+    subtitle = "Area evidenziata: P(150 ≤ X ≤ 250)",
+    x = "x", y = "Densità f(x)"
+  ) +
+  theme_minimal()
+```
+
+## Distribuzione esponenziale
+
+### Definizione e interpretazione epistemica
+
+La distribuzione esponenziale modella il tempo di attesa fino al verificarsi di un evento, assumendo che il tasso di occorrenza sia costante nel tempo.
+
+::: {#def-exponential}
+Una variabile casuale $X$ segue una distribuzione esponenziale con parametro di tasso $\lambda > 0$ se:
+
+$$
+X \sim \text{Exp}(\lambda), \quad f(x) = \lambda e^{-\lambda x} \text{ per } x \geq 0.
+$$
+
+**Proprietà**: $\mathbb{E}(X) = \frac{1}{\lambda}$, $\mathbb{V}(X) = \frac{1}{\lambda^2}$.
+:::
+
+**Interpretazione epistemica**: il parametro $\lambda$ rappresenta il tasso atteso di occorrenza degli eventi per unità di tempo. Un valore alto di $\lambda$ indica eventi frequenti (tempi di attesa brevi), mentre un valore basso indica eventi rari (tempi di attesa lunghi).
+
+### Proprietà di assenza di memoria
+
+La caratteristica distintiva dell'esponenziale è la *proprietà di assenza di memoria*: la probabilità che un evento si verifichi in un intervallo futuro è indipendente dal tempo già trascorso. Formalmente:
+
+$$
+P(X > s + t \mid X > s) = P(X > t).
+$$
+
+Questa proprietà riflette l'assunzione che il processo non "accumula" né "consuma" probabilità con il passare del tempo: ogni istante è un nuovo inizio.
+
+### Ruolo nell'inferenza bayesiana
+
+La distribuzione esponenziale costituisce un caso particolare della distribuzione gamma, formalmente esprimibile come $\text{Gamma}(1, \lambda)$. Nel contesto dell'inferenza bayesiana, essa assume un duplice ruolo. In qualità di funzione di verosimiglianza, viene tipicamente utilizzata per modellare variabili temporali continue, come i tempi di attesa, le durate degli eventi o gli intervalli tra le occorrenze successive. Per quanto riguarda l'aggiornamento bayesiano, la distribuzione gamma rappresenta la distribuzione a priori coniugata per il parametro di velocità $\lambda$, consentendo così di ottenere una distribuzione a posteriori in forma chiusa e appartenente alla stessa famiglia distributiva.
+
+### Esempio: tempi di attesa
+
+```{r}
+# Tempo medio di attesa: 4 giorni (lambda = 0.25)
+lambda <- 0.25
+
+# Probabilità di attesa ≤ 1.5 giorni
+cat("P(X ≤ 1.5) =", round(pexp(1.5, rate = lambda), 3), "\n")
+
+# Probabilità di attesa tra 1 e 6 giorni
+cat("P(1 ≤ X ≤ 6) =", round(pexp(6, rate = lambda) - pexp(1, rate = lambda), 3), "\n")
+```
+
+```{r}
+x <- seq(0, 20, by = 0.1)
+pdf <- dexp(x, rate = lambda)
+
+ggplot(data.frame(x = x, y = pdf), aes(x = x, y = y)) +
+  geom_line(linewidth = 1.2, color = "darkblue") +
+  geom_area(
+    data = subset(data.frame(x, y = pdf), x >= 1 & x <= 6),
+    fill = "steelblue", alpha = 0.5
+  ) +
+  labs(
+    title = "Distribuzione Esponenziale (λ = 0.25)",
+    subtitle = "Area evidenziata: P(1 ≤ X ≤ 6)",
+    x = "Tempo di attesa (giorni)", y = "Densità"
+  ) +
+  theme_minimal()
+```
+
+## Distribuzione normale
+
+### Definizione e interpretazione epistemica
+
+La distribuzione normale (o gaussiana) emerge naturalmente come risultato della somma di molti effetti casuali indipendenti, un principio formalizzato dal Teorema del Limite Centrale. Questa proprietà la rende centrale nella modellazione di fenomeni psicologici influenzati da molteplici fattori.
+
+::: {#def-normal}
+Una variabile casuale $Y$ segue una distribuzione normale con media $\mu$ e deviazione standard $\sigma$ se:
+
+$$
+Y \sim \mathcal{N}(\mu, \sigma^2), \quad f(y) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(y - \mu)^2}{2\sigma^2}\right).
+$$
+
+**Proprietà**: $\mathbb{E}(Y) = \mu$, $\mathbb{V}(Y) = \sigma^2$.
+:::
+
+**Interpretazione epistemica dei parametri**:
+
+- il parametro $\mu$ rappresenta il valore atteso, costituendo il "centro di massa" attorno al quale si concentrano le nostre credenze;
+- il parametro $\sigma$ quantifica il grado di incertezza associato a tali credenze, indicando quanto riteniamo plausibile che i valori veri possano discostarsi dal valore centrale $\mu$.
+
+### Ruolo nell'inferenza bayesiana
+
+La distribuzione normale occupa una posizione centrale nell'inferenza bayesiana e si rivela utile in molti contesti applicativi. In qualità di verosimiglianza, viene comunemente impiegata per modellare una vasta gamma di fenomeni continui, quali gli errori di misurazione, i punteggi psicometrici e le variabili di natura biologica. Quando viene utilizzata come distribuzione a priori per i parametri di posizione, nella forma $\mu \sim \mathcal{N}(\mu_0, \sigma_0^2)$, essa permette di esprimere formalmente le credenze iniziali riguardo alla posizione del parametro di interesse. Un'ulteriore proprietà che ne accresce l'utilità pratica è la coniugazione: se la varianza $\sigma^2$ è nota, la distribuzione normale si configura come prior coniugata per il parametro $\mu$, garantendo che la distribuzione a posteriori appartenga alla stessa famiglia distributiva.
+
+### La regola 68-95-99.7
+
+La distribuzione normale possiede una proprietà universale che rimane invariata indipendentemente dai valori specifici dei parametri $\mu$ e $\sigma$. In particolare, si può affermare che approssimativamente il 68.3% della massa probabilistica è concentrato entro un intervallo di più o meno una deviazione standard dalla media, percentuale che sale al 95.4% quando si considera un intervallo di due deviazioni standard e raggiunge il 99.7% per uno scarto di tre deviazioni standard.
+
+Questa caratteristica fondamentale conferisce alla deviazione standard il ruolo di unità di misura naturale per quantificare la "distanza dalla media" in termini probabilistici, trasformandola da semplice misura di dispersione a strumento per l'interpretazione probabilistica della distribuzione.
+
+### Il Teorema del Limite Centrale in azione
+
+La normale emerge dalla somma di effetti casuali indipendenti. Visualizziamo questo fenomeno con una simulazione di passeggiate casuali [@McElreath_rethinking]:
+
+```{r}
+set.seed(123)
+n_partecipanti <- 1000
+n_passi <- 16
+
+# Ogni partecipante compie 16 passi casuali in [-1, +1]
+spostamenti <- matrix(runif(n_partecipanti * n_passi, min = -1, max = 1), ncol = n_passi)
+posizioni_finali <- rowSums(spostamenti)
+
+# Visualizzazione
+ggplot(data.frame(Posizione = posizioni_finali), aes(x = Posizione)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", alpha = 0.7) +
+  stat_function(
+    fun = dnorm, 
+    args = list(mean = mean(posizioni_finali), sd = sd(posizioni_finali)), 
+    color = "red", linewidth = 1
+  ) +
+  labs(
+    title = "Teorema del Limite Centrale",
+    subtitle = "Somma di 16 variabili uniformi converge alla normale",
+    x = "Posizione finale", y = "Densità"
+  ) +
+  theme_minimal()
+```
+
+Nonostante ogni singolo passo segua una distribuzione uniforme, la distribuzione delle posizioni finali approssima una distribuzione normale, dimostrando empiricamente il TLC.
+
+### Visualizzazione degli intervalli di credibilità
+
+```{r}
+mu <- 100
+sigma <- 15
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
+df <- data.frame(x = x, pdf = dnorm(x, mu, sigma))
+
+ggplot(df, aes(x = x, y = pdf)) +
+  geom_line(color = "blue") +
+  geom_area(
+    data = subset(df, x >= mu - 1.96*sigma & x <= mu + 1.96*sigma),
+    fill = "steelblue", alpha = 0.5
+  ) +
+  labs(
+    title = "Distribuzione Normale (μ = 100, σ = 15)",
+    subtitle = "Il 95% della massa si trova entro ±1.96σ dalla media",
+    x = "Valori", y = "Densità"
+  ) +
+  theme_minimal()
+```
+
+## Distribuzione chi-quadrato
+
+### Definizione e interpretazione epistemica
+
+La distribuzione chi-quadrato emerge dalla somma dei quadrati di variabili normali standard indipendenti.
+
+::: {#def-chisq}
+Se $Z_1, \ldots, Z_k$ sono variabili casuali i.i.d. con distribuzione $\mathcal{N}(0, 1)$, allora:
+
+$$
+X = Z_1^2 + Z_2^2 + \cdots + Z_k^2 \sim \chi^2_k
+$$
+
+dove $k$ sono i *gradi di libertà*.
+
+**Proprietà**: $\mathbb{E}(X) = k$, $\mathbb{V}(X) = 2k$.
+:::
+
+**Interpretazione epistemica**: la distribuzione chi-quadrato quantifica la "dispersione quadratica" delle variabili normali. I gradi di libertà $k$ determinano quante fonti indipendenti di variazione contribuiscono alla somma.
+
+### Ruolo nell'inferenza bayesiana
+
+La distribuzione chi-quadrato è un caso particolare della distribuzione gamma, essendo formalmente equivalente a $\chi^2_k = \text{Gamma}(k/2, 1/2)$. Nell'ambito dell'inferenza bayesiana, questa distribuzione ricopre un ruolo in diversi contesti. Emerge naturalmente nella modellazione delle varianze campionarie, fornendo una base teorica per l'analisi della variabilità dei dati. La sua trasformazione inversa, nota come distribuzione chi-quadrato inversa, costituisce la distribuzione a priori coniugata per il parametro di varianza $\sigma^2$ nel modello normale con media nota, facilitando l'aggiornamento bayesiano in forma chiusa. Inoltre, la distribuzione chi-quadrato compare implicitamente in molte strutture modellistiche gerarchiche, in particolare quando si intende rappresentare formalmente l'incertezza associata al parametro di precisione.
+
+### Visualizzazione
+
+```{r}
+x <- seq(0, 40, by = 0.1)
+nus <- c(2, 4, 8, 16)
+
+data <- do.call(rbind, lapply(nus, function(nu) {
+  data.frame(x = x, f_x = dchisq(x, df = nu), nu = as.factor(nu))
+}))
+
+ggplot(data, aes(x = x, y = f_x, color = nu)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Distribuzione Chi-Quadrato",
+    subtitle = "La forma diventa più simmetrica al crescere dei gradi di libertà",
+    x = "x", y = "f(x)", color = "ν"
+  ) +
+  theme_minimal()
+```
+
+## Distribuzione $t$ di Student
+
+### Definizione e interpretazione epistemica
+
+La distribuzione $t$ di Student emerge quando si standardizza una variabile aleatoria normale utilizzando una stima campionaria della sua varianza, derivante da un campione finito.
+
+::: {#def-t-student}
+Date due variabili aleatorie indipendenti $Z \sim \mathcal{N}(0, 1)$ e $W \sim \chi^2_\nu$, la variabile risultante dalla trasformazione:
+
+$$
+T = \frac{Z}{\sqrt{W/\nu}} \sim t_\nu
+$$
+segue una distribuzione $t$ di Student con $\nu$ gradi di libertà.
+
+**Proprietà**: $\mathbb{E}(T) = 0$ per $\nu > 1$; $\mathbb{V}(T) = \frac{\nu}{\nu - 2}$ per $\nu > 2$.
+:::
+
+**Interpretazione epistemica**: la $t$ di Student ha **code più pesanti della normale**, riflettendo l'incertezza aggiuntiva derivante dal non conoscere con certezza la varianza. Man mano che $\nu$ aumenta, questa incertezza diminuisce e la $t$ tende alla distribuzione normale.
+
+### Ruolo nell'inferenza bayesiana
+
+La distribuzione $t$ di Student riveste un ruolo di particolare rilievo nell'inferenza bayesiana per tre motivi. In primo luogo, funge da distribuzione a priori robusta per i parametri di posizione: l'utilizzo di una distribuzione $t_\nu(\mu_0, \sigma_0)$ come prior per la media assegna infatti una maggiore plausibilità ai valori estremi rispetto a una distribuzione normale, conferendo al modello una maggiore resistenza all'influenza potenziale di osservazioni anomale.
+
+In secondo luogo, la distribuzione $t$ emerge naturalmente come distribuzione predittiva quando si considera l'incertezza congiunta sia sulla media che sulla varianza di un modello normale. In tali circostanze, la distribuzione predittiva marginale per le nuove osservazioni assume la forma di una distribuzione t di Student, a differenza di quanto avverrebbe nel caso in cui la varianza fosse nota.
+
+Infine, la distribuzione $t$ si presta efficacemente come scelta per le distribuzioni a priori debolmente informative. Specificando un numero ridotto di gradi di libertà, come ad esempio $\nu = 3$ o il caso limite $\nu = 1$, corrispondente alla distribuzione di Cauchy, è possibile definire prior che, pur incorporando informazioni di regolarizzazione, non tenderanno a dominare l'evidenza portata dai dati, nemmeno in contesti caratterizzati da campioni di piccole dimensioni.
+
+### Confronto con la normale
+
+```{r}
+x <- seq(-4, 4, length.out = 1000)
+gradi_liberta <- c(1, 3, 10)
+
+dati_plot <- data.frame(
+  x = rep(x, length(gradi_liberta) + 1),
+  densita = c(
+    dnorm(x),
+    dt(x, df = gradi_liberta[1]),
+    dt(x, df = gradi_liberta[2]),
+    dt(x, df = gradi_liberta[3])
+  ),
+  distribuzione = rep(
+    c("Normale", paste0("t (ν = ", gradi_liberta, ")")), 
+    each = length(x)
+  )
+)
+
+ggplot(dati_plot, aes(x = x, y = densita, color = distribuzione)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Confronto t di Student e Normale",
+    subtitle = "Code più pesanti per ν piccoli; convergenza alla normale per ν → ∞",
+    x = "Valore", y = "Densità", color = "Distribuzione"
+  ) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1")
+```
+
+## Distribuzione beta
+
+### Definizione e interpretazione epistemica
+
+La distribuzione beta è la scelta naturale per rappresentare credenze su proporzioni o probabilità, ovvero quantità vincolate all'intervallo $(0, 1)$.
+
+::: {#def-beta}
+Una variabile casuale $\theta$ segue una distribuzione beta con parametri $\alpha > 0$ e $\beta > 0$ se:
+
+$$
+\theta \sim \text{Beta}(\alpha, \beta), \quad f(\theta) = \frac{\theta^{\alpha-1}(1-\theta)^{\beta-1}}{B(\alpha, \beta)},
+$$
+dove $B(\alpha, \beta)$ è la funzione beta di Eulero.
+
+**Proprietà**: 
+
+- $\mathbb{E}(\theta) = \frac{\alpha}{\alpha + \beta}$;
+- $\mathbb{V}(\theta) = \frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}$;
+- Moda (per $\alpha, \beta > 1$): $\frac{\alpha - 1}{\alpha + \beta - 2}$.
+:::
+
+**Interpretazione epistemica dei parametri**: i parametri $\alpha$ e $\beta$ della distribuzione beta ammettono un'interpretazione epistemica particolarmente intuitiva in termini di "pseudo-osservazioni". In questa prospettiva, $\alpha - 1$ rappresenta il numero ipotetico di successi precedentemente osservati, mentre $\beta - 1$ corrisponde al numero analogo di insuccessi. Questa caratteristica consente di incorporare in modo trasparente l'informazione a priori nel modello. Il caso particolare $\alpha = \beta = 1$ assume un significato speciale, in quanto produce una distribuzione uniforme che rappresenta formalmente uno stato di massima ignoranza riguardo al parametro di interesse.
+
+### Ruolo nell'inferenza bayesiana
+
+La beta è la **prior coniugata** per il parametro $p$ della distribuzione binomiale:
+
+$$
+\text{Prior: } p \sim \text{Beta}(\alpha, \beta), \quad \text{Dati: } k \text{ successi su } n \text{ prove}.
+$$
+$$
+\text{Posterior: } p \mid k \sim \text{Beta}(\alpha + k, \beta + n - k).
+$$
+
+Questa proprietà rende l'aggiornamento bayesiano analiticamente trattabile: i parametri della distribuzione a posteriori si ottengono semplicemente sommando i conteggi osservati agli pseudo-conteggi della distribuzione a priori.
+
+### Flessibilità della forma
+
+La distribuzione beta può assumere forme molto diverse a seconda dei parametri:
+
+```{r}
+x <- seq(0, 1, length.out = 200)
+params <- list(
+  c(0.5, 0.5), c(1, 1), c(2, 2), c(2, 5), c(5, 2)
+)
+
+df <- do.call(rbind, lapply(params, function(p) {
+  data.frame(
+    x = x,
+    density = dbeta(x, p[1], p[2]),
+    label = paste0("α = ", p[1], ", β = ", p[2])
+  )
+}))
+
+ggplot(df, aes(x = x, y = density, color = label)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Flessibilità della distribuzione Beta",
+    subtitle = "Diverse combinazioni di parametri producono forme radicalmente diverse",
+    x = "θ", y = "f(θ)"
+  ) +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+
+### Esempio: aggiornamento bayesiano
+
+```{r}
+# Prior: Beta(2, 2) - credenza iniziale moderatamente incerta
+alpha_prior <- 2
+beta_prior <- 2
+
+# Dati osservati: 7 successi su 10 prove
+successi <- 7
+prove <- 10
+
+# Posterior: Beta(2+7, 2+3) = Beta(9, 5)
+alpha_post <- alpha_prior + successi
+beta_post <- beta_prior + (prove - successi)
+
+# Visualizzazione
+x <- seq(0, 1, length.out = 200)
+df <- data.frame(
+  x = rep(x, 2),
+  density = c(dbeta(x, alpha_prior, beta_prior), dbeta(x, alpha_post, beta_post)),
+  tipo = rep(c("Prior Beta(2,2)", "Posterior Beta(9,5)"), each = length(x))
+)
+
+ggplot(df, aes(x = x, y = density, color = tipo)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Aggiornamento Bayesiano: Beta-Binomiale",
+    subtitle = "7 successi su 10 prove aggiornano la prior",
+    x = "p", y = "Densità"
+  ) +
+  theme_minimal()
+
+cat("Media prior:", round(alpha_prior/(alpha_prior + beta_prior), 3), "\n")
+cat("Media posterior:", round(alpha_post/(alpha_post + beta_post), 3), "\n")
+```
+
+## Distribuzione di Cauchy
+### Definizione e interpretazione epistemica
+
+La distribuzione di Cauchy costituisce un caso particolare della distribuzione t di Student, corrispondente a un singolo grado di libertà ($t_1$). La sua caratteristica distintiva è data dalla presenza di code estremamente pesanti che decadono molto più lentamente rispetto a quelle della distribuzione normale.
+
+::: {#def-cauchy}
+Una variabile casuale $X$ segue una distribuzione di Cauchy con parametro di posizione $\alpha$ e parametro di scala $\beta > 0$ se la sua funzione di densità è data da:
+
+$$
+X \sim \text{Cauchy}(\alpha, \beta), \quad f(x) = \frac{1}{\pi\beta\left[1 + \left(\frac{x-\alpha}{\beta}\right)^2\right]}
+$$
+
+**Proprietà distintive**: a differenza di molte distribuzioni parametriche comuni, la distribuzione di Cauchy **non possiede momenti primi e secondi definiti**. Questa peculiarità riflette il fatto che le code della distribuzione sono sufficientemente pesanti da impedire la convergenza degli integrali che definiscono la media e la varianza.
+:::
+
+**Interpretazione epistemica**: la distribuzione di Cauchy esprime un elevato grado di incertezza, assegnando una plausibilità non trascurabile anche a valori molto distanti dal parametro di posizione centrale. Risulta particolarmente appropriata nei contesti inferenziali in cui non si intende escludere a priori la possibilità di osservare valori estremamente divergenti dalla tendenza centrale, preservando così un approccio epistemico cauto verso le potenziali osservazioni anomale.
+
+### Ruolo nell'inferenza bayesiana
+
+La distribuzione di Cauchy trova ampia applicazione come distribuzione a priori debolmente informativa e robusta nell'inferenza bayesiana. Viene frequentemente impiegata come prior per i parametri di posizione: una Cauchy(0, 2.5) rappresenta una scelta comune per i coefficienti di regressione standardizzati, in quanto consente di non escludere i valori estremi pur mantenendo la massa probabilistica concentrata attorno allo zero. Per quanto riguarda i parametri di scala, la half-Cauchy, versione troncata ai valori positivi della distribuzione, è spesso raccomandata come prior per le deviazioni standard nei modelli gerarchici, grazie alle sue proprietà desiderabili. La robustezza è un altro vantaggio fondamentale: a differenza della distribuzione normale, la Cauchy non penalizza eccessivamente i valori estremi, dimostrandosi quindi meno sensibile alla possibile presenza di osservazioni anomale nei dati.
+
+### Confronto con altre distribuzioni
+
+```{r}
+x <- seq(-5, 5, length.out = 500)
+
+df <- data.frame(
+  x = rep(x, 3),
+  density = c(dnorm(x), dt(x, df = 3), dcauchy(x)),
+  distribuzione = rep(c("Normale(0,1)", "t (ν = 3)", "Cauchy(0,1)"), each = length(x))
+)
+
+ggplot(df, aes(x = x, y = density, color = distribuzione)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Confronto delle code",
+    subtitle = "La Cauchy ha le code più pesanti, seguita dalla t",
+    x = "x", y = "Densità"
+  ) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1")
+```
+
+### Distribuzione gamma
+
+#### Definizione e interpretazione epistemica
+
+La distribuzione gamma rappresenta una famiglia di distribuzioni per variabili casuali strettamente positive, che svolge un ruolo fondamentale come distribuzione a priori coniugata per il parametro di tasso nella distribuzione di Poisson.
+
+::: {#def-gamma}
+Una variabile casuale $X$ segue una distribuzione gamma con parametro di forma $\alpha > 0$ e parametro di tasso $\beta > 0$ quando la sua funzione di densità è data da:
+
+$$
+X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1} e^{-\beta x}}{\Gamma(\alpha)} \quad \text{per } x > 0
+$$
+
+**Proprietà fondamentali**: $\mathbb{E}(X) = \frac{\alpha}{\beta}$, $\mathbb{V}(X) = \frac{\alpha}{\beta^2}$.
+:::
+
+**Interpretazione epistemica dei parametri**: Il parametro di forma $\alpha$ determina la configurazione morfologica della distribuzione: quando $\alpha < 1$ la densità risulta monotona decrescente, per $\alpha = 1$ si ottiene la distribuzione esponenziale, mentre per $\alpha > 1$ la distribuzione presenta una forma unimodale. Il parametro di tasso $\beta$ governa invece la scala della distribuzione, per cui valori più elevati tendono a concentrare la massa probabilistica in prossimità dello zero.
+
+#### Ruolo nell'inferenza bayesiana
+
+La distribuzione gamma riveste un ruolo di primo piano nell'inferenza bayesiana grazie alle sue molteplici applicazioni. In primo luogo, funge da distribuzione a priori coniugata per il parametro $\lambda$ nel modello di Poisson:
+
+$$
+\text{Prior: } \lambda \sim \text{Gamma}(\alpha, \beta), \quad \text{Dati: } y_1, \ldots, y_n \sim \text{Poisson}(\lambda)
+$$
+
+$$
+\text{Posterior: } \lambda \mid \mathbf{y} \sim \text{Gamma}\left(\alpha + \sum y_i, \beta + n\right)
+$$
+
+In secondo luogo, la distribuzione gamma è comunemente utilizzata come distribuzione a priori per il parametro di precisione (definito come l'inverso della varianza) nei modelli normali. Infine, essa fornisce un modello flessibile per la rappresentazione dei tempi di attesa, generalizzando la distribuzione esponenziale al caso in cui si considera l'attesa per il verificarsi di $\alpha$ eventi successivi.
+
+### Esempio: inferenza su un tasso Poisson
+
+```{r}
+# Prior: Gamma(2, 1) - credenza che λ sia intorno a 2
+alpha_prior <- 2
+beta_prior <- 1
+
+# Dati: 5 osservazioni con totale 18 eventi
+n_obs <- 5
+totale_eventi <- 18
+
+# Posterior: Gamma(2 + 18, 1 + 5) = Gamma(20, 6)
+alpha_post <- alpha_prior + totale_eventi
+beta_post <- beta_prior + n_obs
+
+# Visualizzazione
+x <- seq(0, 8, length.out = 200)
+df <- data.frame(
+  x = rep(x, 2),
+  density = c(dgamma(x, alpha_prior, beta_prior), dgamma(x, alpha_post, beta_post)),
+  tipo = rep(c("Prior Gamma(2,1)", "Posterior Gamma(20,6)"), each = length(x))
+)
+
+ggplot(df, aes(x = x, y = density, color = tipo)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Aggiornamento Bayesiano: Gamma-Poisson",
+    subtitle = "18 eventi in 5 osservazioni aggiornano la prior",
+    x = "λ", y = "Densità"
+  ) +
+  theme_minimal()
+
+cat("Media prior:", round(alpha_prior/beta_prior, 3), "\n")
+cat("Media posterior:", round(alpha_post/beta_post, 3), "\n")
+cat("IC 95%: [", round(qgamma(0.025, alpha_post, beta_post), 2), ", ", 
+    round(qgamma(0.975, alpha_post, beta_post), 2), "]\n", sep = "")
+```
+
+### Visualizzazione della flessibilità
+
+```{r}
+x <- seq(0, 10, length.out = 200)
+params <- list(c(1, 0.5), c(2, 0.5), c(3, 1), c(5, 1), c(9, 2))
+
+df <- do.call(rbind, lapply(params, function(p) {
+  data.frame(
+    x = x,
+    density = dgamma(x, shape = p[1], rate = p[2]),
+    label = paste0("α = ", p[1], ", β = ", p[2])
+  )
+}))
+
+ggplot(df, aes(x = x, y = density, color = label)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Flessibilità della distribuzione Gamma",
+    x = "x", y = "f(x)"
+  ) +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+
+## Riflessioni conclusive {.unnumbered .unlisted}
+
+Le distribuzioni continue che abbiamo esplorato costituiscono il vocabolario fondamentale per esprimere credenze su quantità numeriche nell'inferenza bayesiana. Ogni famiglia presenta caratteristiche distintive che la rendono adatta a ruoli specifici.
+
+### Riepilogo dei ruoli nell'inferenza bayesiana {.unnumbered .unlisted}
+
+| Distribuzione | Dominio | Ruolo principale | Prior coniugata per |
+|---------------|---------|------------------|---------------------|
+| Uniforme | $[a, b]$ | Prior non informativa | — |
+| Esponenziale | $(0, \infty)$ | Verosimiglianza per tempi | — |
+| Normale | $\mathbb{R}$ | Prior/verosimiglianza per medie | $\mu$ nella normale |
+| Chi-quadrato | $(0, \infty)$ | Modellazione varianze | — |
+| t di Student | $\mathbb{R}$ | Prior robusta, predittiva | — |
+| Beta | $(0, 1)$ | Prior per proporzioni | $p$ nella binomiale |
+| Cauchy | $\mathbb{R}$ | Prior robusta debolmente informativa | — |
+| Gamma | $(0, \infty)$ | Prior per tassi e precisioni | $\lambda$ nella Poisson |
+
+### Principi guida per la scelta {.unnumbered .unlisted}
+
+La scelta della distribuzione appropriata dipende da tre considerazioni. Il **dominio del parametro** è il primo vincolo: la beta è richiesta per le proporzioni, la gamma per i tassi positivi, la normale o la $t$ per i parametri non vincolati. L'**informazione a priori** determina i valori dei parametri: le prior vaghe hanno parametri che producono distribuzioni disperse, le prior informative hanno parametri che concentrano la massa. La **robustezza desiderata** influenza la scelta tra distribuzioni con code diverse: la Cauchy e la $t$ con pochi gradi di libertà sono più robuste agli outlier della normale.
+
+### La prospettiva unificante {.unnumbered .unlisted}
+
+Tutte queste distribuzioni condividono lo stesso ruolo epistemico: sono strumenti per rappresentare formalmente i nostri gradi di credenza. Non descrivono "come sono realmente le cose", ma codificano "quanto riteniamo plausibile ciascun valore". Questa interpretazione soggettivista è il filo conduttore che unisce le diverse famiglie in un framework coerente per il ragionamento sotto incertezza.
+
+Le proprietà matematiche, come la coniugazione, i momenti e il comportamento delle code, non sono fini a sé stesse, ma hanno conseguenze epistemiche: determinano come le nostre credenze si aggiornano, quanta incertezza residua permane e quali previsioni possiamo fare riguardo alle osservazioni future.
+
+::: {.callout-caution collapse="true" title="Informazioni sull'ambiente di sviluppo"}
+
+```{r}
+sessionInfo()
+```
+:::
+
+## Bibliografia {.unnumbered}
