@@ -2,11 +2,11 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-La probabilità condizionata rappresenta il meccanismo fondamentale attraverso il quale le credenze si aggiornano in modo coerente alla luce di nuove informazioni. Quando apprendiamo che si è verificato un evento $B$, la nostra valutazione della plausibilità di un evento $A$ subisce una trasformazione sistematica quantificata dalla probabilità condizionata $P(A|B)$.
+La **probabilità condizionata** è il meccanismo fondamentale con cui un agente razionale **aggiorna** le proprie credenze quando riceve nuove informazioni. Quando apprendiamo che si è verificato un evento $B$, la plausibilità che attribuiamo a un evento $A$ non rimane invariata: viene ricalibrata in modo sistematico, e questa trasformazione è quantificata da $P(A \mid B)$.
 
-Dal punto di vista bayesiano, ogni assegnazione probabilistica è implicitamente condizionata dallo stato informativo disponibile. L'espressione $P(A)$ è in realtà una forma abbreviata di $P(A \mid \mathcal{I})$, dove $\mathcal{I}$ rappresenta l'insieme delle conoscenze attualmente possedute. La probabilità condizionata formalizza matematicamente il processo di riduzione dello spazio epistemico: l'acquisizione dell'informazione B restringe l'insieme delle possibilità a quelle compatibili con tale evidenza, richiedendo una ricalibrazione coerente delle credenze.
+Dal punto di vista bayesiano, ogni valutazione probabilistica è sempre relativa a uno **sfondo informativo**. Per questo, l’espressione $P(A)$ è spesso un’abbreviazione di $P(A \mid \mathcal{I})$, dove $\mathcal{I}$ rappresenta ciò che sappiamo (dati, contesto, assunzioni di modello). La condizionalizzazione rende esplicita questa dipendenza: acquisire l’informazione “$B$ è vero” significa **restringere lo spazio delle possibilità** alle sole configurazioni compatibili con $B$ e poi **rinormalizzare** le credenze in modo che tornino a sommare a 1.
 
-In questo capitolo esploreremo la probabilità condizionata non come una semplice operazione insiemistica, ma come un principio di coerenza per l'aggiornamento razionale delle credenze. Esamineremo come questo concetto fondamentale sia essenziale per comprendere nozioni quali l'indipendenza probabilistica, il teorema del prodotto, la legge della probabilità totale e, nel capitolo successivo, il teorema di Bayes.
+In questo capitolo studieremo la probabilità condizionata non come una mera operazione insiemistica, ma come un **principio di coerenza** per l’aggiornamento razionale delle credenze. Vedremo come da questa idea discendano naturalmente concetti e strumenti centrali: l’**indipendenza** (intesa come assenza di informazione reciproca), il **teorema del prodotto** (per costruire probabilità congiunte in forma sequenziale) e la **legge della probabilità totale** (per combinare scenari alternativi). Questi risultati preparano direttamente il terreno al capitolo successivo, in cui il **teorema di Bayes** emergerà come regola di “inversione” delle probabilità condizionate.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
@@ -55,55 +55,63 @@ $$ {#eq-prob-cond-def}
 
 ### Fondamento logico della formula
 
-La definizione di probabilità condizionata non costituisce una convenzione arbitraria, ma emerge come necessaria conseguenza del principio di coerenza probabilistica. Consideriamo una distribuzione di probabilità congiunta rappresentata da una tabella 2×2. Quando apprendiamo che l'evento $B$ si è verificato, lo spazio probabilistico si riduce alla sola colonna corrispondente a $B$. Per preservare la coerenza interna del nostro sistema di credenze, dobbiamo eliminare tutti gli esiti incompatibili con $B$ e rinormalizzare le credenze residue assicurando che la probabilità totale dello spazio ridotto sia pari a 1. Questa rinormalizzazione si ottiene dividendo ciascuna probabilità residua per $P(B)$.
+La definizione di probabilità condizionata non è una convenzione arbitraria: è la conseguenza più semplice del requisito di **coerenza** quando si incorpora l’informazione “$B$ è vero”.
 
-Il risultato di questo processo è la formula della probabilità condizionata:
+Partiamo da una distribuzione congiunta (ad esempio una tabella 2×2). Apprendere $B$ significa:
+
+1. **eliminare** tutte le possibilità incompatibili con $B$ (resta solo la parte di mondo in cui $B$ è vero);
+2. **rinormalizzare** le probabilità rimaste, così che sommino di nuovo a 1.
+
+Se chiamiamo $P(A\cap B)$ la probabilità “residua” di $A$ all’interno del sottoinsieme $B$, allora il fattore di rinormalizzazione è necessariamente $P(B)$ (la probabilità totale del nuovo universo). Ne segue:
+
 $$
-P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
 $$
 
 ::: {.callout-important title="Principio epistemico fondamentale"}
 #### Aggiornamento come riduzione e rinormalizzazione {.unnumbered .unlisted}
 
-L'acquisizione dell'informazione che l'evento $B$ si è verificato innesca un processo di aggiornamento epistemico strutturato in tre fasi fondamentali. In primo luogo, si verifica una riduzione dello spazio epistemico dall'intero universo $\Omega$ al sottoinsieme $B$, eliminando tutte le possibilità incompatibili con l'evidenza osservata. In secondo luogo, si procede a una rinominalizzazione delle credenze su questo sottospazio ridotto, garantendo che le probabilità assegnate agli eventi rimanenti sommino nuovamente a 1. In terzo luogo, le proporzioni relative tra tutti gli eventi compatibili con $B$ rimangono inalterate, preservando la struttura delle relazioni probabilistiche originarie.
+Apprendere che (B) è vero avvia un aggiornamento in tre passi:
 
-Questo meccanismo garantisce la coerenza epistemica: se avessimo inizialmente considerato esclusivamente $B$ come nostro spazio di possibilità, avremmo ottenuto le stesse credenze relative agli eventi risultanti dal processo di aggiornamento condizionale.
+1. **Riduzione**: lo spazio epistemico passa da $\Omega$ a $B$, eliminando le possibilità incompatibili con $B$.
+2. **Rinormalizzazione**: le probabilità residue vengono divise per $P(B)$, così che il totale nel nuovo spazio torni a essere 1.
+3. **Invarianza dei rapporti**: poiché tutte le probabilità compatibili con $B$ vengono scalate dello stesso fattore, i loro rapporti relativi restano invariati.
+
+Questo garantisce coerenza: se avessimo modellato fin dall’inizio lo spazio come “solo $B$”, otterremmo le stesse probabilità relative tra gli eventi compatibili con $B$.
 :::
 
 ### Visualizzazione geometrica
 
 ```{r}
-# Esempio con diagramma di Venn simulato
-# Parametri
-P_A <- 0.6
-P_B <- 0.5
+# Visualizzazione: condizionata come rinormalizzazione dentro B
+
+P_A  <- 0.6
+P_B  <- 0.5
 P_AB <- 0.35
 
-# Creare dataframe per visualizzazione
-df_venn <- data.frame(
-  x = c(0.3, 0.7),
-  y = c(0.5, 0.5),
-  r = c(sqrt(P_A / pi), sqrt(P_B / pi)),
-  label = c("A", "B")
+P_A_given_B <- P_AB / P_B
+P_Ac_given_B <- 1 - P_A_given_B
+
+df <- data.frame(
+  Parte = c("A ∩ B", "A^c ∩ B"),
+  Valore = c(P_A_given_B, P_Ac_given_B)
 )
 
-# Calcolare condizionata
-P_A_given_B <- P_AB / P_B
-
-ggplot() +
-  geom_circle(data = df_venn, aes(x0 = x, y0 = y, r = r, fill = label), 
-              alpha = 0.3, size = 1, show.legend = FALSE) +
-  annotate("text", x = 0.3, y = 0.85, label = "A", size = 8) +
-  annotate("text", x = 0.7, y = 0.85, label = "B", size = 8) +
-  annotate("text", x = 0.5, y = 0.5, label = "A ∩ B", size = 6) +
-  annotate("text", x = 0.5, y = -0.1, 
-           label = sprintf("P(A|B) = P(A∩B)/P(B) = %.2f/%.2f = %.2f", 
-                          P_AB, P_B, P_A_given_B),
-           size = 5) +
-  coord_fixed() +
-  theme_void() +
-  labs(title = "Probabilità condizionata come riduzione dello spazio",
-       subtitle = "Apprendere B significa focalizzarsi sulla regione B e rinormalizzare")
+ggplot(df, aes(x = "", y = Valore, fill = Parte)) +
+  geom_col(width = 0.6) +
+  coord_flip() +
+  geom_text(aes(label = sprintf("%.2f", Valore)),
+            position = position_stack(vjust = 0.5),
+            color = "white", size = 5) +
+  labs(
+    title = "Probabilità condizionata: 'zoom' nello spazio B",
+    subtitle = sprintf("P(A|B) = %.2f/%.2f = %.2f", P_AB, P_B, P_A_given_B),
+    x = NULL, y = "Probabilità nel nuovo universo (B)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(axis.text.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "bottom")
 ```
 
 ## Proprietà della probabilità condizionata
@@ -179,7 +187,9 @@ tab_diagnostic <- matrix(
 
 **Questioni cliniche risolte mediante probabilità condizionate.**
 
-Il valore predittivo positivo, $P(D \mid T^+)$, è pari a `r round(P_D_given_Tpos, 2)`, il che indica che, dopo un test positivo, la probabilità di presenza del disturbo aumenta dall'8% iniziale. Il valore predittivo negativo $P(D^c \mid T^-)$ raggiunge `r round(1 - P_D_given_Tneg, 3)`, dimostrando che un test negativo riduce drasticamente la probabilità di depressione residua.
+Il **valore predittivo positivo**, $P(D \mid T^+)$, è pari a $\texttt{r round(P_D_given_Tpos, 2)}$. Questo risultato indica che, dopo aver osservato un esito positivo al test, la probabilità che il paziente presenti effettivamente il disturbo aumenta rispetto alla probabilità *a priori* dell’8%, ma rimane comunque sostanzialmente inferiore alla sensibilità del test. Ciò evidenzia il ruolo cruciale della prevalenza nel determinare il significato clinico di un risultato positivo.
+
+Dopo un esito negativo, la **probabilità residua di disturbo** è pari a $P(D \mid T^-)=\texttt{r round(P_D_given_Tneg, 3)}$. Il complemento di questa quantità, ovvero il **valore predittivo negativo** $P(D^c \mid T^-)=1-P(D \mid T^-)$, raggiunge $\texttt{r round(1 - P_D_given_Tneg, 3)}$, mostrando che un test negativo riduce drasticamente la plausibilità della diagnosi di depressione. In questo contesto, il risultato negativo fornisce quindi un’informazione particolarmente forte per escludere la presenza del disturbo.
 
 **Interpretazione epistemica del processo inferenziale.**
 
@@ -229,34 +239,52 @@ P_D_given_Tneg_sim <- mean(stato[test_result == 0] == 1)
 ```
 
 I risultati della simulazione confermano i calcoli analitici: 
+
 - $P(D \mid T^+)_{sim} = `r round(P_D_given_Tpos_sim, 3)`$ vs. $P(D \mid T^+)_{teor} = `r round(P_D_given_Tpos, 3)`$
 - $P(D \mid T^-)_{sim} = `r round(P_D_given_Tneg_sim, 3)`$ vs. $P(D \mid T^-)_{teor} = `r round(P_D_given_Tneg, 3)`$
 :::
 
 ## Indipendenza stocastica
 
-Il concetto di indipendenza rappresenta una proprietà fondamentale che caratterizza l'assenza di relazione informativa tra eventi nell'ambito del ragionamento probabilistico.
+Il concetto di **indipendenza** descrive una situazione limite del ragionamento probabilistico: quella in cui l’acquisizione di nuova informazione su un evento **non modifica** in alcun modo le nostre credenze riguardo a un altro evento. In termini epistemici, l’indipendenza caratterizza l’**assenza di relazione informativa** tra eventi.
 
 ::: {#def-independence}
+
 ### Indipendenza (definizione epistemica)
 
-Due eventi $A$ e $B$ sono **indipendenti** (notazione: $A \perp B$) quando l'acquisizione di informazione riguardante uno dei due eventi non modifica le nostre credenze relative all'altro:
+Due eventi $A$ e $B$ sono detti **indipendenti** (notazione: $A \perp B$) se l’informazione che uno dei due eventi si è verificato non altera la credenza relativa all’altro:
 
 $$
-P(A \mid B) = P(A) \quad \text{e equivalentemente} \quad P(B \mid A) = P(B).
-$$ {#eq-independence-def}
-
-**Conseguenza matematica**: se $A \perp B$, allora la loro probabilità congiunta ammette una fattorizzazione moltiplicativa:
+P(A \mid B) = P(A),
 $$
-P(A \cap B) = P(A) \cdot P(B)
-$$ {#eq-independence-prod}
 
-**Interpretazione epistemica**: l'informazione che "$B$ si è verificato" non modifica la nostra credenza riguardo al verificarsi di $A$. Gli eventi sono epistemicamente disgiunti: la conoscenza di uno non fornisce alcuna informazione utile né per prevedere il verificarsi dell'altro né per determinarne la probabilità.
+e, in modo equivalente,
+
+$$
+P(B \mid A) = P(B).
+$$
 :::
+
+Questa definizione esprime direttamente il significato epistemico dell’indipendenza: sapere che $B$ è vero non fornisce alcuna informazione utile per valutare la plausibilità di $A$, e viceversa.
+
+Una conseguenza immediata di questa definizione è la seguente fattorizzazione della probabilità congiunta:
+
+$$
+P(A \cap B) = P(A) \cdot P(B).
+$$
+
+Questa relazione non **definisce** l’indipendenza, ma ne rappresenta una conseguenza matematica.
 
 ### Test di indipendenza nella tabella congiunta
 
-Data una distribuzione di probabilità congiunta rappresentata in forma tabellare, è possibile verificare l'eventuale indipendenza tra due eventi confrontando la probabilità congiunta osservata $P(A \cap B)$ con il prodotto delle probabilità marginali $P(A) \cdot P(B)$. Se queste due quantità coincidono, possiamo concludere che gli eventi sono statisticamente indipendenti.
+Quando disponiamo di una **distribuzione di probabilità congiunta** rappresentata in forma tabellare, l’indipendenza può essere verificata confrontando:
+
+* la probabilità congiunta osservata $P(A \cap B)$;
+* il prodotto delle probabilità marginali $P(A) \cdot P(B)$.
+
+Se le due quantità coincidono, gli eventi possono essere considerati indipendenti; in caso contrario, l’informazione su uno degli eventi modifica la credenza sull’altro.
+
+Nel caso del test diagnostico per la depressione, la probabilità congiunta osservata $P(D \cap T^+)$ risulta sostanzialmente diversa dal prodotto $P(D)\cdot P(T^+)$, indicando una **dipendenza informativa** tra stato clinico e risultato del test. Questo esito è non solo atteso, ma desiderabile: un test diagnostico efficace deve fornire informazione sulla condizione che intende rilevare.
 
 ```{r}
 # Esempio: Test e Stato sono indipendenti?
@@ -269,13 +297,25 @@ P_AB_indep <- P_A * P_B            # Se fossero indipendenti
 Nel caso del test diagnostico per la depressione, la differenza tra la probabilità congiunta osservata e il prodotto delle marginali è rilevante, il che indica che gli eventi sono dipendenti. Ciò è auspicabile e atteso: un test diagnostico efficace deve fornire informazioni sulla condizione che intende rilevare.
 
 ::: {.callout-warning title="Errore concettuale comune"}
-#### Indipendenza $\neq$ Disgiunzione {.unnumbered .unlisted}
+Due eventi **disgiunti** (mutualmente esclusivi) non possono essere indipendenti, a meno che uno dei due abbia probabilità zero.
 
-Due eventi *disgiunti* (mutualmente esclusivi) non possono essere indipendenti, a meno che uno dei due non abbia probabilità zero.
+**Dimostrazione logica**
+Se $A \cap B = \varnothing$ e $P(A) > 0$, $P(B) > 0$, allora:
 
-**Dimostrazione logica**: se $A \cap B = \varnothing$ e $P(A), P(B) > 0$, allora $P(A \cap B) = 0$ mentre $P(A) \cdot P(B) > 0$, quindi gli eventi non sono indipendenti.
+$$
+P(A \cap B) = 0,
+$$
 
-**Interpretazione epistemica**: gli eventi disgiunti sono *massimamente dipendenti* dal punto di vista informativo. L'informazione che uno si è verificato implica con certezza che l'altro non si è verificato. La relazione informativa è completa e deterministica, in netto contrasto con l'indipendenza che caratterizza l'assenza completa di informazione reciproca.
+mentre
+
+$$
+P(A) \cdot P(B) > 0.
+$$
+
+Pertanto, la fattorizzazione richiesta dall’indipendenza non può essere soddisfatta.
+
+**Interpretazione epistemica**
+Gli eventi disgiunti sono *massimamente dipendenti* dal punto di vista informativo: l’informazione che uno si è verificato implica con certezza che l’altro non si è verificato. Questo tipo di relazione è l’esatto opposto dell’indipendenza, che rappresenta l’assenza totale di informazione reciproca.
 :::
 
 ```{r}
@@ -285,131 +325,167 @@ P_dispari <- 3/6
 P_pari_e_dispari <- 0  # Disgiunti!
 ```
 
-L'esempio dei numeri pari e dispari in un lancio di dado mostra come gli eventi disgiunti mostrino una dipendenza informativa massima: la conoscenza che è uscito un numero pari rende impossibile l'uscita di un numero dispari e viceversa.
+L’esempio dei numeri pari e dispari nel lancio di un dado è illustrativo: sapere che è uscito un numero pari rende impossibile l’uscita di un numero dispari, e viceversa. L’informazione è completa e deterministica, non nulla.
 
 ## Teorema del prodotto (regola della catena)
 
-Il teorema del prodotto fornisce un metodo alternativo, spesso più intuitivo, per esprimere le probabilità congiunte attraverso una scomposizione sequenziale.
+Il **teorema del prodotto** fornisce una rappresentazione operativa delle probabilità congiunte come risultato di un processo **sequenziale** di aggiornamento delle credenze. Esso non introduce nuove assunzioni, ma riformula le probabilità congiunte in termini di probabilità condizionate, rendendo esplicita la struttura informativa del ragionamento.
 
 ::: {#thm-product-rule}
+
 ### Teorema del prodotto
 
-Per due eventi $A$ e $B$ con $P(B) > 0$ vale la relazione:
+Per due eventi $A$ e $B$ con $P(B) > 0$ vale la relazione fondamentale:
 
 $$
-P(A \cap B) = P(A \mid B) \cdot P(B)
-$$ {#eq-product-rule}
-
-**Generalizzazione** a $n$ eventi:
-$$
-P(A_1 \cap A_2 \cap \cdots \cap A_n) = P(A_1) \cdot P(A_2 \mid A_1) \cdot P(A_3 \mid A_1 \cap A_2) \cdots P(A_n \mid A_1 \cap \cdots \cap A_{n-1}).
+P(A \cap B) = P(A \mid B) \cdot P(B).
 $$
 
-**Interpretazione epistemica**: la costruzione della probabilità congiunta avviene attraverso un processo sequenziale di aggiornamento delle credenze. Si inizia con $P(A_1)$ (credenza iniziale sul primo evento), poi si procede con l'aggiornamento sequenziale di ogni evento successivo alla luce degli eventi già condizionanti.
+Questa identità discende direttamente dalla definizione di probabilità condizionata e non rappresenta un assioma indipendente.
 :::
 
-La dimostrazione della relazione fondamentale discende immediatamente dalla definizione di probabilità condizionata, mentre la forma estesa per $n$ eventi si dimostra per induzione matematica.
+Il teorema si generalizza in modo naturale a sequenze di eventi. Per $n$ eventi $A_1, A_2, \ldots, A_n$ si ottiene la **regola della catena**:
+
+$$
+P(A_1 \cap A_2 \cap \cdots \cap A_n) =
+P(A_1),
+P(A_2 \mid A_1),
+P(A_3 \mid A_1 \cap A_2),
+\cdots,
+P(A_n \mid A_1 \cap \cdots \cap A_{n-1}).
+$$
+
+### Interpretazione epistemica
+
+Dal punto di vista epistemico, il teorema del prodotto descrive la costruzione di una probabilità congiunta come una **sequenza ordinata di aggiornamenti**:
+
+1. si parte da una credenza iniziale $P(A_1)$;
+2. si incorpora l’informazione fornita da $A_2$, ottenendo $P(A_2 \mid A_1)$;
+3. si procede analogamente per ciascun evento successivo, condizionando sempre su quanto già appreso.
+
+In questo senso, il teorema del prodotto esplicita il fatto che le probabilità congiunte non sono entità primitive, ma il risultato di un processo di aggiornamento coerente.
+
 
 ::: {.callout-note collapse="true" title="Esempio: Test diagnostici multipli"}
-Un paziente con sospetto disturbo d'ansia si sottopone a due test diagnostici indipendenti: $T_1$ (questionario autosomministrato) e $T_2$ (colloquio clinico strutturato).
+Un paziente con sospetto disturbo d’ansia si sottopone a due test diagnostici: un questionario autosomministrato $T_1$ e un colloquio clinico strutturato $T_2$.
 
-**Informazioni cliniche disponibili**:
+**Informazioni cliniche disponibili**
 
-- prevalenza del disturbo: $P(\text{Ansia}) = 0.20$;
-- sensibilità del questionario: $P(T_1^+ \mid \text{Ansia}) = 0.80$;
-- falsi positivi del questionario: $P(T_1^+ \mid \text{Ansia}^c) = 0.15$;
-- sensibilità del colloquio: $P(T_2^+ \mid \text{Ansia}) = 0.85$;
-- falsi positivi del colloquio: $P(T_2^+ \mid \text{Ansia}^c) = 0.10$.
+* prevalenza del disturbo: $P(\text{Ansia}) = 0.20$;
+* sensibilità del questionario: $P(T_1^+ \mid \text{Ansia}) = 0.80$;
+* falsi positivi del questionario: $P(T_1^+ \mid \text{Ansia}^c) = 0.15$;
+* sensibilità del colloquio: $P(T_2^+ \mid \text{Ansia}) = 0.85$;
+* falsi positivi del colloquio: $P(T_2^+ \mid \text{Ansia}^c) = 0.10$.
 
-I due test sono *condizionatamente indipendenti* dato lo stato del paziente.
+Assumiamo che i due test siano **condizionatamente indipendenti** dato lo stato del paziente.
 
-**Applicazione del teorema del prodotto**:
-la probabilità che il paziente sia effettivamente ansioso e risulti positivo ad entrambi i test si calcola come:
+Applicando il teorema del prodotto, la probabilità che il paziente sia effettivamente ansioso e risulti positivo a entrambi i test è:
+
 $$
 P(\text{Ansia} \cap T_1^+ \cap T_2^+) = P(T_2^+ \mid \text{Ansia}) \cdot P(T_1^+ \mid \text{Ansia}) \cdot P(\text{Ansia}) = 0.85 \times 0.80 \times 0.20 = 0.136.
 $$
 
-**Interpretazione**: la probabilità che un paziente sia effettivamente ansioso e risulti positivo ad entrambi i test è del 13.6%. Questo risultato combina la probabilità a priori del disturbo con le caratteristiche psicometriche dei due test, sfruttando la loro indipendenza condizionale.
+**Interpretazione clinica**
+
+La probabilità che un paziente sia effettivamente affetto da disturbo d’ansia e risulti positivo a entrambi i test è pari al 13.6%. Questo valore integra coerentemente:
+
+* la probabilità *a priori* del disturbo,
+* le caratteristiche psicometriche dei due strumenti,
+* l’assunzione di indipendenza condizionale dato lo stato clinico.
+
+L’esempio mostra come il teorema del prodotto permetta di combinare informazioni multiple in modo trasparente e coerente, preparando direttamente il terreno all’uso sistematico del teorema di Bayes.
 :::
 
 ## Legge della probabilità totale
 
-La legge della probabilità totale costituisce un'applicazione fondamentale del teorema del prodotto in contesti in cui lo spazio campionario risulta suddiviso in scenari mutualmente esclusivi.
+La **legge della probabilità totale** rappresenta una conseguenza diretta del teorema del prodotto ed è particolarmente utile quando lo spazio campionario può essere scomposto in **scenari alternativi**, ciascuno dei quali fornisce un diverso contesto informativo per valutare un evento di interesse.
 
 ::: {#thm-total-probability}
+
 ### Legge della probabilità totale
 
-Sia $\{B_1, B_2, \ldots, B_n\}$ una *partizione* di $\Omega$—ovvero una collezione di eventi mutualmente esclusivi ed esaustivi che ricoprono l'intero spazio campionario. Allora, per ogni evento $A$:
+Sia ${B_1, B_2, \ldots, B_n}$ una *partizione* dello spazio campionario $\Omega$, cioè una collezione di eventi **mutuamente esclusivi ed esaustivi** tale che:
+
+$$
+B_i \cap B_j = \varnothing \quad (i \neq j),
+\qquad
+\bigcup_{i=1}^n B_i = \Omega.
+$$
+
+Allora, per ogni evento $A$, vale la relazione:
 
 $$
 P(A) = \sum_{i=1}^{n} P(A \mid B_i) \cdot P(B_i).
-$$ {#eq-total-probability}
+$$
 
-**Interpretazione epistemica**: la credenza complessiva nell'evento $A$ corrisponde a una media ponderata delle credenze condizionate a ciascuno scenario $B_i$, dove i pesi sono rappresentati dalle nostre credenze iniziali nei diversi scenari.
+**Interpretazione epistemica**
+La credenza complessiva nell’evento $A$ è una **media ponderata** delle credenze condizionate a ciascuno scenario $B_i$, dove i pesi $P(B_i)$ rappresentano la nostra fiducia iniziale nei diversi scenari possibili.
 :::
+
+In altri termini, la probabilità totale di $A$ si ottiene combinando le probabilità di $A$ *nei diversi contesti*, ciascuna pesata in base alla plausibilità di quel contesto.
 
 ### Applicazione a contesti diagnostici
 
-Consideriamo uno scenario clinico che coinvolge due diverse popolazioni: pazienti provenienti da una clinica specialistica (30% del totale) e soggetti della popolazione generale (70% del totale). Le prevalenze del disturbo differiscono significativamente tra i due gruppi: 40% nella popolazione clinica e 5% in quella generale.
+Consideriamo uno scenario clinico in cui i pazienti provengono da due popolazioni differenti:
 
-Applicando la legge della probabilità totale con un test caratterizzato da sensibilità 85% e specificità 90%, otteniamo che la probabilità complessiva di un test positivo risulta pari a 0.20. Questo valore emerge come media ponderata delle probabilità condizionate ai due scenari, dimostrando come la composizione della popolazione influenzi le performance del test diagnostico.
+* **clinica specialistica**: 30% dei pazienti;
+* **popolazione generale**: 70% dei pazienti.
 
-La struttura ad albero evidenzia il percorso inferenziale: partendo dalla distribuzione della popolazione tra i due scenari, si calcolano le probabilità di test positivo in ciascun contesto, per poi combinarle attraverso una media pesata che riflette le proporzioni relative dei diversi sottogruppi.
+Le prevalenze del disturbo sono diverse nei due gruppi:
 
-```{r}
-#| echo: false
-# Esempio: Probabilità di test positivo considerando due popolazioni
+$$
+P(D \mid \text{Clinica}) = 0.40,
+\qquad
+P(D \mid \text{Pop.Gen.}) = 0.05.
+$$
 
-# Scenario: Clinica vs Popolazione generale
-P_clinica <- 0.30     # 30% pazienti da clinica specialistica
-P_pop_gen <- 0.70     # 70% da popolazione generale
+Supponiamo di utilizzare un test diagnostico con:
 
-# Prevalenze diverse
-P_D_given_clinica <- 0.40
-P_D_given_popgen <- 0.05
+* sensibilità pari a 0.85;
+* specificità pari a 0.90.
 
-# Caratteristiche del test
-sens <- 0.85          # Sensibilità
-spec <- 0.90          # Specificità
-fp_rate <- 1 - spec   # Tasso falsi positivi = 0.10
+La probabilità di ottenere un test positivo all'interno di ciascun sottogruppo si calcola come:
 
-# P(T+ | Clinica)
-P_Tpos_given_clinica <- sens * P_D_given_clinica + fp_rate * (1 - P_D_given_clinica)
+$$
+P(T^+ \mid \text{Clinica})
+= 0.85 \cdot 0.40 + 0.10 \cdot 0.60 = 0.36,
+$$
 
-# P(T+ | Pop.Gen.)
-P_Tpos_given_popgen <- sens * P_D_given_popgen + fp_rate * (1 - P_D_given_popgen)
+$$
+P(T^+ \mid \text{Pop.Gen.})
+= 0.85 \cdot 0.05 + 0.10 \cdot 0.95 = 0.13.
+$$
 
-# Probabilità totale di test positivo
-P_Tpos_total <- P_Tpos_given_clinica * P_clinica + P_Tpos_given_popgen * P_pop_gen
+Applicando la legge della probabilità totale, la probabilità complessiva di un test positivo nella popolazione mista è:
 
-#| echo: false
-# Visualizzazione ad albero
-# Creare diagramma ad albero (struttura semplificata per visualizzazione)
-cat("\nStruttura ad albero:\n")
-cat("              [Popolazione Totale]\n")
-cat("                    /        \\\n")
-cat("                   /          \\\n")
-cat("         Clinica (0.3)    Pop.Gen. (0.7)\n")
-cat("            |                  |\n")
-cat("         T+ (0.36)          T+ (0.13)\n")
-cat("                               |\n")
-cat("                    P(T+) totale = 0.36×0.3 + 0.13×0.7 = 0.20\n")
-```
+$$
+\begin{aligned}
+P(T^+) &= P(T^+ \mid \text{Clinica}) \cdot P(\text{Clinica}) + P(T^+ \mid \text{Pop.Gen.}) \cdot P(\text{Pop.Gen.}) \\
+&= 0.36 \cdot 0.30 + 0.13 \cdot 0.70 \\
+&= 0.20.
+\end{aligned}
+$$
+
+Questo valore emerge come **media ponderata** delle probabilità di test positivo nei due contesti, mostrando chiaramente come la composizione della popolazione influenzi le prestazioni apparenti del test diagnostico.
 
 ## Paradosso di Simpson
 
-Il paradosso di Simpson rivela come una relazione osservata tra due variabili possa **invertire direzione** quando si analizzano separatamente i sottogruppi della popolazione. Questo fenomeno si verifica quando una **variabile confondente** (come la gravità del caso o caratteristiche demografiche) influenza sia l'esposizione sia l'esito.
+Il **paradosso di Simpson** mostra come una relazione statistica osservata tra due variabili possa **invertire direzione** quando i dati vengono analizzati separatamente all’interno di sottogruppi rilevanti della popolazione. Questo fenomeno non è dovuto a un errore di calcolo, ma all’ignorare una **variabile confondente** che influenza sia l’esposizione sia l’esito.
+
+Dal punto di vista probabilistico, il paradosso nasce quando si applica la **legge della probabilità totale** in modo implicito, aggregando dati provenienti da contesti diversi senza rendere esplicita la partizione dello spazio campionario.
 
 ::: {.callout-note collapse="true" title="Esempio"}
-**Efficacia del trattamento per la depressione in due cliniche**
 
-Due cliniche (A e B) valutano un nuovo trattamento per la depressione.
-La clinica A tratta soprattutto casi lievi, la clinica B casi gravi.
+### Efficacia del trattamento per la depressione in due cliniche {.unnumbered .unlisted}
 
-**Dati:**
+Due cliniche, A e B, valutano l’efficacia di un nuovo trattamento per la depressione.
+La clinica A tratta prevalentemente casi **lievi**, mentre la clinica B tratta prevalentemente casi **gravi**.
+
+#### Dati osservati
 
 ```{r}
 # Clinica A (casi lievi)
+
 n_A_trattati <- 90
 n_A_guariti_trattati <- 81   # 90% successo
 
@@ -417,6 +493,7 @@ n_A_controllo <- 10
 n_A_guariti_controllo <- 9   # 90% successo
 
 # Clinica B (casi gravi)
+
 n_B_trattati <- 10
 n_B_guariti_trattati <- 2    # 20% successo
 
@@ -424,12 +501,14 @@ n_B_controllo <- 90
 n_B_guariti_controllo <- 27  # 30% successo
 
 # Proporzioni per clinica
+
 prop_A_trattati <- n_A_guariti_trattati / n_A_trattati
 prop_A_controllo <- n_A_guariti_controllo / n_A_controllo
 prop_B_trattati <- n_B_guariti_trattati / n_B_trattati
 prop_B_controllo <- n_B_guariti_controllo / n_B_controllo
 
-# Aggregato (senza distinguere clinica)
+# Aggregato
+
 n_tot_trattati <- n_A_trattati + n_B_trattati
 n_tot_guariti_trattati <- n_A_guariti_trattati + n_B_guariti_trattati
 n_tot_controllo <- n_A_controllo + n_B_controllo
@@ -439,84 +518,107 @@ prop_tot_trattati <- n_tot_guariti_trattati / n_tot_trattati
 prop_tot_controllo <- n_tot_guariti_controllo / n_tot_controllo
 ```
 
-```{r}
-#| echo: false
-cat("=== PARADOSSO DI SIMPSON ===\n\n")
-cat("Clinica A (casi lievi):\n")
-cat("  Trattati:", round(prop_A_trattati, 2), "→", n_A_guariti_trattati, "/", n_A_trattati, "\n")
-cat("  Controllo:", round(prop_A_controllo, 2), "→", n_A_guariti_controllo, "/", n_A_controllo, "\n")
-cat("  → Efficacia uguale o leggermente migliore nel gruppo trattamento\n\n")
+#### Risultati per sottogruppo
 
-cat("Clinica B (casi gravi):\n")
-cat("  Trattati:", round(prop_B_trattati, 2), "→", n_B_guariti_trattati, "/", n_B_trattati, "\n")
-cat("  Controllo:", round(prop_B_controllo, 2), "→", n_B_guariti_controllo, "/", n_B_controllo, "\n")
-cat("  → Trattamento migliore anche qui\n\n")
+* **Clinica A (casi lievi)**
 
-cat("AGGREGATO (A + B):\n")
-cat("  Trattati:", round(prop_tot_trattati, 2), "→", n_tot_guariti_trattati, "/", n_tot_trattati, "\n")
-cat("  Controllo:", round(prop_tot_controllo, 2), "→", n_tot_guariti_controllo, "/", n_tot_controllo, "\n")
-cat("  → NELL'AGGREGATO: sembra che il trattamento funzioni PEGGIO!\n\n")
+  * Trattati: 90%
+  * Controllo: 90%
 
-cat("Spiegazione: la clinica B (casi gravi) contribuisce molto al gruppo trattato,\n")
-cat("mentre la clinica A (casi lievi) contribuisce molto al gruppo di controllo.\n")
-cat("Il mix diseguale dei casi (variabile confondente) inverte la relazione osservata.\n")
-```
+* **Clinica B (casi gravi)**
 
-**Visualizzazione**
+  * Trattati: 20%
+  * Controllo: 30%
+
+In **entrambi** i sottogruppi, il trattamento risulta almeno altrettanto efficace del controllo.
+
+#### Risultato aggregato
+
+Aggregando i dati delle due cliniche senza distinzione:
+
+* Trattati: $\approx 83%$
+* Controllo: $\approx 36%$
+
+Nell’analisi aggregata, il trattamento appare **meno efficace** del controllo, in apparente contraddizione con i risultati osservati in ciascun sottogruppo.
+
+### Visualizzazione
 
 ```{r}
 #| echo: false
 df_simpson <- data.frame(
-  Gruppo = rep(c("Clinica A", "Clinica B", "Aggregato"), each = 2),
-  Condizione = rep(c("Trattati", "Controllo"), 3),
-  Proporzione = c(
-    prop_A_trattati, prop_A_controllo,
-    prop_B_trattati, prop_B_controllo,
-    prop_tot_trattati, prop_tot_controllo
-  ),
-  Etichetta = c(
-    "Trattati\n(90%)", "Controllo\n(90%)",
-    "Trattati\n(20%)", "Controllo\n(30%)",
-    paste0("Trattati\n(", round(100 * prop_tot_trattati), "%)"),
-    paste0("Controllo\n(", round(100 * prop_tot_controllo), "%)")
-  )
+Gruppo = rep(c("Clinica A", "Clinica B", "Aggregato"), each = 2),
+Condizione = rep(c("Trattati", "Controllo"), 3),
+Proporzione = c(
+prop_A_trattati, prop_A_controllo,
+prop_B_trattati, prop_B_controllo,
+prop_tot_trattati, prop_tot_controllo
+),
+Etichetta = c(
+"Trattati\n(90%)", "Controllo\n(90%)",
+"Trattati\n(20%)", "Controllo\n(30%)",
+paste0("Trattati\n(", round(100 * prop_tot_trattati), "%)"),
+paste0("Controllo\n(", round(100 * prop_tot_controllo), "%)")
+)
 )
 
 ggplot(df_simpson, aes(x = Condizione, y = Proporzione, fill = Condizione)) +
-  geom_col(position = "dodge") +
-  geom_text(aes(label = Etichetta), vjust = -0.5, size = 3.5) +
-  facet_wrap(~Gruppo) +
-  labs(
-    title = "Paradosso di Simpson: l'inversione nell'efficacia del trattamento",
-    subtitle = "Ogni clinica mostra un effetto positivo, ma nell'aggregato il trattamento appare peggiore",
-    y = "Proporzione di guarigioni",
-    x = ""
-  ) +
-  theme_minimal(base_size = 13) +
-  theme(legend.position = "none") +
-  ylim(0, 1)
+geom_col(position = "dodge") +
+geom_text(aes(label = Etichetta), vjust = -0.5, size = 3.5) +
+facet_wrap(~Gruppo) +
+labs(
+title = "Paradosso di Simpson: inversione dell'efficacia del trattamento",
+subtitle = "Ogni clinica mostra un effetto positivo, ma l'aggregato suggerisce l'opposto",
+y = "Proporzione di guarigioni",
+x = ""
+) +
+theme_minimal(base_size = 13) +
+theme(legend.position = "none") +
+ylim(0, 1)
 ```
 
-Analizzando separatamente i dati di ciascuna clinica, il trattamento mostra un'efficacia positiva in entrambi i contesti. Tuttavia, quando i dati vengono aggregati, emerge un risultato controintuitivo: il trattamento appare complessivamente meno efficace del gruppo di controllo.
+### Spiegazione del paradosso
 
-Questo paradosso si spiega considerando la distribuzione diseguale dei casi tra i gruppi: la clinica B (casi gravi) contribuisce maggiormente al gruppo trattato, mentre la clinica A (casi lievi) prevale nel gruppo di controllo. La variabile confondente "gravità del caso" distorce la relazione osservata a livello aggregato.
+Il paradosso si spiega considerando la **distribuzione diseguale dei casi** tra i gruppi:
 
-**Interpretazione epistemica:** la probabilità condizionata corretta non è quella aggregata ma quella stratificata per clinica. L'analisi aggregata, ignorando la variabile confondente, può condurre a conclusioni erronee nonostante il trattamento sia benefico in tutti i sottogruppi.
+* la clinica B (casi gravi, con basse probabilità di guarigione) contribuisce in misura maggiore al gruppo trattato;
+* la clinica A (casi lievi, con alte probabilità di guarigione) contribuisce maggiormente al gruppo di controllo.
+
+La variabile confondente “gravità del caso” influenza sia l’assegnazione al trattamento sia l’esito clinico. L’aggregazione dei dati, ignorando questa variabile, produce una media ponderata fuorviante.
+
+### Interpretazione epistemica
+
+Dal punto di vista epistemico, la **probabilità condizionata corretta** non è quella aggregata, ma quella **condizionata alla clinica**:
+
+$$
+P(\text{Guarigione} \mid \text{Trattamento}, \text{Clinica}).
+$$
+
+L’analisi aggregata utilizza implicitamente la legge della probabilità totale senza rendere esplicita la partizione rilevante dello spazio campionario. Il paradosso di Simpson non indica quindi una contraddizione della probabilità, ma un **avvertimento metodologico**: quando esistono variabili confondenti rilevanti, è necessario condizionare correttamente per evitare conclusioni erronee, anche quando tutti i sottogruppi mostrano lo stesso effetto qualitativo.
 :::
 
+### Nota di continuità con il capitolo
 
+Questa sezione chiude in modo naturale il percorso del capitolo:
+
+* la **probabilità condizionata** come aggiornamento;
+* la **legge della probabilità totale** come aggregazione di scenari;
+* il **paradosso di Simpson** come esempio di ciò che accade quando l’aggregazione ignora una partizione informativamente rilevante.
+
+Da qui, il passaggio al **teorema di Bayes** è diretto: Bayes mostrerà come invertire queste probabilità condizionate in modo coerente, rendendo esplicito il ruolo dell’evidenza nel discriminare tra scenari alternativi.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-La probabilità condizionata rappresenta il meccanismo formale attraverso il quale le credenze si aggiornano in modo coerente quando nuove informazioni diventano disponibili. Questo capitolo ha esaminato i principi fondamentali di questo meccanismo.
+La **probabilità condizionata** costituisce il meccanismo formale attraverso il quale le credenze vengono aggiornate in modo coerente quando nuove informazioni diventano disponibili. In questo capitolo abbiamo analizzato i principi fondamentali di tale meccanismo, mostrando come l’aggiornamento probabilistico non sia un’operazione ad hoc, ma una conseguenza necessaria dei vincoli di coerenza del ragionamento sotto incertezza.
 
-Dal punto di vista epistemico, l'espressione $P(A \mid B)$ formalizza quantitativamente il grado di fiducia in $A$ dopo l'acquisizione dell'informazione $B$. Questo aggiornamento si realizza attraverso un processo di contrazione e rinormalizzazione dello spazio delle possibilità. Il concetto di indipendenza probabilistica, al contrario, caratterizza le situazioni in cui gli eventi non forniscono informazioni reciproche: la conoscenza di uno non altera la probabilità assegnata all'altro.
+Dal punto di vista epistemico, l’espressione $P(A \mid B)$ quantifica il grado di fiducia in $A$ dopo aver acquisito l’informazione che $B$ è vero. Questo aggiornamento si realizza attraverso un processo ben definito di **riduzione** dello spazio delle possibilità alle sole configurazioni compatibili con $B$ e di **rinormalizzazione** delle credenze residue. In contrasto, il concetto di **indipendenza probabilistica** caratterizza le situazioni in cui l’informazione su un evento non modifica in alcun modo la plausibilità dell’altro: sapere che uno si è verificato non fornisce informazione rilevante sull’altro.
 
-Il teorema del prodotto fornisce la regola per costruire distribuzioni congiunte a partire da probabilità condizionate sequenziali, mentre la legge della probabilità totale permette di scomporre le probabilità marginali in medie ponderate delle probabilità condizionate. Il paradosso di Simpson evidenzia la necessità di condizionare su variabili rilevanti, mostrando come aggregazioni non appropriate possano invertire artificialmente le relazioni causali sottostanti.
+Il **teorema del prodotto** ha mostrato come le probabilità congiunte possano essere costruite in modo sequenziale a partire da probabilità condizionate, rendendo esplicita la struttura informativa del ragionamento. La **legge della probabilità totale** ha poi evidenziato come le probabilità marginali emergano come medie ponderate delle probabilità condizionate a scenari alternativi. In questo contesto, il **paradosso di Simpson** ha svolto un ruolo cruciale, illustrando come l’aggregazione non controllata dei dati possa condurre a conclusioni fuorvianti quando vengono ignorate variabili confondenti rilevanti.
 
-La probabilità condizionata rappresenta quindi non solo uno strumento tecnico, ma anche il fondamento concettuale del pensiero bayesiano. Nel prossimo capitolo, il teorema di Bayes emergerà come caso particolare di probabilità condizionata che formalizza l'inversione probabilistica e che permette di passare da $P(\text{Evidenza} \mid \text{Ipotesi})$ a $P(\text{Ipotesi} \mid \text{Evidenza})$.
+Nel loro insieme, questi risultati mostrano che la probabilità condizionata non è soltanto uno strumento tecnico di calcolo, ma il **fondamento concettuale del pensiero bayesiano**. Essa chiarisce come l’informazione debba essere incorporata nelle credenze in modo sistematico e come il contesto informativo giochi un ruolo essenziale nell’interpretazione dei dati.
 
-Ogni volta che utilizziamo espressioni come "dato che", "sapendo che" o "alla luce di", stiamo implicitamente applicando il principio della probabilità condizionata per aggiornare le nostre credenze in modo logicamente strutturato e matematicamente rigoroso.
+Nel prossimo capitolo, il **teorema di Bayes** emergerà come un caso particolare e centrale di probabilità condizionata, formalizzando l’**inversione probabilistica** che consente di passare da $P(\text{Evidenza} \mid \text{Ipotesi})$ a $P(\text{Ipotesi} \mid \text{Evidenza})$. Questo passaggio renderà esplicito il meccanismo con cui le osservazioni empiriche permettono di discriminare tra ipotesi alternative.
+
+In definitiva, ogni volta che utilizziamo espressioni come “dato che”, “sapendo che” o “alla luce di”, stiamo implicitamente applicando il principio della probabilità condizionata: stiamo aggiornando le nostre credenze in risposta a nuove informazioni, seguendo regole che sono al tempo stesso logicamente necessarie e matematicamente precise.
 
 ## Esercizi {.unnumbered}
 

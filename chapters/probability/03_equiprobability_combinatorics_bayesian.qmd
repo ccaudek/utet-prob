@@ -2,17 +2,19 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Come si può calcolare la probabilità di un evento, come ad esempio ottenere “testa” nel lancio di una moneta? L’intuizione classica suggerisce di contare i modi in cui l’evento può verificarsi e di dividere questo numero per il totale degli esiti possibili, dando origine alla seguente formula:
+Come si può calcolare la probabilità di un evento, ad esempio ottenere “testa” nel lancio di una moneta? L’intuizione più diffusa suggerisce di contare il numero di modi in cui l’evento può verificarsi e di dividerlo per il numero totale degli esiti possibili, ottenendo la formula:
 
 $$
 \text{Probabilità} = \frac{\text{casi favorevoli}}{\text{casi possibili}}.
 $$
 
-Ma quando è legittimo usare questa semplice regola? La risposta è che non si tratta di una legge universale, ma di un caso speciale valido solo se tutti gli esiti sono **equiprobabili**. Solo quando ogni risultato è altrettanto plausibile, il rapporto tra casi favorevoli e casi possibili corrisponde a una probabilità reale.
+Questa regola, spesso presentata come ovvia o universale, è in realtà valida solo in condizioni ben precise. In particolare, essa può essere applicata correttamente **solo quando tutti gli esiti sono equiprobabili**, cioè quando ogni risultato è ritenuto altrettanto plausibile degli altri.
 
-La prospettiva bayesiana chiarisce il fondamento concettuale di questa condizione: l’equiprobabilità non è una proprietà intrinseca del mondo, ma nasce da uno **stato di simmetria epistemica**, ossia dalla nostra totale mancanza di ragioni per considerare un esito più credibile di un altro. In questo contesto, il calcolo combinatorio (combinazioni, permutazioni) diventa uno strumento utile per elencare le possibili configurazioni in situazioni di simmetria informativa, ma non una definizione autonoma di probabilità.
+La prospettiva bayesiana chiarisce il fondamento concettuale di questa condizione: l’equiprobabilità non è una proprietà intrinseca del mondo, ma il riflesso di uno **stato di simmetria epistemica**. In altre parole, assegniamo probabilità uguali agli esiti solo quando, sulla base delle informazioni disponibili, non abbiamo alcuna ragione per preferire un risultato rispetto a un altro.
 
-Non appena emergono informazioni asimmetriche, come palline di peso diverso in un'urna o item di un test con difficoltà variabile, l'ipotesi di equiprobabilità crolla. Situazioni di questo tipo sono molto comuni in psicologia e, in questi casi, la formula classica può risultare fuorviante, rendendo necessario adottare **modelli parametrici più sofisticati**, capaci di rappresentare realisticamente la nostra incertezza.
+In questo contesto, il calcolo combinatorio — permutazioni, combinazioni e conteggi — non definisce la probabilità, ma costituisce uno strumento operativo per elencare e confrontare le configurazioni possibili *quando* una simmetria informativa giustifica l’assegnazione di probabilità uguali. La combinatoria è quindi subordinata all’ipotesi di equiprobabilità, non il suo fondamento.
+
+Non appena emergono informazioni asimmetriche — ad esempio palline di peso diverso in un’urna, risposte a item con difficoltà variabile o prestazioni influenzate da differenze individuali — l’ipotesi di equiprobabilità viene meno. Situazioni di questo tipo sono la norma in psicologia. In tali contesti, l’uso meccanico della formula classica può risultare fuorviante, rendendo necessario ricorrere a **modelli probabilistici più generali**, capaci di rappresentare in modo realistico la nostra incertezza.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
@@ -49,114 +51,151 @@ pacman::p_load(ggplot2, dplyr, tidyr, gtools, combinat, gtools)
 ::: {#def-principle-indifference}
 ### Principio di indifferenza
 
-Se non abbiamo *ragioni per distinguere* tra $n$ possibilità mutualmente esclusive ed esaustive, è coerente assegnare a ciascuna la stessa credenza $1/n$.
+Se non disponiamo di *ragioni per distinguere* tra $n$ possibilità mutualmente esclusive ed esaustive, è coerente assegnare a ciascuna la stessa credenza $1/n$.
 :::
 
-Il principio non afferma che gli esiti siano "fisicamente equiprobabili", ma che la *nostra ignoranza è simmetrica*. In assenza di informazioni discriminanti, la distribuzione uniforme rappresenta il massimo livello di incertezza.
+Il principio di indifferenza non afferma che gli esiti siano “fisicamente equiprobabili”, ma che la *nostra ignoranza è simmetrica*. In assenza di informazioni che favoriscano un esito rispetto a un altro, la distribuzione uniforme rappresenta una scelta coerente, in quanto esprime il massimo livello di incertezza compatibile con lo stato informativo disponibile.
 
 ::: {.callout-important title="Distinzione cruciale"}
-**Frequentista**: "Il dado è equo, quindi ogni faccia ha probabilità 1/6" (proprietà fisica).
+**Prospettiva frequentista**  
+> “Il dado è equo, quindi ogni faccia ha probabilità $1/6$.”  
+*(proprietà fisica del dispositivo)*
 
-**Bayesiano**: "Non ho informazioni che favoriscano una faccia, quindi assegno credenza 1/6 a ciascuna" (simmetria epistemica).
+**Prospettiva bayesiana**  
+> “Non ho informazioni che favoriscano una faccia rispetto alle altre, quindi assegno credenza $1/6$ a ciascuna.”  
+*(simmetria epistemica dello stato informativo)*
 :::
 
 ### Condizioni di applicabilità
 
-Il principio di indifferenza si applica legittimamente quando sussistono:
+Il principio di indifferenza può essere applicato in modo legittimo solo quando sussistono precise condizioni epistemiche. In particolare, esso è giustificato quando:
 
-1. **simmetria fisica**: dadi regolari, monete bilanciate, urne omogenee;
-2. **ignoranza totale**: nessuna informazione discriminante tra gli esiti;
-3. **assenza di struttura**: nessuna dipendenza o pattern che favorisca determinati esiti.
+1. **simmetria fisica**  
+   Il sistema è progettato o costruito in modo simmetrico (ad esempio dadi regolari, monete bilanciate, urne omogenee).
+
+2. **ignoranza informativa**  
+   Non sono disponibili informazioni empiriche o teoriche che distinguano tra gli esiti.
+
+3. **assenza di struttura rilevante**  
+   Non sono presenti dipendenze, vincoli o pattern che rendano alcuni esiti più plausibili di altri.
+
+È importante sottolineare che queste condizioni non sono regole automatiche, ma richiedono un giudizio esplicito sul contesto e sul processo che genera gli esiti.
 
 ::: {.callout-warning title="Attenzione: il paradosso di Bertrand"}
-L'applicazione automatica del principio può generare contraddizioni. Nel *paradosso dei cubi di Bertrand*, una fabbrica produce cubi con lati compresi tra 0 e 1 metro. Qual è la probabilità che un cubo abbia un lato maggiore di 0.5 m?
+L’applicazione ingenua del principio di indifferenza può condurre a contraddizioni, come illustrato dal celebre *paradosso di Bertrand*. 
 
-- Se si assume l'equiprobabilità sulla *lunghezza*, si ottiene $P(\text{lato} > 0.5) = 0.5$.
-- Se si assume l'equiprobabilità sul *volume*, si ottiene un risultato diverso.
+Supponiamo che una fabbrica produca cubi con lati compresi tra 0 e 1 metro. Qual è la probabilità che un cubo abbia un lato maggiore di 0.5 m?
 
-La contraddizione nasce dall'ambiguità sulla variabile da considerare "naturale". La soluzione bayesiana richiede di specificare esplicitamente la parametrizzazione rilevante per il problema, basandosi sulle informazioni disponibili sul processo di generazione.
+- Se si assume l’equiprobabilità sulla **lunghezza del lato**, si ottiene  
+  $$P(\text{lato} > 0.5) = 0.5.$$
+- Se si assume invece l’equiprobabilità sul **volume**, si ottiene un risultato diverso.
+
+La contraddizione nasce dall’ambiguità nella scelta della variabile rispetto alla quale applicare l’indifferenza. Dal punto di vista bayesiano, il paradosso non indica un fallimento del principio, ma segnala la necessità di specificare esplicitamente la **parametrizzazione rilevante**, basandosi sulle informazioni disponibili sul meccanismo di generazione degli oggetti.
 :::
 
 ## La formula classica come caso speciale
 
-Quando si accetta il principio di indifferenza per uno spazio campionario finito, la formula classica emerge come conseguenza logica.
+Quando si accetta il principio di indifferenza in uno spazio campionario finito, la formula classica della probabilità emerge come una conseguenza diretta degli assiomi di coerenza.
 
 ::: {#thm-classical-formula}
 ### Formula classica della probabilità
 
-Dato uno spazio campionario finito $\Omega = \{\omega_1, \ldots, \omega_n\}$ con esiti equiprobabili $P(\omega_i) = 1/n$, per qualsiasi evento $A \subseteq \Omega$:
+Sia $\Omega = \{\omega_1, \ldots, \omega_n\}$ uno spazio campionario finito in cui, per simmetria epistemica, tutti gli esiti sono equiprobabili, cioè
+$$
+P(\omega_i) = \frac{1}{n} \quad \text{per ogni } i.
+$$
 
+Allora, per qualsiasi evento $A \subseteq \Omega$,
 $$
 P(A) = \frac{|A|}{|\Omega|} = \frac{\text{casi favorevoli}}{\text{casi possibili}}.
 $$
 
-**Dimostrazione**: Per additività, $P(A) = \sum_{\omega_i \in A} P(\omega_i) = |A| \cdot \frac{1}{n} = \frac{|A|}{|\Omega|}$.
+**Dimostrazione**
+
+Per l’assioma di additività, la probabilità di $A$ è la somma delle probabilità degli esiti elementari che lo compongono:
+$$
+P(A) = \sum_{\omega_i \in A} P(\omega_i).
+$$
+Poiché ciascun esito ha probabilità $1/n$ e $A$ contiene $|A|$ elementi, segue immediatamente che
+$$
+P(A) = |A| \cdot \frac{1}{n} = \frac{|A|}{|\Omega|}.
+$$
 :::
 
-Questa formula non è una *definizione* di probabilità, ma una *conseguenza* degli assiomi di coerenza combinati con l'assunzione di equiprobabilità. La sua validità è condizionata all'appropriatezza di tale assunzione.
+La formula classica non costituisce quindi una *definizione* di probabilità, ma una *conseguenza* degli assiomi della probabilità combinati con l’assunzione di equiprobabilità. La sua applicabilità dipende interamente dalla legittimità di tale assunzione nel contesto considerato.
 
 ## Tecniche di calcolo combinatorio
 
-Il calcolo combinatorio fornisce gli strumenti per elencare sistematicamente le configurazioni che consideriamo equiprobabili. La scelta della tecnica appropriata dipende da due domande: *l'ordine conta?* e *stiamo selezionando tutti gli elementi o solo alcuni?*
+Il calcolo combinatorio fornisce gli strumenti per **contare sistematicamente le configurazioni che, in presenza di simmetria epistemica, consideriamo equiprobabili**. La combinatoria non definisce la probabilità, ma consente di applicare la formula classica una volta che l’ipotesi di equiprobabilità è stata giustificata.
+
+La scelta della tecnica appropriata dipende da due domande fondamentali:
+
+1. *l’ordine conta?*
+2. *stiamo selezionando tutti gli elementi o solo alcuni?*
 
 ### Principio della somma
 
-Quando uno spazio si suddivide in categorie mutualmente esclusive:
+Quando uno spazio delle possibilità si suddivide in categorie **mutuamente esclusive**, il numero totale di configurazioni è dato dalla somma dei casi in ciascuna categoria:
 
 $$
-n_{\text{totale}} = n_1 + n_2 + \dots + n_k
+n_{\text{totale}} = n_1 + n_2 + \dots + n_k.
 $$
 
-**Esempio**: un paziente deve scegliere tra 8 protocolli cognitivi, 6 comportamentali e 10 integrati. In assenza di preferenze, le opzioni equiprobabili sono $8 + 6 + 10 = 24$, con probabilità $1/24$ per ciascun protocollo.
+**Esempio** 
 
-```{r}
-# Scelta di trattamenti
-A <- 8   # Terapie cognitive
-B <- 6   # Terapie comportamentali
-C <- 10  # Terapie integrate
+Un paziente può accedere a:
 
-n_totale <- A + B + C
-cat("Opzioni totali:", n_totale, "\n")
-cat("P(protocollo specifico):", round(1/n_totale, 4))
-```
+- 8 protocolli cognitivi,
+- 6 protocolli comportamentali,
+- 10 protocolli integrati.
+
+In assenza di informazioni che favoriscano una scelta rispetto alle altre, le opzioni equiprobabili sono:
+
+$$
+8 + 6 + 10 = 24,
+$$
+con probabilità $1/24$ per ciascun protocollo.
 
 ### Principio del prodotto
 
-Per scelte sequenziali indipendenti:
+Quando una configurazione è il risultato di **scelte sequenziali indipendenti**, il numero totale di possibilità si ottiene moltiplicando il numero di opzioni disponibili a ciascun passo:
 
 $$
-n_{\text{totale}} = n_1 \times n_2 \times \dots \times n_k
+n_{\text{totale}} = n_1 \times n_2 \times \dots \times n_k.
 $$
 
-**Esempio**: progettazione di uno studio con 3 metodi di valutazione, 4 frequenze di misurazione e 2 durate di follow-up. I design equiprobabili sono $3 \times 4 \times 2 = 24$.
+**Esempio**
 
-```{r}
-# Design dello studio
-metodi <- 3
-frequenze <- 4
-follow_up <- 2
+Nella progettazione di uno studio sperimentale:
 
-n_design <- metodi * frequenze * follow_up
-cat("Design possibili:", n_design)
-```
+- 3 metodi di valutazione,
+- 4 frequenze di misurazione,
+- 2 durate di follow-up,
 
-### Permutazioni: tutti gli ordinamenti di n elementi
-
-Le **permutazioni** contano i modi di ordinare $n$ oggetti distinti:
+producono:
 
 $$
-P_n = n! = n \times (n-1) \times \cdots \times 1
+3 \times 4 \times 2 = 24
+$$
+disegni equiprobabili, in assenza di preferenze teoriche o pratiche.
+
+### Permutazioni: tutti gli ordinamenti di $n$ elementi
+
+Le **permutazioni** contano i modi di ordinare $n$ oggetti distinti quando l’ordine è rilevante:
+
+$$
+P_n = n! = n \times (n-1) \times \cdots \times 1.
 $$ {#eq-permutations-def}
 
-L'intuizione: il primo elemento può essere scelto in $n$ modi, il secondo in $n-1$, e così via.
+L’intuizione è semplice: il primo elemento può essere scelto in $n$ modi, il secondo in $n-1$, e così via fino all’ultimo.
 
 ::: {.callout-note title="Esempio: ordine di presentazione degli stimoli"}
 In un esperimento sulla memoria, 5 parole vengono presentate in ordine casuale. Gli ordinamenti possibili sono:
 $$
-P_5 = 5! = 120
+5! = 120.
 $$
 
-Sotto equiprobabilità, ogni sequenza specifica ha probabilità $1/120 \approx 0.008$.
+Se si assume equiprobabilità, ogni sequenza specifica ha probabilità $1/120 \approx 0.008$.
 :::
 
 ```{r}
@@ -178,19 +217,20 @@ for(i in 1:3) {
 
 ### Disposizioni: $k$ elementi ordinati da $n$
 
-Le **disposizioni** contano i modi di scegliere e ordinare $k$ oggetti da $n$:
+Le **disposizioni** contano i modi di scegliere e ordinare $k$ oggetti distinti estratti da un insieme di $n$ elementi:
 
 $$
-D_{n,k} = \frac{n!}{(n-k)!} = n \times (n-1) \times \cdots \times (n-k+1).
+D_{n,k} = \frac{n!}{(n-k)!}
+       = n \times (n-1) \times \cdots \times (n-k+1).
 $$ {#eq-dispositions-def}
 
 ::: {.callout-note title="Esempio: assegnazione di ruoli in terapia di gruppo"}
-Supponiamo di avere 8 partecipanti e di dover assegnare 3 ruoli distinti (facilitatore, osservatore e timekeeper):
+Con 8 partecipanti e 3 ruoli distinti (facilitatore, osservatore, timekeeper):
 $$
-D_{8,3} = 8 \times 7 \times 6 = 336.
+D_{8,3} = 336.
 $$
 
-Ogni assegnazione ha una probabilità di $1/336 \approx 0.003$ se non si hanno informazioni sulle competenze individuali.
+In assenza di informazioni sulle competenze individuali, ogni assegnazione ha probabilità $1/336 \approx 0.003$.
 :::
 
 ```{r}
@@ -207,21 +247,21 @@ cat("P(assegnazione specifica):", round(1/n_disp, 5))
 
 ### Combinazioni: $k$ elementi non ordinati da $n$
 
-Le **combinazioni** contano i sottoinsiemi di $k$ elementi presi da $n$ (l'ordine non conta):
+Le **combinazioni** contano i sottoinsiemi di $k$ elementi scelti da $n$, quando l’ordine non è rilevante:
 
 $$
 C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 $$ {#eq-combinations-def}
 
-La formula si ottiene dividendo le disposizioni per $k!$ (le permutazioni interne al gruppo scelto).
+La formula si ottiene dividendo le disposizioni per $k!$, che rappresenta il numero di permutazioni interne allo stesso gruppo.
 
 ::: {.callout-note title="Esempio: formazione di coppie terapeutiche"}
-Supponiamo di avere 12 volontari per peer counseling. Le coppie possibili sono:
+Con 12 volontari per il peer counseling, le coppie possibili sono:
 $$
-\binom{12}{2} = \frac{12 \times 11}{2} = 66.
+\binom{12}{2} = 66.
 $$
 
-Ogni coppia ha probabilità $1/66 \approx 0.015$ se non si hanno informazioni sulla compatibilità.
+Se non si dispone di informazioni sulla compatibilità, ogni coppia ha probabilità $1/66 \approx 0.015$.
 :::
 
 ```{r}
@@ -236,19 +276,23 @@ cat("P(coppia specifica):", round(1/n_coppie, 4))
 
 ### Riepilogo: quale tecnica usare?
 
-| Tecnica | Ordine conta? | Formula | Esempio psicologico |
-|---------|---------------|---------|---------------------|
-| Permutazioni | Sì (tutti gli elementi) | $n!$ | Ordine di $n$ stimoli |
-| Disposizioni | Sì (solo $k$ elementi) | $\frac{n!}{(n-k)!}$ | $k$ ruoli distinti a $n$ persone |
-| Combinazioni | No | $\binom{n}{k}$ | Gruppo di $k$ partecipanti da $n$ |
+| Tecnica        | Ordine conta?             | Formula                        | Esempio psicologico |
+|---------------|---------------------------|--------------------------------|---------------------|
+| Permutazioni  | Sì (tutti gli elementi)   | $n!$                           | Ordine di $n$ stimoli |
+| Disposizioni  | Sì (solo $k$ elementi)    | $\frac{n!}{(n-k)!}$            | Assegnazione di ruoli |
+| Combinazioni  | No                        | $\binom{n}{k}$                 | Formazione di gruppi |
 
 ::: {.callout-important title="Principio fondamentale"}
-Ogni formula combinatoria incorpora l'assunzione che tutte le configurazioni elencate siano equiprobabili. Se disponiamo di informazioni che distinguono alcune configurazioni (per esempio, ordini che causano interferenza o coppie incompatibili), dobbiamo abbandonare il modello uniforme.
+Ogni formula combinatoria incorpora l’assunzione che tutte le configurazioni elencate siano equiprobabili.  
+
+Se disponiamo di informazioni che distinguono alcune configurazioni — ad esempio ordini che causano interferenza, ruoli assegnati in base alle competenze o coppie incompatibili — il modello uniforme non è più appropriato e deve essere sostituito da un modello probabilistico più ricco.
 :::
 
 ## Quando l'equiprobabilità non si applica
 
-Nella ricerca psicologica, l’assunzione di **equiprobabilità** è raramente realistica. La regola, piuttosto, è la **variabilità sistematica** tra stimoli, individui o condizioni. Un esempio tipico è un test psicometrico i cui item differiscono per difficoltà intrinseca: alcuni sono relativamente facili per la popolazione di riferimento, mentre altri sono più impegnativi.
+Nella ricerca psicologica, l’assunzione di **equiprobabilità** è raramente realistica. Piuttosto che l’eccezione, la regola è la presenza di **variabilità sistematica** tra stimoli, individui o condizioni sperimentali. In molti contesti, esistono buone ragioni teoriche ed empiriche per ritenere che alcuni esiti siano più plausibili di altri.
+
+Un esempio tipico è rappresentato dai test psicometrici, nei quali gli item differiscono per **difficoltà intrinseca**: alcuni risultano relativamente facili per la popolazione di riferimento, mentre altri richiedono abilità più elevate.
 
 ```{r}
 # Item con diversi livelli di difficoltà (probabilità di risposta corretta)
@@ -265,27 +309,44 @@ risposte <- replicate(1000, rbinom(5, 1, item_difficolta))
 cat("\nProporzioni osservate (simulate):", round(rowMeans(risposte), 2))
 ```
 
-L’output della simulazione mostra chiaramente che le proporzioni osservate riflettono le probabilità sottostanti, **non** un valore uniforme. Assumere un modello equiprobabile (ad esempio $P(\text{corretta}) = 0.5$ per tutti gli item) comporterebbe distorsioni rilevanti. **Sottostimerebbe la performance reale sugli item facili** e **sovrastimerebbe quella sugli item difficili**. Questo errore non è solo quantitativo, ma anche concettuale, perché significherebbe ignorare la struttura intrinseca del costrutto che si intende misurare.
+L’output della simulazione mostra che le proporzioni osservate riflettono in modo sistematico le probabilità sottostanti associate a ciascun item, e **non** un valore uniforme. Questo comportamento è una conseguenza diretta della struttura del processo generativo: item con probabilità di risposta corretta più elevata producono, in media, proporzioni di risposte corrette maggiori.
+
+Assumere un modello equiprobabile (ad esempio ponendo $P(\text{risposta corretta}) = 0.5$ per tutti gli item) introdurrebbe distorsioni rilevanti. In particolare, il modello:
+
+- **sottostimerebbe** la performance attesa sugli item più facili;
+- **sovrastimerebbe** la performance sugli item più difficili.
+
+L’errore non è soltanto quantitativo, ma anche concettuale: ignorare le differenze di difficoltà significa trascurare una componente essenziale del costrutto che il test intende misurare. In questi casi, l’equiprobabilità non è semplicemente imprecisa, ma epistemicamente ingiustificata.
+
 
 ## La distribuzione Beta: dal discreto al continuo
 
-Nella ricerca psicologica, spesso non ci limitiamo a contare eventi equiprobabili, ma stimiamo **parametri sconosciuti**. La distribuzione Beta fornisce uno strumento flessibile per rappresentare le credenze riguardo a probabilità sconosciute $\theta \in [0,1]$.
+Nei capitoli precedenti abbiamo considerato situazioni in cui lo spazio delle possibilità è discreto e finito. In molti contesti di ricerca psicologica, tuttavia, non ci limitiamo a contare eventi equiprobabili, ma dobbiamo stimare **parametri sconosciuti**, come una probabilità di successo, una proporzione o una prestazione media.
+
+La **distribuzione Beta** fornisce uno strumento flessibile e intuitivo per rappresentare le credenze riguardo a una probabilità sconosciuta
+$$
+\theta \in [0,1],
+$$
+costituendo il naturale passaggio dal caso discreto a quello continuo.
 
 ### Intuizione: la Beta come "memoria di esperienze"
 
-La distribuzione Beta($\alpha, \beta$) può essere interpretata come una **memoria sintetica di esperienze passate**:
+La distribuzione $\text{Beta}(\alpha, \beta)$ può essere interpretata come una **sintesi di esperienze passate** sotto forma di conteggi virtuali:
 
-* $\alpha - 1$ successi virtuali;
-* $\beta - 1$ insuccessi virtuali.
+- $\alpha - 1$ *successi*;
+- $\beta - 1$ *insuccessi*.
 
-Questa rappresentazione consente di modulare sia la **posizione centrale** della credenza (la media) sia la **forza della convinzione** (quanto la distribuzione è concentrata).
+Questa interpretazione rende la Beta particolarmente adatta alla modellazione psicologica: i parametri controllano sia
+
+- la **posizione centrale** della credenza (dove riteniamo più plausibile che si trovi $\theta$),
+- sia la **forza della convinzione** (quanto siamo certi di tale valutazione).
 
 ::: {.callout-note title="Esempio: valutazione di un nuovo studente"}
 
-* **Beta(1, 1)**: ignoranza totale — ogni valore di $\theta$ è ugualmente plausibile.
-* **Beta(5, 5)**: credenza moderata verso valori centrali.
-* **Beta(20, 10)**: aspettativa di abilità elevate (media ≈ 0.67).
-* **Beta(2, 8)**: aspettativa di difficoltà (media ≈ 0.20).
+- **Beta(1,1)**: ignoranza totale — ogni valore di $\theta$ è ugualmente plausibile.
+- **Beta(5,5)**: credenza moderata verso valori centrali.
+- **Beta(20,10)**: aspettativa di abilità elevate (media ≈ 0.67).
+- **Beta(2,8)**: aspettativa di difficoltà (media ≈ 0.20).
 :::
 
 ```{r}
@@ -318,13 +379,15 @@ ggplot(df_beta, aes(x = theta, y = Densita, color = Distribuzione)) +
 
 ::: {.callout-tip title="Interpretazione dei parametri"}
 
-* **Forza delle credenze**: $\alpha + \beta$.
-  Valori elevati → distribuzione concentrata (credenze forti); valori bassi → distribuzione diffusa (incertezza elevata).
+- **Forza delle credenze**: $\alpha + \beta$  
+  Valori elevati → distribuzione concentrata (credenze forti);  
+  valori bassi → distribuzione diffusa (incertezza elevata).
 
-* **Posizione (media)**: $\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}$.
-  Indica dove si concentra la credenza.
+- **Posizione (media)**:  
+  $$\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}.$$
 
-* **Simmetria**: se $\alpha = \beta$, la distribuzione è simmetrica attorno a 0.5.
+- **Simmetria**:  
+  se $\alpha = \beta$, la distribuzione è simmetrica attorno a 0.5.
 :::
 
 ```{r}
@@ -355,41 +418,50 @@ ggplot(df_forza, aes(x = theta, y = Densita, color = Forza)) +
 ### Definizione formale
 
 ::: {#def-beta-distribution}
-Una variabile $\theta \sim \text{Beta}(\alpha, \beta)$ ha densità:
+Una variabile casuale $\theta \sim \text{Beta}(\alpha, \beta)$ ha densità:
 
 $$
-f(\theta; \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} \theta^{\alpha-1} (1-\theta)^{\beta-1}, \quad \theta \in [0,1]
+f(\theta; \alpha, \beta)
+= \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}
+  \theta^{\alpha-1}(1-\theta)^{\beta-1},
+\quad \theta \in [0,1].
 $$
 
-**Proprietà principali**:
+**Proprietà principali**
+- Media: $\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}$.
+- Varianza: $\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$.
+- Moda: $\frac{\alpha-1}{\alpha+\beta-2}$ per $\alpha,\beta>1$.
 
-* Media: $\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}$.
-* Varianza: $\text{Var}(\theta) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$.
-* Moda: $\frac{\alpha-1}{\alpha+\beta-2}$ per $\alpha, \beta > 1)$.
-
-**Casi notevoli**:
-
-* Beta(1,1) = uniforme su [0,1] (ignoranza totale)
-* Beta(0.5,0.5) = prior di Jeffreys
+**Casi notevoli**
+- Beta(1,1): uniforme su [0,1] (ignoranza epistemica).
+- Beta(0.5,0.5): prior di Jeffreys.
 :::
 
 ### Beta(1,1): la generalizzazione continua dell’equiprobabilità
 
-La distribuzione Beta(1,1) coincide con la distribuzione uniforme su [0,1]: ogni valore di $\theta$ è ugualmente plausibile. È l’analogo **continuo** del principio di indifferenza, estendendo l’idea di equiprobabilità dal discreto al continuo.
+La distribuzione Beta(1,1) coincide con la distribuzione uniforme su [0,1]: ogni valore di $\theta$ è ugualmente plausibile.
+
+Essa rappresenta l’analogo **continuo** del principio di indifferenza, estendendo l’idea di equiprobabilità dal caso discreto (esiti finiti) al caso continuo (parametri reali).
+
+Questo passaggio concettuale è cruciale:
+
+> **equiprobabilità discreta ↔ uniformità continua**.
 
 ## Aggiornamento bayesiano: il modello Beta-Binomiale
 
-Quando osserviamo $k$ successi su $n$ prove binarie, la distribuzione Beta agisce come **prior** e viene aggiornata naturalmente a posteriori secondo la regola di Bayes:
+Quando osserviamo $k$ successi su $n$ prove binarie, la distribuzione Beta funge da *prior* e viene aggiornata in modo naturale tramite il teorema di Bayes:
 
 $$
-\text{Prior: } \theta \sim \text{Beta}(\alpha, \beta) \quad \Rightarrow \quad \text{Posterior: } \theta \mid k \sim \text{Beta}(\alpha + k, \beta + n - k).
+\theta \sim \text{Beta}(\alpha, \beta)
+\;\Rightarrow\;
+\theta \mid k \sim \text{Beta}(\alpha + k, \beta + n - k).
 $$
 
-Questa proprietà, nota come **coniugazione Beta-Binomiale**, permette di aggiornare le credenze in modo semplice e interpretabile.
+Questa proprietà, nota come **coniugazione Beta–Binomiale**, consente di aggiornare le credenze in modo semplice, interpretabile e computazionalmente efficiente.
 
 ### Esempio: test a scelta multipla
 
-Uno studente risponde a 20 domande con 4 opzioni ciascuna. Supponiamo di avere un prior Beta(1,3), riflettendo l’ipotesi iniziale che le risposte siano casuali (media 0.25). Se osserviamo 7 risposte corrette, la posterior diventa:
+Uno studente risponde a 20 domande con 4 opzioni ciascuna. Supponiamo di adottare un prior Beta(1,3), che riflette l’ipotesi iniziale di risposte casuali (probabilità media 0.25). Se osserviamo 7 risposte corrette, la posterior diventa:
 
 $$
 \text{Posterior: } \theta \sim \text{Beta}(1 + 7, 3 + 13) = \text{Beta}(8, 16).
@@ -471,30 +543,39 @@ ggplot(df_evol, aes(x = theta, y = Densita, color = n)) +
 
 ## Applicazioni psicologiche
 
+Gli esempi discussi finora mostrano che l’equiprobabilità è un’ipotesi forte e spesso irrealistica. Nei fenomeni psicologici, le probabilità variano sistematicamente in funzione di caratteristiche latenti degli individui, degli stimoli o del contesto. In questa sezione presentiamo alcuni esempi applicativi per illustrare *perché* modelli probabilistici non uniformi sono la norma, rimandando la trattazione formale ai capitoli successivi.
+
 ### Item Response Theory (IRT)
 
-Nella psicologia dell’apprendimento, la probabilità di rispondere correttamente a un item non è uniforme, ma dipende dall'abilità dello studente ($\theta$) e dalla difficoltà dell'item ($b$). La **Item Response Theory (IRT)** descrive questa relazione tramite un modello logit:
+Nella psicologia dell’apprendimento, la probabilità di rispondere correttamente a un item non è uniforme, ma dipende sia dall’**abilità dello studente** ($\theta$) sia dalla **difficoltà dell’item** ($b$). La *Item Response Theory* (IRT) formalizza questa relazione tramite modelli probabilistici, come il modello logit:
 
 $$
-P(\text{corretto} \mid \theta, b) = \frac{1}{1 + e^{-(\theta - b)}}
+P(\text{corretto} \mid \theta, b) = \frac{1}{1 + e^{-(\theta - b)}}.
 $$
 
-In questo modo, gli item più facili hanno alte probabilità di risposta corretta anche per gli studenti con abilità basse, mentre gli item più difficili permettono di distinguere meglio gli studenti più preparati. Questo approccio riflette la variabilità sistematica presente nei dati psicometrici e mostra quanto sia artificiale assumere l'equiprobabilità.
+In questo schema, gli item più facili producono probabilità elevate di risposta corretta anche per studenti con abilità modeste, mentre gli item più difficili discriminano meglio tra studenti con livelli di abilità differenti. L’IRT rende esplicita una variabilità sistematica che sarebbe completamente persa assumendo un modello equiprobabile.
+
+Questo esempio mostra come, in psicometria, la probabilità sia intrinsecamente legata a parametri latenti e non possa essere ridotta a un semplice conteggio di casi.
 
 ### Bias di risposta nei questionari
 
-Nei questionari, le risposte non seguono un modello equiprobabile. Fenomeni come l'acquiescenza, la desiderabilità sociale o gli stili individuali influenzano la probabilità di selezionare determinate opzioni. Anche in questo caso, la probabilità di risposta varia in modo sistematico e può essere stimata formalmente utilizzando metodi bayesiani che integrano conoscenze pregresse e dati osservati.
+Nei questionari psicologici, le risposte non seguono una distribuzione uniforme. Fenomeni come l’acquiescenza, la desiderabilità sociale o gli stili di risposta individuali influenzano in modo sistematico la probabilità di selezionare determinate opzioni.
+
+In questi contesti, assumere che tutte le risposte siano equiprobabili equivale a ignorare la struttura psicologica del compito. I modelli bayesiani permettono invece di rappresentare esplicitamente tali bias, combinando conoscenze pregresse con i dati osservati e distinguendo tra variabilità dovuta al costrutto misurato e variabilità dovuta allo stile di risposta.
 
 ### Efficacia di interventi
 
-Quando si valutano gli interventi psicologici, come la terapia cognitivo-comportamentale, la probabilità di successo non è uguale per tutti i partecipanti. L'approccio bayesiano consente di combinare le informazioni preesistenti (ad esempio, i risultati di studi precedenti) con i dati raccolti nello studio corrente, aggiornando le credenze sulla reale efficacia del trattamento. Ciò fornisce stime più precise e interpretabili in termini probabilistici, mettendo in luce la naturale variabilità tra individui e contesti.
+Quando si valutano interventi psicologici, come la terapia cognitivo-comportamentale, la probabilità di successo non è uguale per tutti i partecipanti. Essa varia in funzione di caratteristiche individuali, del contesto e della storia clinica.
+
+L’approccio bayesiano consente di combinare informazioni preesistenti (ad esempio risultati di studi precedenti o meta-analisi) con i dati raccolti nello studio corrente, aggiornando progressivamente le credenze sull’efficacia reale dell’intervento. Questo produce stime direttamente interpretabili in termini probabilistici e rende esplicita la variabilità interindividuale, evitando l’illusione di effetti “uniformi”.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-L’equiprobabilità non è una proprietà intrinseca del mondo, ma riflette uno stato di **ignoranza simmetrica**: consideriamo tutti i casi elementari come ugualmente plausibili solo quando non abbiamo alcuna ragione per privilegiare uno rispetto a un altro. La famosa formula "casi favorevoli su casi possibili" non è quindi una legge universale della probabilità, ma un caso particolare che si applica solo in presenza di questa condizione di simmetria.
+L’equiprobabilità non è una proprietà intrinseca del mondo, ma riflette uno stato di **ignoranza simmetrica**: consideriamo tutti i casi elementari come ugualmente plausibili solo quando non disponiamo di alcuna informazione che ci consenta di preferire un esito rispetto a un altro. La nota formula “casi favorevoli su casi possibili” non è quindi una legge universale della probabilità, ma un risultato valido esclusivamente in presenza di questa specifica condizione epistemica.
 
-Il calcolo combinatorio può essere reso coerente con il framework bayesiano ipotizzando l'equiprobabilità solo in questi contesti. Le combinazioni, le disposizioni e le altre formule di conteggio non costituiscono teorie indipendenti della probabilità, ma sono strumenti di modellazione che implicano l'equiprobabilità di ogni evento elementare. Quando questa ipotesi non è giustificata, come spesso accade nelle scienze psicologiche e sociali, è necessario ricorrere a modelli più flessibili che siano in grado di rappresentare differenze sistematiche tra eventi o informazioni pregresse.
+Il calcolo combinatorio può essere utilizzato in modo coerente all’interno del framework bayesiano solo quando l’ipotesi di equiprobabilità è giustificata. Permutazioni, disposizioni e combinazioni non costituiscono teorie autonome della probabilità, ma strumenti di modellazione che presuppongono l’uguaglianza di plausibilità tra gli eventi elementari. Quando tale presupposto non è soddisfatto — come accade frequentemente nelle scienze psicologiche e sociali — è necessario adottare modelli probabilistici più flessibili, capaci di rappresentare differenze sistematiche tra eventi e di incorporare informazioni pregresse.
 
-La distribuzione Beta fornisce una generalizzazione continua di questo concetto. La distribuzione Beta(1,1) rappresenta lo stato di massima ignoranza, ovvero l'equiprobabilità generalizzata, mentre altri valori dei parametri permettono di codificare credenze a priori con forme e intensità diverse. L'aggiornamento bayesiano offre infine un meccanismo coerente per spiegare come queste credenze possono evolvere nel tempo: combinando conoscenze pregresse ed evidenza empirica, consente di modulare le probabilità man mano che i dati si accumulano, integrando in un unico processo logico l'esperienza e l'incertezza.
+La distribuzione **Beta** fornisce una naturale estensione continua di queste idee. In particolare, la Beta(1,1) rappresenta uno stato di massima ignoranza, ossia l’analogo continuo dell’equiprobabilità, mentre valori diversi dei parametri consentono di esprimere credenze a priori con forme e intensità differenti. L’aggiornamento bayesiano completa il quadro offrendo un meccanismo coerente per descrivere l’evoluzione delle credenze nel tempo: combinando conoscenze pregresse ed evidenza empirica, permette di modificare gradualmente le probabilità man mano che i dati si accumulano, integrando in un unico processo logico esperienza e incertezza.
 
+In questo modo, il capitolo ha mostrato come l’equiprobabilità rappresenti un caso limite all’interno di una teoria più generale della probabilità, fornendo gli strumenti concettuali per superarla quando le ipotesi di simmetria informativa non sono più sostenibili.
 

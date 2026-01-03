@@ -2,11 +2,11 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Il teorema di Bayes costituisce il punto di arrivo naturale del percorso concettuale sviluppato nei capitoli precedenti. Dopo aver definito la probabilità come grado di credenza razionale (@sec-prob-interpretation), stabilito gli assiomi come vincoli di coerenza (@sec-prob-axioms-coherence), riconosciuto l'equiprobabilità come caso particolare della simmetria epistemica (@sec-equiprobability-combinatorics) e identificato la probabilità condizionata come meccanismo di aggiornamento delle credenze (@sec-prob-conditional-prob), il teorema di Bayes emerge come la formalizzazione matematica di ciò che significa *apprendere dall'esperienza*.
+Il **teorema di Bayes** rappresenta il punto di arrivo naturale del percorso concettuale sviluppato nei capitoli precedenti. Dopo aver interpretato la probabilità come *grado di credenza razionale* (@sec-prob-interpretation), chiarito il ruolo degli assiomi come vincoli di coerenza (@sec-prob-axioms-coherence), riconosciuto l’equiprobabilità come caso particolare di simmetria epistemica (@sec-equiprobability-combinatorics) e identificato la probabilità condizionata come meccanismo generale di aggiornamento delle credenze (@sec-prob-conditional-prob), il teorema di Bayes emerge come la formalizzazione matematica di ciò che significa **apprendere dall’esperienza**.
 
-Il teorema risolve un problema epistemologico fondamentale: come trasformare l'informazione che dal mondo giunge a noi, sotto forma di dati osservati, evidenze empiriche o sintomi clinici, in conoscenza riguardante ciò che non possiamo osservare direttamente, ovvero le cause, le ipotesi, i parametri sottostanti. Questa inversione della direzione del condizionamento probabilistico costituisce l'essenza dell'inferenza induttiva.
+Il teorema affronta un problema epistemologico fondamentale: come trasformare l’informazione che proviene dal mondo (sotto forma di dati osservati, evidenze empiriche o sintomi clinici) in conoscenza riguardante ciò che non possiamo osservare direttamente, come le cause, le ipotesi o i parametri sottostanti. Questo passaggio richiede un’**inversione della direzione del condizionamento probabilistico**: non più stimare la probabilità dei dati assumendo vere le ipotesi, ma valutare la plausibilità delle ipotesi alla luce dei dati osservati. È in questa inversione che risiede l’essenza dell’inferenza induttiva.
 
-In questo capitolo esamineremo il teorema non soltanto come strumento tecnico di calcolo, ma come principio normativo che prescrive il modo ottimale di integrare la conoscenza pregressa con le nuove osservazioni. Vedremo come questo meccanismo si applichi naturalmente ai problemi diagnostici in psicologia clinica, alla valutazione delle ipotesi nella ricerca sperimentale e al ragionamento quotidiano in condizioni di incertezza.
+In questo capitolo esamineremo il teorema di Bayes non soltanto come uno strumento tecnico di calcolo, ma come un **principio normativo** che prescrive come un agente razionale dovrebbe integrare in modo coerente la conoscenza pregressa con nuove osservazioni. Vedremo come questo meccanismo si applichi in modo naturale ai problemi diagnostici in psicologia clinica, alla valutazione delle ipotesi nella ricerca sperimentale e, più in generale, al ragionamento quotidiano in condizioni di incertezza.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
@@ -41,88 +41,103 @@ pacman::p_load(ggplot2, dplyr, tidyr, patchwork)
 
 ## La simmetria fondamentale della probabilità congiunta
 
-Il teorema di Bayes non introduce nuovi principi, ma emerge come conseguenza algebrica della definizione di probabilità condizionata. Questa derivazione dimostra che l'aggiornamento bayesiano delle credenze non costituisce una scelta arbitraria, ma rappresenta piuttosto una necessità logica per chiunque accetti il quadro assiomatico della teoria della probabilità.
+Il **teorema di Bayes** non introduce nuovi principi probabilistici, ma emerge come una conseguenza algebrica inevitabile della definizione di probabilità condizionata. Questa derivazione mostra che l’aggiornamento bayesiano delle credenze non è una scelta arbitraria, bensì una **necessità logica** per chiunque accetti il quadro assiomatico della teoria della probabilità.
 
 ### Dalla probabilità congiunta al teorema di Bayes
 
-Nel @sec-prob-conditional-prob abbiamo visto che la probabilità congiunta di due eventi può essere espressa in due modi equivalenti, a seconda di quale evento scegliamo come "base" per il condizionamento:
+Nel capitolo sulla probabilità condizionata abbiamo visto che la probabilità congiunta di due eventi può essere espressa in due modi equivalenti, a seconda di quale evento scegliamo come base per il condizionamento:
 
 $$
 P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A).
 $$ {#eq-joint-symmetry}
 
-Questa simmetria non è accidentale: riflette il fatto che la probabilità congiunta rappresenta una struttura di credenze completa e coerente, dalla quale possiamo estrarre diverse probabilità condizionate a seconda della prospettiva adottata. Quando uguagliamo le due espressioni e risolviamo per $P(A \mid B)$, otteniamo:
+Questa uguaglianza riflette una proprietà fondamentale: la probabilità congiunta rappresenta una **struttura di credenze completa e simmetrica**, dalla quale possiamo ricavare diverse probabilità condizionate semplicemente cambiando prospettiva.
+
+Uguagliando le due espressioni e risolvendo rispetto a $P(A \mid B)$, otteniamo il **teorema di Bayes**.
 
 ::: {#thm-bayes-theorem}
 ### Teorema di Bayes (forma fondamentale)
 
-Per eventi $A$ e $B$ con $P(B) > 0$:
+Per eventi $A$ e $B$ con $P(B) > 0$ vale:
 
 $$
 P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}.
 $$ {#eq-bayes-basic}
 :::
 
-Ciascun termine di questa espressione possiede un significato epistemico preciso che conviene esplicitare.
+Questa formula non fa altro che riorganizzare le stesse informazioni contenute nella distribuzione congiunta, rendendo esplicita la relazione tra credenze iniziali, evidenza osservata e credenze aggiornate.
 
-La **distribuzione a priori** $P(A)$ rappresenta il grado di credenza iniziale nell'ipotesi $A$ prima di considerare l'evidenza $B$. Questa valutazione preliminare incorpora tutto ciò che sappiamo—o crediamo di sapere—sulla base della conoscenza pregressa: studi precedenti, esperienza clinica, prevalenze epidemiologiche, oppure, in condizioni di massima ignoranza, il principio di indifferenza.
+### Significato epistemico dei termini
 
-La **funzione di verosimiglianza** $P(B \mid A)$ quantifica quanto l'evidenza osservata sia compatibile con l'ipotesi in esame. Questa quantità misura la capacità predittiva dell'ipotesi: se $A$ fosse vera, quanto sarebbe plausibile osservare proprio l'evidenza $B$? Nei contesti diagnostici, questa corrisponde alla sensibilità di un test.
+Ciascun termine del teorema di Bayes ha un’interpretazione epistemica precisa.
 
-L'**evidenza marginale** $P(B)$ rappresenta la probabilità complessiva di osservare $B$, calcolata come media pesata su tutte le possibili ipotesi. Questa quantità funge da costante di normalizzazione che garantisce la coerenza probabilistica del risultato.
+* La **distribuzione a priori** $P(A)$ rappresenta il grado di credenza iniziale nell’ipotesi $A$ prima di osservare l’evidenza $B$. Essa incorpora tutta la conoscenza pregressa disponibile: studi precedenti, esperienza clinica, prevalenze note oppure, in condizioni di massima ignoranza, il principio di indifferenza.
 
-La **distribuzione a posteriori** $P(A \mid B)$ esprime la credenza rivista nell'ipotesi $A$ dopo aver osservato l'evidenza $B$. Questa è la risposta alla domanda inferenziale di interesse pratico.
+* La **verosimiglianza** $P(B \mid A)$ quantifica quanto l’evidenza osservata sia compatibile con l’ipotesi. Essa misura la capacità predittiva dell’ipotesi: se $A$ fosse vera, quanto sarebbe plausibile osservare $B$? Nei contesti diagnostici, questa quantità corrisponde tipicamente alla sensibilità di un test.
 
-Una forma spesso più illuminante nelle applicazioni è la **versione proporzionale**:
+* L’**evidenza marginale** $P(B)$ rappresenta la probabilità complessiva di osservare $B$, indipendentemente dalla verità di $A$. Questa quantità svolge il ruolo di **costante di normalizzazione**, garantendo che le probabilità a posteriori risultino coerenti e sommino a 1.
+
+* La **distribuzione a posteriori** $P(A \mid B)$ esprime la credenza rivista nell’ipotesi $A$ dopo aver osservato l’evidenza $B$. Essa costituisce la risposta alla domanda inferenziale di interesse pratico.
+
+Spesso è utile considerare la **forma proporzionale** del teorema:
+
 $$
-P(A \mid B) \propto P(B \mid A) \cdot P(A),
+P(A \mid B) \propto P(B \mid A),P(A),
 $$
-che enfatizza come la distribuzione a posteriori sia il prodotto ponderato di verosimiglianza e prior, con il denominatore che serve esclusivamente a garantire la normalizzazione.
 
-### Interpretazione attraverso le tabelle di probabilità congiunta
+che mette in evidenza come la distribuzione a posteriori sia determinata dal prodotto tra verosimiglianza e prior, mentre il denominatore serve unicamente a garantire la normalizzazione.
 
-Il significato operativo del teorema diventa trasparente quando lo esaminiamo attraverso le tabelle 2×2 introdotte nei capitoli precedenti:
+### Interpretazione tramite tabelle di probabilità congiunta
 
-|       | $B$  | $B^c$ | Marginali |
-|-------|------|-------|-----------|
-| $A$   | $P(A \cap B)$ | $P(A \cap B^c)$ | $P(A)$ |
-| $A^c$ | $P(A^c \cap B)$ | $P(A^c \cap B^c)$ | $P(A^c)$ |
-| **Marginali** | $P(B)$ | $P(B^c)$ | $1$ |
+Il significato operativo del teorema di Bayes diventa particolarmente chiaro se lo esaminiamo attraverso una tabella di probabilità congiunta 2×2:
 
-In questa rappresentazione, le componenti del teorema assumono un'interpretazione geometrica immediata. La distribuzione a priori $P(A)$ corrisponde alla marginale della riga associata ad $A$. La funzione di verosimiglianza $P(B \mid A) = P(A \cap B) / P(A)$ rappresenta la proporzione della riga di $A$ che cade nella colonna di $B$. La distribuzione a posteriori $P(A \mid B) = P(A \cap B) / P(B)$ costituisce la proporzione della colonna di $B$ appartenente alla riga di $A$.
+|               | $B$             | $B^c$             | Marginali |
+| ------------- | --------------- | ----------------- | --------- |
+| $A$           | $P(A \cap B)$   | $P(A \cap B^c)$   | $P(A)$    |
+| $A^c$         | $P(A^c \cap B)$ | $P(A^c \cap B^c)$ | $P(A^c)$  |
+| **Marginali** | $P(B)$          | $P(B^c)$          | $1$       |
 
-Il teorema di Bayes opera dunque una **rotazione della prospettiva**: dalla visione per righe (condizionata all'ipotesi) alla visione per colonne (condizionata all'evidenza), sfruttando la struttura simmetrica della distribuzione congiunta.
+In questa rappresentazione:
 
-#### Costruzione di una tabella di probabilità congiunta per un test diagnostico
+* il **prior** $P(A)$ corrisponde alla marginale di riga;
+* la **verosimiglianza** $P(B \mid A)=P(A \cap B)/P(A)$ rappresenta la frazione della riga $A$ che cade nella colonna $B$;
+* il **posterior** $P(A \mid B)=P(A \cap B)/P(B)$ rappresenta la frazione della colonna $B$ appartenente alla riga $A$.
 
-Consideriamo un test per la depressione con sensibilità $P(T+ \mid D)=0.85$, tasso di falsi positivi $P(T+ \mid D^c)=0.10$ e una prevalenza della depressione pari a $P(D)=0.15$. Da questi valori possiamo costruire la distribuzione congiunta dei due eventi: stato clinico ($D$ / $D^c$) ed esito del test ($T+$ / $T-$).
+Il teorema di Bayes realizza quindi una vera e propria **rotazione della prospettiva**: dal ragionamento “per righe” (condizionato all’ipotesi) al ragionamento “per colonne” (condizionato all’evidenza), sfruttando la simmetria intrinseca della distribuzione congiunta.
+
+#### Costruzione esplicita di una tabella diagnostica
+
+Consideriamo un test per la depressione con:
+
+$$
+P(D)=0.15,\quad
+P(T^+ \mid D)=0.85,\quad
+P(T^+ \mid D^c)=0.10.
+$$
+
+Da questi valori possiamo costruire la distribuzione congiunta degli eventi “stato clinico” ed “esito del test”:
 
 ```{r}
-P_D <- 0.15        # Prevalenza della depressione
-sens <- 0.85       # Sensibilità: P(T+|D)
-fp_rate <- 0.10    # Tasso di falsi positivi: P(T+|D^c)
-```
+P_D <- 0.15
+sens <- 0.85
+fp_rate <- 0.10
 
-```{r}
-# Probabilità congiunte ricavate da prior e condizionate
 P_D_and_Tpos  <- sens * P_D
 P_D_and_Tneg  <- (1 - sens) * P_D
 P_Dc_and_Tpos <- fp_rate * (1 - P_D)
 P_Dc_and_Tneg <- (1 - fp_rate) * (1 - P_D)
-```
 
-```{r}
-# Tabella congiunta
 tab <- matrix(
-  c(P_D_and_Tpos, P_D_and_Tneg, P_Dc_and_Tpos, P_Dc_and_Tneg),
+  c(P_D_and_Tpos, P_D_and_Tneg,
+    P_Dc_and_Tpos, P_Dc_and_Tneg),
   nrow = 2, byrow = TRUE,
-  dimnames = list(Stato = c("Depresso", "Non depresso"), Test = c("T+", "T-"))
+  dimnames = list(Stato = c("Depresso", "Non depresso"),
+                  Test  = c("T+", "T-"))
 )
-
-round(tab, 4)
+tab
 ```
 
-Una volta costruita la tabella, il teorema di Bayes emerge immediatamente dalle sue relazioni strutturali. Ad esempio, per calcolare $P(D \mid T+)$ è sufficiente utilizzare:
+Una volta costruita la tabella, il teorema di Bayes emerge immediatamente. Ad esempio:
 
 $$
 P(D \mid T+) \;=\; \frac{P(D \cap T+)}{P(T+)}.
@@ -146,216 +161,246 @@ data.frame(
 )
 ```
 
-In questo modo la tabella mostra in modo trasparente che la formula di Bayes non è un’ulteriore assunzione, ma una conseguenza immediata delle regole della probabilità e dalla struttura della distribuzione congiunta.
+Questo valore coincide esattamente con quello ottenuto applicando direttamente la formula di Bayes, mostrando che il teorema non introduce alcuna nuova informazione, ma rende esplicita una relazione già contenuta nella distribuzione congiunta.
 
-### La formulazione con partizione dello spazio delle ipotesi
+### Forma estesa con partizione dello spazio delle ipotesi
 
-Nelle applicazioni pratiche, la probabilità marginale dell'evidenza $P(E)$ raramente è nota direttamente. Tuttavia, possiamo calcolarla attraverso la *legge della probabilità totale*, scomponendo rispetto a una partizione dello spazio delle ipotesi:
+Nelle applicazioni pratiche, la probabilità marginale dell’evidenza $P(E)$ può essere calcolata tramite la **legge della probabilità totale**:
 
 $$
-P(E) = P(E \mid H) P(H) + P(E \mid H^c) P(H^c).
-$$ {#eq-evidence-partition}
+P(E)=P(E \mid H),P(H)+P(E \mid H^c),P(H^c).
+$$
 
-Questa espansione permette di scrivere il teorema di Bayes nella forma estesa:
+Sostituendo questa espressione nel teorema di Bayes si ottiene la forma estesa:
 
 $$
 P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E \mid H) P(H) + P(E \mid H^c) P(H^c)}.
 $$ {#eq-bayes-expanded}
 
-Questa formulazione è particolarmente utile nei contesti diagnostici, dove le probabilità condizionate $P(E \mid H)$ e $P(E \mid H^c)$—corrispondenti a sensibilità e tasso di falsi positivi—sono tipicamente note dalla validazione degli strumenti di misura.
+Questa formulazione è particolarmente utile in ambito diagnostico, dove le quantità $P(E \mid H)$ e $P(E \mid H^c)$, ovvero la sensibilità e il tasso di falsi positivi, sono tipicamente note.
 
 ::: {.callout-important title="Interpretazione della probabilità dell'evidenza"}
 
 #### Il ruolo epistemico di $P(E)$ {.unnumbered .unlisted}
 
-La quantità $P(E)$ rappresenta la *probabilità marginale* di osservare l'evidenza $E$, ottenuta mediante la media di tutte le possibili ipotesi alternative. Questa misura quantifica "quanto l'evidenza $E$ sia sorprendente o attesa nel contesto generale della nostra conoscenza".
+La probabilità $P(E)$ rappresenta la **probabilità marginale dell’evidenza**, ottenuta come media pesata su tutte le ipotesi alternative. Essa quantifica quanto l’evidenza osservata sia attesa nel contesto complessivo della nostra conoscenza.
 
-- Quando $P(E \mid H^c)$ è elevato, l'evidenza $E$ perde capacità di discriminare tra $H$ e la sua alternativa.
-- Quando l'evidenza $E$ risulta probabile esclusivamente o prevalentemente nell'ipotesi che $H$ sia vera (valore ridotto di $P(E \mid H^c)$), l'evidenza $E$ fornisce un forte supporto all'ipotesi $H$.
+* Se $P(E \mid H^c)$ è elevato, l’evidenza discrimina poco tra le ipotesi.
+* Se $P(E)$ è dominata da $P(E \mid H)$, l’evidenza fornisce un forte supporto all’ipotesi $H$.
 
-La distribuzione a posteriori aumenta rispetto a quella a priori solo quando il *rapporto di verosimiglianza* $P(E \mid H) / P(E \mid H^c)$ supera il valore 1, indicando che l'evidenza osservata è più compatibile con l'ipotesi $H$ che con la sua alternativa.
+L’evidenza rafforza l’ipotesi $H$ solo quando il **rapporto di verosimiglianza**
+$$
+\frac{P(E \mid H)}{P(E \mid H^c)}
+$$
+è maggiore di 1.
 :::
 
-## Probabilità inversa: il fondamento logico dell'inferenza scientifica
+## Probabilità inversa: il fondamento logico dell’inferenza scientifica
 
-Il teorema di Bayes risolve formalmente il problema della *probabilità inversa*: la sfida di risalire dagli effetti alle cause, dalle osservazioni alle teorie, dai campioni ai parametri. Questo costituisce l'essenza stessa dell'inferenza scientifica e del processo decisionale in condizioni di incertezza.
+Il **teorema di Bayes** fornisce una soluzione formale al problema della *probabilità inversa*: la sfida di risalire dagli effetti alle cause, dalle osservazioni alle ipotesi, dai dati empirici ai parametri non osservabili. Questo problema non è marginale, ma costituisce l’essenza stessa dell’inferenza scientifica e del processo decisionale in condizioni di incertezza.
+
+Mentre il mondo produce effetti a partire da cause, la conoscenza scientifica procede inevitabilmente nel senso opposto. Il teorema di Bayes rende questo passaggio logicamente fondato e quantitativamente preciso.
 
 ### La doppia direzione della ragione scientifica
 
-La ricerca scientifica opera attraverso due direzioni logiche distinte:
+Il ragionamento scientifico opera lungo due direzioni logiche distinte:
 
-- **Direzione predittiva (modelli)**: "Se questa teoria è corretta, quali dati dovremmo osservare?"
-- **Direzione inferenziale (scienza)**: "Alla luce di questi dati, quanto è plausibile questa teoria?"
+* **Direzione predittiva (dal modello ai dati)**
+  “Se questa ipotesi o teoria fosse corretta, quali osservazioni dovremmo aspettarci?”
 
-Mentre i modelli scientifici procedono naturalmente dalla causa all'effetto, l'inferenza deve necessariamente compiere il percorso inverso. Questo divario epistemologico trova nel teorema di Bayes il suo ponte matematico.
+* **Direzione inferenziale (dai dati al modello)**
+  “Alla luce delle osservazioni disponibili, quanto è plausibile questa ipotesi o teoria?”
 
-### La struttura formale dell'aggiornamento razionale
+I modelli scientifici sono naturalmente costruiti nella direzione predittiva, dalla causa all’effetto. L’inferenza, invece, richiede necessariamente il percorso inverso: dall’effetto osservato alla causa ipotizzata. Questo divario epistemologico è colmato in modo rigoroso dal teorema di Bayes, che funge da ponte matematico tra le due direzioni del ragionamento.
 
-Il teorema di Bayes stabilisce una relazione precisa:
+### La struttura formale dell’aggiornamento razionale
+
+Il teorema di Bayes stabilisce una relazione precisa tra ipotesi ed evidenza:
 
 $$
-P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)},
+P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}.
 $$
-dove: 
 
-- **$P(H)$** rappresenta le conoscenze preliminari (probabilità a priori);
-- **$P(E \mid H)$** esprime la compatibilità tra dati e ipotesi (verosimiglianza);
-- **$P(E)$** costituisce la prova normalizzante (evidenza totale);
-- **$P(H \mid E)$** fornisce la conoscenza aggiornata (probabilità a posteriori).
+In questa espressione:
+
+* $P(H)$ rappresenta le **conoscenze preliminari**, ovvero la probabilità a priori dell’ipotesi;
+* $P(E \mid H)$ misura la **compatibilità tra dati e ipotesi**, ossia la verosimiglianza;
+* $P(E)$ costituisce l’**evidenza marginale**, che garantisce la normalizzazione;
+* $P(H \mid E)$ fornisce la **conoscenza aggiornata**, ovvero la probabilità a posteriori.
 
 Questa struttura risolve tre problemi epistemologici fondamentali:
 
-1. **revisione sequenziale**: Ogni nuova evidenza modifica coerentemente il nostro grado di convinzione;
-2. **integrazione sistematica**: Informazioni pregresse, dati empirici e contesto convergono in un quadro unitario;
-3. **quantificazione completa**: L'inferenza produce non solo stime puntuali, ma distribuzioni complete di probabilità.
+1. **Revisione sequenziale**
+   Ogni nuova evidenza modifica il grado di convinzione in modo coerente e cumulativo.
+
+2. **Integrazione sistematica**
+   Informazioni pregresse, dati osservati e contesto informativo confluiscono in un unico quadro inferenziale.
+
+3. **Quantificazione completa dell’incertezza**
+   L’inferenza non produce solo stime puntuali, ma distribuzioni di probabilità che descrivono l’intero spettro delle plausibilità.
 
 ::: {.callout-note title="Prospettiva storica"}
-Il "problema della probabilità inversa" impegnò matematici come Thomas Bayes e Pierre-Simon Laplace già nel Settecento. Oggi riconosciamo che ogni forma di apprendimento dall'esperienza — dall'adattamento evolutivo al progresso scientifico — implica essenzialmente la soluzione di problemi di probabilità inversa.
+Il problema della probabilità inversa fu affrontato già nel Settecento da Thomas Bayes e Pierre-Simon Laplace. Oggi riconosciamo che ogni forma di apprendimento dall’esperienza — dall’adattamento evolutivo al progresso scientifico — implica essenzialmente la soluzione di problemi di probabilità inversa.
 :::
 
-### L'equivoco inferenziale: scambiare la mappa per il territorio
+### L’equivoco inferenziale: scambiare la mappa per il territorio
 
-La confusione tra direzione predittiva e direzione inferenziale rappresenta uno degli errori logici più pervasivi nella pratica scientifica e decisionale.
+Una delle fonti più comuni di errore nel ragionamento scientifico e decisionale è la confusione tra la direzione predittiva e quella inferenziale. In termini probabilistici, questo equivale a scambiare $P(E \mid H)$ con $P(H \mid E)$.
 
 ::: {.callout-warning title="Errori inferenziali sistematici"}
+
 #### La fallacia della transcondizionalità {.unnumbered .unlisted}
 
-**Diagnostica clinica:**
-> "Questo test ha sensibilità del 95%, quindi un risultato positivo implica il 95% di probabilità di malattia."
+**Diagnostica clinica**
 
-Questo ragionamento scambia $P(T^+ \mid M)$ con $P(M \mid T^+)$. Per una malattia con prevalenza dello 0,1% e un test con sensibilità e specificità del 95%, il valore predittivo positivo è solo circa il 2% — ben lontano dal 95% intuitivamente atteso.
+> “Questo test ha una sensibilità del 95%, quindi un risultato positivo implica una probabilità del 95% di malattia.”
 
-**Contesto giuridico:**
-> "La probabilità che un innocente abbia questo profilo DNA è 1 su 1 milione, quindi l'imputato è colpevole con probabilità 999.999 su 1 milione."
+Questo ragionamento confonde $P(T^+ \mid M)$ con $P(M \mid T^+)$. Per una malattia con prevalenza dello 0,1% e un test con sensibilità e specificità del 95%, il valore predittivo positivo è in realtà di circa il 2%.
 
-Questa argomentazione — nota come fallacia del procuratore — confonde $P(\text{DNA} \mid \text{innocente})$ con $P(\text{innocente} \mid \text{DNA})$. In una città di 10 milioni di abitanti, ci aspetteremmo circa 10 persone con lo stesso profilo genetico.
+**Contesto giuridico**
 
-**Ricerca scientifica:**
-> "Se l'ipotesi nulla fosse vera, otterremmo questi risultati solo nel 5% dei casi ($p = 0,05$), quindi $H_0$ ha solo il 5% di probabilità di essere vera."
+> “La probabilità che un innocente abbia questo profilo di DNA è 1 su 1 milione, quindi l’imputato è colpevole con probabilità 999.999 su 1 milione.”
 
-Questa interpretazione erronea del valore p ignora sia la probabilità a priori dell'ipotesi sia la potenza del test, scambiando $P(\text{dati} \mid H_0)$ con $P(H_0 \mid \text{dati})$.
+Questa argomentazione — nota come *fallacia del procuratore* — scambia $P(\text{DNA} \mid \text{innocente})$ con $P(\text{innocente} \mid \text{DNA})$. In una popolazione di 10 milioni di individui, ci si attenderebbero circa 10 profili genetici compatibili.
+
+**Ricerca scientifica**
+
+> “Se l’ipotesi nulla fosse vera, otterremmo questi dati solo nel 5% dei casi ($p = 0{,}05$), quindi l’ipotesi nulla ha solo il 5% di probabilità di essere vera.”
+
+Questa interpretazione errata del valore $p$ confonde $P(\text{dati} \mid H_0)$ con $P(H_0 \mid \text{dati})$, ignorando sia la probabilità a priori dell’ipotesi sia la potenza del test.
 :::
 
-#### La soluzione bayesiana
+### La soluzione bayesiana
 
 Solo il teorema di Bayes consente di passare correttamente dalla dimensione predittiva a quella inferenziale:
 
 $$
-P(\text{ipotesi} \mid \text{evidenza}) = \frac{P(\text{evidenza} \mid \text{ipotesi}) \cdot P(\text{ipotesi})}{P(\text{evidenza})}
+P(\text{ipotesi} \mid \text{evidenza}) =
+\frac{P(\text{evidenza} \mid \text{ipotesi}) \cdot P(\text{ipotesi})}
+{P(\text{evidenza})}.
 $$
 
-Questa trasformazione permette di costruire inferenze coerenti, cumulative e quantitativamente fondate. Il quadro bayesiano rende esplicito che la predizione e l’inferenza non sono scambiabili: rappresentano due operazioni distinte collegate da una relazione matematica ben definita, indispensabile in medicina, psicologia, giurisprudenza e in ogni disciplina empirica.
+Questa trasformazione rende possibile costruire inferenze **coerenti**, **cumulative** e **quantitativamente fondate**. Il quadro bayesiano chiarisce che predizione e inferenza non sono operazioni intercambiabili, ma processi distinti collegati da una relazione matematica precisa. Riconoscere e rispettare questa distinzione è essenziale in psicologia, medicina, giurisprudenza e in ogni disciplina empirica che si confronti con l’incertezza.
 
-## La forma in odds: l'algebra dell'aggiornamento
+## Teorema di Bayes in forma di odds
 
-Per molte applicazioni pratiche, specialmente in ambito clinico, esiste una formulazione del teorema di Bayes che rende l'aggiornamento delle credenze particolarmente intuitivo e computazionalmente elegante.
+Una formulazione particolarmente utile del teorema di Bayes esprime l’aggiornamento delle credenze in termini di **odds** (quote) piuttosto che di probabilità.
 
-### Odds e rapporto di verosimiglianza
-
-Gli **odds** (o "quota") di un evento rappresentano il rapporto tra la probabilità che l'evento si verifichi e la probabilità che non si verifichi:
-
+Le *odds* associate a un’ipotesi $H$ sono definite come:
 $$
-\text{Odds}(H) = \frac{P(H)}{P(H^c)} = \frac{P(H)}{1 - P(H)}.
+\text{Odds}(H) = \frac{P(H)}{1 - P(H)}.
 $$
 
-Il **rapporto di verosimiglianza** (likelihood ratio, LR) quantifica invece il valore diagnostico dell'evidenza, confrontando la probabilità che essa si verifichi sotto l'ipotesi di interesse rispetto a quella sotto l'ipotesi alternativa:
+In questa rappresentazione, il teorema di Bayes assume la forma semplice:
 
 $$
-\text{LR} = \frac{P(E \mid H)}{P(E \mid H^c)}.
+\text{Odds}(H \mid E) = \text{Odds}(H) \times \text{LR},
 $$
+dove $\text{LR}$ è il **rapporto di verosimiglianza** associato all’evidenza $E$.
 
-::: {#thm-bayes-odds}
-### Teorema di Bayes in forma di odds
-
-$$
-\text{Odds}(H \mid E) = \text{Odds}(H) \times \text{LR}.
-$$ {#eq-bayes-odds}
-
-In forma logaritmica:
+Passando alla scala logaritmica, l’aggiornamento diventa additivo:
 $$
 \log \text{Odds}(H \mid E) = \log \text{Odds}(H) + \log \text{LR}.
 $$
-:::
 
-Questa formulazione presenta notevoli vantaggi sia dal punto di vista computazionale che concettuale. L'operazione di aggiornamento delle credenze si riduce a una semplice moltiplicazione (o a un'addizione nella scala logaritmica equivalente). Il rapporto di verosimiglianza fornisce una misura diretta e quantitativa della capacità discriminatoria dell'evidenza osservata:
+### Vantaggi concettuali e computazionali
 
-- **LR > 1**: l'evidenza presenta una maggiore compatibilità probabilistica con l'ipotesi target rispetto all'ipotesi alternativa;
-- **LR < 1**: l'evidenza dimostra una minore compatibilità probabilistica con l'ipotesi target rispetto all'ipotesi alternativa;
-- **LR = 1**: l'evidenza risulta probabilisticamente equivalente sotto entrambe le ipotesi, configurandosi come non informativa.
+Questa formulazione presenta notevoli vantaggi:
 
-Nel contesto di test diagnostici sequenziali condizionatamente indipendenti, i rapporti di verosimiglianza possiedono la proprietà della moltiplicatività, rendendo esplicito e trasparente il meccanismo di accumulo progressivo delle evidenze.
+* l’aggiornamento delle credenze si riduce a una **moltiplicazione** (o a una **somma** in scala logaritmica);
+* l’effetto dell’evidenza è separato in modo trasparente dalla credenza iniziale;
+* l’accumulo di evidenze indipendenti diventa immediatamente interpretabile.
+
+Il **rapporto di verosimiglianza** misura direttamente la capacità discriminatoria dell’evidenza osservata:
+
+* $\text{LR} > 1$: l’evidenza è più compatibile con l’ipotesi $H$ che con la sua alternativa;
+* $\text{LR} < 1$: l’evidenza favorisce l’ipotesi alternativa;
+* $\text{LR} = 1$: l’evidenza è non informativa.
+
+Nel caso di test diagnostici **condizionatamente indipendenti**, i rapporti di verosimiglianza si moltiplicano, rendendo esplicito il meccanismo di **accumulo progressivo dell’evidenza**.
 
 ### Interpretazione dei rapporti di verosimiglianza
 
-Nella pratica diagnostica, si distinguono due misure complementari che quantificano il valore informativo dei test.
+In ambito diagnostico si distinguono due misure fondamentali.
 
-**Rapporto di verosimiglianza positivo**:
+**Rapporto di verosimiglianza positivo**
+
 $$
 \text{LR}^+ = \frac{\text{Sensibilità}}{1 - \text{Specificità}} = \frac{P(T^+ \mid M)}{P(T^+ \mid M^c)}.
 $$
 
-**Rapporto di verosimiglianza negativo**:
+**Rapporto di verosimiglianza negativo**
+
 $$
 \text{LR}^- = \frac{1 - \text{Sensibilità}}{\text{Specificità}} = \frac{P(T^- \mid M)}{P(T^- \mid M^c)}.
 $$
 
-Un test diagnostico ottimale è caratterizzato da un rapporto di verosimiglianza positivo di magnitudine elevata, indicando che un risultato positivo costituisce forte evidenza a favore della presenza della condizione, unitamente a un rapporto di verosimiglianza negativo di magnitudine ridotta, denotando che un risultato negativo fornisce ugualmente forte evidenza a favore dell'assenza della condizione.
+Un test diagnostico informativo è caratterizzato da:
 
-La letteratura metodologica suggerisce una precisa classificazione interpretativa: valori di LR superiori a 10 o inferiori a 0,1 determinano modificazioni clinicamente significative della probabilità pre-test, mentre valori compresi tra 1 e 2 o tra 0,5 e 1 producono variazioni probabilistiche di entità trascurabile ai fini decisionali.
+* un valore elevato di $\text{LR}^+$, che rende un risultato positivo una forte evidenza a favore della presenza della condizione;
+* un valore molto piccolo di $\text{LR}^-$, che rende un risultato negativo una forte evidenza a favore dell’assenza della condizione.
 
-In pratica, questo metodo aiuta il clinico a calcolare in modo semplice quanto un risultato del test cambi la probabilità che il paziente abbia effettivamente la malattia.
+Indicazioni comunemente utilizzate in ambito clinico suggeriscono che:
 
-**Esempio.** Esaminiamo il procedimento di calcolo per l'aggiornamento bayesiano mediante odds nel contesto di un test diagnostico. Consideriamo i seguenti parametri:
+* $\text{LR}^+ > 10$ o $\text{LR}^- < 0.1$ producono cambiamenti clinicamente rilevanti della probabilità pre-test;
+* valori compresi tra 1 e 2 (o tra 0.5 e 1) hanno un impatto decisionale trascurabile.
+
+## Esempio: aggiornamento diagnostico tramite odds
+
+Consideriamo un test con i seguenti parametri:
 
 ```{r}
-# Definizione dei parametri del test
-prior_prob <- 0.10  # Probabilità pre-test (prevalenza)
-sens <- 0.85        # Sensibilità del test
-spec <- 0.90        # Specificità del test
+prior_prob <- 0.10  # Probabilità pre-test
+sens <- 0.85        # Sensibilità
+spec <- 0.90        # Specificità
 ```
 
-Il primo passo consiste nel calcolare i rapporti di verosimiglianza per risultati positivi e negativi:
+### Calcolo dei rapporti di verosimiglianza
 
 ```{r}
-# Calcolo dei likelihood ratios
 LR_pos <- sens / (1 - spec)
 LR_neg <- (1 - sens) / spec
-
-cat("Likelihood ratio positivo (LR+):", round(LR_pos, 2), "\n")
-cat("Likelihood ratio negativo (LR-):", round(LR_neg, 2), "\n")
 ```
 
-Convertiamo quindi la probabilità pre-test in odds per facilitare l'aggiornamento:
+Quindi:
+
+* $\text{LR}^+ \approx 8.5$,
+* $\text{LR}^- \approx 0.17$.
+
+### Conversione in odds
 
 ```{r}
-# Conversione della probabilità pre-test in odds
 prior_odds <- prior_prob / (1 - prior_prob)
-cat("Odds pre-test:", round(prior_odds, 3), "\n")
 ```
 
-**Scenario 1: test positivo**
+La probabilità pre-test del 10% corrisponde a odds pre-test pari a circa 0.11.
+
+### Scenario 1: test positivo
 
 ```{r}
-# Aggiornamento per test positivo
 post_odds_pos <- prior_odds * LR_pos
 post_prob_pos <- post_odds_pos / (1 + post_odds_pos)
-
-cat("Odds post-test positivo:", round(post_odds_pos, 3), "\n")
-cat("Probabilità post-test positivo:", round(post_prob_pos, 3), "\n")
 ```
 
-**Scenario 2: test negativo**
+Dopo un risultato positivo:
+
+* le odds aumentano di un fattore 8.5;
+* la probabilità post-test sale a circa 0.49.
+
+### Scenario 2: test negativo
 
 ```{r}
-# Aggiornamento per test negativo
 post_odds_neg <- prior_odds * LR_neg
 post_prob_neg <- post_odds_neg / (1 + post_odds_neg)
-
-cat("Odds post-test negativo:", round(post_odds_neg, 3), "\n")
-cat("Probabilità post-test negativo:", round(post_prob_neg, 3), "\n")
 ```
 
-**Sintesi completa dell'aggiornamento diagnostico:**
+Dopo un risultato negativo:
+
+* le odds vengono ridotte a circa un sesto del valore iniziale;
+* la probabilità post-test scende a circa 0.02.
+
+
+### Sintesi dell’aggiornamento diagnostico
 
 ```{r}
 risultati_diagnostici <- data.frame(
@@ -366,11 +411,15 @@ risultati_diagnostici <- data.frame(
   Prob_Pre_Test = prior_prob,
   Prob_Post_Test = round(c(post_prob_pos, post_prob_neg), 3)
 )
-
-print(risultati_diagnostici)
 ```
 
-**Interpretazione clinica:** il rapporto di verosimiglianza positivo di 8.5 indica che un test positivo risulta 8.5 volte più probabile in un paziente affetto dalla condizione rispetto a un paziente sano, rappresentando un'evidenza diagnostica sostanziale. Il rapporto di verosimiglianza negativo di 0.17 dimostra invece che un test negativo è circa 6 volte più probabile in un paziente sano, rendendo l'assenza della condizione fortemente più credibile dopo un risultato negativo.
+### Interpretazione clinica
+
+Un rapporto di verosimiglianza positivo pari a 8.5 indica che un risultato positivo è 8.5 volte più probabile in un paziente affetto rispetto a un paziente sano, fornendo un’evidenza diagnostica sostanziale.
+
+Un rapporto di verosimiglianza negativo pari a 0.17 indica invece che un risultato negativo è circa sei volte più probabile in un soggetto sano, rendendo l’assenza della condizione fortemente più credibile dopo un esito negativo.
+
+In questa forma, il teorema di Bayes rende **esplicito e quantitativo** il processo con cui l’evidenza modifica le credenze, mostrando perché il ragionamento diagnostico corretto non consiste nel “guardare la sensibilità”, ma nel **combinare sistematicamente probabilità pre-test ed evidenza osservata**.
 
 ## Applicazioni 
 
@@ -452,7 +501,6 @@ Il grafico illustra un fatto controintuitivo, ma fondamentale: l'utilità clinic
 Questa analisi evidenzia l'importanza cruciale di considerare il tasso di base nella pratica clinica, mostrando che l'interpretazione di un test positivo richiede sempre la contestualizzazione nella popolazione di riferimento del paziente.
 
 :::
-
 
 ::: {.callout-note collapse="true" title="Test diagnostico per il disturbo depressivo"}
 
@@ -627,7 +675,6 @@ Il processo illustra come evidenze convergenti da fonti indipendenti accumulino 
 Ogni strumento diagnostico fornisce informazioni complementari: il questionario per i genitori cattura la percezione del comportamento nel contesto domestico, mentre l'osservazione in classe documenta le manifestazioni nel contesto scolastico. L'assunzione di indipendenza condizionale, ovvero che i due test forniscano informazioni indipendenti dato lo stato reale del bambino, permette di moltiplicare i rapporti di verosimiglianza, generando un effetto moltiplicativo sull'evidenza complessiva.
 
 Questo approccio sequenziale formalizza matematicamente la pratica clinica reale, in cui le valutazioni si costruiscono progressivamente attraverso l'integrazione sistematica di molteplici fonti di informazione, trasformando un sospetto iniziale in una stima probabilistica sempre più raffinata.
-
 :::
 
 ::: {.callout-note collapse="true" title="Comorbilità e aggiornamento delle credenze diagnostiche"}
@@ -682,11 +729,9 @@ print(risultati)
 ```
 
 Questo processo matematico formalizza e rende esplicito ciò che avviene nella mente del clinico esperto: ogni nuovo dato e ogni sintomo osservato modificano in modo quantificabile le probabilità delle varie ipotesi diagnostiche. L'approccio bayesiano trasforma così il sospetto clinico iniziale in una valutazione progressivamente più informata e personalizzata, mostrando come l'accumulo di evidenze possa guidare il ragionamento diagnostico in modo rigoroso e trasparente.
-
 :::
 
 ::: {.callout-note collapse="true" title="Valore diagnostico incrementale di test multipli"}
-
 Consideriamo ora la valutazione di un possibile caso di ADHD, per il quale sono disponibili due strumenti complementari: un questionario per i genitori e un'osservazione strutturata in classe.
 
 ```{r}
@@ -744,7 +789,6 @@ print(evoluzione_diagnostica)
 ```
 
 Il risultato illustra il potere dell'integrazione di evidenze multiple. Partendo da una prevalenza del 10%, il primo test positivo porta la probabilità al 37%. Il secondo test positivo, proveniente da una fonte indipendente (osservazione comportamentale vs. report genitoriale), fornisce un'informazione aggiuntiva che aumenta la probabilità all'82%. Questo cumulo moltiplicativo di evidenze trasforma una stima epidemiologica generale in una valutazione clinicamente utile e sufficientemente solida da poter guidare le decisioni terapeutiche.
-
 :::
 
 ::: {.callout-note collapse="true" title="Confronto tra approccio bayesiano e frequentista"}
@@ -814,28 +858,29 @@ L'approccio frequentista calcolerebbe $P(\geq 8\ \text{teste} \mid \theta = 0.5)
 **Analisi bayesiana**: fornisce una risposta diretta alla domanda di ricerca. I dati sono 5.3 volte più probabili sotto l'ipotesi di sbilanciamento, portando la probabilità a posteriori della moneta sbilanciata all'**84%**. Questo rappresenta un supporto sostanziale ma non conclusivo: permane un'incertezza non trascurabile (16% di probabilità residua per l'equità) che ulteriori osservazioni potrebbero ridurre.
 
 **Contrasto metodologico**: mentre il test frequentista valuta quanto sia inusuale osservare dati così estremi assumendo vera l'ipotesi nulla, l'approccio bayesiano quantifica direttamente la plausibilità relativa delle diverse ipotesi alla luce dei dati osservati. Il risultato bayesiano (84% di probabilità per lo sbilanciamento) fornisce una misura più intuitiva e direttamente interpretabile dell'evidenza rispetto al valore-$p$ frequentista.
-
 :::
 
 ## Aggiornamento bayesiano con distribuzioni continue
 
-Quando il parametro di interesse è continuo, come la probabilità sottostante di un certo comportamento, il teorema di Bayes opera su **distribuzioni di probabilità** piuttosto che su probabilità discrete.
+Quando il parametro di interesse è **continuo**, come la probabilità sottostante di un certo comportamento o di una risposta corretta, il teorema di Bayes non opera più su singole probabilità, ma su **intere distribuzioni di probabilità**. In questo contesto, l’inferenza bayesiana fornisce una rappresentazione completa dell’incertezza, anziché limitarsi a una stima puntuale.
 
-### Il modello Beta-Binomiale
+### Il modello Beta–Binomiale
 
-La distribuzione Beta è la scelta naturale per rappresentare le credenze riguardanti le probabilità $\theta \in [0,1]$. In combinazione con i dati binomiali, il processo di aggiornamento assume una forma particolarmente elegante (per una trattazione approfondita, si vedano i Capitoli 12 e 13 del manuale didattico e i materiali complementari disponibili sul *companion site*).
+La distribuzione **Beta** rappresenta una scelta naturale per modellare le credenze su una probabilità $\theta \in [0,1]$. Quando i dati osservati seguono un modello binomiale, l’aggiornamento bayesiano assume una forma particolarmente semplice ed elegante (per una trattazione approfondita si vedano i Capitoli 12 e 13 del manuale didattico e i materiali del *companion site*).
 
-::: {.callout-note title="Proprietà di coniugazione Beta-Binomiale"}
-**Distribuzione a priori**: $\theta \sim \text{Beta}(\alpha, \beta)$.
+::: {.callout-note title="Proprietà di coniugazione Beta–Binomiale"}
 
-**Modello dei dati**: $k$ successi in $n$ prove indipendenti.
+* **Distribuzione a priori**: $\theta \sim \text{Beta}(\alpha,\beta)$
+* **Modello dei dati**: $k$ successi in $n$ prove indipendenti
+* **Distribuzione a posteriori**: $\theta \mid \text{dati} \sim \text{Beta}(\alpha + k,; \beta + n - k)$
 
-**Distribuzione a posteriori**: $\theta \mid \text{dati} \sim \text{Beta}(\alpha + k, \beta + n - k)$.
-
-**Interpretazione**: I parametri $\alpha$ e $\beta$ possono essere interpretati come "pseudo-osservazioni" precedenti, rispettivamente successi e fallimenti, che vengono aggiornati sommando le evidenze empiriche osservate.
+**Interpretazione**
+I parametri $\alpha$ e $\beta$ possono essere interpretati come *pseudo-osservazioni* precedenti: rispettivamente successi e fallimenti. L’aggiornamento bayesiano avviene sommando le evidenze empiriche a queste quantità iniziali.
 :::
 
-Questa proprietà di coniugazione rende l'aggiornamento bayesiano computazionalmente semplice e concettualmente trasparente, poiché le distribuzioni a priori e a posteriori appartengono alla stessa famiglia parametrica.
+Questa proprietà di **coniugazione** rende l’aggiornamento bayesiano al tempo stesso computazionalmente semplice e concettualmente trasparente: la distribuzione a posteriori appartiene alla stessa famiglia della distribuzione a priori, differendo solo nei parametri.
+
+### Visualizzazione dell’aggiornamento
 
 ```{r}
 #| label: fig-beta-binomial
@@ -893,7 +938,11 @@ ggplot(df_beta_long, aes(x = theta, y = Densita, color = Componente, linetype = 
   theme_minimal() 
 ```
 
-La visualizzazione illustra il meccanismo dell'aggiornamento bayesiano. La distribuzione a priori (tratteggiata in rosso) è centrata su 0.25 e rappresenta la credenza iniziale che lo studente stia rispondendo a caso. La funzione di verosimiglianza (punteggiata in blu) indica che i dati osservati (12/30, ovvero il 40% di risposte corrette) sono massimamente compatibili con un valore di $\theta$ intorno a 0.40. La distribuzione a posteriori (verde solida) rappresenta la sintesi bayesiana: è spostata verso il dato osservato, ma non completamente, riflettendo l'influenza residua del prior.
+La visualizzazione illustra in modo diretto il meccanismo dell’aggiornamento bayesiano:
+
+* la **distribuzione a priori** (linea tratteggiata) è centrata su $\theta = 0.25$ e rappresenta la credenza iniziale che lo studente stia rispondendo a caso;
+* la **verosimiglianza** (linea punteggiata) indica che i dati osservati ($12/30 \approx 0.40$) sono massimamente compatibili con valori di $\theta$ attorno a 0.40;
+* la **distribuzione a posteriori** (linea continua) rappresenta la sintesi bayesiana: è spostata verso i dati, ma non coincide con essi, riflettendo l’influenza residua delle credenze iniziali.
 
 ```{r}
 # Confronto tra diversi approcci inferenziali
@@ -910,11 +959,17 @@ data.frame(
 )
 ```
 
-Il confronto numerico mostra come l'approccio bayesiano fornisca una stima intermedia tra la credenza iniziale e l'evidenza empirica, ponderando entrambe le fonti di informazione in modo coerente.
+Il confronto numerico evidenzia tre concetti distinti:
+
+* la **media a priori** riflette esclusivamente la conoscenza iniziale;
+* la **stima di massima verosimiglianza** utilizza solo l’informazione contenuta nei dati;
+* la **media a posteriori** integra in modo coerente entrambe le fonti di informazione.
+
+Questo mostra come l’approccio bayesiano non sostituisca i dati con il prior, ma li **ponderi** in base alla loro quantità e affidabilità.
 
 ### Intervalli di credibilità bayesiani
 
-Mentre gli intervalli di confidenza frequentisti descrivono le proprietà di una procedura di stima, gli intervalli di credibilità bayesiani forniscono una quantificazione diretta dell'incertezza relativa al parametro di interesse.
+A differenza degli intervalli di confidenza frequentisti, che descrivono le proprietà di una procedura di stima nel lungo periodo, gli **intervalli di credibilità bayesiani** forniscono una quantificazione diretta dell’incertezza relativa al parametro di interesse.
 
 ```{r}
 #| label: fig-credibility
@@ -951,22 +1006,24 @@ ggplot(df_posterior, aes(x = theta, y = densita)) +
   theme_minimal()
 ```
 
-**Interpretazione epistemica diretta**: l'intervallo [0.23, 0.55] rappresenta la regione in cui, alla luce dei dati osservati e delle nostre credenze iniziali, assegniamo una probabilità del 95% che si trovi il vero valore del parametro θ. 
+L’intervallo di credibilità al 95%,
+$$
+[0.23,;0.55],
+$$
+rappresenta la regione nella quale, alla luce dei dati osservati e delle credenze iniziali, assegniamo una probabilità del 95% che si trovi il vero valore del parametro $\theta$.
 
-Questa interpretazione differisce fondamentalmente da quella degli intervalli di confidenza frequentisti, che si riferiscono alle proprietà a lungo termine della procedura di stima ("se ripetessimo l'esperimento infinite volte, il 95% degli intervalli costruiti conterrebbe il parametro vero"), piuttosto che fornire una misura diretta dell'incertezza sul parametro specifico oggetto di studio.
-
-L'approccio bayesiano fornisce quindi una risposta più naturale alla domanda: "Dove è plausibile che si trovi il parametro, date le evidenze disponibili?".
+Questa interpretazione è **epistemicamente diretta**: l’incertezza riguarda il parametro stesso, non il comportamento ipotetico di una procedura di stima ripetuta infinite volte. L’intervallo di confidenza frequentista, al contrario, si riferisce alla frequenza con cui intervalli costruiti con lo stesso metodo conterrebbero il parametro vero, senza permettere un’affermazione probabilistica diretta sul parametro specifico osservato.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Il teorema di Bayes rappresenta molto più di una formula matematica: costituisce un principio normativo per il ragionamento razionale in condizioni di incertezza. La sua derivazione dalla semplice simmetria della probabilità congiunta rivela che l'aggiornamento bayesiano non è un'opzione metodologica tra altre, ma una necessità logica per chiunque accetti le regole della probabilità.
+Il **teorema di Bayes** rappresenta molto più di una formula matematica: costituisce un **principio normativo** per il ragionamento razionale in condizioni di incertezza. La sua derivazione dalla simmetria della probabilità congiunta mostra che l’aggiornamento bayesiano delle credenze non è una scelta metodologica opzionale, ma una **necessità logica** per chiunque accetti i vincoli di coerenza imposti dalla teoria della probabilità.
 
-Il percorso sviluppato in questo capitolo ha mostrato come il teorema fornisca risposte precise alle domande fondamentali dell'inferenza: come trasformare l'informazione sui dati in conoscenza sulle ipotesi, come integrare la conoscenza pregressa con le nuove evidenze, come quantificare l'incertezza residua dopo l'osservazione.
+Il percorso sviluppato in questo capitolo ha chiarito come il teorema di Bayes risponda in modo sistematico alle domande fondamentali dell’inferenza: come trasformare l’informazione contenuta nei dati in conoscenza sulle ipotesi, come integrare in modo coerente la conoscenza pregressa con nuove evidenze, e come quantificare l’incertezza residua dopo l’osservazione. In questo quadro, l’inferenza non consiste nel sostituire le credenze iniziali con i dati, ma nel **rivederle razionalmente** alla luce dell’evidenza disponibile.
 
-Le applicazioni esaminate—dalla diagnostica clinica alla valutazione della comorbilità, dalla stima di parametri all'accumulo di evidenze da fonti multiple—illustrano la versatilità del framework bayesiano. In ciascun caso, il teorema traduce operativamente il processo di ragionamento, rendendo esplicite le assunzioni e quantificando in modo coerente l'aggiornamento delle credenze.
+Le applicazioni discusse, dalla diagnostica clinica alla valutazione della comorbilità, dall’analisi di test sequenziali all’aggiornamento di parametri continui, illustrano la versatilità dell’approccio bayesiano. In ciascun caso, il teorema di Bayes rende operativo il processo inferenziale, esplicitando le assunzioni di partenza, distinguendo chiaramente tra direzione predittiva e direzione inferenziale, e fornendo una quantificazione coerente dell’aggiornamento delle credenze.
 
-Questo capitolo conclude la trattazione dei fondamenti della probabilità bayesiana. I principi stabiliti—la specificazione del prior, la definizione della verosimiglianza, il calcolo del posterior, l'inferenza dalla distribuzione risultante—costituiranno la base per gli sviluppi più avanzati: l'inferenza su parametri continui mediante distribuzioni complete, i modelli gerarchici, la selezione di modelli e i metodi computazionali per problemi complessi. Ma la logica sottostante rimarrà invariata: la razionalità come coerenza, l'apprendimento come aggiornamento bayesiano, la probabilità come grado di credenza.
+Questo capitolo conclude la trattazione dei **fondamenti della probabilità bayesiana**. I concetti stabiliti, ovvero la specificazione del *prior*, il ruolo della *verosimiglianza*, il calcolo del *posterior* e l’inferenza basata sull’intera distribuzione risultante, costituiranno la base per sviluppi più avanzati, come l’inferenza su parametri continui, i modelli gerarchici, la selezione di modelli e i metodi computazionali per problemi complessi. Al crescere della complessità dei modelli, tuttavia, la logica sottostante rimarrà invariata: **la razionalità come coerenza, l’apprendimento come aggiornamento bayesiano, la probabilità come grado di credenza**.
 
-Come osservò Laplace oltre due secoli fa, il calcolo delle probabilità non è altro che il buon senso ridotto a calcolo. Il teorema di Bayes ne rappresenta il motore fondamentale.
+Come osservò Pierre-Simon Laplace oltre due secoli fa, il calcolo delle probabilità non è altro che *il buon senso ridotto a calcolo*. Il teorema di Bayes ne rappresenta il motore fondamentale.
 
 ## Bibliografia {.unnumbered .unlisted}
