@@ -1361,9 +1361,10 @@ X_1, \ldots, X_n \sim \mathcal{N}(\theta, \sigma^2),
 \]</span> dove la varianza <span class="math inline">\(\sigma^2\)</span> è nota. Come visto nelle sezioni precedenti, tutta l’informazione rilevante contenuta nel campione è riassunta dalla <strong>media campionaria</strong> <span class="math inline">\(\bar{X}\)</span>.</p>
 </section><section id="la-verosimiglianza-come-distribuzione-informativa" class="level3" data-number="15.3.3"><h3 data-number="15.3.3" class="anchored" data-anchor-id="la-verosimiglianza-come-distribuzione-informativa">
 <span class="header-section-number">15.3.3</span> La verosimiglianza come distribuzione informativa</h3>
-<p>Considerata come funzione del parametro <span class="math inline">\(\theta\)</span>, la verosimiglianza associata ai dati è proporzionale a una distribuzione normale: <span class="math display">\[
+<p>Considerata come funzione del parametro <span class="math inline">\(\theta\)</span>, la verosimiglianza associata ai dati è proporzionale a una distribuzione normale:</p>
+<p><span class="math display">\[
 L(\theta; \bar{x}) \propto
-\exp!\left(-\frac{n(\bar{x}-\theta)^2}{2\sigma^2}\right).
+\exp \!\left(-\frac{n(\bar{x}-\theta)^2}{2\sigma^2}\right).
 \]</span></p>
 <p>Questa funzione:</p>
 <ul>
@@ -1376,14 +1377,16 @@ L(\theta; \bar{x}) \propto
 \]</span></p>
 </section><section id="la-distribuzione-a-posteriori" class="level3" data-number="15.3.4"><h3 data-number="15.3.4" class="anchored" data-anchor-id="la-distribuzione-a-posteriori">
 <span class="header-section-number">15.3.4</span> La distribuzione a posteriori</h3>
-<p>Il teorema di Bayes stabilisce che la distribuzione a posteriori è proporzionale al prodotto tra prior e verosimiglianza: <span class="math display">\[
-p(\theta \mid \bar{x}) \propto p(\theta), L(\theta; \bar{x}).
+<p>Il teorema di Bayes stabilisce che la distribuzione a posteriori è proporzionale al prodotto tra prior e verosimiglianza:</p>
+<p><span class="math display">\[
+p(\theta \mid \bar{x}) \propto p(\theta)\, L(\theta; \bar{x}).
 \]</span></p>
 <p>Nel caso gaussiano, questo prodotto genera ancora una distribuzione normale: <span class="math display">\[
 \theta \mid \bar{x} \sim \mathcal{N}(\mu_{\text{post}}, \sigma_{\text{post}}^2).
 \]</span></p>
 <div id="thm-posterior-gaussian" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 15.3 (Aggiornamento bayesiano gaussiano (forma esplicita))</strong></span> La <strong>media a posteriori</strong> è una media ponderata tra prior e dati: <span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 15.3 (Aggiornamento bayesiano gaussiano (forma esplicita))</strong></span> La <strong>media a posteriori</strong> è una media ponderata tra prior e dati:</p>
+<p><span class="math display">\[
 \mu_{\text{post}}
 = \frac{\tau_0 \mu_0 + \tau_{\text{dati}} \bar{x}}
 {\tau_0 + \tau_{\text{dati}}},
@@ -1394,7 +1397,8 @@ p(\theta \mid \bar{x}) \propto p(\theta), L(\theta; \bar{x}).
 <li>
 <span class="math inline">\(\tau_{\text{dati}} = n/\sigma^2\)</span> è la precisione dei dati.</li>
 </ul>
-<p>La <strong>precisione a posteriori</strong> è la somma delle precisioni: <span class="math display">\[
+<p>La <strong>precisione a posteriori</strong> è la somma delle precisioni:</p>
+<p><span class="math display">\[
 \tau_{\text{post}} = \tau_0 + \tau_{\text{dati}}.
 \]</span></p>
 </div>
@@ -1505,7 +1509,8 @@ Figura&nbsp;15.3: Aggiornamento bayesiano: il prior (blu), la verosimiglianza (a
 </section></section><section id="la-legge-dei-grandi-numeri-e-la-convergenza-bayesiana" class="level2" data-number="15.4"><h2 data-number="15.4" class="anchored" data-anchor-id="la-legge-dei-grandi-numeri-e-la-convergenza-bayesiana">
 <span class="header-section-number">15.4</span> La Legge dei Grandi Numeri e la convergenza bayesiana</h2>
 <p>Tra i risultati fondamentali della teoria della probabilità, la <strong>Legge dei Grandi Numeri (LGN)</strong> descrive come l’informazione fornita dai dati si stabilizzi progressivamente all’aumentare del numero di osservazioni. Nella sua interpretazione più intuitiva, essa afferma che, ripetendo molte volte lo stesso esperimento nelle medesime condizioni, la frequenza relativa di un evento tende ad avvicinarsi alla sua probabilità teorica.</p>
-<p>In termini più formali, se <span class="math inline">\(X_1, \dots, X_n\)</span> sono variabili casuali indipendenti e identicamente distribuite con valore atteso <span class="math inline">\(\mu\)</span>, la media campionaria <span class="math display">\[
+<p>In termini più formali, se <span class="math inline">\(X_1, \dots, X_n\)</span> sono variabili casuali indipendenti e identicamente distribuite con valore atteso <span class="math inline">\(\mu\)</span>, la media campionaria</p>
+<p><span class="math display">\[
 \bar X_n = \frac{1}{n}\sum_{i=1}^{n} X_i
 \]</span> tende, al crescere di <span class="math inline">\(n\)</span>, a concentrarsi attorno al valore costante <span class="math inline">\(\mu\)</span>.</p>
 <p>Questo non significa che la media campionaria smetta di fluttuare, ma che <strong>deviazioni ampie dal valore vero diventano sempre meno probabili</strong>: le oscillazioni persistono, ma si fanno progressivamente più piccole e trascurabili rispetto a <span class="math inline">\(\mu\)</span>.</p>
@@ -1615,16 +1620,18 @@ Figura&nbsp;15.4: Convergenza bayesiana: tre ricercatori con prior molto diversi
 <li>ma le <strong>medie campionarie</strong> tendono a seguire una distribuzione gaussiana.</li>
 </ul>
 <div id="thm-clt" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 15.5 (Teorema del Limite Centrale (forma intuitiva))</strong></span> Per osservazioni i.i.d. con media <span class="math inline">\(\mu\)</span> e varianza <span class="math inline">\(\sigma^2 &lt; \infty\)</span>, la distribuzione della media campionaria <span class="math inline">\(\bar X_n\)</span> può essere approssimata, per <span class="math inline">\(n\)</span> sufficientemente grande, da una distribuzione normale: <span class="math display">\[
-\bar{X}_n ;\dot\sim; \mathcal{N}!\left(\mu, \frac{\sigma^2}{n}\right).
+<p><span class="theorem-title"><strong>Teorema 15.5 (Teorema del Limite Centrale (forma intuitiva))</strong></span> Per osservazioni i.i.d. con media <span class="math inline">\(\mu\)</span> e varianza <span class="math inline">\(\sigma^2 &lt; \infty\)</span>, la distribuzione della media campionaria <span class="math inline">\(\bar X_n\)</span> può essere approssimata, per <span class="math inline">\(n\)</span> sufficientemente grande, da una distribuzione normale:</p>
+<p><span class="math display">\[
+\bar{X}_n \;\dot\sim\; \mathcal{N}\!\left(\mu, \frac{\sigma^2}{n}\right).
 \]</span></p>
 </div>
 <p>Questa proprietà spiega perché le distribuzioni gaussiane compaiano così frequentemente in statistica: <strong>non perché la natura sia normale, ma perché facciamo medie</strong>.</p>
 </section><section id="conseguenze-per-la-verosimiglianza-1" class="level3" data-number="15.5.3"><h3 data-number="15.5.3" class="anchored" data-anchor-id="conseguenze-per-la-verosimiglianza-1">
 <span class="header-section-number">15.5.3</span> Conseguenze per la verosimiglianza</h3>
-<p>Poiché in molti modelli la verosimiglianza dipende dalla media campionaria (o da statistiche che si comportano in modo analogo), il TLC implica che, per campioni sufficientemente grandi, la verosimiglianza assuma una forma <strong>approssimativamente normale</strong> rispetto al parametro: <span class="math display">\[
-L(\theta \mid \bar{x}) ;\approx;
-\mathcal{N}!\left(\bar{x}, \frac{\sigma^2}{n}\right),
+<p>Poiché in molti modelli la verosimiglianza dipende dalla media campionaria (o da statistiche che si comportano in modo analogo), il TLC implica che, per campioni sufficientemente grandi, la verosimiglianza assuma una forma <strong>approssimativamente normale</strong> rispetto al parametro:</p>
+<p><span class="math display">\[
+L(\theta \mid \bar{x}) \;\approx\;
+\mathcal{N}\!\left(\bar{x}, \frac{\sigma^2}{n}\right),
 \]</span> interpretata come funzione di <span class="math inline">\(\theta\)</span>.</p>
 <p>È importante sottolineare che questa normalità <strong>non deriva</strong> dalla distribuzione delle singole osservazioni, ma dal loro comportamento aggregato. Anche partendo da popolazioni fortemente non gaussiane, la verosimiglianza tende ad assumere una struttura a campana man mano che il numero di dati cresce.</p>
 </section><section id="conseguenze-per-linferenza-bayesiana" class="level3" data-number="15.5.4"><h3 data-number="15.5.4" class="anchored" data-anchor-id="conseguenze-per-linferenza-bayesiana">
@@ -1709,10 +1716,12 @@ Figura&nbsp;15.5: Il Teorema del Limite Centrale in azione: anche partendo da un
 <li>una stima <span class="math inline">\(\bar{x}_i\)</span> del parametro <span class="math inline">\(\theta\)</span>;</li>
 <li>una misura della sua incertezza, espressa tramite la <strong>precisione</strong> <span class="math inline">\(\tau_i\)</span> (l’inverso della varianza).</li>
 </ul>
-<p>La stima combinata risulta essere una <strong>media ponderata</strong>: <span class="math display">\[
+<p>La stima combinata risulta essere una <strong>media ponderata</strong>:</p>
+<p><span class="math display">\[
 \bar{x}_{\text{comb}} = \frac{\sum_i \tau_i \bar{x}_i}{\sum_i \tau_i},
 \]</span> dove i pesi riflettono l’affidabilità relativa degli studi.</p>
-<p>Allo stesso tempo, la precisione complessiva è semplicemente: <span class="math display">\[
+<p>Allo stesso tempo, la precisione complessiva è semplicemente:</p>
+<p><span class="math display">\[
 \tau_{\text{comb}} = \sum_i \tau_i.
 \]</span></p>
 <p>Queste formule riflettono esattamente la logica dell’aggiornamento bayesiano: ogni nuova fonte di informazione contribuisce in proporzione alla propria precisione, riducendo l’incertezza complessiva.</p>

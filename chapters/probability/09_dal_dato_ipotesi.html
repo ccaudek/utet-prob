@@ -1146,11 +1146,11 @@ window.Quarto = {
 <section id="dati-osservati-e-parametro-di-interesse" class="level3" data-number="9.2.1"><h3 data-number="9.2.1" class="anchored" data-anchor-id="dati-osservati-e-parametro-di-interesse">
 <span class="header-section-number">9.2.1</span> Dati osservati e parametro di interesse</h3>
 <p>Riprendiamo l’esempio introdotto in precedenza, relativo alla stima della proporzione <span class="math inline">\(\theta\)</span> di studenti che presentano sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Dopo aver selezionato un campione rappresentativo di <span class="math inline">\(n\)</span> studenti, per ciascun partecipante registriamo la presenza o l’assenza del sintomo mediante una codifica binaria.</p>
-<p>Le osservazioni del campione possono essere formalizzate come variabili casuali <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span>, dove ciascuna <span class="math inline">\(X_i\)</span> assume il valore:</p>
+<p>Le osservazioni del campione possono essere formalizzate come variabili casuali <span class="math inline">\(X_1, X_2, \ldots, X_n,\)</span> dove ciascuna <span class="math inline">\(X_i\)</span> assume il valore:</p>
 <p><span class="math display">\[
 X_i =
 \begin{cases}
-1 &amp; \text{se lo studente } i \text{ presenta il sintomo}, \
+1 &amp; \text{se lo studente } i \text{ presenta il sintomo}, \\
 0 &amp; \text{in caso contrario}.
 \end{cases}
 \]</span></p>
@@ -1191,7 +1191,9 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 </div>
 </section></section><section id="proprietà-fondamentali-della-media-campionaria" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="proprietà-fondamentali-della-media-campionaria">
 <span class="header-section-number">9.3</span> Proprietà fondamentali della media campionaria</h2>
-<p>Prima di procedere con l’inferenza bayesiana, è utile esaminare alcune proprietà matematiche della media campionaria <span class="math inline">\(\bar{X}\)</span> che valgono indipendentemente dal framework inferenziale adottato. Queste proprietà descrivono il comportamento di <span class="math inline">\(\bar{X}\)</span> in relazione al parametro <span class="math inline">\(\theta\)</span> e chiariscono <em>perché</em> i dati osservati contengono informazione sul parametro di interesse.</p>
+<p>Nel <a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a> abbiamo già derivato le proprietà algebriche di base della media campionaria come applicazioni dirette della linearità del valore atteso e dell’additività della varianza per variabili indipendenti. Abbiamo visto che <span class="math inline">\(\mathbb{E}[\bar{X}] = \mu\)</span> e che <span class="math inline">\(\text{Var}(\bar{X}) = \sigma^2/n\)</span>.</p>
+<p>In questa sezione, <strong>approfondiamo il significato inferenziale</strong> di questi risultati, esaminandoli in relazione all’incertezza sul parametro <span class="math inline">\(\theta\)</span> e collegandoli esplicitamente alla struttura del processo di campionamento. Mentre nel capitolo precedente l’enfasi era sulle proprietà algebriche generali, qui ci concentriamo su come queste proprietà si traducano nella capacità dei dati osservati di informare le nostre credenze sul parametro di interesse.</p>
+<p>Riprendiamo quindi le derivazioni in forma più dettagliata, esplicitando il condizionamento rispetto al parametro e introducendo l’interpretazione in termini di distribuzione campionaria e verosimiglianza.</p>
 <section id="valore-atteso-della-media-campionaria" class="level3" data-number="9.3.1"><h3 data-number="9.3.1" class="anchored" data-anchor-id="valore-atteso-della-media-campionaria">
 <span class="header-section-number">9.3.1</span> Valore atteso della media campionaria</h3>
 <p>Supponiamo di avere osservazioni <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> <strong>indipendenti e identicamente distribuite</strong> (i.i.d.), ciascuna con valore atteso <span class="math display">\[
@@ -1404,7 +1406,7 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 \quad \text{quando } n \to \infty.
 \]</span></p></li>
 <li><p><strong>Legge dei Grandi Numeri Forte</strong> La media campionaria converge a <span class="math inline">\(\theta\)</span> <em>quasi certamente</em>, ossia: <span class="math display">\[
-\Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta ,\bigg|, \theta\right) = 1.
+\Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta \,\bigg|\, \theta\right) = 1.
 \]</span></p></li>
 </ol>
 <p>Entrambe le formulazioni esprimono l’idea che, con un numero sufficientemente elevato di osservazioni, la media campionaria fornisce una rappresentazione sempre più accurata del parametro che governa il processo generativo dei dati.</p>
@@ -1596,7 +1598,7 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 <p>Consideriamo uno studio in ambito di psicologia clinica volto a stimare la prevalenza di un determinato sintomo. Supponiamo di adottare una distribuzione a priori uniforme per il parametro <span class="math inline">\(\theta\)</span> e di osservare un campione di <span class="math inline">\(n = 100\)</span> soggetti, di cui <span class="math inline">\(y = 45\)</span> presentano il sintomo.</p>
 <p>Per una dimensione campionaria di questo ordine di grandezza, la distribuzione a posteriori può essere approssimata mediante una distribuzione normale:</p>
 <p><span class="math display">\[
-\theta \mid y ;\dot\sim; \mathcal{N}!\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
+\theta \mid y \;\dot\sim\; \mathcal{N}\!\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri osservati</span></span>
