@@ -279,23 +279,27 @@ Una conseguenza fondamentale della linearità riguarda la **media aritmetica** d
 $$
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i
 $$
+
 ha valore atteso:
+
 $$
 \mathbb{E}[\bar{X}] = \frac{1}{n}\sum_{i=1}^{n} \mathbb{E}[X_i] = \frac{1}{n} \cdot n \cdot \mu = \mu.
 $$
 
-Questo risultato mostra che la media campionaria è uno **stimatore non distorto** del valore atteso della popolazione. In altre parole, in media, la media campionaria coincide con il parametro che intende stimare. Questa proprietà è un pilastro dell’inferenza statistica e prepara direttamente il terreno allo studio della **varianza**, che quantifica quanto la media campionaria fluttua attorno a $\mu$.
+Questo risultato mostra che la media campionaria è uno **stimatore non distorto** del valore atteso della popolazione: in media, la media campionaria coincide con il parametro che intende stimare.
 
 ### Punto chiave da ricordare
 
 * La linearità è la proprietà centrale del valore atteso.
-* L’additività vale sempre, anche senza indipendenza.
+* L'additività vale sempre, anche senza indipendenza.
 * Il prodotto richiede indipendenza.
 * La media campionaria conserva il valore atteso della popolazione.
 
+---
+
 ## La varianza come misura di dispersione
 
-Il valore atteso individua il centro di una distribuzione, ma da solo non fornisce informazioni su **quanto** i valori della variabile si discostino da questo centro. Due variabili casuali possono avere lo stesso valore atteso e tuttavia comportamenti molto diversi: una può essere fortemente concentrata attorno alla media, l’altra estremamente dispersa.
+Il valore atteso individua il centro di una distribuzione, ma da solo non fornisce informazioni su **quanto** i valori della variabile si discostino da questo centro. Due variabili casuali possono avere lo stesso valore atteso e tuttavia comportamenti molto diversi: una può essere fortemente concentrata attorno alla media, l'altra estremamente dispersa.
 
 Per quantificare la dispersione, introduciamo gli **scarti dalla media**, cioè la variabile casuale $X - \mathbb{E}[X]$. Gli scarti possono assumere valori positivi o negativi e, per definizione del valore atteso, la loro media è sempre zero. Di conseguenza, una semplice media degli scarti non può fornire una misura utile della variabilità.
 
@@ -309,7 +313,7 @@ Per ottenere una misura non nulla e sempre positiva della dispersione, si consid
 
 La *varianza* di una variabile casuale $X$ è definita come il valore atteso degli scarti quadratici dalla media:
 $$
-\text{Var}(X) = \mathbb{E}!\left[(X - \mathbb{E}[X])^2\right].
+\text{Var}(X) = \mathbb{E}\left[(X - \mathbb{E}[X])^2\right].
 $$
 :::
 
@@ -317,15 +321,15 @@ Indicando con $\mu = \mathbb{E}[X]$, la varianza può essere scritta in forma es
 
 * **caso discreto**
   $$
-  \text{Var}(X) = \sum_i (x_i - \mu)^2, p_X(x_i),
+  \text{Var}(X) = \sum_i (x_i - \mu)^2 \cdot p_X(x_i),
   $$
 
 * **caso continuo**
   $$
-  \text{Var}(X) = \int_{-\infty}^{+\infty} (x - \mu)^2, f_X(x), dx.
+  \text{Var}(X) = \int_{-\infty}^{+\infty} (x - \mu)^2 \cdot f_X(x) \, dx.
   $$
 
-La varianza è sempre **non negativa**, cioè $\text{Var}(X) \geq 0$ per ogni variabile casuale $X$. L’uguaglianza vale se e solo se $X$ è una costante, ossia se non esiste alcuna incertezza sul valore assunto dalla variabile.
+La varianza è sempre **non negativa**, cioè $\text{Var}(X) \geq 0$ per ogni variabile casuale $X$. L'uguaglianza vale se e solo se $X$ è una costante, ossia se non esiste alcuna incertezza sul valore assunto dalla variabile.
 
 Valori elevati di varianza indicano una forte dispersione dei valori attorno alla media e quindi una maggiore incertezza nella previsione degli esiti. Al contrario, una varianza piccola segnala che la distribuzione è fortemente concentrata attorno al valore atteso.
 
@@ -369,105 +373,56 @@ Calcoliamo la varianza della variabile casuale $X$ che rappresenta la somma di d
 ```{r}
 valori <- 2:12
 prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
-
 E_X <- sum(valori * prob)
-var_diretta <- sum((valori - E_X)^2 * prob)
-
-cat("Valore atteso:", E_X, "\n")
-cat("Varianza (formula diretta):", round(var_diretta, 4), "\n")
+Var_diretta <- sum((valori - E_X)^2 * prob)
+cat("Varianza (formula diretta):", Var_diretta, "\n")
 ```
 
 **Formula alternativa**
 
 ```{r}
 E_X2 <- sum(valori^2 * prob)
-var_alternativa <- E_X2 - E_X^2
-
-cat("E[X^2]:", E_X2, "\n")
-cat("Varianza (formula alternativa):", round(var_alternativa, 4), "\n")
+Var_alternativa <- E_X2 - E_X^2
+cat("Varianza (formula alternativa):", Var_alternativa, "\n")
 ```
 
-Entrambe le procedure producono lo stesso risultato:
-
-$$
-\text{Var}(X) \approx 5.83.
-$$
+Le due formule producono lo stesso risultato, come atteso, ma la formula alternativa richiede solo il calcolo di due medie ponderate, senza dover calcolare esplicitamente tutti gli scarti dalla media.
 :::
 
-### Interpretazione concettuale
+## Proprietà algebriche della varianza
 
-La varianza misura **quanto** una variabile casuale fluttua attorno al suo valore atteso. In un’ottica bayesiana, essa quantifica il grado di incertezza residua associata alle nostre credenze: una varianza elevata indica una distribuzione ampia e quindi una previsione poco precisa; una varianza ridotta segnala invece una conoscenza più concentrata e affidabile.
+La varianza possiede proprietà algebriche che, pur essendo simili a quelle del valore atteso, presentano differenze cruciali.
 
-## Proprietà della varianza
+### Trasformazioni lineari
 
-Le proprietà della varianza differiscono in modo sostanziale da quelle del valore atteso. Questa differenza riflette la natura **non lineare** della varianza, che è definita come valore atteso di scarti **quadratici** dalla media. Di conseguenza, la varianza non gode delle stesse proprietà di additività incondizionata del valore atteso.
+Per qualsiasi variabile casuale $X$ e per costanti $a$ e $b$:
 
-## Proprietà fondamentali
+$$
+\text{Var}(aX + b) = a^2 \text{Var}(X).
+$$
 
-::: {#thm-variance-properties}
-
-### Proprietà della varianza
-
-Per una variabile casuale $X$ valgono le seguenti proprietà:
-
-1. **Non negatività**
-   $$
-   \text{Var}(X) \geq 0,
-   $$
-   con uguaglianza se e solo se $X$ è una costante.
-
-2. **Invarianza per traslazioni**
-   $$
-   \text{Var}(X + b) = \text{Var}(X)
-   $$
-   per qualunque costante $b \in \mathbb{R}$.
-
-3. **Scaling quadratico**
-   $$
-   \text{Var}(aX) = a^2,\text{Var}(X)
-   $$
-   per qualunque costante $a \in \mathbb{R}$.
-
-4. **Combinazione affine**
-   $$
-   \text{Var}(aX + b) = a^2,\text{Var}(X).
-   $$
+::: {.proof}
+Sia $\mu = \mathbb{E}[X]$. Allora $\mathbb{E}[aX + b] = a\mu + b$ e quindi:
+\begin{align*}
+\text{Var}(aX + b)
+&= \mathbb{E}[(aX + b - a\mu - b)^2] \\
+&= \mathbb{E}[a^2(X - \mu)^2] \\
+&= a^2 \mathbb{E}[(X - \mu)^2] \\
+&= a^2 \text{Var}(X).
+\end{align*}
 :::
 
-L’invarianza per traslazioni ha un’interpretazione intuitiva: aggiungere una costante a tutti i valori sposta il centro della distribuzione, ma non ne modifica la dispersione.
-Lo scaling quadratico riflette invece il fatto che la varianza misura la dispersione tramite **scarti al quadrato**: raddoppiare la scala dei valori quadruplica la varianza.
+**Osservazione cruciale**: una traslazione (addizione di una costante $b$) **non modifica** la varianza, poiché non altera la dispersione dei valori attorno alla media. La moltiplicazione per una costante $a$ amplifica o riduce la varianza proporzionalmente a $a^2$.
 
-## Varianza di somme di variabili casuali
+### Additività della varianza per variabili indipendenti
 
-La proprietà in cui la varianza si comporta in modo più diverso dal valore atteso riguarda le **somme** di variabili casuali.
+Se $X$ e $Y$ sono variabili casuali **indipendenti**, allora:
 
-::: {#thm-variance-sum}
-
-### Varianza di una somma
-
-Per due variabili casuali $X$ e $Y$ vale:
-
-$$
-\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X, Y),
-$$
-dove la *covarianza* è definita come
-$$
-\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y].
-$$
-:::
-
-La covarianza misura il grado di **dipendenza lineare** tra le due variabili. Essa può essere positiva, negativa o nulla:
-
-* se $\text{Cov}(X,Y) > 0$, le variabili tendono a crescere insieme;
-* se $\text{Cov}(X,Y) < 0$, una tende a diminuire quando l’altra cresce;
-* se $\text{Cov}(X,Y) = 0$, le variabili sono *incorrelate*.
-
-Se $X$ e $Y$ sono **indipendenti** (e, più in generale, se sono incorrelate), la covarianza è nulla e la formula si semplifica in:
 $$
 \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y).
 $$
 
-A differenza dell’additività del valore atteso, che vale sempre, l’additività della varianza **richiede l’assenza di dipendenza**. In presenza di correlazione, la varianza della somma può essere maggiore o minore della somma delle varianze, a seconda del segno della covarianza.
+A differenza dell'additività del valore atteso, che vale sempre, l'additività della varianza **richiede l'assenza di dipendenza**. In presenza di correlazione, la varianza della somma può essere maggiore o minore della somma delle varianze, a seconda del segno della covarianza.
 
 ::: {.callout-note collapse="true" title="Esempio: Varianza della somma vs varianza dei componenti"}
 
@@ -499,13 +454,9 @@ cat("  Var(X) = Var(D₁) + Var(D₂) =", round(2 * Var_dado, 4), "\n")
 La varianza della somma è quindi circa $5.83$, esattamente il doppio della varianza di un singolo dado (circa $2.92$), come previsto dalla proprietà di additività per variabili indipendenti.
 :::
 
-### Interpretazione epistemica
-
-In una prospettiva bayesiana, la varianza quantifica **quanto siamo incerti** attorno al valore atteso. Quando combiniamo più fonti di informazione indipendenti, l’incertezza complessiva si accumula in modo additivo; quando invece le fonti sono correlate, la dipendenza modifica la dispersione complessiva, rendendo l’incertezza maggiore o minore a seconda della direzione della relazione.
-
 ### Varianza della media campionaria
 
-Un risultato cruciale per l'inferenza statistica riguarda la **varianza della media campionaria**. Siano $X_1, X_2, \ldots, X_n$ variabili casuali **indipendenti e identicamente distribuite** (i.i.d.) con
+Un risultato di rilevanza diretta per l'inferenza statistica riguarda la **varianza della media campionaria**. Siano $X_1, X_2, \ldots, X_n$ variabili casuali **indipendenti e identicamente distribuite** (i.i.d.) con
 
 $$
 \mathbb{E}[X_i] = \mu,
@@ -523,86 +474,37 @@ Applicando le proprietà della varianza, otteniamo:
 
 $$
 \text{Var}(\bar{X})
-= \text{Var}\!\left(\frac{1}{n}\sum_{i=1}^{n} X_i\right)
-= \frac{1}{n^2}\,\text{Var}\!\left(\sum_{i=1}^{n} X_i\right).
+= \text{Var}\left(\frac{1}{n}\sum_{i=1}^{n} X_i\right)
+= \frac{1}{n^2}\,\text{Var}\left(\sum_{i=1}^{n} X_i\right).
 $$
 
 Poiché le variabili sono indipendenti, la varianza della somma è la somma delle varianze:
 
 $$
-\text{Var}\!\left(\sum_{i=1}^{n} X_i\right)
+\text{Var}\left(\sum_{i=1}^{n} X_i\right)
 = \sum_{i=1}^{n} \text{Var}(X_i)
 = n \sigma^2.
 $$
 
-Sostituendo, otteniamo il risultato fondamentale:
+Sostituendo, otteniamo:
+
 $$
 \text{Var}(\bar{X}) = \frac{\sigma^2}{n}.
 $$
 
-### Interpretazione del risultato
+**Interpretazione**: La varianza della media campionaria decresce linearmente con $1/n$. Questo significa che raddoppiare la dimensione campionaria dimezza la varianza della media, rendendo le stime progressivamente più precise all'aumentare dei dati. Questo risultato costituisce il fondamento matematico dell'idea che "più dati implicano maggiore precisione".
 
-Questo risultato afferma che la **varianza della media campionaria decresce linearmente con $1/n$**. In altre parole:
+::: {.callout-note}
+### Approfondimento inferenziale
 
-* raddoppiare la dimensione campionaria dimezza la varianza della media;
-* campioni più grandi producono stime **più precise** del valore atteso $\mu$;
-* l’incertezza associata alla media diminuisce sistematicamente con l’accumularsi dei dati.
-
-Questo comportamento costituisce il fondamento matematico dell’idea, intuitivamente ovvia ma teoricamente non banale, che “più dati implicano maggiore precisione”.
-
-### Collegamento epistemico
-
-Dal punto di vista **frequentista**, la varianza $\text{Var}(\bar{X})$ descrive quanto la media campionaria fluttuerebbe tra campioni ripetuti della stessa dimensione.
-
-Dal punto di vista **bayesiano**, lo stesso risultato spiega perché la distribuzione *a posteriori* di un parametro (come la media di una popolazione) diventa progressivamente più concentrata man mano che si accumulano osservazioni indipendenti. La riduzione della varianza con $1/n$ è ciò che rende possibile l’apprendimento dall’esperienza.
-
-### Verifica mediante simulazione
-
-La simulazione seguente illustra visivamente la convergenza empirica al risultato teorico.
-
-```{r}
-set.seed(456)
-
-# Popolazione: normale con media 50 e sd 10
-
-pop_var <- 100
-
-# Varianza empirica delle medie per diversi n
-
-sample_sizes <- c(5, 10, 20, 50, 100, 200)
-n_rep <- 10000
-
-var_empiriche <- sapply(sample_sizes, function(n) {
-medie <- replicate(n_rep, mean(rnorm(n, mean = 50, sd = 10)))
-var(medie)
-})
-
-var_teoriche <- pop_var / sample_sizes
-
-df <- data.frame(
-n = sample_sizes,
-empirica = var_empiriche,
-teorica = var_teoriche
-)
-
-ggplot(df, aes(x = n)) +
-geom_line(aes(y = teorica), color = "darkred", linewidth = 1) +
-geom_point(aes(y = empirica), color = "steelblue", size = 3) +
-scale_x_continuous(breaks = sample_sizes) +
-labs(
-x = "Dimensione campionaria (n)",
-y = expression(Var(bar(X)))
-) +
-theme_minimal()
-```
-
-I punti empirici (simulazione) seguono da vicino la curva teorica $,\sigma^2/n$, confermando che la riduzione della varianza della media campionaria è un fenomeno robusto e generale.
+Le proprietà della media campionaria qui derivate hanno implicazioni profonde per l'inferenza statistica e bayesiana. Nel @sec-prob-inference-uncertainty esamineremo in dettaglio come questi risultati si traducano operativamente nell'aggiornamento delle credenze e nella quantificazione dell'incertezza, introducendo concetti quali distribuzione campionaria, verosimiglianza ed errore standard.
+:::
 
 ### Punto chiave da ricordare
 
-* La media campionaria conserva il valore atteso della popolazione.
-* La sua varianza decresce come $1/n$.
-* Questo risultato è il cuore della precisione statistica, dell’inferenza e dell’apprendimento bayesiano.
+* La media campionaria conserva il valore atteso della popolazione: $\mathbb{E}[\bar{X}] = \mu$.
+* La sua varianza decresce come $1/n$: $\text{Var}(\bar{X}) = \sigma^2/n$.
+* Questi risultati sono alla base della precisione statistica e dell'apprendimento dall'esperienza.
 
 ## Deviazione standard e standardizzazione
 

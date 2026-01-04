@@ -306,9 +306,10 @@ dove la varianza $\sigma^2$ è nota. Come visto nelle sezioni precedenti, tutta 
 ### La verosimiglianza come distribuzione informativa
 
 Considerata come funzione del parametro $\theta$, la verosimiglianza associata ai dati è proporzionale a una distribuzione normale:
+
 $$
 L(\theta; \bar{x}) \propto
-\exp!\left(-\frac{n(\bar{x}-\theta)^2}{2\sigma^2}\right).
+\exp \!\left(-\frac{n(\bar{x}-\theta)^2}{2\sigma^2}\right).
 $$
 
 Questa funzione:
@@ -325,8 +326,9 @@ $$
 ### La distribuzione a posteriori
 
 Il teorema di Bayes stabilisce che la distribuzione a posteriori è proporzionale al prodotto tra prior e verosimiglianza:
+
 $$
-p(\theta \mid \bar{x}) \propto p(\theta), L(\theta; \bar{x}).
+p(\theta \mid \bar{x}) \propto p(\theta)\, L(\theta; \bar{x}).
 $$
 
 Nel caso gaussiano, questo prodotto genera ancora una distribuzione normale:
@@ -339,6 +341,7 @@ $$
 ### Aggiornamento bayesiano gaussiano (forma esplicita)
 
 La **media a posteriori** è una media ponderata tra prior e dati:
+
 $$
 \mu_{\text{post}}
 = \frac{\tau_0 \mu_0 + \tau_{\text{dati}} \bar{x}}
@@ -350,6 +353,7 @@ dove:
 * $\tau_{\text{dati}} = n/\sigma^2$ è la precisione dei dati.
 
 La **precisione a posteriori** è la somma delle precisioni:
+
 $$
 \tau_{\text{post}} = \tau_0 + \tau_{\text{dati}}.
 $$
@@ -453,6 +457,7 @@ In questo esempio, la precisione dei dati ($\tau_{\text{dati}} = `r round(tau_da
 Tra i risultati fondamentali della teoria della probabilità, la **Legge dei Grandi Numeri (LGN)** descrive come l’informazione fornita dai dati si stabilizzi progressivamente all’aumentare del numero di osservazioni. Nella sua interpretazione più intuitiva, essa afferma che, ripetendo molte volte lo stesso esperimento nelle medesime condizioni, la frequenza relativa di un evento tende ad avvicinarsi alla sua probabilità teorica.
 
 In termini più formali, se $X_1, \dots, X_n$ sono variabili casuali indipendenti e identicamente distribuite con valore atteso $\mu$, la media campionaria
+
 $$
 \bar X_n = \frac{1}{n}\sum_{i=1}^{n} X_i
 $$
@@ -579,8 +584,9 @@ In altri termini:
 ### Teorema del Limite Centrale (forma intuitiva)
 
 Per osservazioni i.i.d. con media $\mu$ e varianza $\sigma^2 < \infty$, la distribuzione della media campionaria $\bar X_n$ può essere approssimata, per $n$ sufficientemente grande, da una distribuzione normale:
+
 $$
-\bar{X}_n ;\dot\sim; \mathcal{N}!\left(\mu, \frac{\sigma^2}{n}\right).
+\bar{X}_n \;\dot\sim\; \mathcal{N}\!\left(\mu, \frac{\sigma^2}{n}\right).
 $$
 :::
 
@@ -589,9 +595,10 @@ Questa proprietà spiega perché le distribuzioni gaussiane compaiano così freq
 ### Conseguenze per la verosimiglianza
 
 Poiché in molti modelli la verosimiglianza dipende dalla media campionaria (o da statistiche che si comportano in modo analogo), il TLC implica che, per campioni sufficientemente grandi, la verosimiglianza assuma una forma **approssimativamente normale** rispetto al parametro:
+
 $$
-L(\theta \mid \bar{x}) ;\approx;
-\mathcal{N}!\left(\bar{x}, \frac{\sigma^2}{n}\right),
+L(\theta \mid \bar{x}) \;\approx\;
+\mathcal{N}\!\left(\bar{x}, \frac{\sigma^2}{n}\right),
 $$
 interpretata come funzione di $\theta$.
 
@@ -684,12 +691,14 @@ Supponiamo che ciascuno studio $i$ fornisca:
 * una misura della sua incertezza, espressa tramite la **precisione** $\tau_i$ (l’inverso della varianza).
 
 La stima combinata risulta essere una **media ponderata**:
+
 $$
 \bar{x}_{\text{comb}} = \frac{\sum_i \tau_i \bar{x}_i}{\sum_i \tau_i},
 $$
 dove i pesi riflettono l’affidabilità relativa degli studi.
 
 Allo stesso tempo, la precisione complessiva è semplicemente:
+
 $$
 \tau_{\text{comb}} = \sum_i \tau_i.
 $$

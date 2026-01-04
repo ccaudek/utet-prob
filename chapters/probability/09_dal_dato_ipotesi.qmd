@@ -60,12 +60,12 @@ here::here("code", "_common.R") |>
 
 Riprendiamo l’esempio introdotto in precedenza, relativo alla stima della proporzione $\theta$ di studenti che presentano sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Dopo aver selezionato un campione rappresentativo di $n$ studenti, per ciascun partecipante registriamo la presenza o l’assenza del sintomo mediante una codifica binaria.
 
-Le osservazioni del campione possono essere formalizzate come variabili casuali $X_1, X_2, \ldots, X_n$, dove ciascuna $X_i$ assume il valore:
+Le osservazioni del campione possono essere formalizzate come variabili casuali $X_1, X_2, \ldots, X_n,$ dove ciascuna $X_i$ assume il valore:
 
 $$
 X_i =
 \begin{cases}
-1 & \text{se lo studente } i \text{ presenta il sintomo}, \
+1 & \text{se lo studente } i \text{ presenta il sintomo}, \\
 0 & \text{in caso contrario}.
 \end{cases}
 $$
@@ -109,7 +109,11 @@ La notazione $X_i \mid \theta$ indica che stiamo descrivendo la distribuzione de
 
 ## Proprietà fondamentali della media campionaria
 
-Prima di procedere con l’inferenza bayesiana, è utile esaminare alcune proprietà matematiche della media campionaria $\bar{X}$ che valgono indipendentemente dal framework inferenziale adottato. Queste proprietà descrivono il comportamento di $\bar{X}$ in relazione al parametro $\theta$ e chiariscono *perché* i dati osservati contengono informazione sul parametro di interesse.
+Nel @sec-prob-random-var-properties abbiamo già derivato le proprietà algebriche di base della media campionaria come applicazioni dirette della linearità del valore atteso e dell'additività della varianza per variabili indipendenti. Abbiamo visto che $\mathbb{E}[\bar{X}] = \mu$ e che $\text{Var}(\bar{X}) = \sigma^2/n$.
+
+In questa sezione, **approfondiamo il significato inferenziale** di questi risultati, esaminandoli in relazione all'incertezza sul parametro $\theta$ e collegandoli esplicitamente alla struttura del processo di campionamento. Mentre nel capitolo precedente l'enfasi era sulle proprietà algebriche generali, qui ci concentriamo su come queste proprietà si traducano nella capacità dei dati osservati di informare le nostre credenze sul parametro di interesse.
+
+Riprendiamo quindi le derivazioni in forma più dettagliata, esplicitando il condizionamento rispetto al parametro e introducendo l'interpretazione in termini di distribuzione campionaria e verosimiglianza.
 
 ### Valore atteso della media campionaria
 
@@ -354,7 +358,7 @@ Questa convergenza può essere formalizzata in modi diversi. In particolare, si 
 2. **Legge dei Grandi Numeri Forte**
    La media campionaria converge a $\theta$ *quasi certamente*, ossia:
    $$
-   \Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta ,\bigg|, \theta\right) = 1.
+   \Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta \,\bigg|\, \theta\right) = 1.
    $$
 
 Entrambe le formulazioni esprimono l’idea che, con un numero sufficientemente elevato di osservazioni, la media campionaria fornisce una rappresentazione sempre più accurata del parametro che governa il processo generativo dei dati.
@@ -550,7 +554,7 @@ Consideriamo uno studio in ambito di psicologia clinica volto a stimare la preva
 Per una dimensione campionaria di questo ordine di grandezza, la distribuzione a posteriori può essere approssimata mediante una distribuzione normale:
 
 $$
-\theta \mid y ;\dot\sim; \mathcal{N}!\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
+\theta \mid y \;\dot\sim\; \mathcal{N}\!\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
 $$
 
 ```{r}
