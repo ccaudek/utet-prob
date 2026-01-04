@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.26">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Elementi di teoria della probabilità – Probabilità per la psicologia</title>
+<title>10&nbsp; Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze – Probabilità per la psicologia</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,8 +17,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
-
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -30,8 +81,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/probability/01_intro_prob_bayesian.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/probability/11_intro_distributions.html" rel="next">
+<link href="../../chapters/probability/09_cov_cor.html" rel="prev">
 <link href="../../style/gauss.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -48,7 +99,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap-88f89515ec50d56ed60c0d65bb29dbd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-12c7548f543ff79fe76bca8cab42d0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-88f89515ec50d56ed60c0d65bb29dbd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -74,21 +127,41 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Inviare",
     "search-label": "Ricerca"
   }
-}</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script>
-
-<script type="text/javascript">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
-
-
-<meta name="citation_title" content="Elementi di teoria della probabilità">
-<meta name="citation_fulltext_html_url" content="https://ccaudek.github.io/utet-prob/chapters/probability/introduction_probability.html">
+<meta name="citation_title" content="[[10]{.chapter-number}&nbsp; [Dal dato all&amp;amp;#039;ipotesi: l'evidenza e l'aggiornamento delle credenze]{.chapter-title}]{#sec-prob-inference-uncertainty .quarto-section-identifier}">
+<meta name="citation_fulltext_html_url" content="https://ccaudek.github.io/utet-prob/chapters/probability/10_dal_dato_ipotesi.html">
 <meta name="citation_language" content="it">
 <meta name="citation_reference" content="citation_title=The history of statistics;,citation_author=Stephen Stigler;,citation_publication_date=1986;,citation_cover_date=1986;,citation_year=1986;">
 <meta name="citation_reference" content="citation_title=The relationship between belief and credence;,citation_author=Elizabeth G Jackson;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_issue=6;,citation_volume=15;,citation_journal_title=Philosophy Compass;,citation_publisher=Wiley Online Library;">
@@ -621,7 +694,6 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <meta name="citation_reference" content="citation_title=The grammar of graphics;,citation_author=Leland Wilkinson;,citation_author=Graham Wills;,citation_publication_date=2005;,citation_cover_date=2005;,citation_year=2005;">
 <meta name="citation_reference" content="citation_title=The invention of nature: Alexander von Humboldt’s new world;,citation_author=Andrea Wulf;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_isbn=978-0-385-35066-2 978-0-345-80629-1;">
 </head>
-
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -787,26 +859,20 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/10_dal_dato_ipotesi.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -827,7 +893,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduzione</span></a>
@@ -835,14 +901,14 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../chapters/probability/introduction_probability.html" class="sidebar-item-text sidebar-link active">
+            <a href="../../chapters/probability/introduction_probability.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Elementi di teoria della probabilità</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/01_intro_prob_bayesian.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione bayesiana della probabilità</span></span></a>
@@ -898,7 +964,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/10_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/probability/10_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
   </div>
 </li>
@@ -933,7 +999,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -942,8 +1008,8 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/appendix/a02_math_symbols.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Simbologia di base</span></span></a>
@@ -980,22 +1046,28 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Sommario</h2>
+   
+  <ul class="collapse">
+<li><a href="#un-esempio-concreto-la-stima-della-prevalenza-dei-sintomi-depressivi" id="toc-un-esempio-concreto-la-stima-della-prevalenza-dei-sintomi-depressivi" class="nav-link active" data-scroll-target="#un-esempio-concreto-la-stima-della-prevalenza-dei-sintomi-depressivi"><span class="header-section-number">10.1</span> Un esempio concreto: la stima della prevalenza dei sintomi depressivi</a></li>
+  <li><a href="#dati-parametri-e-incertezza" id="toc-dati-parametri-e-incertezza" class="nav-link" data-scroll-target="#dati-parametri-e-incertezza"><span class="header-section-number">10.2</span> Dati, parametri e incertezza</a></li>
+  <li><a href="#propriet%C3%A0-fondamentali-della-media-campionaria" id="toc-proprietà-fondamentali-della-media-campionaria" class="nav-link" data-scroll-target="#propriet%C3%A0-fondamentali-della-media-campionaria"><span class="header-section-number">10.3</span> Proprietà fondamentali della media campionaria</a></li>
+  <li><a href="#comprendere-la-variabilit%C3%A0-dei-dati" id="toc-comprendere-la-variabilità-dei-dati" class="nav-link" data-scroll-target="#comprendere-la-variabilit%C3%A0-dei-dati"><span class="header-section-number">10.4</span> Comprendere la variabilità dei dati</a></li>
+  <li><a href="#sec-lln" id="toc-sec-lln" class="nav-link" data-scroll-target="#sec-lln"><span class="header-section-number">10.5</span> Legge dei Grandi Numeri</a></li>
+  <li><a href="#teorema-del-limite-centrale" id="toc-teorema-del-limite-centrale" class="nav-link" data-scroll-target="#teorema-del-limite-centrale"><span class="header-section-number">10.6</span> Teorema del Limite Centrale</a></li>
+  <li><a href="#convergenza-bayesiana-da-credenze-diverse-a-conclusioni-condivise" id="toc-convergenza-bayesiana-da-credenze-diverse-a-conclusioni-condivise" class="nav-link" data-scroll-target="#convergenza-bayesiana-da-credenze-diverse-a-conclusioni-condivise"><span class="header-section-number">10.7</span> Convergenza bayesiana: da credenze diverse a conclusioni condivise</a></li>
+  <li><a href="#incertezza-distorsione-sistematica-e-limiti-dellinferenza" id="toc-incertezza-distorsione-sistematica-e-limiti-dellinferenza" class="nav-link" data-scroll-target="#incertezza-distorsione-sistematica-e-limiti-dellinferenza"><span class="header-section-number">10.8</span> Incertezza, distorsione sistematica e limiti dell’inferenza</a></li>
+  </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/10_dal_dato_ipotesi.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Elementi di teoria della probabilità</h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/introduction_probability.html">Elementi di teoria della probabilità</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/10_dal_dato_ipotesi.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-prob-inference-uncertainty" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></h1>
 </div>
 
 
@@ -1009,25 +1081,937 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   
 
 
-</header>
-
-
-<p>Questo modulo presenta i concetti essenziali della <em>probabilità secondo l’interpretazione bayesiana</em>, concepiti come supporto e integrazione al manuale <em>Inferenza bayesiana in psicologia: ragionare con l’incertezza</em>.</p>
-<p>La probabilità fornisce il linguaggio fondamentale con cui la scienza descrive e quantifica l’incertezza. In un mondo empirico in cui nessuna conclusione è definitiva, essa permette di esprimere in modo rigoroso i <em>gradi di plausibilità</em> delle nostre affermazioni.</p>
-<p>Sebbene le diverse scuole di pensiero – come quella <em>frequentista</em> (che definisce la probabilità come frequenza relativa di eventi in ripetizioni ideali) e quella <em>bayesiana</em> (che la interpreta come grado di credenza razionale) – condividano lo stesso formalismo matematico, in questo modulo adotteremo fin dall’inizio la prospettiva bayesiana. La probabilità non sarà quindi considerata come una proprietà intrinseca degli eventi, ma come una misura della nostra fiducia in una proposizione, soggetta a revisione alla luce di nuove evidenze.</p>
-<p><strong>In queste pagine esplorerai:</strong></p>
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>Nei capitoli precedenti abbiamo introdotto gli elementi fondamentali della teoria della probabilità e il linguaggio formale necessario per descrivere l’incertezza. In questo capitolo iniziamo a utilizzare questi strumenti per affrontare le domande centrali dell’inferenza statistica: che cosa possiamo dire, sulla base dei dati osservati, riguardo a quantità di interesse che non osserviamo direttamente?</p>
+<p>Nella ricerca psicologica siamo spesso interessati a fenomeni complessi, come la prevalenza di un disturbo d’ansia nella popolazione, l’efficacia di un trattamento terapeutico o la relazione tra stress e prestazione cognitiva. Tuttavia, non abbiamo mai accesso all’intera popolazione né a misurazioni perfette. I dati disponibili sono sempre parziali: osserviamo un numero finito di partecipanti, in contesti specifici, utilizzando strumenti affetti da errore. Di conseguenza, ogni conclusione deve necessariamente confrontarsi con l’incertezza.</p>
+<p>La domanda fondamentale diventa quindi: <strong>come possiamo quantificare l’incertezza sulle quantità di interesse a partire da dati limitati?</strong> In che modo possiamo esprimere, in termini probabilistici, il grado di sicurezza che la prevalenza di un disturbo rientri in un certo intervallo, oppure che un trattamento produca un effetto clinicamente rilevante?</p>
+<p>L’approccio che adotteremo in questo capitolo tratta i <em>parametri</em> del modello statistico — come proporzioni, medie e varianze — come quantità sconosciute rispetto alle quali possediamo un’incertezza di tipo <em>epistemico</em>. Questa incertezza viene rappresentata mediante distribuzioni di probabilità. Prima di osservare i dati, formalizziamo le nostre conoscenze preliminari attraverso una distribuzione <em>a priori</em>. Dopo aver raccolto i dati, aggiorniamo tali credenze ottenendo una distribuzione <em>a posteriori</em>. Questo meccanismo di aggiornamento coerente delle credenze alla luce dell’evidenza osservata costituisce il cuore dell’inferenza bayesiana.</p>
+</section><section id="un-esempio-concreto-la-stima-della-prevalenza-dei-sintomi-depressivi" class="level2" data-number="10.1"><h2 data-number="10.1" class="anchored" data-anchor-id="un-esempio-concreto-la-stima-della-prevalenza-dei-sintomi-depressivi">
+<span class="header-section-number">10.1</span> Un esempio concreto: la stima della prevalenza dei sintomi depressivi</h2>
+<p>Supponiamo di voler stimare la prevalenza di sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Poiché non è possibile osservare l’intera popolazione di interesse, ci affidiamo a un campione e utilizziamo l’inferenza statistica per trarre conclusioni più generali.</p>
+<p>Immaginiamo di reclutare un campione probabilistico di 200 studenti universitari. In questo campione, 72 partecipanti presentano sintomi depressivi clinicamente rilevanti. Il nostro obiettivo è inferire il valore del parametro <span class="math inline">\(\theta\)</span>, che rappresenta la vera prevalenza di tali sintomi nella popolazione di riferimento, e quantificare l’incertezza associata a questa stima.</p>
+<p>Nell’approccio bayesiano, il processo inferenziale inizia prima della raccolta dei dati. Le nostre conoscenze preliminari su <span class="math inline">\(\theta\)</span> vengono formalizzate attraverso una distribuzione <em>a priori</em>. Dopo aver osservato i dati, in questo caso, 72 casi su 200, tali conoscenze vengono aggiornate mediante il teorema di Bayes, producendo una distribuzione <em>a posteriori</em> per il parametro <span class="math inline">\(\theta\)</span>.</p>
+<p>A partire dalla distribuzione a posteriori possiamo ricavare diverse quantità di interesse. Una delle più comuni è l’intervallo di credibilità, che riassume l’incertezza sulla stima del parametro. Ad esempio, un possibile intervallo di credibilità al 95% per <span class="math inline">\(\theta\)</span> potrebbe essere [0.29; 0.43]. Questo intervallo ammette un’interpretazione diretta: sulla base delle informazioni disponibili, sia pregresse sia derivate dai dati osservati, riteniamo che vi sia una probabilità del 95% che il valore effettivo della prevalenza nella popolazione si collochi tra 0.29 e 0.43.</p>
+<p>Questa interpretazione probabilistica dell’incertezza è coerente con il modo in cui i ricercatori ragionano intuitivamente sui risultati empirici e fornisce una risposta chiara e informativa alla domanda di ricerca che ha motivato lo studio.</p>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
 <ul>
-<li>Le <em>definizioni fondamentali</em> della probabilità e le sue regole di calcolo di base;</li>
-<li>Il concetto di <em>probabilità condizionata</em> e il <em>teorema di Bayes</em>, motore dell’aggiornamento razionale delle credenze;</li>
-<li>Le proprietà delle <em>variabili casuali</em> e delle loro distribuzioni, sia discrete che continue;</li>
-<li>La funzione di <em>verosimiglianza</em>, ponte concettuale tra l’inferenza bayesiana e quella frequentista.</li>
+<li><p>Comprendere le proprietà statistiche della media campionaria (valore atteso, varianza, SE) e il loro significato inferenziale.</p></li>
+<li><p>Comprendere la distribuzione campionaria; come la sua forma determina la verosimiglianza che i dati impongono sui parametri.</p></li>
+<li><p>Legge dei Grandi Numeri: perché la media campionaria converge al valore vero e quali implicazioni ha per l’affidabilità delle stime.</p></li>
+<li><p>Teorema del Limite Centrale: quando e perché la distribuzione delle medie può essere approssimata con una distribuzione gaussiana e quali sono i limiti pratici di tale approssimazione.</p></li>
+<li><p>Come costruire prior, verosimiglianza e posterior; calcolo degli intervalli di credibilità e interpretazione probabilistica.</p></li>
+<li><p>Ruolo dell’errore standard come misura di informatività; definizione di precisione e regole di somma delle precisioni per sintetizzare studi indipendenti.</p></li>
+<li><p>Analisi di sensibilità per valutare l’effetto dei prior sulla posterior.</p></li>
+<li><p>Distinzione tra incertezza campionaria e distorsioni sistematiche e strategie metodologiche per mitigarle.</p></li>
 </ul>
-<p>L’obiettivo è pratico: fornire un vocabolario comune e strumenti solidi, sebbene essenziali, per affrontare con maggiore sicurezza sia i contenuti di questo companion che quelli del manuale principale.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Consiglio</span>Prerequisiti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Leggere il capitolo <em>Sampling Distributions of Estimators</em> <span class="citation" data-cites="schervish2014probability">(<a href="#ref-schervish2014probability" role="doc-biblioref">Schervish &amp; DeGroot, 2014</a>)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="dati-parametri-e-incertezza" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="dati-parametri-e-incertezza">
+<span class="header-section-number">10.2</span> Dati, parametri e incertezza</h2>
+<section id="dati-osservati-e-parametro-di-interesse" class="level3" data-number="10.2.1"><h3 data-number="10.2.1" class="anchored" data-anchor-id="dati-osservati-e-parametro-di-interesse">
+<span class="header-section-number">10.2.1</span> Dati osservati e parametro di interesse</h3>
+<p>Riprendiamo l’esempio introdotto in precedenza, relativo alla stima della proporzione <span class="math inline">\(\theta\)</span> di studenti che presentano sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Dopo aver selezionato un campione rappresentativo di <span class="math inline">\(n\)</span> studenti, per ciascun partecipante registriamo la presenza o l’assenza del sintomo mediante una codifica binaria.</p>
+<p>Le osservazioni del campione possono essere formalizzate come variabili casuali <span class="math inline">\(X_1, X_2, \ldots, X_n,\)</span> dove ciascuna <span class="math inline">\(X_i\)</span> assume il valore:</p>
+<p><span class="math display">\[
+X_i =
+\begin{cases}
+1 &amp; \text{se lo studente } i \text{ presenta il sintomo}, \\
+0 &amp; \text{in caso contrario}.
+\end{cases}
+\]</span></p>
+<p>Questa rappresentazione esplicita il legame tra il processo di raccolta dei dati e un modello probabilistico. In particolare, ci consente di descrivere formalmente l’incertezza associata alle osservazioni e di collegarla al parametro di interesse <span class="math inline">\(\theta\)</span>, che rappresenta la prevalenza del fenomeno nella popolazione di riferimento.</p>
+</section><section id="dalla-statistica-descrittiva-allinferenza-probabilistica" class="level3" data-number="10.2.2"><h3 data-number="10.2.2" class="anchored" data-anchor-id="dalla-statistica-descrittiva-allinferenza-probabilistica">
+<span class="header-section-number">10.2.2</span> Dalla statistica descrittiva all’inferenza probabilistica</h3>
+<p>Una prima sintesi dei dati osservati è fornita dalla proporzione campionaria:</p>
+<p><span class="math display">\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i = \frac{\text{numero di studenti con sintomo}}{n}.
+\]</span></p>
+<p>Questa quantità riassume l’informazione contenuta nel campione, ma ha un ruolo puramente descrittivo. Il nostro obiettivo non è semplicemente descrivere i dati osservati, bensì utilizzare tali informazioni per trarre conclusioni sul parametro <span class="math inline">\(\theta\)</span>, che non è direttamente osservabile.</p>
+<p>La questione centrale diventa quindi la seguente: <strong>in che modo il valore osservato di <span class="math inline">\(\bar{X}\)</span> dovrebbe modificare la nostra incertezza riguardo a <span class="math inline">\(\theta\)</span>?</strong> Rispondere a questa domanda richiede di andare oltre la statistica descrittiva e di adottare un approccio inferenziale fondato su un modello probabilistico.</p>
+</section><section id="il-modello-probabilistico-di-riferimento" class="level3" data-number="10.2.3"><h3 data-number="10.2.3" class="anchored" data-anchor-id="il-modello-probabilistico-di-riferimento">
+<span class="header-section-number">10.2.3</span> Il modello probabilistico di riferimento</h3>
+<p>Per collegare i dati osservati al parametro di interesse, costruiamo un modello probabilistico che metta in relazione:</p>
+<ol type="1">
+<li>le osservazioni empiriche <span class="math inline">\(X_1, \ldots, X_n\)</span>;</li>
+<li>il parametro <span class="math inline">\(\theta\)</span>, considerato come quantità sconosciuta e soggetta a incertezza epistemica;</li>
+<li>le informazioni disponibili prima dell’osservazione dei dati.</li>
+</ol>
+<p>Assumiamo che, condizionatamente al parametro <span class="math inline">\(\theta\)</span>, ciascuna osservazione segua una distribuzione di Bernoulli:</p>
+<p><span class="math display">\[
+X_i \mid \theta \sim \text{Bernoulli}(\theta).
+\]</span></p>
+<p>Questa assunzione formalizza l’idea che, se il valore di <span class="math inline">\(\theta\)</span> fosse noto, la probabilità che uno studente qualsiasi presenti il sintomo sarebbe pari a <span class="math inline">\(\theta\)</span>. Il modello specifica quindi come i dati sarebbero generati per ciascun possibile valore del parametro.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Notazione condizionale e sua interpretazione
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La notazione <span class="math inline">\(X_i \mid \theta\)</span> indica che stiamo descrivendo la distribuzione della variabile casuale <span class="math inline">\(X_i\)</span> assumendo che il parametro <span class="math inline">\(\theta\)</span> sia fissato a un valore specifico. Questa formulazione non implica che il valore di <span class="math inline">\(\theta\)</span> sia conosciuto, ma serve a strutturare il ragionamento inferenziale: <em>se</em> <span class="math inline">\(\theta\)</span> avesse un certo valore, <em>allora</em> le osservazioni seguirebbero una determinata distribuzione.</p>
+</div>
+</div>
+</section></section><section id="proprietà-fondamentali-della-media-campionaria" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="proprietà-fondamentali-della-media-campionaria">
+<span class="header-section-number">10.3</span> Proprietà fondamentali della media campionaria</h2>
+<p>Nel <a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a> abbiamo già derivato le proprietà algebriche di base della media campionaria come applicazioni dirette della linearità del valore atteso e dell’additività della varianza per variabili indipendenti. Abbiamo visto che <span class="math inline">\(\mathbb{E}[\bar{X}] = \mu\)</span> e che <span class="math inline">\(\text{Var}(\bar{X}) = \sigma^2/n\)</span>.</p>
+<p>In questa sezione, <strong>approfondiamo il significato inferenziale</strong> di questi risultati, esaminandoli in relazione all’incertezza sul parametro <span class="math inline">\(\theta\)</span> e collegandoli esplicitamente alla struttura del processo di campionamento. Mentre nel capitolo precedente l’enfasi era sulle proprietà algebriche generali, qui ci concentriamo su come queste proprietà si traducano nella capacità dei dati osservati di informare le nostre credenze sul parametro di interesse.</p>
+<p>Riprendiamo quindi le derivazioni in forma più dettagliata, esplicitando il condizionamento rispetto al parametro e introducendo l’interpretazione in termini di distribuzione campionaria e verosimiglianza.</p>
+<section id="valore-atteso-della-media-campionaria" class="level3" data-number="10.3.1"><h3 data-number="10.3.1" class="anchored" data-anchor-id="valore-atteso-della-media-campionaria">
+<span class="header-section-number">10.3.1</span> Valore atteso della media campionaria</h3>
+<p>Supponiamo di avere osservazioni <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> <strong>indipendenti e identicamente distribuite</strong> (i.i.d.), ciascuna con valore atteso <span class="math display">\[
+\mathbb{E}[X_i \mid \theta] = \theta.
+\]</span></p>
+<div id="thm-expval-sample-mean" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 10.1</strong></span> Il valore atteso della media campionaria è: <span class="math display">\[
+\mathbb{E}[\bar{X} \mid \theta] = \theta.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Per definizione, la media campionaria è: <span class="math display">\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]</span></p>
+<p>Applicando l’operatore di valore atteso: <span class="math display">\[
+\mathbb{E}[\bar{X} \mid \theta]
+= \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n X_i ,\bigg|, \theta\right].
+\]</span></p>
+<p>Per la linearità del valore atteso: <span class="math display">\[
+= \frac{1}{n}\sum_{i=1}^n \mathbb{E}[X_i \mid \theta].
+\]</span></p>
+<p>Poiché tutte le variabili sono identicamente distribuite con valore atteso pari a <span class="math inline">\(\theta\)</span>: <span class="math display">\[
+= \frac{1}{n}\cdot n\theta = \theta.
+\]</span></p>
+</div>
+<p><strong>Interpretazione</strong> Questo risultato mostra che la media campionaria è <em>centrata</em> sul valore del parametro <span class="math inline">\(\theta\)</span>. In assenza di errori sistematici, <span class="math inline">\(\bar{X}\)</span> non tende né a sovrastimare né a sottostimare la prevalenza reale nella popolazione. Questa proprietà giustifica l’uso della media campionaria come sintesi informativa dei dati e, nel contesto bayesiano, implica che la distribuzione predittiva della media campionaria è centrata sul valore atteso del parametro.</p>
+</section><section id="varianza-della-media-campionaria" class="level3" data-number="10.3.2"><h3 data-number="10.3.2" class="anchored" data-anchor-id="varianza-della-media-campionaria">
+<span class="header-section-number">10.3.2</span> Varianza della media campionaria</h3>
+<p>La seconda proprietà fondamentale riguarda la <em>variabilità</em> della media campionaria.</p>
+<div id="thm-var-sample-mean" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 10.2</strong></span> Se le osservazioni sono indipendenti e ciascuna ha varianza <span class="math display">\[
+\text{Var}(X_i \mid \theta) = \sigma^2,
+\]</span> allora: <span class="math display">\[
+\text{Var}(\bar{X} \mid \theta) = \frac{\sigma^2}{n}.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Per definizione: <span class="math display">\[
+\text{Var}(\bar{X} \mid \theta)
+= \text{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i ,\bigg|, \theta\right).
+\]</span></p>
+<p>Usando la proprietà <span class="math inline">\(\text{Var}(aY) = a^2 \text{Var}(Y)\)</span>: <span class="math display">\[
+= \frac{1}{n^2}\text{Var}\left(\sum_{i=1}^n X_i ,\bigg|, \theta\right).
+\]</span></p>
+<p>Poiché le osservazioni sono indipendenti, la varianza della somma è la somma delle varianze: <span class="math display">\[
+= \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i \mid \theta)
+= \frac{1}{n^2}\cdot n\sigma^2
+= \frac{\sigma^2}{n}.
+\]</span></p>
+</div>
+<p><strong>Interpretazione</strong> Questo risultato evidenzia che la variabilità della media campionaria diminuisce all’aumentare della dimensione del campione. In particolare:</p>
+<ul>
+<li>la varianza di <span class="math inline">\(\bar{X}\)</span> decresce proporzionalmente a <span class="math inline">\(1/n\)</span>;</li>
+<li>per ridurre della metà la deviazione standard della media è necessario quadruplicare il numero di osservazioni.</li>
+</ul>
+<p>Questa proprietà fornisce una spiegazione matematica del fatto che, all’aumentare dei dati disponibili, l’inferenza diventa più precisa. In un’ottica bayesiana, ciò si manifesta come una distribuzione a posteriori progressivamente più concentrata attorno ai valori plausibili di <span class="math inline">\(\theta\)</span>.</p>
+</section><section id="il-caso-delle-variabili-bernoulliane" class="level3" data-number="10.3.3"><h3 data-number="10.3.3" class="anchored" data-anchor-id="il-caso-delle-variabili-bernoulliane">
+<span class="header-section-number">10.3.3</span> Il caso delle variabili Bernoulliane</h3>
+<p>Nel contesto considerato, ciascuna osservazione <span class="math inline">\(X_i\)</span> è una variabile aleatoria binaria che assume valore 1 in caso di “successo” (ad esempio, presenza di un sintomo) e 0 in caso di “insuccesso”. Tali osservazioni sono modellate mediante una distribuzione di <strong>Bernoulli</strong> con parametro <span class="math inline">\(\theta\)</span>, che rappresenta la probabilità di successo.</p>
+<section id="variabilità-di-una-singola-osservazione" class="level4" data-number="10.3.3.1"><h4 data-number="10.3.3.1" class="anchored" data-anchor-id="variabilità-di-una-singola-osservazione">
+<span class="header-section-number">10.3.3.1</span> 1. Variabilità di una singola osservazione</h4>
+<p>La varianza di una variabile Bernoulliana è: <span class="math display">\[
+\text{Var}(X_i \mid \theta) = \theta(1-\theta).
+\]</span></p>
+<p>Questa funzione è massima per <span class="math inline">\(\theta = 0.5\)</span>, corrispondente alla massima incertezza, e si annulla per <span class="math inline">\(\theta = 0\)</span> o <span class="math inline">\(\theta = 1\)</span>, casi in cui l’esito è deterministico.</p>
+</section><section id="variabilità-della-media-campionaria" class="level4" data-number="10.3.3.2"><h4 data-number="10.3.3.2" class="anchored" data-anchor-id="variabilità-della-media-campionaria">
+<span class="header-section-number">10.3.3.2</span> 2. Variabilità della media campionaria</h4>
+<p>Dato un campione di <span class="math inline">\(n\)</span> osservazioni indipendenti, la media campionaria <span class="math display">\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i
+\]</span> coincide con la proporzione osservata di successi.</p>
+<p>La sua varianza è: <span class="math display">\[
+\text{Var}(\bar{X} \mid \theta)
+= \frac{\theta(1-\theta)}{n}.
+\]</span></p>
+<p>Questo risultato mostra come l’incertezza associata alla proporzione osservata diminuisca all’aumentare della numerosità campionaria.</p>
+</section><section id="lerrore-standard-e-la-sua-interpretazione" class="level4" data-number="10.3.3.3"><h4 data-number="10.3.3.3" class="anchored" data-anchor-id="lerrore-standard-e-la-sua-interpretazione">
+<span class="header-section-number">10.3.3.3</span> 3. L’errore standard e la sua interpretazione</h4>
+<p>La radice quadrata della varianza della media campionaria è detta <strong>errore standard (SE)</strong>: <span class="math display">\[
+\text{SE}(\bar{X}) = \sqrt{\frac{\theta(1-\theta)}{n}}.
+\]</span></p>
+<p>L’errore standard quantifica la variabilità attesa della proporzione osservata da un campione all’altro, dovuta esclusivamente alla casualità del processo di campionamento. In altre parole, misura quanto <span class="math inline">\(\bar{X}\)</span> può discostarsi da <span class="math inline">\(\theta\)</span> in assenza di errori sistematici.</p>
+<p>In un’ottica bayesiana, l’errore standard fornisce un’indicazione diretta del contenuto informativo dei dati: un errore standard ridotto, tipicamente associato a campioni numerosi, segnala che le osservazioni sono altamente informative e conducono a una distribuzione a posteriori concentrata. Al contrario, un errore standard elevato indica che i dati forniscono un’informazione più debole sul parametro, lasciando spazio a una maggiore incertezza residua. In questo senso, l’errore standard costituisce un ponte concettuale tra la variabilità del fenomeno osservato e l’affidabilità inferenziale delle conclusioni che possiamo trarre.</p>
+</section></section></section><section id="comprendere-la-variabilità-dei-dati" class="level2" data-number="10.4"><h2 data-number="10.4" class="anchored" data-anchor-id="comprendere-la-variabilità-dei-dati">
+<span class="header-section-number">10.4</span> Comprendere la variabilità dei dati</h2>
+<section id="il-concetto-di-distribuzione-campionaria" class="level3" data-number="10.4.1"><h3 data-number="10.4.1" class="anchored" data-anchor-id="il-concetto-di-distribuzione-campionaria">
+<span class="header-section-number">10.4.1</span> Il concetto di distribuzione campionaria</h3>
+<p>Immaginiamo di poter osservare molti campioni diversi, tutti della stessa dimensione <span class="math inline">\(n\)</span>, estratti dalla medesima popolazione. Per ciascun campione potremmo calcolare la media campionaria <span class="math inline">\(\bar{X}\)</span>, ottenendo ogni volta un valore potenzialmente diverso a causa della variabilità casuale del campionamento.</p>
+<p>La <strong>distribuzione campionaria</strong> della media descrive come questi valori di <span class="math inline">\(\bar{X}\)</span> si distribuiscono al variare del campione. Essa non riguarda un singolo insieme di dati osservati, ma un esperimento ipotetico ripetuto molte volte nelle stesse condizioni.</p>
+<p>Questo concetto teorico è centrale per comprendere il ruolo dei dati nell’inferenza statistica. In particolare, la distribuzione campionaria costituisce la base della <strong>funzione di verosimiglianza</strong>, che rappresenta il meccanismo formale attraverso cui i dati informano l’inferenza bayesiana: la verosimiglianza quantifica quanto ciascun possibile valore del parametro <span class="math inline">\(\theta\)</span> sia compatibile con i dati osservati.</p>
+</section><section id="esempio-concreto-una-popolazione-finita" class="level3" data-number="10.4.2"><h3 data-number="10.4.2" class="anchored" data-anchor-id="esempio-concreto-una-popolazione-finita">
+<span class="header-section-number">10.4.2</span> Esempio concreto: una popolazione finita</h3>
+<p>Per rendere il concetto più concreto, consideriamo un esempio estremamente semplice: una popolazione costituita da soli quattro valori numerici.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4.5</span>, <span class="fl">5</span>, <span class="fl">5.5</span><span class="op">)</span></span>
+<span><span class="va">x</span></span>
+<span><span class="co">#&gt; [1] 2.0 4.5 5.0 5.5</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Calcoliamo la media e la varianza della popolazione:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mean_x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>  <span class="co"># Media</span></span>
+<span><span class="va">var_x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Varianza</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media:"</span>, <span class="va">mean_x</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media: 4.25</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Varianza:"</span>, <span class="va">var_x</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Varianza: 1.81</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Supponiamo ora di estrarre tutti i possibili campioni di dimensione <span class="math inline">\(n = 2\)</span> <strong>con reinserimento</strong>. Poiché la popolazione contiene quattro elementi, questo procedimento genera <span class="math inline">\(4^2 = 16\)</span> campioni distinti.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Generiamo tutte le coppie possibili</span></span>
+<span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">samples</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Var1 Var2</span></span>
+<span><span class="co">#&gt; 1   2.0  2.0</span></span>
+<span><span class="co">#&gt; 2   4.5  2.0</span></span>
+<span><span class="co">#&gt; 3   5.0  2.0</span></span>
+<span><span class="co">#&gt; 4   5.5  2.0</span></span>
+<span><span class="co">#&gt; 5   2.0  4.5</span></span>
+<span><span class="co">#&gt; 6   4.5  4.5</span></span>
+<span><span class="co">#&gt; 7   5.0  4.5</span></span>
+<span><span class="co">#&gt; 8   5.5  4.5</span></span>
+<span><span class="co">#&gt; 9   2.0  5.0</span></span>
+<span><span class="co">#&gt; 10  4.5  5.0</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Per ciascun campione calcoliamo la media campionaria:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sample_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span></span>
+<span><span class="va">sample_means</span></span>
+<span><span class="co">#&gt;  [1] 2.00 3.25 3.50 3.75 3.25 4.50 4.75 5.00 3.50 4.75 5.00 5.25 3.75 5.00 5.25</span></span>
+<span><span class="co">#&gt; [16] 5.50</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Per organizzare i risultati in modo più chiaro, costruiamo un data frame che associa a ciascun campione la sua media:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Campione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">samples</span>, <span class="fl">1</span>, <span class="va">paste</span>, collapse <span class="op">=</span> <span class="st">", "</span><span class="op">)</span>,</span>
+<span>  Media <span class="op">=</span> <span class="va">sample_means</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Campione Media</span></span>
+<span><span class="co">#&gt; 1      2, 2  2.00</span></span>
+<span><span class="co">#&gt; 2    4.5, 2  3.25</span></span>
+<span><span class="co">#&gt; 3      5, 2  3.50</span></span>
+<span><span class="co">#&gt; 4    5.5, 2  3.75</span></span>
+<span><span class="co">#&gt; 5    2, 4.5  3.25</span></span>
+<span><span class="co">#&gt; 6  4.5, 4.5  4.50</span></span>
+<span><span class="co">#&gt; 7    5, 4.5  4.75</span></span>
+<span><span class="co">#&gt; 8  5.5, 4.5  5.00</span></span>
+<span><span class="co">#&gt; 9      2, 5  3.50</span></span>
+<span><span class="co">#&gt; 10   4.5, 5  4.75</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La distribuzione delle medie campionarie può ora essere visualizzata tramite un istogramma:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">sample_means</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_means</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span></span>
+<span>    bins <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>    <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"black"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Distribuzione campionaria della media (n = 2)"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Media campionaria"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Verifichiamo empiricamente le proprietà teoriche discusse in precedenza:</p>
+<div class="cell" data-layout-align="center">
+<pre><code>#&gt; Media delle medie campionarie: 4.25
+#&gt; Media della popolazione: 4.25
+#&gt; Varianza delle medie campionarie: 0.906
+#&gt; Varianza teorica (σ² / n): 0.906</code></pre>
+</div>
+<p>I risultati confermano esattamente le proprietà teoriche della distribuzione campionaria:</p>
+<ul>
+<li>la media delle medie campionarie coincide con la media della popolazione;</li>
+<li>la varianza delle medie campionarie è pari a <span class="math inline">\(\sigma^2 / n\)</span>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Interpretazione per l’inferenza
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Questa simulazione illustra in modo concreto perché l’osservazione di un valore specifico di <span class="math inline">\(\bar{X}\)</span> fornisce informazione sul parametro sottostante. I valori della media campionaria tendono a concentrarsi attorno al valore vero del parametro, e tale concentrazione aumenta al crescere della dimensione del campione <span class="math inline">\(n\)</span>.</p>
+<p>Di conseguenza, osservare <span class="math inline">\(\bar{X} = 4.75\)</span> rende plausibile che il parametro che governa il processo generativo dei dati sia vicino a tale valore. Questo è il motivo per cui, nell’inferenza bayesiana, la distribuzione a posteriori di <span class="math inline">\(\theta\)</span> risulta centrata in prossimità del valore osservato di <span class="math inline">\(\bar{X}\)</span>, con una dispersione che riflette la quantità di informazione contenuta nei dati.</p>
+</div>
+</div>
+</section></section><section id="sec-lln" class="level2" data-number="10.5"><h2 data-number="10.5" class="anchored" data-anchor-id="sec-lln">
+<span class="header-section-number">10.5</span> Legge dei Grandi Numeri</h2>
+<p>La <em>Legge dei Grandi Numeri</em> (LGN) è uno dei risultati fondamentali della teoria della probabilità e fornisce una giustificazione matematica cruciale per l’inferenza statistica basata sui dati.</p>
+<section id="enunciato-intuitivo" class="level3" data-number="10.5.1"><h3 data-number="10.5.1" class="anchored" data-anchor-id="enunciato-intuitivo">
+<span class="header-section-number">10.5.1</span> Enunciato intuitivo</h3>
+<p>In forma intuitiva, la LGN afferma che, all’aumentare del numero di osservazioni <span class="math inline">\(n\)</span>, la media campionaria <span class="math inline">\(\bar{X}_n\)</span> tende ad avvicinarsi al valore atteso della variabile casuale, che nel nostro contesto coincide con il parametro <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+\bar{X}_n \xrightarrow{n \to \infty} \theta.
+\]</span></p>
+<p>Questa convergenza può essere formalizzata in modi diversi. In particolare, si distinguono due versioni principali.</p>
+<ol type="1">
+<li><p><strong>Legge dei Grandi Numeri Debole</strong> La media campionaria converge a <span class="math inline">\(\theta\)</span> <em>in probabilità</em>. Formalmente, per ogni <span class="math inline">\(\varepsilon &gt; 0\)</span>: <span class="math display">\[
+\Pr\bigl(|\bar{X}_n - \theta| &gt; \varepsilon \mid \theta\bigr) \to 0
+\quad \text{quando } n \to \infty.
+\]</span></p></li>
+<li><p><strong>Legge dei Grandi Numeri Forte</strong> La media campionaria converge a <span class="math inline">\(\theta\)</span> <em>quasi certamente</em>, ossia: <span class="math display">\[
+\Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta \,\bigg|\, \theta\right) = 1.
+\]</span></p></li>
+</ol>
+<p>Entrambe le formulazioni esprimono l’idea che, con un numero sufficientemente elevato di osservazioni, la media campionaria fornisce una rappresentazione sempre più accurata del parametro che governa il processo generativo dei dati.</p>
+</section><section id="implicazioni-per-linferenza-bayesiana" class="level3" data-number="10.5.2"><h3 data-number="10.5.2" class="anchored" data-anchor-id="implicazioni-per-linferenza-bayesiana">
+<span class="header-section-number">10.5.2</span> Implicazioni per l’inferenza bayesiana</h3>
+<p>Nel contesto bayesiano, la Legge dei Grandi Numeri ha una conseguenza fondamentale: al crescere della dimensione campionaria, l’informazione contenuta nei dati domina progressivamente quella contenuta nella distribuzione <em>a priori</em>. Di conseguenza, la distribuzione <em>a posteriori</em> di <span class="math inline">\(\theta\)</span> tende a concentrarsi sempre più attorno al valore vero del parametro.</p>
+<p>Più precisamente, se la distribuzione a priori assegna una probabilità positiva a un intorno del valore vero di <span class="math inline">\(\theta\)</span>, allora l’accumularsi dei dati porta a una concentrazione della distribuzione a posteriori in prossimità di tale valore. In questo senso, <strong>con un numero sufficiente di osservazioni, ricercatori che partono da credenze iniziali diverse giungeranno a conclusioni sostanzialmente coincidenti</strong>.</p>
+<p>Questo risultato evidenzia la robustezza dell’inferenza bayesiana: l’evidenza empirica, se sufficientemente informativa, finisce per prevalere sulle ipotesi iniziali.</p>
+</section><section id="simulazione-della-convergenza-campionaria" class="level3" data-number="10.5.3"><h3 data-number="10.5.3" class="anchored" data-anchor-id="simulazione-della-convergenza-campionaria">
+<span class="header-section-number">10.5.3</span> Simulazione della convergenza campionaria</h3>
+<p>Per osservare empiricamente il comportamento descritto dalla LGN, consideriamo uno scenario in cui il valore vero del parametro è <span class="math inline">\(\theta = 0.45\)</span>. Simuliamo una sequenza di osservazioni bernoulliane e calcoliamo la media campionaria cumulativa al crescere di <span class="math inline">\(n\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">theta_true</span> <span class="op">&lt;-</span> <span class="fl">0.45</span></span>
+<span><span class="va">n_max</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span></span>
+<span><span class="co"># Generazione delle osservazioni bernoulliane</span></span>
+<span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">n_max</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="va">theta_true</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calcolo delle medie cumulative</span></span>
+<span><span class="va">cumulative_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">observations</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">observations</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preparazione dei dati per la visualizzazione</span></span>
+<span><span class="va">data_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_max</span>,</span>
+<span>  mean <span class="op">=</span> <span class="va">cumulative_means</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">data_plot</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#4E79A7"</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">theta_true</span>, </span>
+<span>             linetype <span class="op">=</span> <span class="st">"dashed"</span>, </span>
+<span>             color <span class="op">=</span> <span class="st">"#E15759"</span>,</span>
+<span>             linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_ribbon</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">mean</span> <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">mean</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">mean</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span>,</span>
+<span>                  ymax <span class="op">=</span> <span class="va">mean</span> <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">mean</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">mean</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>              alpha <span class="op">=</span> <span class="fl">0.2</span>, fill <span class="op">=</span> <span class="st">"#4E79A7"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Convergenza della media campionaria verso il parametro vero"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Legge dei Grandi Numeri: stabilizzazione con l'aumentare delle osservazioni"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Dimensione campionaria (n)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Media campionaria cumulativa"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ylim</span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="fl">800</span>, y <span class="op">=</span> <span class="va">theta_true</span> <span class="op">+</span> <span class="fl">0.03</span>, </span>
+<span>           label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"θ ="</span>, <span class="va">theta_true</span><span class="op">)</span>, </span>
+<span>           color <span class="op">=</span> <span class="st">"#E15759"</span>, size <span class="op">=</span> <span class="fl">4.5</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Osservazioni empiriche</strong> Nelle fasi iniziali del campionamento, la media campionaria <span class="math inline">\(\bar{X}_n\)</span> mostra ampie fluttuazioni, riflettendo l’elevata incertezza associata a campioni di piccole dimensioni. Con l’aumentare di <span class="math inline">\(n\)</span>, tali oscillazioni si riducono progressivamente e la media campionaria si stabilizza in prossimità del valore vero del parametro.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Il carattere autocorrettivo dell’inferenza bayesiana
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La Legge dei Grandi Numeri mette in luce una proprietà essenziale dell’inferenza bayesiana: l’accumularsi dell’evidenza empirica tende a correggere progressivamente eventuali imprecisioni nelle credenze iniziali.</p>
+<p>Quando ricercatori diversi partono da distribuzioni a priori differenti, ma nessuna di esse esclude il valore vero del parametro, l’osservazione della stessa sequenza di dati conduce a distribuzioni a posteriori sempre più simili. Questo carattere autocorrettivo conferisce all’approccio bayesiano una forte solidità epistemologica: le conclusioni inferenziali non dipendono in modo arbitrario dalle assunzioni iniziali, ma sono guidate dall’evidenza osservata.</p>
+</div>
+</div>
+</section><section id="applicazioni-in-psicologia" class="level3" data-number="10.5.4"><h3 data-number="10.5.4" class="anchored" data-anchor-id="applicazioni-in-psicologia">
+<span class="header-section-number">10.5.4</span> Applicazioni in psicologia</h3>
+<p>La Legge dei Grandi Numeri ha importanti implicazioni pratiche per la ricerca psicologica.</p>
+<p>Negli <em>studi pilota</em>, caratterizzati da campioni di piccole dimensioni, le stime sono inevitabilmente soggette a un’elevata variabilità. Questo spiega perché le repliche con campioni più ampi producano risultati più stabili e affidabili.</p>
+<p>Le <em>meta-analisi</em> sfruttano implicitamente la LGN combinando le informazioni provenienti da molti studi indipendenti, aumentando di fatto la dimensione campionaria complessiva e riducendo l’incertezza sulle stime degli effetti.</p>
+<p>Nei <em>disegni longitudinali</em>, infine, l’osservazione ripetuta degli stessi individui nel tempo consente di accumulare informazione progressiva sui parametri di interesse, migliorando la precisione delle inferenze riguardanti le caratteristiche stabili dei fenomeni psicologici studiati.</p>
+</section></section><section id="teorema-del-limite-centrale" class="level2" data-number="10.6"><h2 data-number="10.6" class="anchored" data-anchor-id="teorema-del-limite-centrale">
+<span class="header-section-number">10.6</span> Teorema del Limite Centrale</h2>
+<p>Il <em>Teorema del Limite Centrale</em> (TLC) è uno dei risultati più profondi e generali della teoria della probabilità e riveste un ruolo centrale nella pratica dell’inferenza statistica, inclusa l’inferenza bayesiana.</p>
+<section id="enunciato-formale" class="level3" data-number="10.6.1"><h3 data-number="10.6.1" class="anchored" data-anchor-id="enunciato-formale">
+<span class="header-section-number">10.6.1</span> Enunciato formale</h3>
+<div id="thm-clt" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 10.3</strong></span> Siano <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> variabili aleatorie indipendenti e identicamente distribuite, con valore atteso <span class="math inline">\(\mu\)</span> e varianza finita <span class="math inline">\(\sigma^2\)</span>. Allora, al crescere di <span class="math inline">\(n\)</span>, la distribuzione della media campionaria <span class="math inline">\(\bar{X}_n\)</span> converge verso una distribuzione normale:</p>
+<p><span class="math display">\[
+\bar{X}_n ;\dot\sim; \mathcal{N}!\left(\mu, \frac{\sigma^2}{n}\right),
+\]</span></p>
+<p>dove la notazione <span class="math inline">\(\dot\sim\)</span> indica che la distribuzione è <em>approssimativamente</em> normale per valori di <span class="math inline">\(n\)</span> sufficientemente grandi.</p>
+</div>
+</section><section id="portata-concettuale" class="level3" data-number="10.6.2"><h3 data-number="10.6.2" class="anchored" data-anchor-id="portata-concettuale">
+<span class="header-section-number">10.6.2</span> Portata concettuale</h3>
+<p>La proprietà più sorprendente del TLC è che la distribuzione della media campionaria tende alla normalità <strong>indipendentemente dalla forma della distribuzione delle variabili originarie</strong>, purché queste abbiano varianza finita e siano indipendenti.</p>
+<p>Ciò significa che variabili provenienti da distribuzioni uniformi, esponenziali, binarie o fortemente asimmetriche producono, una volta mediate su un numero sufficientemente elevato di osservazioni, una media campionaria la cui distribuzione è ben approssimata da una distribuzione normale. Questa regolarità emergente spiega il ruolo ubiquo della distribuzione normale in statistica applicata.</p>
+</section><section id="visualizzazione-del-tlc" class="level3" data-number="10.6.3"><h3 data-number="10.6.3" class="anchored" data-anchor-id="visualizzazione-del-tlc">
+<span class="header-section-number">10.6.3</span> Visualizzazione del TLC</h3>
+<p>Consideriamo una popolazione con distribuzione uniforme, chiaramente non normale:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">5000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Istogramma della popolazione</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">population</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">population</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span></span>
+<span>    <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    bins <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"black"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Distribuzione della popolazione (uniforme)"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Valore"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Estraiamo ora 300 campioni, ciascuno di dimensione <span class="math inline">\(n = 30\)</span>, e calcoliamo le rispettive medie campionarie:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sample_size</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
+<span><span class="va">num_samples</span> <span class="op">&lt;-</span> <span class="fl">300</span></span>
+<span></span>
+<span><span class="va">sample_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="va">num_samples</span>, <span class="op">{</span></span>
+<span>  <span class="va">sample_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">population</span>, size <span class="op">=</span> <span class="va">sample_size</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Media e deviazione standard delle medie campionarie</span></span>
+<span><span class="va">x_bar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_means</span><span class="op">)</span></span>
+<span><span class="va">std</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">sample_means</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media delle medie campionarie:"</span>, <span class="va">x_bar</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media delle medie campionarie: 0.501</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Deviazione standard delle medie:"</span>, <span class="va">std</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Deviazione standard delle medie: 0.0524</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Confrontiamo questi risultati con i valori teorici:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">population</span><span class="op">)</span></span>
+<span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">population</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nValori teorici della popolazione:\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Valori teorici della popolazione:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media:"</span>, <span class="va">mu</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media: 0.503</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Deviazione standard teorica (σ / √n):"</span>, <span class="va">sigma</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">sample_size</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Deviazione standard teorica (σ / √n): 0.0531</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Visualizziamo ora la distribuzione delle medie campionarie con la curva normale teorica sovrapposta:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">sample_means</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_means</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span></span>
+<span>    <span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    bins <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.7</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_function</span><span class="op">(</span></span>
+<span>    fun <span class="op">=</span> <span class="va">dnorm</span>,</span>
+<span>    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">x_bar</span>, sd <span class="op">=</span> <span class="va">std</span><span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">1.2</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Distribuzione delle medie campionarie"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"La curva rossa rappresenta la distribuzione normale teorica"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Media campionaria"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Osservazione</strong> Nonostante la popolazione di partenza segua una distribuzione uniforme, la distribuzione delle medie campionarie risulta approssimativamente normale, in accordo con quanto previsto dal Teorema del Limite Centrale.</p>
+</section><section id="implicazioni-per-linferenza-bayesiana-1" class="level3" data-number="10.6.4"><h3 data-number="10.6.4" class="anchored" data-anchor-id="implicazioni-per-linferenza-bayesiana-1">
+<span class="header-section-number">10.6.4</span> Implicazioni per l’inferenza bayesiana</h3>
+<p>Il Teorema del Limite Centrale ha conseguenze rilevanti anche nel contesto dell’inferenza bayesiana. In presenza di campioni di grandi dimensioni, la distribuzione a posteriori di un parametro tende ad assumere una forma approssimativamente gaussiana, a condizione che la distribuzione a priori sia sufficientemente regolare e non escluda il valore vero del parametro.</p>
+<p>Questa <em>normalità asintotica</em> della distribuzione a posteriori contribuisce alla robustezza dell’approccio bayesiano: al crescere dell’evidenza empirica, l’influenza delle scelte specifiche del prior si attenua, e la forma della posterior è dominata dall’informazione contenuta nei dati.</p>
+<p>Dal punto di vista pratico, questo risultato giustifica l’uso di <strong>approssimazioni gaussiane</strong> per la distribuzione a posteriori in molti contesti applicativi, semplificando notevolmente i calcoli quando soluzioni analitiche esatte risultano complesse o non disponibili.</p>
+</section><section id="esempio-approssimazione-della-distribuzione-a-posteriori" class="level3" data-number="10.6.5"><h3 data-number="10.6.5" class="anchored" data-anchor-id="esempio-approssimazione-della-distribuzione-a-posteriori">
+<span class="header-section-number">10.6.5</span> Esempio: approssimazione della distribuzione a posteriori</h3>
+<p>Consideriamo uno studio in ambito di psicologia clinica volto a stimare la prevalenza di un determinato sintomo. Supponiamo di adottare una distribuzione a priori uniforme per il parametro <span class="math inline">\(\theta\)</span> e di osservare un campione di <span class="math inline">\(n = 100\)</span> soggetti, di cui <span class="math inline">\(y = 45\)</span> presentano il sintomo.</p>
+<p>Per una dimensione campionaria di questo ordine di grandezza, la distribuzione a posteriori può essere approssimata mediante una distribuzione normale:</p>
+<p><span class="math display">\[
+\theta \mid y \;\dot\sim\; \mathcal{N}\!\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri osservati</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">45</span></span>
+<span><span class="va">p_hat</span> <span class="op">&lt;-</span> <span class="va">y</span> <span class="op">/</span> <span class="va">n</span></span>
+<span></span>
+<span><span class="co"># Approssimazione normale della posteriore</span></span>
+<span><span class="va">posterior_mean</span> <span class="op">&lt;-</span> <span class="va">p_hat</span></span>
+<span><span class="va">posterior_sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">p_hat</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_hat</span><span class="op">)</span> <span class="op">/</span> <span class="va">n</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media a posteriori (approssimata):"</span>, <span class="va">posterior_mean</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media a posteriori (approssimata): 0.45</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Deviazione standard a posteriori:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">posterior_sd</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Deviazione standard a posteriori: 0.0497</span></span>
+<span></span>
+<span><span class="co"># Intervallo di credibilità al 95%</span></span>
+<span><span class="va">lower</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.025</span>, mean <span class="op">=</span> <span class="va">posterior_mean</span>, sd <span class="op">=</span> <span class="va">posterior_sd</span><span class="op">)</span></span>
+<span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span>, mean <span class="op">=</span> <span class="va">posterior_mean</span>, sd <span class="op">=</span> <span class="va">posterior_sd</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nIntervallo di credibilità 95%: ["</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">lower</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">","</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">upper</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"]\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Intervallo di credibilità 95%: [ 0.352 , 0.548 ]</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La distribuzione a posteriori approssimata può essere visualizzata come segue:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.65</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">posterior_density</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">theta_grid</span>,</span>
+<span>                           mean <span class="op">=</span> <span class="va">posterior_mean</span>,</span>
+<span>                           sd <span class="op">=</span> <span class="va">posterior_sd</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta_grid</span>,</span>
+<span>                  density <span class="op">=</span> <span class="va">posterior_density</span><span class="op">)</span>,</span>
+<span>       <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"#2E86AB"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_area</span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta_grid</span>,</span>
+<span>                             density <span class="op">=</span> <span class="va">posterior_density</span><span class="op">)</span>,</span>
+<span>                  <span class="va">theta</span> <span class="op">&gt;=</span> <span class="va">lower</span> <span class="op">&amp;</span> <span class="va">theta</span> <span class="op">&lt;=</span> <span class="va">upper</span><span class="op">)</span>,</span>
+<span>    <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span><span class="op">)</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"#A23B72"</span>, alpha <span class="op">=</span> <span class="fl">0.3</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">lower</span>, <span class="va">upper</span><span class="op">)</span>,</span>
+<span>             linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
+<span>             color <span class="op">=</span> <span class="st">"#F18F01"</span>,</span>
+<span>             linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Distribuzione a posteriori (approssimazione normale)"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Intervallo di credibilità al 95% per la proporzione"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"$\\theta$ (proporzione nella popolazione)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità a posteriori"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-15-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretazione dell’intervallo di credibilità</strong> L’intervallo <span class="math inline">\([0.352,, 0.548]\)</span> ammette un’interpretazione probabilistica diretta: alla luce dei dati osservati e del modello adottato, vi è una probabilità del 95% che la vera proporzione nella popolazione si collochi tra il 35.2% e il 54.8%. Questa interpretazione è coerente con il modo in cui i ricercatori ragionano sull’incertezza parametrica e costituisce uno dei principali punti di forza dell’approccio bayesiano. ## Precisione, informazione ed errore standard</p>
+</section><section id="lerrore-standard-come-misura-di-informatività" class="level3" data-number="10.6.6"><h3 data-number="10.6.6" class="anchored" data-anchor-id="lerrore-standard-come-misura-di-informatività">
+<span class="header-section-number">10.6.6</span> L’errore standard come misura di informatività</h3>
+<p>L’<em>errore standard</em> di una statistica è definito come la deviazione standard della sua distribuzione campionaria. Nel caso della media campionaria, esso è dato da:</p>
+<p><span class="math display">\[
+\text{SE}(\bar{X}) = \sqrt{\frac{\sigma^2}{n}}.
+\]</span></p>
+<p>Questa quantità fornisce una misura diretta dell’informazione contenuta nei dati rispetto al parametro di interesse. Un errore standard ridotto indica che la distribuzione campionaria della statistica è fortemente concentrata, segnalando che i dati forniscono un’evidenza precisa su <span class="math inline">\(\theta\)</span>. In un contesto bayesiano, ciò si traduce in una distribuzione a posteriori stretta e ben localizzata. Al contrario, un errore standard elevato indica una maggiore variabilità campionaria e, di conseguenza, una distribuzione a posteriori più dispersa.</p>
+</section><section id="precisione-come-inverso-della-varianza" class="level3" data-number="10.6.7"><h3 data-number="10.6.7" class="anchored" data-anchor-id="precisione-come-inverso-della-varianza">
+<span class="header-section-number">10.6.7</span> Precisione come inverso della varianza</h3>
+<p>Nell’inferenza bayesiana è spesso utile esprimere l’incertezza non in termini di varianza, ma attraverso la nozione complementare di <em>precisione</em>, definita come il reciproco della varianza:</p>
+<p><span class="math display">\[
+\text{Precisione} = \frac{1}{\text{Varianza}}.
+\]</span></p>
+<p>Applicando questa definizione alla media campionaria si ottiene:</p>
+<p><span class="math display">\[
+\text{Precisione}(\bar{X} \mid \theta) = \frac{n}{\sigma^2}.
+\]</span></p>
+<p>Questa espressione mette in evidenza una proprietà fondamentale: <strong>la precisione cresce linearmente con la dimensione campionaria <span class="math inline">\(n\)</span></strong>. Tale relazione risulta spesso più intuitiva rispetto alla descrizione in termini di varianza, che decresce come <span class="math inline">\(1/n\)</span>.</p>
+<p>In molti modelli bayesiani la precisione viene adottata come parametro primario. Ad esempio, una distribuzione normale può essere parametrizzata come <span class="math inline">\(X \sim \mathcal{N}(\mu, \tau)\)</span>, dove <span class="math inline">\(\tau = 1/\sigma^2\)</span> rappresenta la precisione. Questa scelta rende immediatamente trasparenti due principi chiave:</p>
+<ul>
+<li>valori elevati di precisione corrispondono a una minore incertezza;</li>
+<li>l’informazione proveniente da fonti indipendenti si combina tramite la <strong>somma delle precisioni</strong>.</li>
+</ul></section><section id="combinazione-di-informazioni-prior-e-dati" class="level3" data-number="10.6.8"><h3 data-number="10.6.8" class="anchored" data-anchor-id="combinazione-di-informazioni-prior-e-dati">
+<span class="header-section-number">10.6.8</span> Combinazione di informazioni: prior e dati</h3>
+<p>Uno degli aspetti più eleganti dell’approccio bayesiano è la sua capacità di integrare formalmente diverse fonti di informazione. La conoscenza pregressa sul parametro <span class="math inline">\(\theta\)</span> è codificata nella distribuzione a priori, la cui incertezza può essere espressa mediante una precisione <span class="math inline">\(\tau_0\)</span>. L’informazione fornita dai dati è invece riassunta dalla verosimiglianza, la cui precisione, nel caso di una media campionaria normale con varianza nota, è pari a <span class="math inline">\(n/\sigma^2\)</span>.</p>
+<p>Nel modello normale–normale, la distribuzione a posteriori ha una precisione data dalla semplice somma delle due componenti:</p>
+<p><span class="math display">\[
+\tau_{\text{post}} = \tau_0 + \frac{n}{\sigma^2}.
+\]</span></p>
+<p>Questa relazione fornisce una rappresentazione estremamente chiara del processo di aggiornamento bayesiano: ogni nuova osservazione contribuisce ad aumentare la precisione complessiva dell’inferenza. Il peso relativo attribuito alla conoscenza pregressa e ai nuovi dati è determinato in modo esplicito dalle rispettive precisioni, rendendo il processo di accumulo della conoscenza completamente trasparente.</p>
+<section id="esempio-sintesi-di-evidenze-da-studi-multipli" class="level4" data-number="10.6.8.1"><h4 data-number="10.6.8.1" class="anchored" data-anchor-id="esempio-sintesi-di-evidenze-da-studi-multipli">
+<span class="header-section-number">10.6.8.1</span> Esempio: sintesi di evidenze da studi multipli</h4>
+<p>Consideriamo uno scenario tipico nella ricerca psicologica, in cui due studi indipendenti investigano lo stesso costrutto teorico <span class="math inline">\(\theta\)</span>, ma differiscono per dimensione campionaria e precisione delle stime.</p>
+<ul>
+<li>
+<strong>Studio A</strong>: <span class="math inline">\(n_A = 50\)</span>, <span class="math inline">\(\bar{X}_A = 0.42\)</span>, <span class="math inline">\(\text{SE}_A = 0.07\)</span>.</li>
+<li>
+<strong>Studio B</strong>: <span class="math inline">\(n_B = 200\)</span>, <span class="math inline">\(\bar{X}_B = 0.38\)</span>, <span class="math inline">\(\text{SE}_B = 0.035\)</span>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri degli studi</span></span>
+<span><span class="va">n_A</span> <span class="op">&lt;-</span> <span class="fl">50</span>; <span class="va">x_bar_A</span> <span class="op">&lt;-</span> <span class="fl">0.42</span>; <span class="va">se_A</span> <span class="op">&lt;-</span> <span class="fl">0.07</span></span>
+<span><span class="va">n_B</span> <span class="op">&lt;-</span> <span class="fl">200</span>; <span class="va">x_bar_B</span> <span class="op">&lt;-</span> <span class="fl">0.38</span>; <span class="va">se_B</span> <span class="op">&lt;-</span> <span class="fl">0.035</span></span>
+<span></span>
+<span><span class="co"># Calcolo delle precisioni</span></span>
+<span><span class="va">precision_A</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">se_A</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="va">precision_B</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">se_B</span><span class="op">^</span><span class="fl">2</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Precisione Studio A:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">precision_A</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Precisione Studio A: 204</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Precisione Studio B:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">precision_B</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Precisione Studio B: 816</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Rapporto di precisione B/A:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">precision_B</span> <span class="op">/</span> <span class="va">precision_A</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rapporto di precisione B/A: 4</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Le precisioni calcolate mostrano che lo Studio B è circa quattro volte più informativo dello Studio A, in accordo con la sua dimensione campionaria quadruplicata.</p>
+<p>Procediamo ora alla sintesi bayesiana delle evidenze:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Combinazione delle informazioni</span></span>
+<span><span class="va">precision_combined</span> <span class="op">&lt;-</span> <span class="va">precision_A</span> <span class="op">+</span> <span class="va">precision_B</span></span>
+<span><span class="va">mean_combined</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">precision_A</span> <span class="op">*</span> <span class="va">x_bar_A</span> <span class="op">+</span> <span class="va">precision_B</span> <span class="op">*</span> <span class="va">x_bar_B</span><span class="op">)</span> <span class="op">/</span> <span class="va">precision_combined</span></span>
+<span><span class="va">se_combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="va">precision_combined</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Stima combinata:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mean_combined</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Stima combinata: 0.388</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Errore standard combinato:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">se_combined</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Errore standard combinato: 0.0313</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nIntervallo di credibilità 95%:\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Intervallo di credibilità 95%:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"["</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mean_combined</span> <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="va">se_combined</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">","</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mean_combined</span> <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="va">se_combined</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"]\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [ 0.327 , 0.449 ]</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La stima combinata risulta più vicina al valore osservato nello Studio B, riflettendo il suo maggiore contributo informativo. In modo del tutto automatico, l’approccio bayesiano assegna un peso maggiore alle evidenze più precise, producendo una sintesi coerente e ottimale di tutte le informazioni disponibili.</p>
+</section></section></section><section id="convergenza-bayesiana-da-credenze-diverse-a-conclusioni-condivise" class="level2" data-number="10.7"><h2 data-number="10.7" class="anchored" data-anchor-id="convergenza-bayesiana-da-credenze-diverse-a-conclusioni-condivise">
+<span class="header-section-number">10.7</span> Convergenza bayesiana: da credenze diverse a conclusioni condivise</h2>
+<section id="il-teorema-di-convergenza-bayesiana" class="level3" data-number="10.7.1"><h3 data-number="10.7.1" class="anchored" data-anchor-id="il-teorema-di-convergenza-bayesiana">
+<span class="header-section-number">10.7.1</span> Il teorema di convergenza bayesiana</h3>
+<p>Un risultato teorico centrale dell’inferenza bayesiana riguarda il comportamento asintotico della distribuzione a posteriori al crescere della dimensione campionaria. Questo risultato è noto come <em>consistenza bayesiana</em>.</p>
+<div id="thm-bayesian-consistency" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 10.4 (Consistenza bayesiana)</strong></span> Sotto opportune condizioni di regolarità sul modello statistico e sulla distribuzione a priori, se la prior assegna una densità positiva al valore vero del parametro <span class="math inline">\(\theta_0\)</span>, allora, al crescere del numero di osservazioni:</p>
+<ol type="1">
+<li><p>la distribuzione a posteriori converge verso una distribuzione degenere concentrata in <span class="math inline">\(\theta_0\)</span>: <span class="math display">\[
+p(\theta \mid \mathbf{X}_n) \xrightarrow{n \to \infty} \delta(\theta - \theta_0);
+\]</span></p></li>
+<li><p>la media a posteriori converge al valore vero del parametro: <span class="math display">\[
+\mathbb{E}[\theta \mid \mathbf{X}_n] \xrightarrow{n \to \infty} \theta_0;
+\]</span></p></li>
+<li><p>la varianza a posteriori tende a zero: <span class="math display">\[
+\text{Var}(\theta \mid \mathbf{X}_n) \xrightarrow{n \to \infty} 0.
+\]</span></p></li>
+</ol>
+</div>
+<p>Questi risultati formalizzano matematicamente l’idea che, con dati sufficienti, l’incertezza epistemica sul parametro venga progressivamente eliminata.</p>
+</section><section id="interpretazione-sostantiva" class="level3" data-number="10.7.2"><h3 data-number="10.7.2" class="anchored" data-anchor-id="interpretazione-sostantiva">
+<span class="header-section-number">10.7.2</span> Interpretazione sostantiva</h3>
+<p>Il teorema di consistenza bayesiana mette in luce alcune proprietà fondamentali dell’inferenza bayesiana.</p>
+<ol type="1">
+<li><p><strong>Robustezza asintotica rispetto alla prior</strong> In presenza di un numero elevato di osservazioni, l’influenza della distribuzione a priori si attenua progressivamente, a condizione che essa non escluda il valore vero del parametro.</p></li>
+<li><p><strong>Carattere autocorrettivo</strong> Anche se le credenze iniziali sono imprecise o parzialmente errate, l’evidenza empirica opera una correzione graduale, guidando la distribuzione a posteriori verso il valore vero.</p></li>
+<li><p><strong>Velocità di convergenza</strong> In molti modelli regolari, la varianza a posteriori decresce con ordine <span class="math inline">\(1/n\)</span>, in accordo con quanto osservato per la varianza della media campionaria e con le approssimazioni asintotiche discusse in precedenza.</p></li>
+</ol>
+<p>Queste proprietà forniscono una giustificazione teorica forte all’uso dell’inferenza bayesiana come strumento affidabile di apprendimento dai dati.</p>
+</section><section id="illustrazione-convergenza-con-prior-differenti" class="level3" data-number="10.7.3"><h3 data-number="10.7.3" class="anchored" data-anchor-id="illustrazione-convergenza-con-prior-differenti">
+<span class="header-section-number">10.7.3</span> Illustrazione: convergenza con prior differenti</h3>
+<p>Consideriamo tre ricercatori che partono da concezioni iniziali diverse riguardo al parametro <span class="math inline">\(\theta\)</span>:</p>
+<ul>
+<li>
+<strong>Ricercatore A</strong>: prior <span class="math inline">\(\text{Beta}(2, 8)\)</span>, che privilegia valori bassi di <span class="math inline">\(\theta\)</span> (circa 0.2);</li>
+<li>
+<strong>Ricercatore B</strong>: prior <span class="math inline">\(\text{Beta}(8, 2)\)</span>, orientata verso valori elevati di <span class="math inline">\(\theta\)</span> (circa 0.8);</li>
+<li>
+<strong>Ricercatore C</strong>: prior <span class="math inline">\(\text{Beta}(1, 1)\)</span>, uniforme, che rappresenta una condizione di massima incertezza iniziale.</li>
+</ul>
+<p>Il valore vero del parametro è <span class="math inline">\(\theta_0 = 0.45\)</span>. Osserviamo come evolvono le rispettive distribuzioni a posteriori al crescere della dimensione campionaria.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri della simulazione</span></span>
+<span><span class="va">theta_true</span> <span class="op">&lt;-</span> <span class="fl">0.45</span></span>
+<span><span class="va">n_observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span>, <span class="fl">200</span>, <span class="fl">1000</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Specificazioni a priori</span></span>
+<span><span class="va">prior_A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="va">prior_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">prior_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Funzione per il calcolo delle posteriori</span></span>
+<span><span class="va">compute_posterior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">prior</span>, <span class="va">n</span>, <span class="va">theta</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n</span>, <span class="va">theta</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">prior</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">y</span>, <span class="va">prior</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">n</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">posteriors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">n</span> <span class="kw">in</span> <span class="va">n_observations</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">post_A</span> <span class="op">&lt;-</span> <span class="fu">compute_posterior</span><span class="op">(</span><span class="va">prior_A</span>, <span class="va">n</span>, <span class="va">theta_true</span><span class="op">)</span></span>
+<span>  <span class="va">post_B</span> <span class="op">&lt;-</span> <span class="fu">compute_posterior</span><span class="op">(</span><span class="va">prior_B</span>, <span class="va">n</span>, <span class="va">theta_true</span><span class="op">)</span></span>
+<span>  <span class="va">post_C</span> <span class="op">&lt;-</span> <span class="fu">compute_posterior</span><span class="op">(</span><span class="va">prior_C</span>, <span class="va">n</span>, <span class="va">theta_true</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">posteriors</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>    theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>    density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">post_A</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">post_A</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">post_B</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">post_B</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">post_C</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">post_C</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    researcher <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A (prior conservativo)"</span>,</span>
+<span>                       <span class="st">"B (prior ottimista)"</span>,</span>
+<span>                       <span class="st">"C (prior non informativo)"</span><span class="op">)</span>,</span>
+<span>                     each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">theta_grid</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="va">n</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">all_posteriors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">posteriors</span><span class="op">)</span></span>
+<span><span class="va">all_posteriors</span><span class="op">$</span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">all_posteriors</span><span class="op">$</span><span class="va">n</span>,</span>
+<span>                           levels <span class="op">=</span> <span class="va">n_observations</span>,</span>
+<span>                           labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"n ="</span>, <span class="va">n_observations</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">all_posteriors</span>,</span>
+<span>       <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>,</span>
+<span>           color <span class="op">=</span> <span class="va">researcher</span>, linetype <span class="op">=</span> <span class="va">researcher</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">theta_true</span>,</span>
+<span>             linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
+<span>             color <span class="op">=</span> <span class="st">"#E15759"</span>,</span>
+<span>             linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">n</span>, ncol <span class="op">=</span> <span class="fl">2</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Convergenza bayesiana con prior differenti"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"La linea verticale indica il valore vero θ = 0.45"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Parametro θ"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità a posteriori"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"Ricercatore"</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">"Ricercatore"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-18-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Osservazioni empiriche</strong></p>
+<ol type="1">
+<li>Con <span class="math inline">\(n = 10\)</span> osservazioni, le distribuzioni a posteriori riflettono fortemente le differenze tra le prior.</li>
+<li>Con <span class="math inline">\(n = 50\)</span>, emerge un chiaro processo di avvicinamento.</li>
+<li>Con <span class="math inline">\(n = 200\)</span>, le posteriori risultano ampiamente sovrapposte.</li>
+<li>Con <span class="math inline">\(n = 1000\)</span>, le differenze diventano praticamente impercettibili.</li>
+</ol></section><section id="implicazioni-per-la-ricerca-scientifica" class="level3" data-number="10.7.4"><h3 data-number="10.7.4" class="anchored" data-anchor-id="implicazioni-per-la-ricerca-scientifica">
+<span class="header-section-number">10.7.4</span> Implicazioni per la ricerca scientifica</h3>
+<ol type="1">
+<li><p><strong>Soggettività controllata</strong> Sebbene i ricercatori possano partire da credenze iniziali diverse, l’evidenza empirica conduce progressivamente a conclusioni condivise.</p></li>
+<li><p><strong>Ruolo cruciale della dimensione campionaria</strong> Con campioni piccoli, le specificazioni a priori esercitano un’influenza rilevante; con campioni ampi, l’inferenza è dominata dai dati.</p></li>
+<li><p><strong>Fondamento teorico della replicabilità</strong> Studi che utilizzano prior ragionevoli e raccolgono dati sufficienti tendono a convergere verso risultati simili, fornendo una base solida per la replicabilità scientifica.</p></li>
+</ol></section></section><section id="incertezza-distorsione-sistematica-e-limiti-dellinferenza" class="level2" data-number="10.8"><h2 data-number="10.8" class="anchored" data-anchor-id="incertezza-distorsione-sistematica-e-limiti-dellinferenza">
+<span class="header-section-number">10.8</span> Incertezza, distorsione sistematica e limiti dell’inferenza</h2>
+<section id="lerrore-standard-quantifica-solo-lincertezza-campionaria" class="level3" data-number="10.8.1"><h3 data-number="10.8.1" class="anchored" data-anchor-id="lerrore-standard-quantifica-solo-lincertezza-campionaria">
+<span class="header-section-number">10.8.1</span> L’errore standard quantifica solo l’incertezza campionaria</h3>
+<p>È essenziale chiarire che l’errore standard, così come la dispersione della distribuzione a posteriori, misura esclusivamente l’incertezza epistemica dovuta alla variabilità campionaria. In altre parole, esso quantifica quanto le stime potrebbero variare se l’esperimento fosse ripetuto più volte nelle stesse condizioni.</p>
+<p>Questa misura non fornisce alcuna informazione sulla presenza di errori sistematici nel disegno della ricerca, nel processo di campionamento o negli strumenti di misurazione. Di conseguenza, una stima può essere estremamente precisa dal punto di vista statistico e, al tempo stesso, sostanzialmente errata dal punto di vista scientifico.</p>
+</section><section id="fonti-di-distorsione-che-persistono" class="level3" data-number="10.8.2"><h3 data-number="10.8.2" class="anchored" data-anchor-id="fonti-di-distorsione-che-persistono">
+<span class="header-section-number">10.8.2</span> Fonti di distorsione che persistono</h3>
+<p>Alcune fonti di distorsione non vengono attenuate dall’aumento della dimensione campionaria e non sono catturate dall’errore standard.</p>
+<p><strong>Distorsione da selezione</strong> Se la prevalenza dei disturbi d’ansia viene stimata attraverso un campione di volontari, gli individui con sintomi più gravi potrebbero essere sovra- o sotto-rappresentati. Anche in presenza di campioni molto ampi, la stima risultante sarebbe sistematicamente distorta rispetto alla popolazione di riferimento.</p>
+<p><strong>Distorsione da risposta</strong> Nello studio di costrutti auto-riferiti, come la frequenza di pensieri negativi, la desiderabilità sociale può indurre i partecipanti a fornire risposte sistematicamente attenuate. In questo caso si ottiene una stima statisticamente precisa, ma riferita a una rappresentazione distorta del fenomeno.</p>
+<p><strong>Errori di misurazione</strong> Se lo strumento utilizzato presenta bassa affidabilità o non coglie adeguatamente il costrutto teorico di interesse, l’inferenza statistica risulta compromessa. L’aumento della dimensione campionaria non corregge problemi di validità o di qualità della misurazione: produce semplicemente stime più precise di una quantità mal definita.</p>
+</section><section id="rappresentazione-visiva-precisione-versus-accuratezza" class="level3" data-number="10.8.3"><h3 data-number="10.8.3" class="anchored" data-anchor-id="rappresentazione-visiva-precisione-versus-accuratezza">
+<span class="header-section-number">10.8.3</span> Rappresentazione visiva: precisione versus accuratezza</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-19-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="10_dal_dato_ipotesi_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Principio fondamentale</strong> La situazione più critica nell’inferenza statistica si verifica quando un’elevata precisione si accompagna a una scarsa accuratezza. In questo scenario, i metodi statistici producono una falsa sensazione di certezza attorno a conclusioni sistematicamente distorte. Campioni molto grandi, se affetti da bias strutturali, conducono a stime altamente precise ma sostanzialmente errate. Questo paradosso rappresenta uno dei rischi più insidiosi dell’analisi quantitativa, poiché l’apparente solidità statistica può mascherare problemi metodologici profondi.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Il pericolo della falsa precisione">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avviso</span>Il pericolo della falsa precisione
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un intervallo di credibilità particolarmente ristretto può indurre l’illusione di una conoscenza estremamente accurata. È cruciale ricordare che tale intervallo quantifica esclusivamente l’incertezza dovuta alla variabilità campionaria.</p>
+<p>In presenza di distorsioni sistematiche nel campionamento, nella misurazione o nel disegno sperimentale, il valore vero del parametro potrebbe collocarsi ben al di fuori dei limiti dell’intervallo calcolato. L’inferenza bayesiana, pur essendo uno strumento potente per la quantificazione dell’incertezza campionaria, non è in grado di identificare né correggere automaticamente errori metodologici di fondo.</p>
+<p><strong>La precisione statistica non deve mai essere confusa con la validità scientifica.</strong></p>
+</div>
+</div>
+</section><section id="strategie-di-mitigazione" class="level3" data-number="10.8.4"><h3 data-number="10.8.4" class="anchored" data-anchor-id="strategie-di-mitigazione">
+<span class="header-section-number">10.8.4</span> Strategie di mitigazione</h3>
+<p>La prevenzione della falsa precisione richiede innanzitutto una progettazione della ricerca metodologicamente solida. Campionamento probabilistico, protocolli standardizzati e strumenti con adeguate proprietà psicometriche costituiscono il primo livello di difesa contro le distorsioni sistematiche.</p>
+<p>L’approccio bayesiano offre inoltre strumenti analitici specifici, come le analisi di sensibilità, che consentono di valutare la robustezza delle conclusioni rispetto a diverse assunzioni. In contesti più complessi, la modellazione gerarchica permette di rappresentare esplicitamente molteplici fonti di variabilità e potenziali distorsioni, separando le diverse componenti di incertezza.</p>
+<p>Infine, la trasparenza epistemica rimane un principio irrinunciabile. Gli intervalli di credibilità e le distribuzioni a posteriori sono validi solo nel contesto delle assunzioni del modello adottato; il riconoscimento esplicito dei limiti metodologici è parte integrante di un’inferenza scientificamente responsabile. ## Verso la verosimiglianza: come i dati informano le credenze</p>
+<p>In questo capitolo abbiamo esaminato le proprietà matematiche fondamentali che governano il comportamento della media campionaria e, più in generale, il modo in cui i dati si relazionano ai parametri di interesse. Abbiamo visto che la media campionaria è centrata sul parametro, come espresso dalla relazione <span class="math inline">\(\mathbb{E}[\bar{X}] = \theta\)</span>, e che la sua variabilità diminuisce con l’aumentare della dimensione campionaria secondo la legge <span class="math inline">\(\text{Var}(\bar{X}) = \sigma^2 / n\)</span>. Abbiamo inoltre osservato che, al crescere del numero di osservazioni, la media campionaria converge al valore vero in accordo con la Legge dei Grandi Numeri e che la sua distribuzione tende asintoticamente alla normale per effetto del Teorema del Limite Centrale.</p>
+<p>Resta ora da chiarire come queste proprietà si traducano operativamente nell’aggiornamento delle credenze bayesiane. La risposta risiede nella <strong>funzione di verosimiglianza</strong>, che costituisce il cuore del meccanismo inferenziale e sarà oggetto di un capitolo successivo. La verosimiglianza formalizza il modo in cui i dati informano le credenze: per ogni possibile valore del parametro <span class="math inline">\(\theta\)</span>, essa quantifica quanto tale valore renda plausibili le osservazioni raccolte.</p>
+<p>È proprio attraverso la verosimiglianza che le informazioni contenute nei dati vengono combinate con la distribuzione a priori mediante il teorema di Bayes, generando la distribuzione a posteriori. Le proprietà analizzate in questo capitolo — centratura, precisione crescente e convergenza — trovano nella verosimiglianza la loro espressione formale. Comprenderle a fondo è quindi essenziale per interpretare correttamente il funzionamento dell’inferenza bayesiana e il significato delle conclusioni che essa produce.</p>
+</section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+<p>In questo capitolo abbiamo esaminato come sia possibile quantificare in modo sistematico l’incertezza quando si traggono conclusioni a partire da evidenze limitate. Le proprietà matematiche fondamentali della media campionaria mostrano che essa è centrata sul parametro della popolazione, giustificando l’uso dei dati osservati come base per l’inferenza. Abbiamo inoltre visto che la precisione delle stime aumenta con l’aumentare del numero di osservazioni, poiché la variabilità diminuisce proporzionalmente al fattore <span class="math inline">\(1/n\)</span>. La Legge dei Grandi Numeri garantisce la convergenza delle inferenze verso i valori veri, mentre il Teorema del Limite Centrale fornisce il fondamento teorico per le approssimazioni distribuzionali ampiamente utilizzate nella pratica statistica.</p>
+<p>In questo contesto, l’inferenza bayesiana emerge come un framework coerente e formalmente rigoroso per rappresentare e aggiornare l’incertezza. Le credenze iniziali, espresse attraverso distribuzioni a priori, vengono sistematicamente aggiornate alla luce dei dati osservati, producendo una distribuzione a posteriori che rappresenta lo stato di conoscenza più informato disponibile. Gli intervalli di credibilità offrono un’interpretazione probabilistica diretta e intuitiva dei risultati inferenziali. Un aspetto particolarmente rilevante è che, in presenza di una quantità sufficiente di dati, credenze iniziali anche molto diverse tendono a convergere verso conclusioni sostanzialmente condivise.</p>
+<p>È tuttavia essenziale riconoscere i limiti metodologici dell’inferenza statistica. Le procedure inferenziali quantificano l’incertezza campionaria, ma non sono in grado di correggere distorsioni sistematiche derivanti da problemi di campionamento, misurazione o disegno della ricerca. Campioni di grandi dimensioni affetti da bias possono produrre stime estremamente precise ma sostanzialmente errate, alimentando il rischio di false certezze. La qualità del disegno di ricerca rimane quindi un presupposto irrinunciabile che nessuna sofisticazione statistica può sostituire.</p>
+<p>Nel capitolo successivo vedremo come la funzione di verosimiglianza formalizzi in modo esplicito il ruolo dei dati nel processo inferenziale, completando il quadro concettuale necessario per comprendere il meccanismo di aggiornamento bayesiano e le sue implicazioni per la ricerca empirica.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Problemi">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Problemi
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Esercizi sulla distribuzione campionaria e sull’inferenza sono disponibili sulla seguente <a href="https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/06%3A_Sampling_Distributions/6.E%3A_Sampling_Distributions_(Exercises)">pagina web</a>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.15.2      patchwork_1.3.2      </span></span>
+<span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.15.0     </span></span>
+<span><span class="co">#&gt;  [7] ggplot2_4.0.1         reliabilitydiag_0.2.1 priorsense_1.2.0     </span></span>
+<span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.9.0             rstan_2.32.7         </span></span>
+<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
+<span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
+<span><span class="co">#&gt; [19] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
+<span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.2           rio_1.2.4            </span></span>
+<span><span class="co">#&gt; [25] here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
+<span><span class="co">#&gt;  [4] S7_0.2.1              fastmap_1.2.0         TH.data_1.1-5        </span></span>
+<span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.39         timechange_0.3.0     </span></span>
+<span><span class="co">#&gt; [10] estimability_1.5.1    lifecycle_1.0.4       survival_3.8-3       </span></span>
+<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.2        rlang_1.1.6          </span></span>
+<span><span class="co">#&gt; [16] tools_4.5.2           yaml_2.3.12           knitr_1.51           </span></span>
+<span><span class="co">#&gt; [19] labeling_0.4.3        bridgesampling_1.2-1  htmlwidgets_1.6.4    </span></span>
+<span><span class="co">#&gt; [22] curl_7.0.0            pkgbuild_1.4.8        RColorBrewer_1.1-3   </span></span>
+<span><span class="co">#&gt; [25] abind_1.4-8           multcomp_1.4-29       withr_3.0.2          </span></span>
+<span><span class="co">#&gt; [28] purrr_1.2.0           grid_4.5.2            stats4_4.5.2         </span></span>
+<span><span class="co">#&gt; [31] colorspace_2.1-2      xtable_1.8-4          inline_0.3.21        </span></span>
+<span><span class="co">#&gt; [34] emmeans_2.0.1         scales_1.4.0          MASS_7.3-65          </span></span>
+<span><span class="co">#&gt; [37] cli_3.6.5             mvtnorm_1.3-3         rmarkdown_2.30       </span></span>
+<span><span class="co">#&gt; [40] ragg_1.5.0            generics_0.1.4        otel_0.2.0           </span></span>
+<span><span class="co">#&gt; [43] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.6.0        </span></span>
+<span><span class="co">#&gt; [46] splines_4.5.2         parallel_4.5.2        vctrs_0.6.5          </span></span>
+<span><span class="co">#&gt; [49] V8_8.0.1              Matrix_1.7-4          sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt; [52] jsonlite_2.0.0        arrayhelpers_1.1-0    systemfonts_1.3.1    </span></span>
+<span><span class="co">#&gt; [55] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
+<span><span class="co">#&gt; [58] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [61] QuickJSR_1.8.1        htmltools_0.5.9       Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [64] R6_2.6.1              textshaping_1.0.4     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [67] evaluate_1.0.5        lattice_0.22-7        backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [70] memoise_2.0.1         broom_1.0.11          snakecase_0.11.1     </span></span>
+<span><span class="co">#&gt; [73] rstantools_2.5.0      gridExtra_2.3         coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [76] nlme_3.1-168          checkmate_2.3.3       xfun_0.55            </span></span>
+<span><span class="co">#&gt; [79] zoo_1.8-15            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-schervish2014probability" class="csl-entry" role="listitem">
+Schervish, M. J., &amp; DeGroot, M. H. (2014). <em>Probability and statistics</em> (Vol. 563). Pearson Education London, UK:
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1446,35 +2430,61 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
       }
     }
   });
-  </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Introduzione">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduzione</span>
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../../chapters/probability/09_cov_cor.html" class="pagination-link" aria-label="Covarianza e correlazione">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/probability/01_intro_prob_bayesian.html" class="pagination-link" aria-label="Interpretazione bayesiana della probabilità">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione bayesiana della probabilità</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/probability/11_intro_distributions.html" class="pagination-link" aria-label="Introduzione alle distribuzioni di probabilità">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Metodi bayesiani in psicologia</em>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/introduction_probability.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/10_dal_dato_ipotesi.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
   </div>
-</footer>
-
-
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
