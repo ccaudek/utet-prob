@@ -2,23 +2,25 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Nei capitoli precedenti abbiamo esaminato gli elementi di base della teoria delle probabilità. Siamo ora in grado di utilizzare questi strumenti per porci le domande fondamentali dell'inferenza statistica. 
+Nei capitoli precedenti abbiamo introdotto gli elementi fondamentali della teoria della probabilità e il linguaggio formale necessario per descrivere l’incertezza. In questo capitolo iniziamo a utilizzare questi strumenti per affrontare le domande centrali dell’inferenza statistica: che cosa possiamo dire, sulla base dei dati osservati, riguardo a quantità di interesse che non osserviamo direttamente?
 
-Nella ricerca psicologica desideriamo comprendere fenomeni complessi, come la prevalenza di un disturbo d'ansia, l'efficacia di un trattamento terapeutico o la relazione tra stress e prestazione cognitiva, ma non abbiamo mai accesso a informazioni complete. I dati che raccogliamo sono limitati: osserviamo un numero finito di partecipanti in contesti specifici utilizzando strumenti di misurazione imperfetti. Come possiamo quantificare l'incertezza sulle quantità di interesse a partire da queste osservazioni parziali? Come possiamo esprimere, in termini probabilistici, la nostra sicurezza che la prevalenza di un disturbo rientri in un certo intervallo o che un trattamento sia efficace?
+Nella ricerca psicologica siamo spesso interessati a fenomeni complessi, come la prevalenza di un disturbo d’ansia nella popolazione, l’efficacia di un trattamento terapeutico o la relazione tra stress e prestazione cognitiva. Tuttavia, non abbiamo mai accesso all’intera popolazione né a misurazioni perfette. I dati disponibili sono sempre parziali: osserviamo un numero finito di partecipanti, in contesti specifici, utilizzando strumenti affetti da errore. Di conseguenza, ogni conclusione deve necessariamente confrontarsi con l’incertezza.
 
-L'approccio che adotteremo considera i parametri, come le proporzioni, le medie e le varianze, come oggetti rispetto ai quali abbiamo un'*incertezza epistemica*, quantificabile attraverso distribuzioni di probabilità. Prima di raccogliere i dati, esprimiamo le nostre conoscenze preliminari attraverso una distribuzione *a priori*. Dopo aver osservato i dati, aggiorniamo tale distribuzione ottenendo una distribuzione *a posteriori*. Questo processo di aggiornamento razionale delle credenze alla luce dell'evidenza è alla base dell'inferenza bayesiana.
+La domanda fondamentale diventa quindi: **come possiamo quantificare l’incertezza sulle quantità di interesse a partire da dati limitati?** In che modo possiamo esprimere, in termini probabilistici, il grado di sicurezza che la prevalenza di un disturbo rientri in un certo intervallo, oppure che un trattamento produca un effetto clinicamente rilevante?
+
+L’approccio che adotteremo in questo capitolo tratta i *parametri* del modello statistico — come proporzioni, medie e varianze — come quantità sconosciute rispetto alle quali possediamo un’incertezza di tipo *epistemico*. Questa incertezza viene rappresentata mediante distribuzioni di probabilità. Prima di osservare i dati, formalizziamo le nostre conoscenze preliminari attraverso una distribuzione *a priori*. Dopo aver raccolto i dati, aggiorniamo tali credenze ottenendo una distribuzione *a posteriori*. Questo meccanismo di aggiornamento coerente delle credenze alla luce dell’evidenza osservata costituisce il cuore dell’inferenza bayesiana.
 
 ## Un esempio concreto: la stima della prevalenza dei sintomi depressivi
 
-Supponiamo di voler determinare la prevalenza di sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Poiché non è possibile valutare l'intera popolazione, adottiamo una procedura basata sull’inferenza bayesiana.
+Supponiamo di voler stimare la prevalenza di sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Poiché non è possibile osservare l’intera popolazione di interesse, ci affidiamo a un campione e utilizziamo l’inferenza statistica per trarre conclusioni più generali.
 
-Inizialmente, reclutiamo un campione di 200 studenti tramite un campionamento probabilistico. Supponiamo che, in questo campione, 72 partecipanti presentino sintomi depressivi clinicamente rilevanti. L'obiettivo è quantificare l'incertezza relativa al parametro $\theta$, che rappresenta la vera prevalenza nella popolazione di riferimento. 
+Immaginiamo di reclutare un campione probabilistico di 200 studenti universitari. In questo campione, 72 partecipanti presentano sintomi depressivi clinicamente rilevanti. Il nostro obiettivo è inferire il valore del parametro $\theta$, che rappresenta la vera prevalenza di tali sintomi nella popolazione di riferimento, e quantificare l’incertezza associata a questa stima.
 
-Prima di raccogliere i dati, le nostre conoscenze preliminari su $\theta$ possono essere formalizzate in una distribuzione a priori. Una volta osservati i dati (72 casi su 200), tale conoscenza viene aggiornata applicando il teorema di Bayes, ottenendo così una distribuzione a posteriori per il parametro $\theta$.
+Nell’approccio bayesiano, il processo inferenziale inizia prima della raccolta dei dati. Le nostre conoscenze preliminari su $\theta$ vengono formalizzate attraverso una distribuzione *a priori*. Dopo aver osservato i dati, in questo caso, 72 casi su 200, tali conoscenze vengono aggiornate mediante il teorema di Bayes, producendo una distribuzione *a posteriori* per il parametro $\theta$.
 
-Da tale distribuzione a posteriori ricaviamo varie quantita di interesse, ad esempio, un intervallo di credibilità al 95%. Un possibile risultato potrebbe essere l'intervallo [0.29; 0.43]. Possiamo assegnare a questo intervallo un'interpretazione diretta: sulla base delle nostre conoscenze pregresse e dei risultati osservati, riteniamo che esista una probabilità del 95% che il valore effettivo del parametro $\theta$ si collochi tra 0.29 e 0.43.
+A partire dalla distribuzione a posteriori possiamo ricavare diverse quantità di interesse. Una delle più comuni è l’intervallo di credibilità, che riassume l’incertezza sulla stima del parametro. Ad esempio, un possibile intervallo di credibilità al 95% per $\theta$ potrebbe essere [0.29; 0.43]. Questo intervallo ammette un’interpretazione diretta: sulla base delle informazioni disponibili, sia pregresse sia derivate dai dati osservati, riteniamo che vi sia una probabilità del 95% che il valore effettivo della prevalenza nella popolazione si collochi tra 0.29 e 0.43.
 
-Questa interpretazione probabilistica è coerente con il modo in cui i ricercatori concepiscono l’incertezza nei processi inferenziali e fornisce una risposta alla domanda di ricerca che ha motivato lo studio.
+Questa interpretazione probabilistica dell’incertezza è coerente con il modo in cui i ricercatori ragionano intuitivamente sui risultati empirici e fornisce una risposta chiara e informativa alla domanda di ricerca che ha motivato lo studio.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
@@ -52,44 +54,43 @@ here::here("code", "_common.R") |>
 ```
 :::
 
-
 ## Dati, parametri e incertezza
 
 ### Dati osservati e parametro di interesse
 
-Esaminiamo nei dettagli l'esempio descritto in precedenza, ovvero la stima della proporzione $\theta$ di studenti che manifestano sintomi depressivi clinicamente rilevanti all'interno della popolazione studentesca universitaria. Dopo avere selezionato un campione rappresentativo di $n$ studenti, per ciascun partecipante, registriamo la presenza o l'assenza del sintomo attraverso una codifica binaria.
+Riprendiamo l’esempio introdotto in precedenza, relativo alla stima della proporzione $\theta$ di studenti che presentano sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Dopo aver selezionato un campione rappresentativo di $n$ studenti, per ciascun partecipante registriamo la presenza o l’assenza del sintomo mediante una codifica binaria.
 
-Le osservazioni del campione possono essere concepite come variabili casuali $X_1, X_2, \ldots, X_n$, dove ciascuna $X_i$ assume il valore:
+Le osservazioni del campione possono essere formalizzate come variabili casuali $X_1, X_2, \ldots, X_n$, dove ciascuna $X_i$ assume il valore:
 
 $$
-X_i = 
+X_i =
 \begin{cases}
-1 & \text{se lo studente } i \text{ presenta il sintomo} \\
-0 & \text{in caso contrario}
+1 & \text{se lo studente } i \text{ presenta il sintomo}, \
+0 & \text{in caso contrario}.
 \end{cases}
 $$
 
-Questa rappresentazione ci permette di modellare rigorosamente il processo di raccolta dei dati e di quantificare l'incertezza associata alla stima del parametro di interesse $\theta$, ovvero la prevalenza della depressione nella popolazione di riferimento.
+Questa rappresentazione esplicita il legame tra il processo di raccolta dei dati e un modello probabilistico. In particolare, ci consente di descrivere formalmente l’incertezza associata alle osservazioni e di collegarla al parametro di interesse $\theta$, che rappresenta la prevalenza del fenomeno nella popolazione di riferimento.
 
-### Dalla statistica descrittiva all'inferenza probabilistica
+### Dalla statistica descrittiva all’inferenza probabilistica
 
-La proporzione campionaria fornisce solo una sintesi descrittiva dei dati osservati:
+Una prima sintesi dei dati osservati è fornita dalla proporzione campionaria:
 
 $$
 \bar{X} = \frac{1}{n}\sum_{i=1}^n X_i = \frac{\text{numero di studenti con sintomo}}{n}.
 $$
 
-Tuttavia, il nostro obiettivo va oltre la mera descrizione campionaria: vogliamo utilizzare $\bar{X}$ per fare inferenza sul parametro $\theta$, che rappresenta la proporzione vera nella popolazione di riferimento.
+Questa quantità riassume l’informazione contenuta nel campione, ma ha un ruolo puramente descrittivo. Il nostro obiettivo non è semplicemente descrivere i dati osservati, bensì utilizzare tali informazioni per trarre conclusioni sul parametro $\theta$, che non è direttamente osservabile.
 
-Ci dobbiamo dunque porre la seguente domanda: in che modo il valore osservato di $\bar{X}$ modifica la nostra incertezza riguardo a $\theta$?
+La questione centrale diventa quindi la seguente: **in che modo il valore osservato di $\bar{X}$ dovrebbe modificare la nostra incertezza riguardo a $\theta$?** Rispondere a questa domanda richiede di andare oltre la statistica descrittiva e di adottare un approccio inferenziale fondato su un modello probabilistico.
 
 ### Il modello probabilistico di riferimento
 
-Per rispondere a questa domanda, costruiamo un modello probabilistico che metta in relazione:
+Per collegare i dati osservati al parametro di interesse, costruiamo un modello probabilistico che metta in relazione:
 
 1. le osservazioni empiriche $X_1, \ldots, X_n$;
-2. il parametro di interesse $\theta$, soggetto a incertezza epistemica;
-3. la conoscenza pregressa disponibile prima della raccolta dei dati.
+2. il parametro $\theta$, considerato come quantità sconosciuta e soggetta a incertezza epistemica;
+3. le informazioni disponibili prima dell’osservazione dei dati.
 
 Assumiamo che, condizionatamente al parametro $\theta$, ciascuna osservazione segua una distribuzione di Bernoulli:
 
@@ -97,148 +98,162 @@ $$
 X_i \mid \theta \sim \text{Bernoulli}(\theta).
 $$
 
-Questa assunzione implica che, se il valore di $\theta$ fosse noto, la probabilità di osservare il sintomo in uno studente qualsiasi sarebbe esattamente $\theta$.
+Questa assunzione formalizza l’idea che, se il valore di $\theta$ fosse noto, la probabilità che uno studente qualsiasi presenti il sintomo sarebbe pari a $\theta$. Il modello specifica quindi come i dati sarebbero generati per ciascun possibile valore del parametro.
 
 ::: {.callout-note}
+
 ### Notazione condizionale e sua interpretazione
 
-La notazione $X_i \mid \theta$ indica che stiamo considerando la distribuzione della variabile $X_i$ nell'ipotesi che il parametro $\theta$ sia fissato a un valore specifico. Questa formulazione non presuppone la conoscenza effettiva del valore di $\theta$, ma piuttosto struttura il nostro ragionamento ipotetico: "se il valore di $\theta$ fosse questo, allora le nostre osservazioni si comporterebbero in questo modo".
+La notazione $X_i \mid \theta$ indica che stiamo descrivendo la distribuzione della variabile casuale $X_i$ assumendo che il parametro $\theta$ sia fissato a un valore specifico. Questa formulazione non implica che il valore di $\theta$ sia conosciuto, ma serve a strutturare il ragionamento inferenziale: *se* $\theta$ avesse un certo valore, *allora* le osservazioni seguirebbero una determinata distribuzione.
 :::
 
 ## Proprietà fondamentali della media campionaria
 
-Prima di procedere con l'inferenza bayesiana, è utile comprendere alcune proprietà matematiche della media campionaria $\bar{X}$ che valgono indipendentemente dal framework inferenziale adottato. Queste proprietà ci dicono come $\bar{X}$ si comporta in relazione al parametro $\theta$ e spiegano *perché* i dati sono informativi.
+Prima di procedere con l’inferenza bayesiana, è utile esaminare alcune proprietà matematiche della media campionaria $\bar{X}$ che valgono indipendentemente dal framework inferenziale adottato. Queste proprietà descrivono il comportamento di $\bar{X}$ in relazione al parametro $\theta$ e chiariscono *perché* i dati osservati contengono informazione sul parametro di interesse.
 
 ### Valore atteso della media campionaria
 
-Supponiamo di avere osservazioni $X_1, X_2, \ldots, X_n$ **indipendenti e identicamente distribuite** (i.i.d.), ciascuna con valore atteso $\mathbb{E}[X_i \mid \theta] = \theta$.
+Supponiamo di avere osservazioni $X_1, X_2, \ldots, X_n$ **indipendenti e identicamente distribuite** (i.i.d.), ciascuna con valore atteso
+$$
+\mathbb{E}[X_i \mid \theta] = \theta.
+$$
 
 ::: {#thm-expval-sample-mean}
 Il valore atteso della media campionaria è:
-
 $$
 \mathbb{E}[\bar{X} \mid \theta] = \theta.
 $$
 :::
 
 ::: {.proof}
-Partendo dalla definizione di media campionaria:
-
+Per definizione, la media campionaria è:
 $$
-\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i,
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
 $$
 
-calcoliamo il valore atteso:
-
+Applicando l’operatore di valore atteso:
 $$
-\mathbb{E}[\bar{X} \mid \theta] = \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n X_i \bigg| \theta\right].
+\mathbb{E}[\bar{X} \mid \theta]
+= \mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n X_i ,\bigg|, \theta\right].
 $$
 
 Per la linearità del valore atteso:
-
 $$
 = \frac{1}{n}\sum_{i=1}^n \mathbb{E}[X_i \mid \theta].
 $$
 
-Poiché tutte le $X_i$ sono identicamente distribuite con $\mathbb{E}[X_i \mid \theta] = \theta$:
-
+Poiché tutte le variabili sono identicamente distribuite con valore atteso pari a $\theta$:
 $$
-= \frac{1}{n} \cdot n\theta = \theta.
+= \frac{1}{n}\cdot n\theta = \theta.
 $$
 :::
 
-**Interpretazione**: questo risultato ci dice che la media campionaria è *centrata* sul valore del parametro. Non presenta un bias sistematico né verso l'alto né verso il basso. Questa proprietà è fondamentale per giustificare l'uso di $\bar{X}$ come base per fare inferenza su $\theta$: nel framework bayesiano, implica che la distribuzione predittiva della media campionaria sarà centrata sul valore atteso a priori di $\theta$.
+**Interpretazione**
+Questo risultato mostra che la media campionaria è *centrata* sul valore del parametro $\theta$. In assenza di errori sistematici, $\bar{X}$ non tende né a sovrastimare né a sottostimare la prevalenza reale nella popolazione. Questa proprietà giustifica l’uso della media campionaria come sintesi informativa dei dati e, nel contesto bayesiano, implica che la distribuzione predittiva della media campionaria è centrata sul valore atteso del parametro.
 
 ### Varianza della media campionaria
 
-La seconda proprietà fondamentale riguarda la *variabilità* di $\bar{X}$.
+La seconda proprietà fondamentale riguarda la *variabilità* della media campionaria.
 
 ::: {#thm-var-sample-mean}
-Se le osservazioni sono indipendenti con varianza $\text{Var}(X_i \mid \theta) = \sigma^2$, allora:
-
+Se le osservazioni sono indipendenti e ciascuna ha varianza
+$$
+\text{Var}(X_i \mid \theta) = \sigma^2,
+$$
+allora:
 $$
 \text{Var}(\bar{X} \mid \theta) = \frac{\sigma^2}{n}.
 $$
 :::
 
 ::: {.proof}
-Partiamo dalla varianza della media campionaria:
-
+Per definizione:
 $$
-\text{Var}(\bar{X} \mid \theta) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i \bigg| \theta\right).
-$$
-
-Usando la proprietà $\text{Var}(aY) = a^2\text{Var}(Y)$:
-
-$$
-= \frac{1}{n^2}\text{Var}\left(\sum_{i=1}^n X_i \bigg| \theta\right).
+\text{Var}(\bar{X} \mid \theta)
+= \text{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i ,\bigg|, \theta\right).
 $$
 
-Per l'indipendenza, la varianza della somma è la somma delle varianze:
-
+Usando la proprietà $\text{Var}(aY) = a^2 \text{Var}(Y)$:
 $$
-= \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i \mid \theta) = \frac{1}{n^2} \cdot n\sigma^2 = \frac{\sigma^2}{n}.
+= \frac{1}{n^2}\text{Var}\left(\sum_{i=1}^n X_i ,\bigg|, \theta\right).
+$$
+
+Poiché le osservazioni sono indipendenti, la varianza della somma è la somma delle varianze:
+$$
+= \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i \mid \theta)
+= \frac{1}{n^2}\cdot n\sigma^2
+= \frac{\sigma^2}{n}.
 $$
 :::
 
-**Interpretazione**: questo risultato mostra che la variabilità di $\bar{X}$ diminuisce con $n$. Più dati vengono raccolti, più $\bar{X}$ diventa "stabile" e informativo su $\theta$. La varianza diminuisce proporzionalmente a $1/n$, quindi:
+**Interpretazione**
+Questo risultato evidenzia che la variabilità della media campionaria diminuisce all’aumentare della dimensione del campione. In particolare:
 
-- con $n=100$ dati, la varianza di $\bar{X}$ è 1/100 della varianza delle singole osservazioni;
-- per dimezzare la deviazione standard di $\bar{X}$, è necessario quadruplicare $n$.
+* la varianza di $\bar{X}$ decresce proporzionalmente a $1/n$;
+* per ridurre della metà la deviazione standard della media è necessario quadruplicare il numero di osservazioni.
 
-Questa proprietà spiega *perché* la distribuzione a posteriori diventa più concentrata con l'aumentare dei dati: i dati forniscono informazioni sempre più precise su $\theta$.
+Questa proprietà fornisce una spiegazione matematica del fatto che, all’aumentare dei dati disponibili, l’inferenza diventa più precisa. In un’ottica bayesiana, ciò si manifesta come una distribuzione a posteriori progressivamente più concentrata attorno ai valori plausibili di $\theta$.
 
 ### Il caso delle variabili Bernoulliane
 
-Consideriamo un esperimento o un'osservazione binaria, codificata da una variabile aleatoria $X_i$ che assume valore 1 in caso di "successo" (es., presenza di un sintomo) e 0 in caso di "insuccesso". La distribuzione di ciascuna $X_i$ è modellata da una distribuzione di **Bernoulli** con parametro $\theta$, che rappresenta la probabilità di successo.
+Nel contesto considerato, ciascuna osservazione $X_i$ è una variabile aleatoria binaria che assume valore 1 in caso di “successo” (ad esempio, presenza di un sintomo) e 0 in caso di “insuccesso”. Tali osservazioni sono modellate mediante una distribuzione di **Bernoulli** con parametro $\theta$, che rappresenta la probabilità di successo.
 
-**1. Variabilità di una singola osservazione.**
+#### 1. Variabilità di una singola osservazione
 
-La variabilità intrinseca di una singola osservazione $X_i$ è data dalla sua varianza:
+La varianza di una variabile Bernoulliana è:
 $$
 \text{Var}(X_i \mid \theta) = \theta(1-\theta).
 $$
-Questa funzione, una parabola, è massima quando $\theta = 0.5$ (massima incertezza) e si annulla quando $\theta = 0$ o $\theta = 1$ (nessuna variabilità).
 
-**2. Variabilità della media campionaria.**
+Questa funzione è massima per $\theta = 0.5$, corrispondente alla massima incertezza, e si annulla per $\theta = 0$ o $\theta = 1$, casi in cui l’esito è deterministico.
 
-Dato un campione di $n$ osservazioni indipendenti $X_1, \dots, X_n$, la media campionaria $\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i$ rappresenta la proporzione di successi osservata.
+#### 2. Variabilità della media campionaria
 
-La varianza di $\bar{X}$, nota come **varianza campionaria**, è:
+Dato un campione di $n$ osservazioni indipendenti, la media campionaria
 $$
-\text{Var}(\bar{X} \mid \theta) = \frac{\text{Var}(X_i \mid \theta)}{n} = \frac{\theta(1-\theta)}{n}.
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i
 $$
-Questo risultato mostra come la variabilità della media diminuisca all'aumentare della dimensione del campione $n$, secondo il fattore $1/n$.
+coincide con la proporzione osservata di successi.
 
-**3. L'errore standard e la sua interpretazione.**
-
-La radice quadrata della varianza campionaria è detta **errore standard (SE)** di $\bar{X}$:
+La sua varianza è:
 $$
-\text{SE}(\bar{X}) = \sqrt{\text{Var}(\bar{X} \mid \theta)} = \sqrt{\frac{\theta(1-\theta)}{n}}.
+\text{Var}(\bar{X} \mid \theta)
+= \frac{\theta(1-\theta)}{n}.
 $$
 
-L'errore standard quantifica l'incertezza associata a $\bar{X}$ come stimatore di $\theta$. In altre parole, indica quanto ci si aspetta che la proporzione osservata $\bar{X}$ vari da campione a campione a causa della casualità del campionamento.
+Questo risultato mostra come l’incertezza associata alla proporzione osservata diminuisca all’aumentare della numerosità campionaria.
 
-In un'ottica bayesiana, l'errore standard assume un ruolo cruciale nel quantificare il contenuto informativo del dato. Un errore standard di grandezza ridotta, tipicamente associato a campioni di ampiezza elevata, segnala che le osservazioni sono in grado di fornire una stima precisa del parametro, conducendo a una distribuzione a posteriori fortemente concentrata. Al contrario, un errore standard ampio indica un'elevata incertezza campionaria, suggerendo che i dati, da soli, forniscono un'informazione meno definitiva sul parametro di interesse. Pertanto, questa statistica funge da ponte tra la variabilità del fenomeno e l'affidabilità inferenziale che è lecito attendersi dal campione osservato.
+#### 3. L’errore standard e la sua interpretazione
+
+La radice quadrata della varianza della media campionaria è detta **errore standard (SE)**:
+$$
+\text{SE}(\bar{X}) = \sqrt{\frac{\theta(1-\theta)}{n}}.
+$$
+
+L’errore standard quantifica la variabilità attesa della proporzione osservata da un campione all’altro, dovuta esclusivamente alla casualità del processo di campionamento. In altre parole, misura quanto $\bar{X}$ può discostarsi da $\theta$ in assenza di errori sistematici.
+
+In un’ottica bayesiana, l’errore standard fornisce un’indicazione diretta del contenuto informativo dei dati: un errore standard ridotto, tipicamente associato a campioni numerosi, segnala che le osservazioni sono altamente informative e conducono a una distribuzione a posteriori concentrata. Al contrario, un errore standard elevato indica che i dati forniscono un’informazione più debole sul parametro, lasciando spazio a una maggiore incertezza residua. In questo senso, l’errore standard costituisce un ponte concettuale tra la variabilità del fenomeno osservato e l’affidabilità inferenziale delle conclusioni che possiamo trarre.
 
 ## Comprendere la variabilità dei dati
 
 ### Il concetto di distribuzione campionaria
 
-Immaginiamo di poter osservare molti campioni diversi provenienti dalla stessa popolazione, ciascuno di dimensione $n$. Per ognuno di essi calcoleremmo $\bar{X}$, ottenendo valori diversi. La *distribuzione campionaria* di $\bar{X}$ descrive come questi valori si distribuiscono.
+Immaginiamo di poter osservare molti campioni diversi, tutti della stessa dimensione $n$, estratti dalla medesima popolazione. Per ciascun campione potremmo calcolare la media campionaria $\bar{X}$, ottenendo ogni volta un valore potenzialmente diverso a causa della variabilità casuale del campionamento.
 
-Questo concetto teorico è molto utile per comprendere come i dati influenzino la distribuzione a posteriori. La distribuzione campionaria contribuisce alla funzione di verosimiglianza, che è il meccanismo formale attraverso cui i dati "parlano" nell'inferenza bayesiana: la verosimiglianza quantifica quanto bene ciascun possibile valore di $\theta$ spiega i dati osservati.
+La **distribuzione campionaria** della media descrive come questi valori di $\bar{X}$ si distribuiscono al variare del campione. Essa non riguarda un singolo insieme di dati osservati, ma un esperimento ipotetico ripetuto molte volte nelle stesse condizioni.
+
+Questo concetto teorico è centrale per comprendere il ruolo dei dati nell’inferenza statistica. In particolare, la distribuzione campionaria costituisce la base della **funzione di verosimiglianza**, che rappresenta il meccanismo formale attraverso cui i dati informano l’inferenza bayesiana: la verosimiglianza quantifica quanto ciascun possibile valore del parametro $\theta$ sia compatibile con i dati osservati.
 
 ### Esempio concreto: una popolazione finita
 
-Per rendere tutto più concreto, consideriamo un caso semplice: una popolazione di soli 4 valori.
+Per rendere il concetto più concreto, consideriamo un esempio estremamente semplice: una popolazione costituita da soli quattro valori numerici.
 
 ```{r}
 x <- c(2, 4.5, 5, 5.5)
 x
 ```
 
-Calcoliamo media e varianza di questa popolazione:
+Calcoliamo la media e la varianza della popolazione:
 
 ```{r}
 mean_x <- mean(x)  # Media
@@ -247,7 +262,7 @@ cat("Media:", mean_x, "\n")
 cat("Varianza:", var_x, "\n")
 ```
 
-Consideriamo ora tutti i possibili campioni di dimensione $n$ = 2, estratti con reinserimento. Da una popolazione di 4 elementi, questo procedimento genera $4^2 = 16$ campioni possibili.
+Supponiamo ora di estrarre tutti i possibili campioni di dimensione $n = 2$ **con reinserimento**. Poiché la popolazione contiene quattro elementi, questo procedimento genera $4^2 = 16$ campioni distinti.
 
 ```{r}
 # Generiamo tutte le coppie possibili
@@ -255,14 +270,14 @@ samples <- expand.grid(x, x)
 head(samples, 10)
 ```
 
-Per ogni coppia, calcoliamo la media:
+Per ciascun campione calcoliamo la media campionaria:
 
 ```{r}
 sample_means <- rowMeans(samples)
 sample_means
 ```
 
-Al fine di una migliore organizzazione dei risultati, costruiamo un apposito data frame:
+Per organizzare i risultati in modo più chiaro, costruiamo un data frame che associa a ciascun campione la sua media:
 
 ```{r}
 df <- data.frame(
@@ -272,7 +287,7 @@ df <- data.frame(
 head(df, 10)
 ```
 
-La distribuzione delle medie campionarie può essere visualizzata mediante il seguente istogramma:
+La distribuzione delle medie campionarie può ora essere visualizzata tramite un istogramma:
 
 ```{r}
 ggplot(data.frame(sample_means), aes(x = sample_means)) +
@@ -283,13 +298,13 @@ ggplot(data.frame(sample_means), aes(x = sample_means)) +
     color = "black"
   ) +
   labs(
-    title = "Distribuzione campionaria della media (n=2)",
+    title = "Distribuzione campionaria della media (n = 2)",
     x = "Media campionaria",
     y = "Densità"
   )
 ```
 
-Verifichiamo le proprietà teoriche:
+Verifichiamo empiricamente le proprietà teoriche discusse in precedenza:
 
 ```{r}
 #| echo: false
@@ -298,57 +313,63 @@ cat("Media della popolazione:", mean_x, "\n")
 cat("\n")
 cat("Varianza delle medie campionarie:", 
     var(sample_means) * (length(sample_means) - 1) / length(sample_means), "\n")
-cat("Varianza teorica (σ²/n):", var_x / 2, "\n")
+cat("Varianza teorica (σ² / n):", var_x / 2, "\n")
 ```
 
-I risultati empirici confermano le proprietà teoriche della distribuzione campionaria:
+I risultati confermano esattamente le proprietà teoriche della distribuzione campionaria:
 
-- la media delle medie campionarie coincide esattamente con la media della popolazione;
-- la varianza delle medie campionarie corrisponde alla quantità teorica attesa di $\sigma^2/n$.
+* la media delle medie campionarie coincide con la media della popolazione;
+* la varianza delle medie campionarie è pari a $\sigma^2 / n$.
 
 ::: {.callout-note}
+
 ### Interpretazione per l'inferenza
 
-Questa simulazione mostra concretamente perché, se osserviamo $\bar{X} = 4.75$, possiamo essere ragionevolmente sicuri che il parametro sottostante sia vicino a quel valore. I valori di $\bar{X}$ tendono a concentrarsi intorno al valore del parametro vero, e tale concentrazione aumenta con $n$.
+Questa simulazione illustra in modo concreto perché l’osservazione di un valore specifico di $\bar{X}$ fornisce informazione sul parametro sottostante. I valori della media campionaria tendono a concentrarsi attorno al valore vero del parametro, e tale concentrazione aumenta al crescere della dimensione del campione $n$.
 
-Ciò spiega perché la distribuzione a posteriori di $\theta$ sarà centrata sul valore osservato di $\bar{X}$, con una dispersione che dipende da $n$.
+Di conseguenza, osservare $\bar{X} = 4.75$ rende plausibile che il parametro che governa il processo generativo dei dati sia vicino a tale valore. Questo è il motivo per cui, nell’inferenza bayesiana, la distribuzione a posteriori di $\theta$ risulta centrata in prossimità del valore osservato di $\bar{X}$, con una dispersione che riflette la quantità di informazione contenuta nei dati.
 :::
 
 ## Legge dei Grandi Numeri {#sec-lln}
 
-La *Legge dei Grandi Numeri* (LGN) è uno dei pilastri della teoria della probabilità e ha profonde implicazioni per l'inferenza statistica.
+La *Legge dei Grandi Numeri* (LGN) è uno dei risultati fondamentali della teoria della probabilità e fornisce una giustificazione matematica cruciale per l’inferenza statistica basata sui dati.
 
 ### Enunciato intuitivo
 
-La LGN afferma che, all'aumentare del numero di osservazioni $n$, la media campionaria $\bar{X}_n$ converge al valore atteso $\theta$:
+In forma intuitiva, la LGN afferma che, all’aumentare del numero di osservazioni $n$, la media campionaria $\bar{X}_n$ tende ad avvicinarsi al valore atteso della variabile casuale, che nel nostro contesto coincide con il parametro $\theta$:
 
 $$
 \bar{X}_n \xrightarrow{n \to \infty} \theta.
 $$
 
-In termini più precisi, esistono due forme:
+Questa convergenza può essere formalizzata in modi diversi. In particolare, si distinguono due versioni principali.
 
-1. **Legge Debole**: $\bar{X}_n$ converge a $\theta$ *in probabilità*, cioè per ogni $\varepsilon > 0$:
-   
+1. **Legge dei Grandi Numeri Debole**
+   La media campionaria converge a $\theta$ *in probabilità*. Formalmente, per ogni $\varepsilon > 0$:
    $$
-   \Pr\bigl(|\bar{X}_n - \theta| > \varepsilon \mid \theta\bigr) \to 0 \quad \text{quando } n \to \infty.
-   $$
-
-2. **Legge Forte**: $\bar{X}_n$ converge a $\theta$ *quasi certamente*, cioè:
-   
-   $$
-   \Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta \; \bigg| \;\theta\right) = 1.
+   \Pr\bigl(|\bar{X}_n - \theta| > \varepsilon \mid \theta\bigr) \to 0
+   \quad \text{quando } n \to \infty.
    $$
 
-### Implicazioni per l'inferenza bayesiana
+2. **Legge dei Grandi Numeri Forte**
+   La media campionaria converge a $\theta$ *quasi certamente*, ossia:
+   $$
+   \Pr\left(\lim_{n \to \infty} \bar{X}_n = \theta ,\bigg|, \theta\right) = 1.
+   $$
 
-La LGN ha un'interpretazione diretta nel framework bayesiano: all'aumentare di $n$, la distribuzione a posteriori di $\theta$ diventa sempre più concentrata attorno al valore vero, *indipendentemente dalla prior iniziale*, a condizione che questa assegni una massa positiva al valore vero.
+Entrambe le formulazioni esprimono l’idea che, con un numero sufficientemente elevato di osservazioni, la media campionaria fornisce una rappresentazione sempre più accurata del parametro che governa il processo generativo dei dati.
 
-In altre parole: **con sufficienti dati, anche credenze iniziali molto diverse convergono alla stessa conclusione**. Questo risultato è rassicurante e mostra la robustezza dell'inferenza bayesiana — l'evidenza empirica finisce sempre per prevalere sulle credenze a priori.
+### Implicazioni per l’inferenza bayesiana
+
+Nel contesto bayesiano, la Legge dei Grandi Numeri ha una conseguenza fondamentale: al crescere della dimensione campionaria, l’informazione contenuta nei dati domina progressivamente quella contenuta nella distribuzione *a priori*. Di conseguenza, la distribuzione *a posteriori* di $\theta$ tende a concentrarsi sempre più attorno al valore vero del parametro.
+
+Più precisamente, se la distribuzione a priori assegna una probabilità positiva a un intorno del valore vero di $\theta$, allora l’accumularsi dei dati porta a una concentrazione della distribuzione a posteriori in prossimità di tale valore. In questo senso, **con un numero sufficiente di osservazioni, ricercatori che partono da credenze iniziali diverse giungeranno a conclusioni sostanzialmente coincidenti**.
+
+Questo risultato evidenzia la robustezza dell’inferenza bayesiana: l’evidenza empirica, se sufficientemente informativa, finisce per prevalere sulle ipotesi iniziali.
 
 ### Simulazione della convergenza campionaria
 
-Esaminiamo un scenario in cui il parametro vero è $\theta = 0.45$. Simuliamo campioni di dimensione crescente per osservare empiricamente il comportamento della media campionaria:
+Per osservare empiricamente il comportamento descritto dalla LGN, consideriamo uno scenario in cui il valore vero del parametro è $\theta = 0.45$. Simuliamo una sequenza di osservazioni bernoulliane e calcoliamo la media campionaria cumulativa al crescere di $n$.
 
 ```{r}
 set.seed(42)
@@ -389,52 +410,53 @@ ggplot(data_plot, aes(x = n, y = mean)) +
            color = "#E15759", size = 4.5)
 ```
 
-**Osservazioni empiriche**:
-nelle fasi iniziali del campionamento, la media campionaria $\bar{X}_n$ presenta ampie e imprevedibili fluttuazioni, riflettendo l'elevata variabilità associata alle piccole dimensioni del campione. Man mano che le osservazioni si accumulano, l'ampiezza delle oscillazioni diminuisce in modo sistematico. Una volta raggiunti campioni sufficientemente ampi, la media campionaria si stabilizza in prossimità del valore parametrico vero.
+**Osservazioni empiriche**
+Nelle fasi iniziali del campionamento, la media campionaria $\bar{X}_n$ mostra ampie fluttuazioni, riflettendo l’elevata incertezza associata a campioni di piccole dimensioni. Con l’aumentare di $n$, tali oscillazioni si riducono progressivamente e la media campionaria si stabilizza in prossimità del valore vero del parametro.
 
 ::: {.callout-important}
-### Il carattere auto-correttivo dell'inferenza bayesiana
 
-La legge dei grandi numeri rivela una proprietà fondamentale: con un numero sufficiente di dati, l'evidenza empirica finisce per prevalere su qualsiasi credenza a priori ragionevole.
+### Il carattere autocorrettivo dell’inferenza bayesiana
 
-Quando due ricercatori partono da convinzioni iniziali diverse, ma nessuna delle due esclude completamente il valore vero del parametro, e osservano la stessa serie di dati empirici, le loro distribuzioni a posteriori convergeranno progressivamente verso conclusioni sostanzialmente identiche.
+La Legge dei Grandi Numeri mette in luce una proprietà essenziale dell’inferenza bayesiana: l’accumularsi dell’evidenza empirica tende a correggere progressivamente eventuali imprecisioni nelle credenze iniziali.
 
-Questo risultato ha un'importanza epistemologica notevole: dimostra che la metodologia bayesiana possiede un carattere intrinsecamente autocorrettivo. Gli eventuali errori contenuti nelle credenze iniziali vengono progressivamente attenuati e infine sovrascritti dall'accumularsi dell'evidenza sperimentale.
+Quando ricercatori diversi partono da distribuzioni a priori differenti, ma nessuna di esse esclude il valore vero del parametro, l’osservazione della stessa sequenza di dati conduce a distribuzioni a posteriori sempre più simili. Questo carattere autocorrettivo conferisce all’approccio bayesiano una forte solidità epistemologica: le conclusioni inferenziali non dipendono in modo arbitrario dalle assunzioni iniziali, ma sono guidate dall’evidenza osservata.
 :::
 
 ### Applicazioni in psicologia
 
-La Legge dei Grandi Numeri ha importanti implicazioni per la ricerca psicologica.
+La Legge dei Grandi Numeri ha importanti implicazioni pratiche per la ricerca psicologica.
 
-Gli *studi pilota*, caratterizzati da dimensioni campionarie ridotte, producono stime soggette a notevole variabilità. Ciò spiega perché le replicazioni con campioni più ampi tendono a generare risultati più stabili e affidabili.
+Negli *studi pilota*, caratterizzati da campioni di piccole dimensioni, le stime sono inevitabilmente soggette a un’elevata variabilità. Questo spiega perché le repliche con campioni più ampi producano risultati più stabili e affidabili.
 
-Le *meta-analisi* sfruttano implicitamente questo principio combinando le evidenze di molti studi, aumentando virtualmente la dimensione del campione complessivo e riducendo l'incertezza associata alla stima degli effetti.
+Le *meta-analisi* sfruttano implicitamente la LGN combinando le informazioni provenienti da molti studi indipendenti, aumentando di fatto la dimensione campionaria complessiva e riducendo l’incertezza sulle stime degli effetti.
 
-Nei *disegni longitudinali*, l'osservazione ripetuta nel tempo degli stessi fenomeni permette di ridurre progressivamente l'incertezza riguardante le caratteristiche stabili dei costrutti indagati.
+Nei *disegni longitudinali*, infine, l’osservazione ripetuta degli stessi individui nel tempo consente di accumulare informazione progressiva sui parametri di interesse, migliorando la precisione delle inferenze riguardanti le caratteristiche stabili dei fenomeni psicologici studiati.
 
 ## Teorema del Limite Centrale
 
-Il Teorema del Limite Centrale (TLC) costituisce uno dei pilastri concettuali più profondi della teoria della probabilità, con conseguenze metodologiche di ampia portata per l'inferenza statistica.
+Il *Teorema del Limite Centrale* (TLC) è uno dei risultati più profondi e generali della teoria della probabilità e riveste un ruolo centrale nella pratica dell’inferenza statistica, inclusa l’inferenza bayesiana.
 
 ### Enunciato formale
 
 ::: {#thm-clt}
-Siano $X_1, X_2, \ldots, X_n$ variabili aleatorie indipendenti e identicamente distribuite con valore atteso $\mu$ e varianza $\sigma^2$ finite. Allora, al crescere di $n$, la distribuzione della media campionaria $\bar{X}_n$ converge verso una distribuzione normale:
+Siano $X_1, X_2, \ldots, X_n$ variabili aleatorie indipendenti e identicamente distribuite, con valore atteso $\mu$ e varianza finita $\sigma^2$. Allora, al crescere di $n$, la distribuzione della media campionaria $\bar{X}_n$ converge verso una distribuzione normale:
 
 $$
-\bar{X}_n \;\dot\sim\; \mathcal{N}\left(\mu, \frac{\sigma^2}{n}\right).
+\bar{X}_n ;\dot\sim; \mathcal{N}!\left(\mu, \frac{\sigma^2}{n}\right),
 $$
 
-dove la notazione $\dot\sim$ indica "approssimativamente distribuito come" per $n$ sufficientemente grande.
+dove la notazione $\dot\sim$ indica che la distribuzione è *approssimativamente* normale per valori di $n$ sufficientemente grandi.
 :::
 
 ### Portata concettuale
 
-La proprietà notevole del TLC risiede nel fatto che la media di un numero elevato di variabili aleatorie indipendenti converge verso una distribuzione normale, *indipendentemente dalla forma della distribuzione sottostante delle variabili originarie*. Questo principio si manifesta in un'ampia gamma di situazioni probabilistiche, incluse variabili distribuite uniformemente, variabili governate da leggi esponenziali, variabili binarie dicotomiche e distribuzioni marcatamente asimmetriche. In tutti questi casi, la distribuzione della media campionaria tende sistematicamente verso la distribuzione normale.
+La proprietà più sorprendente del TLC è che la distribuzione della media campionaria tende alla normalità **indipendentemente dalla forma della distribuzione delle variabili originarie**, purché queste abbiano varianza finita e siano indipendenti.
+
+Ciò significa che variabili provenienti da distribuzioni uniformi, esponenziali, binarie o fortemente asimmetriche producono, una volta mediate su un numero sufficientemente elevato di osservazioni, una media campionaria la cui distribuzione è ben approssimata da una distribuzione normale. Questa regolarità emergente spiega il ruolo ubiquo della distribuzione normale in statistica applicata.
 
 ### Visualizzazione del TLC
 
-Consideriamo una popolazione con distribuzione uniforme (chiaramente non normale):
+Consideriamo una popolazione con distribuzione uniforme, chiaramente non normale:
 
 ```{r}
 set.seed(42)
@@ -455,7 +477,7 @@ ggplot(data.frame(population), aes(x = population)) +
   )
 ```
 
-Ora estraiamo 300 campioni, ciascuno di dimensione $n=30$, e calcoliamo le medie:
+Estraiamo ora 300 campioni, ciascuno di dimensione $n = 30$, e calcoliamo le rispettive medie campionarie:
 
 ```{r}
 sample_size <- 30
@@ -471,10 +493,10 @@ x_bar <- mean(sample_means)
 std <- sd(sample_means)
 
 cat("Media delle medie campionarie:", x_bar, "\n")
-cat("Dev. standard delle medie:", std, "\n")
+cat("Deviazione standard delle medie:", std, "\n")
 ```
 
-Confrontiamo con i valori teorici:
+Confrontiamo questi risultati con i valori teorici:
 
 ```{r}
 mu <- mean(population)
@@ -482,10 +504,10 @@ sigma <- sd(population)
 
 cat("\nValori teorici della popolazione:\n")
 cat("Media:", mu, "\n")
-cat("Dev. standard delle medie (σ/√n):", sigma / sqrt(sample_size), "\n")
+cat("Deviazione standard teorica (σ / √n):", sigma / sqrt(sample_size), "\n")
 ```
 
-Visualizziamo la distribuzione delle medie campionarie con la curva normale teorica sovrapposta:
+Visualizziamo ora la distribuzione delle medie campionarie con la curva normale teorica sovrapposta:
 
 ```{r}
 ggplot(data.frame(sample_means), aes(x = sample_means)) +
@@ -497,37 +519,38 @@ ggplot(data.frame(sample_means), aes(x = sample_means)) +
     alpha = 0.7
   ) +
   stat_function(
-    fun = dnorm, 
+    fun = dnorm,
     args = list(mean = x_bar, sd = std),
     color = "red",
     linewidth = 1.2
   ) +
   labs(
     title = "Distribuzione delle medie campionarie",
-    subtitle = "La curva rossa è la distribuzione normale teorica",
+    subtitle = "La curva rossa rappresenta la distribuzione normale teorica",
     x = "Media campionaria",
     y = "Densità"
   )
 ```
 
-**Osservazione**: nonostante la popolazione sia uniforme (non normale), la distribuzione delle medie è approssimativamente normale.
+**Osservazione**
+Nonostante la popolazione di partenza segua una distribuzione uniforme, la distribuzione delle medie campionarie risulta approssimativamente normale, in accordo con quanto previsto dal Teorema del Limite Centrale.
 
-### Implicazioni per l'inferenza bayesiana
+### Implicazioni per l’inferenza bayesiana
 
-Il Teorema del Limite Centrale ha un'influenza profonda sulla pratica dell'inferenza bayesiana.
+Il Teorema del Limite Centrale ha conseguenze rilevanti anche nel contesto dell’inferenza bayesiana. In presenza di campioni di grandi dimensioni, la distribuzione a posteriori di un parametro tende ad assumere una forma approssimativamente gaussiana, a condizione che la distribuzione a priori sia sufficientemente regolare e non escluda il valore vero del parametro.
 
-In contesti con ampi campioni, la distribuzione a posteriori tende a convergere verso una forma gaussiana, a prescindere dalla configurazione della distribuzione a priori, a condizione che quest'ultima sia sufficientemente regolare. Questa proprietà di regolarità asintotica conferisce robustezza al metodo bayesiano, attenuando l'impatto delle specifiche scelte dei *prior* quando si dispone di abbondante evidenza empirica.
+Questa *normalità asintotica* della distribuzione a posteriori contribuisce alla robustezza dell’approccio bayesiano: al crescere dell’evidenza empirica, l’influenza delle scelte specifiche del prior si attenua, e la forma della posterior è dominata dall’informazione contenuta nei dati.
 
-Questo risultato giustifica l'uso di approssimazioni gaussiane per la distribuzione a posteriori in molte applicazioni pratiche, semplificando notevolmente i calcoli in situazioni in cui forme analitiche esatte risulterebbero complesse o intrattabili.
+Dal punto di vista pratico, questo risultato giustifica l’uso di **approssimazioni gaussiane** per la distribuzione a posteriori in molti contesti applicativi, semplificando notevolmente i calcoli quando soluzioni analitiche esatte risultano complesse o non disponibili.
 
 ### Esempio: approssimazione della distribuzione a posteriori
 
-Consideriamo un contesto di ricerca in psicologia clinica in cui si studia la prevalenza di un particolare sintomo. Supponiamo di adottare un prior uniforme per il parametro $\theta$ e di osservare un campione di 100 soggetti, tra i quali 45 manifestano il sintomo.
+Consideriamo uno studio in ambito di psicologia clinica volto a stimare la prevalenza di un determinato sintomo. Supponiamo di adottare una distribuzione a priori uniforme per il parametro $\theta$ e di osservare un campione di $n = 100$ soggetti, di cui $y = 45$ presentano il sintomo.
 
-Per la dimensione del campione considerata, la distribuzione a posteriori può essere approssimata mediante una distribuzione normale:
+Per una dimensione campionaria di questo ordine di grandezza, la distribuzione a posteriori può essere approssimata mediante una distribuzione normale:
 
 $$
-\theta \mid y \;\dot\sim\; \mathcal{N}\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
+\theta \mid y ;\dot\sim; \mathcal{N}!\left(\frac{45}{100}, \frac{0.45 \times 0.55}{100}\right).
 $$
 
 ```{r}
@@ -547,89 +570,95 @@ cat("Deviazione standard a posteriori:", round(posterior_sd, 4), "\n")
 lower <- qnorm(0.025, mean = posterior_mean, sd = posterior_sd)
 upper <- qnorm(0.975, mean = posterior_mean, sd = posterior_sd)
 
-cat("\nIntervallo di credibilità 95%: [", round(lower, 3), ",", round(upper, 3), "]\n")
+cat("\nIntervallo di credibilità 95%: [",
+    round(lower, 3), ",", round(upper, 3), "]\n")
 ```
 
-La visualizzazione della distribuzione a posteriori approssimata:
+La distribuzione a posteriori approssimata può essere visualizzata come segue:
 
 ```{r}
 theta_grid <- seq(0.25, 0.65, length.out = 1000)
-posterior_density <- dnorm(theta_grid, mean = posterior_mean, sd = posterior_sd)
+posterior_density <- dnorm(theta_grid,
+                           mean = posterior_mean,
+                           sd = posterior_sd)
 
-ggplot(data.frame(theta = theta_grid, density = posterior_density), 
+ggplot(data.frame(theta = theta_grid,
+                  density = posterior_density),
        aes(x = theta, y = density)) +
   geom_line(linewidth = 1.2, color = "#2E86AB") +
-  geom_area(aes(x = theta, y = density), 
-            data = subset(data.frame(theta = theta_grid, density = posterior_density),
-                         theta >= lower & theta <= upper),
-            fill = "#A23B72", alpha = 0.3) +
-  geom_vline(xintercept = c(lower, upper), 
-             linetype = "dashed", 
-             color = "#F18F01", size = 0.8) +
+  geom_area(
+    data = subset(data.frame(theta = theta_grid,
+                             density = posterior_density),
+                  theta >= lower & theta <= upper),
+    aes(x = theta, y = density),
+    fill = "#A23B72", alpha = 0.3
+  ) +
+  geom_vline(xintercept = c(lower, upper),
+             linetype = "dashed",
+             color = "#F18F01",
+             linewidth = 0.8) +
   labs(
     title = "Distribuzione a posteriori (approssimazione normale)",
-    subtitle = "Intervallo di credibilità al 95% per la proporzione del sintomo",
-    x = "θ (proporzione nella popolazione)",
+    subtitle = "Intervallo di credibilità al 95% per la proporzione",
+    x = "$\\theta$ (proporzione nella popolazione)",
     y = "Densità a posteriori"
   ) +
   theme_minimal()
 ```
 
-**Interpretazione dell'intervallo di credibilità.**
-
-L'intervallo [0.352, 0.548] può essere interpretato in modo probabilistico diretto: *alla luce dei dati osservati, c'è una probabilità del 95% che la vera proporzione nella popolazione si collochi tra il 35.2% e il 54.8%*. Questa interpretazione è intuitiva e coerente con il modo in cui i ricercatori concepiscono l'incertezza parametrica.
-
+**Interpretazione dell’intervallo di credibilità**
+L’intervallo $[0.352,, 0.548]$ ammette un’interpretazione probabilistica diretta: alla luce dei dati osservati e del modello adottato, vi è una probabilità del 95% che la vera proporzione nella popolazione si collochi tra il 35.2% e il 54.8%. Questa interpretazione è coerente con il modo in cui i ricercatori ragionano sull’incertezza parametrica e costituisce uno dei principali punti di forza dell’approccio bayesiano.
 ## Precisione, informazione ed errore standard
 
-### L'errore standard come misura di informatività
+### L’errore standard come misura di informatività
 
-L'*errore standard* di una statistica rappresenta la deviazione standard della sua distribuzione campionaria. Nel caso della media campionaria:
+L’*errore standard* di una statistica è definito come la deviazione standard della sua distribuzione campionaria. Nel caso della media campionaria, esso è dato da:
 
 $$
 \text{SE}(\bar{X}) = \sqrt{\frac{\sigma^2}{n}}.
 $$
 
-Questa misura quantifica il grado di informazione contenuto nei dati riguardo al parametro di interesse. Un errore standard ridotto segnala che i dati forniscono un'evidenza precisa su $\theta$, il che si traduce in una distribuzione a posteriori concentrata attorno alla stima. Al contrario, un errore standard ampio indica dati scarsamente informativi che si traducono in una distribuzione a posteriori più dispersa.
+Questa quantità fornisce una misura diretta dell’informazione contenuta nei dati rispetto al parametro di interesse. Un errore standard ridotto indica che la distribuzione campionaria della statistica è fortemente concentrata, segnalando che i dati forniscono un’evidenza precisa su $\theta$. In un contesto bayesiano, ciò si traduce in una distribuzione a posteriori stretta e ben localizzata. Al contrario, un errore standard elevato indica una maggiore variabilità campionaria e, di conseguenza, una distribuzione a posteriori più dispersa.
 
 ### Precisione come inverso della varianza
 
-Nell'ambito della statistica bayesiana, risulta particolarmente utile concettualizzare l'incertezza attraverso la nozione di *precisione*, definita come il reciproco della varianza:
+Nell’inferenza bayesiana è spesso utile esprimere l’incertezza non in termini di varianza, ma attraverso la nozione complementare di *precisione*, definita come il reciproco della varianza:
 
 $$
 \text{Precisione} = \frac{1}{\text{Varianza}}.
 $$
 
-Applicando questo concetto alla media campionaria:
+Applicando questa definizione alla media campionaria si ottiene:
 
 $$
 \text{Precisione}(\bar{X} \mid \theta) = \frac{n}{\sigma^2}.
 $$
 
-Questa formulazione rivela una proprietà notevole: **la precisione cresce in proporzione diretta con la dimensione campionaria $n$**. Questa relazione lineare è più intuitiva dell'andamento corrispondente della varianza, che decresce secondo il fattore $1/n$.
+Questa espressione mette in evidenza una proprietà fondamentale: **la precisione cresce linearmente con la dimensione campionaria $n$**. Tale relazione risulta spesso più intuitiva rispetto alla descrizione in termini di varianza, che decresce come $1/n$.
 
-Molti modelli bayesiani adottano esplicitamente la precisione come parametro fondamentale. La distribuzione normale, per esempio, viene spesso parametrizzata nella forma $X \sim \mathcal{N}(\mu, \tau)$, dove $\tau = 1/\sigma^2$ rappresenta la precisione. Questa scelta parametrica evidenzia due principi fondamentali:
+In molti modelli bayesiani la precisione viene adottata come parametro primario. Ad esempio, una distribuzione normale può essere parametrizzata come $X \sim \mathcal{N}(\mu, \tau)$, dove $\tau = 1/\sigma^2$ rappresenta la precisione. Questa scelta rende immediatamente trasparenti due principi chiave:
 
-- un valore di precisione elevato corrisponde a un grado di incertezza ridotto;
-- la combinazione di informazioni provenienti da fonti indipendenti si realizza attraverso la semplice **somma** delle rispettive precisioni.
+* valori elevati di precisione corrispondono a una minore incertezza;
+* l’informazione proveniente da fonti indipendenti si combina tramite la **somma delle precisioni**.
 
 ### Combinazione di informazioni: prior e dati
 
-Un aspetto particolarmente elegante del paradigma bayesiano risiede nella sua capacità di integrare in modo coerente e formale diverse fonti di informazione. In questo contesto, la conoscenza pregressa sul parametro di interesse è codificata nella distribuzione a priori, la cui incertezza è quantificata da una precisione $\tau_0$. Parallelamente, l'informazione contenuta nei dati osservati è sintetizzata dalla verosimiglianza, la cui precisione, espressa come $n/\sigma^2$, misura quantitativamente l'informatività dell'evidenza empirica.
+Uno degli aspetti più eleganti dell’approccio bayesiano è la sua capacità di integrare formalmente diverse fonti di informazione. La conoscenza pregressa sul parametro $\theta$ è codificata nella distribuzione a priori, la cui incertezza può essere espressa mediante una precisione $\tau_0$. L’informazione fornita dai dati è invece riassunta dalla verosimiglianza, la cui precisione, nel caso di una media campionaria normale con varianza nota, è pari a $n/\sigma^2$.
 
-La sintesi di queste due componenti avviene nella distribuzione a posteriori, la cui precisione $\tau_{\text{post}}$ è data dalla semplice somma:
+Nel modello normale–normale, la distribuzione a posteriori ha una precisione data dalla semplice somma delle due componenti:
 
 $$
 \tau_{\text{post}} = \tau_0 + \frac{n}{\sigma^2}.
 $$
 
-Questa relazione formalizza in modo trasparente il processo di accumulo della conoscenza: ogni nuova osservazione contribuisce ad aumentare la precisione complessiva della nostra inferenza, perfezionando progressivamente la nostra comprensione del fenomeno in esame. L'approccio bayesiano fornisce quindi un meccanismo matematicamente rigoroso per aggiornare le credenze, in cui il peso relativo attribuito alla conoscenza pregressa e ai nuovi dati è determinato esplicitamente dalle rispettive precisioni.
+Questa relazione fornisce una rappresentazione estremamente chiara del processo di aggiornamento bayesiano: ogni nuova osservazione contribuisce ad aumentare la precisione complessiva dell’inferenza. Il peso relativo attribuito alla conoscenza pregressa e ai nuovi dati è determinato in modo esplicito dalle rispettive precisioni, rendendo il processo di accumulo della conoscenza completamente trasparente.
 
 #### Esempio: sintesi di evidenze da studi multipli
 
-Si consideri uno scenario comune nella ricerca psicologica, in cui due studi indipendenti investigano lo stesso costrutto teorico, denotato da $\theta$, ma presentano dimensioni campionarie e livelli di precisione differenti.
+Consideriamo uno scenario tipico nella ricerca psicologica, in cui due studi indipendenti investigano lo stesso costrutto teorico $\theta$, ma differiscono per dimensione campionaria e precisione delle stime.
 
-**Studio A**: $n_A = 50$, $\bar{X}_A = 0.42$, $\text{SE}_A = 0.07$.
-**Studio B**: $n_B = 200$, $\bar{X}_B = 0.38$, $\text{SE}_B = 0.035$.
+* **Studio A**: $n_A = 50$, $\bar{X}_A = 0.42$, $\text{SE}_A = 0.07$.
+* **Studio B**: $n_B = 200$, $\bar{X}_B = 0.38$, $\text{SE}_B = 0.035$.
 
 ```{r}
 # Parametri degli studi
@@ -645,9 +674,9 @@ cat("Precisione Studio B:", round(precision_B, 2), "\n")
 cat("Rapporto di precisione B/A:", round(precision_B / precision_A, 2), "\n")
 ```
 
-L'analisi delle precisioni rivela che lo Studio B presenta un'incertezza approssimativamente quattro volte inferiore rispetto allo Studio A, risultato coerente con la sua dimensione campionaria quadruplicata.
+Le precisioni calcolate mostrano che lo Studio B è circa quattro volte più informativo dello Studio A, in accordo con la sua dimensione campionaria quadruplicata.
 
-Procedendo con una sintesi bayesiana delle evidenze:
+Procediamo ora alla sintesi bayesiana delle evidenze:
 
 ```{r}
 # Combinazione delle informazioni
@@ -657,62 +686,67 @@ se_combined <- sqrt(1 / precision_combined)
 
 cat("Stima combinata:", round(mean_combined, 3), "\n")
 cat("Errore standard combinato:", round(se_combined, 4), "\n")
-cat("\nIntervallo di credibilità 95% per la sintesi:\n")
-cat("[", round(mean_combined - 1.96*se_combined, 3), ",",
-    round(mean_combined + 1.96*se_combined, 3), "]\n")
+cat("\nIntervallo di credibilità 95%:\n")
+cat("[", round(mean_combined - 1.96 * se_combined, 3), ",",
+    round(mean_combined + 1.96 * se_combined, 3), "]\n")
 ```
 
-La stima combinata risulta più prossima al valore osservato nello Studio B, riflettendo il maggiore contributo informativo di questo studio dovuto alla sua superiore precisione. L'approccio bayesiano attribuisce automaticamente un peso maggiore alle evidenze più affidabili, producendo una sintesi ottimale che integra coerentemente tutte le informazioni disponibili. 
+La stima combinata risulta più vicina al valore osservato nello Studio B, riflettendo il suo maggiore contributo informativo. In modo del tutto automatico, l’approccio bayesiano assegna un peso maggiore alle evidenze più precise, producendo una sintesi coerente e ottimale di tutte le informazioni disponibili.
 
 ## Convergenza bayesiana: da credenze diverse a conclusioni condivise
 
 ### Il teorema di convergenza bayesiana
 
-Un risultato teorico fondamentale riguarda il comportamento asintotico della distribuzione a posteriori con l'aumentare della dimensione del campione.
+Un risultato teorico centrale dell’inferenza bayesiana riguarda il comportamento asintotico della distribuzione a posteriori al crescere della dimensione campionaria. Questo risultato è noto come *consistenza bayesiana*.
 
 ::: {#thm-bayesian-consistency}
-## Consistenza bayesiana
 
-Sotto opportune condizioni di regolarità, se la distribuzione a priori assegna una densità positiva al valore vero del parametro $\theta_0$, allora:
+### Consistenza bayesiana
+
+Sotto opportune condizioni di regolarità sul modello statistico e sulla distribuzione a priori, se la prior assegna una densità positiva al valore vero del parametro $\theta_0$, allora, al crescere del numero di osservazioni:
 
 1. la distribuzione a posteriori converge verso una distribuzione degenere concentrata in $\theta_0$:
-   
    $$
-   p(\theta \mid \mathbf{X}_n) \xrightarrow{n \to \infty} \delta(\theta - \theta_0).
+   p(\theta \mid \mathbf{X}_n) \xrightarrow{n \to \infty} \delta(\theta - \theta_0);
    $$
 
 2. la media a posteriori converge al valore vero del parametro:
-   
    $$
-   \mathbb{E}[\theta \mid \mathbf{X}_n] \xrightarrow{n \to \infty} \theta_0.
+   \mathbb{E}[\theta \mid \mathbf{X}_n] \xrightarrow{n \to \infty} \theta_0;
    $$
 
-3. la varianza a posteriori tende asintoticamente a zero:
-   
+3. la varianza a posteriori tende a zero:
    $$
    \text{Var}(\theta \mid \mathbf{X}_n) \xrightarrow{n \to \infty} 0.
    $$
 :::
 
+Questi risultati formalizzano matematicamente l’idea che, con dati sufficienti, l’incertezza epistemica sul parametro venga progressivamente eliminata.
+
 ### Interpretazione sostantiva
 
-Questo teorema rivela proprietà essenziali dell'inferenza bayesiana:
+Il teorema di consistenza bayesiana mette in luce alcune proprietà fondamentali dell’inferenza bayesiana.
 
-1. **Robustezza asintotica alle specificazioni a priori**: in presenza di dati sufficienti, la scelta della distribuzione a priori perde progressivamente influenza, a condizione che non escluda completamente il valore vero del parametro.
+1. **Robustezza asintotica rispetto alla prior**
+   In presenza di un numero elevato di osservazioni, l’influenza della distribuzione a priori si attenua progressivamente, a condizione che essa non escluda il valore vero del parametro.
 
-2. **Capacità auto-correttiva**: qualora le credenze iniziali si rivelino inadeguate, l'evidenza empirica opera una correzione progressiva della distribuzione a posteriori.
+2. **Carattere autocorrettivo**
+   Anche se le credenze iniziali sono imprecise o parzialmente errate, l’evidenza empirica opera una correzione graduale, guidando la distribuzione a posteriori verso il valore vero.
 
-3. **Velocità di convergenza**: la varianza a posteriori decresce proporzionalmente a $1/n$.
+3. **Velocità di convergenza**
+   In molti modelli regolari, la varianza a posteriori decresce con ordine $1/n$, in accordo con quanto osservato per la varianza della media campionaria e con le approssimazioni asintotiche discusse in precedenza.
+
+Queste proprietà forniscono una giustificazione teorica forte all’uso dell’inferenza bayesiana come strumento affidabile di apprendimento dai dati.
 
 ### Illustrazione: convergenza con prior differenti
 
-Consideriamo tre ricercatori con concezioni iniziali differenti riguardo al parametro $\theta$:
+Consideriamo tre ricercatori che partono da concezioni iniziali diverse riguardo al parametro $\theta$:
 
-- **ricercatore A**: prior $\text{Beta}(2, 8)$ — propenso a credere in valori bassi di $\theta$ (attorno a 0.2);
-- **ricercatore B**: prior $\text{Beta}(8, 2)$ — incline a valori elevati di $\theta$ (attorno a 0.8);
-- **ricercatore C**: prior $\text{Beta}(1, 1)$ — uniforme, massima incertezza iniziale.
+* **Ricercatore A**: prior $\text{Beta}(2, 8)$, che privilegia valori bassi di $\theta$ (circa 0.2);
+* **Ricercatore B**: prior $\text{Beta}(8, 2)$, orientata verso valori elevati di $\theta$ (circa 0.8);
+* **Ricercatore C**: prior $\text{Beta}(1, 1)$, uniforme, che rappresenta una condizione di massima incertezza iniziale.
 
-Il valore del parametro vero è $\theta_0 = 0.45$. Osserviamo l'evoluzione delle distribuzioni a posteriori:
+Il valore vero del parametro è $\theta_0 = 0.45$. Osserviamo come evolvono le rispettive distribuzioni a posteriori al crescere della dimensione campionaria.
 
 ```{r}
 # Parametri della simulazione
@@ -724,13 +758,12 @@ prior_A <- c(2, 8)
 prior_B <- c(8, 2)
 prior_C <- c(1, 1)
 
-# Funzione per il calcolo delle distribuzioni a posteriori
+# Funzione per il calcolo delle posteriori
 compute_posterior <- function(prior, n, theta) {
-  y <- rbinom(1, n, theta)  # numero di successi osservati
+  y <- rbinom(1, n, theta)
   c(prior[1] + y, prior[2] + n - y)
 }
 
-# Simulazione
 set.seed(42)
 posteriors <- list()
 
@@ -748,66 +781,79 @@ for (n in n_observations) {
       dbeta(theta_grid, post_B[1], post_B[2]),
       dbeta(theta_grid, post_C[1], post_C[2])
     ),
-    researcher = rep(c("A (prior conservativo)", 
-                       "B (prior ottimista)", 
-                       "C (prior non informativo)"), 
+    researcher = rep(c("A (prior conservativo)",
+                       "B (prior ottimista)",
+                       "C (prior non informativo)"),
                      each = length(theta_grid)),
     n = n
   )
 }
 
 all_posteriors <- do.call(rbind, posteriors)
-all_posteriors$n <- factor(all_posteriors$n, 
+all_posteriors$n <- factor(all_posteriors$n,
                            levels = n_observations,
                            labels = paste("n =", n_observations))
 
-ggplot(all_posteriors, aes(x = theta, y = density, color = researcher, linetype = researcher)) +
+ggplot(all_posteriors,
+       aes(x = theta, y = density,
+           color = researcher, linetype = researcher)) +
   geom_line(linewidth = 1.2) +
-  geom_vline(xintercept = theta_true, linetype = "dashed", 
-             color = "#E15759", linewidth = 1.2, alpha = 0.8) +
+  geom_vline(xintercept = theta_true,
+             linetype = "dashed",
+             color = "#E15759",
+             linewidth = 1.2) +
   facet_wrap(~ n, ncol = 2, scales = "free_y") +
   labs(
     title = "Convergenza bayesiana con prior differenti",
-    subtitle = "La linea verticale indica il valore parametrico vero θ = 0.45",
+    subtitle = "La linea verticale indica il valore vero θ = 0.45",
     x = "Parametro θ",
     y = "Densità a posteriori",
     color = "Ricercatore",
     linetype = "Ricercatore"
   ) +
-  scale_color_manual(values = c("#4E79A7", "#59A14F", "#EDC948")) +
   theme_minimal() +
   theme(legend.position = "bottom",
         plot.title = element_text(face = "bold"))
 ```
 
-**Osservazioni empiriche**:
+**Osservazioni empiriche**
 
-1. con $n=10$ osservazioni, le distribuzioni a posteriori riflettono marcatamente le diverse concezioni a priori;
-2. con $n=50$ osservazioni, inizia a manifestarsi un processo di convergenza;
-3. con $n=200$ osservazioni, le distribuzioni a posteriori risultano sostanzialmente sovrapposte;
-4. con $n=1000$ osservazioni, le distribuzioni sono praticamente indistinguibili.
+1. Con $n = 10$ osservazioni, le distribuzioni a posteriori riflettono fortemente le differenze tra le prior.
+2. Con $n = 50$, emerge un chiaro processo di avvicinamento.
+3. Con $n = 200$, le posteriori risultano ampiamente sovrapposte.
+4. Con $n = 1000$, le differenze diventano praticamente impercettibili.
 
-**Implicazioni per la ricerca scientifica.**
+### Implicazioni per la ricerca scientifica
 
-1. **Soggettività controllata**: sebbene i ricercatori possano iniziare con concezioni a priori diverse, l'evidenza empirica conduce progressivamente a conclusioni condivise.
+1. **Soggettività controllata**
+   Sebbene i ricercatori possano partire da credenze iniziali diverse, l’evidenza empirica conduce progressivamente a conclusioni condivise.
 
-2. **Criticità della dimensione campionaria**: con campioni di modesta entità, le specificazioni a priori mantengono una forte influenza; con campioni ampi, l'evidenza domina l'inferenza.
+2. **Ruolo cruciale della dimensione campionaria**
+   Con campioni piccoli, le specificazioni a priori esercitano un’influenza rilevante; con campioni ampi, l’inferenza è dominata dai dati.
 
-3. **Base per la replicabilità**: studi condotti con prior ragionevoli e dimensioni campionarie adeguate convergono verso conclusioni simili.
+3. **Fondamento teorico della replicabilità**
+   Studi che utilizzano prior ragionevoli e raccolgono dati sufficienti tendono a convergere verso risultati simili, fornendo una base solida per la replicabilità scientifica.
 
-## Incertezza, distorsione sistematica e limiti dell'inferenza
+## Incertezza, distorsione sistematica e limiti dell’inferenza
 
-### L'errore standard quantifica solo l'incertezza campionaria
+### L’errore standard quantifica solo l’incertezza campionaria
 
-È fondamentale comprendere che l'errore standard, così come la dispersione della distribuzione a posteriori, misura esclusivamente l'incertezza epistemica derivante dalla finitezza del campione. Tale misura non coglie né mitiga gli errori sistematici che possono compromettere la validità del processo di ricerca.
+È essenziale chiarire che l’errore standard, così come la dispersione della distribuzione a posteriori, misura esclusivamente l’incertezza epistemica dovuta alla variabilità campionaria. In altre parole, esso quantifica quanto le stime potrebbero variare se l’esperimento fosse ripetuto più volte nelle stesse condizioni.
+
+Questa misura non fornisce alcuna informazione sulla presenza di errori sistematici nel disegno della ricerca, nel processo di campionamento o negli strumenti di misurazione. Di conseguenza, una stima può essere estremamente precisa dal punto di vista statistico e, al tempo stesso, sostanzialmente errata dal punto di vista scientifico.
 
 ### Fonti di distorsione che persistono
 
-**Distorsione da selezione**: se si intende stimare la prevalenza dei disturbi d'ansia attraverso un campione di volontari, gli individui con sintomi più gravi potrebbero avere una minore o maggiore propensione a partecipare. Anche con campioni di grandi dimensioni, la stima risulterebbe sistematicamente distorta.
+Alcune fonti di distorsione non vengono attenuate dall’aumento della dimensione campionaria e non sono catturate dall’errore standard.
 
-**Distorsione da risposta**: se si indaga la frequenza di pensieri negativi auto-riferiti, la desiderabilità sociale può indurre i partecipanti a sottostimare la frequenza effettiva. Si ottiene una stima di elevata precisione statistica, ma riferita a un costrutto distorto.
+**Distorsione da selezione**
+Se la prevalenza dei disturbi d’ansia viene stimata attraverso un campione di volontari, gli individui con sintomi più gravi potrebbero essere sovra- o sotto-rappresentati. Anche in presenza di campioni molto ampi, la stima risultante sarebbe sistematicamente distorta rispetto alla popolazione di riferimento.
 
-**Errori di misurazione**: se lo strumento di valutazione non coglie adeguatamente il costrutto teorico o presenta bassa affidabilità, le inferenze statistiche risulteranno compromesse. L'incremento della dimensione del campione non risolve problemi di validità e affidabilità.
+**Distorsione da risposta**
+Nello studio di costrutti auto-riferiti, come la frequenza di pensieri negativi, la desiderabilità sociale può indurre i partecipanti a fornire risposte sistematicamente attenuate. In questo caso si ottiene una stima statisticamente precisa, ma riferita a una rappresentazione distorta del fenomeno.
+
+**Errori di misurazione**
+Se lo strumento utilizzato presenta bassa affidabilità o non coglie adeguatamente il costrutto teorico di interesse, l’inferenza statistica risulta compromessa. L’aumento della dimensione campionaria non corregge problemi di validità o di qualità della misurazione: produce semplicemente stime più precise di una quantità mal definita.
 
 ### Rappresentazione visiva: precisione versus accuratezza
 
@@ -815,31 +861,26 @@ ggplot(all_posteriors, aes(x = theta, y = density, color = researcher, linetype 
 #| echo: false
 set.seed(42)
 
-# Simulazione di quattro scenari inferenziali
 n_points <- 100
 
-# Scenario 1: Condizioni ottimali
 s1 <- data.frame(
   x = rnorm(n_points, mean = 0, sd = 0.3),
   y = rnorm(n_points, mean = 0, sd = 0.3),
   scenario = "Alta precisione,\nalta accuratezza"
 )
 
-# Scenario 2: Precisione ingannevole
 s2 <- data.frame(
   x = rnorm(n_points, mean = 2, sd = 0.3),
   y = rnorm(n_points, mean = 2, sd = 0.3),
   scenario = "Alta precisione,\nbassa accuratezza"
 )
 
-# Scenario 3: Accuratezza con dispersione
 s3 <- data.frame(
   x = rnorm(n_points, mean = 0, sd = 1),
   y = rnorm(n_points, mean = 0, sd = 1),
   scenario = "Bassa precisione,\nalta accuratezza"
 )
 
-# Scenario 4: Condizioni deficitarie
 s4 <- data.frame(
   x = rnorm(n_points, mean = 2, sd = 1),
   y = rnorm(n_points, mean = 2, sd = 1),
@@ -850,9 +891,9 @@ all_scenarios <- rbind(s1, s2, s3, s4)
 
 ggplot(all_scenarios, aes(x = x, y = y)) +
   geom_point(alpha = 0.2, color = "#4E79A7") +
-  geom_point(aes(x = 0, y = 0), 
-             color = "#E15759", 
-             size = 5, 
+  geom_point(aes(x = 0, y = 0),
+             color = "#E15759",
+             size = 5,
              shape = 4,
              stroke = 2) +
   facet_wrap(~ scenario, ncol = 2) +
@@ -871,40 +912,42 @@ ggplot(all_scenarios, aes(x = x, y = y)) +
   )
 ```
 
-**Principio fondamentale**: la condizione più critica nell'inferenza statistica si verifica quando si combina un'elevata precisione con una scarsa accuratezza. In questo scenario, i metodi statistici generano una falsa certezza riguardo a conclusioni sistematicamente distorte. I campioni di grandi dimensioni, quando affetti da bias sistematici, generano stime sostanzialmente errate, ma che appaiono tuttavia accompagnate da livelli di confidenza ingiustificatamente elevati. Questo paradosso rappresenta uno dei rischi più insidiosi nell'interpretazione dei risultati quantitativi, in quanto l'apparente robustezza statistica può mascherare errori sistematici nel disegno della ricerca o nel processo di misurazione.
+**Principio fondamentale**
+La situazione più critica nell’inferenza statistica si verifica quando un’elevata precisione si accompagna a una scarsa accuratezza. In questo scenario, i metodi statistici producono una falsa sensazione di certezza attorno a conclusioni sistematicamente distorte. Campioni molto grandi, se affetti da bias strutturali, conducono a stime altamente precise ma sostanzialmente errate. Questo paradosso rappresenta uno dei rischi più insidiosi dell’analisi quantitativa, poiché l’apparente solidità statistica può mascherare problemi metodologici profondi.
 
 ::: {.callout-warning title="Il pericolo della falsa precisione"}
 
-Un intervallo di credibilità particolarmente ristretto può creare l'illusione di una conoscenza estremamente precisa. È fondamentale riconoscere che tale intervallo quantifica esclusivamente l'incertezza campionaria, senza catturare l'affidabilità complessiva del risultato scientifico.
+Un intervallo di credibilità particolarmente ristretto può indurre l’illusione di una conoscenza estremamente accurata. È cruciale ricordare che tale intervallo quantifica esclusivamente l’incertezza dovuta alla variabilità campionaria.
 
-Se nel disegno sperimentale, negli strumenti di misurazione o nei processi di campionamento sono presenti distorsioni sistematiche, il vero valore del parametro oggetto di studio potrebbe trovarsi ben al di fuori dei limiti dell'intervallo calcolato. L'inferenza bayesiana, sebbene potente nel quantificare l'incertezza attribuibile alla variabilità campionaria, non dispone degli strumenti per identificare o correggere gli errori metodologici di fondo.
+In presenza di distorsioni sistematiche nel campionamento, nella misurazione o nel disegno sperimentale, il valore vero del parametro potrebbe collocarsi ben al di fuori dei limiti dell’intervallo calcolato. L’inferenza bayesiana, pur essendo uno strumento potente per la quantificazione dell’incertezza campionaria, non è in grado di identificare né correggere automaticamente errori metodologici di fondo.
 
 **La precisione statistica non deve mai essere confusa con la validità scientifica.**
 :::
 
 ### Strategie di mitigazione
 
-Per contrastare il rischio della falsa precisione, è possibile adottare diverse strategie metodologiche. Una progettazione della ricerca metodologicamente rigorosa, che includa strategie di campionamento probabilistico, protocolli standardizzati e strumenti dotati di adeguate proprietà psicometriche, rappresenta il primo baluardo contro le distorsioni sistematiche. L'approccio bayesiano offre inoltre strumenti analitici specifici, come le analisi di sensibilità, che permettono di incorporare esplicitamente l'incertezza relativa alla qualità dei dati mediante distribuzioni a priori progettate per modellare possibili errori di misurazione.
+La prevenzione della falsa precisione richiede innanzitutto una progettazione della ricerca metodologicamente solida. Campionamento probabilistico, protocolli standardizzati e strumenti con adeguate proprietà psicometriche costituiscono il primo livello di difesa contro le distorsioni sistematiche.
 
-Un ulteriore sviluppo è rappresentato dalla modellazione gerarchica che, grazie alla sua specificazione, permette di catturare le molteplici fonti di variabilità e distorsione presenti nei dati, isolando le diverse componenti di incertezza. Infine, la trasparenza epistemica, che include il riconoscimento esplicito dei limiti metodologici, rimane fondamentale: gli intervalli di credibilità mantengono la loro validità interpretativa solo nel contesto delle assunzioni del modello statistico adottato e la loro violazione può compromettere le conclusioni inferenziali.
+L’approccio bayesiano offre inoltre strumenti analitici specifici, come le analisi di sensibilità, che consentono di valutare la robustezza delle conclusioni rispetto a diverse assunzioni. In contesti più complessi, la modellazione gerarchica permette di rappresentare esplicitamente molteplici fonti di variabilità e potenziali distorsioni, separando le diverse componenti di incertezza.
 
+Infine, la trasparenza epistemica rimane un principio irrinunciabile. Gli intervalli di credibilità e le distribuzioni a posteriori sono validi solo nel contesto delle assunzioni del modello adottato; il riconoscimento esplicito dei limiti metodologici è parte integrante di un’inferenza scientificamente responsabile.
 ## Verso la verosimiglianza: come i dati informano le credenze
 
-In questo capitolo abbiamo esplorato le proprietà matematiche fondamentali che governano il comportamento della media campionaria e, più in generale, la relazione tra dati e parametri. L'analisi ha rivelato che la media campionaria è centrata sul parametro, come espresso dalla relazione $\mathbb{E}[\bar{X}] = \theta$, e che la sua variabilità diminuisce proporzionalmente all'aumentare della dimensione campionaria secondo la legge $\text{Var}(\bar{X}) = \sigma^2/n$. Abbiamo inoltre osservato come essa converga al valore vero con l'accumularsi dei dati, in accordo con la Legge dei Grandi Numeri, e come la sua distribuzione tenda asintoticamente verso la normale per effetto del Teorema del Limite Centrale.
+In questo capitolo abbiamo esaminato le proprietà matematiche fondamentali che governano il comportamento della media campionaria e, più in generale, il modo in cui i dati si relazionano ai parametri di interesse. Abbiamo visto che la media campionaria è centrata sul parametro, come espresso dalla relazione $\mathbb{E}[\bar{X}] = \theta$, e che la sua variabilità diminuisce con l’aumentare della dimensione campionaria secondo la legge $\text{Var}(\bar{X}) = \sigma^2 / n$. Abbiamo inoltre osservato che, al crescere del numero di osservazioni, la media campionaria converge al valore vero in accordo con la Legge dei Grandi Numeri e che la sua distribuzione tende asintoticamente alla normale per effetto del Teorema del Limite Centrale.
 
-Ma come si traducono concretamente queste proprietà nell'aggiornamento delle credenze bayesiane? La risposta risiede nella **funzione di verosimiglianza**, che costituirà l'oggetto di uno dei prossimi capitoli. La verosimiglianza formalizza il meccanismo attraverso cui i dati "parlano": per ogni possibile valore del parametro $\theta$, essa quantifica quanto bene quel valore spiega le osservazioni raccolte. È proprio la verosimiglianza che, combinata con la distribuzione a priori mediante il teorema di Bayes, genera la distribuzione a posteriori.
+Resta ora da chiarire come queste proprietà si traducano operativamente nell’aggiornamento delle credenze bayesiane. La risposta risiede nella **funzione di verosimiglianza**, che costituisce il cuore del meccanismo inferenziale e sarà oggetto di un capitolo successivo. La verosimiglianza formalizza il modo in cui i dati informano le credenze: per ogni possibile valore del parametro $\theta$, essa quantifica quanto tale valore renda plausibili le osservazioni raccolte.
 
-Le proprietà matematiche esaminate in questo capitolo, come la centratura, la precisione crescente e la convergenza, trovano la loro espressione formale nella verosimiglianza. Comprendere a fondo queste proprietà risulta quindi essenziale per apprezzare il funzionamento dell'inferenza bayesiana e per interpretare correttamente i risultati che da essa scaturiscono.
+È proprio attraverso la verosimiglianza che le informazioni contenute nei dati vengono combinate con la distribuzione a priori mediante il teorema di Bayes, generando la distribuzione a posteriori. Le proprietà analizzate in questo capitolo — centratura, precisione crescente e convergenza — trovano nella verosimiglianza la loro espressione formale. Comprenderle a fondo è quindi essenziale per interpretare correttamente il funzionamento dell’inferenza bayesiana e il significato delle conclusioni che essa produce.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Questo capitolo ha esplorato le modalità attraverso cui quantificare sistematicamente l'incertezza quando si traggono conclusioni da evidenze limitate. Le proprietà matematiche fondamentali della media campionaria rivelano che essa è centrata sul parametro della popolazione, giustificando così l'uso dei dati per trarre inferenze affidabili. La precisione delle nostre stime aumenta sistematicamente con l'aumentare del numero di osservazioni, poiché la variabilità diminuisce secondo il fattore $1/n$. La Legge dei Grandi Numeri, inoltre, garantisce la convergenza delle nostre inferenze verso i valori veri. Il Teorema del Limite Centrale fornisce inoltre il fondamento teorico per le approssimazioni distribuzionali, cruciali nella pratica statistica.
+In questo capitolo abbiamo esaminato come sia possibile quantificare in modo sistematico l’incertezza quando si traggono conclusioni a partire da evidenze limitate. Le proprietà matematiche fondamentali della media campionaria mostrano che essa è centrata sul parametro della popolazione, giustificando l’uso dei dati osservati come base per l’inferenza. Abbiamo inoltre visto che la precisione delle stime aumenta con l’aumentare del numero di osservazioni, poiché la variabilità diminuisce proporzionalmente al fattore $1/n$. La Legge dei Grandi Numeri garantisce la convergenza delle inferenze verso i valori veri, mentre il Teorema del Limite Centrale fornisce il fondamento teorico per le approssimazioni distribuzionali ampiamente utilizzate nella pratica statistica.
 
-L'inferenza bayesiana emerge come un framework coerente per quantificare e aggiornare l'incertezza in modo formalmente rigoroso. In questo approccio, le credenze iniziali, espresse come distribuzioni a priori, vengono aggiornate sistematicamente alla luce dei dati osservati. La distribuzione a posteriori rappresenta lo stato di conoscenza più aggiornato dopo l'osservazione dei dati, mentre gli intervalli di credibilità forniscono un'interpretazione probabilistica diretta e intuitiva. Un aspetto particolarmente rilevante è che, in presenza di un numero sufficiente di dati, credenze iniziali anche molto diverse tendono a convergere verso conclusioni sostanzialmente condivise.
+In questo contesto, l’inferenza bayesiana emerge come un framework coerente e formalmente rigoroso per rappresentare e aggiornare l’incertezza. Le credenze iniziali, espresse attraverso distribuzioni a priori, vengono sistematicamente aggiornate alla luce dei dati osservati, producendo una distribuzione a posteriori che rappresenta lo stato di conoscenza più informato disponibile. Gli intervalli di credibilità offrono un’interpretazione probabilistica diretta e intuitiva dei risultati inferenziali. Un aspetto particolarmente rilevante è che, in presenza di una quantità sufficiente di dati, credenze iniziali anche molto diverse tendono a convergere verso conclusioni sostanzialmente condivise.
 
-Tuttavia, è necessario riconoscere e considerare i limiti metodologici. L'inferenza statistica quantifica esclusivamente l'incertezza campionaria senza poter correggere le distorsioni sistematiche eventualmente presenti nel disegno della ricerca. I campioni di grandi dimensioni, se affetti da bias, producono stime precise ma imprecise, creando il rischio di false certezze. La qualità del disegno di ricerca rimane dunque un presupposto irrinunciabile che non può essere sostituito dalla sofisticazione statistica.
+È tuttavia essenziale riconoscere i limiti metodologici dell’inferenza statistica. Le procedure inferenziali quantificano l’incertezza campionaria, ma non sono in grado di correggere distorsioni sistematiche derivanti da problemi di campionamento, misurazione o disegno della ricerca. Campioni di grandi dimensioni affetti da bias possono produrre stime estremamente precise ma sostanzialmente errate, alimentando il rischio di false certezze. La qualità del disegno di ricerca rimane quindi un presupposto irrinunciabile che nessuna sofisticazione statistica può sostituire.
 
-In un capitolo successivo vedremo come la verosimiglianza formalizzi compiutamente il ruolo dei dati nell'inferenza, completando così il quadro concettuale necessario per comprendere il meccanismo di aggiornamento bayesiano e le sue implicazioni per la ricerca empirica.
+Nel capitolo successivo vedremo come la funzione di verosimiglianza formalizzi in modo esplicito il ruolo dei dati nel processo inferenziale, completando il quadro concettuale necessario per comprendere il meccanismo di aggiornamento bayesiano e le sue implicazioni per la ricerca empirica.
 
 ::: {.callout-important title="Problemi" collapse="true"}
 Esercizi sulla distribuzione campionaria e sull'inferenza sono disponibili sulla seguente [pagina web](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/06%3A_Sampling_Distributions/6.E%3A_Sampling_Distributions_(Exercises)).
