@@ -134,7 +134,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -958,14 +958,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/09_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
+  <a href="../../chapters/probability/09_cov_cor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/10_cov_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+  <a href="../../chapters/probability/10_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1111,7 +1111,9 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Riapplica il tema per sicurezza</span></span>
+<span><span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1169,18 +1171,18 @@ P(c \leq X \leq d) = \frac{d - c}{b - a}.
 <span><span class="va">density_uniform</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">dunif</a></span><span class="op">(</span><span class="va">x</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">360</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density_uniform</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_area</span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="va">density_uniform</span><span class="op">)</span>, <span class="va">x</span> <span class="op">&gt;=</span> <span class="fl">150</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">250</span><span class="op">)</span>,</span>
 <span>    <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"steelblue"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Distribuzione uniforme (0, 360)"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Area evidenziata: P(150 ≤ X ≤ 250)"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"Densità f(x)"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1232,17 +1234,17 @@ P(X &gt; s + t \mid X &gt; s) = P(X &gt; t).
 <span><span class="va">pdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">dexp</a></span><span class="op">(</span><span class="va">x</span>, rate <span class="op">=</span> <span class="va">lambda</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">pdf</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_area</span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="va">pdf</span><span class="op">)</span>, <span class="va">x</span> <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">6</span><span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"steelblue"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Distribuzione esponenziale (λ = 0.25)"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Area evidenziata: P(1 ≤ X ≤ 6)"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Tempo di attesa (giorni)"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1270,6 +1272,36 @@ Y \sim \mathcal{N}(\mu, \sigma^2), \quad f(y) = \frac{1}{\sigma\sqrt{2\pi}} \exp
 <span class="header-section-number">13.3.2</span> Ruolo nell’inferenza bayesiana</h3>
 <p>La distribuzione normale occupa una posizione centrale nell’inferenza bayesiana e si rivela utile in molti contesti applicativi. In qualità di verosimiglianza, viene comunemente impiegata per modellare una vasta gamma di fenomeni continui, quali gli errori di misurazione, i punteggi psicometrici e le variabili di natura biologica. Quando viene utilizzata come distribuzione a priori per i parametri di posizione, nella forma <span class="math inline">\(\mu \sim \mathcal{N}(\mu_0, \sigma_0^2)\)</span>, essa permette di esprimere formalmente le credenze iniziali riguardo alla posizione del parametro di interesse. Un’ulteriore proprietà che ne accresce l’utilità pratica è la coniugazione: se la varianza <span class="math inline">\(\sigma^2\)</span> è nota, la distribuzione normale si configura come prior coniugata per il parametro <span class="math inline">\(\mu\)</span>, garantendo che la distribuzione a posteriori appartenga alla stessa famiglia distributiva.</p>
 <p>Un ulteriore motivo della centralità della distribuzione normale nell’inferenza bayesiana è che essa emerge frequentemente come <strong>approssimazione della distribuzione a posteriori</strong>, anche quando il modello di partenza non è normale. In virtù del Teorema del Limite Centrale e delle approssimazioni di tipo laplaciano, posteriori complesse tendono ad assumere una forma approssimativamente normale in prossimità del loro massimo, soprattutto in presenza di campioni numerosi.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Punteggi standardizzati</strong>: QI (μ=100, σ=15), SAT, z-scores</li>
+<li>
+<strong>Errori di misura simmetrici</strong>: tempi di reazione (spesso dopo log-trasformazione)</li>
+<li>
+<strong>Medie di campioni grandi</strong>: per il Teorema del Limite Centrale</li>
+<li>
+<strong>Prior su medie μ</strong>: quando il parametro è non vincolato</li>
+</ul>
+<p><strong>Esempio pratico:</strong> Punteggi di depressione BDI in popolazione generale seguono approssimativamente N(μ=10, σ=8).</p>
+<p><strong>Prior bayesiani tipici:</strong></p>
+<ul>
+<li>N(0, 10²): prior vaga su effetti standardizzati</li>
+<li>N(μ₀, σ₀²): prior informativo centrato su μ₀</li>
+</ul>
+<p><strong>Attenzione:</strong> Molte variabili psicologiche NON sono normali (es. tempi di reazione → log-normale, conteggi → Poisson).</p>
+</div>
+</div>
 </section><section id="la-regola-68-95-99.7" class="level3" data-number="13.3.3"><h3 data-number="13.3.3" class="anchored" data-anchor-id="la-regola-68-95-99.7">
 <span class="header-section-number">13.3.3</span> La regola 68-95-99.7</h3>
 <p>La distribuzione normale possiede una proprietà universale che rimane invariata indipendentemente dai valori specifici dei parametri <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\sigma\)</span>. In particolare, si può affermare che approssimativamente il 68.3% della massa probabilistica è concentrato entro un intervallo di più o meno una deviazione standard dalla media, percentuale che sale al 95.4% quando si considera un intervallo di due deviazioni standard e raggiunge il 99.7% per uno scarto di tre deviazioni standard.</p>
@@ -1289,18 +1321,18 @@ Y \sim \mathcal{N}(\mu, \sigma^2), \quad f(y) = \frac{1}{\sigma\sqrt{2\pi}} \exp
 <span></span>
 <span><span class="co"># Visualizzazione</span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Posizione <span class="op">=</span> <span class="va">posizioni_finali</span><span class="op">)</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Posizione</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>, bins <span class="op">=</span> <span class="fl">30</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>, bins <span class="op">=</span> <span class="fl">30</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">stat_function</span><span class="op">(</span></span>
 <span>    fun <span class="op">=</span> <span class="va">dnorm</span>, </span>
 <span>    args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">posizioni_finali</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">posizioni_finali</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>    color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span></span>
+<span>    linewidth <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Teorema del Limite Centrale"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Somma di 16 variabili uniformi converge alla normale"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Posizione finale"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1318,17 +1350,17 @@ Y \sim \mathcal{N}(\mu, \sigma^2), \quad f(y) = \frac{1}{\sigma\sqrt{2\pi}} \exp
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, pdf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">pdf</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_area</span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span> <span class="op">&gt;=</span> <span class="va">mu</span> <span class="op">-</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">sigma</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">&lt;=</span> <span class="va">mu</span> <span class="op">+</span> <span class="fl">1.96</span><span class="op">*</span><span class="va">sigma</span><span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"steelblue"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.5</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Distribuzione Normale (μ = 100, σ = 15)"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Il 95% della massa si trova entro ±1.96σ dalla media"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Valori"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1371,12 +1403,12 @@ X = Z_1^2 + Z_2^2 + \cdots + Z_k^2 \sim \chi^2_k,
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">f_x</span>, color <span class="op">=</span> <span class="va">nu</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Distribuzione chi-quadrato"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"La distribuzione diventa più simmetrica all’aumentare dei gradi di libertà"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"f(x)"</span>, color <span class="op">=</span> <span class="st">"ν"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1427,13 +1459,12 @@ T = \frac{Z}{\sqrt{W/\nu}} \sim t_\nu
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">dati_plot</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">densita</span>, color <span class="op">=</span> <span class="va">distribuzione</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Confronto t di Student e Normale"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Code più pesanti per ν piccoli; convergenza alla normale per ν → ∞"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Valore"</span>, y <span class="op">=</span> <span class="st">"Densità"</span>, color <span class="op">=</span> <span class="st">"Distribuzione"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1473,13 +1504,12 @@ f(x) = \frac{1}{\pi\beta\left[1 + \left(\frac{x-\alpha}{\beta}\right)^2\right]}.
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">distribuzione</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Confronto delle code"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"La Cauchy ha le code più pesanti, seguita dalla t"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1522,6 +1552,46 @@ f(x) = \frac{1}{\pi\beta\left[1 + \left(\frac{x-\alpha}{\beta}\right)^2\right]}.
 \]</span> Questa proprietà rende l’aggiornamento bayesiano analiticamente trattabile: i parametri della distribuzione a posteriori si ottengono semplicemente sommando i conteggi osservati agli pseudo-conteggi della distribuzione a priori.</p>
 <p>La media della distribuzione a posteriori può essere interpretata come una media ponderata tra la proporzione implicita nella prior e la proporzione osservata nei dati, con pesi determinati rispettivamente dalla forza della prior e dalla dimensione del campione osservato. In questo senso, l’aggiornamento bayesiano realizza un compromesso quantitativo tra credenze iniziali ed evidenza empirica.</p>
 <p>La coniugazione tra distribuzione beta e modello binomiale non rappresenta soltanto una semplificazione computazionale, ma riflette una profonda <strong>coerenza epistemica</strong>: le informazioni a priori e quelle fornite dai dati sono espresse nella stessa unità concettuale, ovvero conteggi di successi e insuccessi, rendendo l’aggiornamento trasparente e interpretabile.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Prior per proporzioni/probabilità</strong> p ∈ (0,1):
+<ul>
+<li>Tasso di risposta corretta</li>
+<li>Probabilità di aderenza terapeutica</li>
+<li>Prevalenza di un disturbo</li>
+</ul>
+</li>
+<li>
+<strong>Prior per correlazioni</strong> (dopo trasformazione Fisher z)</li>
+<li>
+<strong>Modellazione diretta</strong> di variabili vincolate a [0,1]</li>
+</ul>
+<p><strong>Esempio pratico:</strong> Vuoi stimare la probabilità p che un trattamento funzioni. Prima dei dati, usi Beta(5,5) come prior (credenza verso p≈0.5 con moderata incertezza).</p>
+<p><strong>Interpretazione intuitiva dei parametri:</strong></p>
+<ul>
+<li>α = “pseudo-successi” già osservati</li>
+<li>β = “pseudo-insuccessi” già osservati</li>
+<li>Es: Beta(20,10) → come se avessi già visto 20 successi e 10 fallimenti</li>
+</ul>
+<p><strong>Casi speciali:</strong></p>
+<ul>
+<li>Beta(1,1) = Uniforme(0,1): totale ignoranza</li>
+<li>Beta(0.5,0.5) = Jeffreys prior: prior non informativo che è invariante per trasformazioni</li>
+</ul>
+<p><strong>Coniugazione con Binomiale:</strong> Se prior è Beta(α,β) e osservi k successi su n, posterior è Beta(α+k, β+n-k) → aggiornamento additivo!</p>
+</div>
+</div>
 </section><section id="flessibilità-della-forma" class="level3" data-number="13.7.3"><h3 data-number="13.7.3" class="anchored" data-anchor-id="flessibilità-della-forma">
 <span class="header-section-number">13.7.3</span> Flessibilità della forma</h3>
 <p>La distribuzione beta può assumere forme molto diverse a seconda dei parametri:</p>
@@ -1541,13 +1611,17 @@ f(x) = \frac{1}{\pi\beta\left[1 + \left(\frac{x-\alpha}{\beta}\right)^2\right]}.
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Flessibilità della distribuzione Beta"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"Diverse combinazioni di parametri producono forme radicalmente diverse"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"θ"</span>, y <span class="op">=</span> <span class="st">"f(θ)"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;theme&gt; List of 1</span></span>
+<span><span class="co">#&gt;  $ legend.title: &lt;ggplot2::element_blank&gt;</span></span>
+<span><span class="co">#&gt;  @ complete: logi FALSE</span></span>
+<span><span class="co">#&gt;  @ validate: logi TRUE</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1580,23 +1654,23 @@ f(x) = \frac{1}{\pi\beta\left[1 + \left(\frac{x-\alpha}{\beta}\right)^2\right]}.
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">tipo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Aggiornamento Bayesiano: Beta-Binomiale"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"7 successi su 10 prove aggiornano la prior"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"p"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media prior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_prior</span><span class="op">/</span><span class="op">(</span><span class="va">alpha_prior</span> <span class="op">+</span> <span class="va">beta_prior</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media prior: 0.5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_post</span><span class="op">/</span><span class="op">(</span><span class="va">alpha_post</span> <span class="op">+</span> <span class="va">beta_post</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media posterior: 0.643</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media prior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_prior</span><span class="op">/</span><span class="op">(</span><span class="va">alpha_prior</span> <span class="op">+</span> <span class="va">beta_prior</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Media prior: 0.5</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_post</span><span class="op">/</span><span class="op">(</span><span class="va">alpha_post</span> <span class="op">+</span> <span class="va">beta_post</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Media posterior: 0.643</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="distribuzione-gamma" class="level3" data-number="13.7.5"><h3 data-number="13.7.5" class="anchored" data-anchor-id="distribuzione-gamma">
 <span class="header-section-number">13.7.5</span> Distribuzione gamma</h3>
@@ -1623,10 +1697,54 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 \]</span> L’aggiornamento bayesiano assume quindi una forma estremamente intuitiva: gli eventi osservati si sommano agli eventi “attesi” a priori, mentre l’esposizione empirica si aggiunge a quella implicita nella prior. La media della distribuzione a posteriori, <span class="math inline">\(\mathbb{E}(\lambda \mid \mathbf{y}) = \frac{\alpha + \sum y_i}{\beta + n}\)</span>, rappresenta così un compromesso ponderato tra credenze iniziali ed evidenza empirica.</p>
 <p>In secondo luogo, la distribuzione gamma è comunemente utilizzata come distribuzione a priori per il parametro di precisione (definito come l’inverso della varianza) nei modelli normali. Infine, essa fornisce un modello flessibile per la rappresentazione dei tempi di attesa, generalizzando la distribuzione esponenziale al caso in cui si considera l’attesa per il verificarsi di <span class="math inline">\(\alpha\)</span> eventi successivi.</p>
 <p>In questo senso, la distribuzione gamma generalizza la distribuzione esponenziale: mentre quest’ultima descrive il tempo di attesa fino al primo evento, la gamma consente di modellare il tempo necessario al verificarsi di un numero arbitrario di eventi, mantenendo la stessa struttura probabilistica di base.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Prior per tassi positivi</strong> λ &gt; 0:
+<ul>
+<li>Tasso di eventi Poisson (es. sintomi/settimana)</li>
+<li>Parametri di scala/velocità</li>
+</ul>
+</li>
+<li>
+<strong>Prior per precisioni</strong> τ = 1/σ² nei modelli normali</li>
+<li>
+<strong>Tempi di attesa</strong> per k eventi successivi</li>
+</ul>
+<p><strong>Esempio pratico:</strong> Vuoi stimare λ = numero medio di errori cognitivi per ora di compito. Prior: Gamma(5, 2) → credenza che λ ≈ 2.5.</p>
+<p><strong>Interpretazione intuitiva:</strong></p>
+<ul>
+<li>α = “pseudo-eventi” osservati</li>
+<li>β = “pseudo-tempo” di esposizione</li>
+<li>Es: Gamma(10, 4) → come se avessi visto 10 eventi in 4 unità di tempo</li>
+</ul>
+<p><strong>Prior comuni:</strong></p>
+<ul>
+<li>Gamma(0.01, 0.01): prior molto vaga</li>
+<li>Gamma(α, β) con α/β uguale alla tua guess della media</li>
+</ul>
+<p><strong>Coniugazione con Poisson:</strong> Se prior è Gamma(α,β) e osservi totale k eventi su n unità, posterior è Gamma(α+k, β+n) → aggiornamento additivo!</p>
+<p><strong>Link con altre distribuzioni:</strong></p>
+<ul>
+<li>Gamma(1, λ) = Esponenziale(λ)</li>
+<li>Gamma(k/2, 1/2) = Chi-quadrato(k)</li>
+</ul>
+</div>
+</div>
 </section></section><section id="esempio-inferenza-su-un-tasso-poisson" class="level3" data-number="13.7.6"><h3 data-number="13.7.6" class="anchored" data-anchor-id="esempio-inferenza-su-un-tasso-poisson">
 <span class="header-section-number">13.7.6</span> Esempio: inferenza su un tasso Poisson</h3>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prior: Gamma(2, 1) - credenza che λ sia intorno a 2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prior: Gamma(2, 1) - credenza che λ sia intorno a 2</span></span>
 <span><span class="va">alpha_prior</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">beta_prior</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span></span>
@@ -1648,19 +1766,13 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">tipo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Aggiornamento Bayesiano: Gamma-Poisson"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"18 eventi in 5 osservazioni aggiornano la prior"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"λ"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
-</figure>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span>  <span class="op">)</span> </span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media prior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_prior</span><span class="op">/</span><span class="va">beta_prior</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Media prior: 2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_post</span><span class="op">/</span><span class="va">beta_post</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
@@ -1668,11 +1780,17 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"IC 95%: ["</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="va">alpha_post</span>, <span class="va">beta_post</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">", "</span>, </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">qgamma</a></span><span class="op">(</span><span class="fl">0.975</span>, <span class="va">alpha_post</span>, <span class="va">beta_post</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"]\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
 <span><span class="co">#&gt; IC 95%: [2.04, 4.95]</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="13_cont_rv_distr_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="13_cont_rv_distr_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+</figure>
+</div>
+</div>
 </div>
 </section><section id="visualizzazione-della-flessibilità" class="level3" data-number="13.7.7"><h3 data-number="13.7.7" class="anchored" data-anchor-id="visualizzazione-della-flessibilità">
 <span class="header-section-number">13.7.7</span> Visualizzazione della flessibilità</h3>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">params</span>, <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1685,11 +1803,11 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Flessibilità della distribuzione Gamma"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"x"</span>, y <span class="op">=</span> <span class="st">"f(x)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1776,8 +1894,38 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 </section><section id="la-prospettiva-unificante" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="la-prospettiva-unificante">La prospettiva unificante</h3>
 <p>Tutte le distribuzioni discusse condividono lo stesso ruolo epistemico: sono strumenti per rappresentare formalmente i nostri gradi di credenza. Queste distribuzioni non descrivono “come sono realmente le cose”, ma codificano “quanto riteniamo plausibile ciascun valore” alla luce delle informazioni disponibili. Questa interpretazione soggettivista costituisce il filo conduttore che unisce le diverse famiglie in un framework coerente per il ragionamento sotto incertezza.</p>
 <p>Le proprietà matematiche, come la coniugazione, l’esistenza dei momenti o il comportamento delle code, non sono fini a sé stesse, ma hanno conseguenze epistemiche concrete: determinano come le credenze vengono aggiornate, quanta incertezza residua permane e quali previsioni possono essere formulate riguardo alle osservazioni future. Nei capitoli successivi, questi strumenti verranno combinati e messi in opera all’interno di modelli bayesiani sempre più articolati.</p>
+</section><section id="come-scelgo-la-distribuzione-giusta" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="come-scelgo-la-distribuzione-giusta">Come scelgo la distribuzione giusta?</h3>
+<p><strong>Domande chiave per i dati:</strong></p>
+<ol type="1">
+<li>
+<strong>“Sono misure simmetriche senza vincoli?”</strong> → Normale (o t se outlier)</li>
+<li>
+<strong>“Sono solo valori positivi?”</strong> → Gamma, Log-normale, Esponenziale</li>
+<li>
+<strong>“Sono tempi di attesa con tasso costante?”</strong> → Esponenziale</li>
+<li>
+<strong>“Sono proporzioni tra 0 e 1?”</strong> → Beta (come dato, non come prior)</li>
+</ol>
+<p><strong>Domande chiave per i parametri:</strong></p>
+<ol type="1">
+<li>
+<strong>“È una probabilità p ∈ (0,1)?”</strong> → Beta come prior</li>
+<li>
+<strong>“È un tasso λ &gt; 0?”</strong> → Gamma come prior</li>
+<li>
+<strong>“È una media μ senza vincoli?”</strong> → Normale come prior</li>
+<li>
+<strong>“Voglio essere robusto a outlier?”</strong> → t di Student o Cauchy</li>
+</ol>
+<p><strong>Coniugazioni da ricordare:</strong></p>
+<ul>
+<li>Beta ↔︎ Binomiale/Bernoulli</li>
+<li>Gamma ↔︎ Poisson<br>
+</li>
+<li>Normale ↔︎ Normale (su μ)</li>
+</ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1786,10 +1934,10 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
 <span><span class="co">#&gt; Running under: macOS Tahoe 26.2</span></span>
@@ -1808,15 +1956,15 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.15.2      patchwork_1.3.2      </span></span>
-<span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.15.0     </span></span>
-<span><span class="co">#&gt;  [7] ggplot2_4.0.1         reliabilitydiag_0.2.1 priorsense_1.2.0     </span></span>
-<span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.9.0             rstan_2.32.7         </span></span>
-<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
-<span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
-<span><span class="co">#&gt; [19] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
-<span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.2           rio_1.2.4            </span></span>
-<span><span class="co">#&gt; [25] here_1.0.2           </span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.0            tinytable_0.15.2      withr_3.0.2          </span></span>
+<span><span class="co">#&gt;  [4] systemfonts_1.3.1     patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.1        </span></span>
+<span><span class="co">#&gt; [10] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.6.1      </span></span>
+<span><span class="co">#&gt; [13] loo_2.9.0             rstan_2.32.7          StanHeaders_2.32.10  </span></span>
+<span><span class="co">#&gt; [16] brms_2.23.0           Rcpp_1.1.0            sessioninfo_1.2.3    </span></span>
+<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
+<span><span class="co">#&gt; [22] modelr_0.1.11         tibble_3.3.0          dplyr_1.1.4          </span></span>
+<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.2.4             here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
@@ -1827,25 +1975,24 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 <span><span class="co">#&gt; [16] tools_4.5.2           knitr_1.51            labeling_0.4.3       </span></span>
 <span><span class="co">#&gt; [19] bridgesampling_1.2-1  htmlwidgets_1.6.4     curl_7.0.0           </span></span>
 <span><span class="co">#&gt; [22] pkgbuild_1.4.8        RColorBrewer_1.1-3    abind_1.4-8          </span></span>
-<span><span class="co">#&gt; [25] multcomp_1.4-29       withr_3.0.2           purrr_1.2.0          </span></span>
-<span><span class="co">#&gt; [28] grid_4.5.2            stats4_4.5.2          colorspace_2.1-2     </span></span>
-<span><span class="co">#&gt; [31] xtable_1.8-4          inline_0.3.21         emmeans_2.0.1        </span></span>
-<span><span class="co">#&gt; [34] scales_1.4.0          MASS_7.3-65           cli_3.6.5            </span></span>
-<span><span class="co">#&gt; [37] mvtnorm_1.3-3         rmarkdown_2.30        ragg_1.5.0           </span></span>
-<span><span class="co">#&gt; [40] generics_0.1.4        otel_0.2.0            RcppParallel_5.1.11-1</span></span>
-<span><span class="co">#&gt; [43] cachem_1.1.0          stringr_1.6.0         splines_4.5.2        </span></span>
-<span><span class="co">#&gt; [46] parallel_4.5.2        vctrs_0.6.5           V8_8.0.1             </span></span>
-<span><span class="co">#&gt; [49] Matrix_1.7-4          sandwich_3.1-1        jsonlite_2.0.0       </span></span>
-<span><span class="co">#&gt; [52] arrayhelpers_1.1-0    systemfonts_1.3.1     glue_1.8.0           </span></span>
-<span><span class="co">#&gt; [55] codetools_0.2-20      distributional_0.5.0  lubridate_1.9.4      </span></span>
-<span><span class="co">#&gt; [58] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.8.1       </span></span>
-<span><span class="co">#&gt; [61] htmltools_0.5.9       Brobdingnag_1.2-9     R6_2.6.1             </span></span>
-<span><span class="co">#&gt; [64] textshaping_1.0.4     rprojroot_2.1.1       evaluate_1.0.5       </span></span>
-<span><span class="co">#&gt; [67] lattice_0.22-7        backports_1.5.0       memoise_2.0.1        </span></span>
-<span><span class="co">#&gt; [70] broom_1.0.11          snakecase_0.11.1      rstantools_2.5.0     </span></span>
-<span><span class="co">#&gt; [73] gridExtra_2.3         coda_0.19-4.1         nlme_3.1-168         </span></span>
-<span><span class="co">#&gt; [76] checkmate_2.3.3       xfun_0.55             zoo_1.8-15           </span></span>
-<span><span class="co">#&gt; [79] pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [25] multcomp_1.4-29       purrr_1.2.0           grid_4.5.2           </span></span>
+<span><span class="co">#&gt; [28] stats4_4.5.2          colorspace_2.1-2      xtable_1.8-4         </span></span>
+<span><span class="co">#&gt; [31] inline_0.3.21         emmeans_2.0.1         scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [34] MASS_7.3-65           cli_3.6.5             mvtnorm_1.3-3        </span></span>
+<span><span class="co">#&gt; [37] rmarkdown_2.30        generics_0.1.4        otel_0.2.0           </span></span>
+<span><span class="co">#&gt; [40] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.6.0        </span></span>
+<span><span class="co">#&gt; [43] splines_4.5.2         parallel_4.5.2        vctrs_0.6.5          </span></span>
+<span><span class="co">#&gt; [46] V8_8.0.1              Matrix_1.7-4          sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt; [49] jsonlite_2.0.0        arrayhelpers_1.1-0    glue_1.8.0           </span></span>
+<span><span class="co">#&gt; [52] codetools_0.2-20      distributional_0.5.0  lubridate_1.9.4      </span></span>
+<span><span class="co">#&gt; [55] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.8.1       </span></span>
+<span><span class="co">#&gt; [58] pillar_1.11.1         htmltools_0.5.9       Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [61] R6_2.6.1              textshaping_1.0.4     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [64] evaluate_1.0.5        lattice_0.22-7        backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [67] memoise_2.0.1         broom_1.0.11          snakecase_0.11.1     </span></span>
+<span><span class="co">#&gt; [70] rstantools_2.5.0      gridExtra_2.3         coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [73] nlme_3.1-168          checkmate_2.3.3       xfun_0.55            </span></span>
+<span><span class="co">#&gt; [76] zoo_1.8-15            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

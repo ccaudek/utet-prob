@@ -114,7 +114,8 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script><script src="../../site_libs/quarto-diagram/mermaid-init.js"></script><link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -938,14 +939,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/09_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
+  <a href="../../chapters/probability/09_cov_cor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/10_cov_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+  <a href="../../chapters/probability/10_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1089,7 +1090,9 @@ window.Quarto = {
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.auckland.ac.nz/~yee/VGAM/">VGAM</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr">extraDistr</a></span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/twolodzko/extraDistr">extraDistr</a></span><span class="op">)</span></span>
+<span><span class="co"># Riapplica il tema per sicurezza</span></span>
+<span><span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1117,7 +1120,7 @@ window.Quarto = {
 <span></span>
 <span><span class="co"># r = generazione casuale</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">5</span>, size <span class="op">=</span> <span class="fl">10</span>, prob <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>  <span class="co"># 5 simulazioni</span></span>
-<span><span class="co">#&gt; [1] 7 7 8 9 7</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [1] 8 6 7 7 5</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Nell’inferenza bayesiana, la funzione <code>d</code> viene utilizzata per calcolare la verosimiglianza, mentre la funzione <code>r</code> permette di simulare dalla distribuzione predittiva. ## Distribuzione uniforme discreta</p>
 <section id="definizione-e-interpretazione-epistemica" class="level3" data-number="12.1.1"><h3 data-number="12.1.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica">
@@ -1163,6 +1166,29 @@ P(M_k) = \frac{1}{K}, \qquad k = 1,\ldots,K.
 <span><span class="co">#&gt; Varianza teorica: 2.92 | Varianza empirica: 2.87</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>La simulazione mostra che, al crescere del numero di lanci, le quantità empiriche si avvicinano ai valori teorici. È importante notare che l’“equità” del dado non è una proprietà osservabile direttamente in un singolo lancio, ma una credenza modellata attraverso la distribuzione uniforme che può essere successivamente verificata e aggiornata alla luce dei dati.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Scelta casuale tra alternative</strong> quando non hai preferenze (es. randomizzazione tra condizioni sperimentali)</li>
+<li>
+<strong>Prior non informativa</strong> su un insieme finito di modelli (es. 5 teorie alternative equiprobabili)</li>
+<li>
+<strong>Item casuali</strong> da un questionario (es. estrarre k domande da un pool di N)</li>
+</ul>
+<p><strong>Esempio pratico:</strong> In un esperimento con 6 condizioni sperimentali, assegni i partecipanti in modo equiprobabile → Uniforme(1,6).</p>
+<p><strong>Attenzione:</strong> “Equiprobabile” è una scelta epistemica (assenza di informazione), non una proprietà del mondo.</p>
+</div>
+</div>
 </section></section><section id="distribuzione-di-bernoulli" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="distribuzione-di-bernoulli">
 <span class="header-section-number">12.2</span> Distribuzione di Bernoulli</h2>
 <section id="definizione-e-interpretazione-epistemica-1" class="level3" data-number="12.2.1"><h3 data-number="12.2.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-1">
@@ -1186,6 +1212,33 @@ P(X = x) = p^x (1-p)^{1-x},
 <span class="header-section-number">12.2.2</span> Ruolo nell’inferenza bayesiana</h3>
 <p>La distribuzione di Bernoulli è il modello di riferimento per i <strong>dati binari</strong>. Ogni singola osservazione che può assumere solo due valori (sì/no, presente/assente, corretto/errato) viene modellata come una variabile di Bernoulli. Quando si considerano <span class="math inline">\(n\)</span> osservazioni indipendenti con lo stesso parametro <span class="math inline">\(p\)</span>, la loro somma segue una distribuzione binomiale, che verrà introdotta nel prossimo paragrafo.</p>
 <p>Nel contesto bayesiano, il parametro <span class="math inline">\(p\)</span> è considerato una quantità incerta e a cui viene associata una distribuzione a priori. La <strong>distribuzione coniugata</strong> per <span class="math inline">\(p\)</span> è la distribuzione beta, che consente un aggiornamento analiticamente semplice delle credenze dopo l’osservazione dei dati.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Risposte corrette/errate</strong> a singoli item di test</li>
+<li>
+<strong>Presenza/assenza</strong> di un sintomo (es. depressione clinica: sì/no)</li>
+<li>
+<strong>Diagnosi binarie</strong> (es. test PTSD positivo/negativo)</li>
+<li>
+<strong>Scelte dicotomiche</strong> (es. acquisto: sì/no)</li>
+<li>
+<strong>Comportamento singolo</strong> (es. fumare in una giornata)</li>
+</ul>
+<p><strong>Esempio pratico:</strong> Un paziente fa un test cognitivo: ogni risposta è Bernoulli(p) dove p = probabilità di rispondere correttamente.</p>
+<p><strong>Prior bayesiano tipico:</strong> Beta(1,1) [uniforme] o Beta(α,β) informativo se hai dati storici sulla difficoltà dell’item.</p>
+</div>
+</div>
 </section><section id="esempio-sensibilità-di-un-test-diagnostico" class="level3" data-number="12.2.3"><h3 data-number="12.2.3" class="anchored" data-anchor-id="esempio-sensibilità-di-un-test-diagnostico">
 <span class="header-section-number">12.2.3</span> Esempio: sensibilità di un test diagnostico</h3>
 <p>Consideriamo un test diagnostico con sensibilità pari a 0.85, ossia con probabilità <span class="math inline">\(p = 0.85\)</span> di fornire un risultato positivo quando la condizione è presente. Ogni singolo esito del test può essere modellato come una variabile di Bernoulli.</p>
@@ -1298,12 +1351,12 @@ p \mid y \sim \text{Beta}(\alpha + y, \beta + n - y).
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p</span>, y <span class="op">=</span> <span class="va">densita</span>, color <span class="op">=</span> <span class="va">tipo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Aggiornamento Bayesiano: Beta-Binomiale"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"23 successi su 30 prove"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"p"</span>, y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="12_discr_rv_distr_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="12_discr_rv_distr_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1320,6 +1373,37 @@ p \mid y \sim \text{Beta}(\alpha + y, \beta + n - y).
 <span><span class="co">#&gt; Media posterior: 0.735</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>La posterior si concentra attorno a <span class="math inline">\(p \approx 0.74\)</span>, mostrando una riduzione significativa dell’incertezza rispetto alla prior. Ciò riflette l’aggiornamento coerente delle credenze alla luce dei 23 successi osservati.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Numero di risposte corrette</strong> su n item di un test (es. 18 su 20 domande)</li>
+<li>
+<strong>Conteggio sintomi presenti</strong> su una checklist (es. 5 su 9 criteri DSM per depressione)</li>
+<li>
+<strong>Successi in trial ripetuti</strong> (es. 7 recall corretti su 10 prove di memoria)</li>
+<li>
+<strong>Proporzione di comportamenti</strong> in EMA (es. giorni di aderenza terapeutica su 30 giorni)</li>
+</ul>
+<p><strong>Esempio pratico:</strong> Uno studente risponde a 25 domande vero/falso. Se la probabilità di rispondere correttamente è p=0.7, il numero di risposte corrette segue Binomiale(25, 0.7).</p>
+<p><strong>Prior bayesiano tipico:</strong> Beta(α,β) su p, che permette aggiornamento analitico:</p>
+<ul>
+<li>Beta(1,1): totale ignoranza</li>
+<li>Beta(5,5): aspettativa p≈0.5 con moderata incertezza</li>
+<li>Beta(20,10): credenza forte verso p≈0.67</li>
+</ul>
+<p><strong>Link con Bernoulli:</strong> La binomiale è la somma di n Bernoulli indipendenti.</p>
+</div>
+</div>
 </section></section><section id="distribuzione-di-poisson" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="distribuzione-di-poisson">
 <span class="header-section-number">12.4</span> Distribuzione di Poisson</h2>
 <section id="quando-ha-senso-usare-la-poisson" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="quando-ha-senso-usare-la-poisson">
@@ -1376,7 +1460,50 @@ P(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!},
 <ul>
 <li>il numero totale di eventi osservati aggiorna il parametro di forma;</li>
 <li>il numero di intervalli osservati aggiorna il parametro di scala (o tasso).</li>
-</ul></section><section id="esempio-eventi-rari-e-dati-storici" class="level3" data-number="12.4.4"><h3 data-number="12.4.4" class="anchored" data-anchor-id="esempio-eventi-rari-e-dati-storici">
+</ul>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>🧠 Quando la usi in psicologia?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Situazioni tipiche:</strong></p>
+<ul>
+<li>
+<strong>Eventi rari in un periodo fisso</strong>:
+<ul>
+<li>Numero di attacchi di panico in un mese</li>
+<li>Errori di attenzione in un’ora di compito</li>
+<li>Accessi al pronto soccorso per crisi psichiatriche in una settimana</li>
+</ul>
+</li>
+<li>
+<strong>Conteggi con esposizione variabile</strong>:
+<ul>
+<li>Numero di parole ricordate per minuto di studio</li>
+<li>Click su uno stimolo per secondo di esposizione</li>
+</ul>
+</li>
+</ul>
+<p><strong>Esempio pratico:</strong> Un paziente con disturbo d’ansia ha in media λ=2.5 attacchi di panico al mese. Il numero di attacchi in 30 giorni segue Poisson(2.5).</p>
+<p><strong>Prior bayesiano tipico:</strong> Gamma(α,β) su λ, con interpretazione intuitiva:</p>
+<ul>
+<li>α = numero di “pseudo-eventi” già osservati</li>
+<li>β = “pseudo-tempo” di esposizione</li>
+<li>Es: Gamma(5, 2) → credenza che λ ≈ 2.5 basata su “5 eventi in 2 periodi”</li>
+</ul>
+<p><strong>Differenza con Binomiale:</strong></p>
+<ul>
+<li>Binomiale: n fissato, conti successi</li>
+<li>Poisson: n illimitato, conti eventi rari</li>
+</ul>
+</div>
+</div>
+</section><section id="esempio-eventi-rari-e-dati-storici" class="level3" data-number="12.4.4"><h3 data-number="12.4.4" class="anchored" data-anchor-id="esempio-eventi-rari-e-dati-storici">
 <span class="header-section-number">12.4.4</span> Esempio: eventi rari e dati storici</h3>
 <p>Un esempio classico di applicazione della distribuzione di Poisson è il dataset di von Bortkiewicz sui decessi causati da calci di cavallo nell’esercito prussiano, spesso citato come prototipo di processo con eventi rari e indipendenti.</p>
 <div class="cell" data-layout-align="center">
@@ -1431,7 +1558,7 @@ P(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!},
 </div>
 <p>La distribuzione a posteriori fornisce una stima coerente del tasso di occorrenza e quantifica esplicitamente l’incertezza residua su <span class="math inline">\(\lambda\)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Nota avanzata: Distribuzione beta-binomiale (materiale opzionale per approfondimento futuro)">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1440,7 +1567,7 @@ P(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!},
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Quando il parametro <span class="math inline">\(p\)</span> è incerto: la distribuzione beta-binomiale.</strong></p>
 <blockquote class="blockquote">
@@ -1543,9 +1670,119 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 <p>Le distribuzioni discrete esaminate in questo capitolo costituiscono strumenti epistemici fondamentali per rappresentare e aggiornare le credenze relative a fenomeni caratterizzati da esiti numerabili. Ciascuna distribuzione incorpora assunzioni specifiche sul processo di generazione dei dati: la distribuzione uniforme discreta formalizza uno stato di indifferenza epistemica rispetto a un insieme finito di alternative; la distribuzione di Bernoulli modella eventi binari elementari; la distribuzione binomiale descrive il numero di successi in una serie di prove indipendenti con probabilità costante; la distribuzione di Poisson rappresenta il verificarsi di eventi rari governati da un tasso medio costante; la distribuzione beta-binomiale, infine, estende il modello binomiale descrivendo la distribuzione dei conteggi quando vi è incertezza sul parametro sottostante.</p>
 <p>In questa prospettiva bayesiana, i parametri di tali modelli non sono semplici quantità fisse da “stimare”, ma grandezze incerte su cui formuliamo distribuzioni di credenza. L’eleganza formale del framework bayesiano emerge in modo particolarmente chiaro attraverso le relazioni di coniugazione: la distribuzione beta fornisce una rappresentazione naturale delle credenze sul parametro <span class="math inline">\(p\)</span> della distribuzione di Bernoulli e di quella binomiale, mentre la distribuzione gamma svolge un ruolo analogo per il parametro <span class="math inline">\(\lambda\)</span> della distribuzione di Poisson. Queste relazioni consentono aggiornamenti coerenti e, in molti casi, analiticamente trattabili delle credenze alla luce dei dati osservati.</p>
 <p>Nel capitolo successivo ci occuperemo delle <strong>distribuzioni continue</strong>, come la distribuzione beta, la distribuzione gamma, la distribuzione normale e altre ancora. Queste distribuzioni svolgeranno un duplice ruolo: da un lato, fungeranno da modelli per le variabili continue osservabili; dall’altro, costituiranno distribuzioni a priori naturali per i parametri dei modelli discreti introdotti in questo capitolo. In questo modo, completeremo progressivamente il vocabolario probabilistico essenziale per sviluppare e comprendere l’inferenza bayesiana in contesti sempre più generali.</p>
-</section><section id="esercizi" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esercizi">Esercizi</h2>
+<section id="guida-rapida-quale-distribuzione-usare" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="guida-rapida-quale-distribuzione-usare">Guida rapida: quale distribuzione usare?</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 12%">
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 28%">
+</colgroup>
+<thead><tr class="header">
+<th>Distribuzione</th>
+<th>Dominio</th>
+<th>Quando usarla</th>
+<th>Prior tipici</th>
+<th>Esempio psicologico</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Uniforme discreta</strong></td>
+<td>{1,…,N}</td>
+<td>Scelta casuale tra N alternative equiprobabili</td>
+<td>—</td>
+<td>Randomizzazione tra 4 condizioni sperimentali</td>
+</tr>
+<tr class="even">
+<td><strong>Bernoulli</strong></td>
+<td>{0,1}</td>
+<td>Singolo esito binario (successo/fallimento)</td>
+<td>Beta(1,1) o Beta(α,β)</td>
+<td>Risposta corretta a un item del test</td>
+</tr>
+<tr class="odd">
+<td><strong>Binomiale</strong></td>
+<td>{0,…,n}</td>
+<td>Numero di successi su n prove indipendenti</td>
+<td>Beta(α,β)</td>
+<td>18 risposte corrette su 25 domande</td>
+</tr>
+<tr class="even">
+<td><strong>Poisson</strong></td>
+<td>{0,1,2,…}</td>
+<td>Conteggio di eventi rari in tempo/spazio fisso</td>
+<td>Gamma(α,β)</td>
+<td>3 attacchi di panico in un mese</td>
+</tr>
+<tr class="odd">
+<td><strong>Beta-Binomiale</strong></td>
+<td>{0,…,n}</td>
+<td>Binomiale con p incerto (sovradispersione)</td>
+<td>Beta(α,β) su p</td>
+<td>Successi quando ogni soggetto ha un p diverso</td>
+</tr>
+</tbody>
+</table></section><section id="come-scelgo-la-distribuzione-giusta" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="come-scelgo-la-distribuzione-giusta">Come scelgo la distribuzione giusta?</h3>
+<p>Segui questo albero decisionale per identificare la distribuzione appropriata:</p>
+<div class="cell" data-fig-width="8" data-layout-align="default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    A[Che tipo di dato hai?] --&gt; B{Binario0/1}</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    A --&gt; C{Conteggiointero ≥ 0}</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    A --&gt; D{Categorico1,2,...,K}</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    B --&gt; B1[Singola osservazione?]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    B1 --&gt;|Sì| B2[Bernoullies: risposta corretta]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    B1 --&gt;|No, n prove| B3[Binomialees: k su n corrette]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    C --&gt; C1{Eventi rariin tempo/spaziofisso?}</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    C1 --&gt;|Sì| C2[Poissones: attacchi di panico/mese]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    C1 --&gt;|No, n fissato| C3[Binomialees: sintomi presenti su checklist]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    D --&gt; D1{Tutti ugualmenteprobabili?}</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    D1 --&gt;|Sì| D2[Uniforme discretaes: dado equo]</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    D1 --&gt;|No| D3[Categorica/Multinomialecapitolo futuro]</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    style B2 fill:#e1f5e1</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    style B3 fill:#e1f5e1</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    style C2 fill:#fff4e1</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    style C3 fill:#e1f5e1</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    style D2 fill:#f0f0f0</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"></figure><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A[Che tipo di dato hai?] --&gt; B{Binario0/1}
+    A --&gt; C{Conteggiointero ≥ 0}
+    A --&gt; D{Categorico1,2,...,K}
+    
+    B --&gt; B1[Singola osservazione?]
+    B1 --&gt;|Sì| B2[Bernoullies: risposta corretta]
+    B1 --&gt;|No, n prove| B3[Binomialees: k su n corrette]
+    
+    C --&gt; C1{Eventi rariin tempo/spaziofisso?}
+    C1 --&gt;|Sì| C2[Poissones: attacchi di panico/mese]
+    C1 --&gt;|No, n fissato| C3[Binomialees: sintomi presenti su checklist]
+    
+    D --&gt; D1{Tutti ugualmenteprobabili?}
+    D1 --&gt;|Sì| D2[Uniforme discretaes: dado equo]
+    D1 --&gt;|No| D3[Categorica/Multinomialecapitolo futuro]
+    
+    style B2 fill:#e1f5e1
+    style B3 fill:#e1f5e1
+    style C2 fill:#fff4e1
+    style C3 fill:#e1f5e1
+    style D2 fill:#f0f0f0
+</pre>
+</div>
+<p></p>
+</div>
+</div>
+</div>
+</section></section><section id="esercizi" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esercizi">Esercizi</h2>
 <div class="callout callout-style-default callout-important callout-titled" title="Esercizi di base">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1554,7 +1791,7 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Per ciascuna distribuzione (uniforme, Bernoulli, binomiale, Poisson):</p>
 <ol type="1">
@@ -1566,7 +1803,7 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1575,10 +1812,10 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
 <span><span class="co">#&gt; Running under: macOS Tahoe 26.2</span></span>
@@ -1599,43 +1836,43 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
 <span><span class="co">#&gt;  [1] extraDistr_1.10.0.1   VGAM_1.1-14           reshape2_1.4.5       </span></span>
-<span><span class="co">#&gt;  [4] pillar_1.11.1         tinytable_0.15.2      patchwork_1.3.2      </span></span>
-<span><span class="co">#&gt;  [7] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.15.0     </span></span>
-<span><span class="co">#&gt; [10] ggplot2_4.0.1         reliabilitydiag_0.2.1 priorsense_1.2.0     </span></span>
-<span><span class="co">#&gt; [13] posterior_1.6.1       loo_2.9.0             rstan_2.32.7         </span></span>
-<span><span class="co">#&gt; [16] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
-<span><span class="co">#&gt; [19] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
-<span><span class="co">#&gt; [22] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
-<span><span class="co">#&gt; [25] dplyr_1.1.4           tidyr_1.3.2           rio_1.2.4            </span></span>
-<span><span class="co">#&gt; [28] here_1.0.2           </span></span>
+<span><span class="co">#&gt;  [4] ragg_1.5.0            tinytable_0.15.2      withr_3.0.2          </span></span>
+<span><span class="co">#&gt;  [7] systemfonts_1.3.1     patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt; [10] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.1        </span></span>
+<span><span class="co">#&gt; [13] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.6.1      </span></span>
+<span><span class="co">#&gt; [16] loo_2.9.0             rstan_2.32.7          StanHeaders_2.32.10  </span></span>
+<span><span class="co">#&gt; [19] brms_2.23.0           Rcpp_1.1.0            sessioninfo_1.2.3    </span></span>
+<span><span class="co">#&gt; [22] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
+<span><span class="co">#&gt; [25] modelr_0.1.11         tibble_3.3.0          dplyr_1.1.4          </span></span>
+<span><span class="co">#&gt; [28] tidyr_1.3.2           rio_1.2.4             here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] gridExtra_2.3         inline_0.3.21         sandwich_3.1-1       </span></span>
 <span><span class="co">#&gt;  [4] rlang_1.1.6           magrittr_2.0.4        multcomp_1.4-29      </span></span>
 <span><span class="co">#&gt;  [7] snakecase_0.11.1      otel_0.2.0            compiler_4.5.2       </span></span>
-<span><span class="co">#&gt; [10] systemfonts_1.3.1     vctrs_0.6.5           stringr_1.6.0        </span></span>
-<span><span class="co">#&gt; [13] pkgconfig_2.0.3       arrayhelpers_1.1-0    fastmap_1.2.0        </span></span>
-<span><span class="co">#&gt; [16] backports_1.5.0       labeling_0.4.3        rmarkdown_2.30       </span></span>
-<span><span class="co">#&gt; [19] ragg_1.5.0            purrr_1.2.0           xfun_0.55            </span></span>
-<span><span class="co">#&gt; [22] cachem_1.1.0          jsonlite_2.0.0        broom_1.0.11         </span></span>
-<span><span class="co">#&gt; [25] parallel_4.5.2        R6_2.6.1              stringi_1.8.7        </span></span>
-<span><span class="co">#&gt; [28] RColorBrewer_1.1-3    lubridate_1.9.4       estimability_1.5.1   </span></span>
-<span><span class="co">#&gt; [31] knitr_1.51            zoo_1.8-15            Matrix_1.7-4         </span></span>
-<span><span class="co">#&gt; [34] timechange_0.3.0      tidyselect_1.2.1      abind_1.4-8          </span></span>
-<span><span class="co">#&gt; [37] codetools_0.2-20      curl_7.0.0            pkgbuild_1.4.8       </span></span>
-<span><span class="co">#&gt; [40] lattice_0.22-7        plyr_1.8.9            withr_3.0.2          </span></span>
-<span><span class="co">#&gt; [43] bridgesampling_1.2-1  S7_0.2.1              coda_0.19-4.1        </span></span>
-<span><span class="co">#&gt; [46] evaluate_1.0.5        survival_3.8-3        RcppParallel_5.1.11-1</span></span>
-<span><span class="co">#&gt; [49] tensorA_0.36.2.1      checkmate_2.3.3       distributional_0.5.0 </span></span>
-<span><span class="co">#&gt; [52] generics_0.1.4        rprojroot_2.1.1       rstantools_2.5.0     </span></span>
-<span><span class="co">#&gt; [55] scales_1.4.0          xtable_1.8-4          glue_1.8.0           </span></span>
-<span><span class="co">#&gt; [58] emmeans_2.0.1         tools_4.5.2           mvtnorm_1.3-3        </span></span>
-<span><span class="co">#&gt; [61] grid_4.5.2            QuickJSR_1.8.1        colorspace_2.1-2     </span></span>
-<span><span class="co">#&gt; [64] nlme_3.1-168          cli_3.6.5             textshaping_1.0.4    </span></span>
-<span><span class="co">#&gt; [67] svUnit_1.0.8          Brobdingnag_1.2-9     V8_8.0.1             </span></span>
-<span><span class="co">#&gt; [70] gtable_0.3.6          digest_0.6.39         TH.data_1.1-5        </span></span>
-<span><span class="co">#&gt; [73] htmlwidgets_1.6.4     farver_2.1.2          memoise_2.0.1        </span></span>
-<span><span class="co">#&gt; [76] htmltools_0.5.9       lifecycle_1.0.4       MASS_7.3-65</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [10] vctrs_0.6.5           stringr_1.6.0         pkgconfig_2.0.3      </span></span>
+<span><span class="co">#&gt; [13] arrayhelpers_1.1-0    fastmap_1.2.0         backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [16] labeling_0.4.3        rmarkdown_2.30        purrr_1.2.0          </span></span>
+<span><span class="co">#&gt; [19] xfun_0.55             cachem_1.1.0          jsonlite_2.0.0       </span></span>
+<span><span class="co">#&gt; [22] broom_1.0.11          parallel_4.5.2        R6_2.6.1             </span></span>
+<span><span class="co">#&gt; [25] stringi_1.8.7         RColorBrewer_1.1-3    lubridate_1.9.4      </span></span>
+<span><span class="co">#&gt; [28] estimability_1.5.1    knitr_1.51            zoo_1.8-15           </span></span>
+<span><span class="co">#&gt; [31] Matrix_1.7-4          timechange_0.3.0      tidyselect_1.2.1     </span></span>
+<span><span class="co">#&gt; [34] abind_1.4-8           yaml_2.3.12           codetools_0.2-20     </span></span>
+<span><span class="co">#&gt; [37] curl_7.0.0            pkgbuild_1.4.8        lattice_0.22-7       </span></span>
+<span><span class="co">#&gt; [40] plyr_1.8.9            bridgesampling_1.2-1  S7_0.2.1             </span></span>
+<span><span class="co">#&gt; [43] coda_0.19-4.1         evaluate_1.0.5        survival_3.8-3       </span></span>
+<span><span class="co">#&gt; [46] RcppParallel_5.1.11-1 pillar_1.11.1         tensorA_0.36.2.1     </span></span>
+<span><span class="co">#&gt; [49] checkmate_2.3.3       distributional_0.5.0  generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [52] rprojroot_2.1.1       rstantools_2.5.0      scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [55] xtable_1.8-4          glue_1.8.0            emmeans_2.0.1        </span></span>
+<span><span class="co">#&gt; [58] tools_4.5.2           mvtnorm_1.3-3         grid_4.5.2           </span></span>
+<span><span class="co">#&gt; [61] QuickJSR_1.8.1        colorspace_2.1-2      nlme_3.1-168         </span></span>
+<span><span class="co">#&gt; [64] cli_3.6.5             textshaping_1.0.4     svUnit_1.0.8         </span></span>
+<span><span class="co">#&gt; [67] Brobdingnag_1.2-9     V8_8.0.1              gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [70] digest_0.6.39         TH.data_1.1-5         htmlwidgets_1.6.4    </span></span>
+<span><span class="co">#&gt; [73] farver_2.1.2          memoise_2.0.1         htmltools_0.5.9      </span></span>
+<span><span class="co">#&gt; [76] lifecycle_1.0.4       MASS_7.3-65</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

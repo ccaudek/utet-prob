@@ -134,7 +134,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -958,14 +958,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/09_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
+  <a href="../../chapters/probability/09_cov_cor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/10_cov_cor.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span></a>
+  <a href="../../chapters/probability/10_dal_dato_ipotesi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dal dato all’ipotesi: l’evidenza e l’aggiornamento delle credenze</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1111,7 +1111,10 @@ window.Quarto = {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Riapplica il tema per sicurezza</span></span>
+<span><span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1121,10 +1124,12 @@ window.Quarto = {
 <section id="il-problema-inferenziale" class="level3" data-number="15.1.1"><h3 data-number="15.1.1" class="anchored" data-anchor-id="il-problema-inferenziale">
 <span class="header-section-number">15.1.1</span> Il problema inferenziale</h3>
 <p>Consideriamo un problema concreto: stimare la prevalenza <span class="math inline">\(\theta\)</span> di sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Poiché non è possibile osservare l’intera popolazione, raccogliamo un campione di <span class="math inline">\(n\)</span> studenti e registriamo, per ciascuno, la presenza (1) o assenza (0) del sintomo.</p>
-<p>Dal punto di vista probabilistico, le osservazioni <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> possono essere modellate come variabili casuali indipendenti e identicamente distribuite (i.i.d.) con distribuzione di Bernoulli: <span class="math display">\[
+<p>Dal punto di vista probabilistico, le osservazioni <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> possono essere modellate come variabili casuali indipendenti e identicamente distribuite (i.i.d.) con distribuzione di Bernoulli:</p>
+<p><span class="math display">\[
 X_i \mid \theta \sim \text{Bernoulli}(\theta).
 \]</span></p>
-<p>L’informazione contenuta nel campione viene tipicamente riassunta dalla <strong>proporzione campionaria</strong> <span class="math display">\[
+<p>L’informazione contenuta nel campione viene tipicamente riassunta dalla <strong>proporzione campionaria</strong></p>
+<p><span class="math display">\[
 \bar{X} = \frac{1}{n}\sum_{i=1}^n X_i,
 \]</span> che rappresenta la frazione di studenti nel campione che presentano il sintomo.</p>
 <p>Prima di osservare i dati, le nostre conoscenze su <span class="math inline">\(\theta\)</span> possono essere rappresentate da una distribuzione a priori. Dopo l’osservazione, l’aggiornamento bayesiano avviene tramite la <strong>verosimiglianza</strong>. Per capire <em>perché</em> la verosimiglianza ha la forma che osserviamo nei grafici, dobbiamo quindi capire <em>come si comporta</em> la media campionaria <span class="math inline">\(\bar{X}\)</span>.</p>
@@ -1132,7 +1137,8 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 <span class="header-section-number">15.1.2</span> Perché la verosimiglianza è centrata nel punto giusto</h3>
 <p>Un primo fatto fondamentale è che, in media, la proporzione campionaria coincide con il parametro che vogliamo stimare.</p>
 <div id="thm-expval-mean" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 15.1</strong></span> Per osservazioni i.i.d. con <span class="math inline">\(\mathbb{E}[X_i \mid \theta] = \theta\)</span>: <span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 15.1</strong></span> Per osservazioni i.i.d. con <span class="math inline">\(\mathbb{E}[X_i \mid \theta] = \theta\)</span>:</p>
+<p><span class="math display">\[
 \mathbb{E}[\bar{X} \mid \theta] = \theta.
 \]</span></p>
 </div>
@@ -1150,15 +1156,21 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>[ [{X} ] = != _{i=1}^n [X_i ] = .]</p>
+<p><span class="math display">\[
+\mathbb{E}[\bar{X} \mid \theta]
+= \mathbb{E}\!\left[\frac{1}{n}\sum_{i=1}^n X_i\right]
+= \frac{1}{n}\sum_{i=1}^n \mathbb{E}[X_i \mid \theta]
+= \theta.
+\]</span></p>
 </div>
 </div>
 </div>
-<hr></section><section id="perché-la-verosimiglianza-diventa-più-stretta-con-più-dati" class="level3" data-number="15.1.3"><h3 data-number="15.1.3" class="anchored" data-anchor-id="perché-la-verosimiglianza-diventa-più-stretta-con-più-dati">
+</section><section id="perché-la-verosimiglianza-diventa-più-stretta-con-più-dati" class="level3" data-number="15.1.3"><h3 data-number="15.1.3" class="anchored" data-anchor-id="perché-la-verosimiglianza-diventa-più-stretta-con-più-dati">
 <span class="header-section-number">15.1.3</span> Perché la verosimiglianza diventa più stretta con più dati</h3>
 <p>Un secondo fatto cruciale riguarda <strong>quanto</strong> la proporzione campionaria può fluttuare attorno al suo valore medio.</p>
 <div id="thm-var-mean" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 15.2</strong></span> Per osservazioni i.i.d. con varianza <span class="math inline">\(\text{Var}(X_i \mid \theta) = \sigma^2\)</span>: <span class="math display">\[
+<p><span class="theorem-title"><strong>Teorema 15.2</strong></span> Per osservazioni i.i.d. con varianza <span class="math inline">\(\text{Var}(X_i \mid \theta) = \sigma^2\)</span>:</p>
+<p><span class="math display">\[
 \text{Var}(\bar{X} \mid \theta) = \frac{\sigma^2}{n}.
 \]</span></p>
 </div>
@@ -1176,19 +1188,26 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>[ ({X} ) = _{i=1}^n (X_i ) = .]</p>
+<p><span class="math display">\[
+\text{Var}(\bar{X} \mid \theta)
+= \frac{1}{n^2}\sum_{i=1}^n \text{Var}(X_i \mid \theta)
+= \frac{\sigma^2}{n}.
+\]</span></p>
 </div>
 </div>
 </div>
 </section><section id="il-caso-bernoulliano-quanta-incertezza-rimane" class="level3" data-number="15.1.4"><h3 data-number="15.1.4" class="anchored" data-anchor-id="il-caso-bernoulliano-quanta-incertezza-rimane">
 <span class="header-section-number">15.1.4</span> Il caso Bernoulliano: quanta incertezza rimane?</h3>
-<p>Nel caso delle variabili di Bernoulli, la variabilità di ciascuna osservazione dipende dal valore stesso di <span class="math inline">\(\theta\)</span>: <span class="math display">\[
+<p>Nel caso delle variabili di Bernoulli, la variabilità di ciascuna osservazione dipende dal valore stesso di <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
 \text{Var}(X_i \mid \theta) = \theta(1-\theta).
 \]</span></p>
-<p>Di conseguenza, la variabilità della proporzione campionaria è: <span class="math display">\[
+<p>Di conseguenza, la variabilità della proporzione campionaria è:</p>
+<p><span class="math display">\[
 \text{Var}(\bar{X} \mid \theta) = \frac{\theta(1-\theta)}{n}.
 \]</span></p>
-<p>La quantità <span class="math display">\[
+<p>La quantità</p>
+<p><span class="math display">\[
 \text{SE}(\bar{X}) = \sqrt{\frac{\theta(1-\theta)}{n}}
 \]</span> è detta <strong>errore standard</strong> e rappresenta l’ordine di grandezza delle fluttuazioni attese di <span class="math inline">\(\bar{X}\)</span> attorno al valore vero di <span class="math inline">\(\theta\)</span>.</p>
 <p>Questa espressione ha una forma particolarmente informativa:</p>
@@ -1224,14 +1243,17 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">likelihood_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">likelihood</span>, color <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">p_obs</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray40"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">p_obs</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Verosimiglianza (normalizzata)"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"Dimensione\ncampionaria"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span>
+<span><span class="co">#&gt; &lt;ggplot2::labels&gt; List of 3</span></span>
+<span><span class="co">#&gt;  $ x     :  expression(theta)</span></span>
+<span><span class="co">#&gt;  $ y     : chr "Verosimiglianza (normalizzata)"</span></span>
+<span><span class="co">#&gt;  $ colour: chr "Dimensione\ncampionaria"</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-likelihood-n" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-likelihood-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1251,7 +1273,8 @@ Figura&nbsp;15.1: La verosimiglianza diventa più concentrata all’aumentare de
 <span class="header-section-number">15.2</span> Precisione e informatività</h2>
 <section id="perché-parlare-di-precisione" class="level3" data-number="15.2.1"><h3 data-number="15.2.1" class="anchored" data-anchor-id="perché-parlare-di-precisione">
 <span class="header-section-number">15.2.1</span> Perché parlare di precisione?</h3>
-<p>Nell’inferenza bayesiana è spesso più utile ragionare in termini di <strong>precisione</strong> piuttosto che di varianza. La precisione è definita come l’inverso della varianza: <span class="math display">\[
+<p>Nell’inferenza bayesiana è spesso più utile ragionare in termini di <strong>precisione</strong> piuttosto che di varianza. La precisione è definita come l’inverso della varianza:</p>
+<p><span class="math display">\[
 \tau = \frac{1}{\sigma^2}.
 \]</span></p>
 <p>Questa scelta non è puramente convenzionale. La precisione fornisce infatti una misura diretta di <strong>quanta informazione</strong> è contenuta in una distribuzione:</p>
@@ -1262,10 +1285,12 @@ Figura&nbsp;15.1: La verosimiglianza diventa più concentrata all’aumentare de
 <p>In altre parole, la precisione quantifica quanto “strettamente” una distribuzione è concentrata attorno ai valori più plausibili del parametro.</p>
 </section><section id="la-precisione-della-media-campionaria" class="level3" data-number="15.2.2"><h3 data-number="15.2.2" class="anchored" data-anchor-id="la-precisione-della-media-campionaria">
 <span class="header-section-number">15.2.2</span> La precisione della media campionaria</h3>
-<p>Nel capitolo precedente abbiamo visto che la varianza della media campionaria decresce con il numero di osservazioni: <span class="math display">\[
+<p>Nel capitolo precedente abbiamo visto che la varianza della media campionaria decresce con il numero di osservazioni:</p>
+<p><span class="math display">\[
 \text{Var}(\bar{X} \mid \theta) = \frac{\sigma^2}{n}.
 \]</span></p>
-<p>Passando alla precisione otteniamo: <span class="math display">\[
+<p>Passando alla precisione otteniamo:</p>
+<p><span class="math display">\[
 \text{Precisione}(\bar{X} \mid \theta)
 = \frac{1}{\text{Var}(\bar{X} \mid \theta)}
 = \frac{n}{\sigma^2}.
@@ -1281,7 +1306,8 @@ Figura&nbsp;15.1: La verosimiglianza diventa più concentrata all’aumentare de
 </blockquote>
 </section><section id="errore-standard-e-informatività-dei-dati" class="level3" data-number="15.2.3"><h3 data-number="15.2.3" class="anchored" data-anchor-id="errore-standard-e-informatività-dei-dati">
 <span class="header-section-number">15.2.3</span> Errore standard e informatività dei dati</h3>
-<p>L’<strong>errore standard</strong> <span class="math display">\[
+<p>L’<strong>errore standard</strong></p>
+<p><span class="math display">\[
 \text{SE} = \frac{\sigma}{\sqrt{n}}
 \]</span> fornisce una misura immediata dell’incertezza associata alla media campionaria come stima del parametro.</p>
 <p>Dal punto di vista bayesiano:</p>
@@ -1307,28 +1333,28 @@ Figura&nbsp;15.1: La verosimiglianza diventa più concentrata all’aumentare de
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">precision_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="va">se</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"#4E79A7"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"Dimensione campionaria (n)"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Errore standard"</span>,</span>
-<span>    title <span class="op">=</span> <span class="st">"Errore standard decresce come 1/√n"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Errore standard\ndecresce come 1/√n"</span></span>
+<span>  <span class="op">)</span> </span>
 <span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">precision_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, y <span class="op">=</span> <span class="va">precision</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span>, color <span class="op">=</span> <span class="st">"#E15759"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"Dimensione campionaria (n)"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Precisione"</span>,</span>
-<span>    title <span class="op">=</span> <span class="st">"Precisione cresce linearmente con n"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Precisione cresce\nlinearmente con n"</span></span>
+<span>  <span class="op">)</span> </span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-precision-vs-n" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-precision-vs-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="15_properties_likelihood_files/figure-html/fig-precision-vs-n-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;15.2: Relazione tra dimensione campionaria, errore standard e precisione. Mentre l’errore standard decresce come 1/√n, la precisione cresce linearmente con n."><img src="15_properties_likelihood_files/figure-html/fig-precision-vs-n-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+<a href="15_properties_likelihood_files/figure-html/fig-precision-vs-n-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;15.2: Relazione tra dimensione campionaria, errore standard e precisione. Mentre l’errore standard decresce come 1/√n, la precisione cresce linearmente con n."><img src="15_properties_likelihood_files/figure-html/fig-precision-vs-n-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-precision-vs-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;15.2: Relazione tra dimensione campionaria, errore standard e precisione. Mentre l’errore standard decresce come 1/√n, la precisione cresce linearmente con n.
@@ -1346,7 +1372,8 @@ Figura&nbsp;15.2: Relazione tra dimensione campionaria, errore standard e precis
 <p>Questa sezione rende esplicita questa idea nel contesto più semplice possibile, ma anche uno dei più istruttivi.</p>
 </section><section id="il-caso-gaussiano-prior-e-dati" class="level3" data-number="15.3.2"><h3 data-number="15.3.2" class="anchored" data-anchor-id="il-caso-gaussiano-prior-e-dati">
 <span class="header-section-number">15.3.2</span> Il caso gaussiano: prior e dati</h3>
-<p>Supponiamo di avere una credenza iniziale sul parametro <span class="math inline">\(\theta\)</span>, rappresentata da una distribuzione a priori gaussiana: <span class="math display">\[
+<p>Supponiamo di avere una credenza iniziale sul parametro <span class="math inline">\(\theta\)</span>, rappresentata da una distribuzione a priori gaussiana:</p>
+<p><span class="math display">\[
 \theta \sim \mathcal{N}(\mu_0, \sigma_0^2).
 \]</span></p>
 <p>Questa distribuzione riassume ciò che sappiamo (o crediamo di sapere) <em>prima</em> di osservare nuovi dati:</p>
@@ -1356,7 +1383,8 @@ Figura&nbsp;15.2: Relazione tra dimensione campionaria, errore standard e precis
 <li>
 <span class="math inline">\(\sigma_0^2\)</span> quantifica l’incertezza associata a tale credenza.</li>
 </ul>
-<p>Ora raccogliamo un campione di <span class="math inline">\(n\)</span> osservazioni indipendenti: <span class="math display">\[
+<p>Ora raccogliamo un campione di <span class="math inline">\(n\)</span> osservazioni indipendenti:</p>
+<p><span class="math display">\[
 X_1, \ldots, X_n \sim \mathcal{N}(\theta, \sigma^2),
 \]</span> dove la varianza <span class="math inline">\(\sigma^2\)</span> è nota. Come visto nelle sezioni precedenti, tutta l’informazione rilevante contenuta nel campione è riassunta dalla <strong>media campionaria</strong> <span class="math inline">\(\bar{X}\)</span>.</p>
 </section><section id="la-verosimiglianza-come-distribuzione-informativa" class="level3" data-number="15.3.3"><h3 data-number="15.3.3" class="anchored" data-anchor-id="la-verosimiglianza-come-distribuzione-informativa">
@@ -1372,7 +1400,8 @@ L(\theta; \bar{x}) \propto
 <li>ha varianza <span class="math inline">\(\sigma^2/n\)</span>;</li>
 <li>diventa più stretta al crescere del numero di osservazioni.</li>
 </ul>
-<p>In termini di <strong>precisione</strong>, l’informazione fornita dai dati è pari a: <span class="math display">\[
+<p>In termini di <strong>precisione</strong>, l’informazione fornita dai dati è pari a:</p>
+<p><span class="math display">\[
 \tau_{\text{dati}} = \frac{n}{\sigma^2}.
 \]</span></p>
 </section><section id="la-distribuzione-a-posteriori" class="level3" data-number="15.3.4"><h3 data-number="15.3.4" class="anchored" data-anchor-id="la-distribuzione-a-posteriori">
@@ -1381,7 +1410,8 @@ L(\theta; \bar{x}) \propto
 <p><span class="math display">\[
 p(\theta \mid \bar{x}) \propto p(\theta)\, L(\theta; \bar{x}).
 \]</span></p>
-<p>Nel caso gaussiano, questo prodotto genera ancora una distribuzione normale: <span class="math display">\[
+<p>Nel caso gaussiano, questo prodotto genera ancora una distribuzione normale:</p>
+<p><span class="math display">\[
 \theta \mid \bar{x} \sim \mathcal{N}(\mu_{\text{post}}, \sigma_{\text{post}}^2).
 \]</span></p>
 <div id="thm-posterior-gaussian" class="theorem">
@@ -1455,15 +1485,14 @@ p(\theta \mid \bar{x}) \propto p(\theta)\, L(\theta; \bar{x}).
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">plot_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">type</span>, linetype <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#4E79A7"</span>, <span class="st">"#E69F00"</span>, <span class="st">"#59A14F"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_linetype_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"solid"</span>, <span class="st">"dashed"</span>, <span class="st">"solid"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">""</span>,</span>
 <span>    linetype <span class="op">=</span> <span class="st">""</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-bayesian-update" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-bayesian-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1582,20 +1611,19 @@ Figura&nbsp;15.3: Aggiornamento bayesiano: il prior (blu), la verosimiglianza (a
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">all_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">researcher</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">theta_true</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, </span>
-<span>             color <span class="op">=</span> <span class="st">"gray40"</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>             linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">n_label</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#4E79A7"</span>, <span class="st">"#E15759"</span>, <span class="st">"#59A14F"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Densità a posteriori"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"Ricercatore"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-convergence" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="15_properties_likelihood_files/figure-html/fig-convergence-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;15.4: Convergenza bayesiana: tre ricercatori con prior molto diversi convergono alla stessa conclusione all’aumentare dei dati. La linea verticale indica il valore vero θ₀ = 0.45."><img src="15_properties_likelihood_files/figure-html/fig-convergence-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+<a href="15_properties_likelihood_files/figure-html/fig-convergence-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;15.4: Convergenza bayesiana: tre ricercatori con prior molto diversi convergono alla stessa conclusione all’aumentare dei dati. La linea verticale indica il valore vero θ₀ = 0.45."><img src="15_properties_likelihood_files/figure-html/fig-convergence-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;15.4: Convergenza bayesiana: tre ricercatori con prior molto diversi convergono alla stessa conclusione all’aumentare dei dati. La linea verticale indica il valore vero θ₀ = 0.45.
@@ -1673,17 +1701,17 @@ L(\theta \mid \bar{x}) \;\approx\;
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sampling_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span>, bins <span class="op">=</span> <span class="fl">40</span>, </span>
-<span>                 fill <span class="op">=</span> <span class="st">"#4E79A7"</span>, alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                 alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dnorm</span>, </span>
 <span>                args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">0.5</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">12</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">sampling_data</span>, <span class="va">n</span> <span class="op">==</span> <span class="st">"n = 30"</span><span class="op">)</span>,</span>
-<span>                color <span class="op">=</span> <span class="st">"#E15759"</span>, linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">n</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"Media campionaria"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Densità"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-clt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-clt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1771,15 +1799,14 @@ Figura&nbsp;15.5: Il Teorema del Limite Centrale in azione: anche partendo da un
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">meta_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>, color <span class="op">=</span> <span class="va">studio</span>, linetype <span class="op">=</span> <span class="va">studio</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#4E79A7"</span>, <span class="st">"#E69F00"</span>, <span class="st">"#59A14F"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_linetype_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dashed"</span>, <span class="st">"dashed"</span>, <span class="st">"solid"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">""</span>,</span>
 <span>    linetype <span class="op">=</span> <span class="st">""</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="op">)</span>  </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-meta-analysis" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-meta-analysis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1829,7 +1856,7 @@ Figura&nbsp;15.6: Combinazione di evidenze. Lo studio B (n=200), avendo una prec
 <div class="cell-output-display">
 <div id="fig-precision-accuracy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-precision-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="15_properties_likelihood_files/figure-html/fig-precision-accuracy-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più pericolosa è l’alta precisione con bassa accuratezza (in alto a destra): stime molto sicure ma sistematicamente sbagliate."><img src="15_properties_likelihood_files/figure-html/fig-precision-accuracy-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+<a href="15_properties_likelihood_files/figure-html/fig-precision-accuracy-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più pericolosa è l’alta precisione con bassa accuratezza (in alto a destra): stime molto sicure ma sistematicamente sbagliate."><img src="15_properties_likelihood_files/figure-html/fig-precision-accuracy-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-precision-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più pericolosa è l’alta precisione con bassa accuratezza (in alto a destra): stime molto sicure ma sistematicamente sbagliate.
@@ -1897,15 +1924,15 @@ Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più 
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] pillar_1.11.1         tinytable_0.15.2      patchwork_1.3.2      </span></span>
-<span><span class="co">#&gt;  [4] ggdist_3.3.3          tidybayes_3.0.7       bayesplot_1.15.0     </span></span>
-<span><span class="co">#&gt;  [7] ggplot2_4.0.1         reliabilitydiag_0.2.1 priorsense_1.2.0     </span></span>
-<span><span class="co">#&gt; [10] posterior_1.6.1       loo_2.9.0             rstan_2.32.7         </span></span>
-<span><span class="co">#&gt; [13] StanHeaders_2.32.10   brms_2.23.0           Rcpp_1.1.0           </span></span>
-<span><span class="co">#&gt; [16] sessioninfo_1.2.3     conflicted_1.2.0      janitor_2.2.1        </span></span>
-<span><span class="co">#&gt; [19] matrixStats_1.5.0     modelr_0.1.11         tibble_3.3.0         </span></span>
-<span><span class="co">#&gt; [22] dplyr_1.1.4           tidyr_1.3.2           rio_1.2.4            </span></span>
-<span><span class="co">#&gt; [25] here_1.0.2           </span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.0            tinytable_0.15.2      withr_3.0.2          </span></span>
+<span><span class="co">#&gt;  [4] systemfonts_1.3.1     patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.1        </span></span>
+<span><span class="co">#&gt; [10] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.6.1      </span></span>
+<span><span class="co">#&gt; [13] loo_2.9.0             rstan_2.32.7          StanHeaders_2.32.10  </span></span>
+<span><span class="co">#&gt; [16] brms_2.23.0           Rcpp_1.1.0            sessioninfo_1.2.3    </span></span>
+<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
+<span><span class="co">#&gt; [22] modelr_0.1.11         tibble_3.3.0          dplyr_1.1.4          </span></span>
+<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.2.4             here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
@@ -1916,25 +1943,24 @@ Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più 
 <span><span class="co">#&gt; [16] tools_4.5.2           yaml_2.3.12           knitr_1.51           </span></span>
 <span><span class="co">#&gt; [19] labeling_0.4.3        bridgesampling_1.2-1  htmlwidgets_1.6.4    </span></span>
 <span><span class="co">#&gt; [22] curl_7.0.0            pkgbuild_1.4.8        RColorBrewer_1.1-3   </span></span>
-<span><span class="co">#&gt; [25] abind_1.4-8           multcomp_1.4-29       withr_3.0.2          </span></span>
-<span><span class="co">#&gt; [28] purrr_1.2.0           grid_4.5.2            stats4_4.5.2         </span></span>
-<span><span class="co">#&gt; [31] colorspace_2.1-2      xtable_1.8-4          inline_0.3.21        </span></span>
-<span><span class="co">#&gt; [34] emmeans_2.0.1         scales_1.4.0          MASS_7.3-65          </span></span>
-<span><span class="co">#&gt; [37] cli_3.6.5             mvtnorm_1.3-3         rmarkdown_2.30       </span></span>
-<span><span class="co">#&gt; [40] ragg_1.5.0            generics_0.1.4        otel_0.2.0           </span></span>
-<span><span class="co">#&gt; [43] RcppParallel_5.1.11-1 cachem_1.1.0          stringr_1.6.0        </span></span>
-<span><span class="co">#&gt; [46] splines_4.5.2         parallel_4.5.2        vctrs_0.6.5          </span></span>
-<span><span class="co">#&gt; [49] V8_8.0.1              Matrix_1.7-4          sandwich_3.1-1       </span></span>
-<span><span class="co">#&gt; [52] jsonlite_2.0.0        arrayhelpers_1.1-0    systemfonts_1.3.1    </span></span>
-<span><span class="co">#&gt; [55] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
-<span><span class="co">#&gt; [58] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
-<span><span class="co">#&gt; [61] QuickJSR_1.8.1        htmltools_0.5.9       Brobdingnag_1.2-9    </span></span>
-<span><span class="co">#&gt; [64] R6_2.6.1              textshaping_1.0.4     rprojroot_2.1.1      </span></span>
-<span><span class="co">#&gt; [67] evaluate_1.0.5        lattice_0.22-7        backports_1.5.0      </span></span>
-<span><span class="co">#&gt; [70] memoise_2.0.1         broom_1.0.11          snakecase_0.11.1     </span></span>
-<span><span class="co">#&gt; [73] rstantools_2.5.0      gridExtra_2.3         coda_0.19-4.1        </span></span>
-<span><span class="co">#&gt; [76] nlme_3.1-168          checkmate_2.3.3       xfun_0.55            </span></span>
-<span><span class="co">#&gt; [79] zoo_1.8-15            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [25] abind_1.4-8           multcomp_1.4-29       purrr_1.2.0          </span></span>
+<span><span class="co">#&gt; [28] grid_4.5.2            stats4_4.5.2          colorspace_2.1-2     </span></span>
+<span><span class="co">#&gt; [31] xtable_1.8-4          inline_0.3.21         emmeans_2.0.1        </span></span>
+<span><span class="co">#&gt; [34] scales_1.4.0          MASS_7.3-65           cli_3.6.5            </span></span>
+<span><span class="co">#&gt; [37] mvtnorm_1.3-3         rmarkdown_2.30        generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [40] otel_0.2.0            RcppParallel_5.1.11-1 cachem_1.1.0         </span></span>
+<span><span class="co">#&gt; [43] stringr_1.6.0         splines_4.5.2         parallel_4.5.2       </span></span>
+<span><span class="co">#&gt; [46] vctrs_0.6.5           V8_8.0.1              Matrix_1.7-4         </span></span>
+<span><span class="co">#&gt; [49] sandwich_3.1-1        jsonlite_2.0.0        arrayhelpers_1.1-0   </span></span>
+<span><span class="co">#&gt; [52] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
+<span><span class="co">#&gt; [55] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [58] QuickJSR_1.8.1        pillar_1.11.1         htmltools_0.5.9      </span></span>
+<span><span class="co">#&gt; [61] Brobdingnag_1.2-9     R6_2.6.1              textshaping_1.0.4    </span></span>
+<span><span class="co">#&gt; [64] rprojroot_2.1.1       evaluate_1.0.5        lattice_0.22-7       </span></span>
+<span><span class="co">#&gt; [67] backports_1.5.0       memoise_2.0.1         broom_1.0.11         </span></span>
+<span><span class="co">#&gt; [70] snakecase_0.11.1      rstantools_2.5.0      gridExtra_2.3        </span></span>
+<span><span class="co">#&gt; [73] coda_0.19-4.1         nlme_3.1-168          checkmate_2.3.3      </span></span>
+<span><span class="co">#&gt; [76] xfun_0.55             zoo_1.8-15            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
