@@ -2,43 +2,31 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-In questo capitolo adotteremo una **prospettiva bayesiana** sulla probabilità. In tale prospettiva, la probabilità non è intesa come una proprietà intrinseca degli eventi né come una semplice frequenza osservata nel lungo periodo, ma come un **grado di credenza razionale** espresso da un agente sulla base delle informazioni di cui dispone.
+In questo capitolo adotteremo una **prospettiva bayesiana** sulla probabilità. Secondo questo approccio, la probabilità non è una proprietà intrinseca degli eventi, né una mera frequenza osservata, bensì un **grado di credenza razionale** che un agente assegna sulla base delle informazioni disponibili.
 
-Questa idea, sviluppata storicamente da autori come Thomas Bayes, Pierre-Simon Laplace e Bruno de Finetti, fornisce un quadro concettuale particolarmente adatto alle scienze psicologiche, dove spesso dobbiamo ragionare in condizioni di informazione incompleta, rumore e variabilità individuale.
+Questa concezione, sviluppata da pensatori come Thomas Bayes, Pierre‑Simon Laplace e Bruno de Finetti, offre un quadro concettuale particolarmente adatto alle scienze psicologiche, dove siamo spesso chiamati a ragionare in condizioni di informazione incompleta, rumore e variabilità individuale.
 
-Dal punto di vista bayesiano, gli assiomi della probabilità non descrivono leggi fisiche della casualità, ma rappresentano **vincoli di coerenza logica** tra le nostre valutazioni di incertezza. In altre parole, essi stabiliscono come *devono* essere collegate tra loro le nostre credenze affinché non siano internamente contraddittorie. Quando questi vincoli vengono violati, le assegnazioni di probabilità diventano incoerenti e possono portare a conclusioni irrazionali o addirittura a decisioni sistematicamente svantaggiose.
+Dal punto di vista bayesiano, gli assiomi della probabilità non descrivono leggi fisiche del caso, ma **vincoli di coerenza logica** tra le nostre valutazioni di incertezza. Essi definiscono come le nostre credenze *devono* relazionarsi tra loro per evitare contraddizioni interne. Violare questi vincoli rende le assegnazioni di probabilità incoerenti e può condurre a conclusioni irrazionali o a scelte decisionali sistematicamente svantaggiose.
 
-Nel corso di questo modulo utilizzeremo frequentemente **simulazioni al computer**. Il loro scopo non è quello di definire “che cos’è” la probabilità in senso astratto, ma di mostrare come un sistema di credenze coerente si comporta quando viene confrontato con i dati empirici. Le simulazioni ci permetteranno di esplorare in modo concreto e intuitivo le conseguenze delle regole della probabilità e di comprendere perché l’approccio bayesiano costituisca uno strumento potente e flessibile per modellare il ragionamento e l’analisi dei dati in psicologia.
+Nel corso del modulo faremo ampio uso di **simulazioni al computer**. Il loro scopo non è definire in astratto “che cos’è” la probabilità, ma mostrare come un sistema di credenze coerente si comporta quando entra in contatto con i dati empirici. Le simulazioni ci permetteranno di esplorare in modo concreto e intuitivo le conseguenze delle regole probabilistiche e di apprezzare perché l’approccio bayesiano costituisca uno strumento potente e flessibile per modellare il ragionamento e l’analisi dei dati in psicologia.
 
-## Perché la probabilità bayesiana in psicologia? {.unnumbered}
+### Perché la probabilità bayesiana in psicologia?
 
-La ricerca psicologica presenta caratteristiche che rendono l'approccio 
-bayesiano particolarmente adatto:
+La ricerca psicologica presenta caratteristiche che rendono l’approccio bayesiano particolarmente adatto:
 
-1. **Campioni ridotti**: in molti contesti clinici e sperimentali, la 
-   numerosità campionaria è limitata (n = 20-50). L'inferenza bayesiana 
-   permette di incorporare conoscenze pregresse per compensare.
+1.  **Campioni di dimensioni limitate.** In molti contesti clinici e sperimentali, la numerosità campionaria è spesso ridotta (es. $n$ = 20–50). L'inferenza bayesiana permette di incorporare in modo trasparente le conoscenze pregresse per compensare la limitata informazione proveniente dai dati.
 
-2. **Conoscenze cumulative**: raramente uno studio parte da zero. Abbiamo 
-   meta-analisi, studi pilota, teorie consolidate. I prior permettono di 
-   formalizzare queste conoscenze.
+2.  **Conoscenze cumulative e informazione pregressa.** Raramente uno studio parte da zero. Disponiamo di meta-analisi, studi pilota e teorie consolidate. I *prior* offrono un mezzo rigoroso per formalizzare e integrare questa conoscenza già esistente nel processo inferenziale.
 
-3. **Interpretazione intuitiva**: "c'è una probabilità del 95% che 
-   l'effetto sia tra 0.2 e 0.8" è più diretto e comprensibile di 
-   "se ripetessimo questo esperimento infinite volte..."
+3.  **Interpretazione intuitiva e direttamente applicabile.** Un'affermazione come "c'è una probabilità del 95% che l'effetto si collochi tra 0.2 e 0.8" è più immediata e comprensibile dell'interpretazione contorta del tipico intervallo di confidenza frequentista ("se ripetessimo questo esperimento infinite volte, nel 95% dei casi l'intervallo calcolato conterrebbe il vero parametro"). Questo facilita enormemente il dialogo tra ricerca, teoria e pratica.
 
 ::: {.callout-note collapse="true" title="Esempio concreto"}
 
-**Scenario**: Sei uno psicologo clinico che deve valutare un nuovo 
-trattamento per l'ansia. Hai solo 15 pazienti disponibili.
+**Scenario**: Sei uno psicologo clinico e devi valutare l'efficacia di un nuovo trattamento per l'ansia. Hai a disposizione solo 15 pazienti per uno studio pilota.
 
-**Approccio tradizionale**: "Il campione è troppo piccolo, non posso 
-concludere nulla di definitivo."
+**Approccio tradizionale**: “Il campione è troppo piccolo. Non posso trarre conclusioni statisticamente valide. Servirebbero molti più partecipanti.”
 
-**Approccio bayesiano**: "Incorporo i risultati di studi precedenti 
-simili come prior. Aggiorno le mie credenze con i 15 pazienti. 
-Ottengo una distribuzione posteriori che quantifica l'incertezza 
-residua e mi permette di decidere razionalmente."
+**Approccio bayesiano**: “Posso incorporare le evidenze di studi precedenti simili attraverso un *prior* informativo. Aggiorno quindi queste credenze con i dati raccolti sui 15 pazienti. Il risultato è una distribuzione a posteriori che quantifica in modo rigoroso l’effetto stimato *e* l’incertezza residua, guidandomi in una decisione clinica razionale anche con dati limitati.”
 :::
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
@@ -64,38 +52,40 @@ residua e mi permette di decidere razionalmente."
 #| output: false
 here::here("code", "_common.R") |> 
   source()
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
 ## Casualità e incertezza: due prospettive a confronto
 
-La vita è inevitabilmente permeata dall'incertezza: non possiamo ricostruire il passato con assoluta precisione né prevedere il futuro con certezza, e spesso fatichiamo a comprendere appieno la complessità del presente. Come osserva @spiegelhalter2024probability, questa condizione ci porta a considerare la casualità non come una qualità misteriosa degli eventi, ma come un **modello operativo** che, pur non fornendo predizioni deterministiche, consente di individuare regolarità statistiche utili per interpretare la realtà e prendere decisioni informate.
+La vita è intrinsecamente incerta: non possiamo ricostruire il passato con precisione assoluta, né prevedere il futuro con certezza, e spesso fatichiamo a decifrare appieno la complessità del presente. Come osserva @spiegelhalter2024probability, questa condizione ci invita a considerare la casualità non come una proprietà misteriosa degli eventi, ma come un **modello operativo** che, pur rinunciando a predizioni deterministiche, ci permette di individuare regolarità statistiche utili per interpretare la realtà e prendere decisioni informate.
 
-Per analizzare in modo sistematico l’incertezza, è utile distinguere due dimensioni fondamentali del nostro stato epistemico. Questa distinzione chiarisce quali aspetti dell’incertezza sembrano dipendere dalle caratteristiche del mondo e quali, invece, dai limiti delle nostre informazioni. Tale chiarimento concettuale costituisce una base importante per comprendere il ruolo della probabilità nell’analisi del comportamento.
+Per analizzare sistematicamente l’incertezza, è utile distinguere due dimensioni fondamentali del nostro stato epistemico. Questa distinzione chiarisce quali aspetti dell’incertezza sembrano radicati nelle caratteristiche del mondo e quali, invece, derivano dai limiti della nostra conoscenza. Tale precisazione concettuale fornisce una base solida per comprendere il ruolo della probabilità nell’analisi del comportamento.
 
 ### Incertezza epistemica
 
-L’**incertezza epistemica** (dal greco ἐπιστήμη, “conoscenza”) deriva dalla mancanza di informazioni adeguate o dalla loro scarsa qualità. È un tipo di incertezza che, almeno in linea di principio, può essere ridotta: nuovi dati, disegni sperimentali più accurati o misurazioni più affidabili possono diminuire il nostro margine di ignoranza.
+L’**incertezza epistemica** (dal greco ἐπιστήμη, “conoscenza”) deriva dalla mancanza di informazioni adeguate o dalla loro scarsa qualità. È un tipo di incertezza che, almeno in linea di principio, può essere ridotta: l’acquisizione di nuovi dati, l’adozione di disegni sperimentali più accurati o l’impiego di misurazioni più affidabili possono infatti diminuire il nostro margine di ignoranza.
 
-In psicologia, l’incertezza epistemica si manifesta, ad esempio, nella limitata dimensione dei campioni, nella presenza di variabili non controllate o nella disponibilità incompleta di informazioni cliniche o anamnestiche.
+In psicologia, l’incertezza epistemica si manifesta quotidianamente: nella limitata dimensione dei campioni, nella presenza di variabili non controllate, o nell’incompletezza delle informazioni cliniche o anamnestiche a disposizione.
 
 ### Incertezza ontologica
 
-L’**incertezza ontologica** (dal greco ὄντος, “essere”) riguarda invece l’imprevedibilità che sembra essere intrinseca ai fenomeni stessi. Essa non dipende dalle limitazioni del ricercatore e non scompare neppure quando le misurazioni sono estremamente precise.
+L’**incertezza ontologica** (dal greco ὄντος, “essere”) riguarda invece l’imprevedibilità che sembra essere intrinseca ai fenomeni stessi. Questo tipo di incertezza non dipende dalle limitazioni del ricercatore e non scompare neppure quando le misurazioni sono estremamente precise.
 
-In ambito psicologico, questa forma di incertezza include la variabilità comportamentale residua anche in condizioni sperimentali controllate, la natura probabilistica delle decisioni in situazioni ambigue e l’emergere spontaneo di insight, creatività o cambiamenti improvvisi di strategia.
+In ambito psicologico, questa forma di incertezza include la variabilità comportamentale residua anche in condizioni sperimentali controllate, la natura probabilisticamente distribuita delle decisioni in situazioni ambigue e l’emergere spontaneo di fenomeni come l’insight, la creatività o i cambiamenti improvvisi di strategia cognitiva.
 
 ### La sintesi bayesiana: l’incertezza come stato epistemico
 
-Nel framework bayesiano adottato in questo manuale, queste due forme di incertezza vengono trattate in modo unitario. Anche ciò che viene tradizionalmente descritto come “incertezza ontologica” viene formalizzato attraverso la stessa operazione fondamentale: l’assegnazione di probabilità.
+Nel framework bayesiano adottato in questo manuale, le due forme di incertezza, epistemica e ontologica, vengono trattate in modo unificato. Anche ciò che spesso viene descritto come "incertezza ontologica"  viene formalizzato attraverso lo stesso strumento fondamentale: l'assegnazione di probabilità.
 
-La ragione di questa scelta è che l’accesso dell’agente allo stato del sistema è sempre parziale. Di conseguenza, la probabilità diventa lo strumento con cui quantifichiamo i limiti della nostra conoscenza, indipendentemente dal fatto che tali limiti derivino da informazioni incomplete o dalla complessità intrinseca del fenomeno studiato.
+Questa scelta si fonda su una premessa epistemologica: l’accesso dell’osservatore allo stato del sistema è *sempre* parziale. Di conseguenza, la probabilità diviene lo strumento con cui quantifichiamo sistematicamente i limiti della nostra conoscenza, a prescindere dal fatto che essi derivino da informazioni incomplete o dalla complessità inerente al fenomeno studiato.
 
-Laplace osservò che, per un intelletto onnisciente capace di conoscere tutte le forze della natura e la posizione di ogni particella, il futuro sarebbe determinato con la stessa precisione del passato. In un universo completamente deterministico, l’impossibilità di formulare previsioni perfette non dipenderebbe quindi dalla natura degli eventi, ma esclusivamente dall’incompletezza della nostra conoscenza.
+Laplace notò che, per un intelletto onnisciente in grado di conoscere tutte le forze della natura e la posizione di ogni particella, il futuro sarebbe determinato con la stessa certezza del passato. In un universo deterministico, dunque, l’impossibilità di formulare previsioni perfette non dipenderebbe dalla natura del mondo, ma esclusivamente dall’incompletezza della nostra conoscenza.
 
-Da questa prospettiva, la probabilità non è una proprietà intrinseca del mondo, ma una conseguenza necessaria dei limiti cognitivi ed epistemologici dell’osservatore. È il nostro stato informativo, non il mondo in sé, a generare l’incertezza.
+Da questa prospettiva, la probabilità non è una proprietà intrinseca del mondo, ma una **conseguenza necessaria dei limiti cognitivi ed epistemici dell’osservatore**. È il nostro stato informativo, non il mondo in sé, a generare l’incertezza.
 
-Questa interpretazione epistemica della probabilità, intesa come misura del grado di credenza razionale, costituisce il fondamento concettuale e metodologico dell’approccio seguito nel manuale *Inferenza bayesiana in psicologia: Ragionare con l’incertezza. Fondamenti, workflow e applicazioni*.
+Questa interpretazione **epistemica della probabilità**, intesa come misura del grado di credenza razionale, costituisce il fondamento concettuale e metodologico dell’approccio seguito nel manuale *Inferenza bayesiana in psicologia: Ragionare con l’incertezza. Fondamenti, workflow e applicazioni*.
 
 ## Il decisore coerente di fronte all'incertezza
 
@@ -103,7 +93,7 @@ Questa interpretazione epistemica della probabilità, intesa come misura del gra
 
 Nell’opera seminale di Bruno de Finetti, il cuore del paradigma bayesiano è l’adozione di una prospettiva esplicitamente *soggettiva* sul processo decisionale in condizioni di incertezza [@de2017theory]. Le probabilità non sono proprietà intrinseche del mondo, ma valutazioni personali che esprimono quanto un agente ritiene plausibili i diversi stati possibili del sistema.
 
-Di fronte alle stesse circostanze incerte, due decisori possono quindi divergere — talvolta in modo marcato — sia nella stima delle probabilità, sia nella desiderabilità degli esiti, sia nella valutazione dell’influenza delle proprie azioni sui risultati. Questa variabilità non rappresenta un difetto del ragionamento, ma una caratteristica inevitabile di qualsiasi processo decisionale reale.
+Di fronte alle stesse circostanze incerte, due decisori possono quindi divergere, talvolta in modo marcato, sia nella stima delle probabilità, sia nella desiderabilità degli esiti, sia nella valutazione dell’influenza delle proprie azioni sui risultati. Questa variabilità non rappresenta un difetto del ragionamento, ma una caratteristica inevitabile di qualsiasi processo decisionale reale.
 
 Il paradigma bayesiano, tuttavia, non si limita a fornire una cornice soggettivista. Esso propone anche un *ideale matematico* di razionalità interna, specificando come dovrebbe comportarsi un decisore che, pur mantenendo le proprie valutazioni soggettive, rispetta un requisito fondamentale: la **coerenza**.
 
@@ -304,6 +294,7 @@ ggplot(df, aes(x = lancio, y = freq)) +
   geom_line(alpha = 0.7) +
   geom_hline(yintercept = p_testa_credenza, 
              linetype = "dashed", color = "red", size = 1) +
+  scale_fill_qualitative() +
   labs(
     title = "Frequenza cumulativa converge alla credenza",
     subtitle = "La credenza P(Testa)=0.5 predice la convergenza osservata",
@@ -430,7 +421,7 @@ La teoria della probabilità bayesiana si rivela particolarmente adatta allo stu
 
 ### Quantificare l’incertezza diagnostica
 
-La pratica clinica si svolge raramente in condizioni di certezza assoluta. Il processo diagnostico richiede l’integrazione di molteplici fonti informative — come l’anamnesi, l’osservazione comportamentale e i test psicometrici — ciascuna caratterizzata da un proprio grado di affidabilità e incertezza.
+La pratica clinica si svolge raramente in condizioni di certezza assoluta. Il processo diagnostico richiede l’integrazione di molteplici fonti informative, come l’anamnesi, l’osservazione comportamentale e i test psicometrici, ciascuna caratterizzata da un proprio grado di affidabilità e incertezza.
 
 Il framework bayesiano offre strumenti formali per quantificare l’incertezza diagnostica e per aggiornare in modo sistematico le credenze del clinico alla luce di ogni nuova evidenza. Un aspetto particolarmente rilevante è la possibilità di incorporare esplicitamente la **prevalenza dei disturbi** nella popolazione di riferimento, riducendo il rischio di errori diagnostici dovuti alla negligenza dei tassi di base.
 
@@ -465,17 +456,20 @@ Un’ulteriore differenza riguarda il **ruolo delle conoscenze pregresse**. Il f
 
 Infine, l’approccio frequentista fa ampio uso dei **valori-$p$**, che rispondono alla domanda: “Quanto sarebbero sorprendenti i dati osservati se l’ipotesi nulla fosse vera?”. Questa quantità, tuttavia, non corrisponde direttamente alla domanda scientifica che spesso interessa il ricercatore, ossia la plausibilità dell’ipotesi alla luce dei dati osservati. L’approccio bayesiano consente invece di rispondere direttamente a questa domanda centrale, calcolando le *probabilità a posteriori* delle ipotesi e fornendo così una misura quantitativa della loro credibilità razionale.
 
-::: {.callout-warning title="Misconcezioni comuni"}
+::: {.callout-warning title="Fraintendimenti comuni"}
 
 ❌ **FALSO**: *«La probabilità bayesiana è un’opinione soggettiva arbitraria»*
+
 ✅ **VERO**: La probabilità bayesiana rispetta pienamente gli assiomi della probabilità.
 I **prior** vengono aggiornati in modo rigoroso e oggettivo dai dati tramite il teorema di Bayes.
 
 ❌ **FALSO**: *«Per un’inferenza valida serve sempre un campione molto grande»*
+
 ✅ **VERO**: Con **prior informativi**, anche campioni piccoli possono produrre inferenze utili.
 L’aspetto cruciale è **quantificare correttamente l’incertezza**.
 
 ❌ **FALSO**: *«L’approccio bayesiano è solo per esperti di matematica»*
+
 ✅ **VERO**: I software moderni (come *brms* e *rstanarm*) rendono l’approccio bayesiano accessibile.
 Questo modulo fornirà le basi necessarie per utilizzarlo in modo consapevole.
 
@@ -483,12 +477,16 @@ Questo modulo fornirà le basi necessarie per utilizzarlo in modo consapevole.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-In questo capitolo abbiamo progressivamente abbandonato la concezione della probabilità come mera frequenza relativa, adottando la prospettiva della probabilità come **grado di credenza razionale**. Questa visione, radicata nella tradizione di Bayes, Laplace e de Finetti, non rappresenta soltanto un tecnicismo matematico, ma una vera e propria lente interpretativa per comprendere il ragionamento umano in condizioni di incertezza.
+In questo capitolo abbiamo abbandonato l’interpretazione della probabilità come frequenza relativa, per abbracciare una visione più ampia: la probabilità come **grado di credenza razionale**. Questa prospettiva, che affonda le sue radici nella tradizione di Bayes, Laplace e de Finetti, non costituisce un mero tecnicismo matematico, ma rappresenta una vera e propria **lente interpretativa** attraverso cui analizzare il ragionamento umano in condizioni di incertezza.
 
-Gli assiomi della probabilità emergono, in questa prospettiva, come vincoli di coerenza logica sulle nostre convinzioni: principi minimi di razionalità la cui violazione conduce a contraddizioni operative e a decisioni sistematicamente svantaggiose. L’approccio bayesiano consente di quantificare l’incertezza anche in riferimento a eventi singoli e non ripetibili — come la prognosi di un singolo paziente — senza ricorrere all’artificio concettuale di esperimenti idealmente infinitamente replicati.
+Sotto questa prospettiva, gli assiomi della probabilità assumono un nuovo significato: non sono semplicemente regole matematiche, ma **principi di coerenza logica** che vincolano le nostre credenze. Rappresentano requisiti minimi di razionalità, la cui violazione porterebbe inevitabilmente a contraddizioni interne e a scelte decisionali sistematicamente svantaggiose.
 
-Questo quadro teorico garantisce inoltre un elevato grado di trasparenza: tutte le assunzioni iniziali sono rese esplicite attraverso le probabilità *a priori*, mentre il processo di apprendimento dall’esperienza viene formalizzato in modo rigoroso mediante il teorema di Bayes. L’aggiornamento delle credenze non è lasciato all’intuizione, ma segue regole precise di coerenza interna.
+L’approccio bayesiano offre quindi un grande vantaggio epistemologico: permette di quantificare l’incertezza anche riguardo a **eventi singoli e non ripetibili**, come la prognosi di un paziente specifico o l’esito di un’elezione politica, senza dover ricorrere alla finzione concettuale di esperimenti infinitamente replicabili. L’incertezza non è più una proprietà del “mondo esterno” che emerge solo in lunghe sequenze di prove, ma diventa una misura della nostra conoscenza imperfetta riguardo a ogni singolo evento.
 
-Nei prossimi capitoli svilupperemo gli strumenti formali di questo approccio. Vedremo che concetti apparentemente “oggettivi”, come l’equiprobabilità, non sono proprietà intrinseche del mondo, ma riflettono simmetrie nel nostro stato informativo. La probabilità bayesiana non elimina l’incertezza, ma fornisce un linguaggio matematico per quantificarla e gestirla in modo razionale. Questo costituisce forse il suo contributo più prezioso allo studio dei fenomeni psicologici, un ambito in cui l’incertezza non è l’eccezione, ma la norma.
+Questo quadro teorico garantisce un’elevata **trasparenza epistemica**: ogni assunzione iniziale viene resa esplicita attraverso la scelta del prior, mentre il processo di apprendimento dai dati viene formalizzato con rigore matematico attraverso il teorema di Bayes. L’aggiornamento delle credenze non è così affidato all’intuizione soggettiva, ma segue regole di coerenza interna precise e verificabili.
+
+Nei prossimi capitoli svilupperemo gli strumenti formali di questo approccio. Scopriremo come concetti spesso considerati oggettivi, come ad esempio l’equiprobabilità, non siano proprietà intrinseche del mondo, ma riflettano **simmetrie nel nostro stato informativo**. La probabilità bayesiana non elimina l’incertezza; piuttosto, offre un **linguaggio matematico per quantificarla, comunicarla e gestirla in modo razionale**.
+
+Questo costituisce forse il suo contributo più prezioso allo studio dei fenomeni psicologici: un ambito in cui l’incertezza non è un’eccezione da eliminare, ma una **condizione strutturale** con cui ogni ricercatore e professionista deve costantemente confrontarsi.
 
 ## Bibliografia {.unnumbered .unlisted}

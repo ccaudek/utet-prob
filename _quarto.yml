@@ -74,55 +74,63 @@ google-scholar: true
 
 format:
   html:
+    # -------- Codice --------
     code-fold: false
-    code-summary: "Code show/hide"
+    code-summary: "Mostra/Nascondi codice"
     code-copy: hover
     code-link: true
     code-overflow: scroll
     code-block-bg: true
+    
+    # -------- Tema --------
     theme: 
-      light: 
-        - cosmo
+      light: cosmo
       dark: darkly
     mainfont: "system-ui"
     lang: it
+    
+    # -------- Navigazione --------
     reader-mode: true
-    # toc: true
     toc-title: "Sommario"
-    # toc-expand: 2
     smooth-scroll: true
+    
+    # -------- Link e note --------
     footnotes-hover: true
     link-external-icon: true
     link-external-newwindow: true
-
-    # Figure 
-    fig-align: center
-    fig-responsive: true
-    fig-cap-location: bottom
-    fig-format: png 
-  
-    # Matematica
+    
+    # -------- Media --------
+    lightbox: auto
+    
+    # -------- Matematica --------
     html-math-method:
       method: mathjax
-      # macros: { "\\E": "\\mathbb{E}", "\\Var": "\\mathrm{Var}" }
-
-    # Media
-    lightbox: auto
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      # Macro opzionali (decommentare se serve)
+      # macros: 
+      #   "\\E": "\\mathbb{E}"
+      #   "\\Var": "\\mathrm{Var}"
+      #   "\\Cov": "\\mathrm{Cov}"
 
 execute:
-  freeze: auto  # Skip re-executing unchanged code chunks
-  echo: true  # Display code in the output document
-  warning: false  # Suppress warnings in output
-  message: false  # Suppress messages in output
-  fig.width: 6  # Set figure width (in inches)
-  fig.asp: 0.618  # Set figure aspect ratio (golden ratio for aesthetics)
-  fig.retina: 2  # High resolution for retina displays
-  fig.align: "center"  # Center-align all figures
-  fig.show: "hold"  # Group multiple figures from a chunk
+  # -------- Gestione cache --------
+  # freeze: auto mantiene output per deploy
+  # cache: true velocizza rendering durante sviluppo
+  freeze: auto
+  cache: false
+  cache.lazy: false
+  
+  # -------- Output messaggi --------
+  echo: true      # Mostra codice
+  warning: false  # Nascondi warning
+  message: false  # Nascondi messaggi
+  error: false    # Blocca su errori
+  
+  # -------- Console R --------
   options:
-    width: 120            # allarga la console virtuale
-    pillar.width: Inf      # disattiva il riassunto colonne
-    tibble.width: Inf      # idem, per sicurezza
+    width: 120            # Larghezza output
+    pillar.width: Inf     # Disattiva riassunto colonne
+    tibble.width: Inf     # Mostra tutte le colonne
 
 website:
   cookie-consent:

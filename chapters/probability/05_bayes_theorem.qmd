@@ -32,10 +32,8 @@ In questo capitolo esamineremo il teorema di Bayes non soltanto come uno strumen
 #| output: false
 here::here("code", "_common.R") |> 
   source()
-
-# Caricamento dei pacchetti necessari
-if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(ggplot2, dplyr, tidyr, patchwork)
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -470,30 +468,27 @@ df_baseRate <- data.frame(
 
 # Visualizzazione dell'effetto del tasso base
 ggplot(df_baseRate, aes(x = Prevalenza, y = VPP)) +
-  geom_line(linewidth = 1.2, color = "#2E86AB") +
-  geom_hline(yintercept = 0.5, linetype = "dashed", color = "#A23B72", alpha = 0.7) +
+  geom_line(linewidth = 1.2) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.7) +
   geom_vline(xintercept = 0.08, linetype = "dotted", alpha = 0.5) +
   geom_vline(xintercept = 0.30, linetype = "dotted", alpha = 0.5) +
-  geom_point(aes(x = 0.08, y = vpp_bassa), color = "#F18F01", size = 3) +
-  geom_point(aes(x = 0.30, y = vpp_alta), color = "#C73E1D", size = 3) +
+  geom_point(aes(x = 0.08, y = vpp_bassa), size = 3) +
+  geom_point(aes(x = 0.30, y = vpp_alta), size = 3) +
   annotate("text", x = 0.10, y = 0.18, 
-           label = "Medicina\ngenerale\n(8%)", hjust = 0, size = 3.5, 
-           color = "#555555") +
+           label = "Medicina\ngenerale\n(8%)", hjust = 0, size = 3.5) +
   annotate("text", x = 0.32, y = 0.65, 
-           label = "Ambulatorio\nspecialistico\n(30%)", hjust = 0, size = 3.5,
-           color = "#555555") +
-  annotate("text", x = 0.35, y = 0.55, 
-           label = "Soglia di utilità\nclinica (50%)", 
-           color = "#A23B72", size = 3.8) +
+           label = "Ambulatorio\nspecialistico\n(30%)", hjust = 0, size = 3.5) +
+  annotate("text", x = 0.35, y = 0.4, 
+           label = "Soglia di utilità\nclinica (50%)", size = 3.8) +
   scale_x_continuous(labels = scales::percent) +
   scale_y_continuous(labels = scales::percent) +
+  scale_fill_qualitative() +
   labs(
     title = "Effetto del tasso base sul valore predittivo positivo",
     subtitle = "Test: sensibilità 85%, specificità 90%",
     x = "Prevalenza del disturbo nella popolazione",
     y = "Valore Predittivo Positivo (VPP)"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 Il grafico illustra un fatto controintuitivo, ma fondamentale: l'utilità clinica di un test dipende non solo dalle sue proprietà intrinseche (sensibilità e specificità), ma anche dal contesto in cui viene utilizzato. Lo stesso test che si rivela utile in un ambulatorio specialistico (prevalenza 30%, VPP circa 78%) può risultare fuorviante in medicina generale (prevalenza 8%, VPP circa 43%), generando più falsi allarmi che diagnosi corrette.
@@ -653,19 +648,18 @@ ymax <- max(df_sequential$Probabilita) * 1.15
 ggplot(df_sequential, aes(x = Momento, y = Probabilita)) +
   geom_col(fill = "#4E79A7", alpha = 0.8, width = 0.6) +
   geom_text(aes(label = sprintf("%.1f%%", Probabilita * 100)), 
-            vjust = -0.8, size = 4.5, fontface = "bold") +
+            vjust = -0.8, size = 4.5) +
   geom_line(aes(group = 1), linewidth = 1.2, color = "#2E5984", alpha = 0.8) +
   geom_point(size = 3.5, color = "#2E5984") +
+  scale_fill_qualitative() +
   labs(
-    title = "Aggiornamento bayesiano sequenziale nella diagnostica ADHD",
+    title = "Aggiornamento bayesiano sequenziale\nnella diagnostica ADHD",
     subtitle = paste0("LR+ questionario: ", round(LR_pos_T1, 1), 
                      " — LR+ osservazione: ", round(LR_pos_T2, 1)),
     y = "Probabilità di ADHD",
     x = NULL
   ) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, ymax)) +
-  theme_minimal() +
-  theme(plot.title = element_text(face = "bold"))
+  scale_y_continuous(labels = scales::percent, limits = c(0, ymax)) 
 ```
 
 **Interpretazione del processo cumulativo**
@@ -927,15 +921,14 @@ ggplot(df_beta_long, aes(x = theta, y = Densita, color = Componente, linetype = 
   geom_vline(xintercept = 0.25, linetype = "dotted", alpha = 0.5) +
   annotate("text", x = 0.27, y = max(posterior_dens) * 0.9, 
            label = "Risposta\ncasuale", hjust = 0, size = 3.5) +
-  scale_color_manual(values = c("Prior" = "#E63946", "Verosimiglianza" = "#457B9D", "Posterior" = "#2A9D8F")) +
+  scale_fill_qualitative() +
   scale_linetype_manual(values = c("Prior" = "dashed", "Verosimiglianza" = "dotted", "Posterior" = "solid")) +
   labs(
-    title = "Aggiornamento bayesiano nel modello Beta-Binomiale",
+    title = "Aggiornamento bayesiano\nnel modello Beta-Binomiale",
     subtitle = "12 risposte corrette su 30 in un test a 4 opzioni",
     x = expression(theta ~ "(probabilità di risposta corretta)"),
     y = "Densità di probabilità"
-  ) +
-  theme_minimal() 
+  ) 
 ```
 
 La visualizzazione illustra in modo diretto il meccanismo dell’aggiornamento bayesiano:
@@ -986,24 +979,24 @@ df_posterior <- data.frame(
 )
 
 ggplot(df_posterior, aes(x = theta, y = densita)) +
-  geom_line(linewidth = 1.2, color = "#2A9D8F") +
-  geom_area(data = df_posterior %>% filter(theta >= ci_lower & theta <= ci_upper),
-            aes(x = theta, y = densita), fill = "#2A9D8F", alpha = 0.3) +
-  geom_vline(xintercept = c(ci_lower, ci_upper), linetype = "dashed", color = "#2A9D8F") +
-  geom_vline(xintercept = post_mean, color = "#E63946", linewidth = 1) +
+  geom_line(linewidth = 1.2) +
+  geom_area(data = df_posterior %>% 
+              dplyr::filter(theta >= ci_lower & theta <= ci_upper),
+            aes(x = theta, y = densita), alpha = 0.3) +
+  geom_vline(xintercept = c(ci_lower, ci_upper), linetype = "dashed") +
+  geom_vline(xintercept = post_mean,  linewidth = 1) +
   annotate("text", x = post_mean + 0.02, y = max(posterior_dens) * 0.7,
            label = paste0("Media: ", round(post_mean, 3)), 
-           hjust = 0, color = "#E63946", size = 4) +
+           hjust = 0, size = 4) +
   annotate("text", x = mean(c(ci_lower, ci_upper)), y = max(posterior_dens) * 0.4,
-           label = paste0("IC 95%\n[", round(ci_lower, 3), ", ", round(ci_upper, 3), "]"),
-           color = "#1D3557", size = 4) +
+           label = paste0("IC 95%\n[", round(ci_lower, 3), ", ", round(ci_upper, 3), "]"), size = 4) +
+  scale_fill_qualitative() +
   labs(
     title = "Distribuzione a posteriori con intervallo di credibilità",
     subtitle = "Quantificazione completa dell'incertezza sul parametro θ",
     x = expression(theta ~ "(probabilità di risposta corretta)"),
     y = "Densità a posteriori"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 L’intervallo di credibilità al 95%,

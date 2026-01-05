@@ -15,6 +15,8 @@ here::here("code", "_common.R") |>
 library(reshape2)
 library(VGAM)
 library(extraDistr)
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -104,6 +106,20 @@ cat("Varianza teorica:", round((N^2 - 1) / 12, 2),
 
 La simulazione mostra che, al crescere del numero di lanci, le quantità empiriche si avvicinano ai valori teorici. È importante notare che l’“equità” del dado non è una proprietà osservabile direttamente in un singolo lancio, ma una credenza modellata attraverso la distribuzione uniforme che può essere successivamente verificata e aggiornata alla luce dei dati.
 
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Scelta casuale tra alternative** quando non hai preferenze (es. randomizzazione tra condizioni sperimentali)
+- **Prior non informativa** su un insieme finito di modelli (es. 5 teorie alternative equiprobabili)
+- **Item casuali** da un questionario (es. estrarre k domande da un pool di N)
+
+**Esempio pratico:** In un esperimento con 6 condizioni sperimentali, assegni i partecipanti in modo equiprobabile → Uniforme(1,6).
+
+**Attenzione:** "Equiprobabile" è una scelta epistemica (assenza di informazione), non una proprietà del mondo.
+:::
+
 ## Distribuzione di Bernoulli
 
 ### Definizione e interpretazione epistemica
@@ -134,6 +150,22 @@ Il parametro $p$ rappresenta il grado di credenza associato al verificarsi dell�
 La distribuzione di Bernoulli è il modello di riferimento per i **dati binari**. Ogni singola osservazione che può assumere solo due valori (sì/no, presente/assente, corretto/errato) viene modellata come una variabile di Bernoulli. Quando si considerano $n$ osservazioni indipendenti con lo stesso parametro $p$, la loro somma segue una distribuzione binomiale, che verrà introdotta nel prossimo paragrafo.
 
 Nel contesto bayesiano, il parametro $p$ è considerato una quantità incerta e a cui viene associata una distribuzione a priori. La **distribuzione coniugata** per $p$ è la distribuzione beta, che consente un aggiornamento analiticamente semplice delle credenze dopo l’osservazione dei dati.
+
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Risposte corrette/errate** a singoli item di test
+- **Presenza/assenza** di un sintomo (es. depressione clinica: sì/no)
+- **Diagnosi binarie** (es. test PTSD positivo/negativo)
+- **Scelte dicotomiche** (es. acquisto: sì/no)
+- **Comportamento singolo** (es. fumare in una giornata)
+
+**Esempio pratico:** Un paziente fa un test cognitivo: ogni risposta è Bernoulli(p) dove p = probabilità di rispondere correttamente.
+
+**Prior bayesiano tipico:** Beta(1,1) [uniforme] o Beta(α,β) informativo se hai dati storici sulla difficoltà dell'item.
+:::
 
 ### Esempio: sensibilità di un test diagnostico
 
@@ -265,12 +297,12 @@ df <- data.frame(
 
 ggplot(df, aes(x = p, y = densita, color = tipo)) +
   geom_line(linewidth = 1.2) +
+  scale_fill_qualitative() +
   labs(
     title = "Aggiornamento Bayesiano: Beta-Binomiale",
     subtitle = "23 successi su 30 prove",
     x = "p", y = "Densità"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 ```{r}
@@ -282,6 +314,27 @@ cat("Media posterior:", round(alpha_post/(alpha_post + beta_post), 3), "\n")
 ```
 
 La posterior si concentra attorno a $p \approx 0.74$, mostrando una riduzione significativa dell'incertezza rispetto alla prior. Ciò riflette l'aggiornamento coerente delle credenze alla luce dei 23 successi osservati.
+
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Numero di risposte corrette** su n item di un test (es. 18 su 20 domande)
+- **Conteggio sintomi presenti** su una checklist (es. 5 su 9 criteri DSM per depressione)
+- **Successi in trial ripetuti** (es. 7 recall corretti su 10 prove di memoria)
+- **Proporzione di comportamenti** in EMA (es. giorni di aderenza terapeutica su 30 giorni)
+
+**Esempio pratico:** Uno studente risponde a 25 domande vero/falso. Se la probabilità di rispondere correttamente è p=0.7, il numero di risposte corrette segue Binomiale(25, 0.7).
+
+**Prior bayesiano tipico:** Beta(α,β) su p, che permette aggiornamento analitico:
+
+- Beta(1,1): totale ignoranza
+- Beta(5,5): aspettativa p≈0.5 con moderata incertezza
+- Beta(20,10): credenza forte verso p≈0.67
+
+**Link con Bernoulli:** La binomiale è la somma di n Bernoulli indipendenti.
+:::
 
 ## Distribuzione di Poisson
 
@@ -345,6 +398,33 @@ L’aggiornamento è intuitivo:
 
 * il numero totale di eventi osservati aggiorna il parametro di forma;
 * il numero di intervalli osservati aggiorna il parametro di scala (o tasso).
+
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Eventi rari in un periodo fisso**:
+  - Numero di attacchi di panico in un mese
+  - Errori di attenzione in un'ora di compito
+  - Accessi al pronto soccorso per crisi psichiatriche in una settimana
+- **Conteggi con esposizione variabile**:
+  - Numero di parole ricordate per minuto di studio
+  - Click su uno stimolo per secondo di esposizione
+
+**Esempio pratico:** Un paziente con disturbo d'ansia ha in media λ=2.5 attacchi di panico al mese. Il numero di attacchi in 30 giorni segue Poisson(2.5).
+
+**Prior bayesiano tipico:** Gamma(α,β) su λ, con interpretazione intuitiva:
+
+- α = numero di "pseudo-eventi" già osservati
+- β = "pseudo-tempo" di esposizione
+- Es: Gamma(5, 2) → credenza che λ ≈ 2.5 basata su "5 eventi in 2 periodi"
+
+**Differenza con Binomiale:** 
+
+- Binomiale: n fissato, conti successi
+- Poisson: n illimitato, conti eventi rari
+:::
 
 ### Esempio: eventi rari e dati storici
 
@@ -530,6 +610,46 @@ Le distribuzioni discrete esaminate in questo capitolo costituiscono strumenti e
 In questa prospettiva bayesiana, i parametri di tali modelli non sono semplici quantità fisse da “stimare”, ma grandezze incerte su cui formuliamo distribuzioni di credenza. L’eleganza formale del framework bayesiano emerge in modo particolarmente chiaro attraverso le relazioni di coniugazione: la distribuzione beta fornisce una rappresentazione naturale delle credenze sul parametro $p$ della distribuzione di Bernoulli e di quella binomiale, mentre la distribuzione gamma svolge un ruolo analogo per il parametro $\lambda$ della distribuzione di Poisson. Queste relazioni consentono aggiornamenti coerenti e, in molti casi, analiticamente trattabili delle credenze alla luce dei dati osservati.
 
 Nel capitolo successivo ci occuperemo delle **distribuzioni continue**, come la distribuzione beta, la distribuzione gamma, la distribuzione normale e altre ancora. Queste distribuzioni svolgeranno un duplice ruolo: da un lato, fungeranno da modelli per le variabili continue osservabili; dall’altro, costituiranno distribuzioni a priori naturali per i parametri dei modelli discreti introdotti in questo capitolo. In questo modo, completeremo progressivamente il vocabolario probabilistico essenziale per sviluppare e comprendere l’inferenza bayesiana in contesti sempre più generali.
+
+### Guida rapida: quale distribuzione usare? {.unnumbered .unlisted}
+
+| Distribuzione | Dominio | Quando usarla | Prior tipici | Esempio psicologico |
+|--------------|---------|---------------|--------------|---------------------|
+| **Uniforme discreta** | {1,...,N} | Scelta casuale tra N alternative equiprobabili | — | Randomizzazione tra 4 condizioni sperimentali |
+| **Bernoulli** | {0,1} | Singolo esito binario (successo/fallimento) | Beta(1,1) o Beta(α,β) | Risposta corretta a un item del test |
+| **Binomiale** | {0,...,n} | Numero di successi su n prove indipendenti | Beta(α,β) | 18 risposte corrette su 25 domande |
+| **Poisson** | {0,1,2,...} | Conteggio di eventi rari in tempo/spazio fisso | Gamma(α,β) | 3 attacchi di panico in un mese |
+| **Beta-Binomiale** | {0,...,n} | Binomiale con p incerto (sovradispersione) | Beta(α,β) su p | Successi quando ogni soggetto ha un p diverso |
+
+### Come scelgo la distribuzione giusta? {.unnumbered .unlisted}
+
+Segui questo albero decisionale per identificare la distribuzione appropriata:
+
+```{mermaid}
+%%| fig-width: 8
+flowchart TD
+    A[Che tipo di dato hai?] --> B{Binario0/1}
+    A --> C{Conteggiointero ≥ 0}
+    A --> D{Categorico1,2,...,K}
+    
+    B --> B1[Singola osservazione?]
+    B1 -->|Sì| B2[Bernoullies: risposta corretta]
+    B1 -->|No, n prove| B3[Binomialees: k su n corrette]
+    
+    C --> C1{Eventi rariin tempo/spaziofisso?}
+    C1 -->|Sì| C2[Poissones: attacchi di panico/mese]
+    C1 -->|No, n fissato| C3[Binomialees: sintomi presenti su checklist]
+    
+    D --> D1{Tutti ugualmenteprobabili?}
+    D1 -->|Sì| D2[Uniforme discretaes: dado equo]
+    D1 -->|No| D3[Categorica/Multinomialecapitolo futuro]
+    
+    style B2 fill:#e1f5e1
+    style B3 fill:#e1f5e1
+    style C2 fill:#fff4e1
+    style C3 fill:#e1f5e1
+    style D2 fill:#f0f0f0
+```
 
 ## Esercizi {.unnumbered}
 

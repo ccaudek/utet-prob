@@ -2,6 +2,15 @@
 
 ## Integrali
 
+```{r}
+#| echo: false
+#| output: false
+here::here("code", "_common.R") |> 
+  source()
+# Riapplica il tema per sicurezza
+apply_visual_theme()
+```
+
 In questo capitolo, traduciamo e adattiamo il capitolo *Per liberarvi dai terrori preliminari* tratto da [Calculus made easy](https://calculusmadeeasy.org/1.html).
 
 ::: {.callout-important}
@@ -48,11 +57,9 @@ fx <- gaussian(x_range, mu, sigma)   # Ordinata della funzione
 Visualizziamo la funzione utilizzando il pacchetto `ggplot2`:
 
 ```{r}
-library(ggplot2)
-library(scales)
-
 ggplot(data.frame(x = x_range, fx = fx), aes(x, fx)) +
-  geom_line(color = "blue") +
+  geom_line() +
+  scale_fill_qualitative() +
   labs(
     title = "Funzione di densità gaussiana", 
     x = "x", 

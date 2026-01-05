@@ -30,6 +30,8 @@ In questo capitolo la funzione di verosimiglianza viene introdotta come concetto
 ```{r}
 here::here("code", "_common.R") |> 
   source()
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -240,12 +242,12 @@ df <- data.frame(
 
 ggplot(df, aes(x = theta, y = likelihood, color = scenario)) +
   geom_line(linewidth = 1.2) +
+  scale_fill_qualitative() +
   labs(
     x = expression(theta),
     y = "Verosimiglianza",
     color = "Scenario"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 **Osservazioni chiave.**
@@ -275,11 +277,11 @@ likelihood <- dbinom(y, size = n, prob = theta)
 ggplot(data.frame(theta, likelihood), aes(x = theta, y = likelihood)) +
   geom_line(linewidth = 1.2) +
   geom_vline(xintercept = y/n, linetype = "dashed") +
+  scale_fill_qualitative() +
   labs(
     x = expression(theta),
     y = "Verosimiglianza"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 L’analisi grafica mostra un picco ben definito in corrispondenza di $\theta \approx 0.77$, che coincide con la proporzione campionaria $\hat{\theta} = 23/30$. Questo valore rappresenta la **stima di massima verosimiglianza** del parametro.
@@ -431,9 +433,9 @@ Sviluppando esplicitamente la somma otteniamo:
 $$
 \begin{aligned}
 \ell(\theta) ={}&
-23\log(\theta) + 7\log(1-\theta) ;+ \
-&20\log(\theta) + 8\log(1-\theta) ;+ \
-&29\log(\theta) + 11\log(1-\theta) ;+ \
+23\log(\theta) + 7\log(1-\theta) \;+ \\
+&20\log(\theta) + 8\log(1-\theta) \;+ \\
+&29\log(\theta) + 11\log(1-\theta) \;+ \\
 &29\log(\theta) + 7\log(1-\theta).
 \end{aligned}
 $$
@@ -459,12 +461,12 @@ log_lik_vals <- sapply(theta_seq, log_lik_congiunta)
 ggplot(data.frame(theta = theta_seq, log_lik = log_lik_vals),
        aes(x = theta, y = log_lik)) +
   geom_line(linewidth = 1.2) +
+  scale_fill_qualitative() +
   labs(
     x = expression(theta),
     y = "Log-verosimiglianza congiunta",
-    title = "Profilo di verosimiglianza per i quattro studi combinati"
-  ) +
-  theme_minimal()
+    title = "Profilo di verosimiglianza\nper i quattro studi combinati"
+  ) 
 ```
 
 Il profilo risultante mostra come l’informazione proveniente dai diversi studi si combini in modo coerente, producendo una funzione di verosimiglianza più concentrata rispetto a quella che si otterrebbe analizzando ciascuno studio separatamente.
@@ -515,11 +517,11 @@ ggplot(data.frame(mu = mu_grid, lik = likelihood),
        aes(x = mu, y = lik)) +
   geom_line(linewidth = 1.2) +
   geom_vline(xintercept = y_obs, linetype = "dashed") +
+  scale_fill_qualitative() +
   labs(
     x = expression(mu),
     y = "Verosimiglianza"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 Questo primo caso mostra già un punto chiave: **una singola osservazione fornisce informazione su $\mu$, ma in modo ancora molto impreciso**.
@@ -556,7 +558,7 @@ Questa espressione mette in evidenza un fatto cruciale: tutta l’informazione s
 Nel paradigma frequentista, massimizzare la log-verosimiglianza equivale a minimizzare tale somma, e conduce a un risultato ben noto:
 
 $$
-\hat{\mu}*{\text{MLE}} = \frac{1}{n}\sum*{i=1}^n y_i = \bar{y}.
+\hat{\mu}_{\text{MLE}} = \frac{1}{n}\sum_{i=1}^n y_i = \bar{y}.
 $$
 
 Anche in questo caso, sottolineiamo che il valore della MLE non è l’obiettivo principale in un’ottica bayesiana: ciò che conta è la **forma completa** della funzione di verosimiglianza.
@@ -581,11 +583,11 @@ ggplot(data.frame(mu = mu_grid, ll = ll_vals),
        aes(x = mu, y = ll)) +
   geom_line(linewidth = 1.2) +
   geom_vline(xintercept = mean(y), linetype = "dashed") +
+  scale_fill_qualitative() +
   labs(
     x = expression(mu),
     y = "Log-verosimiglianza"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 ::: {.callout-note}
@@ -604,13 +606,11 @@ In particolare, la verosimiglianza per $\mu$ è una distribuzione gaussiana con 
 Questo risultato è cruciale: nel modello normale–normale, la quantità $\sigma^2/n$ determina direttamente quanto i dati rendono la distribuzione a posteriori più o meno concentrata.
 :::
 
-
 ## Confrontare ipotesi tramite la verosimiglianza
 
 La funzione di verosimiglianza consente non solo di valutare singoli valori di un parametro, ma anche di confrontare direttamente ipotesi alternative.  In particolare, è possibile confrontare **quanto meglio una ipotesi spiega i dati rispetto a un’altra**, utilizzando il rapporto delle loro verosimiglianze.
 
 Questo tipo di confronto verrà sviluppato in modo sistematico nell’inferenza bayesiana attraverso il *fattore di Bayes*.  Per chi fosse interessato a un’anticipazione di questa idea, il box seguente presenta il concetto di *rapporto di verosimiglianze*.
-
 
 ::: {.callout-note collapse="true" title="Approfondimento: il rapporto di verosimiglianze"}
 
@@ -663,20 +663,20 @@ theta_seq <- seq(0, 1, length.out = 500)
 lik_vals <- dbinom(y, n, prob = theta_seq)
 
 ggplot(data.frame(theta = theta_seq, lik = lik_vals), aes(x = theta, y = lik)) +
-  geom_line(linewidth = 1.2, color = "#4E79A7") +
-  geom_point(aes(x = 0.5, y = L_H0), color = "#E15759", size = 3) +
-  geom_point(aes(x = 0.7, y = L_H1), color = "#59A14F", size = 3) +
+  geom_line(linewidth = 1.2) +
+  geom_point(aes(x = 0.5, y = L_H0), size = 3) +
+  geom_point(aes(x = 0.7, y = L_H1), size = 3) +
   geom_segment(aes(x = 0.5, xend = 0.5, y = 0, yend = L_H0),
-               linetype = "dashed", color = "#E15759") +
+               linetype = "dashed") +
   geom_segment(aes(x = 0.7, xend = 0.7, y = 0, yend = L_H1),
-               linetype = "dashed", color = "#59A14F") +
-  annotate("text", x = 0.5, y = L_H0 + 0.02, label = "H0", color = "#E15759") +
-  annotate("text", x = 0.7, y = L_H1 + 0.02, label = "H1", color = "#59A14F") +
+               linetype = "dashed") +
+  annotate("text", x = 0.5, y = L_H0 + 0.02, label = "H0") +
+  annotate("text", x = 0.7, y = L_H1 + 0.02, label = "H1") +
+  scale_fill_qualitative() +
   labs(
     x = expression(theta),
     y = "Verosimiglianza"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 ### Connessione con l'inferenza bayesiana

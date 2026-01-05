@@ -30,10 +30,8 @@ Un aspetto centrale della trattazione riguarda inoltre la **distinzione interpre
 #| output: false
 here::here("code", "_common.R") |> 
   source()
-
-# Pacchetti necessari
-if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(ggplot2, dplyr, tidyr)
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -88,10 +86,10 @@ df <- data.frame(
 )
 
 ggplot(df, aes(x = factor(valore))) +
-  geom_col(aes(y = empirica), fill = "steelblue", alpha = 0.7, width = 0.6) +
-  geom_point(aes(y = teorica), color = "darkred", size = 4) +
-  labs(x = "Faccia del dado", y = "Probabilità / Frequenza relativa") +
-  theme_minimal()
+  geom_col(aes(y = empirica), alpha = 0.7, width = 0.6) +
+  geom_point(aes(y = teorica), size = 4) +
+  scale_fill_binary() +
+  labs(x = "Faccia del dado", y = "Probabilità / Frequenza relativa") 
 ```
 
 Questa convergenza non **definisce** le probabilità teoriche, ma ne verifica la coerenza: un sistema di credenze coerente produce il comportamento empirico atteso quando viene messo alla prova ripetutamente.
@@ -147,19 +145,18 @@ df_teorica <- data.frame(x = x_seq, y = y_teorica)
 
 p1 <- ggplot(data.frame(x = x_piccolo), aes(x = x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 15,
-                 fill = "steelblue", color = "white", alpha = 0.7) +
+                 color = "white", alpha = 0.7) +
   geom_line(data = df_teorica, aes(x = x, y = y),
-            color = "darkred", linewidth = 1) +
-  labs(title = paste("n =", n_piccolo), x = "x", y = "Densità") +
-  theme_minimal()
+            linewidth = 1) +
+  labs(title = paste("n =", n_piccolo), x = "x", y = "Densità") 
 
 p2 <- ggplot(data.frame(x = x_grande), aes(x = x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 50,
-                 fill = "steelblue", color = "white", alpha = 0.7) +
+                 color = "white", alpha = 0.7) +
   geom_line(data = df_teorica, aes(x = x, y = y),
-            color = "darkred", linewidth = 1) +
-  labs(title = paste("n =", format(n_grande, big.mark = ",")), x = "x", y = "Densità") +
-  theme_minimal()
+            linewidth = 1) +
+  labs(
+    title = paste("n =", format(n_grande, big.mark = ",")), x = "x", y = "Densità") 
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
@@ -297,27 +294,27 @@ df_disc <- data.frame(x_start = x_disc[-length(x_disc)],
 
 p1 <- ggplot() +
   geom_segment(data = df_disc, aes(x = x_start, xend = x_end, y = y, yend = y),
-               linewidth = 1, color = "steelblue") +
+               linewidth = 1) +
   geom_point(data = data.frame(x = 1:6, y = cumsum(rep(1/6, 6))),
-             aes(x = x, y = y), size = 3, color = "steelblue") +
+             aes(x = x, y = y), size = 3) +
   geom_point(data = data.frame(x = 1:6, y = c(0, cumsum(rep(1/6, 5)))),
-             aes(x = x, y = y), size = 3, color = "steelblue", shape = 1) +
+             aes(x = x, y = y), size = 3, shape = 1) +
   scale_x_continuous(breaks = 0:7, limits = c(0, 7)) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_fill_qualitative() +
   labs(title = "CDF discreta (dado equilibrato)", 
-       x = "x", y = expression(F[X](x))) +
-  theme_minimal()
+       x = "x", y = expression(F[X](x))) 
 
 # CDF continua (normale standard)
 x_cont <- seq(-4, 4, length.out = 200)
 cdf_cont <- pnorm(x_cont)
 
 p2 <- ggplot(data.frame(x = x_cont, y = cdf_cont), aes(x = x, y = y)) +
-  geom_line(linewidth = 1, color = "steelblue") +
+  geom_line(linewidth = 1) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_fill_qualitative() +
   labs(title = "CDF continua (normale standard)", 
-       x = "x", y = expression(F[X](x))) +
-  theme_minimal()
+       x = "x", y = expression(F[X](x))) 
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
@@ -368,9 +365,8 @@ Le distribuzioni di probabilità assumono significati diversi nei due principali
 Nel paradigma frequentista, la probabilità è definita in termini di **frequenze relative** in una sequenza ideale di ripetizioni dello stesso esperimento, eseguite nelle medesime condizioni. In particolare, per un evento del tipo $a \leq X \leq b$ si assume:
 
 $$
-P(a \leq X \leq b) = \lim_{n \to \infty} \frac{#{X_i \in [a,b]}}{n},
+P(a \leq X \leq b) = \lim_{n \to \infty} \frac{\#{X_i \in [a,b]}}{n},
 $$
-
 dove $X_1, X_2, \ldots, X_n$ sono osservazioni indipendenti generate dal medesimo processo stocastico.
 
 In questa prospettiva, la PDF non è tanto “una credenza” quanto una **descrizione del meccanismo generativo dei dati**: è la forma limite verso cui tende l’istogramma delle osservazioni quando il campione cresce e gli intervalli diventano sempre più fini. La variabile casuale $X$ rappresenta l’esito di un esperimento ripetibile, e la PDF descrive la variabilità **tra** ripetizioni dell’esperimento.
@@ -415,13 +411,13 @@ y_teorica <- dnorm(x_seq, mean = 170, sd = 10)
 
 p1 <- ggplot() +
   geom_histogram(data = data.frame(x = x_freq), aes(x = x, y = after_stat(density)),
-                 bins = 30, fill = "steelblue", alpha = 0.5, color = "white") +
+                 bins = 30, alpha = 0.5, color = "white") +
   geom_line(data = data.frame(x = x_seq, y = y_teorica), 
-            aes(x = x, y = y), color = "darkred", linewidth = 1.2) +
-  labs(title = "Frequentista: distribuzione dei dati",
+            aes(x = x, y = y), linewidth = 1.2) +
+  scale_fill_qualitative() +
+  labs(title = "Frequentista:\ndistribuzione dei dati",
        subtitle = "PDF come istogramma limite di ripetizioni",
-       x = "Altezza (cm)", y = "Densità") +
-  theme_minimal()
+       x = "Altezza (cm)", y = "Densità") 
 
 # Bayesiano: distribuzione della credenza su un parametro
 theta_seq <- seq(165, 175, length.out = 200)
@@ -430,15 +426,15 @@ prior <- dnorm(theta_seq, mean = 170, sd = 2)
 p2 <- ggplot() +
   geom_ribbon(data = data.frame(x = theta_seq, y = prior),
               aes(x = x, ymin = 0, ymax = y), 
-              fill = "steelblue", alpha = 0.3) +
+              alpha = 0.3) +
   geom_line(data = data.frame(x = theta_seq, y = prior),
-            aes(x = x, y = y), color = "darkred", linewidth = 1.2) +
+            aes(x = x, y = y), linewidth = 1.2) +
   geom_point(aes(x = 170, y = 0), size = 3, color = "black") +
   annotate("text", x = 170, y = -0.02, label = "θ (valore vero ignoto)", size = 3) +
-  labs(title = "Bayesiano: distribuzione della credenza",
+  scale_fill_qualitative() +
+  labs(title = "Bayesiano:\ndistribuzione della credenza",
        subtitle = "PDF come mappa di plausibilità sul parametro",
-       x = expression(theta ~ "(altezza media)"), y = "Densità") +
-  theme_minimal()
+       x = expression(theta ~ "(altezza media)"), y = "Densità") 
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```

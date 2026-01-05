@@ -35,7 +35,9 @@ here::here("code", "_common.R") |>
 
 # Load packages
 if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(ggplot2, dplyr, tidyr, patchwork, ggforce, DiagrammeR)
+pacman::p_load(patchwork, ggforce, DiagrammeR)
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -103,12 +105,12 @@ ggplot(df, aes(x = "", y = Valore, fill = Parte)) +
   geom_text(aes(label = sprintf("%.2f", Valore)),
             position = position_stack(vjust = 0.5),
             color = "white", size = 5) +
+  scale_fill_qualitative() +
   labs(
     title = "Probabilità condizionata: 'zoom' nello spazio B",
     subtitle = sprintf("P(A|B) = %.2f/%.2f = %.2f", P_AB, P_B, P_A_given_B),
     x = NULL, y = "Probabilità nel nuovo universo (B)"
   ) +
-  theme_minimal(base_size = 13) +
   theme(axis.text.y = element_blank(),
         panel.grid.major.y = element_blank(),
         legend.position = "bottom")
@@ -210,14 +212,14 @@ ggplot(df_update, aes(x = Momento, y = P_Depressione, fill = Momento)) +
   geom_col(show.legend = FALSE) +
   geom_text(aes(label = sprintf("%.3f", P_Depressione)), 
             vjust = -0.5, size = 6) +
+  scale_fill_qualitative() +
   labs(
     title = "Aggiornamento bayesiano tramite probabilità condizionata",
     subtitle = "La credenza si aggiorna coerentemente con l'evidenza del test",
     y = "P(Depressione)",
     x = ""
   ) +
-  ylim(0, 0.5) +
-  theme_minimal(base_size = 14)
+  ylim(0, 0.5) 
 ```
 
 **Verifica con simulazione Monte Carlo**:
@@ -565,13 +567,13 @@ ggplot(df_simpson, aes(x = Condizione, y = Proporzione, fill = Condizione)) +
 geom_col(position = "dodge") +
 geom_text(aes(label = Etichetta), vjust = -0.5, size = 3.5) +
 facet_wrap(~Gruppo) +
+scale_fill_qualitative() +
 labs(
 title = "Paradosso di Simpson: inversione dell'efficacia del trattamento",
 subtitle = "Ogni clinica mostra un effetto positivo, ma l'aggregato suggerisce l'opposto",
 y = "Proporzione di guarigioni",
 x = ""
 ) +
-theme_minimal(base_size = 13) +
 theme(legend.position = "none") +
 ylim(0, 1)
 ```

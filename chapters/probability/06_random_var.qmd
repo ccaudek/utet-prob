@@ -33,10 +33,8 @@ Le variabili casuali costituiscono quindi il **ponte concettuale** tra la teoria
 #| output: false
 here::here("code", "_common.R") |> 
   source()
-
-# Pacchetti necessari
-if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(ggplot2, dplyr, tidyr)
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -212,12 +210,12 @@ df_confronto <- data.frame(
 )
 
 ggplot(df_confronto, aes(x = x)) +
-  geom_col(aes(y = empirica), fill = "steelblue", alpha = 0.7, width = 0.6) +
-  geom_point(aes(y = teorica), color = "darkred", size = 3) +
-  geom_line(aes(y = teorica), color = "darkred", linewidth = 1) +
+  geom_col(aes(y = empirica),  alpha = 0.7, width = 0.6) +
+  geom_point(aes(y = teorica), size = 3) +
+  geom_line(aes(y = teorica), linewidth = 1) +
   scale_x_continuous(breaks = 2:12) +
-  labs(x = "Somma dei due dadi", y = "Probabilità") +
-  theme_minimal()
+  scale_fill_qualitative() +
+  labs(x = "Somma dei due dadi", y = "Probabilità") 
 ```
 
 La convergenza delle frequenze empiriche verso le probabilità teoriche **non definisce** la distribuzione di probabilità, ma ne verifica la coerenza. Ancora una volta, la simulazione non stabilisce che cosa sia la probabilità, ma mostra che un sistema di credenze coerente genera il comportamento atteso quando viene sottoposto a ripetute osservazioni.
@@ -449,22 +447,20 @@ ggplot() +
   geom_segment(
     data = df_cdf,
     aes(x = x_start, xend = x_end, y = y, yend = y),
-    linewidth = 1,
-    color = "steelblue"
+    linewidth = 1
   ) +
   geom_point(
     data = data.frame(x = valori, y = cdf),
     aes(x = x, y = y),
-    size = 3,
-    color = "steelblue"
+    size = 3
   ) +
   scale_x_continuous(breaks = 2:12, limits = c(1, 13)) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_fill_qualitative() +
   labs(
     x = "x",
     y = expression(F[X](x) == P(X <= x))
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 Nel grafico, ogni **salto** della funzione corrisponde a un valore possibile della somma dei due dadi. L’altezza del salto in $x$ è pari alla probabilità $P(X = x)$. Tra un valore e il successivo, la funzione resta costante, riflettendo il fatto che non esistono valori intermedi.

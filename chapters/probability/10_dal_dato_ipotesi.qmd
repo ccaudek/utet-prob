@@ -51,6 +51,8 @@ Questa interpretazione probabilistica dell’incertezza è coerente con il modo 
 ```{r}
 here::here("code", "_common.R") |> 
   source()
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -296,10 +298,7 @@ La distribuzione delle medie campionarie può ora essere visualizzata tramite un
 ```{r}
 ggplot(data.frame(sample_means), aes(x = sample_means)) +
   geom_histogram(
-    bins = 7,
-    aes(y = after_stat(density)),
-    fill = "lightblue",
-    color = "black"
+    aes(y = after_stat(density))
   ) +
   labs(
     title = "Distribuzione campionaria della media (n = 2)",
@@ -393,25 +392,24 @@ data_plot <- data.frame(
 )
 
 ggplot(data_plot, aes(x = n, y = mean)) +
-  geom_line(color = "#4E79A7", linewidth = 0.8, alpha = 0.8) +
+  geom_line(linewidth = 0.8, alpha = 0.8) +
   geom_hline(yintercept = theta_true, 
              linetype = "dashed", 
-             color = "#E15759",
              linewidth = 1.2) +
   geom_ribbon(aes(ymin = mean - 1.96 * sqrt(mean * (1 - mean) / n),
                   ymax = mean + 1.96 * sqrt(mean * (1 - mean) / n)),
-              alpha = 0.2, fill = "#4E79A7") +
+              alpha = 0.2) +
   labs(
-    title = "Convergenza della media campionaria verso il parametro vero",
+    title = "Convergenza della media campionaria\nverso il parametro vero",
     subtitle = "Legge dei Grandi Numeri: stabilizzazione con l'aumentare delle osservazioni",
     x = "Dimensione campionaria (n)",
     y = "Media campionaria cumulativa"
   ) +
   ylim(0.2, 0.7) +
-  theme_minimal() +
+  scale_fill_qualitative() +
   annotate("text", x = 800, y = theta_true + 0.03, 
            label = paste("θ =", theta_true), 
-           color = "#E15759", size = 4.5)
+           size = 4.5)
 ```
 
 **Osservazioni empiriche**
@@ -446,7 +444,7 @@ Il *Teorema del Limite Centrale* (TLC) è uno dei risultati più profondi e gene
 Siano $X_1, X_2, \ldots, X_n$ variabili aleatorie indipendenti e identicamente distribuite, con valore atteso $\mu$ e varianza finita $\sigma^2$. Allora, al crescere di $n$, la distribuzione della media campionaria $\bar{X}_n$ converge verso una distribuzione normale:
 
 $$
-\bar{X}_n ;\dot\sim; \mathcal{N}!\left(\mu, \frac{\sigma^2}{n}\right),
+\bar{X}_n \;\dot\sim\; \mathcal{N}\!\left(\mu, \frac{\sigma^2}{n}\right),
 $$
 
 dove la notazione $\dot\sim$ indica che la distribuzione è *approssimativamente* normale per valori di $n$ sufficientemente grandi.
@@ -469,10 +467,7 @@ population <- runif(5000, min = 0, max = 1)
 # Istogramma della popolazione
 ggplot(data.frame(population), aes(x = population)) +
   geom_histogram(
-    aes(y = after_stat(density)),
-    bins = 30,
-    fill = "lightblue",
-    color = "black"
+    aes(y = after_stat(density))
   ) +
   labs(
     title = "Distribuzione della popolazione (uniforme)",
@@ -517,15 +512,11 @@ Visualizziamo ora la distribuzione delle medie campionarie con la curva normale 
 ggplot(data.frame(sample_means), aes(x = sample_means)) +
   geom_histogram(
     aes(y = after_stat(density)),
-    bins = 30,
-    fill = "lightblue",
-    color = "black",
-    alpha = 0.7
+    bins = 30
   ) +
   stat_function(
     fun = dnorm,
     args = list(mean = x_bar, sd = std),
-    color = "red",
     linewidth = 1.2
   ) +
   labs(
@@ -589,25 +580,23 @@ posterior_density <- dnorm(theta_grid,
 ggplot(data.frame(theta = theta_grid,
                   density = posterior_density),
        aes(x = theta, y = density)) +
-  geom_line(linewidth = 1.2, color = "#2E86AB") +
+  geom_line(linewidth = 1.2) +
   geom_area(
     data = subset(data.frame(theta = theta_grid,
                              density = posterior_density),
                   theta >= lower & theta <= upper),
-    aes(x = theta, y = density),
-    fill = "#A23B72", alpha = 0.3
+    aes(x = theta, y = density)
   ) +
   geom_vline(xintercept = c(lower, upper),
              linetype = "dashed",
-             color = "#F18F01",
              linewidth = 0.8) +
+  scale_fill_qualitative() +
   labs(
     title = "Distribuzione a posteriori (approssimazione normale)",
     subtitle = "Intervallo di credibilità al 95% per la proporzione",
     x = "$\\theta$ (proporzione nella popolazione)",
     y = "Densità a posteriori"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 **Interpretazione dell’intervallo di credibilità**
@@ -753,6 +742,10 @@ Consideriamo tre ricercatori che partono da concezioni iniziali diverse riguardo
 Il valore vero del parametro è $\theta_0 = 0.45$. Osserviamo come evolvono le rispettive distribuzioni a posteriori al crescere della dimensione campionaria.
 
 ```{r}
+#| fig-width: 9
+#| fig-height: 9
+#| out-width: "100%"
+
 # Parametri della simulazione
 theta_true <- 0.45
 n_observations <- c(10, 50, 200, 1000)
@@ -804,9 +797,9 @@ ggplot(all_posteriors,
   geom_line(linewidth = 1.2) +
   geom_vline(xintercept = theta_true,
              linetype = "dashed",
-             color = "#E15759",
              linewidth = 1.2) +
   facet_wrap(~ n, ncol = 2, scales = "free_y") +
+  scale_fill_qualitative() +
   labs(
     title = "Convergenza bayesiana con prior differenti",
     subtitle = "La linea verticale indica il valore vero θ = 0.45",
@@ -815,7 +808,6 @@ ggplot(all_posteriors,
     color = "Ricercatore",
     linetype = "Ricercatore"
   ) +
-  theme_minimal() +
   theme(legend.position = "bottom",
         plot.title = element_text(face = "bold"))
 ```
@@ -863,10 +855,13 @@ Se lo strumento utilizzato presenta bassa affidabilità o non coglie adeguatamen
 
 ```{r}
 #| echo: false
+#| fig-width: 11
+#| fig-height: 11
+#| out-width: "100%"
+#| 
 set.seed(42)
 
 n_points <- 100
-
 s1 <- data.frame(
   x = rnorm(n_points, mean = 0, sd = 0.3),
   y = rnorm(n_points, mean = 0, sd = 0.3),
@@ -894,25 +889,24 @@ s4 <- data.frame(
 all_scenarios <- rbind(s1, s2, s3, s4)
 
 ggplot(all_scenarios, aes(x = x, y = y)) +
-  geom_point(alpha = 0.2, color = "#4E79A7") +
+  geom_point(alpha = 0.6, size = 2) +  # ← aggiunto alpha e size
   geom_point(aes(x = 0, y = 0),
-             color = "#E15759",
+             color = PRIMARY,  # ← usa PRIMARY invece di default
              size = 5,
              shape = 4,
              stroke = 2) +
   facet_wrap(~ scenario, ncol = 2) +
   coord_fixed() +
   labs(
-    title = "Precisione e accuratezza nell'inferenza statistica",
-    subtitle = "La croce rossa indica il valore parametrico vero",
+    title = "Precisione e accuratezza\nnell'inferenza statistica",
+    subtitle = "La croce indica il valore parametrico vero",
     x = "",
     y = ""
   ) +
-  theme_minimal() +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
-    strip.text = element_text(face = "bold")
+    strip.text = element_text(face = "bold", size = rel(1.1))
   )
 ```
 

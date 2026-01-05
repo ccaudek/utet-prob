@@ -36,7 +36,9 @@ here::here("code", "_common.R") |>
 
 # Load packages
 if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(ggplot2, dplyr, tidyr, viridis)
+pacman::p_load(viridis)
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -293,13 +295,12 @@ ggplot(grid, aes(x = P_A, y = P_B, fill = ampiezza_lecita)) +
     limits = c(0, 1)
   ) +
   labs(
-    title = "Vincoli di Fréchet: intervalli ammissibili per P(A ∩ B)",
+    title = "Vincoli di Fréchet:\nintervalli ammissibili per P(A ∩ B)",
     subtitle = "Per ogni coppia (P(A), P(B)), l'area colorata mostra quanti valori di P(A ∩ B) \nsono logicamente possibili",
     x = "P(A)",
     y = "P(B)",
     caption = "Colori più chiari = maggiore libertà nella scelta di P(A ∩ B)"
   ) +
-  theme_minimal() +
   coord_fixed()
 ```
 
@@ -402,8 +403,7 @@ ggplot(df_tab, aes(x = Test, y = Stato, fill = Probabilita)) +
     subtitle = "Ogni cella mostra P(Stato ∩ Test)",
     x = "Risultato Test",
     y = "Stato reale"
-  ) +
-  theme_minimal() 
+  )  
 ```
 
 #### Verifica empirica mediante simulazione {.unnumbered .unlisted}
@@ -449,8 +449,7 @@ ggplot(df_verifica_long, aes(x = Configurazione, y = Probabilita, fill = Tipo)) 
     title = "Verifica empirica della tabella congiunta",
     subtitle = paste0("Simulazione con N = ", N, " campioni"),
     y = "Probabilità / Frequenza relativa"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 La convergenza delle frequenze empiriche verso le probabilità teoriche mostra che la distribuzione congiunta può essere interpretata come un sistema di credenze coerente capace di generare dati con le proprietà attese.
@@ -549,7 +548,6 @@ ggplot(df_derive, aes(x = reorder(Quantita, -Valore), y = Valore, fill = Tipo)) 
     x = "Quantità probabilistica",
     y = "Valore"
   ) +
-  theme_minimal() +
   theme(axis.text.x = element_text(angle = 0))
 ```
 
@@ -686,10 +684,9 @@ ggplot(df_comorbid, aes(x = Ansia, y = Depressione, fill = Probabilita)) +
             color = "white", size = 8, fontface = "bold") +
   scale_fill_viridis_c(option = "plasma") +
   labs(
-    title = "Tabella congiunta: Depressione × Ansia",
+    title = "Tabella congiunta:\nDepressione × Ansia",
     subtitle = "Comorbidità P(D ∩ A) = 0.30 (cella in alto a sinistra)"
   ) +
-  theme_minimal() +
   coord_fixed()
 ```
 
@@ -745,11 +742,10 @@ ggplot(df_2x3, aes(x = SeveritaAnsia, y = Depressione, fill = Probabilita)) +
             color = "white", size = 6, fontface = "bold") +
   scale_fill_viridis_c(option = "plasma") +
   labs(
-    title = "Tabella congiunta 2×3: Depressione × Severità Ansia",
+    title = "Tabella congiunta 2×3:\nDepressione × Severità Ansia",
     x = "Ansia",
     subtitle = "Ogni cella rappresenta la credenza in una specifica configurazione clinica"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 **Interpretazione clinica**

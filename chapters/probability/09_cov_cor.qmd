@@ -31,9 +31,13 @@ Prima di introdurre formalmente la covarianza e la correlazione, estenderemo bre
 ```{r}
 here::here("code", "_common.R") |>
   source()
+
 library(MASS)
 library(viridis)
 library(ggExtra)
+
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -150,12 +154,11 @@ grafico <- ggplot(dati, aes(x = Ansia, y = Prestazione)) +
   geom_density_2d(color = "white", linewidth = 0.5, linetype = "dotted") +
   geom_point(alpha = 0.2, size = 0.8, color = "white") +
   labs(
-    title = "Distribuzione congiunta: Ansia e Prestazione",
+    title = "Distribuzione congiunta:\nAnsia e Prestazione",
     subtitle = "Colori più chiari = configurazioni a cui assegniamo maggiore plausibilità",
     x = "Punteggio Ansia",
     y = "Punteggio Prestazione Cognitiva"
-  ) +
-  theme_minimal()
+  ) 
 
 # Aggiungere grafici marginali delle densità
 grafico_finale <- ggMarginal(
@@ -548,14 +551,14 @@ cat("Correlazione:", round(cor(X, Y), 3), "\n")
 
 # Visualizzazione
 ggplot(data.frame(X = X, Y = Y), aes(x = X, y = Y)) +
-  geom_point(alpha = 0.5, color = "steelblue") +
+  geom_point(alpha = 0.5) +
+  scale_fill_qualitative() +
   labs(
     title = "Relazione non lineare con correlazione ≈ 0",
     subtitle = "Le variabili sono fortemente dipendenti ma incorrelate",
     x = "X", 
     y = "Y"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 Questo esempio illustra un caso paradigmatico. La variabile $Y$ è in larga misura determinata da $X$ (a meno di un rumore casuale), quindi le due variabili sono chiaramente *dipendenti*. Tuttavia, la correlazione risulta prossima a zero perché la relazione è di tipo quadratico e simmetrica rispetto all’origine: le associazioni positive e negative si compensano nel calcolo della covarianza.
@@ -591,14 +594,14 @@ cat("\nCorrelazione a priori tra parametri:", 0.7, "\n")
 
 # Visualizzazione
 ggplot(as.data.frame(samples_prior), aes(x = V1, y = V2)) +
-  geom_point(alpha = 0.4, color = "darkgreen") +
+  geom_point(alpha = 0.4) +
+  scale_fill_qualitative() +
   labs(
     title = "Prior multivariata con correlazione 0.7",
     subtitle = "Credenze iniziali sulla relazione tra parametri",
     x = expression(theta[1]),
     y = expression(theta[2])
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 Specificare una correlazione positiva pari a 0.7 nella prior equivale ad affermare che riteniamo plausibile una variazione congiunta dei due parametri: valori elevati di uno tendono ad accompagnarsi a valori elevati dell’altro. Questa informazione, codificata nella matrice di covarianza a priori, contribuisce a determinare la forma della distribuzione a posteriori.

@@ -13,6 +13,8 @@
 ```{r}
 here::here("code", "_common.R") |> 
   source()
+# Riapplica il tema per sicurezza
+apply_visual_theme()
 ```
 :::
 
@@ -89,18 +91,18 @@ x <- seq(-50, 410, length.out = 500)
 density_uniform <- dunif(x, min = 0, max = 360)
 
 ggplot(data.frame(x = x, y = density_uniform), aes(x = x, y = y)) +
-  geom_line(linewidth = 1.2, color = "blue") +
+  geom_line(linewidth = 1.2) +
   geom_area(
     data = subset(data.frame(x, y = density_uniform), x >= 150 & x <= 250),
     aes(x = x, y = y),
-    fill = "steelblue", alpha = 0.5
+    alpha = 0.5
   ) +
+  scale_fill_qualitative() +
   labs(
     title = "Distribuzione uniforme (0, 360)",
     subtitle = "Area evidenziata: P(150 ≤ X ≤ 250)",
     x = "x", y = "Densità f(x)"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 ## Distribuzione esponenziale
@@ -159,17 +161,17 @@ x <- seq(0, 20, by = 0.1)
 pdf <- dexp(x, rate = lambda)
 
 ggplot(data.frame(x = x, y = pdf), aes(x = x, y = y)) +
-  geom_line(linewidth = 1.2, color = "darkblue") +
+  geom_line(linewidth = 1.2) +
   geom_area(
     data = subset(data.frame(x, y = pdf), x >= 1 & x <= 6),
-    fill = "steelblue", alpha = 0.5
+    alpha = 0.5
   ) +
+  scale_fill_qualitative() +
   labs(
     title = "Distribuzione esponenziale (λ = 0.25)",
     subtitle = "Area evidenziata: P(1 ≤ X ≤ 6)",
     x = "Tempo di attesa (giorni)", y = "Densità"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 ## Distribuzione normale
@@ -199,6 +201,26 @@ La distribuzione normale occupa una posizione centrale nell'inferenza bayesiana 
 
 Un ulteriore motivo della centralità della distribuzione normale nell’inferenza bayesiana è che essa emerge frequentemente come **approssimazione della distribuzione a posteriori**, anche quando il modello di partenza non è normale. In virtù del Teorema del Limite Centrale e delle approssimazioni di tipo laplaciano, posteriori complesse tendono ad assumere una forma approssimativamente normale in prossimità del loro massimo, soprattutto in presenza di campioni numerosi.
 
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Punteggi standardizzati**: QI (μ=100, σ=15), SAT, z-scores
+- **Errori di misura simmetrici**: tempi di reazione (spesso dopo log-trasformazione)
+- **Medie di campioni grandi**: per il Teorema del Limite Centrale
+- **Prior su medie μ**: quando il parametro è non vincolato
+
+**Esempio pratico:** Punteggi di depressione BDI in popolazione generale seguono approssimativamente N(μ=10, σ=8).
+
+**Prior bayesiani tipici:**
+
+- N(0, 10²): prior vaga su effetti standardizzati
+- N(μ₀, σ₀²): prior informativo centrato su μ₀
+
+**Attenzione:** Molte variabili psicologiche NON sono normali (es. tempi di reazione → log-normale, conteggi → Poisson).
+:::
+
 ### La regola 68-95-99.7
 
 La distribuzione normale possiede una proprietà universale che rimane invariata indipendentemente dai valori specifici dei parametri $\mu$ e $\sigma$. In particolare, si può affermare che approssimativamente il 68.3% della massa probabilistica è concentrato entro un intervallo di più o meno una deviazione standard dalla media, percentuale che sale al 95.4% quando si considera un intervallo di due deviazioni standard e raggiunge il 99.7% per uno scarto di tre deviazioni standard.
@@ -222,18 +244,18 @@ posizioni_finali <- rowSums(spostamenti)
 
 # Visualizzazione
 ggplot(data.frame(Posizione = posizioni_finali), aes(x = Posizione)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, alpha = 0.7) +
   stat_function(
     fun = dnorm, 
     args = list(mean = mean(posizioni_finali), sd = sd(posizioni_finali)), 
-    color = "red", linewidth = 1
+    linewidth = 1
   ) +
+  scale_fill_qualitative() +
   labs(
     title = "Teorema del Limite Centrale",
     subtitle = "Somma di 16 variabili uniformi converge alla normale",
     x = "Posizione finale", y = "Densità"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 Nonostante ogni singolo passo segua una distribuzione uniforme, la distribuzione delle posizioni finali approssima una distribuzione normale, dimostrando empiricamente il TLC.
@@ -247,17 +269,17 @@ x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
 df <- data.frame(x = x, pdf = dnorm(x, mu, sigma))
 
 ggplot(df, aes(x = x, y = pdf)) +
-  geom_line(color = "blue") +
+  geom_line() +
   geom_area(
     data = subset(df, x >= mu - 1.96*sigma & x <= mu + 1.96*sigma),
-    fill = "steelblue", alpha = 0.5
+    alpha = 0.5
   ) +
+  scale_fill_qualitative() +
   labs(
     title = "Distribuzione Normale (μ = 100, σ = 15)",
     subtitle = "Il 95% della massa si trova entro ±1.96σ dalla media",
     x = "Valori", y = "Densità"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 ## Distribuzione chi-quadrato
@@ -309,12 +331,12 @@ data <- do.call(rbind, lapply(nus, function(nu) {
 
 ggplot(data, aes(x = x, y = f_x, color = nu)) +
   geom_line(linewidth = 1) +
+  scale_fill_qualitative() +
   labs(
     title = "Distribuzione chi-quadrato",
     subtitle = "La distribuzione diventa più simmetrica all’aumentare dei gradi di libertà",
     x = "x", y = "f(x)", color = "ν"
-  ) +
-  theme_minimal()
+  ) 
 ```
 
 *(Nota: al crescere dei gradi di libertà, la distribuzione chi-quadrato tende ad assumere una forma sempre più simmetrica, avvicinandosi a una distribuzione normale.)*
@@ -374,17 +396,15 @@ dati_plot <- data.frame(
 
 ggplot(dati_plot, aes(x = x, y = densita, color = distribuzione)) +
   geom_line(linewidth = 1) +
+  scale_fill_qualitative() +
   labs(
     title = "Confronto t di Student e Normale",
     subtitle = "Code più pesanti per ν piccoli; convergenza alla normale per ν → ∞",
     x = "Valore", y = "Densità", color = "Distribuzione"
-  ) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1")
+  ) 
 ```
 
 Il grafico mostra chiaramente come, per valori piccoli di $\nu$, la distribuzione $t$ presenti code più pesanti rispetto alla normale, mentre al crescere dei gradi di libertà le due distribuzioni diventino praticamente indistinguibili.
-
 
 ## Distribuzione di Cauchy
 
@@ -413,7 +433,6 @@ La distribuzione di Cauchy trova ampia applicazione come **prior debolmente info
 
 Per i parametri di scala, la **half-Cauchy**, ottenuta troncando la distribuzione ai valori positivi, è spesso raccomandata come prior per le deviazioni standard nei modelli gerarchici. In questi contesti, la Cauchy svolge un ruolo cruciale: non impone una scala caratteristica rigida, lasciando che siano i dati a informare l’ampiezza della variabilità, pur esercitando una regolarizzazione debole.
 
-
 ### Confronto con altre distribuzioni
 
 ```{r}
@@ -427,13 +446,12 @@ df <- data.frame(
 
 ggplot(df, aes(x = x, y = density, color = distribuzione)) +
   geom_line(linewidth = 1) +
+  scale_fill_qualitative() +
   labs(
     title = "Confronto delle code",
     subtitle = "La Cauchy ha le code più pesanti, seguita dalla t",
     x = "x", y = "Densità"
-  ) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1")
+  ) 
 ```
 
 Il confronto evidenzia come la distribuzione di Cauchy presenti le code più pesanti, seguita dalla distribuzione $t$ di Student, mentre la normale concentra la massa probabilistica in modo più marcato attorno al valore centrale.
@@ -483,6 +501,34 @@ La media della distribuzione a posteriori può essere interpretata come una medi
 
 La coniugazione tra distribuzione beta e modello binomiale non rappresenta soltanto una semplificazione computazionale, ma riflette una profonda **coerenza epistemica**: le informazioni a priori e quelle fornite dai dati sono espresse nella stessa unità concettuale, ovvero conteggi di successi e insuccessi, rendendo l’aggiornamento trasparente e interpretabile.
 
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Prior per proporzioni/probabilità** p ∈ (0,1):
+  - Tasso di risposta corretta
+  - Probabilità di aderenza terapeutica
+  - Prevalenza di un disturbo
+- **Prior per correlazioni** (dopo trasformazione Fisher z)
+- **Modellazione diretta** di variabili vincolate a [0,1]
+
+**Esempio pratico:** Vuoi stimare la probabilità p che un trattamento funzioni. Prima dei dati, usi Beta(5,5) come prior (credenza verso p≈0.5 con moderata incertezza).
+
+**Interpretazione intuitiva dei parametri:**
+
+- α = "pseudo-successi" già osservati
+- β = "pseudo-insuccessi" già osservati
+- Es: Beta(20,10) → come se avessi già visto 20 successi e 10 fallimenti
+
+**Casi speciali:**
+
+- Beta(1,1) = Uniforme(0,1): totale ignoranza
+- Beta(0.5,0.5) = Jeffreys prior: prior non informativo che è invariante per trasformazioni
+
+**Coniugazione con Binomiale:** Se prior è Beta(α,β) e osservi k successi su n, posterior è Beta(α+k, β+n-k) → aggiornamento additivo!
+:::
+
 ### Flessibilità della forma
 
 La distribuzione beta può assumere forme molto diverse a seconda dei parametri:
@@ -503,12 +549,12 @@ df <- do.call(rbind, lapply(params, function(p) {
 
 ggplot(df, aes(x = x, y = density, color = label)) +
   geom_line(linewidth = 1) +
+  scale_fill_qualitative() +
   labs(
     title = "Flessibilità della distribuzione Beta",
     subtitle = "Diverse combinazioni di parametri producono forme radicalmente diverse",
     x = "θ", y = "f(θ)"
-  ) +
-  theme_minimal() +
+  )
   theme(legend.title = element_blank())
 ```
 
@@ -537,12 +583,12 @@ df <- data.frame(
 
 ggplot(df, aes(x = x, y = density, color = tipo)) +
   geom_line(linewidth = 1.2) +
+  scale_fill_qualitative() +
   labs(
     title = "Aggiornamento Bayesiano: Beta-Binomiale",
     subtitle = "7 successi su 10 prove aggiornano la prior",
     x = "p", y = "Densità"
-  ) +
-  theme_minimal()
+  ) 
 
 cat("Media prior:", round(alpha_prior/(alpha_prior + beta_prior), 3), "\n")
 cat("Media posterior:", round(alpha_post/(alpha_post + beta_post), 3), "\n")
@@ -585,6 +631,38 @@ In secondo luogo, la distribuzione gamma è comunemente utilizzata come distribu
 
 In questo senso, la distribuzione gamma generalizza la distribuzione esponenziale: mentre quest’ultima descrive il tempo di attesa fino al primo evento, la gamma consente di modellare il tempo necessario al verificarsi di un numero arbitrario di eventi, mantenendo la stessa struttura probabilistica di base.
 
+::: {.callout-note icon=false}
+## 🧠 Quando la usi in psicologia?
+
+**Situazioni tipiche:**
+
+- **Prior per tassi positivi** λ > 0:
+  - Tasso di eventi Poisson (es. sintomi/settimana)
+  - Parametri di scala/velocità
+- **Prior per precisioni** τ = 1/σ² nei modelli normali
+- **Tempi di attesa** per k eventi successivi
+
+**Esempio pratico:** Vuoi stimare λ = numero medio di errori cognitivi per ora di compito. Prior: Gamma(5, 2) → credenza che λ ≈ 2.5.
+
+**Interpretazione intuitiva:**
+
+- α = "pseudo-eventi" osservati
+- β = "pseudo-tempo" di esposizione
+- Es: Gamma(10, 4) → come se avessi visto 10 eventi in 4 unità di tempo
+
+**Prior comuni:**
+
+- Gamma(0.01, 0.01): prior molto vaga
+- Gamma(α, β) con α/β uguale alla tua guess della media
+
+**Coniugazione con Poisson:** Se prior è Gamma(α,β) e osservi totale k eventi su n unità, posterior è Gamma(α+k, β+n) → aggiornamento additivo!
+
+**Link con altre distribuzioni:**
+
+- Gamma(1, λ) = Esponenziale(λ)
+- Gamma(k/2, 1/2) = Chi-quadrato(k)
+:::
+
 ### Esempio: inferenza su un tasso Poisson
 
 ```{r}
@@ -610,12 +688,12 @@ df <- data.frame(
 
 ggplot(df, aes(x = x, y = density, color = tipo)) +
   geom_line(linewidth = 1.2) +
+  scale_fill_qualitative() +
   labs(
     title = "Aggiornamento Bayesiano: Gamma-Poisson",
     subtitle = "18 eventi in 5 osservazioni aggiornano la prior",
     x = "λ", y = "Densità"
-  ) +
-  theme_minimal()
+  ) 
 
 cat("Media prior:", round(alpha_prior/beta_prior, 3), "\n")
 cat("Media posterior:", round(alpha_post/beta_post, 3), "\n")
@@ -639,11 +717,11 @@ df <- do.call(rbind, lapply(params, function(p) {
 
 ggplot(df, aes(x = x, y = density, color = label)) +
   geom_line(linewidth = 1) +
+  scale_fill_qualitative() +
   labs(
     title = "Flessibilità della distribuzione Gamma",
     x = "x", y = "f(x)"
   ) +
-  theme_minimal() +
   theme(legend.title = element_blank())
 ```
 
@@ -679,6 +757,28 @@ Infine, la **robustezza desiderata** guida la scelta tra distribuzioni con compo
 Tutte le distribuzioni discusse condividono lo stesso ruolo epistemico: sono strumenti per rappresentare formalmente i nostri gradi di credenza. Queste distribuzioni non descrivono “come sono realmente le cose”, ma codificano “quanto riteniamo plausibile ciascun valore” alla luce delle informazioni disponibili. Questa interpretazione soggettivista costituisce il filo conduttore che unisce le diverse famiglie in un framework coerente per il ragionamento sotto incertezza.
 
 Le proprietà matematiche, come la coniugazione, l’esistenza dei momenti o il comportamento delle code, non sono fini a sé stesse, ma hanno conseguenze epistemiche concrete: determinano come le credenze vengono aggiornate, quanta incertezza residua permane e quali previsioni possono essere formulate riguardo alle osservazioni future. Nei capitoli successivi, questi strumenti verranno combinati e messi in opera all’interno di modelli bayesiani sempre più articolati.
+
+### Come scelgo la distribuzione giusta? {.unnumbered .unlisted}
+
+**Domande chiave per i dati:**
+
+1. **"Sono misure simmetriche senza vincoli?"** → Normale (o t se outlier)
+2. **"Sono solo valori positivi?"** → Gamma, Log-normale, Esponenziale
+3. **"Sono tempi di attesa con tasso costante?"** → Esponenziale
+4. **"Sono proporzioni tra 0 e 1?"** → Beta (come dato, non come prior)
+
+**Domande chiave per i parametri:**
+
+1. **"È una probabilità p ∈ (0,1)?"** → Beta come prior
+2. **"È un tasso λ > 0?"** → Gamma come prior
+3. **"È una media μ senza vincoli?"** → Normale come prior
+4. **"Voglio essere robusto a outlier?"** → t di Student o Cauchy
+
+**Coniugazioni da ricordare:**
+
+- Beta ↔ Binomiale/Bernoulli
+- Gamma ↔ Poisson  
+- Normale ↔ Normale (su μ)
 
 ::: {.callout-caution collapse="true" title="Informazioni sull'ambiente di sviluppo"}
 
