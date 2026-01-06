@@ -19,12 +19,24 @@ Per questo motivo, valore atteso e varianza occupano una posizione centrale non 
 - Deviazione standard e standardizzazione.
 - Il teorema di Chebyshev e i momenti di una distribuzione.
 
-::: {.callout-tip collapse=true}
+::: {.callout-tip collapse="true"}
 ## Prerequisiti
 
-- Aver letto i capitoli @sec-prob-interpretation, @sec-prob-axioms-coherence e @sec-bayes-theorem.
-- Leggere l'appendice @sec-apx-calculus per i concetti base di calcolo integrale.
-- Familiarità con R e le operazioni vettoriali di base.
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-random-var — **fondamentale**
+- @sec-prob-distr — **fondamentale**
+
+Questo capitolo introduce gli strumenti di sintesi numerica (valore atteso e varianza) per caratterizzare le distribuzioni di probabilità studiate nei capitoli precedenti.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sums - per calcolo del valore atteso discreto
+- @sec-apx-calculus - per calcolo del valore atteso continuo
+
+Competenze pratiche:
+
+- Familiarità con R e operazioni vettoriali per verificare le proprietà attraverso simulazioni
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
@@ -660,12 +672,115 @@ Questi concetti non sono soltanto strumenti descrittivi, ma assumono un signific
 
 In questo senso, valore atteso e varianza rappresentano il punto di incontro tra probabilità, decisione e apprendimento: sintetizzano ciò che sappiamo, guidano le previsioni ottimali e rendono misurabile quanto resta ancora incerto.
 
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Valore atteso come centro di gravità probabilistico**
+   - Media ponderata dei valori possibili, con pesi dati dalle probabilità (o densità)
+   - Rappresenta l'aspettativa razionale alla luce dello stato informativo corrente
+   - Non deve necessariamente coincidere con un valore osservabile (es. $\mathbb{E}[X] = 3.5$ per un dado)
+   - Legge dei grandi numeri: la media campionaria converge al valore atteso
+
+2. **Linearità del valore atteso (proprietà cruciale)**
+   - $\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$ **sempre** (anche se $X$ e $Y$ sono dipendenti!)
+   - $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$ per costanti $a, b$
+   - Semplifica enormemente i calcoli: non serve conoscere la distribuzione congiunta
+
+3. **Varianza come misura della dispersione**
+   - $\text{Var}(X) = \mathbb{E}[(X - \mu)^2]$ quantifica quanto i valori si discostano dalla media
+   - Interpretazione: "distanza quadratica media" dal centro
+   - Formula computazionale alternativa: $\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$
+
+4. **Proprietà della varianza**
+   - $\text{Var}(aX + b) = a^2 \text{Var}(X)$ (traslazioni non cambiano dispersione; scale sì)
+   - $\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$ **solo se** $X \perp Y$ (dipendenza cambia tutto!)
+   - Varianza della media campionaria: $\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n}$ (fondamento della precisione statistica)
+
+5. **Deviazione standard e standardizzazione**
+   - $\sigma = \sqrt{\text{Var}(X)}$ riporta la dispersione nelle unità originali dei dati
+   - Rappresenta una "distanza tipica" dalla media
+   - Standardizzazione: $Z = \frac{X - \mu}{\sigma}$ crea variabile con $\mathbb{E}[Z] = 0$ e $\text{Var}(Z) = 1$
+   - Permette confronti tra scale diverse (es. confronto tra test psicometrici)
+
+6. **Teorema di Chebyshev**
+   - Garanzia universale: $P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}$ per **qualsiasi** distribuzione
+   - Almeno 75% entro $\pm 2\sigma$, almeno 89% entro $\pm 3\sigma$
+   - Limiti conservativi ma non richiedono assunzioni sulla forma della distribuzione
+
+7. **Momenti di una distribuzione**
+   - Momento di ordine $r$: $\mathbb{E}[X^r]$ descrive aspetti della forma
+   - Valore atteso = momento di ordine 1
+   - Varianza = momento centrale di ordine 2
+   - Momenti superiori: skewness (asimmetria), kurtosis (code pesanti)
+
+**Formule da ricordare:**
+
+**Valore atteso:**
+$$
+\mathbb{E}[X] = \begin{cases}
+\sum_x x \cdot p_X(x) & \text{(discreta)} \\
+\int_{-\infty}^{+\infty} x \cdot f_X(x) \, dx & \text{(continua)}
+\end{cases}
+$$
+
+**Linearità del valore atteso:**
+$$
+\mathbb{E}[aX + bY + c] = a\mathbb{E}[X] + b\mathbb{E}[Y] + c
+$$
+
+**Varianza (definizione e formula computazionale):**
+$$
+\text{Var}(X) = \mathbb{E}[(X - \mu)^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2
+$$
+
+**Proprietà della varianza:**
+$$
+\text{Var}(aX + b) = a^2 \text{Var}(X)
+$$
+
+$$
+\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)
+$$
+
+$$
+\text{Se } X \perp Y: \quad \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)
+$$
+
+**Varianza della media campionaria:**
+$$
+\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n} \quad \Rightarrow \quad \text{SD}(\bar{X}_n) = \frac{\sigma}{\sqrt{n}}
+$$
+
+**Standardizzazione:**
+$$
+Z = \frac{X - \mu}{\sigma} \quad \Rightarrow \quad \mathbb{E}[Z] = 0, \; \text{Var}(Z) = 1
+$$
+
+**Teorema di Chebyshev:**
+$$
+P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}
+$$
+
+**Proprietà critiche da ricordare:**
+
+- **Linearità del valore atteso vale SEMPRE** (anche con dipendenza!)
+- **Additività della varianza richiede INDIPENDENZA**
+- Valore atteso può non essere un valore osservabile
+- Varianza ha unità al quadrato; deviazione standard ha unità originali
+- La varianza della media decresce con $n$ (più dati → meno incertezza)
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-cov-cor studieremo come quantificare la **dipendenza stocastica** tra due variabili attraverso covarianza e correlazione. Vedremo come la covarianza generalizzi la varianza al caso bivariato e come la correlazione fornisca una misura adimensionale della forza dell'associazione lineare, preparando il terreno per modelli di regressione e analisi multivariata nell'inferenza bayesiana.
+:::
+
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}
 sessionInfo()
 ```
 :::
-
 
 ## Bibliografia {.unnumbered .unlisted}
 

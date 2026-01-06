@@ -12,6 +12,24 @@ In questa prospettiva, l’aggiornamento bayesiano potrà essere reinterpretato 
 
 Infine, discuteremo il ruolo di due risultati fondamentali della teoria della probabilità, ovvero la **Legge dei Grandi Numeri** e il **Teorema del Limite Centrale**, che aiutano a comprendere il comportamento asintotico dell’inferenza bayesiana. Senza entrare in dimostrazioni formali, useremo questi teoremi per spiegare perché, al crescere dei dati, la distribuzione a posteriori tende a concentrarsi attorno al valore vero del parametro e perché, in molti contesti, essa può essere ben approssimata da una distribuzione gaussiana, indipendentemente dalla forma iniziale del prior.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-bayes-theorem
+- @sec-prob-inference-uncertainty
+- @sec-prob-discr-distr
+- @sec-prob-cont-distr
+- @sec-prob-likelihood — **fondamentale**
+
+Questo capitolo completa lo studio della verosimiglianza, introducendo score function, informazione di Fisher, coniugazione e fornendo gli strumenti operativi per l'inferenza bayesiana parametrica.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-calculus - per derivate e integrali della verosimiglianza
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Collegamento tra proprietà della media campionaria e forma della verosimiglianza.
@@ -920,6 +938,120 @@ Il Teorema del Limite Centrale spiega inoltre perché la forma normale emerga co
 È tuttavia essenziale riconoscere i **limiti** intrinseci di questi risultati. Tutte le proprietà discusse riguardano esclusivamente l’incertezza dovuta al campionamento casuale. Esse non possono correggere né compensare distorsioni sistematiche legate al disegno di ricerca, alla selezione del campione o agli strumenti di misura. La precisione statistica, quindi, non deve mai essere confusa con la validità scientifica delle conclusioni.
 
 Nei capitoli successivi del manuale principale, questi principi teorici verranno utilizzati in modo operativo nella costruzione, stima e interpretazione di modelli bayesiani applicati alla ricerca psicologica. Il ruolo di questo companion è fornire le basi concettuali necessarie per comprendere *perché* tali modelli funzionano e *in quali condizioni* le loro inferenze possono essere considerate affidabili.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Score function (funzione punteggio)**
+   - $S(\theta) = \frac{\partial}{\partial\theta}\ell(\theta) = \frac{\partial}{\partial\theta}\log L(\theta)$
+   - Pendenza della log-verosimiglianza
+   - $S(\hat{\theta}_{\text{MLE}}) = 0$ (condizione del primo ordine per massimo)
+   - Intuitivamente: "direzione di maggiore crescita della verosimiglianza"
+
+2. **Informazione di Fisher**
+   - $I(\theta) = -\mathbb{E}\left[\frac{\partial^2}{\partial\theta^2}\ell(\theta)\right] = \mathbb{E}[S(\theta)^2]$
+   - Quantifica "quanta informazione sul parametro fornisce un'osservazione"
+   - Curvatura della log-verosimiglianza al punto vero
+   - $I_n(\theta) = n \cdot I(\theta)$ per $n$ osservazioni i.i.d. (informazione si accumula!)
+
+3. **Normalità asintotica della MLE**
+   - Per $n$ grande: $\hat{\theta}_{\text{MLE}} \approx \mathcal{N}\left(\theta_{\text{vero}}, \frac{1}{I_n(\theta)}\right)$
+   - La verosimiglianza diventa approssimativamente normale attorno alla MLE
+   - Permette approssimazioni gaussiane della posterior (approssimazione di Laplace)
+
+4. **Prior coniugati**
+   - Prior e verosimiglianza "coniugati" → posterior della stessa famiglia del prior
+   - **Beta-Binomiale**: $\text{Beta}(\alpha,\beta) + \text{Bin}(n,\theta) \to \text{Beta}(\alpha+k, \beta+n-k)$
+   - **Normale-Normale**: prior Normale + dati Normali → posterior Normale
+   - **Gamma-Poisson**: prior Gamma + dati Poisson → posterior Gamma
+   - Enormemente semplifica i calcoli (forma chiusa!)
+
+5. **Interpretazione parametri coniugati**
+   - **Beta($\alpha, \beta$)**: $\alpha-1$ successi pregressi, $\beta-1$ fallimenti pregressi
+   - **Gamma($\alpha, \beta$)**: $\alpha$ eventi osservati in tempo $\beta$
+   - Parametri prior = "dimensione campionaria equivalente" delle credenze iniziali
+
+6. **Aggiornamento sequenziale**
+   - Posterior(oggi) diventa prior(domani)
+   - Con coniugazione: aggiornare parametri sequenzialmente = aggiornare con tutti i dati insieme
+   - Proprietà di **coerenza temporale**: l'ordine dei dati non conta
+
+7. **Regola della precisione**
+   - Precisione posteriore = Precisione prior + Precisione likelihood
+   - $\tau_{\text{post}} = \tau_{\text{prior}} + \tau_{\text{data}}$
+   - Per prior deboli: $\tau_{\text{post}} \approx \tau_{\text{data}}$ (posterior dominata dai dati)
+
+8. **Quando la coniugazione non è disponibile**
+   - Approssimazioni: normale asintotica, approssimazione di Laplace
+   - Metodi computazionali: MCMC, variational inference
+   - Prior non coniugati permettono maggiore flessibilità ma richiedono calcolo numerico
+
+**Formule da ricordare:**
+
+**Score function:**
+$$
+S(\theta) = \frac{\partial}{\partial\theta}\log L(\theta), \quad S(\hat{\theta}_{\text{MLE}}) = 0
+$$
+
+**Informazione di Fisher:**
+$$
+I(\theta) = -\mathbb{E}\left[\frac{\partial^2}{\partial\theta^2}\log L(\theta)\right] = \mathbb{E}[S(\theta)^2]
+$$
+
+**Informazione per $n$ osservazioni i.i.d.:**
+$$
+I_n(\theta) = n \cdot I(\theta)
+$$
+
+**Normalità asintotica MLE:**
+$$
+\hat{\theta}_{\text{MLE}} \xrightarrow{d} \mathcal{N}\left(\theta, \frac{1}{I_n(\theta)}\right)
+$$
+
+**Aggiornamento Beta-Binomiale:**
+$$
+\text{Beta}(\alpha, \beta) \xrightarrow{k/n} \text{Beta}(\alpha+k, \beta+n-k)
+$$
+
+**Aggiornamento Normale-Normale (media):**
+$$
+\mathcal{N}(\mu_0, \sigma_0^2) \xrightarrow{\bar{x}, n} \mathcal{N}\left(\frac{\tau_0\mu_0 + n\tau\bar{x}}{\tau_0 + n\tau}, \frac{1}{\tau_0 + n\tau}\right)
+$$
+dove $\tau = 1/\sigma^2$ è la precisione.
+
+**Aggiornamento Gamma-Poisson:**
+$$
+\text{Gamma}(\alpha, \beta) \xrightarrow{\sum x_i, n} \text{Gamma}(\alpha + \sum x_i, \beta + n)
+$$
+
+**Coppie coniugate principali:**
+
+| Verosimiglianza | Prior coniugato | Posterior | Parametro |
+|:---|:---|:---|:---|
+| Binomiale | Beta | Beta | Proporzione $\theta$ |
+| Normale (var nota) | Normale | Normale | Media $\mu$ |
+| Normale (media nota) | Gamma | Gamma | Precisione $\tau$ |
+| Poisson | Gamma | Gamma | Rate $\lambda$ |
+| Esponenziale | Gamma | Gamma | Rate $\lambda$ |
+
+**Proprietà critiche:**
+
+- Informazione di Fisher cresce linearmente con $n$
+- Coniugazione preserva la famiglia parametrica
+- Prior deboli → posterior dominata dai dati
+- Prior informativi → sintesi ponderata
+- Aggiornamento sequenziale = aggiornamento batch (con coniugazione)
+
+**Conclusione del modulo:**
+
+Questo capitolo conclude il **modulo di richiamo della teoria della probabilità**. Abbiamo costruito un percorso completo: dall'interpretazione bayesiana della probabilità agli assiomi di coerenza, dalle variabili casuali alle distribuzioni parametriche, dalla verosimiglianza all'aggiornamento bayesiano. Questi fondamenti costituiscono la base concettuale e operativa per l'**inferenza bayesiana** presentata nel manuale principale *Inferenza bayesiana in psicologia: Ragionare con l'incertezza*.
+
+**Per il manuale principale:**
+
+Il manuale UTET approfondisce: modelli gerarchici, confronto di modelli, inferenza decisionale, metodi computazionali (MCMC, HMC, Stan), regressione bayesiana, modelli di mistura, analisi di mediazione e moderazione, e applicazioni psicologiche avanzate.
+:::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}

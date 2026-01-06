@@ -8,6 +8,26 @@ Il teorema affronta un problema epistemologico fondamentale: come trasformare l�
 
 In questo capitolo esamineremo il teorema di Bayes non soltanto come uno strumento tecnico di calcolo, ma come un **principio normativo** che prescrive come un agente razionale dovrebbe integrare in modo coerente la conoscenza pregressa con nuove osservazioni. Vedremo come questo meccanismo si applichi in modo naturale ai problemi diagnostici in psicologia clinica, alla valutazione delle ipotesi nella ricerca sperimentale e, più in generale, al ragionamento quotidiano in condizioni di incertezza.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-interpretation
+- @sec-prob-axioms-coherence
+- @sec-equiprobability-combinatorics
+- @sec-prob-conditional-prob — **fondamentale**
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sets - per operazioni su eventi
+- @sec-apx-sums - per legge della probabilità totale
+
+Letture complementari consigliate:
+
+- Chivers, T. (2024). *Everything is Predictable: How Bayesian Statistics Explain Our World* [@chivers2024everything] - per una prospettiva divulgativa sul ragionamento bayesiano
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Derivazione del teorema dalla simmetria della probabilità congiunta.
@@ -18,13 +38,6 @@ In questo capitolo esamineremo il teorema di Bayes non soltanto come uno strumen
 - Fallacia del tasso base e sue implicazioni per il ragionamento clinico.
 - Aggiornamento bayesiano con distribuzioni Beta.
 - Intervalli di credibilità e loro interpretazione epistemica.
-
-::: {.callout-tip collapse=true}
-## Prerequisiti
-
-- Aver letto i capitoli precedenti, specialmente @sec-prob-conditional-prob.
-- Leggere *Everything is Predictable: How Bayesian Statistics Explain Our World* [@chivers2024everything].
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -1018,5 +1031,82 @@ Le applicazioni discusse, dalla diagnostica clinica alla valutazione della comor
 Questo capitolo conclude la trattazione dei **fondamenti della probabilità bayesiana**. I concetti stabiliti, ovvero la specificazione del *prior*, il ruolo della *verosimiglianza*, il calcolo del *posterior* e l’inferenza basata sull’intera distribuzione risultante, costituiranno la base per sviluppi più avanzati, come l’inferenza su parametri continui, i modelli gerarchici, la selezione di modelli e i metodi computazionali per problemi complessi. Al crescere della complessità dei modelli, tuttavia, la logica sottostante rimarrà invariata: **la razionalità come coerenza, l’apprendimento come aggiornamento bayesiano, la probabilità come grado di credenza**.
 
 Come osservò Pierre-Simon Laplace oltre due secoli fa, il calcolo delle probabilità non è altro che *il buon senso ridotto a calcolo*. Il teorema di Bayes ne rappresenta il motore fondamentale.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Teorema di Bayes come inversione probabilistica**
+   - Nasce dalla simmetria della probabilità congiunta: $P(A \cap B) = P(A \mid B)P(B) = P(B \mid A)P(A)$
+   - Permette di invertire il condizionamento: da $P(B \mid A)$ (verosimiglianza) a $P(A \mid B)$ (posterior)
+   - Non introduce nuovi principi, è una conseguenza algebrica della definizione di probabilità condizionata
+
+2. **Interpretazione epistemica dei componenti**
+   - **Prior** $P(H)$: grado di credenza iniziale nell'ipotesi prima dei dati
+   - **Verosimiglianza** $P(E \mid H)$: compatibilità dei dati con l'ipotesi (capacità predittiva)
+   - **Evidenza marginale** $P(E)$: costante di normalizzazione (probabilità totale dei dati)
+   - **Posterior** $P(H \mid E)$: credenza aggiornata nell'ipotesi dopo aver osservato i dati
+
+3. **Forma in odds e rapporto di verosimiglianza**
+   - Odds a posteriori = LR × Odds a priori
+   - $\text{LR} = \frac{P(E \mid H)}{P(E \mid H^c)}$ quantifica la forza diagnostica dell'evidenza
+   - Utile per aggiornamenti sequenziali: ogni evidenza moltiplica gli odds
+
+4. **Fallacia del tasso base**
+   - Ignorare il prior (prevalenza) porta a sovrastimare il VPP di test diagnostici
+   - Con bassa prevalenza, anche test accurati producono molti falsi positivi
+   - Esempio critico in screening di popolazione vs contesti clinici selezionati
+
+5. **Aggiornamento bayesiano sequenziale**
+   - Il posterior di oggi diventa il prior di domani
+   - Coerenza: l'ordine dei dati non cambia il posterior finale
+   - Permette di incorporare evidenze man mano che emergono
+
+6. **Modello Beta-Binomiale**
+   - Prior: $\theta \sim \text{Beta}(\alpha, \beta)$
+   - Dati: $k$ successi su $n$ prove
+   - Posterior: $\theta \mid k \sim \text{Beta}(\alpha + k, \beta + n - k)$ (coniugazione)
+   - Media posteriore: compromesso ponderato tra prior e dati
+
+7. **Intervalli di credibilità vs intervalli di confidenza**
+   - **Intervallo di credibilità (95%)**: "C'è probabilità 0.95 che il parametro sia in questo intervallo"
+   - **Intervallo di confidenza (95%)**: "Se ripetessi infinite volte, il 95% degli intervalli conterrebbe il parametro"
+   - Interpretazione epistemica diretta vs proprietà della procedura
+
+**Formule da ricordare:**
+
+$$
+P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)} \quad \text{(forma base)}
+$$
+
+$$
+P(H \mid E) \propto P(E \mid H) \cdot P(H) \quad \text{(forma proporzionale)}
+$$
+
+$$
+\frac{P(H \mid E)}{P(H^c \mid E)} = \frac{P(E \mid H)}{P(E \mid H^c)} \cdot \frac{P(H)}{P(H^c)} \quad \text{(forma in odds)}
+$$
+
+$$
+\text{Beta}(\alpha, \beta) \xrightarrow{k/n} \text{Beta}(\alpha + k, \beta + n - k) \quad \text{(aggiornamento Beta-Binomiale)}
+$$
+
+**Applicazioni diagnostiche essenziali:**
+
+- **VPP con Bayes**: $P(D \mid T^+) = \frac{\text{sens} \cdot P(D)}{\text{sens} \cdot P(D) + (1-\text{spec}) \cdot P(D^c)}$
+- **LR positivo**: $\text{LR}^+ = \frac{\text{sens}}{1 - \text{spec}}$
+- **LR negativo**: $\text{LR}^- = \frac{1 - \text{sens}}{\text{spec}}$
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-random-var inizieremo lo studio sistematico delle **variabili casuali**, formalizzando il passaggio da eventi discreti a quantità numeriche. Vedremo come il teorema di Bayes si generalizzi all'inferenza su parametri continui e come le distribuzioni di probabilità descrivano l'incertezza su valori numerici, preparando il terreno per modelli statistici sempre più sofisticati.
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
+:::
 
 ## Bibliografia {.unnumbered .unlisted}

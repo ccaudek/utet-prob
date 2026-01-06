@@ -1,23 +1,5 @@
 # Distribuzioni di variabili casuali continue {#sec-prob-cont-distr}
 
-::: {.callout-tip}
-## Prerequisiti
-
-- @sec-prob-intro-distr: introduzione alle distribuzioni di probabilità.
-- @sec-prob-discr-distr: distribuzioni discrete.
-:::
-
-::: {.callout-caution}
-## Preparazione del Notebook
-
-```{r}
-here::here("code", "_common.R") |> 
-  source()
-# Riapplica il tema per sicurezza
-apply_visual_theme()
-```
-:::
-
 ## Introduzione {.unnumbered .unlisted}
 
 Nel @sec-prob-discr-distr abbiamo esplorato le distribuzioni discrete come strumenti per rappresentare credenze su fenomeni con esiti numerabili. In questo capitolo estendiamo il framework alle *distribuzioni continue*, che permettono di esprimere credenze su quantità che variano su scale numeriche continue, come tempi, distanze, proporzioni, tassi e punteggi psicometrici. In questo contesto, la probabilità non viene assegnata a valori singoli, ma a intervalli tramite funzioni di densità.
@@ -31,6 +13,33 @@ Una caratteristica elegante dell’inferenza bayesiana è la **dualità discreta
 L’esplorazione seguirà una progressione che partirà da distribuzioni concettualmente semplici per arrivare a quelle con ruoli più specifici nell’inferenza bayesiana. Inizieremo con la distribuzione **uniforme**, che rappresenta una forma di ignoranza locale su un intervallo finito. Passeremo poi alla distribuzione **esponenziale**, fondamentale per modellare tempi di attesa, e alla distribuzione **normale**, centrale per il Teorema del Limite Centrale. Esamineremo poi la distribuzione **chi-quadrato** e la distribuzione **$t$ di Student**, che derivano dalla distribuzione normale e trovano applicazione nell’inferenza e nella modellazione robusta. Concluderemo con le distribuzioni di maggiore rilevanza bayesiana: la **beta** come prior per le proporzioni, la **gamma** come prior per i tassi e le varianze e la **Cauchy** come prior robusto a code pesanti.
 
 Per ciascuna di queste distribuzioni, presenteremo la definizione matematica, l’interpretazione epistemica dei parametri, il ruolo nell’inferenza bayesiana e le applicazioni pratiche in R.
+
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-random-var
+- @sec-prob-distr — **fondamentale** per PDF
+- @sec-prob-random-var-properties
+- @sec-prob-intro-distr
+
+Questo capitolo studia in dettaglio le **distribuzioni continue** (Beta, Normale, Gamma, Esponenziale) essenziali per modellare parametri continui e costruire prior informativi.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-calculus — **fondamentale** per calcolare probabilità tramite integrazione
+:::
+
+::: {.callout-cautioncollapse="true" title="Preparazione del Notebook"}
+
+```{r}
+here::here("code", "_common.R") |> 
+  source()
+# Riapplica il tema per sicurezza
+apply_visual_theme()
+```
+:::
 
 ## Distribuzione uniforme continua
 
@@ -492,6 +501,7 @@ La beta è la **prior coniugata** per il parametro $p$ della distribuzione binom
 $$
 \text{Prior: } p \sim \text{Beta}(\alpha, \beta), \quad \text{Dati: } k \text{ successi su } n \text{ prove}.
 $$
+
 $$
 \text{Posterior: } p \mid k \sim \text{Beta}(\alpha + k, \beta + n - k).
 $$
@@ -779,6 +789,104 @@ Le proprietà matematiche, come la coniugazione, l’esistenza dei momenti o il 
 - Beta ↔ Binomiale/Bernoulli
 - Gamma ↔ Poisson  
 - Normale ↔ Normale (su μ)
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Distribuzione Beta**
+   - Supporto: $[0,1]$ (perfetta per proporzioni e probabilità)
+   - Parametri: $\alpha, \beta > 0$ (shape parameters)
+   - $\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}$, Moda $= \frac{\alpha-1}{\alpha+\beta-2}$ (se $\alpha,\beta > 1$)
+   - **Coniugata con Binomiale**: essenziale per inferenza bayesiana su proporzioni
+   - Interpretazione: $\alpha-1$ = "successi pregressi", $\beta-1$ = "fallimenti pregressi"
+
+2. **Distribuzione Normale (Gaussiana)**
+   - Supporto: $\mathbb{R}$ (intera retta reale)
+   - Parametri: $\mu \in \mathbb{R}$ (media), $\sigma^2 > 0$ (varianza)
+   - $\mathbb{E}[X] = \mu$, $\text{Var}(X) = \sigma^2$
+   - Simmetrica, unimodale, code esponenziali
+   - Emerge dal TLC: distribuzione naturale per somme di variabili
+   - Circa 68% entro $\mu \pm \sigma$, 95% entro $\mu \pm 1.96\sigma$
+
+3. **Distribuzione Gamma**
+   - Supporto: $\mathbb{R}^+$ (numeri positivi)
+   - Parametri: shape $\alpha > 0$, rate $\beta > 0$ (o scale $\theta = 1/\beta$)
+   - $\mathbb{E}[X] = \alpha/\beta$, $\text{Var}(X) = \alpha/\beta^2$
+   - Flessibile per modellare tempi di attesa, variabilità
+   - **Coniugata con Poisson e Normale** (per precisione)
+
+4. **Distribuzione Esponenziale**
+   - Caso speciale di Gamma con $\alpha=1$
+   - Modella tempo fino al primo evento in processo Poisson
+   - $\mathbb{E}[X] = 1/\lambda$, $\text{Var}(X) = 1/\lambda^2$
+   - Proprietà di assenza di memoria: $P(X > s+t \mid X > s) = P(X > t)$
+   - Usata per tempi di reazione, durate, intervalli tra eventi
+
+5. **Distribuzione Uniforme**
+   - Supporto: $[a,b]$
+   - Massima entropia data solo l'informazione sui limiti
+   - $\mathbb{E}[X] = (a+b)/2$, $\text{Var}(X) = (b-a)^2/12$
+   - Prior non informativo per parametri limitati
+
+6. **Relazioni tra distribuzioni**
+   - Esponenziale è Gamma con $\alpha=1$
+   - Beta(1,1) è Uniforme(0,1)
+   - Normale emerge dal TLC
+   - Gamma modella somme di Esponenziali
+
+7. **Applicazioni psicologiche**
+   - **Beta**: prior su proporzioni (prevalenza disturbi, accuratezza)
+   - **Normale**: punteggi psicometrici, QI, misure standardizzate
+   - **Gamma**: tempi di reazione, durate di episodi
+   - **Esponenziale**: tempi tra sintomi, latenze
+
+**Formule da ricordare:**
+
+**Beta($\alpha, \beta$):**
+$$
+f(\theta) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1}, \quad \theta \in [0,1]
+$$
+$$
+\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}, \quad \text{Var}(\theta) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}
+$$
+
+**Normale($\mu, \sigma^2$):**
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right), \quad x \in \mathbb{R}
+$$
+$$
+\mathbb{E}[X] = \mu, \quad \text{Var}(X) = \sigma^2
+$$
+
+**Gamma($\alpha, \beta$):**
+$$
+f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}, \quad x > 0
+$$
+$$
+\mathbb{E}[X] = \frac{\alpha}{\beta}, \quad \text{Var}(X) = \frac{\alpha}{\beta^2}
+$$
+
+**Esponenziale($\lambda$):**
+$$
+f(x) = \lambda e^{-\lambda x}, \quad x > 0
+$$
+$$
+\mathbb{E}[X] = \frac{1}{\lambda}, \quad \text{Var}(X) = \frac{1}{\lambda^2}
+$$
+
+**Proprietà critiche:**
+
+- Beta è coniugata con Binomiale (aggiornamento: $\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)$)
+- Normale è coniugata con sé stessa (per la media)
+- Gamma è coniugata con Poisson e Normale (per precisione)
+- Circa 95% della massa normale sta entro $\mu \pm 1.96\sigma$
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-likelihood studieremo formalmente la **funzione di verosimiglianza**, che quantifica quanto i dati osservati sono compatibili con ciascun valore del parametro. Vedremo come la verosimiglianza costituisca il ponte tra il modello probabilistico (le distribuzioni appena studiate) e l'inferenza bayesiana, permettendo di aggiornare le credenze sui parametri alla luce dell'evidenza empirica.
+:::
 
 ::: {.callout-caution collapse="true" title="Informazioni sull'ambiente di sviluppo"}
 

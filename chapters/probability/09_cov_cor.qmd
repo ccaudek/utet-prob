@@ -10,6 +10,27 @@ Dal punto di vista bayesiano, questi indici possono essere interpretati come ria
 
 Prima di introdurre formalmente la covarianza e la correlazione, estenderemo brevemente il framework delle tabelle congiunte al caso delle variabili continue, mostrando come le stesse idee si applichino quando le variabili assumono valori su scale numeriche continue. Questa estensione è necessaria per comprendere appieno il significato di covarianza e correlazione, che trovano la loro formulazione e interpretazione più naturali proprio nel contesto delle distribuzioni continue.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-random-var — per il concetto di variabili casuali multiple
+- @sec-prob-distr — per densità congiunte
+- @sec-prob-random-var-properties — **fondamentale** per valore atteso e varianza
+
+Questo capitolo estende al caso bivariato i concetti di valore atteso e varianza, introducendo misure di dipendenza lineare tra variabili.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sums - per calcoli con distribuzioni discrete congiunte
+- @sec-apx-calculus - per densità congiunte continue
+
+Competenze pratiche:
+
+- Familiarità con R e visualizzazione di distribuzioni bivariate
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Estensione al caso continuo: dalle tabelle alle densità congiunte.
@@ -18,13 +39,6 @@ Prima di introdurre formalmente la covarianza e la correlazione, estenderemo bre
 - Proprietà matematiche e loro significato epistemico.
 - Il concetto di incorrelazione e la sua relazione con l'indipendenza.
 - Applicazioni nell'inferenza bayesiana.
-
-::: {.callout-tip collapse=true}
-## Prerequisiti
-
-- @sec-prob-axioms-coherence: assiomi e coerenza delle credenze.
-- Concetti di valore atteso e varianza.
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -630,6 +644,91 @@ Il percorso concettuale può essere compreso come una progressione attraverso di
 Un punto cruciale emerso nel capitolo è che covarianza e correlazione catturano esclusivamente l’aspetto *lineare* della relazione tra variabili. Dipendenze non lineari, strutture multimodali o relazioni più complesse possono essere completamente invisibili a questi indici. Per una comprensione approfondita delle dipendenze tra variabili, è quindi necessario fare riferimento alla distribuzione congiunta sottostante e affiancare sempre l’analisi numerica a un’esplorazione grafica dei dati.
 
 Nel prosieguo del manuale incontreremo frequentemente distribuzioni multivariate, in particolare la distribuzione normale multivariata, nella quale la matrice di covarianza $\Sigma$ codifica integralmente la struttura di dipendenza lineare. La piena comprensione dei concetti sviluppati in questo capitolo costituirà un presupposto essenziale per interpretare correttamente tali modelli e per utilizzarli in modo consapevole nell’analisi dei dati psicologici.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Dalle tabelle discrete alle densità congiunte**
+   - Estensione naturale al caso continuo: $f(x,y)$ è la densità congiunta
+   - Regole di somma (marginalizzazione) e prodotto si applicano sostituendo somme con integrali
+   - La distribuzione congiunta contiene tutta l'informazione sulle relazioni tra variabili
+
+2. **Covarianza come misura della co-variazione lineare**
+   - $\text{Cov}(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)]$ quantifica la tendenza a variare insieme
+   - Positiva: valori alti di $X$ con valori alti di $Y$ (e bassi con bassi)
+   - Negativa: valori alti di $X$ con valori bassi di $Y$
+   - Nulla: assenza di relazione lineare sistematica (ma possibili dipendenze non lineari!)
+
+3. **Formula computazionale della covarianza**
+   - $\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$
+   - Confronta il valore atteso del prodotto con quello che si avrebbe sotto indipendenza
+   - Facilita i calcoli pratici
+
+4. **Correlazione come standardizzazione della covarianza**
+   - $\rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}$ elimina l'effetto delle unità di misura
+   - Sempre $-1 \leq \rho \leq 1$ (adimensionale)
+   - $|\rho| = 1$: relazione lineare perfetta; $\rho = 0$: assenza di relazione lineare
+
+5. **Incorrelazione vs indipendenza**
+   - **Indipendenza** $\Rightarrow$ **incorrelazione** (sempre)
+   - **Incorrelazione** $\not\Rightarrow$ **indipendenza** (dipendenze non lineari possono esistere!)
+   - Esempio: $Y = X^2$ con $X \sim \mathcal{N}(0,1)$ ha $\rho(X,Y) = 0$ ma $X$ e $Y$ sono fortemente dipendenti
+
+6. **Proprietà algebriche della covarianza**
+   - $\text{Cov}(X,X) = \text{Var}(X)$ (la varianza è covarianza con sé stessa)
+   - $\text{Cov}(aX+b, cY+d) = ac \cdot \text{Cov}(X,Y)$ (bilinearità)
+   - $\text{Var}(X+Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)$
+
+7. **Matrice di covarianza e correlazione**
+   - Per $n$ variabili: matrice $n \times n$ con varianze sulla diagonale e covarianze fuori
+   - Sempre simmetrica e semidefinita positiva
+   - Fondamentale per distribuzioni multivariate (es. normale multivariata)
+
+8. **Ruolo nell'inferenza bayesiana**
+   - Prior multivariata: specifica credenze iniziali su relazioni tra parametri
+   - Posterior: covarianza a posteriori quantifica dipendenze residue dopo i dati
+   - Predittiva: incorpora incertezza su parametri e variabilità intrinseca
+
+**Formule da ricordare:**
+
+**Covarianza:**
+$$
+\text{Cov}(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+$$
+
+**Correlazione:**
+$$
+\rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
+$$
+
+**Varianza di una somma:**
+$$
+\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)
+$$
+
+**Proprietà di bilinearità:**
+$$
+\text{Cov}(aX + b, cY + d) = ac \cdot \text{Cov}(X,Y)
+$$
+
+**Matrice di covarianza (2D):**
+$$
+\Sigma = \begin{pmatrix} \sigma_X^2 & \text{Cov}(X,Y) \\ \text{Cov}(X,Y) & \sigma_Y^2 \end{pmatrix}
+$$
+
+**Proprietà critiche:**
+
+- Covarianza dipende dalle unità di misura; correlazione no
+- $\rho = 0$ non implica indipendenza (solo assenza di relazione lineare)
+- Indipendenza implica sempre $\rho = 0$
+- La covarianza è la generalizzazione bivariata della varianza
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-inference-uncertainty passeremo dall'analisi descrittiva delle distribuzioni all'**inferenza statistica**. Vedremo come quantificare l'incertezza su parametri sconosciuti a partire da dati campionari, introducendo concetti fondamentali come distribuzione campionaria, errore standard, legge dei grandi numeri e teorema del limite centrale, che costituiscono il ponte tra probabilità e statistica inferenziale bayesiana.
+:::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}

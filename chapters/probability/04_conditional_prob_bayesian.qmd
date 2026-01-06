@@ -18,12 +18,24 @@ In questo capitolo studieremo la probabilità condizionata non come una mera ope
 - Paradosso di Simpson.
 - Applicazioni a diagnostica clinica e test psicologici.
 
-::: {.callout-tip collapse=true}
+::: {.callout-tip collapse="true"}
 ## Prerequisiti
 
-- Aver letto i capitoli precedenti (@sec-prob-interpretation, @sec-prob-models, @sec-equiprobability-combinatorics).
-- Familiarità con tabelle congiunte.
-- Nozioni base di R per simulazioni.
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-interpretation
+- @sec-prob-axioms-coherence
+- @sec-equiprobability-combinatorics
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sets - per operazioni su eventi (intersezione, unione)
+- @sec-apx-sums - per la legge della probabilità totale
+
+Competenze pratiche:
+
+- Familiarità con tabelle congiunte e rappresentazioni 2×2
+- Nozioni base di R per eseguire le simulazioni presentate
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
@@ -622,6 +634,63 @@ Nel prossimo capitolo, il **teorema di Bayes** emergerà come un caso particolar
 
 In definitiva, ogni volta che utilizziamo espressioni come “dato che”, “sapendo che” o “alla luce di”, stiamo implicitamente applicando il principio della probabilità condizionata: stiamo aggiornando le nostre credenze in risposta a nuove informazioni, seguendo regole che sono al tempo stesso logicamente necessarie e matematicamente precise.
 
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Probabilità condizionata come aggiornamento epistemico**
+   - $P(A \mid B)$ quantifica il grado di credenza in $A$ dopo aver appreso che $B$ è vero
+   - Meccanismo: riduzione dello spazio epistemico + rinormalizzazione
+   - Ogni probabilità è sempre relativa a uno sfondo informativo: $P(A) = P(A \mid \mathcal{I})$
+
+2. **Indipendenza come assenza di informazione reciproca**
+   - $A \perp B$ se e solo se $P(A \mid B) = P(A)$ (apprendere $B$ non cambia credenza in $A$)
+   - Equivalentemente: $P(A \cap B) = P(A) \cdot P(B)$
+   - Eventi disgiunti NON sono indipendenti (hanno informazione reciproca massima)
+
+3. **Teorema del prodotto per costruire probabilità congiunte**
+   - $P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)$ (simmetria fondamentale)
+   - Generalizzazione sequenziale: $P(A_1 \cap \cdots \cap A_n) = P(A_1) \cdot P(A_2 \mid A_1) \cdot P(A_3 \mid A_1 \cap A_2) \cdots$
+
+4. **Legge della probabilità totale**
+   - Combina scenari alternativi: $P(A) = \sum_{i} P(A \mid B_i) P(B_i)$ per partizione $\{B_i\}$
+   - Fondamentale per marginalizzare su variabili non osservate
+
+5. **Paradosso di Simpson**
+   - Trend aggregati possono invertirsi rispetto a trend stratificati
+   - Non è paradosso ma avvertimento: esplicita le assunzioni di omogeneità prima di aggregare
+   - Cruciale in psicologia per controllo di confondenti (età, genere, severità)
+
+**Formule da ricordare:**
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)} \quad \text{(definizione)}
+$$
+
+$$
+P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A) \quad \text{(teorema del prodotto)}
+$$
+
+$$
+P(A) = \sum_{i=1}^{n} P(A \mid B_i) P(B_i) \quad \text{(legge probabilità totale)}
+$$
+
+$$
+A \perp B \iff P(A \cap B) = P(A) \cdot P(B) \quad \text{(indipendenza)}
+$$
+
+**Applicazioni diagnostiche essenziali:**
+
+- **Valore Predittivo Positivo (VPP)**: $P(D \mid T^+) = \frac{P(T^+ \mid D) P(D)}{P(T^+)}$
+- **Valore Predittivo Negativo (VPN)**: $P(D^c \mid T^-) = \frac{P(T^- \mid D^c) P(D^c)}{P(T^-)}$
+- La prevalenza $P(D)$ impatta drammaticamente su VPP e VPN
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-bayes-theorem vedremo come il teorema di Bayes permetta di **invertire** le probabilità condizionate, passando da $P(E \mid H)$ (verosimiglianza dei dati data l'ipotesi) a $P(H \mid E)$ (probabilità dell'ipotesi dati i dati), fornendo il meccanismo formale per l'aggiornamento bayesiano delle credenze scientifiche.
+:::
+
 ## Esercizi {.unnumbered}
 
 ::: {.callout-important title="Problemi" collapse="true"}
@@ -849,5 +918,11 @@ In definitiva, ogni volta che utilizziamo espressioni come “dato che”, “sa
     - Dopo $T_1^+, T_2^+$: $P(\text{ADHD} \mid \text{entrambi}) \approx 0.69$
     - Visualizzazione: barplot con credenze 0.08 → 0.38 → 0.69
 
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
 :::
 

@@ -8,6 +8,25 @@ Questo capitolo ha lo scopo di approfondire la **comprensione intuitiva, geometr
 
 Un aspetto centrale della trattazione riguarda inoltre la **distinzione interpretativa** tra l’approccio frequentista e quello bayesiano alle distribuzioni di probabilità. Nel paradigma frequentista, la funzione di densità descrive il comportamento dei dati in ipotetiche ripetizioni dell’esperimento. Nell’approccio bayesiano, invece, la PDF rappresenta il **grado di credenza** assegnato ai possibili valori di una quantità incerta, come un parametro o una grandezza latente. Questa differenza concettuale, apparentemente sottile, ha implicazioni profonde per il modo in cui interpretiamo le distribuzioni, calcoliamo le probabilità e traiamo conclusioni inferenziali.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-random-var — **fondamentale**
+
+Questo capitolo approfondisce i concetti di PMF e PDF introdotti nel Capitolo 6, fornendo una comprensione intuitiva, geometrica e operativa.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-calculus - per comprendere l'integrale come area sotto una curva
+- Familiarità con il concetto di limite per capire il passaggio da istogrammi a densità continue
+
+Letture complementari consigliate:
+
+- Blitzstein, J. K., & Hwang, J. (2019). *Introduction to Probability* (2nd ed.), capitolo "Random variables and their distributions" [@blitzstein2019introduction]
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Distinzione operativa tra massa di probabilità e densità di probabilità.
@@ -15,14 +34,6 @@ Un aspetto centrale della trattazione riguarda inoltre la **distinzione interpre
 - Il "paradosso" della probabilità zero per valori esatti.
 - La funzione di distribuzione cumulativa come rappresentazione unificata.
 - Interpretazioni bayesiana e frequentista delle distribuzioni.
-
-::: {.callout-tip collapse=true}
-## Prerequisiti
-
-- Aver letto il @sec-prob-random-var sulle variabili casuali.
-- Familiarità con il concetto di integrale come area sotto una curva.
-- Leggere il capitolo *Random variables and their distributions* di @blitzstein2019introduction.
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -461,6 +472,91 @@ Questo capitolo di transizione ora:
 * rende esplicita la scelta bayesiana senza contrapposizioni polemiche.
 
 Fornisce una base per passare, nel capitolo successivo, allo studio sistematico delle **distribuzioni parametriche** (Normale, Beta, Binomiale, Poisson) come *modelli di credenza* e *modelli generativi*.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Massa vs densità: due modi profondamente diversi di distribuire probabilità**
+   - **Massa (PMF)**: probabilità concentrata in punti discreti, come "pesi" su una bilancia
+   - **Densità (PDF)**: probabilità distribuita su un continuum, come massa in un fluido
+   - La distinzione non è solo tecnica ma riflette strutture matematiche diverse (somme vs integrali)
+
+2. **La PMF assegna probabilità dirette a valori specifici**
+   - $p_X(x) = P(X = x)$ è la probabilità *del* punto $x$
+   - Diagramma a barre: l'altezza rappresenta direttamente la probabilità
+   - Somma delle probabilità: $\sum_x p_X(x) = 1$
+
+3. **La PDF misura concentrazione locale, non probabilità diretta**
+   - $f_X(x)$ indica "quanta probabilità c'è per unità di lunghezza" attorno a $x$
+   - $f_X(x)$ può essere maggiore di 1 (non è una probabilità!)
+   - Probabilità tramite integrazione: $P(a \leq X \leq b) = \int_a^b f_X(x) \, dx$
+
+4. **Il "paradosso" P(X = x) = 0 per variabili continue**
+   - Non è un paradosso: un singolo punto ha "misura zero" nel continuo
+   - Come la "massa di un punto" in un filo: zero, ma il punto esiste
+   - Differenza cruciale: probabilità zero ≠ impossibilità logica
+   - Solo intervalli (anche infinitesimi) hanno probabilità positiva
+
+5. **Dagli istogrammi alle densità: il limite continuo**
+   - All'aumentare di $n$ e al diminuire della larghezza dei bin, gli istogrammi convergono alla PDF
+   - La PDF è il limite ideale quando bin → 0 e $n$ → ∞
+   - Illustra visivamente come la densità emerga naturalmente dai dati
+
+6. **CDF come rappresentazione unificata**
+   - $F_X(x) = P(X \leq x)$ vale sia per discrete che per continue
+   - Discrete: funzione a gradini con salti in corrispondenza dei valori possibili
+   - Continue: funzione liscia e crescente
+   - Proprietà universali: monotona non decrescente, $F(-\infty) = 0$, $F(+\infty) = 1$
+
+7. **Interpretazioni bayesiana vs frequentista delle distribuzioni**
+   - **Frequentista**: la PDF descrive il comportamento dei dati in ripetizioni ipotetiche
+   - **Bayesiano**: la PDF rappresenta il grado di credenza sui possibili valori (anche parametri!)
+   - Stessa forma matematica, interpretazione epistemica profondamente diversa
+   - Per il bayesiano, distribuzioni di parametri sono naturali; per il frequentista no
+
+**Formule da ricordare:**
+
+**PMF (discrete):**
+$$
+p_X(x) = P(X = x), \quad \sum_{x} p_X(x) = 1
+$$
+
+**PDF (continue):**
+$$
+P(a \leq X \leq b) = \int_a^b f_X(x) \, dx, \quad \int_{-\infty}^{+\infty} f_X(x) \, dx = 1
+$$
+
+**CDF (universale):**
+$$
+F_X(x) = P(X \leq x) = \begin{cases}
+\sum_{x_i \leq x} p_X(x_i) & \text{(discreta)} \\
+\int_{-\infty}^x f_X(t) \, dt & \text{(continua)}
+\end{cases}
+$$
+
+**Relazione PDF-CDF per variabili continue:**
+$$
+f_X(x) = \frac{d}{dx} F_X(x) \quad \text{(la densità è la derivata della CDF)}
+$$
+
+**Calcolo di probabilità da CDF:**
+$$
+P(a \leq X \leq b) = F_X(b) - F_X(a)
+$$
+
+**Proprietà chiave:**
+
+- **Discrete**: $P(X = x) = p_X(x) > 0$ è possibile
+- **Continue**: $P(X = x) = 0$ sempre (ma $f_X(x)$ può essere > 0)
+- **PDF può essere > 1**: non è una probabilità ma una densità!
+- **CDF sempre ∈ [0,1]**: rappresenta una probabilità cumulativa
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-random-var-properties le **proprietà delle variabili casuali**: valore atteso (centro di gravità probabilistico), varianza (dispersione), e le loro proprietà algebriche. Questi strumenti di sintesi ci permetteranno di caratterizzare distribuzioni complesse con pochi numeri e di propagare l'incertezza attraverso trasformazioni matematiche, preparando il terreno per l'inferenza bayesiana parametrica.
+:::
 
 ::: {.callout-important title="Esercizi" collapse="true"}
 

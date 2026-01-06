@@ -8,11 +8,21 @@ A questo punto emerge una domanda operativa: **come possiamo rappresentare concr
 
 Le famiglie parametriche di distribuzioni, come la normale, la binomiale, la beta e la gamma, forniscono un vocabolario matematico per esprimere l’incertezza in forme standardizzate. Ogni famiglia presenta caratteristiche distintive che la rendono adatta a rappresentare determinati tipi di variabili e determinate configurazioni di credenze. Conoscere questo vocabolario consente di esplicitare le proprie assunzioni in modo preciso, di ragionare formalmente sulle conseguenze di tali assunzioni e di aggiornare le proprie credenze in modo coerente quando si osservano nuovi dati.
 
-::: {.callout-tip collapse=true}
+::: {.callout-tip collapse="true"}
 ## Prerequisiti
 
-- @sec-prob-axioms-coherence: assiomi e coerenza delle credenze.
-- @sec-prob-cov-cor: covarianza e correlazione.
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-random-var
+- @sec-prob-distr
+- @sec-prob-random-var-properties
+- @sec-prob-inference-uncertainty — **fondamentale** per comprendere il duplice ruolo delle distribuzioni (prior e verosimiglianza)
+
+Questo capitolo introduce il **vocabolario delle famiglie parametriche**, che saranno poi studiate in dettaglio nei capitoli successivi.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-calculus - per proprietà delle distribuzioni continue
 :::
 
 ## L’incertezza come condizione epistemica
@@ -60,9 +70,9 @@ La scelta del modello generativo riflette le nostre ipotesi sostantive sulla nat
 Il teorema di Bayes rappresenta il ponte matematico che connette questi due ruoli fondamentali:
 
 $$
-\underbrace{p(\theta \mid \text{dati})}*{\text{posterior}}
+\underbrace{p(\theta \mid \text{dati})}_{\text{posteriore}}
 \propto
-\underbrace{p(\text{dati} \mid \theta)}*{\text{verosimiglianza}}
+\underbrace{p(\text{dati} \mid \theta)}_{\text{verosimiglianza}}
 \times
 \underbrace{p(\theta)}_{\text{prior}}.
 $$
@@ -140,5 +150,81 @@ Le famiglie parametriche costituiscono un vocabolario ricco e flessibile per esp
 L’applicazione alla ricerca psicologica mette in luce l’importanza di questo approccio. La variabilità che caratterizza i fenomeni psicologici, sia tra individui, sia nel tempo, sia tra contesti, richiede strumenti che vadano oltre i semplici confronti tra medie. Le distribuzioni di probabilità permettono di rappresentare l’intera struttura della variabilità, trasformandola da "rumore" da ignorare a informazione da modellare e interpretare.
 
 Nei capitoli successivi, esploreremo progressivamente questo vocabolario, concentrandoci sulle famiglie di distribuzioni che si sono rivelate più utili nella ricerca psicologica. L'obiettivo non è memorizzare formule, ma sviluppare un'intuizione solida sul tipo di distribuzione più appropriato in diverse circostanze e su come utilizzarla per ragionare in modo rigoroso e trasparente in situazioni di incertezza.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Le distribuzioni come linguaggio per l'incertezza**
+   - Non descrivono "come sono i dati" ma "quali valori riteniamo plausibili"
+   - Strumento epistemico per rappresentare credenze razionali
+   - Passaggio da "credenza puntuale" a "credenza distribuita"
+
+2. **Duplice ruolo nell'inferenza bayesiana**
+   - **Come prior**: rappresentano incertezza sui parametri $p(\theta)$
+   - **Come verosimiglianza**: descrivono il processo generativo $p(D \mid \theta)$
+   - La stessa famiglia può svolgere entrambi i ruoli in contesti diversi
+
+3. **Famiglie parametriche fondamentali**
+   - **Bernoulli e Binomiale**: eventi binari e conteggi di successi
+   - **Beta**: proporzioni e probabilità (coniugata con Binomiale)
+   - **Normale (Gaussiana)**: misure continue con variabilità simmetrica
+   - **Poisson**: conteggi di eventi rari in intervalli fissi
+   - **Gamma**: tempi di attesa e variabili continue positive
+
+4. **Supporto delle distribuzioni**
+   - **Discreto finito**: Bernoulli, Binomiale (numero fisso di valori)
+   - **Discreto infinito**: Poisson (interi non negativi)
+   - **Continuo limitato**: Beta ([0,1]), Uniforme ([a,b])
+   - **Continuo illimitato**: Normale ($\mathbb{R}$), Gamma ($\mathbb{R}^+$)
+
+5. **Parametri e interpretabilità**
+   - **Parametri di posizione**: dove si concentra la distribuzione (media, moda)
+   - **Parametri di scala**: quanto è dispersa (varianza, deviazione standard)
+   - **Parametri di forma**: asimmetria, code pesanti, multimodalità
+   - Scelta parametri = scelta assunzioni esplicite
+
+6. **Coniugazione (anteprima)**
+   - Prior e verosimiglianza "coniugati" → posterior della stessa famiglia del prior
+   - Semplifica enormemente i calcoli (forma chiusa per la posterior)
+   - Esempi: Beta-Binomiale, Normale-Normale, Gamma-Poisson
+
+7. **Principio di massima entropia**
+   - Scegliere la distribuzione che massimizza l'entropia dati i vincoli noti
+   - Normale: massima entropia dato media e varianza note
+   - Esponenziale: massima entropia data solo la media (per $\mathbb{R}^+$)
+   - Uniforme: massima entropia senza vincoli (massima ignoranza)
+
+8. **Scelta della distribuzione nella pratica**
+   - Vincoli sul supporto: interi vs reali, limitati vs illimitati
+   - Simmetria vs asimmetria
+   - Code pesanti vs leggere
+   - Informazioni pregresse codificabili
+   - Coniugazione per semplificare calcoli
+
+**Criteri di selezione:**
+
+| Tipo di variabile | Supporto | Famiglia tipica |
+|:---|:---|:---|
+| Binaria (0/1) | {0,1} | Bernoulli |
+| Conteggio successi | {0,1,...,n} | Binomiale |
+| Conteggio eventi rari | {0,1,2,...} | Poisson |
+| Proporzione/probabilità | [0,1] | Beta |
+| Misura continua simmetrica | $\mathbb{R}$ | Normale |
+| Tempo di attesa | $\mathbb{R}^+$ | Esponenziale, Gamma |
+| Varianza/precisione | $\mathbb{R}^+$ | Gamma, Inversa-Gamma |
+
+**Relazioni tra famiglie:**
+
+- Bernoulli è Binomiale con $n=1$
+- Esponenziale è Gamma con shape $\alpha=1$
+- Poisson emerge come limite di Binomiale per $n \to \infty, p \to 0$
+- Normale emerge dal TLC (somma di variabili qualsiasi)
+
+**Per i prossimi capitoli:**
+
+Nel @sec-prob-discr-distr e @sec-prob-cont-distr studieremo in dettaglio le proprietà matematiche, i momenti, i grafici e le applicazioni psicologiche di ciascuna famiglia parametrica, fornendo gli strumenti operativi per specificare prior informativi e costruire modelli bayesiani interpretabili.
+:::
 
 ## Bibliografia {.unnumbered .unlisted}

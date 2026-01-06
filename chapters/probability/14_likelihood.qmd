@@ -8,6 +8,24 @@ La funzione di verosimiglianza nasce precisamente per affrontare questo problema
 
 In questo capitolo la funzione di verosimiglianza viene introdotta come concetto centrale dell’inferenza bayesiana. Nel capitolo successivo ne analizzeremo le principali proprietà matematiche e mostreremo come, combinata con le credenze a priori, essa conduca in modo naturale alla costruzione della distribuzione a posteriori.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-bayes-theorem
+- @sec-prob-inference-uncertainty — per il contesto inferenziale
+- @sec-prob-intro-distr
+- @sec-prob-discr-distr — **fondamentale**
+- @sec-prob-cont-distr — **fondamentale**
+
+Questo capitolo formalizza la **funzione di verosimiglianza**, uno dei tre pilastri dell'inferenza bayesiana (insieme a prior e posterior).
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sums - per verosimiglianze con dati multipli
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Definizione e interpretazione della funzione di verosimiglianza.
@@ -17,13 +35,6 @@ In questo capitolo la funzione di verosimiglianza viene introdotta come concetto
 - Stima di massima verosimiglianza (MLE).
 - Verosimiglianza congiunta per osservazioni multiple.
 - Rapporto di verosimiglianze per il confronto tra ipotesi.
-
-::: {.callout-tip collapse=true}
-## Prerequisiti
-
-- Capitoli sulle distribuzioni di variabili casuali discrete e continue.
-- Familiarità con la distribuzione binomiale e normale.
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -769,6 +780,99 @@ Abbiamo incontrato la *stima di massima verosimiglianza* (MLE) come uno dei poss
 Abbiamo inoltre visto come la verosimiglianza congiunta consenta di combinare in modo coerente informazioni provenienti da osservazioni multiple o da studi indipendenti, e come il rapporto di verosimiglianza permetta di esprimere l’evidenza relativa a favore di ipotesi alternative. In tutti questi casi, la verosimiglianza emerge come uno strumento cumulativo, che integra l’informazione contenuta nei dati senza introdurre, di per sé, alcuna assunzione sulle credenze a priori.
 
 Nel prossimo capitolo approfondiremo le proprietà matematiche della funzione di verosimiglianza e mostreremo come essa si combini con la distribuzione a priori per generare la distribuzione a posteriori. In particolare, analizzeremo perché la verosimiglianza tende a concentrarsi attorno al valore “vero” del parametro al crescere della quantità di dati, come la sua precisione aumenti con l’ampiezza del campione e come questa informazione si integri con quella contenuta nella distribuzione a priori. Infine, discuteremo il ruolo della legge dei grandi numeri e del teorema del limite centrale nel chiarire il meccanismo dell’aggiornamento bayesiano.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Verosimiglianza come funzione del parametro**
+   - $L(\theta \mid D) = p(D \mid \theta)$ è la PMF/PDF dei dati vista come funzione di $\theta$
+   - **Cambio di prospettiva**: dati fissi, parametro variabile
+   - Non è una distribuzione su $\theta$ (non integra a 1!)
+   - Quantifica "quanto i dati supportano ciascun valore di $\theta$"
+
+2. **Principio di verosimiglianza**
+   - Tutta l'informazione inferenziale nei dati è contenuta nella verosimiglianza
+   - Se $L(\theta \mid D_1) \propto L(\theta \mid D_2)$, i due dataset forniscono la stessa evidenza su $\theta$
+   - Fondamentale nell'approccio bayesiano
+
+3. **Log-verosimiglianza**
+   - $\ell(\theta) = \log L(\theta \mid D)$ trasforma prodotti in somme
+   - Stessa forma della verosimiglianza (monotona crescente)
+   - Facilita i calcoli, specialmente con dati multipli
+   - Numericamente più stabile (evita underflow)
+
+4. **Verosimiglianza per dati i.i.d.**
+   - Se $D = \{x_1, \ldots, x_n\}$ i.i.d., allora $L(\theta) = \prod_{i=1}^n p(x_i \mid \theta)$
+   - Log-verosimiglianza: $\ell(\theta) = \sum_{i=1}^n \log p(x_i \mid \theta)$
+   - Semplifica enormemente i calcoli
+
+5. **Massima verosimiglianza (MLE)**
+   - $\hat{\theta}_{\text{MLE}} = \arg\max_\theta L(\theta \mid D)$
+   - Stima che "massimizza la compatibilità con i dati osservati"
+   - Importante ma **non bayesiano** (ignora il prior!)
+   - Spesso coincide con media posteriori per prior uniformi
+
+6. **Verosimiglianza relativa**
+   - $R(\theta) = \frac{L(\theta)}{L(\hat{\theta}_{\text{MLE}})}$ normalizza rispetto al massimo
+   - Sempre $0 \leq R(\theta) \leq 1$
+   - Facilita interpretazione: "quanto meno supportato è $\theta$ rispetto alla MLE?"
+
+7. **Ruolo nel teorema di Bayes**
+   - $p(\theta \mid D) \propto L(\theta \mid D) \cdot p(\theta)$
+   - Verosimiglianza "ribilancia" il prior alla luce dei dati
+   - Verosimiglianza piatta → posterior = prior (dati non informativi)
+   - Verosimiglianza concentrata → posterior dominata dai dati
+
+8. **Proprietà della verosimiglianza**
+   - **Non è una probabilità** (può essere > 1 per variabili continue)
+   - **Non si normalizza** (non integra a 1)
+   - **Scala arbitraria**: solo i rapporti tra valori contano
+   - **Forma dipende dal modello** scelto
+
+**Formule da ricordare:**
+
+**Definizione:**
+$$
+L(\theta \mid D) = p(D \mid \theta) = \begin{cases}
+\prod_{i=1}^n p(x_i \mid \theta) & \text{(i.i.d. discreto)} \\
+\prod_{i=1}^n f(x_i \mid \theta) & \text{(i.i.d. continuo)}
+\end{cases}
+$$
+
+**Log-verosimiglianza:**
+$$
+\ell(\theta) = \log L(\theta \mid D) = \sum_{i=1}^n \log p(x_i \mid \theta)
+$$
+
+**Teorema di Bayes con verosimiglianza:**
+$$
+p(\theta \mid D) = \frac{L(\theta \mid D) \cdot p(\theta)}{\int L(\theta' \mid D) \cdot p(\theta') \, d\theta'}
+$$
+
+**Forma proporzionale:**
+$$
+p(\theta \mid D) \propto L(\theta \mid D) \cdot p(\theta)
+$$
+
+**Esempi di verosimiglianze:**
+
+- **Bernoulli**: $L(\theta) = \theta^k(1-\theta)^{n-k}$ per $k$ successi su $n$
+- **Normale** (varianza nota): $L(\mu) \propto \exp\left(-\frac{1}{2\sigma^2}\sum(x_i-\mu)^2\right)$
+- **Poisson**: $L(\lambda) = \frac{\lambda^{\sum x_i} e^{-n\lambda}}{\prod x_i!}$
+
+**Proprietà critiche:**
+
+- La verosimiglianza non dipende dal prior (solo dai dati e dal modello)
+- MLE ignora il prior → non è stima bayesiana
+- Con prior uniforme, moda posteriore = MLE
+- Log-verosimiglianza facilita derivazioni e calcoli numerici
+
+**Per il prossimo capitolo:**
+
+Nel @sec-likelihood-properties approfondiremo le **proprietà della verosimiglianza**, studiando score function, informazione di Fisher, normalità asintotica, e il ruolo della verosimiglianza nell'aggiornamento bayesiano. Vedremo anche come le verosimiglianze si combinano con prior coniugati per produrre posterior di forma chiusa.
+:::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}

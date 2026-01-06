@@ -10,7 +10,7 @@ La domanda fondamentale diventa quindi: **come possiamo quantificare l’incerte
 
 L’approccio che adotteremo in questo capitolo tratta i *parametri* del modello statistico — come proporzioni, medie e varianze — come quantità sconosciute rispetto alle quali possediamo un’incertezza di tipo *epistemico*. Questa incertezza viene rappresentata mediante distribuzioni di probabilità. Prima di osservare i dati, formalizziamo le nostre conoscenze preliminari attraverso una distribuzione *a priori*. Dopo aver raccolto i dati, aggiorniamo tali credenze ottenendo una distribuzione *a posteriori*. Questo meccanismo di aggiornamento coerente delle credenze alla luce dell’evidenza osservata costituisce il cuore dell’inferenza bayesiana.
 
-## Un esempio concreto: la stima della prevalenza dei sintomi depressivi
+### Un esempio concreto: la stima della prevalenza dei sintomi depressivi {.unnumbered .unlisted}
 
 Supponiamo di voler stimare la prevalenza di sintomi depressivi clinicamente rilevanti nella popolazione studentesca universitaria. Poiché non è possibile osservare l’intera popolazione di interesse, ci affidiamo a un campione e utilizziamo l’inferenza statistica per trarre conclusioni più generali.
 
@@ -22,29 +22,37 @@ A partire dalla distribuzione a posteriori possiamo ricavare diverse quantità d
 
 Questa interpretazione probabilistica dell’incertezza è coerente con il modo in cui i ricercatori ragionano intuitivamente sui risultati empirici e fornisce una risposta chiara e informativa alla domanda di ricerca che ha motivato lo studio.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-bayes-theorem — **fondamentale**
+- @sec-prob-random-var
+- @sec-prob-distr
+- @sec-prob-random-var-properties — per valore atteso, varianza, SE
+
+Questo capitolo segna il passaggio dalla teoria della probabilità all'**inferenza statistica bayesiana**, mostrando come quantificare l'incertezza su parametri sconosciuti a partire da dati campionari.
+
+Letture complementari consigliate:
+
+- Schervish, M. J. (2014). *Theory of Statistics*, capitolo "Sampling Distributions of Estimators" [@schervish2014probability]
+
+Competenze pratiche:
+
+- Familiarità con R per simulazioni e calcolo di distribuzioni campionarie
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Comprendere le proprietà statistiche della media campionaria (valore atteso, varianza, SE) e il loro significato inferenziale.
-
 - Comprendere la distribuzione campionaria; come la sua forma determina la verosimiglianza che i dati impongono sui parametri.
-
 - Legge dei Grandi Numeri: perché la media campionaria converge al valore vero e quali implicazioni ha per l’affidabilità delle stime.
-
 - Teorema del Limite Centrale: quando e perché la distribuzione delle medie può essere approssimata con una distribuzione gaussiana e quali sono i limiti pratici di tale approssimazione.
-
 - Come costruire prior, verosimiglianza e posterior; calcolo degli intervalli di credibilità e interpretazione probabilistica.
-
 - Ruolo dell’errore standard come misura di informatività; definizione di precisione e regole di somma delle precisioni per sintetizzare studi indipendenti.
-
 - Analisi di sensibilità per valutare l'effetto dei prior sulla posterior. 
-
 - Distinzione tra incertezza campionaria e distorsioni sistematiche e strategie metodologiche per mitigarle.
-
-::: {.callout-tip collapse=true}
-## Prerequisiti
-
-- Leggere il capitolo *Sampling Distributions of Estimators* [@schervish2014probability].
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -946,6 +954,87 @@ In questo contesto, l’inferenza bayesiana emerge come un framework coerente e 
 È tuttavia essenziale riconoscere i limiti metodologici dell’inferenza statistica. Le procedure inferenziali quantificano l’incertezza campionaria, ma non sono in grado di correggere distorsioni sistematiche derivanti da problemi di campionamento, misurazione o disegno della ricerca. Campioni di grandi dimensioni affetti da bias possono produrre stime estremamente precise ma sostanzialmente errate, alimentando il rischio di false certezze. La qualità del disegno di ricerca rimane quindi un presupposto irrinunciabile che nessuna sofisticazione statistica può sostituire.
 
 Nel capitolo successivo vedremo come la funzione di verosimiglianza formalizzi in modo esplicito il ruolo dei dati nel processo inferenziale, completando il quadro concettuale necessario per comprendere il meccanismo di aggiornamento bayesiano e le sue implicazioni per la ricerca empirica.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Distribuzione campionaria della media**
+   - Per un campione $X_1, \ldots, X_n$ i.i.d. con $\mathbb{E}[X_i] = \mu$ e $\text{Var}(X_i) = \sigma^2$:
+   - $\mathbb{E}[\bar{X}] = \mu$ (stimatore non distorto)
+   - $\text{Var}(\bar{X}) = \frac{\sigma^2}{n}$ (decresce con la dimensione campionaria!)
+   - SE$(\bar{X}) = \frac{\sigma}{\sqrt{n}}$ misura la precisione della stima
+
+2. **Legge dei Grandi Numeri (LGN)**
+   - $\bar{X}_n \xrightarrow{n \to \infty} \mu$ (convergenza in probabilità)
+   - La media campionaria converge al valore vero al crescere di $n$
+   - Giustifica l'uso della media come stimatore: è consistente
+
+3. **Teorema del Limite Centrale (TLC)**
+   - Per $n$ grande, $\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \approx \mathcal{N}(0,1)$ **indipendentemente dalla distribuzione di $X$**
+   - Permette di approssimare la distribuzione campionaria con una normale
+   - Regola pratica: $n \geq 30$ spesso sufficiente (ma dipende dalla simmetria dei dati)
+
+4. **Prior, verosimiglianza e posterior**
+   - **Prior**: $p(\theta)$ codifica credenze iniziali sul parametro
+   - **Verosimiglianza**: $p(D \mid \theta)$ descrive compatibilità dei dati con ciascun valore di $\theta$
+   - **Posterior**: $p(\theta \mid D) \propto p(D \mid \theta) \cdot p(\theta)$ sintetizza tutto ciò che abbiamo appreso
+
+5. **Intervalli di credibilità bayesiani**
+   - IC al 95%: intervallo $[a,b]$ tale che $P(a \leq \theta \leq b \mid D) = 0.95$
+   - Interpretazione diretta: "C'è probabilità 95% che $\theta$ sia in questo intervallo"
+   - Diverso da IC frequentista (che si riferisce alla procedura, non al parametro specifico)
+
+6. **Errore standard e precisione**
+   - SE misura incertezza: più piccolo = stima più precisa
+   - Precisione: $\tau = 1/\text{SE}^2 = n/\sigma^2$ (cresce linearmente con $n$)
+   - Regola di somma: precisioni di studi indipendenti si sommano
+
+7. **Analisi di sensibilità**
+   - Valuta quanto la posterior dipende dal prior scelto
+   - Se prior diversi producono posterior simili → conclusioni robuste
+   - Se posterior cambiano molto → prior influente, serve cautela nell'interpretazione
+
+8. **Incertezza campionaria vs distorsioni sistematiche**
+   - **Campionaria**: dovuta a campione finito, diminuisce con $n$ (LGN)
+   - **Sistematica** (bias): errori di selezione, misurazione, confondimento — non si risolve aumentando $n$!
+   - Esempio: campione non rappresentativo produce stime precise ma distorte
+
+**Formule da ricordare:**
+
+**Proprietà della media campionaria:**
+$$
+\mathbb{E}[\bar{X}] = \mu, \quad \text{Var}(\bar{X}) = \frac{\sigma^2}{n}, \quad \text{SE}(\bar{X}) = \frac{\sigma}{\sqrt{n}}
+$$
+
+**Teorema del Limite Centrale:**
+$$
+\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} \mathcal{N}(0,1) \quad \text{per } n \to \infty
+$$
+
+**Teorema di Bayes per l'inferenza:**
+$$
+p(\theta \mid D) = \frac{p(D \mid \theta) p(\theta)}{p(D)} \propto p(D \mid \theta) \cdot p(\theta)
+$$
+
+**Precisione e somma delle informazioni:**
+$$
+\tau = \frac{1}{\text{SE}^2} = \frac{n}{\sigma^2}, \quad \tau_{\text{tot}} = \tau_1 + \tau_2 + \cdots + \tau_k
+$$
+
+**Proprietà critiche:**
+
+- SE decresce come $1/\sqrt{n}$ (per dimezzarlo serve $4n$ osservazioni)
+- TLC vale per **qualsiasi** distribuzione (potenza straordinaria!)
+- Prior deboli → posterior dominata dai dati
+- Prior informativi → sintesi tra credenze iniziali e evidenza
+- Bias sistematici non si risolvono con campioni più grandi
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-intro-distr inizieremo lo studio sistematico delle **famiglie parametriche di distribuzioni** (Beta, Binomiale, Normale, Poisson, Gamma), che costituiscono il vocabolario standard per specificare prior, verosimiglianze e posterior nell'inferenza bayesiana. Vedremo come ogni famiglia codifichi specifiche assunzioni sul processo generativo dei dati e come i parametri quantifichino le nostre credenze in modo interpretabile.
+:::
 
 ::: {.callout-important title="Problemi" collapse="true"}
 Esercizi sulla distribuzione campionaria e sull'inferenza sono disponibili sulla seguente [pagina web](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Introductory_Statistics_(Shafer_and_Zhang)/06%3A_Sampling_Distributions/6.E%3A_Sampling_Distributions_(Exercises)).

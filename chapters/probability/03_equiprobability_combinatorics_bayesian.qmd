@@ -25,12 +25,22 @@ Non appena emergono informazioni asimmetriche — ad esempio palline di peso div
 - La distribuzione Beta come generalizzazione continua.
 - Applicazioni psicologiche.
 
-::: {.callout-tip collapse=true}
+::: {.callout-tip collapse="true"}
 ## Prerequisiti
 
-- Aver letto il @sec-prob-interpretation e il @sec-prob-models.
-- Leggere l'@sec-apx-combinatorics (calcolo combinatorio).
-- Familiarità con R e simulazioni Monte Carlo.
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-intro-prob-bayesian
+- @sec-axioms
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sets - per operazioni su eventi
+- @sec-apx-combinatorics - fondamentale per permutazioni, disposizioni e combinazioni
+
+Competenze pratiche:
+
+- Familiarità di base con R per eseguire le simulazioni Monte Carlo presentate nel capitolo
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
@@ -581,3 +591,54 @@ La distribuzione **Beta** fornisce una naturale estensione continua di queste id
 
 In questo modo, il capitolo ha mostrato come l’equiprobabilità rappresenti un caso limite all’interno di una teoria più generale della probabilità, fornendo gli strumenti concettuali per superarla quando le ipotesi di simmetria informativa non sono più sostenibili.
 
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Principio di indifferenza**
+   - L'equiprobabilità riflette simmetria epistemica, non una proprietà fisica del mondo
+   - Assegniamo $P(\omega_i) = 1/n$ solo quando non abbiamo ragioni per preferire un esito
+   - Richiede giudizio esplicito sul contesto (simmetria fisica, ignoranza informativa, assenza di struttura)
+
+2. **Formula classica come caso speciale**
+   - $P(A) = |A|/|\Omega|$ è una conseguenza degli assiomi quando vale l'equiprobabilità
+   - Non è una definizione universale, ma un'applicazione condizionata del principio di indifferenza
+   - Il calcolo combinatorio è strumento operativo, non fondamento teorico
+
+3. **Distribuzione Beta come generalizzazione continua**
+   - Beta(1,1) rappresenta massima ignoranza (analogo continuo dell'equiprobabilità)
+   - La parametrizzazione $(\alpha, \beta)$ permette di esprimere credenze a priori non uniformi
+   - L'aggiornamento bayesiano Beta-Binomiale: $\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)$
+
+4. **Limiti dell'equiprobabilità in psicologia**
+   - IRT: probabilità di risposta dipende da abilità individuale e difficoltà item
+   - Bias di risposta: acquiescenza e desiderabilità sociale violano l'uniformità
+   - Variabilità interindividuale richiede modelli probabilistici flessibili
+
+**Formule da ricordare:**
+
+$$
+P(A) = \frac{|A|}{|\Omega|} \quad \text{(valida solo con equiprobabilità)}
+$$
+
+$$
+\text{Beta}(\alpha, \beta) \xrightarrow{\text{dati } k, n} \text{Beta}(\alpha + k, \beta + n - k)
+$$
+
+**Tecniche combinatorie essenziali:**
+
+- Permutazioni: $n!$ (ordine conta, tutti gli elementi)
+- Disposizioni: $\frac{n!}{(n-k)!}$ (ordine conta, $k$ elementi)
+- Combinazioni: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ (ordine non conta)
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-conditional-prob vedremo come la probabilità condizionata rappresenti l'aggiornamento bayesiano delle credenze quando riceviamo nuova informazione, estendendo il concetto di simmetria epistemica a contesti in cui l'informazione è parziale.
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
+:::

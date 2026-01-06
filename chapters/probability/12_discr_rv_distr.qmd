@@ -1,13 +1,31 @@
 # Distribuzioni di variabili casuali discrete {#sec-prob-discr-distr}
 
-::: {.callout-tip}
+## Introduzione {.unnumbered .unlisted}
+
+Come discusso nel @sec-prob-intro-distr, le distribuzioni di probabilità sono strumenti epistemici che permettono di rappresentare formalmente l’incertezza. In questo capitolo ci concentreremo sulle *distribuzioni discrete*, utilizzate per modellare fenomeni con esiti numerabili, come conteggi, scelte categoriali ed eventi binari.
+
+Nel framework bayesiano, le distribuzioni discrete svolgono tre ruoli strettamente interconnessi. In qualità di **verosimiglianza**, descrivono il modo in cui i dati osservati vengono generati in funzione di un determinato valore del parametro. Come **distribuzioni a priori e a posteriori**, rappresentano le nostre credenze sui parametri prima e dopo l’osservazione dei dati. Infine, come **distribuzioni predittive**, esprimono le nostre aspettative riguardo alle osservazioni future, integrando l’incertezza sui parametri con la struttura del modello.
+
+In questa prospettiva, i parametri delle distribuzioni, come $p$ nella distribuzione binomiale o $\lambda$ nella distribuzione di Poisson, non sono “valori veri da scoprire”, ma quantità incerte riguardo alle quali abbiamo credenze graduabili. L’inferenza bayesiana fornisce un meccanismo coerente per rappresentare tali credenze e aggiornarle sistematicamente alla luce dell’evidenza empirica.
+
+::: {.callout-tip collapse="true"}
 ## Prerequisiti
 
-- @sec-prob-intro-distr: introduzione alle distribuzioni di probabilità.
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-random-var
+- @sec-prob-distr
+- @sec-prob-random-var-properties
+- @sec-prob-intro-distr — **fondamentale**
+
+Questo capitolo studia in dettaglio le **distribuzioni discrete** (Bernoulli, Binomiale, Poisson) essenziali per modellare conteggi, eventi binari e fenomeni psicologici discreti.
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-combinatorics - per coefficienti binomiali
 :::
 
-::: {.callout-caution}
-## Preparazione del Notebook
+::: {.callout-caution collapse="true" title="Preparazione del Notebook"}
 
 ```{r}
 here::here("code", "_common.R") |> 
@@ -19,14 +37,6 @@ library(extraDistr)
 apply_visual_theme()
 ```
 :::
-
-## Introduzione {.unnumbered .unlisted}
-
-Come discusso nel @sec-prob-intro-distr, le distribuzioni di probabilità sono strumenti epistemici che permettono di rappresentare formalmente l’incertezza. In questo capitolo ci concentreremo sulle *distribuzioni discrete*, utilizzate per modellare fenomeni con esiti numerabili, come conteggi, scelte categoriali ed eventi binari.
-
-Nel framework bayesiano, le distribuzioni discrete svolgono tre ruoli strettamente interconnessi. In qualità di **verosimiglianza**, descrivono il modo in cui i dati osservati vengono generati in funzione di un determinato valore del parametro. Come **distribuzioni a priori e a posteriori**, rappresentano le nostre credenze sui parametri prima e dopo l’osservazione dei dati. Infine, come **distribuzioni predittive**, esprimono le nostre aspettative riguardo alle osservazioni future, integrando l’incertezza sui parametri con la struttura del modello.
-
-In questa prospettiva, i parametri delle distribuzioni, come $p$ nella distribuzione binomiale o $\lambda$ nella distribuzione di Poisson, non sono “valori veri da scoprire”, ma quantità incerte riguardo alle quali abbiamo credenze graduabili. L’inferenza bayesiana fornisce un meccanismo coerente per rappresentare tali credenze e aggiornarle sistematicamente alla luce dell’evidenza empirica.
 
 ## Funzioni R per le distribuzioni
 
@@ -49,6 +59,7 @@ rbinom(5, size = 10, prob = 0.6)  # 5 simulazioni
 ```
 
 Nell'inferenza bayesiana, la funzione `d` viene utilizzata per calcolare la verosimiglianza, mentre la funzione `r` permette di simulare dalla distribuzione predittiva.
+
 ## Distribuzione uniforme discreta
 
 ### Definizione e interpretazione epistemica
@@ -650,6 +661,75 @@ flowchart TD
     style C3 fill:#e1f5e1
     style D2 fill:#f0f0f0
 ```
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Distribuzione di Bernoulli**
+   - Modella singolo evento binario: successo (1) o fallimento (0)
+   - $P(X=1) = \theta$, $P(X=0) = 1-\theta$
+   - $\mathbb{E}[X] = \theta$, $\text{Var}(X) = \theta(1-\theta)$
+   - Base per tutti i modelli binari in psicologia
+
+2. **Distribuzione Binomiale**
+   - Conteggio di successi in $n$ prove Bernoulli indipendenti
+   - $P(X=k) = \binom{n}{k}\theta^k(1-\theta)^{n-k}$
+   - $\mathbb{E}[X] = n\theta$, $\text{Var}(X) = n\theta(1-\theta)$
+   - Usata per: risposte corrette in test, prevalenze, adesione a trattamenti
+
+3. **Distribuzione di Poisson**
+   - Conteggio di eventi rari in intervallo fisso
+   - $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$, $k = 0,1,2,\ldots$
+   - $\mathbb{E}[X] = \lambda$, $\text{Var}(X) = \lambda$ (equidispersione!)
+   - Usata per: numero sintomi, comportamenti rari, crisi panic
+
+4. **Proprietà chiave delle distribuzioni discrete**
+   - Dominio: valori numerabili (interi)
+   - Somma di PMF = 1
+   - Facilmente visualizzabili con diagrammi a barre
+   - Simulabili facilmente in R
+
+5. **Applicazioni in psicologia**
+   - **Bernoulli**: diagnosi binaria (disturbo presente/assente)
+   - **Binomiale**: accuratezza in test cognitivi, risposte "sì/no" in questionari
+   - **Poisson**: eventi psicopatologici infrequenti, conteggio sintomi DSM
+
+**Formule da ricordare:**
+
+**Bernoulli($\theta$):**
+$$
+P(X=x) = \theta^x(1-\theta)^{1-x}, \quad x \in \{0,1\}
+$$
+
+**Binomiale($n, \theta$):**
+$$
+P(X=k) = \binom{n}{k}\theta^k(1-\theta)^{n-k}, \quad k = 0,1,\ldots,n
+$$
+$$
+\mathbb{E}[X] = n\theta, \quad \text{Var}(X) = n\theta(1-\theta)
+$$
+
+**Poisson($\lambda$):**
+$$
+P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0,1,2,\ldots
+$$
+$$
+\mathbb{E}[X] = \lambda, \quad \text{Var}(X) = \lambda
+$$
+
+**Proprietà critiche:**
+
+- Binomiale è somma di $n$ Bernoulli i.i.d.
+- Poisson è limite di Binomiale per $n \to \infty$, $p \to 0$, $np = \lambda$
+- Poisson ha equidispersione (media = varianza)
+- Varianza Binomiale massima quando $\theta = 0.5$
+
+**Per il prossimo capitolo:**
+
+Nel @sec-prob-cont-distr studieremo le **distribuzioni continue** (Beta, Normale, Gamma, Esponenziale), fondamentali per modellare proporzioni, misure psicometriche, tempi di reazione e parametri continui nei modelli bayesiani.
+:::
 
 ## Esercizi {.unnumbered}
 

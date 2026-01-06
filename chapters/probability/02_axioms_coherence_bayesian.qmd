@@ -19,12 +19,17 @@ Attraverso esempi tratti dalla psicologia e mediante simulazioni in R, il capito
 - Derivazione di marginali e condizionate da congiunte.
 - Verifica empirica della coerenza con simulazioni.
 
-::: {.callout-tip collapse=true}
+::: {.callout-tip collapse="true"}
 ## Prerequisiti
 
-- Aver letto il @sec-prob-interpretation.
-- Leggere l'@sec-apx-sets (teoria degli insiemi).
-- Familiarità base con R e ggplot2.
+Per seguire questo capitolo è necessario aver letto:
+
+- [Capitolo 1: Interpretazione bayesiana della probabilità] (@sec-prob-interpretation)
+
+Conoscenze matematiche richieste:
+
+- [Appendice C: Sommatorie] (@sec-apx-sums) - per comprendere le proprietà additive
+- [Appendice D: Insiemi] (@sec-apx-sets) - per operazioni su eventi (unione, intersezione, complemento)
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
@@ -770,6 +775,41 @@ Il capitolo non si è quindi limitato a introdurre regole di calcolo, ma ha chia
 
 Nei prossimi capitoli utilizzeremo questo framework per esplorare l’equiprobabilità come caso particolare di simmetria epistemica, approfondire l’aggiornamento bayesiano attraverso il calcolo delle probabilità condizionate e applicare questi strumenti a scenari psicologici via via più complessi.
 
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **I tre assiomi di Kolmogorov**
+   - Non-negatività: $P(A) \geq 0$ per ogni evento $A$
+   - Normalizzazione: $P(\Omega) = 1$ (certezza per l'intero spazio campionario)
+   - Additività: $P(A \cup B) = P(A) + P(B)$ se $A$ e $B$ sono disgiunti
+
+2. **Principio di coerenza**
+   - Le credenze probabilistiche devono essere internamente consistenti
+   - Un sistema di credenze incoerente porta a perdite certe (Dutch book argument)
+   - Gli assiomi garantiscono la coerenza razionale delle nostre valutazioni
+
+3. **Conseguenze degli assiomi**
+   - Probabilità del complemento: $P(A^c) = 1 - P(A)$
+   - Evento impossibile: $P(\emptyset) = 0$
+   - Regola dell'unione generale: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+**Formule da ricordare:**
+
+$$
+P(A^c) = 1 - P(A)
+$$
+
+$$
+P(A \cup B) = P(A) + P(B) - P(A \cap B)
+$$
+
+**Per il prossimo capitolo:**
+
+Nel @sec-equiprobability-combinatorics vedremo come applicare questi assiomi a situazioni di equiprobabilità, introducendo il calcolo combinatorio per contare i casi favorevoli e possibili.
+:::
+
 ## Esercizi {.unnumbered .unlisted}
 
 ::: {.callout-important title="Problemi" collapse="true"}
@@ -996,6 +1036,12 @@ Nei prossimi capitoli utilizzeremo questo framework per esplorare l’equiprobab
 
 15. Non è un problema—riflette informazioni diverse. Con molti dati, la verosimiglianza dominerà e i posterior convergeranno, riducendo l'influenza dei prior diversi. È una caratteristica, non un bug: la soggettività è nelle assunzioni iniziali esplicite.
 
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
 :::
 
 ## Bibliografia {.unnumbered .unlisted}

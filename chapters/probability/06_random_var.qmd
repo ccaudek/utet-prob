@@ -10,6 +10,27 @@ Per affrontare questo tipo di domande è necessario estendere il concetto di pro
 
 Le variabili casuali costituiscono quindi il **ponte concettuale** tra la teoria della probabilità sviluppata finora e i modelli statistici utilizzati nell’inferenza bayesiana. Comprendere questo concetto significa acquisire il vocabolario tecnico necessario per descrivere distribuzioni *a priori*, funzioni di *verosimiglianza* e distribuzioni *a posteriori*, che rappresentano i pilastri dell’intero edificio bayesiano.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-interpretation
+- @sec-prob-axioms-coherence
+- @sec-equiprobability-combinatorics
+- @sec-prob-conditional-prob 
+- @sec-prob-bayes-theorem
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-calculus — **fondamentale** per comprendere le PDF e le variabili continue
+- @sec-apx-sums - per marginalizzazione di variabili discrete
+
+Competenze pratiche:
+
+- Familiarità con R e operazioni vettoriali di base per eseguire le simulazioni
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Definizione formale di variabile casuale come funzione dallo spazio campionario ai numeri reali.
@@ -19,13 +40,6 @@ Le variabili casuali costituiscono quindi il **ponte concettuale** tra la teoria
 - Funzione di distribuzione cumulativa (CDF) come rappresentazione unificata.
 - Variabili casuali multiple e nozione di indipendenza.
 
-::: {.callout-tip collapse=true}
-## Prerequisiti
-
-- Aver letto i capitoli @sec-prob-interpretation, @sec-prob-axioms-coherence e @sec-bayes-theorem.
-- Leggere l'appendice @sec-apx-calculus per i concetti base di calcolo integrale.
-- Familiarità con R e le operazioni vettoriali di base.
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -548,6 +562,83 @@ Le variabili casuali permettono inoltre di passare dall’incertezza su singoli 
 Questi fondamenti troveranno immediata applicazione nei capitoli successivi, dedicati allo studio di specifiche **famiglie parametriche di distribuzioni** (come Beta, Normale, Poisson e Binomiale), che costituiscono i mattoni elementari della modellazione statistica bayesiana. Le distribuzioni *a priori*, le *funzioni di verosimiglianza* e le distribuzioni *a posteriori*, ovvero i tre pilastri concettuali dell’inferenza bayesiana, trovano infatti piena espressione e interpretabilità nel linguaggio delle variabili casuali introdotto in questo capitolo.
 
 In questo senso, le variabili casuali non rappresentano un semplice strumento tecnico, ma il **vocabolario fondamentale** attraverso cui la probabilità bayesiana descrive, quantifica e aggiorna l’incertezza nei modelli psicologici.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+**Concetti essenziali di questo capitolo:**
+
+1. **Variabile casuale come funzione dallo spazio campionario ai numeri reali**
+   - $X: \Omega \to \mathbb{R}$ associa a ogni esito $\omega$ un valore numerico $X(\omega)$
+   - La funzione è deterministica; l'incertezza riguarda quale esito si realizzerà
+   - Ponte concettuale: da eventi qualitativi a quantità numeriche analizzabili matematicamente
+
+2. **Distinzione fondamentale: discrete vs continue**
+   - **Discrete**: assumono valori numerabili (finiti o infiniti), es. numero di successi, punteggi categoriali
+   - **Continue**: assumono valori in intervalli continui, es. tempi di reazione, punteggi psicometrici standardizzati
+   - Richiedono strumenti matematici differenti (somme vs integrali)
+
+3. **Funzione di massa di probabilità (PMF) per variabili discrete**
+   - $p_X(x) = P(X = x)$ assegna probabilità a ciascun valore specifico
+   - Proprietà: $p_X(x) \geq 0$ e $\sum_x p_X(x) = 1$
+   - Visualizzazione: diagramma a barre
+
+4. **Funzione di densità di probabilità (PDF) per variabili continue**
+   - $f_X(x)$ descrive la densità di probabilità (non la probabilità stessa!)
+   - $P(a \leq X \leq b) = \int_a^b f_X(x) \, dx$ (probabilità tramite integrazione)
+   - Proprietà: $f_X(x) \geq 0$ e $\int_{-\infty}^{+\infty} f_X(x) \, dx = 1$
+   - Attenzione: $P(X = x) = 0$ per ogni $x$ specifico (misura nulla in continuo)
+
+5. **Funzione di distribuzione cumulativa (CDF) come rappresentazione unificata**
+   - $F_X(x) = P(X \leq x)$ per ogni tipo di variabile
+   - Per discrete: $F_X(x) = \sum_{x_i \leq x} p_X(x_i)$ (funzione a gradini)
+   - Per continue: $F_X(x) = \int_{-\infty}^x f_X(t) \, dt$ (funzione continua)
+   - Proprietà: monotona non decrescente, $\lim_{x \to -\infty} F_X(x) = 0$, $\lim_{x \to +\infty} F_X(x) = 1$
+
+6. **Variabili casuali multiple e distribuzione congiunta**
+   - $p_{X,Y}(x,y) = P(X=x, Y=y)$ rappresenta lo stato di credenza completo su due variabili
+   - Marginalizzazione: $p_X(x) = \sum_y p_{X,Y}(x,y)$ elimina una variabile
+   - Indipendenza stocastica: $p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y)$ (assenza di relazione informativa)
+
+7. **Passaggio cruciale per l'inferenza bayesiana**
+   - Prior, verosimiglianza e posterior sono distribuzioni di probabilità su variabili casuali
+   - La CDF è fondamentale per calcolare quantili, intervalli di credibilità, probabilità di ipotesi
+   - Le variabili casuali permettono di modellare parametri continui (non solo eventi discreti)
+
+**Formule da ricordare:**
+
+**Variabili discrete (PMF):**
+$$
+p_X(x) = P(X = x), \quad \sum_x p_X(x) = 1
+$$
+
+**Variabili continue (PDF):**
+$$
+P(a \leq X \leq b) = \int_a^b f_X(x) \, dx, \quad \int_{-\infty}^{+\infty} f_X(x) \, dx = 1
+$$
+
+**CDF (universale):**
+$$
+F_X(x) = P(X \leq x) = \begin{cases}
+\sum_{x_i \leq x} p_X(x_i) & \text{(discreta)} \\
+\int_{-\infty}^x f_X(t) \, dt & \text{(continua)}
+\end{cases}
+$$
+
+**Marginalizzazione (eliminare una variabile):**
+$$
+p_X(x) = \sum_y p_{X,Y}(x,y) \quad \text{o} \quad f_X(x) = \int f_{X,Y}(x,y) \, dy
+$$
+
+**Indipendenza stocastica:**
+$$
+X \perp Y \iff p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y)
+$$
+
+**Per il prossimo capitolo:**
+
+Nei capitoli successivi studieremo sistematicamente le **distribuzioni di massa e di densità**, formalizzando le famiglie parametriche di distribuzioni (Bernoulli, Binomiale, Normale, Beta, ecc.) che costituiscono il vocabolario standard della modellazione bayesiana. Vedremo come ogni distribuzione codifichi specifiche assunzioni sul processo generativo dei dati e come i suoi parametri quantifichino l'incertezza in modo interpretabile.
+:::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
 ```{r}
