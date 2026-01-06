@@ -69,35 +69,38 @@ $$ {#eq-prob-cond-def}
 
 ### Fondamento logico della formula
 
-La definizione di probabilità condizionata non è una convenzione arbitraria: è la conseguenza più semplice del requisito di **coerenza** quando si incorpora l’informazione “$B$ è vero”.
+La definizione di probabilità condizionata non è una convenzione arbitraria, ma deriva in modo naturale dal principio di **coerenza** logica quando si acquisisce l’informazione che l’evento $B$ è vero.
 
-Partiamo da una distribuzione congiunta (ad esempio una tabella 2×2). Apprendere $B$ significa:
+Immaginiamo di partire da una distribuzione di probabilità congiunta, rappresentabile ad esempio con una tabella $2 \times 2$. Apprendere che $B$ si è verificato comporta due operazioni concettuali:
 
-1. **eliminare** tutte le possibilità incompatibili con $B$ (resta solo la parte di mondo in cui $B$ è vero);
-2. **rinormalizzare** le probabilità rimaste, così che sommino di nuovo a 1.
+1. **Riduzione dello spazio degli eventi**: si eliminano tutti gli esiti incompatibili con $B$, restringendo l’attenzione alla porzione di mondo in cui $B$ è vero.
+2. **Rinormalizzazione**: si riscala la probabilità degli eventi rimasti, in modo che la probabilità totale entro questo nuovo “universo” (costituito solo da $B$) sia nuovamente uguale a 1.
 
-Se chiamiamo $P(A\cap B)$ la probabilità “residua” di $A$ all’interno del sottoinsieme $B$, allora il fattore di rinormalizzazione è necessariamente $P(B)$ (la probabilità totale del nuovo universo). Ne segue:
+Se indichiamo con $P(A \cap B)$ la probabilità che si verifichino sia $A$ sia $B$, allora il fattore di rinormalizzazione deve essere esattamente $P(B)$, cioè la probabilità originaria di $B$. Si ottiene così la nota formula:
 
 $$
 P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
 $$
 
 ::: {.callout-important title="Principio epistemico fondamentale"}
-#### Aggiornamento come riduzione e rinormalizzazione {.unnumbered .unlisted}
 
-Apprendere che (B) è vero avvia un aggiornamento in tre passi:
+#### Riduzione e rinormalizzazione {.unnumbered .unlisted}
 
-1. **Riduzione**: lo spazio epistemico passa da $\Omega$ a $B$, eliminando le possibilità incompatibili con $B$.
-2. **Rinormalizzazione**: le probabilità residue vengono divise per $P(B)$, così che il totale nel nuovo spazio torni a essere 1.
-3. **Invarianza dei rapporti**: poiché tutte le probabilità compatibili con $B$ vengono scalate dello stesso fattore, i loro rapporti relativi restano invariati.
+L’acquisizione dell’informazione “$B$ è vero” innesca un aggiornamento in tre fasi:
 
-Questo garantisce coerenza: se avessimo modellato fin dall’inizio lo spazio come “solo $B$”, otterremmo le stesse probabilità relative tra gli eventi compatibili con $B$.
+1. **Riduzione epistemica**: lo spazio degli eventi $\Omega$ viene ristretto al solo sottoinsieme $B$, eliminando le possibilità escluse da $B$.
+2. **Rinormalizzazione**: ogni probabilità residua viene divisa per $P(B)$, riportando la somma totale a 1 nel nuovo spazio ristretto.
+3. **Invarianza dei rapporti relativi**: poiché tutte le probabilità compatibili con $B$ vengono moltiplicate per lo stesso fattore $1/P(B)$, i loro rapporti reciproci rimangono immutati.
+
+Questa procedura assicura coerenza: se avessimo modellato fin dall’inizio lo spazio considerando solo $B$, avremmo ottenuto le stesse probabilità relative tra gli eventi al suo interno.
 :::
 
 ### Visualizzazione geometrica
 
+La condizionalizzazione può essere vista come un “zoom” sull’evento $B$, seguito da una riscalatura delle probabilità al suo interno.
+
 ```{r}
-# Visualizzazione: condizionata come rinormalizzazione dentro B
+# Visualizzazione grafica 
 
 P_A  <- 0.6
 P_B  <- 0.5
@@ -128,6 +131,8 @@ ggplot(df, aes(x = "", y = Valore, fill = Parte)) +
         legend.position = "bottom")
 ```
 
+*Nota: il grafico mostra come, dopo aver appreso $B$, la massa probabilistica si ridistribuisce tra gli eventi $A \cap B$ e $A^c \cap B$, mantenendo invariato il loro rapporto relativo.*
+
 ## Proprietà della probabilità condizionata
 
 Le probabilità condizionate mantengono le proprietà degli assiomi, trattando $B$ come nuovo "universo".
@@ -153,7 +158,8 @@ Fissato un evento $B$ con $P(B) > 0$, la funzione $P(\cdot \mid B)$ soddisfa tut
 La dimostrazione della proprietà di additività si fonda sulla disgiunzione degli eventi: poiché $A_1$ e $A_2$ sono disgiunti, anche le loro intersezioni con $B$ risultano disgiunte, permettendo di applicare l'assioma di additività al numeratore.
 
 
-::: {.callout-note collapse="true" title="Esempio clinico completo"}
+::: {.callout-note collapse="true" title="Esempio clinico"}
+
 #### Test di screening per il disturbo depressivo maggiore {.unnumbered .unlisted}
 
 **Contesto clinico**: uno psicologo utilizza un test di screening per il disturbo depressivo maggiore in un contesto di comunità, caratterizzato da una popolazione non selezionata.
@@ -380,7 +386,7 @@ Dal punto di vista epistemico, il teorema del prodotto descrive la costruzione d
 In questo senso, il teorema del prodotto esplicita il fatto che le probabilità congiunte non sono entità primitive, ma il risultato di un processo di aggiornamento coerente.
 
 
-::: {.callout-note collapse="true" title="Esempio: Test diagnostici multipli"}
+::: {.callout-note collapse="true" title="Esempio: test diagnostici multipli"}
 Un paziente con sospetto disturbo d’ansia si sottopone a due test diagnostici: un questionario autosomministrato $T_1$ e un colloquio clinico strutturato $T_2$.
 
 **Informazioni cliniche disponibili**
@@ -490,12 +496,12 @@ Dal punto di vista probabilistico, il paradosso nasce quando si applica la **leg
 
 ::: {.callout-note collapse="true" title="Esempio"}
 
-### Efficacia del trattamento per la depressione in due cliniche {.unnumbered .unlisted}
+#### Efficacia del trattamento per la depressione in due cliniche {.unnumbered .unlisted}
 
 Due cliniche, A e B, valutano l’efficacia di un nuovo trattamento per la depressione.
 La clinica A tratta prevalentemente casi **lievi**, mentre la clinica B tratta prevalentemente casi **gravi**.
 
-#### Dati osservati
+#### Dati osservati {.unnumbered .unlisted}
 
 ```{r}
 # Clinica A (casi lievi)
@@ -532,7 +538,7 @@ prop_tot_trattati <- n_tot_guariti_trattati / n_tot_trattati
 prop_tot_controllo <- n_tot_guariti_controllo / n_tot_controllo
 ```
 
-#### Risultati per sottogruppo
+#### Risultati per sottogruppo {.unnumbered .unlisted}
 
 * **Clinica A (casi lievi)**
 
@@ -546,7 +552,7 @@ prop_tot_controllo <- n_tot_guariti_controllo / n_tot_controllo
 
 In **entrambi** i sottogruppi, il trattamento risulta almeno altrettanto efficace del controllo.
 
-#### Risultato aggregato
+#### Risultato aggregato {.unnumbered .unlisted}
 
 Aggregando i dati delle due cliniche senza distinzione:
 
@@ -555,7 +561,7 @@ Aggregando i dati delle due cliniche senza distinzione:
 
 Nell’analisi aggregata, il trattamento appare **meno efficace** del controllo, in apparente contraddizione con i risultati osservati in ciascun sottogruppo.
 
-### Visualizzazione
+#### Visualizzazione {.unnumbered .unlisted}
 
 ```{r}
 #| echo: false
@@ -590,7 +596,7 @@ theme(legend.position = "none") +
 ylim(0, 1)
 ```
 
-### Spiegazione del paradosso
+#### Spiegazione del paradosso {.unnumbered .unlisted}
 
 Il paradosso si spiega considerando la **distribuzione diseguale dei casi** tra i gruppi:
 
@@ -599,7 +605,7 @@ Il paradosso si spiega considerando la **distribuzione diseguale dei casi** tra 
 
 La variabile confondente “gravità del caso” influenza sia l’assegnazione al trattamento sia l’esito clinico. L’aggregazione dei dati, ignorando questa variabile, produce una media ponderata fuorviante.
 
-### Interpretazione epistemica
+#### Interpretazione epistemica {.unnumbered .unlisted}
 
 Dal punto di vista epistemico, la **probabilità condizionata corretta** non è quella aggregata, ma quella **condizionata alla clinica**:
 
@@ -609,16 +615,6 @@ $$
 
 L’analisi aggregata utilizza implicitamente la legge della probabilità totale senza rendere esplicita la partizione rilevante dello spazio campionario. Il paradosso di Simpson non indica quindi una contraddizione della probabilità, ma un **avvertimento metodologico**: quando esistono variabili confondenti rilevanti, è necessario condizionare correttamente per evitare conclusioni erronee, anche quando tutti i sottogruppi mostrano lo stesso effetto qualitativo.
 :::
-
-### Nota di continuità con il capitolo
-
-Questa sezione chiude in modo naturale il percorso del capitolo:
-
-* la **probabilità condizionata** come aggiornamento;
-* la **legge della probabilità totale** come aggregazione di scenari;
-* il **paradosso di Simpson** come esempio di ciò che accade quando l’aggregazione ignora una partizione informativamente rilevante.
-
-Da qui, il passaggio al **teorema di Bayes** è diretto: Bayes mostrerà come invertire queste probabilità condizionate in modo coerente, rendendo esplicito il ruolo dell’evidenza nel discriminare tra scenari alternativi.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 

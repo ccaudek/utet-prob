@@ -30,8 +30,8 @@ Non appena emergono informazioni asimmetriche — ad esempio palline di peso div
 
 Per seguire questo capitolo è necessario aver letto:
 
-- @sec-intro-prob-bayesian
-- @sec-axioms
+- @sec-prob-interpretation
+- @sec-prob-axioms-coherence
 
 Conoscenze matematiche richieste:
 
@@ -153,7 +153,7 @@ $$
 n_{\text{totale}} = n_1 + n_2 + \dots + n_k.
 $$
 
-**Esempio** 
+::: {.callout-note title="Esempio" collapse="true"}
 
 Un paziente può accedere a:
 
@@ -167,6 +167,7 @@ $$
 8 + 6 + 10 = 24,
 $$
 con probabilità $1/24$ per ciascun protocollo.
+:::
 
 ### Principio del prodotto
 
@@ -176,7 +177,7 @@ $$
 n_{\text{totale}} = n_1 \times n_2 \times \dots \times n_k.
 $$
 
-**Esempio**
+::: {.callout-note title="Esempio" collapse="true"}
 
 Nella progettazione di uno studio sperimentale:
 
@@ -190,6 +191,7 @@ $$
 3 \times 4 \times 2 = 24
 $$
 disegni equiprobabili, in assenza di preferenze teoriche o pratiche.
+:::
 
 ### Permutazioni: tutti gli ordinamenti di $n$ elementi
 
@@ -201,14 +203,13 @@ $$ {#eq-permutations-def}
 
 L’intuizione è semplice: il primo elemento può essere scelto in $n$ modi, il secondo in $n-1$, e così via fino all’ultimo.
 
-::: {.callout-note title="Esempio: ordine di presentazione degli stimoli"}
+::: {.callout-note collapse="true" title="Esempio: ordine di presentazione degli stimoli"}
 In un esperimento sulla memoria, 5 parole vengono presentate in ordine casuale. Gli ordinamenti possibili sono:
 $$
 5! = 120.
 $$
 
 Se si assume equiprobabilità, ogni sequenza specifica ha probabilità $1/120 \approx 0.008$.
-:::
 
 ```{r}
 #| label: permutazioni-esperimento
@@ -226,6 +227,7 @@ for(i in 1:3) {
   cat(" ", paste(sample(parole), collapse = " → "), "\n")
 }
 ```
+:::
 
 ### Disposizioni: $k$ elementi ordinati da $n$
 
@@ -236,14 +238,13 @@ D_{n,k} = \frac{n!}{(n-k)!}
        = n \times (n-1) \times \cdots \times (n-k+1).
 $$ {#eq-dispositions-def}
 
-::: {.callout-note title="Esempio: assegnazione di ruoli in terapia di gruppo"}
+::: {.callout-note collapse="true" title="Esempio: assegnazione di ruoli in terapia di gruppo"}
 Con 8 partecipanti e 3 ruoli distinti (facilitatore, osservatore, timekeeper):
 $$
 D_{8,3} = 336.
 $$
 
 In assenza di informazioni sulle competenze individuali, ogni assegnazione ha probabilità $1/336 \approx 0.003$.
-:::
 
 ```{r}
 #| label: disposizioni-ruoli
@@ -256,6 +257,7 @@ cat("Ruoli da assegnare:", k, "\n")
 cat("Assegnazioni possibili:", n_disp, "\n")
 cat("P(assegnazione specifica):", round(1/n_disp, 5))
 ```
+:::
 
 ### Combinazioni: $k$ elementi non ordinati da $n$
 
@@ -267,14 +269,13 @@ $$ {#eq-combinations-def}
 
 La formula si ottiene dividendo le disposizioni per $k!$, che rappresenta il numero di permutazioni interne allo stesso gruppo.
 
-::: {.callout-note title="Esempio: formazione di coppie terapeutiche"}
+::: {.callout-note collapse="true" title="Esempio: formazione di coppie terapeutiche"}
 Con 12 volontari per il peer counseling, le coppie possibili sono:
 $$
 \binom{12}{2} = 66.
 $$
 
 Se non si dispone di informazioni sulla compatibilità, ogni coppia ha probabilità $1/66 \approx 0.015$.
-:::
 
 ```{r}
 #| label: combinazioni-coppie
@@ -285,14 +286,16 @@ cat("Volontari:", n_volontari, "\n")
 cat("Coppie possibili:", n_coppie, "\n")
 cat("P(coppia specifica):", round(1/n_coppie, 4))
 ```
+:::
 
-### Riepilogo: quale tecnica usare?
+::: {.callout-tip title="Riepilogo: quale tecnica usare?"}
 
 | Tecnica        | Ordine conta?             | Formula                        | Esempio psicologico |
 |---------------|---------------------------|--------------------------------|---------------------|
 | Permutazioni  | Sì (tutti gli elementi)   | $n!$                           | Ordine di $n$ stimoli |
 | Disposizioni  | Sì (solo $k$ elementi)    | $\frac{n!}{(n-k)!}$            | Assegnazione di ruoli |
 | Combinazioni  | No                        | $\binom{n}{k}$                 | Formazione di gruppi |
+:::
 
 ::: {.callout-important title="Principio fondamentale"}
 Ogni formula combinatoria incorpora l’assunzione che tutte le configurazioni elencate siano equiprobabili.  
@@ -330,7 +333,6 @@ Assumere un modello equiprobabile (ad esempio ponendo $P(\text{risposta corretta
 
 L’errore non è soltanto quantitativo, ma anche concettuale: ignorare le differenze di difficoltà significa trascurare una componente essenziale del costrutto che il test intende misurare. In questi casi, l’equiprobabilità non è semplicemente imprecisa, ma epistemicamente ingiustificata.
 
-
 ## La distribuzione Beta: dal discreto al continuo
 
 Nei capitoli precedenti abbiamo considerato situazioni in cui lo spazio delle possibilità è discreto e finito. In molti contesti di ricerca psicologica, tuttavia, non ci limitiamo a contare eventi equiprobabili, ma dobbiamo stimare **parametri sconosciuti**, come una probabilità di successo, una proporzione o una prestazione media.
@@ -353,13 +355,12 @@ Questa interpretazione rende la Beta particolarmente adatta alla modellazione ps
 - la **posizione centrale** della credenza (dove riteniamo più plausibile che si trovi $\theta$),
 - sia la **forza della convinzione** (quanto siamo certi di tale valutazione).
 
-::: {.callout-note title="Esempio: valutazione di un nuovo studente"}
+::: {.callout-note collapse="true" title="Esempio: valutazione di un nuovo studente"}
 
 - **Beta(1,1)**: ignoranza totale — ogni valore di $\theta$ è ugualmente plausibile.
 - **Beta(5,5)**: credenza moderata verso valori centrali.
 - **Beta(20,10)**: aspettativa di abilità elevate (media ≈ 0.67).
 - **Beta(2,8)**: aspettativa di difficoltà (media ≈ 0.20).
-:::
 
 ```{r}
 #| echo: false
@@ -386,6 +387,7 @@ ggplot(df_beta, aes(x = theta, y = Densita, color = Distribuzione)) +
   labs(x = expression(theta), y = "Densità") +
   theme(legend.position = "none")
 ```
+:::
 
 ### Proprietà fondamentali
 
@@ -440,11 +442,13 @@ f(\theta; \alpha, \beta)
 $$
 
 **Proprietà principali**
+
 - Media: $\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}$.
 - Varianza: $\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$.
 - Moda: $\frac{\alpha-1}{\alpha+\beta-2}$ per $\alpha,\beta>1$.
 
 **Casi notevoli**
+
 - Beta(1,1): uniforme su [0,1] (ignoranza epistemica).
 - Beta(0.5,0.5): prior di Jeffreys.
 :::
@@ -471,7 +475,8 @@ $$
 
 Questa proprietà, nota come **coniugazione Beta–Binomiale**, consente di aggiornare le credenze in modo semplice, interpretabile e computazionalmente efficiente.
 
-### Esempio: test a scelta multipla
+
+::: {.callout-note collapse="true" title="Esempio: test a scelta multipla"}
 
 Uno studente risponde a 20 domande con 4 opzioni ciascuna. Supponiamo di adottare un prior Beta(1,3), che riflette l’ipotesi iniziale di risposte casuali (probabilità media 0.25). Se osserviamo 7 risposte corrette, la posterior diventa:
 
@@ -501,7 +506,7 @@ ggplot(df, aes(x = theta, y = Densita, color = Tipo)) +
        y = "Densità") 
 ```
 
-### Intervallo di credibilità vs intervallo di confidenza
+#### Intervallo di credibilità vs intervallo di confidenza {.unnumbered .unlisted}
 
 ```{r}
 alpha_post <- 8
@@ -515,9 +520,13 @@ cat("IC 95%: [", round(ci[1], 2), ",", round(ci[2], 2), "]")
 * **Intervallo di credibilità bayesiano (95%)**: "C’è il 95% di probabilità che $\theta$ cada in questo intervallo dato ciò che sappiamo."
 * **Intervallo di confidenza frequentista (95%)**: “Se ripetessimo l’esperimento infinite volte, il 95% degli intervalli calcolati così conterrebbe il parametro vero.”
 
+:::
+
 ### Aggiornamento sequenziale: accumulare dati
 
-Il modello Beta-Binomiale permette di aggiornare le credenze **man mano che arrivano nuove osservazioni**, senza dover ricalcolare da zero:
+Il modello Beta-Binomiale permette di aggiornare le credenze **man mano che arrivano nuove osservazioni**, senza dover ricalcolare da zero.
+
+::: {.callout-note collapse="true" title="Esempio: test a scelta multipla -- prosecuzione"}
 
 ```{r}
 set.seed(42)
@@ -552,6 +561,7 @@ ggplot(df_evol, aes(x = theta, y = Densita, color = n)) +
 ```
 
 **Interpretazione**: con l’accumularsi delle prove, la distribuzione posterior si concentra attorno al valore reale $\theta_\text{vero}$, riflettendo una crescente certezza nelle stime. Questo esempio mostra in modo chiaro come l’inferenza bayesiana integri informazioni pregresse (*prior*) con dati osservati, fornendo stime aggiornate e interpretabili in termini probabilistici.
+:::
 
 ## Applicazioni psicologiche
 

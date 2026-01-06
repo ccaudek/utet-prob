@@ -10,6 +10,19 @@ Un ruolo centrale nella trattazione sarà svolto dalle *tabelle di probabilità 
 
 Attraverso esempi tratti dalla psicologia e mediante simulazioni in R, il capitolo illustrerà come individuare e correggere incoerenze nelle assegnazioni probabilistiche e come verificare empiricamente che un sistema di credenze coerente produca i comportamenti attesi nei dati osservati.
 
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è necessario aver letto:
+
+- @sec-prob-interpretation
+
+Conoscenze matematiche richieste:
+
+- @sec-apx-sums - per comprendere le proprietà additive
+- @sec-apx-sets - per operazioni su eventi (unione, intersezione, complemento)
+:::
+
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Spazio campionario ed eventi come possibilità epistemiche.
@@ -18,19 +31,6 @@ Attraverso esempi tratti dalla psicologia e mediante simulazioni in R, il capito
 - Tabelle di probabilità congiunta (2×2 e oltre).
 - Derivazione di marginali e condizionate da congiunte.
 - Verifica empirica della coerenza con simulazioni.
-
-::: {.callout-tip collapse="true"}
-## Prerequisiti
-
-Per seguire questo capitolo è necessario aver letto:
-
-- [Capitolo 1: Interpretazione bayesiana della probabilità] (@sec-prob-interpretation)
-
-Conoscenze matematiche richieste:
-
-- [Appendice C: Sommatorie] (@sec-apx-sums) - per comprendere le proprietà additive
-- [Appendice D: Insiemi] (@sec-apx-sets) - per operazioni su eventi (unione, intersezione, complemento)
-:::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
 
@@ -66,7 +66,8 @@ Ad esempio, prima di osservare l’esito di un test diagnostico, lo spazio campi
 La definizione di $\Omega$ non è quindi univoca: ricercatori diversi, dotati di informazioni diverse o interessati a domande differenti, possono legittimamente costruire spazi campionari diversi per lo stesso fenomeno. La scelta dello spazio campionario richiede inoltre di specificare il livello di dettaglio rilevante per il problema in esame, bilanciando completezza descrittiva e pertinenza analitica.
 
 ::: {.callout-note collapse="true" title="Esempio psicologico"}
-### Spazio campionario per una valutazione clinica {.unnumbered .unlisted}
+
+**Spazio campionario per una valutazione clinica**
 
 Consideriamo la valutazione di un paziente per una possibile depressione. Lo spazio campionario può essere definito a diversi livelli, a seconda delle informazioni disponibili e degli obiettivi clinici:
 
@@ -112,9 +113,8 @@ Le operazioni insiemistiche tradizionali ammettono interpretazioni epistemiche n
 L’*insieme vuoto* $\varnothing$ corrisponde a una proposizione logicamente contraddittoria, necessariamente falsa. Al contrario, lo *spazio campionario* $\Omega$ rappresenta una proposizione logicamente vera, affermando che l’esito osservato appartiene all’insieme delle possibilità epistemiche considerate.
 
 ::: {.callout-note collapse="true" title="Esempio: Eventi in un test psicometrico"}
-### Proposizioni nella Satisfaction with Life Scale (SWLS)
 
-La SWLS produce punteggi compresi tra 5 e 35. Definiamo:
+La *Satisfaction with Life Scale* (SWLS) produce punteggi compresi tra 5 e 35. Definiamo:
 
 - $\Omega = \{5, 6, 7, \ldots, 35\}$ (punteggi possibili);
 - $A =$ “Punteggio ≥ 25” (alta soddisfazione) $= \{25, 26, \ldots, 35\}$;
@@ -130,6 +130,7 @@ Alcune operazioni sugli eventi:
 
 La probabilità $P(A)$ quantifica quanto riteniamo plausibile, in base alle informazioni disponibili (contesto, popolazione di riferimento), che un individuo selezionato presenti un’alta soddisfazione di vita.
 :::
+
 ## Gli assiomi di Kolmogorov come vincoli di coerenza
 
 Nel @sec-prob-interpretation abbiamo visto che gli assiomi di Kolmogorov non vanno interpretati come leggi naturali della casualità, ma come vincoli normativi che un sistema di credenze deve rispettare per evitare incoerenze decisionali, come quelle evidenziate dall’argomento della *scommessa olandese* (*Dutch Book*). In questa sezione formalizziamo tali vincoli e ne esploriamo le principali implicazioni.
@@ -250,7 +251,7 @@ $$
 - Il *limite inferiore* indica che, quando la somma delle probabilità marginali supera 1, i due eventi devono necessariamente sovrapporsi almeno in parte.
 :::
 
-::: {.callout-note collapse="true" title="Esempio clinico: Depressione e Ansia"}
+::: {.callout-note collapse="true" title="Esempio clinico: depressione e ansia"}
 #### Applicazione alla comorbidità psicologica {.unnumbered .unlisted}
 
 Consideriamo una popolazione clinica in cui la probabilità di depressione è
@@ -278,7 +279,7 @@ Questa delimitazione ha implicazioni pratiche immediate: sarebbe logicamente inc
 
 ```{r}
 #| fig-cap: "Regione dei valori ammissibili per P(A ∩ B) in funzione di P(A) e P(B)."
-#| out.width: "80%"
+#| out.width: "100%"
 
 # Creare griglia di valori
 grid <- expand.grid(
@@ -301,7 +302,7 @@ ggplot(grid, aes(x = P_A, y = P_B, fill = ampiezza_lecita)) +
   ) +
   labs(
     title = "Vincoli di Fréchet:\nintervalli ammissibili per P(A ∩ B)",
-    subtitle = "Per ogni coppia (P(A), P(B)), l'area colorata mostra quanti valori di P(A ∩ B) \nsono logicamente possibili",
+    subtitle = "Per ogni coppia (P(A), P(B)), l'area colorata mostra\nquanti valori di P(A ∩ B) sono logicamente possibili",
     x = "P(A)",
     y = "P(B)",
     caption = "Colori più chiari = maggiore libertà nella scelta di P(A ∩ B)"
@@ -333,8 +334,9 @@ Consideriamo due eventi dicotomici $A$ e $B$ (ossia due variabili con due soli e
 
 Le celle interne contengono le quattro probabilità congiunte, cioè i gradi di credenza associati a ciascuna combinazione di esiti. Le probabilità marginali, collocate sui bordi, si ottengono sommando lungo righe e colonne:
 
-- $$P(A) = P(A \cap B) + P(A \cap B^c),$$
-- $$P(B) = P(A \cap B) + P(A^c \cap B).$$
+$$P(A) = P(A \cap B) + P(A \cap B^c),$$
+
+$$P(B) = P(A \cap B) + P(A^c \cap B).$$
 
 La coerenza complessiva della tabella è garantita dal vincolo di normalizzazione: la somma delle quattro probabilità congiunte deve essere pari a 1. Una volta specificata una tabella congiunta coerente, tutte le altre quantità probabilistiche diventano accessibili attraverso operazioni algebriche elementari (somma e rapporto).
 

@@ -60,72 +60,6 @@ I diagrammi di Venn rappresentano gli insiemi come regioni del piano delimitate 
 
 In sostanza, questi diagrammi sono un modo visuale per rappresentare le proprietà degli insiemi e delle operazioni tra di essi. Sono uno strumento molto utile per visualizzare la relazione tra gli insiemi e per capire meglio come si combinano gli elementi all'interno di essi.
 
-## Appartenenza ad un insieme
-
-Usiamo ora R
-
-```{r}
-Set1 <- c(1, 2)
-print(Set1)
-print(class(Set1))
-```
-
-```{r}
-my_list <- c(1, 2, 3, 4)
-my_set_from_list <- unique(my_list)
-print(my_set_from_list)
-```
-
-L'appartenenza ad un insieme si verifica con `%in%`.
-
-```{r}
-my_set <- c(1, 3, 5)
-print("Ecco il mio insieme:")
-print(my_set)
-print("1 appartiene all'insieme:")
-print(1 %in% my_set)
-print("2 non appartiene all'insieme:")
-print(2 %in% my_set)
-print("4 NON appartiene all'insieme:")
-print(!(4 %in% my_set))
-```
-
-## Relazioni tra insiemi
-
-Esaminiamo le funzioni Python per descrivere le relazioni tra insiemi. In particolare, dopo avere definito l'insieme universo e l'insieme vuoto, considereremo la relazione di inclusione che conduce al concetto di sottoinsieme. Analogamente si definisce il concetto di sovrainsieme. Mostreremo anche come valutare se due insiemi sono disgiunti (si dicono disgiunti gli insiemi con intersezione vuota).
-
-```{r}
-Univ <- 0:10
-Super <- Univ[Univ %% 2 == 0]
-Disj <- Univ[Univ %% 2 == 1]
-Sub <- c(4, 6)
-Null <- Univ[Univ > 10]
-```
-
-```{r}
-print("Insieme Universo (tutti gli interi positivi fino a 10):")
-print(Univ)
-print("Tutti gli interi positivi pari fino a 10:")
-print(Super)
-print("Tutti gli interi positivi dispari fino a 10:")
-print(Disj)
-print("Insieme di due elementi, 4 e 6:")
-print(Sub)
-print("Un insieme vuoto:")
-print(Null)
-```
-
-```{r}
-print('È "Super" un sovrainsieme di "Sub"?')
-print(all(Sub %in% Super))
-print('È "Super" un sottoinsieme di "Univ"?')
-print(all(Super %in% Univ))
-print('È "Sub" un sovrainsieme di "Super"?')
-print(all(Super %in% Sub))
-print('Sono "Super" e "Disj" insiemi disgiunti?')
-print(length(intersect(Super, Disj)) == 0)
-```
-
 ## Operazioni tra insiemi
 
 Si definisce *intersezione* di $A$ e $B$ l'insieme $A \cap B$ di tutti gli elementi $x$ che appartengono ad $A$ e contemporaneamente a $B$:
@@ -157,7 +91,7 @@ $$
 e
 
 $$
-S_i \cap S_j, \quad \text{con } i \neq j.
+S_i \cap S_j = \emptyset, \quad \text{con } i \neq j.
 $$
 
 La relazione tra unione, intersezione e insieme complementare è data dalle leggi di DeMorgan:
@@ -178,59 +112,46 @@ I diagrammi di Eulero-Venn che illustrano le leggi di DeMorgan sono forniti nell
 
 ![Leggi di DeMorgan](../../figures/demorgan.png)
 
-Vediamo ora come si eseguono le operazioni tra insiemi con R.
+## Implementazione in R
 
-**Intersezione.** 
+Vediamo ora come implementare in R i concetti fondamentali della teoria degli insiemi. Gli esempi sono volutamente concisi per servire come riferimento rapido.
+
+### Appartenenza e relazioni base
 
 ```{r}
-S1 <- seq(1, 10, by = 3)
-S2 <- 1:6
-S_intersection <- intersect(S1, S2)
-print("Intersezione di S1 e S2:")
-print(S_intersection)
+# Definire insiemi
+my_set <- c(1, 3, 5)
+Super <- c(2, 4, 6, 8)
+Sub <- c(4, 6)
+
+# Verificare appartenenza
+1 %in% my_set        # TRUE
+2 %in% my_set        # FALSE
+
+# Verificare se Sub è sottoinsieme di Super
+all(Sub %in% Super)  # TRUE
 ```
 
-**Unione.** Si noti che il connettivo logico `|` corrisponde all'unione.
+### Operazioni tra insiemi
 
 ```{r}
-S_union <- union(S1, S2)
-print("Unione di S1 e S2:")
-print(S_union)
-```
+S1 <- c(1, 2, 3, 4, 5)
+S2 <- c(4, 5, 6, 7, 8)
 
-**Insieme complementare.**
+# Intersezione
+intersect(S1, S2)           # {4, 5}
 
-```{r}
-S <- seq(0, 20, by = 2)
-S_complement <- setdiff(0:20, S)
-print("S è l'insieme dei numeri interi pari tra 0 e 20:")
-print(S)
-print("S_complement è l'insieme dei numeri interi dispari tra 0 e 20:")
-print(S_complement)
-```
+# Unione
+union(S1, S2)               # {1, 2, 3, 4, 5, 6, 7, 8}
 
-```{r}
-print("È l'unione di S e S_complement uguale a tutti i numeri interi tra 0 e 20?")
-print(setequal(union(S, S_complement), 0:20))
-```
+# Differenza
+setdiff(S1, S2)             # {1, 2, 3}
+setdiff(S2, S1)             # {6, 7, 8}
 
-**Differenza tra insiemi.**
-
-```{r}
-S1 <- seq(0, 30, by = 3)
-S2 <- seq(0, 30, by = 5)
-print("Differenza tra S2 e S1:")
-print(setdiff(S2, S1))
-print("Differenza tra S1 e S2:")
-print(setdiff(S1, S2))
-```
-
-**Differenza simmetrica.** La differenza simmetrica, indicata con il simbolo Δ, è un'operazione insiemistica definita come unione tra la differenza tra il primo e il secondo insieme e la differenza tra il secondo e il primo insieme. In modo equivalente, la differenza simmetrica equivale all'unione tra i due insiemi meno la loro intersezione.
-
-```{r}
-sym_diff <- union(setdiff(S1, S2), setdiff(S2, S1))
-print("Differenza simmetrica:")
-print(sym_diff)
+# Complementare (rispetto a un universo)
+universo <- 1:10
+S <- c(2, 4, 6, 8, 10)
+setdiff(universo, S)        # {1, 3, 5, 7, 9}
 ```
 
 ## Coppie ordinate e prodotto cartesiano
@@ -252,32 +173,32 @@ Più in generale, un prodotto cartesiano di $n$ insiemi può essere rappresentat
 ```{r}
 A <- c("a", "b", "c")
 S <- 1:3
+
+# Prodotto cartesiano
 cartesian_product <- expand.grid(A, S)
-print("Prodotto cartesiano di A e S:")
 print(cartesian_product)
+
+# Cardinalità del prodotto
+nrow(cartesian_product)  # 9 = 3 × 3
 ```
 
 Si definisce *cardinalità* (o potenza) di un insieme finito il numero degli elementi dell'insieme. Viene indicata con $\vert A\vert, \#(A)$ o $\text{c}(A)$.
 
-```{r}
-print("La cardinalità dell'insieme prodotto cartesiano è:")
-print(nrow(cartesian_product))
-```
-
-**Potenza del prodotto cartesiano**
+**Esempio: potenza del prodotto cartesiano**
 
 ```{r}
 A <- c("Head", "Tail")
+
+# A²: prodotto cartesiano di A con se stesso
 p2 <- expand.grid(A, A)
-print("Il quadrato dell'insieme A è un insieme che contiene:")
-print(nrow(p2))
-print(p2)
-```
+nrow(p2)  # 4 = 2²
 
-```{r}
+# A³
 p3 <- expand.grid(A, A, A)
-print("L'insieme A elevato alla terza potenza è costituito da:")
-print(nrow(p3))
-print(p3)
+nrow(p3)  # 8 = 2³
 ```
 
+::: {.callout-note}
+## Collegamento al calcolo delle probabilità
+Gli insiemi e il loro prodotto cartesiano sono fondamentali per definire lo spazio campionario negli esperimenti casuali. Ad esempio, il lancio di due monete ha spazio campionario $\Omega = \{\text{Testa}, \text{Croce}\} \times \{\text{Testa}, \text{Croce}\}$, con cardinalità $|\Omega| = 4$.
+:::

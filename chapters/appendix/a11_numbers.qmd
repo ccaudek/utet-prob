@@ -1,10 +1,15 @@
 # Numeri e intervalli {#sec-apx-numbers}
 
+::: {.callout-note}
+## Perché questa appendice è importante
+La teoria della probabilità richiede diversi tipi di numeri: interi per contare eventi, razionali per esprimere proporzioni, reali per rappresentare misure continue. Comprendere queste distinzioni è fondamentale per interpretare correttamente variabili casuali discrete e continue.
+:::
+
 ## Numeri binari
 
 I numeri binari rappresentano il sistema numerico più elementare utilizzato in informatica, poiché sono composti unicamente da due simboli: 0 e 1. Questa caratteristica li rende particolarmente adatti alla rappresentazione di situazioni dicotomiche (vero/falso, presente/assente) e consente ai computer di operare rapidamente ed efficacemente sui dati.
 
-Un esempio semplice d’impiego dei valori logici binari si ottiene quando raccogliamo risposte a una domanda chiusa. Immaginiamo, ad esempio, di porre la domanda "Ti piacciono i mirtilli?" a 10 studenti. Se le risposte vengono memorizzate in R come valori logici (`TRUE` per "Sì" e `FALSE` per "No"), potremmo avere:
+Un esempio semplice d'impiego dei valori logici binari si ottiene quando raccogliamo risposte a una domanda chiusa. Immaginiamo, ad esempio, di porre la domanda "Ritieni che l'apprendimento della statistica sia utile per la tua formazione?" a 10 studenti di psicologia. Se le risposte vengono memorizzate in R come valori logici (`TRUE` per "Sì" e `FALSE` per "No"), potremmo avere:
 
 ```{r}
 opinion <- c(TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE)
@@ -23,23 +28,25 @@ Questo fornisce immediatamente la percentuale di studenti che hanno risposto "S�
 
 ## Numeri interi
 
-I numeri interi sono caratterizzati dall’assenza di componenti decimali. Essi includono sia i numeri naturali (1, 2, 3, ...), tradizionalmente utilizzati per il conteggio, sia i loro opposti negativi. L’insieme dei numeri naturali è indicato con $\mathbb{N}$, mentre l’insieme dei numeri interi (che include i numeri naturali, i loro negativi e lo zero) si denota con $\mathbb{Z}$:
+I numeri interi sono caratterizzati dall'assenza di componenti decimali. Essi includono sia i numeri naturali (1, 2, 3, ...), tradizionalmente utilizzati per il conteggio, sia i loro opposti negativi. L'insieme dei numeri naturali è indicato con $\mathbb{N}$, mentre l'insieme dei numeri interi (che include i numeri naturali, i loro negativi e lo zero) si denota con $\mathbb{Z}$:
 
 $$
 \mathbb{Z} = \{0, \pm 1, \pm 2, \pm 3, \dots\}
 $$
 
+**Applicazione in psicologia**: I numeri interi sono utilizzati per contare eventi discreti, come il numero di risposte corrette in un test, il numero di partecipanti in uno studio, o il numero di volte che un comportamento si manifesta.
+
 ---
 
 ## Numeri razionali
 
-I numeri razionali sono quei numeri che possono essere espressi come il rapporto tra due numeri interi, con il denominatore diverso da zero. Essi formano l’insieme:
+I numeri razionali sono quei numeri che possono essere espressi come il rapporto tra due numeri interi, con il denominatore diverso da zero. Essi formano l'insieme:
 
 $$
 \mathbb{Q} = \left\{\frac{m}{n} \mid m,n \in \mathbb{Z}, n \neq 0\right\}.
 $$
 
-Poiché ogni numero naturale è anche un intero, e ogni intero può essere rappresentato come razionale (ad esempio $5 = \frac{5}{1}$), si ha una catena d’inclusioni tra i diversi insiemi di numeri:
+Poiché ogni numero naturale è anche un intero, e ogni intero può essere rappresentato come razionale (ad esempio $5 = \frac{5}{1}$), si ha una catena d'inclusioni tra i diversi insiemi di numeri:
 
 $$
 \mathbb{N} \subseteq \mathbb{Z} \subseteq \mathbb{Q}.
@@ -51,6 +58,8 @@ $$
 \mathbb{Q}^+ = \{q \in \mathbb{Q} \mid q \geq 0\}.
 $$
 
+**Applicazione in psicologia**: Le proporzioni e le percentuali (es. 0.75 = 75% di risposte corrette) sono numeri razionali. Anche i punteggi standardizzati come i rapporti sono razionali.
+
 ---
 
 ## Numeri irrazionali
@@ -60,20 +69,27 @@ Non tutti i numeri possono essere espressi come rapporto di due interi. I numeri
 - $\sqrt{2}$
 - $\sqrt{3}$
 - $\pi = 3.141592...$
+- $e = 2.718281...$ (base del logaritmo naturale)
+
+**Nota**: Sebbene i numeri irrazionali possano sembrare astratti, essi compaiono naturalmente nei calcoli statistici. Ad esempio, la costante $e$ appare nella distribuzione normale, mentre $\pi$ compare nella formula della densità gaussiana.
 
 ---
 
 ## Numeri reali
 
-I numeri razionali non coprono tutti i possibili punti sulla retta reale. Per rappresentare ogni possibile misura, grandezza o punto su una linea continua, si considerano i numeri reali, denotati con $\mathbb{R}$. L’insieme dei numeri reali comprende sia i razionali sia gli irrazionali:
+I numeri razionali non coprono tutti i possibili punti sulla retta reale. Per rappresentare ogni possibile misura, grandezza o punto su una linea continua, si considerano i numeri reali, denotati con $\mathbb{R}$. L'insieme dei numeri reali comprende sia i razionali sia gli irrazionali:
 
 $$
 \mathbb{N} \subseteq \mathbb{Z} \subseteq \mathbb{Q} \subseteq \mathbb{R}.
 $$
 
-In statistica, la precisione con cui si esprime una misura è spesso legata al numero di cifre decimali utilizzate, sfruttando così appieno la “continuità” offerta dai numeri reali.
+In statistica, la precisione con cui si esprime una misura è spesso legata al numero di cifre decimali utilizzate, sfruttando così appieno la "continuità" offerta dai numeri reali.
 
-## Intervalli Numerici
+**Applicazione in psicologia**: Variabili continue come il tempo di reazione (in millisecondi), l'intensità di un'emozione misurata su scala continua, o il punteggio in un test psicometrico sono rappresentate come numeri reali.
+
+---
+
+## Intervalli numerici
 
 **Definizione:**
 Un **intervallo numerico** è un sottoinsieme connesso della retta reale. Intuitivamente, rappresenta tutti i numeri reali compresi tra due estremi, che possono o meno essere inclusi nell'intervallo stesso.
@@ -89,12 +105,37 @@ Gli intervalli vengono classificati in base all'inclusione o meno degli estremi:
 
 **Tabella riassuntiva:**
 
-| Intervallo | Notazione | Condizione |
-|---|---|---|
-| Chiuso | $[a, b]$ | $a \leq x \leq b$ |
-| Aperto | $(a, b)$ | $a < x < b$ |
-| Chiuso a sinistra, aperto a destra | $[a, b)$ | $a \leq x < b$ |
-| Aperto a sinistra, chiuso a destra | $(a, b]$ | $a < x \leq b$ |
+| Intervallo | Notazione | Condizione | Esempio |
+|---|---|---|---|
+| Chiuso | $[a, b]$ | $a \leq x \leq b$ | $[0, 1]$ include 0 e 1 |
+| Aperto | $(a, b)$ | $a < x < b$ | $(0, 1)$ esclude 0 e 1 |
+| Chiuso a sinistra, aperto a destra | $[a, b)$ | $a \leq x < b$ | $[0, 1)$ include 0, esclude 1 |
+| Aperto a sinistra, chiuso a destra | $(a, b]$ | $a < x \leq b$ | $(0, 1]$ esclude 0, include 1 |
 
 **Osservazioni:**
 * La scelta della notazione con parentesi quadre o tonde indica rispettivamente l'inclusione o l'esclusione degli estremi.
+* Gli intervalli infiniti sono indicati con i simboli $-\infty$ e $+\infty$. Ad esempio, $[0, +\infty)$ rappresenta tutti i numeri reali non negativi.
+
+::: {.callout-important}
+## Perché gli intervalli sono fondamentali per la probabilità
+
+Gli intervalli sono essenziali per definire e calcolare probabilità con variabili casuali continue:
+
+1. **Supporto delle distribuzioni**: Il supporto di una variabile casuale continua è spesso un intervallo. Ad esempio:
+   - La distribuzione uniforme è definita su $[a, b]$
+   - La distribuzione normale ha supporto $(-\infty, +\infty)$
+   - La distribuzione Beta ha supporto $[0, 1]$
+
+2. **Calcolo di probabilità**: Per una variabile casuale continua $X$, la probabilità che $X$ cada in un intervallo $[a, b]$ è:
+   $$
+   P(a \leq X \leq b) = \int_a^b f(x) \, dx
+   $$
+   dove $f(x)$ è la funzione di densità di probabilità.
+
+3. **Intervalli di credibilità**: Nell'inferenza bayesiana, gli intervalli di credibilità al 95% indicano un intervallo $[L, U]$ tale che:
+   $$
+   P(L \leq \theta \leq U \mid \text{dati}) = 0.95
+   $$
+
+4. **Distinzione cruciale**: Notare che per variabili continue, $P(X = a) = 0$ per qualsiasi valore specifico $a$. Solo gli intervalli hanno probabilità non nulla, da cui l'importanza di questa notazione.
+:::

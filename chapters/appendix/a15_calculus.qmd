@@ -1,7 +1,5 @@
 # Per liberarvi dai terrori preliminari {#sec-apx-calculus}
 
-## Integrali
-
 ```{r}
 #| echo: false
 #| output: false
@@ -14,6 +12,8 @@ apply_visual_theme()
 In questo capitolo, traduciamo e adattiamo il capitolo *Per liberarvi dai terrori preliminari* tratto da [Calculus made easy](https://calculusmadeeasy.org/1.html).
 
 ::: {.callout-important}
+## Superare i terrori preliminari
+
 Il terrore preliminare, che spesso impedisce agli studenti di avvicinarsi all'analisi matematica, può essere superato comprendendo il significato intuitivo dei due simboli principali utilizzati in questo campo.
 
 Questi simboli, che possono sembrare intimidatori, sono in realtà molto semplici:
@@ -25,7 +25,9 @@ Questi simboli, che possono sembrare intimidatori, sono in realtà molto semplic
 Ecco, il terrore è svanito!
 :::
 
-### Verifica con Simulazioni in R
+## Integrali
+
+### Intuizione e verifica con simulazioni in R
 
 Per calcolare e visualizzare l'integrale di una funzione di densità, possiamo utilizzare il linguaggio di programmazione R. Consideriamo come esempio la funzione di densità gaussiana, definita dalla seguente formula:
 
@@ -67,7 +69,9 @@ ggplot(data.frame(x = x_range, fx = fx), aes(x, fx)) +
   )
 ```
 
-Creiamo una funzione per approssimare l'integrale sommando i prodotti $\Delta x \cdot f(x)$:
+### Approssimare l'integrale: il metodo dei rettangoli
+
+L'idea fondamentale è che l'integrale rappresenta l'area sotto la curva. Possiamo approssimarla sommando i prodotti $\Delta x \cdot f(x)$, dove $\Delta x$ è la larghezza di piccoli rettangoli:
 
 ```{r}
 integral_approximation <- function(f, a, b, n) {
@@ -75,7 +79,7 @@ integral_approximation <- function(f, a, b, n) {
   sum(delta * f)
 }
 
-# Calcolo dell'integrale approssimato
+# Calcolo dell'integrale approssimato sull'intero dominio
 approx <- integral_approximation(fx, a, b, n)
 approx
 ```
@@ -90,7 +94,9 @@ integrate(
 )
 ```
 
-Calcoliamo l'area sotto la curva in intervalli di interesse. Ad esempio, per $[-1.96, 1.96]$, che corrisponde al 95% dell'area nella distribuzione normale standard:
+### Esempio applicato: intervallo di confidenza al 95%
+
+Calcoliamo l'area sotto la curva nell'intervallo $[-1.96, 1.96]$, che corrisponde al 95% dell'area nella distribuzione normale standard. Questo è un calcolo fondamentale in statistica per gli intervalli di confidenza.
 
 ```{r}
 a <- -1.96
@@ -98,43 +104,28 @@ b <- 1.96
 x_range <- seq(a, b, length.out = n)
 fx <- gaussian(x_range, mu, sigma)
 
+# Approssimazione
 approx <- integral_approximation(fx, a, b, n)
-approx
-```
+cat("Approssimazione numerica:", approx, "\n")
 
-Confrontiamo con il risultato fornito da `integrate()`:
-
-```{r}
-integrate(
+# Valore esatto
+exact <- integrate(
   function(x) gaussian(x, mu, sigma),
   lower = a,
   upper = b
 )
+cat("Integrale esatto:", exact$value, "\n")
 ```
 
-Verifichiamo l'area sotto la curva per $[-1, 1]$, che rappresenta circa il 68% dell'area totale:
+Come previsto, otteniamo circa 0.95 (95%), confermando che l'integrale calcola correttamente l'area sotto la curva.
 
-```{r}
-a <- -1.0
-b <- 1.0
-x_range <- seq(a, b, length.out = n)
-fx <- gaussian(x_range, mu, sigma)
-
-approx <- integral_approximation(fx, a, b, n)
-approx
-```
-
-Confronto:
-
-```{r}
-integrate(
-  function(x) gaussian(x, mu, sigma),
-  lower = a,
-  upper = b
-)
-```
-
-In sintesi, questo approccio dimostra come calcolare l'integrale di una funzione di densità in un intervallo utilizzando sia un metodo approssimativo basato sulla somma dei rettangoli sia il metodo numerico integrato. In entrambi i casi, l'obiettivo è calcolare l'area sotto la curva, che corrisponde all'integrale della funzione di densità.
+::: {.callout-tip}
+## Collegamento alla probabilità
+In statistica bayesiana, gli integrali sono fondamentali per calcolare:
+- La costante di normalizzazione di una distribuzione di probabilità
+- Distribuzioni marginali (integrando su parametri di disturbo)
+- Valori attesi e varianze di distribuzioni continue
+:::
 
 ## Potenze
 
@@ -292,6 +283,8 @@ Per esempio:
 
 Come si può vedere, i valori assoluti dei logaritmi crescono man mano che il numero originale si avvicina a zero.
 
+### Proprietà fondamentali dei logaritmi
+
 Una delle proprietà più utili dei logaritmi è che consentono di trasformare un prodotto in una somma:
 
 $$
@@ -307,5 +300,16 @@ $$
 $$
 
 Anche questa proprietà è molto utilizzata in matematica, specialmente in situazioni in cui è necessario normalizzare i dati.
+
+::: {.callout-tip}
+## Applicazione alla verosimiglianza bayesiana
+Nell'inferenza bayesiana, si lavora spesso con la **log-verosimiglianza** invece della verosimiglianza:
+
+$$
+\log \mathcal{L}(\theta) = \sum_{i=1}^n \log p(y_i \mid \theta)
+$$
+
+Questo trasforma il prodotto di probabilità in una somma, rendendo i calcoli numericamente stabili e computazionalmente efficienti.
+:::
 
 In sintesi, i logaritmi sono strumenti potenti per semplificare e stabilizzare i calcoli matematici. Essi consentono di lavorare più agevolmente con numeri molto grandi o molto piccoli e di trasformare operazioni complesse come prodotti e divisioni in somme e differenze, rendendo i calcoli più gestibili e meno inclini a errori numerici.

@@ -258,10 +258,11 @@ $$
 Per la linearità del valore atteso e poiché $\mathbb{E}[X]$ e $\mathbb{E}[Y]$ sono costanti:
 
 $$
-= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
-
-* \mathbb{E}[X]\mathbb{E}[Y] + \mathbb{E}[X]\mathbb{E}[Y].
-  $$
+\begin{aligned}
+&= \mathbb{E}[XY] - \mathbb{E}[X\mathbb{E}[Y]] - \mathbb{E}[\mathbb{E}[X]Y] + \mathbb{E}[\mathbb{E}[X]\mathbb{E}[Y]] \\
+&= \mathbb{E}[XY] - \mathbb{E}[Y]\mathbb{E}[X] - \mathbb{E}[X]\mathbb{E}[Y] + \mathbb{E}[X]\mathbb{E}[Y].
+\end{aligned}
+$$
 
 Semplificando:
 
@@ -280,7 +281,7 @@ $$
 
 Mentre la varianza misura quanto riteniamo plausibile che una singola variabile si discosti dal proprio valore atteso, la covarianza misura quanto riteniamo plausibile che le deviazioni di due variabili tendano a muoversi insieme.
 
-### Esempio: calcolo dalla tabella congiunta
+::: {.callout-note collapse="true" title="Esempio: calcolo dalla tabella congiunta"}
 
 Applichiamo ora questi concetti alla tabella congiunta ansia–prestazione introdotta in precedenza. Utilizziamo la seguente codifica numerica: prestazione $X \in {0,1,2}$ (insufficiente, sufficiente, buona) e ansia $Y \in {0,1,2}$ (bassa, media, alta).
 
@@ -353,6 +354,7 @@ cat("         =", round(Cov_XY, 3), "\n")
 ```
 
 Questa covarianza negativa riflette la struttura delle nostre credenze codificate nella distribuzione congiunta. Nella tabella abbiamo assegnato una probabilità maggiore alle configurazioni in cui un’elevata ansia si accompagna a una bassa prestazione (cella in alto a destra) rispetto alle configurazioni in cui un’elevata ansia si accompagna a una buona prestazione (cella in basso a destra). Questo sbilanciamento sistematico verso configurazioni “opposte” genera una covarianza negativa, coerente con l’ipotesi di una relazione inversa tra ansia e prestazione.
+:::
 
 ## Correlazione: covarianza standardizzata
 
@@ -397,7 +399,7 @@ Il coefficiente di correlazione possiede alcune proprietà che ne facilitano l�
    * $\rho = -1$ indica una relazione lineare perfetta negativa, della forma $Y = a + bX$ con $b < 0$;
    * $\rho = 0$ indica l’assenza di relazione *lineare* (incorrelazione), ma non esclude la presenza di dipendenze non lineari.
 
-### Calcolo per l'esempio ansia-prestazione
+::: {.callout-note collapse="true" title="Esempio: ansia e prestazione"}
 
 ```{r}
 # Calcolo delle varianze
@@ -422,6 +424,7 @@ Il valore $\rho(X,Y) \approx -0.26$ indica una relazione lineare negativa di ent
 * la **direzione negativa** conferma che, nelle nostre credenze, livelli elevati di ansia tendono ad associarsi a livelli più bassi di prestazione;
 * l’**intensità moderata** (circa 0.26 in valore assoluto) segnala che la relazione è lontana dall’essere deterministica e che permane una considerevole variabilità non spiegata;
 * la **natura lineare** dell’indice ricorda che stiamo riassumendo esclusivamente la componente lineare della relazione.
+:::
 
 ### Linee guida interpretative
 
@@ -482,30 +485,62 @@ Merita particolare attenzione la proprietà della **varianza della somma**, poic
 
 La formula della varianza della somma trova applicazione diretta nella modellizzazione di costrutti psicologici complessi, che spesso emergono come combinazioni ponderate di più dimensioni correlate.
 
-```{r}
-# Due dimensioni del benessere psicologico
-sigma_emotivo <- 0.4  # Variabilità benessere emotivo
-sigma_sociale <- 0.3  # Variabilità benessere sociale
-rho_psico <- 0.6      # Correlazione tra dimensioni
+::: {.callout-note collapse="true" title="Esempio: misurazione del benessere psicologico"}
 
-# Pesi delle componenti nel costrutto complessivo
+Il benessere psicologico viene spesso concettualizzato come un costrutto multidimensionale. Consideriamo due componenti correlate:
+
+- **Benessere emotivo** (variabilità: $\sigma_e = 0.4$)
+- **Benessere sociale** (variabilità: $\sigma_s = 0.3$)
+
+con correlazione $\rho = 0.6$.
+
+Supponiamo che il punteggio complessivo di benessere sia una combinazione lineare delle due dimensioni, con pesi:
+
+$$
+w_e = 0.6, \quad w_s = 0.4
+$$
+
+La variabilità del benessere complessivo si calcola applicando la formula della varianza di una combinazione lineare:
+
+```{r}
+# Definizione dei parametri
+sigma_emotivo <- 0.4
+sigma_sociale <- 0.3
+rho <- 0.6
+
 w_emotivo <- 0.6
 w_sociale <- 0.4
 
-# Varianza del benessere psicologico complessivo
+# Calcolo della varianza e deviazione standard
 Var_benessere <- w_emotivo^2 * sigma_emotivo^2 + 
                  w_sociale^2 * sigma_sociale^2 + 
-                 2 * w_emotivo * w_sociale * rho_psico * sigma_emotivo * sigma_sociale
+                 2 * w_emotivo * w_sociale * rho * sigma_emotivo * sigma_sociale
 
 sigma_benessere <- sqrt(Var_benessere)
-
-cat("Variabilità benessere emotivo:", sigma_emotivo, "\n")
-cat("Variabilità benessere sociale:", sigma_sociale, "\n")
-cat("Correlazione tra dimensioni:", rho_psico, "\n")
-cat("\nVariabilità benessere complessivo:", round(sigma_benessere, 3), "\n")
 ```
 
-In questo esempio, il benessere psicologico complessivo è modellato come una combinazione di due dimensioni correlate ma concettualmente distinte. La variabilità risultante riflette non solo l’incertezza associata a ciascuna dimensione, ma anche la loro tendenza a co-variare. Poiché la correlazione è positiva, le fluttuazioni del benessere emotivo e di quello sociale tendono a muoversi nella stessa direzione, contribuendo ad amplificare la variabilità del costrutto complessivo.
+```{r}
+#| echo: false
+# Output formattato
+cat("Parametri delle dimensioni:\n")
+cat("- Benessere emotivo:  σ =", sigma_emotivo, "\n")
+cat("- Benessere sociale:  σ =", sigma_sociale, "\n")
+cat("- Correlazione:       ρ =", rho, "\n\n")
+
+cat("Calcolo della varianza:\n")
+cat("  Varianza = (", w_emotivo, "² ×", sigma_emotivo, "²) + \n")
+cat("            + (", w_sociale, "² ×", sigma_sociale, "²) + \n")
+cat("            + 2 ×", w_emotivo, "×", w_sociale, "×", rho, 
+    "×", sigma_emotivo, "×", sigma_sociale, "\n")
+cat("          =", round(Var_benessere, 4), "\n\n")
+
+cat("Deviazione standard del benessere complessivo:\n")
+cat("  σ = √", round(Var_benessere, 4), "=", round(sigma_benessere, 3))
+```
+
+
+Interpretazione: la variabilità del costrutto complessivo implica che fluttuazioni del benessere emotivo tendono ad accompagnarsi a fluttuazioni analoghe in quello sociale, amplificando così la variabilità del punteggio globale.
+:::
 
 ## Incorrelazione e indipendenza
 
@@ -553,7 +588,15 @@ Una delle trappole concettuali più importanti in statistica riguarda la relazio
 
 Questa asimmetria nasce dal fatto che la covarianza (e quindi la correlazione) cattura esclusivamente la *componente lineare* della relazione tra due variabili. Relazioni non lineari possono essere molto intense dal punto di vista sostantivo, pur producendo una covarianza nulla.
 
-### Esempio: relazione quadratica con correlazione zero
+::: {.callout-note collapse="true" title="Esempio: dipendenza non lineare con correlazione nulla"}
+
+La correlazione lineare misura solo la relazione lineare tra due variabili. Tuttavia, due variabili possono essere fortemente dipendenti in modo non lineare e mostrare comunque una correlazione prossima allo zero.
+
+**Scenario**: consideriamo una relazione quadratica perfetta:  
+$$
+Y = X^2 + \epsilon, \quad \epsilon \sim \mathcal{N}(0, 0.3^2)
+$$  
+con $X$ distribuito uniformemente in $[-2, 2]$.
 
 ```{r}
 set.seed(42)
@@ -561,23 +604,52 @@ n <- 1000
 X <- runif(n, -2, 2)
 Y <- X^2 + rnorm(n, 0, 0.3)
 
-cat("Correlazione:", round(cor(X, Y), 3), "\n")
+cat("Coefficiente di correlazione lineare di Pearson:\n")
+cat("  r(X, Y) =", round(cor(X, Y), 3), "\n\n")
 
-# Visualizzazione
+cat("Test di dipendenza non parametrico (Spearman):\n")
+cat("  ρ(X, Y) =", round(cor(X, Y, method = "spearman"), 3))
+```
+
+Diagramma a dispersione:
+
+```{r}
 ggplot(data.frame(X = X, Y = Y), aes(x = X, y = Y)) +
-  geom_point(alpha = 0.5) +
-  scale_fill_qualitative() +
+  geom_point(alpha = 0.4, size = 1.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +
+  stat_function(fun = function(x) x^2, color = "blue", linewidth = 1) +
   labs(
-    title = "Relazione non lineare con correlazione ≈ 0",
-    subtitle = "Le variabili sono fortemente dipendenti ma incorrelate",
+    title = "Relazione quadratica Y = X² + ε",
+    subtitle = "Linea blu: relazione vera | Linea tratteggiata: miglior adattamento lineare",
     x = "X", 
     y = "Y"
   ) 
 ```
 
-Questo esempio illustra un caso paradigmatico. La variabile $Y$ è in larga misura determinata da $X$ (a meno di un rumore casuale), quindi le due variabili sono chiaramente *dipendenti*. Tuttavia, la correlazione risulta prossima a zero perché la relazione è di tipo quadratico e simmetrica rispetto all’origine: le associazioni positive e negative si compensano nel calcolo della covarianza.
+Istogramma della distribuzione congiunta:
 
-La distribuzione congiunta presenta una struttura a forma di parabola che la correlazione, in quanto indice puramente lineare, non è in grado di cogliere.
+```{r}
+ggplot(data.frame(X = X, Y = Y), aes(x = X, y = Y)) +
+  geom_hex(bins = 20) +
+  labs(
+    title = "Densità congiunta",
+    subtitle = "Struttura parabolica evidente",
+    x = "X",
+    y = "Y"
+  ) 
+```
+
+**Interpretazione statistica**:
+
+1. **Correlazione nulla**: il coefficiente di Pearson è $r \approx 0$ perché la relazione quadratica è simmetrica rispetto allo zero:  
+   - Per $X > 0$, $X$ e $Y$ sono positivamente correlate
+   - Per $X < 0$, $X$ e $Y$ sono negativamente correlate  
+   Nel complesso, queste tendenze opposte si compensano, portando a una covarianza netta pari a zero.
+
+2. **Dipendenza non lineare**: nonostante $r \approx 0$, le variabili sono fortemente dipendenti. Il coefficiente di correlazione di Spearman (che misura relazioni monotone) è invece elevato ($ρ \approx 0.97$), rivelando la struttura sottostante.
+
+3. **Implicazione fondamentale**: la correlazione lineare è una misura di associazione *adeguata solo per relazioni lineari*. In presenza di relazioni non lineari, è necessario ricorrere a misure più generali di dipendenza o visualizzare i dati per evitare conclusioni errate.
+:::
 
 ### Implicazioni pratiche
 

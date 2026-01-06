@@ -82,7 +82,7 @@ Per convenzione, si utilizzano lettere maiuscole ($X$, $Y$, $Z$) per indicare le
 
 ::: {.callout-note collapse="true" title="Esempio: lancio di due dadi"}
 
-### La somma come variabile casuale {.unnumbered .unlisted}
+#### La somma come variabile casuale {.unnumbered .unlisted}
 
 Consideriamo il lancio di due dadi equilibrati. Lo spazio campionario è costituito dalle 36 coppie ordinate:
 $$
@@ -177,7 +177,7 @@ $$
 
 ::: {.callout-note collapse="true" title="Esempio: PMF della somma di due dadi"}
 
-### Derivazione completa della distribuzione {.unnumbered .unlisted}
+#### Derivazione completa della distribuzione {.unnumbered .unlisted}
 
 Riprendiamo la variabile casuale $X$ che rappresenta la **somma** dei valori ottenuti nel lancio di due dadi equilibrati. Per costruire la PMF dobbiamo determinare, per ciascun valore possibile $x$, quanti esiti dello spazio campionario producono tale somma.
 
@@ -290,7 +290,7 @@ La prima condizione garantisce che le probabilità associate agli intervalli sia
 
 ::: {.callout-note collapse="true" title="Esempio: tempo di reazione in un intervallo"}
 
-### Probabilità come area sotto la curva {.unnumbered .unlisted}
+#### Probabilità come area sotto la curva {.unnumbered .unlisted}
 
 Consideriamo una variabile casuale continua $T$ che rappresenta il tempo di reazione in un compito sperimentale. Supponiamo che $T$ segua una distribuzione log-normale con parametri $\mu = 5.7$ e $\sigma = 0.3$. Ciò significa che il logaritmo naturale del tempo di reazione, $\ln(T)$, segue una distribuzione normale.
 
@@ -351,7 +351,7 @@ prob_totale <- plnorm(Inf, meanlog = mu, sdlog = sigma)
 cat("Verifica normalizzazione [P(0 < T < ∞)]:", prob_totale, "->", ifelse(prob_totale == 1, "✓ OK", "✗ ERRORE"), "\n")
 ```
 
-**Calcoli aggiuntivi per comprendere la forma della distribuzione:**
+#### Calcoli aggiuntivi per comprendere la forma della distribuzione {.unnumbered .unlisted}
 
 ```{r}
 # Calcolo di altri intervalli probabilistici di interesse
@@ -443,10 +443,11 @@ La monotonia riflette il fatto che, allargando l’intervallo $(-\infty, x]$, la
 Per le **variabili casuali continue**, la funzione di distribuzione cumulativa è continua su tutto il dominio.
 Per le **variabili casuali discrete**, invece, la CDF presenta **discontinuità di prima specie** nei punti corrispondenti ai valori che la variabile può assumere con probabilità positiva.
 
-## Esempio: CDF della somma di due dadi
+::: {.callout-note collapse="true" title="Esempio: CDF della somma di due dadi"}
+
+CDF teorica per la somma di due dadi:
 
 ```{r}
-# CDF teorica per la somma di due dadi
 valori <- 2:12
 prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
 cdf <- cumsum(prob)
@@ -478,6 +479,7 @@ ggplot() +
 ```
 
 Nel grafico, ogni **salto** della funzione corrisponde a un valore possibile della somma dei due dadi. L’altezza del salto in $x$ è pari alla probabilità $P(X = x)$. Tra un valore e il successivo, la funzione resta costante, riflettendo il fatto che non esistono valori intermedi.
+:::
 
 ### Perché la CDF è così importante
 
@@ -488,13 +490,6 @@ La funzione di distribuzione cumulativa svolge un ruolo centrale perché:
 * è l’oggetto di base per simulazione, quantili e intervalli di credibilità.
 
 Nei capitoli successivi, la CDF sarà utilizzata per definire **quantili**, **mediane**, **intervalli di credibilità** e per comprendere come l’incertezza venga propagata nei modelli bayesiani.
-La sezione è corretta e ben collocata; qui conviene fare una **rifinitura concettuale** per:
-
-* collegarla esplicitamente alle *tabelle congiunte* e alla probabilità condizionata viste prima;
-* chiarire che “multivariato” non introduce nuova filosofia, ma **la stessa logica su più dimensioni**;
-* preparare implicitamente il terreno a covarianza, correlazione e modelli con più parametri.
-
-Di seguito trovi una **versione riscritta completa**, pronta da usare, che mantiene tutti i contenuti ma con maggiore chiarezza e continuità epistemica. Uso solo `$...$` e `$$...$$`.
 
 ## Variabili casuali multiple
 
@@ -645,5 +640,3 @@ Nei capitoli successivi studieremo sistematicamente le **distribuzioni di massa 
 sessionInfo()
 ```
 :::
-
-## Bibliografia {.unnumbered .unlisted}

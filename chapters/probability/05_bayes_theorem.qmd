@@ -116,7 +116,7 @@ In questa rappresentazione:
 
 Il teorema di Bayes realizza quindi una vera e propria **rotazione della prospettiva**: dal ragionamento “per righe” (condizionato all’ipotesi) al ragionamento “per colonne” (condizionato all’evidenza), sfruttando la simmetria intrinseca della distribuzione congiunta.
 
-#### Costruzione esplicita di una tabella diagnostica
+::: {.callout-note collapse="true" title="Esempio: costruzione esplicita di una tabella diagnostica"}
 
 Consideriamo un test per la depressione con:
 
@@ -173,6 +173,7 @@ data.frame(
 ```
 
 Questo valore coincide esattamente con quello ottenuto applicando direttamente la formula di Bayes, mostrando che il teorema non introduce alcuna nuova informazione, ma rende esplicita una relazione già contenuta nella distribuzione congiunta.
+:::
 
 ### Forma estesa con partizione dello spazio delle ipotesi
 
@@ -356,7 +357,7 @@ Indicazioni comunemente utilizzate in ambito clinico suggeriscono che:
 * $\text{LR}^+ > 10$ o $\text{LR}^- < 0.1$ producono cambiamenti clinicamente rilevanti della probabilità pre-test;
 * valori compresi tra 1 e 2 (o tra 0.5 e 1) hanno un impatto decisionale trascurabile.
 
-## Esempio: aggiornamento diagnostico tramite odds
+::: {.callout-note collapse="true" title="Esempio: aggiornamento diagnostico tramite odds"}
 
 Consideriamo un test con i seguenti parametri:
 
@@ -366,7 +367,7 @@ sens <- 0.85        # Sensibilità
 spec <- 0.90        # Specificità
 ```
 
-### Calcolo dei rapporti di verosimiglianza
+#### Calcolo dei rapporti di verosimiglianza {.unnumbered .unlisted}
 
 ```{r}
 LR_pos <- sens / (1 - spec)
@@ -378,7 +379,7 @@ Quindi:
 * $\text{LR}^+ \approx 8.5$,
 * $\text{LR}^- \approx 0.17$.
 
-### Conversione in odds
+#### Conversione in odds {.unnumbered .unlisted}
 
 ```{r}
 prior_odds <- prior_prob / (1 - prior_prob)
@@ -386,7 +387,7 @@ prior_odds <- prior_prob / (1 - prior_prob)
 
 La probabilità pre-test del 10% corrisponde a odds pre-test pari a circa 0.11.
 
-### Scenario 1: test positivo
+#### Scenario 1: test positivo {.unnumbered .unlisted}
 
 ```{r}
 post_odds_pos <- prior_odds * LR_pos
@@ -398,7 +399,7 @@ Dopo un risultato positivo:
 * le odds aumentano di un fattore 8.5;
 * la probabilità post-test sale a circa 0.49.
 
-### Scenario 2: test negativo
+#### Scenario 2: test negativo {.unnumbered .unlisted}
 
 ```{r}
 post_odds_neg <- prior_odds * LR_neg
@@ -411,7 +412,7 @@ Dopo un risultato negativo:
 * la probabilità post-test scende a circa 0.02.
 
 
-### Sintesi dell’aggiornamento diagnostico
+#### Sintesi dell’aggiornamento diagnostico {.unnumbered .unlisted}
 
 ```{r}
 risultati_diagnostici <- data.frame(
@@ -424,13 +425,14 @@ risultati_diagnostici <- data.frame(
 )
 ```
 
-### Interpretazione clinica
+#### Interpretazione clinica {.unnumbered .unlisted}
 
 Un rapporto di verosimiglianza positivo pari a 8.5 indica che un risultato positivo è 8.5 volte più probabile in un paziente affetto rispetto a un paziente sano, fornendo un’evidenza diagnostica sostanziale.
 
 Un rapporto di verosimiglianza negativo pari a 0.17 indica invece che un risultato negativo è circa sei volte più probabile in un soggetto sano, rendendo l’assenza della condizione fortemente più credibile dopo un esito negativo.
 
 In questa forma, il teorema di Bayes rende **esplicito e quantitativo** il processo con cui l’evidenza modifica le credenze, mostrando perché il ragionamento diagnostico corretto non consiste nel “guardare la sensibilità”, ma nel **combinare sistematicamente probabilità pre-test ed evidenza osservata**.
+:::
 
 ## Applicazioni 
 
@@ -587,7 +589,7 @@ sens_T2 <- 0.75      # Osservazione in classe
 spec_T2 <- 0.88
 ```
 
-### Procedura di aggiornamento bayesiano sequenziale {.unnumbered .unlisted}
+#### Procedura di aggiornamento bayesiano sequenziale {.unnumbered .unlisted}
 
 **Fase 1: Probabilità iniziale e conversione in odds**
 
@@ -639,7 +641,7 @@ cat("Odds dopo entrambi i test positivi:", round(post_odds_both, 3), "\n")
 cat("Probabilità dopo entrambi i test positivi:", round(post_prob_both*100, 1), "%\n")
 ```
 
-**Visualizzazione dell'aggiornamento sequenziale**
+#### Visualizzazione dell'aggiornamento sequenziale {.unnumbered .unlisted}
 
 ```{r}
 # Preparazione dati per visualizzazione
@@ -675,7 +677,7 @@ ggplot(df_sequential, aes(x = Momento, y = Probabilita)) +
   scale_y_continuous(labels = scales::percent, limits = c(0, ymax)) 
 ```
 
-**Interpretazione del processo cumulativo**
+#### Interpretazione del processo cumulativo {.unnumbered .unlisted}
 
 Il processo illustra come evidenze convergenti da fonti indipendenti accumulino progressivamente il loro potere informativo. La probabilità evolve dal **5%** iniziale al **22%** dopo il primo test e al **64%** dopo il secondo, raggiungendo una soglia clinicamente significativa.
 
@@ -799,7 +801,7 @@ Il risultato illustra il potere dell'integrazione di evidenze multiple. Partendo
 :::
 
 ::: {.callout-note collapse="true" title="Confronto tra approccio bayesiano e frequentista"}
-#### Esempio: Inferenza su moneta sospetta {.unnumbered .unlisted}
+#### Inferenza su moneta sospetta {.unnumbered .unlisted}
 
 **Scenario**: 10 lanci di una moneta producono 8 risultati "testa". Dobbiamo valutare se la moneta sia equa ($\theta = 0.5$) o sbilanciata verso testa ($\theta = 0.7$).
 
