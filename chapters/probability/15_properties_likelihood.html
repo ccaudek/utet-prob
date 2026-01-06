@@ -1062,6 +1062,7 @@ window.Quarto = {
   <li><a href="#il-teorema-del-limite-centrale-e-lapprossimazione-normale" id="toc-il-teorema-del-limite-centrale-e-lapprossimazione-normale" class="nav-link" data-scroll-target="#il-teorema-del-limite-centrale-e-lapprossimazione-normale"><span class="header-section-number">15.5</span> Il Teorema del Limite Centrale e l’approssimazione normale</a></li>
   <li><a href="#combinazione-di-evidenze-da-studi-multipli" id="toc-combinazione-di-evidenze-da-studi-multipli" class="nav-link" data-scroll-target="#combinazione-di-evidenze-da-studi-multipli"><span class="header-section-number">15.6</span> Combinazione di evidenze da studi multipli</a></li>
   <li><a href="#limiti-dellinferenza-precisione-vs.-accuratezza" id="toc-limiti-dellinferenza-precisione-vs.-accuratezza" class="nav-link" data-scroll-target="#limiti-dellinferenza-precisione-vs.-accuratezza"><span class="header-section-number">15.7</span> Limiti dell’inferenza: precisione vs.&nbsp;accuratezza</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/15_properties_likelihood.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1086,6 +1087,37 @@ window.Quarto = {
 <p>Il presente capitolo affronta queste domande fornendo una lettura teorica unificante dei fenomeni osservati. Mostreremo che il comportamento della verosimiglianza non è accidentale, ma riflette regolarità matematiche profonde che governano il comportamento delle statistiche campionarie e il flusso di informazione dai dati ai parametri. In particolare, vedremo perché la verosimiglianza tende a concentrarsi attorno al valore corretto del parametro e perché la sua informatività cresce al crescere del numero di osservazioni disponibili.</p>
 <p>In questa prospettiva, l’aggiornamento bayesiano potrà essere reinterpretato come un processo di integrazione dell’informazione, in cui la verosimiglianza e la distribuzione a priori contribuiscono in modo complementare alla forma finale della distribuzione a posteriori. Questa lettura mette in evidenza come l’evidenza empirica e la conoscenza pregressa non siano in competizione, ma cooperino nella costruzione dell’inferenza.</p>
 <p>Infine, discuteremo il ruolo di due risultati fondamentali della teoria della probabilità, ovvero la <strong>Legge dei Grandi Numeri</strong> e il <strong>Teorema del Limite Centrale</strong>, che aiutano a comprendere il comportamento asintotico dell’inferenza bayesiana. Senza entrare in dimostrazioni formali, useremo questi teoremi per spiegare perché, al crescere dei dati, la distribuzione a posteriori tende a concentrarsi attorno al valore vero del parametro e perché, in molti contesti, essa può essere ben approssimata da una distribuzione gaussiana, indipendentemente dalla forma iniziale del prior.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Consiglio</span>Prerequisiti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
+<ul>
+<li><a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a></li>
+<li><a href="10_dal_dato_ipotesi.html" class="quarto-xref"><span>Capitolo 10</span></a></li>
+<li><a href="12_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a></li>
+<li><a href="13_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 13</span></a></li>
+<li>
+<a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> — <strong>fondamentale</strong>
+</li>
+</ul>
+<p>Questo capitolo completa lo studio della verosimiglianza, introducendo score function, informazione di Fisher, coniugazione e fornendo gli strumenti operativi per l’inferenza bayesiana parametrica.</p>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> - per derivate e integrali della verosimiglianza</li>
+</ul>
+</div>
+</div>
+</div>
 <section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
 <ul>
 <li>Collegamento tra proprietà della media campionaria e forma della verosimiglianza.</li>
@@ -1097,7 +1129,7 @@ window.Quarto = {
 <li>Limiti dell’inferenza: distinzione tra incertezza campionaria e distorsioni sistematiche.</li>
 </ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1106,7 +1138,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1145,7 +1177,7 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 <p><strong>Interpretazione.</strong> Se potessimo ripetere l’esperimento molte volte, la media delle proporzioni osservate coinciderebbe con il valore vero di <span class="math inline">\(\theta\)</span>. In altre parole, <span class="math inline">\(\bar{X}\)</span> non tende sistematicamente a sovrastimare o sottostimare il parametro.</p>
 <p><strong>Conseguenza per la verosimiglianza.</strong> Poiché la funzione di verosimiglianza riflette quanto i dati sono compatibili con ciascun valore di <span class="math inline">\(\theta\)</span>, questa proprietà spiega perché il <strong>picco della verosimiglianza</strong> si trovi in corrispondenza della proporzione osservata <span class="math inline">\(\bar{X}\)</span>. La verosimiglianza è quindi <em>centrata correttamente</em>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Dimostrazione">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1154,7 +1186,7 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
 \mathbb{E}[\bar{X} \mid \theta]
@@ -1177,7 +1209,7 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 <p><strong>Interpretazione.</strong> All’aumentare del numero di osservazioni, la variabilità della media campionaria diminuisce. Ogni nuovo dato contribuisce a “stabilizzare” la stima.</p>
 <p><strong>Conseguenza per la verosimiglianza.</strong> Poiché la verosimiglianza riflette l’incertezza sulla posizione del parametro, questa proprietà spiega perché la funzione di verosimiglianza diventa sempre più <strong>concentrata</strong> al crescere di <span class="math inline">\(n\)</span>. In termini intuitivi, più dati osserviamo, meno valori di <span class="math inline">\(\theta\)</span> restano compatibili con l’evidenza.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Dimostrazione">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1186,7 +1218,7 @@ X_i \mid \theta \sim \text{Bernoulli}(\theta).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
 \text{Var}(\bar{X} \mid \theta)
@@ -1892,8 +1924,183 @@ Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più 
 <p>Il Teorema del Limite Centrale spiega inoltre perché la forma normale emerga così frequentemente nella distribuzione a posteriori per grandi campioni, fornendo il fondamento teorico di molte approssimazioni pratiche utilizzate nell’inferenza statistica.</p>
 <p>È tuttavia essenziale riconoscere i <strong>limiti</strong> intrinseci di questi risultati. Tutte le proprietà discusse riguardano esclusivamente l’incertezza dovuta al campionamento casuale. Esse non possono correggere né compensare distorsioni sistematiche legate al disegno di ricerca, alla selezione del campione o agli strumenti di misura. La precisione statistica, quindi, non deve mai essere confusa con la validità scientifica delle conclusioni.</p>
 <p>Nei capitoli successivi del manuale principale, questi principi teorici verranno utilizzati in modo operativo nella costruzione, stima e interpretazione di modelli bayesiani applicati alla ricerca psicologica. Il ruolo di questo companion è fornire le basi concettuali necessarie per comprendere <em>perché</em> tali modelli funzionano e <em>in quali condizioni</em> le loro inferenze possono essere considerate affidabili.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Score function (funzione punteggio)</strong>
+<ul>
+<li><span class="math inline">\(S(\theta) = \frac{\partial}{\partial\theta}\ell(\theta) = \frac{\partial}{\partial\theta}\log L(\theta)\)</span></li>
+<li>Pendenza della log-verosimiglianza</li>
+<li>
+<span class="math inline">\(S(\hat{\theta}_{\text{MLE}}) = 0\)</span> (condizione del primo ordine per massimo)</li>
+<li>Intuitivamente: “direzione di maggiore crescita della verosimiglianza”</li>
+</ul>
+</li>
+<li>
+<strong>Informazione di Fisher</strong>
+<ul>
+<li><span class="math inline">\(I(\theta) = -\mathbb{E}\left[\frac{\partial^2}{\partial\theta^2}\ell(\theta)\right] = \mathbb{E}[S(\theta)^2]\)</span></li>
+<li>Quantifica “quanta informazione sul parametro fornisce un’osservazione”</li>
+<li>Curvatura della log-verosimiglianza al punto vero</li>
+<li>
+<span class="math inline">\(I_n(\theta) = n \cdot I(\theta)\)</span> per <span class="math inline">\(n\)</span> osservazioni i.i.d. (informazione si accumula!)</li>
+</ul>
+</li>
+<li>
+<strong>Normalità asintotica della MLE</strong>
+<ul>
+<li>Per <span class="math inline">\(n\)</span> grande: <span class="math inline">\(\hat{\theta}_{\text{MLE}} \approx \mathcal{N}\left(\theta_{\text{vero}}, \frac{1}{I_n(\theta)}\right)\)</span>
+</li>
+<li>La verosimiglianza diventa approssimativamente normale attorno alla MLE</li>
+<li>Permette approssimazioni gaussiane della posterior (approssimazione di Laplace)</li>
+</ul>
+</li>
+<li>
+<strong>Prior coniugati</strong>
+<ul>
+<li>Prior e verosimiglianza “coniugati” → posterior della stessa famiglia del prior</li>
+<li>
+<strong>Beta-Binomiale</strong>: <span class="math inline">\(\text{Beta}(\alpha,\beta) + \text{Bin}(n,\theta) \to \text{Beta}(\alpha+k, \beta+n-k)\)</span>
+</li>
+<li>
+<strong>Normale-Normale</strong>: prior Normale + dati Normali → posterior Normale</li>
+<li>
+<strong>Gamma-Poisson</strong>: prior Gamma + dati Poisson → posterior Gamma</li>
+<li>Enormemente semplifica i calcoli (forma chiusa!)</li>
+</ul>
+</li>
+<li>
+<strong>Interpretazione parametri coniugati</strong>
+<ul>
+<li>
+<strong>Beta(<span class="math inline">\(\alpha, \beta\)</span>)</strong>: <span class="math inline">\(\alpha-1\)</span> successi pregressi, <span class="math inline">\(\beta-1\)</span> fallimenti pregressi</li>
+<li>
+<strong>Gamma(<span class="math inline">\(\alpha, \beta\)</span>)</strong>: <span class="math inline">\(\alpha\)</span> eventi osservati in tempo <span class="math inline">\(\beta\)</span>
+</li>
+<li>Parametri prior = “dimensione campionaria equivalente” delle credenze iniziali</li>
+</ul>
+</li>
+<li>
+<strong>Aggiornamento sequenziale</strong>
+<ul>
+<li>Posterior(oggi) diventa prior(domani)</li>
+<li>Con coniugazione: aggiornare parametri sequenzialmente = aggiornare con tutti i dati insieme</li>
+<li>Proprietà di <strong>coerenza temporale</strong>: l’ordine dei dati non conta</li>
+</ul>
+</li>
+<li>
+<strong>Regola della precisione</strong>
+<ul>
+<li>Precisione posteriore = Precisione prior + Precisione likelihood</li>
+<li><span class="math inline">\(\tau_{\text{post}} = \tau_{\text{prior}} + \tau_{\text{data}}\)</span></li>
+<li>Per prior deboli: <span class="math inline">\(\tau_{\text{post}} \approx \tau_{\text{data}}\)</span> (posterior dominata dai dati)</li>
+</ul>
+</li>
+<li>
+<strong>Quando la coniugazione non è disponibile</strong>
+<ul>
+<li>Approssimazioni: normale asintotica, approssimazione di Laplace</li>
+<li>Metodi computazionali: MCMC, variational inference</li>
+<li>Prior non coniugati permettono maggiore flessibilità ma richiedono calcolo numerico</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Score function:</strong> <span class="math display">\[
+S(\theta) = \frac{\partial}{\partial\theta}\log L(\theta), \quad S(\hat{\theta}_{\text{MLE}}) = 0
+\]</span></p>
+<p><strong>Informazione di Fisher:</strong> <span class="math display">\[
+I(\theta) = -\mathbb{E}\left[\frac{\partial^2}{\partial\theta^2}\log L(\theta)\right] = \mathbb{E}[S(\theta)^2]
+\]</span></p>
+<p><strong>Informazione per <span class="math inline">\(n\)</span> osservazioni i.i.d.:</strong> <span class="math display">\[
+I_n(\theta) = n \cdot I(\theta)
+\]</span></p>
+<p><strong>Normalità asintotica MLE:</strong> <span class="math display">\[
+\hat{\theta}_{\text{MLE}} \xrightarrow{d} \mathcal{N}\left(\theta, \frac{1}{I_n(\theta)}\right)
+\]</span></p>
+<p><strong>Aggiornamento Beta-Binomiale:</strong> <span class="math display">\[
+\text{Beta}(\alpha, \beta) \xrightarrow{k/n} \text{Beta}(\alpha+k, \beta+n-k)
+\]</span></p>
+<p><strong>Aggiornamento Normale-Normale (media):</strong> <span class="math display">\[
+\mathcal{N}(\mu_0, \sigma_0^2) \xrightarrow{\bar{x}, n} \mathcal{N}\left(\frac{\tau_0\mu_0 + n\tau\bar{x}}{\tau_0 + n\tau}, \frac{1}{\tau_0 + n\tau}\right)
+\]</span> dove <span class="math inline">\(\tau = 1/\sigma^2\)</span> è la precisione.</p>
+<p><strong>Aggiornamento Gamma-Poisson:</strong> <span class="math display">\[
+\text{Gamma}(\alpha, \beta) \xrightarrow{\sum x_i, n} \text{Gamma}(\alpha + \sum x_i, \beta + n)
+\]</span></p>
+<p><strong>Coppie coniugate principali:</strong></p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th style="text-align: left;">Verosimiglianza</th>
+<th style="text-align: left;">Prior coniugato</th>
+<th style="text-align: left;">Posterior</th>
+<th style="text-align: left;">Parametro</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Binomiale</td>
+<td style="text-align: left;">Beta</td>
+<td style="text-align: left;">Beta</td>
+<td style="text-align: left;">Proporzione <span class="math inline">\(\theta\)</span>
+</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Normale (var nota)</td>
+<td style="text-align: left;">Normale</td>
+<td style="text-align: left;">Normale</td>
+<td style="text-align: left;">Media <span class="math inline">\(\mu\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Normale (media nota)</td>
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">Precisione <span class="math inline">\(\tau\)</span>
+</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Poisson</td>
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">Rate <span class="math inline">\(\lambda\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Esponenziale</td>
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">Rate <span class="math inline">\(\lambda\)</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Proprietà critiche:</strong></p>
+<ul>
+<li>Informazione di Fisher cresce linearmente con <span class="math inline">\(n\)</span>
+</li>
+<li>Coniugazione preserva la famiglia parametrica</li>
+<li>Prior deboli → posterior dominata dai dati</li>
+<li>Prior informativi → sintesi ponderata</li>
+<li>Aggiornamento sequenziale = aggiornamento batch (con coniugazione)</li>
+</ul>
+<p><strong>Conclusione del modulo:</strong></p>
+<p>Questo capitolo conclude il <strong>modulo di richiamo della teoria della probabilità</strong>. Abbiamo costruito un percorso completo: dall’interpretazione bayesiana della probabilità agli assiomi di coerenza, dalle variabili casuali alle distribuzioni parametriche, dalla verosimiglianza all’aggiornamento bayesiano. Questi fondamenti costituiscono la base concettuale e operativa per l’<strong>inferenza bayesiana</strong> presentata nel manuale principale <em>Inferenza bayesiana in psicologia: Ragionare con l’incertezza</em>.</p>
+<p><strong>Per il manuale principale:</strong></p>
+<p>Il manuale UTET approfondisce: modelli gerarchici, confronto di modelli, inferenza decisionale, metodi computazionali (MCMC, HMC, Stan), regressione bayesiana, modelli di mistura, analisi di mediazione e moderazione, e applicazioni psicologiche avanzate.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1902,7 +2109,7 @@ Figura&nbsp;15.7: Precisione e accuratezza nell’inferenza. La situazione più 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>

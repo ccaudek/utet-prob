@@ -1044,6 +1044,7 @@ window.Quarto = {
   <li><a href="#propriet%C3%A0-algebriche-della-varianza" id="toc-proprietà-algebriche-della-varianza" class="nav-link" data-scroll-target="#propriet%C3%A0-algebriche-della-varianza"><span class="header-section-number">8.10</span> Proprietà algebriche della varianza</a></li>
   <li><a href="#deviazione-standard-e-standardizzazione" id="toc-deviazione-standard-e-standardizzazione" class="nav-link" data-scroll-target="#deviazione-standard-e-standardizzazione"><span class="header-section-number">8.11</span> Deviazione standard e standardizzazione</a></li>
   <li><a href="#standardizzazione" id="toc-standardizzazione" class="nav-link" data-scroll-target="#standardizzazione"><span class="header-section-number">8.12</span> Standardizzazione</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/08_expval_var.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1088,10 +1089,26 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Aver letto i capitoli <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a>, <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> e <span class="quarto-unresolved-ref">?sec-bayes-theorem</span>.</li>
-<li>Leggere l’appendice <a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> per i concetti base di calcolo integrale.</li>
-<li>Familiarità con R e le operazioni vettoriali di base.</li>
+<li>
+<a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> — <strong>fondamentale</strong>
+</li>
+<li>
+<a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a> — <strong>fondamentale</strong>
+</li>
+</ul>
+<p>Questo capitolo introduce gli strumenti di sintesi numerica (valore atteso e varianza) per caratterizzare le distribuzioni di probabilità studiate nei capitoli precedenti.</p>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a12_sum_notation.html" class="quarto-xref"><span>Appendice C</span></a> - per calcolo del valore atteso discreto</li>
+<li>
+<a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> - per calcolo del valore atteso continuo</li>
+</ul>
+<p>Competenze pratiche:</p>
+<ul>
+<li>Familiarità con R e operazioni vettoriali per verificare le proprietà attraverso simulazioni</li>
 </ul>
 </div>
 </div>
@@ -1694,8 +1711,135 @@ P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}.
 <p>Le proprietà algebriche di queste quantità ne spiegano la centralità operativa. La <strong>linearità del valore atteso</strong> consente di calcolare in modo semplice le medie di trasformazioni e somme di variabili casuali, mentre il comportamento della <strong>varianza</strong> mette in evidenza il ruolo cruciale dell’indipendenza: solo in assenza di dipendenza la dispersione di una somma è la somma delle dispersioni. In particolare, il risultato secondo cui la varianza della media campionaria decresce come <span class="math inline">\(1/n\)</span> fornisce il fondamento matematico della precisione statistica e chiarisce perché l’accumulo di osservazioni rende le stime progressivamente più affidabili.</p>
 <p>Questi concetti non sono soltanto strumenti descrittivi, ma assumono un significato pienamente <strong>inferenziale</strong> nel quadro bayesiano. Nei capitoli successivi, dedicati allo studio di famiglie parametriche di distribuzioni (Beta, Normale, Poisson e Binomiale) e alla costruzione dell’apparato formale dell’inferenza bayesiana, il valore atteso della distribuzione <em>a posteriori</em> fungerà da <strong>stima puntuale razionale</strong> del parametro di interesse, mentre la varianza <em>a posteriori</em> fornirà una misura quantitativa dell’incertezza residua dopo l’osservazione dei dati.</p>
 <p>In questo senso, valore atteso e varianza rappresentano il punto di incontro tra probabilità, decisione e apprendimento: sintetizzano ciò che sappiamo, guidano le previsioni ottimali e rendono misurabile quanto resta ancora incerto.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Valore atteso come centro di gravità probabilistico</strong>
+<ul>
+<li>Media ponderata dei valori possibili, con pesi dati dalle probabilità (o densità)</li>
+<li>Rappresenta l’aspettativa razionale alla luce dello stato informativo corrente</li>
+<li>Non deve necessariamente coincidere con un valore osservabile (es. <span class="math inline">\(\mathbb{E}[X] = 3.5\)</span> per un dado)</li>
+<li>Legge dei grandi numeri: la media campionaria converge al valore atteso</li>
+</ul>
+</li>
+<li>
+<strong>Linearità del valore atteso (proprietà cruciale)</strong>
+<ul>
+<li>
+<span class="math inline">\(\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]\)</span> <strong>sempre</strong> (anche se <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> sono dipendenti!)</li>
+<li>
+<span class="math inline">\(\mathbb{E}[aX + b] = a\mathbb{E}[X] + b\)</span> per costanti <span class="math inline">\(a, b\)</span>
+</li>
+<li>Semplifica enormemente i calcoli: non serve conoscere la distribuzione congiunta</li>
+</ul>
+</li>
+<li>
+<strong>Varianza come misura della dispersione</strong>
+<ul>
+<li>
+<span class="math inline">\(\text{Var}(X) = \mathbb{E}[(X - \mu)^2]\)</span> quantifica quanto i valori si discostano dalla media</li>
+<li>Interpretazione: “distanza quadratica media” dal centro</li>
+<li>Formula computazionale alternativa: <span class="math inline">\(\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Proprietà della varianza</strong>
+<ul>
+<li>
+<span class="math inline">\(\text{Var}(aX + b) = a^2 \text{Var}(X)\)</span> (traslazioni non cambiano dispersione; scale sì)</li>
+<li>
+<span class="math inline">\(\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)\)</span> <strong>solo se</strong> <span class="math inline">\(X \perp Y\)</span> (dipendenza cambia tutto!)</li>
+<li>Varianza della media campionaria: <span class="math inline">\(\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n}\)</span> (fondamento della precisione statistica)</li>
+</ul>
+</li>
+<li>
+<strong>Deviazione standard e standardizzazione</strong>
+<ul>
+<li>
+<span class="math inline">\(\sigma = \sqrt{\text{Var}(X)}\)</span> riporta la dispersione nelle unità originali dei dati</li>
+<li>Rappresenta una “distanza tipica” dalla media</li>
+<li>Standardizzazione: <span class="math inline">\(Z = \frac{X - \mu}{\sigma}\)</span> crea variabile con <span class="math inline">\(\mathbb{E}[Z] = 0\)</span> e <span class="math inline">\(\text{Var}(Z) = 1\)</span>
+</li>
+<li>Permette confronti tra scale diverse (es. confronto tra test psicometrici)</li>
+</ul>
+</li>
+<li>
+<strong>Teorema di Chebyshev</strong>
+<ul>
+<li>Garanzia universale: <span class="math inline">\(P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}\)</span> per <strong>qualsiasi</strong> distribuzione</li>
+<li>Almeno 75% entro <span class="math inline">\(\pm 2\sigma\)</span>, almeno 89% entro <span class="math inline">\(\pm 3\sigma\)</span>
+</li>
+<li>Limiti conservativi ma non richiedono assunzioni sulla forma della distribuzione</li>
+</ul>
+</li>
+<li>
+<strong>Momenti di una distribuzione</strong>
+<ul>
+<li>Momento di ordine <span class="math inline">\(r\)</span>: <span class="math inline">\(\mathbb{E}[X^r]\)</span> descrive aspetti della forma</li>
+<li>Valore atteso = momento di ordine 1</li>
+<li>Varianza = momento centrale di ordine 2</li>
+<li>Momenti superiori: skewness (asimmetria), kurtosis (code pesanti)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Valore atteso:</strong> <span class="math display">\[
+\mathbb{E}[X] = \begin{cases}
+\sum_x x \cdot p_X(x) &amp; \text{(discreta)} \\
+\int_{-\infty}^{+\infty} x \cdot f_X(x) \, dx &amp; \text{(continua)}
+\end{cases}
+\]</span></p>
+<p><strong>Linearità del valore atteso:</strong> <span class="math display">\[
+\mathbb{E}[aX + bY + c] = a\mathbb{E}[X] + b\mathbb{E}[Y] + c
+\]</span></p>
+<p><strong>Varianza (definizione e formula computazionale):</strong> <span class="math display">\[
+\text{Var}(X) = \mathbb{E}[(X - \mu)^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2
+\]</span></p>
+<p><strong>Proprietà della varianza:</strong> <span class="math display">\[
+\text{Var}(aX + b) = a^2 \text{Var}(X)
+\]</span></p>
+<p><span class="math display">\[
+\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)
+\]</span></p>
+<p><span class="math display">\[
+\text{Se } X \perp Y: \quad \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)
+\]</span></p>
+<p><strong>Varianza della media campionaria:</strong> <span class="math display">\[
+\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n} \quad \Rightarrow \quad \text{SD}(\bar{X}_n) = \frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p><strong>Standardizzazione:</strong> <span class="math display">\[
+Z = \frac{X - \mu}{\sigma} \quad \Rightarrow \quad \mathbb{E}[Z] = 0, \; \text{Var}(Z) = 1
+\]</span></p>
+<p><strong>Teorema di Chebyshev:</strong> <span class="math display">\[
+P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}
+\]</span></p>
+<p><strong>Proprietà critiche da ricordare:</strong></p>
+<ul>
+<li>
+<strong>Linearità del valore atteso vale SEMPRE</strong> (anche con dipendenza!)</li>
+<li><strong>Additività della varianza richiede INDIPENDENZA</strong></li>
+<li>Valore atteso può non essere un valore osservabile</li>
+<li>Varianza ha unità al quadrato; deviazione standard ha unità originali</li>
+<li>La varianza della media decresce con <span class="math inline">\(n\)</span> (più dati → meno incertezza)</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="09_cov_cor.html" class="quarto-xref"><span>Capitolo 9</span></a> studieremo come quantificare la <strong>dipendenza stocastica</strong> tra due variabili attraverso covarianza e correlazione. Vedremo come la covarianza generalizzi la varianza al caso bivariato e come la correlazione fornisca una misura adimensionale della forza dell’associazione lineare, preparando il terreno per modelli di regressione e analisi multivariata nell’inferenza bayesiana.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1704,7 +1848,7 @@ P(|X - \mu| &lt; k\sigma) \geq 1 - \frac{1}{k^2}.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>

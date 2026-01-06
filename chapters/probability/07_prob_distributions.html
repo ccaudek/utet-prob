@@ -1062,6 +1062,7 @@ window.Quarto = {
   <li><a href="#il-paradosso-della-probabilit%C3%A0-nulla" id="toc-il-paradosso-della-probabilità-nulla" class="nav-link" data-scroll-target="#il-paradosso-della-probabilit%C3%A0-nulla"><span class="header-section-number">7.5</span> Il paradosso della probabilità nulla</a></li>
   <li><a href="#la-funzione-di-distribuzione-cumulativa" id="toc-la-funzione-di-distribuzione-cumulativa" class="nav-link" data-scroll-target="#la-funzione-di-distribuzione-cumulativa"><span class="header-section-number">7.6</span> La funzione di distribuzione cumulativa</a></li>
   <li><a href="#interpretazioni-bayesiana-e-frequentista" id="toc-interpretazioni-bayesiana-e-frequentista" class="nav-link" data-scroll-target="#interpretazioni-bayesiana-e-frequentista"><span class="header-section-number">7.7</span> Interpretazioni bayesiana e frequentista</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/07_prob_distributions.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1084,14 +1085,6 @@ window.Quarto = {
 <p>Nel capitolo precedente (<a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a>) abbiamo introdotto le <strong>variabili casuali</strong> come funzioni che associano valori numerici agli esiti di un esperimento aleatorio. Abbiamo distinto tra variabili casuali <strong>discrete</strong>, che assumono un insieme finito o numerabile di valori, e variabili casuali <strong>continue</strong>, che possono assumere qualsiasi valore all’interno di un intervallo. Per ciascun caso, abbiamo definito formalmente la <em>funzione di massa di probabilità</em> (PMF) e la <em>funzione di densità di probabilità</em> (PDF) come strumenti fondamentali per descrivere l’incertezza sui valori assunti dalla variabile.</p>
 <p>Questo capitolo ha lo scopo di approfondire la <strong>comprensione intuitiva, geometrica e operativa</strong> di tali concetti. Vedremo come la PMF assegni “pesi” discreti a singoli valori, mentre la PDF distribuisca la probabilità in modo continuo lungo la retta reale, rendendo necessario l’uso dell’integrazione per calcolare la probabilità associata a intervalli di valori. In questo contesto affronteremo anche il noto “paradosso” secondo cui, per una variabile casuale continua, la probabilità di osservare un valore esatto è sempre pari a zero, mostrando come questa proprietà non sia affatto paradossale, ma una conseguenza naturale della struttura matematica del continuo.</p>
 <p>Un aspetto centrale della trattazione riguarda inoltre la <strong>distinzione interpretativa</strong> tra l’approccio frequentista e quello bayesiano alle distribuzioni di probabilità. Nel paradigma frequentista, la funzione di densità descrive il comportamento dei dati in ipotetiche ripetizioni dell’esperimento. Nell’approccio bayesiano, invece, la PDF rappresenta il <strong>grado di credenza</strong> assegnato ai possibili valori di una quantità incerta, come un parametro o una grandezza latente. Questa differenza concettuale, apparentemente sottile, ha implicazioni profonde per il modo in cui interpretiamo le distribuzioni, calcoliamo le probabilità e traiamo conclusioni inferenziali.</p>
-<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
-<ul>
-<li>Distinzione operativa tra massa di probabilità e densità di probabilità.</li>
-<li>Dagli istogrammi alle funzioni di densità: il limite continuo.</li>
-<li>Il “paradosso” della probabilità zero per valori esatti.</li>
-<li>La funzione di distribuzione cumulativa come rappresentazione unificata.</li>
-<li>Interpretazioni bayesiana e frequentista delle distribuzioni.</li>
-</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1104,14 +1097,35 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Aver letto il <a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> sulle variabili casuali.</li>
-<li>Familiarità con il concetto di integrale come area sotto una curva.</li>
-<li>Leggere il capitolo <em>Random variables and their distributions</em> di <span class="citation" data-cites="blitzstein2019introduction">Blitzstein &amp; Hwang (<a href="#ref-blitzstein2019introduction" role="doc-biblioref">2019</a>)</span>.</li>
+<li>
+<a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> — <strong>fondamentale</strong>
+</li>
+</ul>
+<p>Questo capitolo approfondisce i concetti di PMF e PDF introdotti nel Capitolo 6, fornendo una comprensione intuitiva, geometrica e operativa.</p>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> - per comprendere l’integrale come area sotto una curva</li>
+<li>Familiarità con il concetto di limite per capire il passaggio da istogrammi a densità continue</li>
+</ul>
+<p>Letture complementari consigliate:</p>
+<ul>
+<li>Blitzstein, J. K., &amp; Hwang, J. (2019). <em>Introduction to Probability</em> (2nd ed.), capitolo “Random variables and their distributions” <span class="citation" data-cites="blitzstein2019introduction">(<a href="#ref-blitzstein2019introduction" role="doc-biblioref">Blitzstein &amp; Hwang, 2019</a>)</span>
+</li>
 </ul>
 </div>
 </div>
 </div>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Distinzione operativa tra massa di probabilità e densità di probabilità.</li>
+<li>Dagli istogrammi alle funzioni di densità: il limite continuo.</li>
+<li>Il “paradosso” della probabilità zero per valori esatti.</li>
+<li>La funzione di distribuzione cumulativa come rappresentazione unificata.</li>
+<li>Interpretazioni bayesiana e frequentista delle distribuzioni.</li>
+</ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1541,8 +1555,128 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 <li>rende esplicita la scelta bayesiana senza contrapposizioni polemiche.</li>
 </ul>
 <p>Fornisce una base per passare, nel capitolo successivo, allo studio sistematico delle <strong>distribuzioni parametriche</strong> (Normale, Beta, Binomiale, Poisson) come <em>modelli di credenza</em> e <em>modelli generativi</em>.</p>
+</section></section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Massa vs densità: due modi profondamente diversi di distribuire probabilità</strong>
+<ul>
+<li>
+<strong>Massa (PMF)</strong>: probabilità concentrata in punti discreti, come “pesi” su una bilancia</li>
+<li>
+<strong>Densità (PDF)</strong>: probabilità distribuita su un continuum, come massa in un fluido</li>
+<li>La distinzione non è solo tecnica ma riflette strutture matematiche diverse (somme vs integrali)</li>
+</ul>
+</li>
+<li>
+<strong>La PMF assegna probabilità dirette a valori specifici</strong>
+<ul>
+<li>
+<span class="math inline">\(p_X(x) = P(X = x)\)</span> è la probabilità <em>del</em> punto <span class="math inline">\(x\)</span>
+</li>
+<li>Diagramma a barre: l’altezza rappresenta direttamente la probabilità</li>
+<li>Somma delle probabilità: <span class="math inline">\(\sum_x p_X(x) = 1\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>La PDF misura concentrazione locale, non probabilità diretta</strong>
+<ul>
+<li>
+<span class="math inline">\(f_X(x)\)</span> indica “quanta probabilità c’è per unità di lunghezza” attorno a <span class="math inline">\(x\)</span>
+</li>
+<li>
+<span class="math inline">\(f_X(x)\)</span> può essere maggiore di 1 (non è una probabilità!)</li>
+<li>Probabilità tramite integrazione: <span class="math inline">\(P(a \leq X \leq b) = \int_a^b f_X(x) \, dx\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Il “paradosso” P(X = x) = 0 per variabili continue</strong>
+<ul>
+<li>Non è un paradosso: un singolo punto ha “misura zero” nel continuo</li>
+<li>Come la “massa di un punto” in un filo: zero, ma il punto esiste</li>
+<li>Differenza cruciale: probabilità zero ≠ impossibilità logica</li>
+<li>Solo intervalli (anche infinitesimi) hanno probabilità positiva</li>
+</ul>
+</li>
+<li>
+<strong>Dagli istogrammi alle densità: il limite continuo</strong>
+<ul>
+<li>All’aumentare di <span class="math inline">\(n\)</span> e al diminuire della larghezza dei bin, gli istogrammi convergono alla PDF</li>
+<li>La PDF è il limite ideale quando bin → 0 e <span class="math inline">\(n\)</span> → ∞</li>
+<li>Illustra visivamente come la densità emerga naturalmente dai dati</li>
+</ul>
+</li>
+<li>
+<strong>CDF come rappresentazione unificata</strong>
+<ul>
+<li>
+<span class="math inline">\(F_X(x) = P(X \leq x)\)</span> vale sia per discrete che per continue</li>
+<li>Discrete: funzione a gradini con salti in corrispondenza dei valori possibili</li>
+<li>Continue: funzione liscia e crescente</li>
+<li>Proprietà universali: monotona non decrescente, <span class="math inline">\(F(-\infty) = 0\)</span>, <span class="math inline">\(F(+\infty) = 1\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Interpretazioni bayesiana vs frequentista delle distribuzioni</strong>
+<ul>
+<li>
+<strong>Frequentista</strong>: la PDF descrive il comportamento dei dati in ripetizioni ipotetiche</li>
+<li>
+<strong>Bayesiano</strong>: la PDF rappresenta il grado di credenza sui possibili valori (anche parametri!)</li>
+<li>Stessa forma matematica, interpretazione epistemica profondamente diversa</li>
+<li>Per il bayesiano, distribuzioni di parametri sono naturali; per il frequentista no</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>PMF (discrete):</strong> <span class="math display">\[
+p_X(x) = P(X = x), \quad \sum_{x} p_X(x) = 1
+\]</span></p>
+<p><strong>PDF (continue):</strong> <span class="math display">\[
+P(a \leq X \leq b) = \int_a^b f_X(x) \, dx, \quad \int_{-\infty}^{+\infty} f_X(x) \, dx = 1
+\]</span></p>
+<p><strong>CDF (universale):</strong> <span class="math display">\[
+F_X(x) = P(X \leq x) = \begin{cases}
+\sum_{x_i \leq x} p_X(x_i) &amp; \text{(discreta)} \\
+\int_{-\infty}^x f_X(t) \, dt &amp; \text{(continua)}
+\end{cases}
+\]</span></p>
+<p><strong>Relazione PDF-CDF per variabili continue:</strong> <span class="math display">\[
+f_X(x) = \frac{d}{dx} F_X(x) \quad \text{(la densità è la derivata della CDF)}
+\]</span></p>
+<p><strong>Calcolo di probabilità da CDF:</strong> <span class="math display">\[
+P(a \leq X \leq b) = F_X(b) - F_X(a)
+\]</span></p>
+<p><strong>Proprietà chiave:</strong></p>
+<ul>
+<li>
+<strong>Discrete</strong>: <span class="math inline">\(P(X = x) = p_X(x) &gt; 0\)</span> è possibile</li>
+<li>
+<strong>Continue</strong>: <span class="math inline">\(P(X = x) = 0\)</span> sempre (ma <span class="math inline">\(f_X(x)\)</span> può essere &gt; 0)</li>
+<li>
+<strong>PDF può essere &gt; 1</strong>: non è una probabilità ma una densità!</li>
+<li>
+<strong>CDF sempre ∈ [0,1]</strong>: rappresenta una probabilità cumulativa</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a> le <strong>proprietà delle variabili casuali</strong>: valore atteso (centro di gravità probabilistico), varianza (dispersione), e le loro proprietà algebriche. Questi strumenti di sintesi ci permetteranno di caratterizzare distribuzioni complesse con pochi numeri e di propagare l’incertezza attraverso trasformazioni matematiche, preparando il terreno per l’inferenza bayesiana parametrica.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled" title="Esercizi">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1551,7 +1685,7 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <section id="esercizi-concettuali" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="esercizi-concettuali">Esercizi concettuali</h3>
 <ol type="1">
@@ -1655,7 +1789,7 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Soluzioni">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1664,7 +1798,7 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <section id="soluzioni-esercizi-concettuali" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="soluzioni-esercizi-concettuali">Soluzioni esercizi concettuali</h3>
 <ol type="1">
@@ -1753,7 +1887,7 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1762,7 +1896,7 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1825,7 +1959,7 @@ Figura&nbsp;7.2: Confronto tra interpretazioni frequentista e bayesiana. A sinis
 </div>
 </div>
 </div>
-</section></section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
+</section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">

@@ -1062,6 +1062,7 @@ window.Quarto = {
   <li><a href="#distribuzione-t-di-student" id="toc-distribuzione-t-di-student" class="nav-link" data-scroll-target="#distribuzione-t-di-student"><span class="header-section-number">13.5</span> Distribuzione <span class="math inline">\(t\)</span> di Student</a></li>
   <li><a href="#distribuzione-di-cauchy" id="toc-distribuzione-di-cauchy" class="nav-link" data-scroll-target="#distribuzione-di-cauchy"><span class="header-section-number">13.6</span> Distribuzione di Cauchy</a></li>
   <li><a href="#distribuzione-beta" id="toc-distribuzione-beta" class="nav-link" data-scroll-target="#distribuzione-beta"><span class="header-section-number">13.7</span> Distribuzione beta</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   <li><a href="#bibliografia" id="toc-bibliografia" class="nav-link" data-scroll-target="#bibliografia">Bibliografia</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/13_cont_rv_distr.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
@@ -1081,49 +1082,50 @@ window.Quarto = {
   
 
 
-</header><div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Consiglio</span>Prerequisiti
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>
-<a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a>: introduzione alle distribuzioni di probabilità.</li>
-<li>
-<a href="12_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a>: distribuzioni discrete.</li>
-</ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># Riapplica il tema per sicurezza</span></span>
-<span><span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
 <p>Nel <a href="12_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a> abbiamo esplorato le distribuzioni discrete come strumenti per rappresentare credenze su fenomeni con esiti numerabili. In questo capitolo estendiamo il framework alle <em>distribuzioni continue</em>, che permettono di esprimere credenze su quantità che variano su scale numeriche continue, come tempi, distanze, proporzioni, tassi e punteggi psicometrici. In questo contesto, la probabilità non viene assegnata a valori singoli, ma a intervalli tramite funzioni di densità.</p>
 <p>Le distribuzioni continue svolgono un ruolo complementare a quello delle distribuzioni discrete nel framework bayesiano. Come <strong>modelli di verosimiglianza per dati continui</strong>, diverse famiglie di distribuzioni catturano differenti processi generativi: la normale per le misurazioni affette da errori simmetrici, l’esponenziale per i tempi di attesa e la gamma per le variabili positive asimmetriche. Le stesse o altre distribuzioni sono inoltre utilizzate per esprimere e aggiornare le nostre credenze come <strong>prior e posterior su parametri continui</strong>, ad esempio la beta per probabilità <span class="math inline">\(p \in (0,1)\)</span>, la gamma per tassi <span class="math inline">\(\lambda &gt; 0\)</span>, la normale per le medie <span class="math inline">\(\mu \in \mathbb{R}\)</span>, e la Cauchy e la <span class="math inline">\(t\)</span> di Student come prior robusti a code pesanti.</p>
 <p>Una caratteristica elegante dell’inferenza bayesiana è la <strong>dualità discreta–continua</strong> espressa dalle famiglie coniugate: la distribuzione binomiale si accompagna naturalmente alla beta e la Poisson alla gamma. Questa simmetria, introdotta nel capitolo precedente, viene qui approfondita attraverso l’esplorazione delle distribuzioni continue che fungono da prior naturali per i parametri dei modelli discreti.</p>
 <section id="struttura-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="struttura-del-capitolo">Struttura del capitolo</h3>
 <p>L’esplorazione seguirà una progressione che partirà da distribuzioni concettualmente semplici per arrivare a quelle con ruoli più specifici nell’inferenza bayesiana. Inizieremo con la distribuzione <strong>uniforme</strong>, che rappresenta una forma di ignoranza locale su un intervallo finito. Passeremo poi alla distribuzione <strong>esponenziale</strong>, fondamentale per modellare tempi di attesa, e alla distribuzione <strong>normale</strong>, centrale per il Teorema del Limite Centrale. Esamineremo poi la distribuzione <strong>chi-quadrato</strong> e la distribuzione <strong><span class="math inline">\(t\)</span> di Student</strong>, che derivano dalla distribuzione normale e trovano applicazione nell’inferenza e nella modellazione robusta. Concluderemo con le distribuzioni di maggiore rilevanza bayesiana: la <strong>beta</strong> come prior per le proporzioni, la <strong>gamma</strong> come prior per i tassi e le varianze e la <strong>Cauchy</strong> come prior robusto a code pesanti.</p>
 <p>Per ciascuna di queste distribuzioni, presenteremo la definizione matematica, l’interpretazione epistemica dei parametri, il ruolo nell’inferenza bayesiana e le applicazioni pratiche in R.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Consiglio</span>Prerequisiti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
+<ul>
+<li><a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a></li>
+<li>
+<a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a> — <strong>fondamentale</strong> per PDF</li>
+<li><a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a></li>
+<li><a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a></li>
+</ul>
+<p>Questo capitolo studia in dettaglio le <strong>distribuzioni continue</strong> (Beta, Normale, Gamma, Esponenziale) essenziali per modellare parametri continui e costruire prior informativi.</p>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> — <strong>fondamentale</strong> per calcolare probabilità tramite integrazione</li>
+</ul>
+</div>
+</div>
+</div>
+<p>::: {.callout-cautioncollapse=“true” title=“Preparazione del Notebook”}</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Riapplica il tema per sicurezza</span></span>
+<span><span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>:::</p>
 </section></section><section id="distribuzione-uniforme-continua" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="distribuzione-uniforme-continua">
 <span class="header-section-number">13.1</span> Distribuzione uniforme continua</h2>
 <section id="definizione-e-interpretazione-epistemica" class="level3" data-number="13.1.1"><h3 data-number="13.1.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica">
@@ -1547,7 +1549,8 @@ f(x) = \frac{1}{\pi\beta\left[1 + \left(\frac{x-\alpha}{\beta}\right)^2\right]}.
 <p>La beta è la <strong>prior coniugata</strong> per il parametro <span class="math inline">\(p\)</span> della distribuzione binomiale:</p>
 <p><span class="math display">\[
 \text{Prior: } p \sim \text{Beta}(\alpha, \beta), \quad \text{Dati: } k \text{ successi su } n \text{ prove}.
-\]</span> <span class="math display">\[
+\]</span></p>
+<p><span class="math display">\[
 \text{Posterior: } p \mid k \sim \text{Beta}(\alpha + k, \beta + n - k).
 \]</span> Questa proprietà rende l’aggiornamento bayesiano analiticamente trattabile: i parametri della distribuzione a posteriori si ottengono semplicemente sommando i conteggi osservati agli pseudo-conteggi della distribuzione a priori.</p>
 <p>La media della distribuzione a posteriori può essere interpretata come una media ponderata tra la proporzione implicita nella prior e la proporzione osservata nei dati, con pesi determinati rispettivamente dalla forza della prior e dalla dimensione del campione osservato. In questo senso, l’aggiornamento bayesiano realizza un compromesso quantitativo tra credenze iniziali ed evidenza empirica.</p>
@@ -1923,7 +1926,141 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 <li>Gamma ↔︎ Poisson<br>
 </li>
 <li>Normale ↔︎ Normale (su μ)</li>
+</ul></section></section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Distribuzione Beta</strong>
+<ul>
+<li>Supporto: <span class="math inline">\([0,1]\)</span> (perfetta per proporzioni e probabilità)</li>
+<li>Parametri: <span class="math inline">\(\alpha, \beta &gt; 0\)</span> (shape parameters)</li>
+<li>
+<span class="math inline">\(\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}\)</span>, Moda <span class="math inline">\(= \frac{\alpha-1}{\alpha+\beta-2}\)</span> (se <span class="math inline">\(\alpha,\beta &gt; 1\)</span>)</li>
+<li>
+<strong>Coniugata con Binomiale</strong>: essenziale per inferenza bayesiana su proporzioni</li>
+<li>Interpretazione: <span class="math inline">\(\alpha-1\)</span> = “successi pregressi”, <span class="math inline">\(\beta-1\)</span> = “fallimenti pregressi”</li>
 </ul>
+</li>
+<li>
+<strong>Distribuzione Normale (Gaussiana)</strong>
+<ul>
+<li>Supporto: <span class="math inline">\(\mathbb{R}\)</span> (intera retta reale)</li>
+<li>Parametri: <span class="math inline">\(\mu \in \mathbb{R}\)</span> (media), <span class="math inline">\(\sigma^2 &gt; 0\)</span> (varianza)</li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = \mu\)</span>, <span class="math inline">\(\text{Var}(X) = \sigma^2\)</span>
+</li>
+<li>Simmetrica, unimodale, code esponenziali</li>
+<li>Emerge dal TLC: distribuzione naturale per somme di variabili</li>
+<li>Circa 68% entro <span class="math inline">\(\mu \pm \sigma\)</span>, 95% entro <span class="math inline">\(\mu \pm 1.96\sigma\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Distribuzione Gamma</strong>
+<ul>
+<li>Supporto: <span class="math inline">\(\mathbb{R}^+\)</span> (numeri positivi)</li>
+<li>Parametri: shape <span class="math inline">\(\alpha &gt; 0\)</span>, rate <span class="math inline">\(\beta &gt; 0\)</span> (o scale <span class="math inline">\(\theta = 1/\beta\)</span>)</li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = \alpha/\beta\)</span>, <span class="math inline">\(\text{Var}(X) = \alpha/\beta^2\)</span>
+</li>
+<li>Flessibile per modellare tempi di attesa, variabilità</li>
+<li>
+<strong>Coniugata con Poisson e Normale</strong> (per precisione)</li>
+</ul>
+</li>
+<li>
+<strong>Distribuzione Esponenziale</strong>
+<ul>
+<li>Caso speciale di Gamma con <span class="math inline">\(\alpha=1\)</span>
+</li>
+<li>Modella tempo fino al primo evento in processo Poisson</li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = 1/\lambda\)</span>, <span class="math inline">\(\text{Var}(X) = 1/\lambda^2\)</span>
+</li>
+<li>Proprietà di assenza di memoria: <span class="math inline">\(P(X &gt; s+t \mid X &gt; s) = P(X &gt; t)\)</span>
+</li>
+<li>Usata per tempi di reazione, durate, intervalli tra eventi</li>
+</ul>
+</li>
+<li>
+<strong>Distribuzione Uniforme</strong>
+<ul>
+<li>Supporto: <span class="math inline">\([a,b]\)</span>
+</li>
+<li>Massima entropia data solo l’informazione sui limiti</li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = (a+b)/2\)</span>, <span class="math inline">\(\text{Var}(X) = (b-a)^2/12\)</span>
+</li>
+<li>Prior non informativo per parametri limitati</li>
+</ul>
+</li>
+<li>
+<strong>Relazioni tra distribuzioni</strong>
+<ul>
+<li>Esponenziale è Gamma con <span class="math inline">\(\alpha=1\)</span>
+</li>
+<li>Beta(1,1) è Uniforme(0,1)</li>
+<li>Normale emerge dal TLC</li>
+<li>Gamma modella somme di Esponenziali</li>
+</ul>
+</li>
+<li>
+<strong>Applicazioni psicologiche</strong>
+<ul>
+<li>
+<strong>Beta</strong>: prior su proporzioni (prevalenza disturbi, accuratezza)</li>
+<li>
+<strong>Normale</strong>: punteggi psicometrici, QI, misure standardizzate</li>
+<li>
+<strong>Gamma</strong>: tempi di reazione, durate di episodi</li>
+<li>
+<strong>Esponenziale</strong>: tempi tra sintomi, latenze</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Beta(<span class="math inline">\(\alpha, \beta\)</span>):</strong> <span class="math display">\[
+f(\theta) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1}, \quad \theta \in [0,1]
+\]</span> <span class="math display">\[
+\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}, \quad \text{Var}(\theta) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}
+\]</span></p>
+<p><strong>Normale(<span class="math inline">\(\mu, \sigma^2\)</span>):</strong> <span class="math display">\[
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right), \quad x \in \mathbb{R}
+\]</span> <span class="math display">\[
+\mathbb{E}[X] = \mu, \quad \text{Var}(X) = \sigma^2
+\]</span></p>
+<p><strong>Gamma(<span class="math inline">\(\alpha, \beta\)</span>):</strong> <span class="math display">\[
+f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}, \quad x &gt; 0
+\]</span> <span class="math display">\[
+\mathbb{E}[X] = \frac{\alpha}{\beta}, \quad \text{Var}(X) = \frac{\alpha}{\beta^2}
+\]</span></p>
+<p><strong>Esponenziale(<span class="math inline">\(\lambda\)</span>):</strong> <span class="math display">\[
+f(x) = \lambda e^{-\lambda x}, \quad x &gt; 0
+\]</span> <span class="math display">\[
+\mathbb{E}[X] = \frac{1}{\lambda}, \quad \text{Var}(X) = \frac{1}{\lambda^2}
+\]</span></p>
+<p><strong>Proprietà critiche:</strong></p>
+<ul>
+<li>Beta è coniugata con Binomiale (aggiornamento: <span class="math inline">\(\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)\)</span>)</li>
+<li>Normale è coniugata con sé stessa (per la media)</li>
+<li>Gamma è coniugata con Poisson e Normale (per precisione)</li>
+<li>Circa 95% della massa normale sta entro <span class="math inline">\(\mu \pm 1.96\sigma\)</span>
+</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> studieremo formalmente la <strong>funzione di verosimiglianza</strong>, che quantifica quanto i dati osservati sono compatibili con ciascun valore del parametro. Vedremo come la verosimiglianza costituisca il ponte tra il modello probabilistico (le distribuzioni appena studiate) e l’inferenza bayesiana, permettendo di aggiornare le credenze sui parametri alla luce dell’evidenza empirica.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Informazioni sull'ambiente di sviluppo">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1997,7 +2134,7 @@ X \sim \text{Gamma}(\alpha, \beta), \quad f(x) = \frac{\beta^\alpha x^{\alpha-1}
 </div>
 </div>
 </div>
-</section></section><section id="bibliografia" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="bibliografia">Bibliografia</h2>
+</section><section id="bibliografia" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">

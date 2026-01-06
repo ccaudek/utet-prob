@@ -1061,6 +1061,7 @@ window.Quarto = {
   <li><a href="#propriet%C3%A0-matematiche-della-covarianza" id="toc-proprietà-matematiche-della-covarianza" class="nav-link" data-scroll-target="#propriet%C3%A0-matematiche-della-covarianza"><span class="header-section-number">9.4</span> Proprietà matematiche della covarianza</a></li>
   <li><a href="#incorrelazione-e-indipendenza" id="toc-incorrelazione-e-indipendenza" class="nav-link" data-scroll-target="#incorrelazione-e-indipendenza"><span class="header-section-number">9.5</span> Incorrelazione e indipendenza</a></li>
   <li><a href="#covarianza-nellinferenza-bayesiana" id="toc-covarianza-nellinferenza-bayesiana" class="nav-link" data-scroll-target="#covarianza-nellinferenza-bayesiana"><span class="header-section-number">9.6</span> Covarianza nell’inferenza bayesiana</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/09_cov_cor.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1084,15 +1085,6 @@ window.Quarto = {
 <p>In questo capitolo ci poniamo una domanda di natura più pratica: <strong>come possiamo riassumere in modo sintetico la struttura di dipendenza tra variabili descritta da una distribuzione congiunta?</strong> Sebbene la distribuzione congiunta contenga tutta l’informazione rilevante, essa risulta spesso troppo ricca o complessa per un’interpretazione immediata. La covarianza e la correlazione forniscono indici numerici che catturano un aspetto specifico di tale struttura: la tendenza delle variabili a variare congiuntamente in modo lineare.</p>
 <p>Dal punto di vista bayesiano, questi indici possono essere interpretati come riassunti quantitativi della struttura delle nostre credenze, così come codificata nella distribuzione congiunta. Essi non sostituiscono la distribuzione completa, ma ne estraggono caratteristiche rilevanti che facilitano il confronto, la comunicazione dei risultati e la costruzione di modelli più complessi.</p>
 <p>Prima di introdurre formalmente la covarianza e la correlazione, estenderemo brevemente il framework delle tabelle congiunte al caso delle variabili continue, mostrando come le stesse idee si applichino quando le variabili assumono valori su scale numeriche continue. Questa estensione è necessaria per comprendere appieno il significato di covarianza e correlazione, che trovano la loro formulazione e interpretazione più naturali proprio nel contesto delle distribuzioni continue.</p>
-<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
-<ul>
-<li>Estensione al caso continuo: dalle tabelle alle densità congiunte.</li>
-<li>Covarianza come misura epistemica della co-variazione lineare.</li>
-<li>Correlazione come versione standardizzata della covarianza.</li>
-<li>Proprietà matematiche e loro significato epistemico.</li>
-<li>Il concetto di incorrelazione e la sua relazione con l’indipendenza.</li>
-<li>Applicazioni nell’inferenza bayesiana.</li>
-</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1105,14 +1097,39 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
 <li>
-<a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>: assiomi e coerenza delle credenze.</li>
-<li>Concetti di valore atteso e varianza.</li>
+<a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> — per il concetto di variabili casuali multiple</li>
+<li>
+<a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a> — per densità congiunte</li>
+<li>
+<a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a> — <strong>fondamentale</strong> per valore atteso e varianza</li>
+</ul>
+<p>Questo capitolo estende al caso bivariato i concetti di valore atteso e varianza, introducendo misure di dipendenza lineare tra variabili.</p>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a12_sum_notation.html" class="quarto-xref"><span>Appendice C</span></a> - per calcoli con distribuzioni discrete congiunte</li>
+<li>
+<a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> - per densità congiunte continue</li>
+</ul>
+<p>Competenze pratiche:</p>
+<ul>
+<li>Familiarità con R e visualizzazione di distribuzioni bivariate</li>
 </ul>
 </div>
 </div>
 </div>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Estensione al caso continuo: dalle tabelle alle densità congiunte.</li>
+<li>Covarianza come misura epistemica della co-variazione lineare.</li>
+<li>Correlazione come versione standardizzata della covarianza.</li>
+<li>Proprietà matematiche e loro significato epistemico.</li>
+<li>Il concetto di incorrelazione e la sua relazione con l’indipendenza.</li>
+<li>Applicazioni nell’inferenza bayesiana.</li>
+</ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1689,8 +1706,124 @@ p(x,y) = p(x),p(y),
 <p>Il percorso concettuale può essere compreso come una progressione attraverso diversi livelli di informazione, dal più completo al più sintetico. La <strong>distribuzione congiunta</strong> <span class="math inline">\(p(x,y)\)</span> o <span class="math inline">\(f(x,y)\)</span> fornisce una descrizione esaustiva delle relazioni tra le variabili e consente di derivare qualsiasi quantità probabilistica di interesse. La <strong>covarianza</strong> <span class="math inline">\(\text{Cov}(X,Y)\)</span> rappresenta un riassunto unidimensionale della co-variazione lineare, utile per il calcolo e per l’analisi teorica, ma dipendente dalle unità di misura. La <strong>correlazione</strong> <span class="math inline">\(\rho(X,Y)\)</span> è la versione standardizzata della covarianza, definita su una scala interpretabile <span class="math inline">\([-1, 1]\)</span>, che facilita il confronto tra relazioni espresse su scale diverse.</p>
 <p>Un punto cruciale emerso nel capitolo è che covarianza e correlazione catturano esclusivamente l’aspetto <em>lineare</em> della relazione tra variabili. Dipendenze non lineari, strutture multimodali o relazioni più complesse possono essere completamente invisibili a questi indici. Per una comprensione approfondita delle dipendenze tra variabili, è quindi necessario fare riferimento alla distribuzione congiunta sottostante e affiancare sempre l’analisi numerica a un’esplorazione grafica dei dati.</p>
 <p>Nel prosieguo del manuale incontreremo frequentemente distribuzioni multivariate, in particolare la distribuzione normale multivariata, nella quale la matrice di covarianza <span class="math inline">\(\Sigma\)</span> codifica integralmente la struttura di dipendenza lineare. La piena comprensione dei concetti sviluppati in questo capitolo costituirà un presupposto essenziale per interpretare correttamente tali modelli e per utilizzarli in modo consapevole nell’analisi dei dati psicologici.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Dalle tabelle discrete alle densità congiunte</strong>
+<ul>
+<li>Estensione naturale al caso continuo: <span class="math inline">\(f(x,y)\)</span> è la densità congiunta</li>
+<li>Regole di somma (marginalizzazione) e prodotto si applicano sostituendo somme con integrali</li>
+<li>La distribuzione congiunta contiene tutta l’informazione sulle relazioni tra variabili</li>
+</ul>
+</li>
+<li>
+<strong>Covarianza come misura della co-variazione lineare</strong>
+<ul>
+<li>
+<span class="math inline">\(\text{Cov}(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)]\)</span> quantifica la tendenza a variare insieme</li>
+<li>Positiva: valori alti di <span class="math inline">\(X\)</span> con valori alti di <span class="math inline">\(Y\)</span> (e bassi con bassi)</li>
+<li>Negativa: valori alti di <span class="math inline">\(X\)</span> con valori bassi di <span class="math inline">\(Y\)</span>
+</li>
+<li>Nulla: assenza di relazione lineare sistematica (ma possibili dipendenze non lineari!)</li>
+</ul>
+</li>
+<li>
+<strong>Formula computazionale della covarianza</strong>
+<ul>
+<li><span class="math inline">\(\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]\)</span></li>
+<li>Confronta il valore atteso del prodotto con quello che si avrebbe sotto indipendenza</li>
+<li>Facilita i calcoli pratici</li>
+</ul>
+</li>
+<li>
+<strong>Correlazione come standardizzazione della covarianza</strong>
+<ul>
+<li>
+<span class="math inline">\(\rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}\)</span> elimina l’effetto delle unità di misura</li>
+<li>Sempre <span class="math inline">\(-1 \leq \rho \leq 1\)</span> (adimensionale)</li>
+<li>
+<span class="math inline">\(|\rho| = 1\)</span>: relazione lineare perfetta; <span class="math inline">\(\rho = 0\)</span>: assenza di relazione lineare</li>
+</ul>
+</li>
+<li>
+<strong>Incorrelazione vs indipendenza</strong>
+<ul>
+<li>
+<strong>Indipendenza</strong> <span class="math inline">\(\Rightarrow\)</span> <strong>incorrelazione</strong> (sempre)</li>
+<li>
+<strong>Incorrelazione</strong> <span class="math inline">\(\not\Rightarrow\)</span> <strong>indipendenza</strong> (dipendenze non lineari possono esistere!)</li>
+<li>Esempio: <span class="math inline">\(Y = X^2\)</span> con <span class="math inline">\(X \sim \mathcal{N}(0,1)\)</span> ha <span class="math inline">\(\rho(X,Y) = 0\)</span> ma <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> sono fortemente dipendenti</li>
+</ul>
+</li>
+<li>
+<strong>Proprietà algebriche della covarianza</strong>
+<ul>
+<li>
+<span class="math inline">\(\text{Cov}(X,X) = \text{Var}(X)\)</span> (la varianza è covarianza con sé stessa)</li>
+<li>
+<span class="math inline">\(\text{Cov}(aX+b, cY+d) = ac \cdot \text{Cov}(X,Y)\)</span> (bilinearità)</li>
+<li><span class="math inline">\(\text{Var}(X+Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)\)</span></li>
+</ul>
+</li>
+<li>
+<strong>Matrice di covarianza e correlazione</strong>
+<ul>
+<li>Per <span class="math inline">\(n\)</span> variabili: matrice <span class="math inline">\(n \times n\)</span> con varianze sulla diagonale e covarianze fuori</li>
+<li>Sempre simmetrica e semidefinita positiva</li>
+<li>Fondamentale per distribuzioni multivariate (es. normale multivariata)</li>
+</ul>
+</li>
+<li>
+<strong>Ruolo nell’inferenza bayesiana</strong>
+<ul>
+<li>Prior multivariata: specifica credenze iniziali su relazioni tra parametri</li>
+<li>Posterior: covarianza a posteriori quantifica dipendenze residue dopo i dati</li>
+<li>Predittiva: incorpora incertezza su parametri e variabilità intrinseca</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Covarianza:</strong> <span class="math display">\[
+\text{Cov}(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+\]</span></p>
+<p><strong>Correlazione:</strong> <span class="math display">\[
+\rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
+\]</span></p>
+<p><strong>Varianza di una somma:</strong> <span class="math display">\[
+\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)
+\]</span></p>
+<p><strong>Proprietà di bilinearità:</strong> <span class="math display">\[
+\text{Cov}(aX + b, cY + d) = ac \cdot \text{Cov}(X,Y)
+\]</span></p>
+<p><strong>Matrice di covarianza (2D):</strong> <span class="math display">\[
+\Sigma = \begin{pmatrix} \sigma_X^2 &amp; \text{Cov}(X,Y) \\ \text{Cov}(X,Y) &amp; \sigma_Y^2 \end{pmatrix}
+\]</span></p>
+<p><strong>Proprietà critiche:</strong></p>
+<ul>
+<li>Covarianza dipende dalle unità di misura; correlazione no</li>
+<li>
+<span class="math inline">\(\rho = 0\)</span> non implica indipendenza (solo assenza di relazione lineare)</li>
+<li>Indipendenza implica sempre <span class="math inline">\(\rho = 0\)</span>
+</li>
+<li>La covarianza è la generalizzazione bivariata della varianza</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="10_dal_dato_ipotesi.html" class="quarto-xref"><span>Capitolo 10</span></a> passeremo dall’analisi descrittiva delle distribuzioni all’<strong>inferenza statistica</strong>. Vedremo come quantificare l’incertezza su parametri sconosciuti a partire da dati campionari, introducendo concetti fondamentali come distribuzione campionaria, errore standard, legge dei grandi numeri e teorema del limite centrale, che costituiscono il ponte tra probabilità e statistica inferenziale bayesiana.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1699,7 +1832,7 @@ p(x,y) = p(x),p(y),
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>

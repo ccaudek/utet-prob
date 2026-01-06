@@ -1042,6 +1042,7 @@ window.Quarto = {
   <li><a href="#la-distribuzione-beta-dal-discreto-al-continuo" id="toc-la-distribuzione-beta-dal-discreto-al-continuo" class="nav-link" data-scroll-target="#la-distribuzione-beta-dal-discreto-al-continuo"><span class="header-section-number">3.5</span> La distribuzione Beta: dal discreto al continuo</a></li>
   <li><a href="#aggiornamento-bayesiano-il-modello-beta-binomiale" id="toc-aggiornamento-bayesiano-il-modello-beta-binomiale" class="nav-link" data-scroll-target="#aggiornamento-bayesiano-il-modello-beta-binomiale"><span class="header-section-number">3.6</span> Aggiornamento bayesiano: il modello Beta-Binomiale</a></li>
   <li><a href="#applicazioni-psicologiche" id="toc-applicazioni-psicologiche" class="nav-link" data-scroll-target="#applicazioni-psicologiche"><span class="header-section-number">3.7</span> Applicazioni psicologiche</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/03_equiprobability_combinatorics_bayesian.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1090,10 +1091,21 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Aver letto il <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a> e il <span class="quarto-unresolved-ref">?sec-prob-models</span>.</li>
-<li>Leggere l’<a href="../appendix/a14_combinatorics.html" class="quarto-xref"><span>Appendice E</span></a> (calcolo combinatorio).</li>
-<li>Familiarità con R e simulazioni Monte Carlo.</li>
+<li><span class="quarto-unresolved-ref">?sec-intro-prob-bayesian</span></li>
+<li><span class="quarto-unresolved-ref">?sec-axioms</span></li>
+</ul>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a13_sets.html" class="quarto-xref"><span>Appendice D</span></a> - per operazioni su eventi</li>
+<li>
+<a href="../appendix/a14_combinatorics.html" class="quarto-xref"><span>Appendice E</span></a> - fondamentale per permutazioni, disposizioni e combinazioni</li>
+</ul>
+<p>Competenze pratiche:</p>
+<ul>
+<li>Familiarità di base con R per eseguire le simulazioni Monte Carlo presentate nel capitolo</li>
 </ul>
 </div>
 </div>
@@ -1668,6 +1680,146 @@ P(\text{corretto} \mid \theta, b) = \frac{1}{1 + e^{-(\theta - b)}}.
 <p>Il calcolo combinatorio può essere utilizzato in modo coerente all’interno del framework bayesiano solo quando l’ipotesi di equiprobabilità è giustificata. Permutazioni, disposizioni e combinazioni non costituiscono teorie autonome della probabilità, ma strumenti di modellazione che presuppongono l’uguaglianza di plausibilità tra gli eventi elementari. Quando tale presupposto non è soddisfatto — come accade frequentemente nelle scienze psicologiche e sociali — è necessario adottare modelli probabilistici più flessibili, capaci di rappresentare differenze sistematiche tra eventi e di incorporare informazioni pregresse.</p>
 <p>La distribuzione <strong>Beta</strong> fornisce una naturale estensione continua di queste idee. In particolare, la Beta(1,1) rappresenta uno stato di massima ignoranza, ossia l’analogo continuo dell’equiprobabilità, mentre valori diversi dei parametri consentono di esprimere credenze a priori con forme e intensità differenti. L’aggiornamento bayesiano completa il quadro offrendo un meccanismo coerente per descrivere l’evoluzione delle credenze nel tempo: combinando conoscenze pregresse ed evidenza empirica, permette di modificare gradualmente le probabilità man mano che i dati si accumulano, integrando in un unico processo logico esperienza e incertezza.</p>
 <p>In questo modo, il capitolo ha mostrato come l’equiprobabilità rappresenti un caso limite all’interno di una teoria più generale della probabilità, fornendo gli strumenti concettuali per superarla quando le ipotesi di simmetria informativa non sono più sostenibili.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Principio di indifferenza</strong>
+<ul>
+<li>L’equiprobabilità riflette simmetria epistemica, non una proprietà fisica del mondo</li>
+<li>Assegniamo <span class="math inline">\(P(\omega_i) = 1/n\)</span> solo quando non abbiamo ragioni per preferire un esito</li>
+<li>Richiede giudizio esplicito sul contesto (simmetria fisica, ignoranza informativa, assenza di struttura)</li>
+</ul>
+</li>
+<li>
+<strong>Formula classica come caso speciale</strong>
+<ul>
+<li>
+<span class="math inline">\(P(A) = |A|/|\Omega|\)</span> è una conseguenza degli assiomi quando vale l’equiprobabilità</li>
+<li>Non è una definizione universale, ma un’applicazione condizionata del principio di indifferenza</li>
+<li>Il calcolo combinatorio è strumento operativo, non fondamento teorico</li>
+</ul>
+</li>
+<li>
+<strong>Distribuzione Beta come generalizzazione continua</strong>
+<ul>
+<li>Beta(1,1) rappresenta massima ignoranza (analogo continuo dell’equiprobabilità)</li>
+<li>La parametrizzazione <span class="math inline">\((\alpha, \beta)\)</span> permette di esprimere credenze a priori non uniformi</li>
+<li>L’aggiornamento bayesiano Beta-Binomiale: <span class="math inline">\(\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Limiti dell’equiprobabilità in psicologia</strong>
+<ul>
+<li>IRT: probabilità di risposta dipende da abilità individuale e difficoltà item</li>
+<li>Bias di risposta: acquiescenza e desiderabilità sociale violano l’uniformità</li>
+<li>Variabilità interindividuale richiede modelli probabilistici flessibili</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><span class="math display">\[
+P(A) = \frac{|A|}{|\Omega|} \quad \text{(valida solo con equiprobabilità)}
+\]</span></p>
+<p><span class="math display">\[
+\text{Beta}(\alpha, \beta) \xrightarrow{\text{dati } k, n} \text{Beta}(\alpha + k, \beta + n - k)
+\]</span></p>
+<p><strong>Tecniche combinatorie essenziali:</strong></p>
+<ul>
+<li>Permutazioni: <span class="math inline">\(n!\)</span> (ordine conta, tutti gli elementi)</li>
+<li>Disposizioni: <span class="math inline">\(\frac{n!}{(n-k)!}\)</span> (ordine conta, <span class="math inline">\(k\)</span> elementi)</li>
+<li>Combinazioni: <span class="math inline">\(\binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span> (ordine non conta)</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a> vedremo come la probabilità condizionata rappresenti l’aggiornamento bayesiano delle credenze quando riceviamo nuova informazione, estendendo il concetto di simmetria epistemica a contesti in cui l’informazione è parziale.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] gtools_3.9.5          combinat_0.0-8        ragg_1.5.0           </span></span>
+<span><span class="co">#&gt;  [4] tinytable_0.15.2      withr_3.0.2           systemfonts_1.3.1    </span></span>
+<span><span class="co">#&gt;  [7] patchwork_1.3.2       ggdist_3.3.3          tidybayes_3.0.7      </span></span>
+<span><span class="co">#&gt; [10] bayesplot_1.15.0      ggplot2_4.0.1         reliabilitydiag_0.2.1</span></span>
+<span><span class="co">#&gt; [13] priorsense_1.2.0      posterior_1.6.1       loo_2.9.0            </span></span>
+<span><span class="co">#&gt; [16] rstan_2.32.7          StanHeaders_2.32.10   brms_2.23.0          </span></span>
+<span><span class="co">#&gt; [19] Rcpp_1.1.0            sessioninfo_1.2.3     conflicted_1.2.0     </span></span>
+<span><span class="co">#&gt; [22] janitor_2.2.1         matrixStats_1.5.0     modelr_0.1.11        </span></span>
+<span><span class="co">#&gt; [25] tibble_3.3.0          dplyr_1.1.4           tidyr_1.3.2          </span></span>
+<span><span class="co">#&gt; [28] rio_1.2.4             here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] gridExtra_2.3         inline_0.3.21         sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt;  [4] rlang_1.1.6           magrittr_2.0.4        multcomp_1.4-29      </span></span>
+<span><span class="co">#&gt;  [7] snakecase_0.11.1      otel_0.2.0            compiler_4.5.2       </span></span>
+<span><span class="co">#&gt; [10] vctrs_0.6.5           stringr_1.6.0         pkgconfig_2.0.3      </span></span>
+<span><span class="co">#&gt; [13] arrayhelpers_1.1-0    fastmap_1.2.0         backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [16] labeling_0.4.3        rmarkdown_2.30        purrr_1.2.0          </span></span>
+<span><span class="co">#&gt; [19] xfun_0.55             cachem_1.1.0          jsonlite_2.0.0       </span></span>
+<span><span class="co">#&gt; [22] broom_1.0.11          parallel_4.5.2        R6_2.6.1             </span></span>
+<span><span class="co">#&gt; [25] stringi_1.8.7         RColorBrewer_1.1-3    lubridate_1.9.4      </span></span>
+<span><span class="co">#&gt; [28] estimability_1.5.1    knitr_1.51            zoo_1.8-15           </span></span>
+<span><span class="co">#&gt; [31] pacman_0.5.1          Matrix_1.7-4          splines_4.5.2        </span></span>
+<span><span class="co">#&gt; [34] timechange_0.3.0      tidyselect_1.2.1      abind_1.4-8          </span></span>
+<span><span class="co">#&gt; [37] yaml_2.3.12           codetools_0.2-20      curl_7.0.0           </span></span>
+<span><span class="co">#&gt; [40] pkgbuild_1.4.8        lattice_0.22-7        bridgesampling_1.2-1 </span></span>
+<span><span class="co">#&gt; [43] S7_0.2.1              coda_0.19-4.1         evaluate_1.0.5       </span></span>
+<span><span class="co">#&gt; [46] survival_3.8-3        RcppParallel_5.1.11-1 pillar_1.11.1        </span></span>
+<span><span class="co">#&gt; [49] tensorA_0.36.2.1      checkmate_2.3.3       stats4_4.5.2         </span></span>
+<span><span class="co">#&gt; [52] distributional_0.5.0  generics_0.1.4        rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [55] rstantools_2.5.0      scales_1.4.0          xtable_1.8-4         </span></span>
+<span><span class="co">#&gt; [58] glue_1.8.0            emmeans_2.0.1         tools_4.5.2          </span></span>
+<span><span class="co">#&gt; [61] mvtnorm_1.3-3         grid_4.5.2            QuickJSR_1.8.1       </span></span>
+<span><span class="co">#&gt; [64] colorspace_2.1-2      nlme_3.1-168          cli_3.6.5            </span></span>
+<span><span class="co">#&gt; [67] textshaping_1.0.4     svUnit_1.0.8          Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [70] V8_8.0.1              gtable_0.3.6          digest_0.6.39        </span></span>
+<span><span class="co">#&gt; [73] TH.data_1.1-5         htmlwidgets_1.6.4     farver_2.1.2         </span></span>
+<span><span class="co">#&gt; [76] memoise_2.0.1         htmltools_0.5.9       lifecycle_1.0.4      </span></span>
+<span><span class="co">#&gt; [79] MASS_7.3-65</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

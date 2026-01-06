@@ -1042,6 +1042,7 @@ window.Quarto = {
   <li><a href="#verosimiglianza-congiunta" id="toc-verosimiglianza-congiunta" class="nav-link" data-scroll-target="#verosimiglianza-congiunta"><span class="header-section-number">14.5</span> Verosimiglianza congiunta</a></li>
   <li><a href="#verosimiglianza-gaussiana" id="toc-verosimiglianza-gaussiana" class="nav-link" data-scroll-target="#verosimiglianza-gaussiana"><span class="header-section-number">14.6</span> Verosimiglianza gaussiana</a></li>
   <li><a href="#confrontare-ipotesi-tramite-la-verosimiglianza" id="toc-confrontare-ipotesi-tramite-la-verosimiglianza" class="nav-link" data-scroll-target="#confrontare-ipotesi-tramite-la-verosimiglianza"><span class="header-section-number">14.7</span> Confrontare ipotesi tramite la verosimiglianza</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/14_likelihood.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1064,16 +1065,6 @@ window.Quarto = {
 <p>Nella pratica della ricerca scientifica, tuttavia, il problema che si presenta è spesso di natura opposta. I dati vengono osservati per primi, e ciò che si desidera comprendere è quali valori dei parametri del modello siano più plausibili alla luce di quell’evidenza empirica. Questo ribaltamento di prospettiva — dal calcolo della probabilità dei dati dato il modello alla valutazione dei parametri dato l’insieme dei dati osservati — costituisce il nucleo dell’inferenza statistica.</p>
 <p>La funzione di verosimiglianza nasce precisamente per affrontare questo problema inverso. Essa non assegna probabilità ai parametri, ma misura quanto ciascun possibile valore parametrico renda <em>plausibili</em> i dati osservati, assumendo che il modello probabilistico sia corretto. In altre parole, la verosimiglianza costruisce una mappa della <em>plausibilità parametrica</em>, che permette di confrontare diversi valori dei parametri in base alla loro capacità di spiegare l’evidenza empirica.</p>
 <p>In questo capitolo la funzione di verosimiglianza viene introdotta come concetto centrale dell’inferenza bayesiana. Nel capitolo successivo ne analizzeremo le principali proprietà matematiche e mostreremo come, combinata con le credenze a priori, essa conduca in modo naturale alla costruzione della distribuzione a posteriori.</p>
-<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
-<ul>
-<li>Definizione e interpretazione della funzione di verosimiglianza.</li>
-<li>Distinzione tra verosimiglianza e funzione di probabilità.</li>
-<li>Log-verosimiglianza: vantaggi computazionali e analitici.</li>
-<li>Verosimiglianza per dati binomiali e gaussiani.</li>
-<li>Stima di massima verosimiglianza (MLE).</li>
-<li>Verosimiglianza congiunta per osservazioni multiple.</li>
-<li>Rapporto di verosimiglianze per il confronto tra ipotesi.</li>
-</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1086,13 +1077,38 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Capitoli sulle distribuzioni di variabili casuali discrete e continue.</li>
-<li>Familiarità con la distribuzione binomiale e normale.</li>
+<li><a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a></li>
+<li>
+<a href="10_dal_dato_ipotesi.html" class="quarto-xref"><span>Capitolo 10</span></a> — per il contesto inferenziale</li>
+<li><a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a></li>
+<li>
+<a href="12_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a> — <strong>fondamentale</strong>
+</li>
+<li>
+<a href="13_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 13</span></a> — <strong>fondamentale</strong>
+</li>
+</ul>
+<p>Questo capitolo formalizza la <strong>funzione di verosimiglianza</strong>, uno dei tre pilastri dell’inferenza bayesiana (insieme a prior e posterior).</p>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a12_sum_notation.html" class="quarto-xref"><span>Appendice C</span></a> - per verosimiglianze con dati multipli</li>
 </ul>
 </div>
 </div>
 </div>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Definizione e interpretazione della funzione di verosimiglianza.</li>
+<li>Distinzione tra verosimiglianza e funzione di probabilità.</li>
+<li>Log-verosimiglianza: vantaggi computazionali e analitici.</li>
+<li>Verosimiglianza per dati binomiali e gaussiani.</li>
+<li>Stima di massima verosimiglianza (MLE).</li>
+<li>Verosimiglianza congiunta per osservazioni multiple.</li>
+<li>Rapporto di verosimiglianze per il confronto tra ipotesi.</li>
+</ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1835,8 +1851,143 @@ Figura&nbsp;14.5: Funzione di verosimiglianza con i due valori parametrici confr
 <p>Abbiamo incontrato la <em>stima di massima verosimiglianza</em> (MLE) come uno dei possibili utilizzi della funzione di verosimiglianza nel paradigma frequentista. Nei modelli semplici, come quello binomiale e quello normale, la MLE coincide con statistiche campionarie intuitive, quali la proporzione e la media del campione. Tuttavia, è importante sottolineare che la MLE non esaurisce il ruolo della verosimiglianza: ciò che conta, in particolare nell’ottica bayesiana, è la <strong>forma completa</strong> della funzione di verosimiglianza e il modo in cui essa distribuisce il supporto empirico sui diversi valori del parametro.</p>
 <p>Abbiamo inoltre visto come la verosimiglianza congiunta consenta di combinare in modo coerente informazioni provenienti da osservazioni multiple o da studi indipendenti, e come il rapporto di verosimiglianza permetta di esprimere l’evidenza relativa a favore di ipotesi alternative. In tutti questi casi, la verosimiglianza emerge come uno strumento cumulativo, che integra l’informazione contenuta nei dati senza introdurre, di per sé, alcuna assunzione sulle credenze a priori.</p>
 <p>Nel prossimo capitolo approfondiremo le proprietà matematiche della funzione di verosimiglianza e mostreremo come essa si combini con la distribuzione a priori per generare la distribuzione a posteriori. In particolare, analizzeremo perché la verosimiglianza tende a concentrarsi attorno al valore “vero” del parametro al crescere della quantità di dati, come la sua precisione aumenti con l’ampiezza del campione e come questa informazione si integri con quella contenuta nella distribuzione a priori. Infine, discuteremo il ruolo della legge dei grandi numeri e del teorema del limite centrale nel chiarire il meccanismo dell’aggiornamento bayesiano.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Verosimiglianza come funzione del parametro</strong>
+<ul>
+<li>
+<span class="math inline">\(L(\theta \mid D) = p(D \mid \theta)\)</span> è la PMF/PDF dei dati vista come funzione di <span class="math inline">\(\theta\)</span>
+</li>
+<li>
+<strong>Cambio di prospettiva</strong>: dati fissi, parametro variabile</li>
+<li>Non è una distribuzione su <span class="math inline">\(\theta\)</span> (non integra a 1!)</li>
+<li>Quantifica “quanto i dati supportano ciascun valore di <span class="math inline">\(\theta\)</span>”</li>
+</ul>
+</li>
+<li>
+<strong>Principio di verosimiglianza</strong>
+<ul>
+<li>Tutta l’informazione inferenziale nei dati è contenuta nella verosimiglianza</li>
+<li>Se <span class="math inline">\(L(\theta \mid D_1) \propto L(\theta \mid D_2)\)</span>, i due dataset forniscono la stessa evidenza su <span class="math inline">\(\theta\)</span>
+</li>
+<li>Fondamentale nell’approccio bayesiano</li>
+</ul>
+</li>
+<li>
+<strong>Log-verosimiglianza</strong>
+<ul>
+<li>
+<span class="math inline">\(\ell(\theta) = \log L(\theta \mid D)\)</span> trasforma prodotti in somme</li>
+<li>Stessa forma della verosimiglianza (monotona crescente)</li>
+<li>Facilita i calcoli, specialmente con dati multipli</li>
+<li>Numericamente più stabile (evita underflow)</li>
+</ul>
+</li>
+<li>
+<strong>Verosimiglianza per dati i.i.d.</strong>
+<ul>
+<li>Se <span class="math inline">\(D = \{x_1, \ldots, x_n\}\)</span> i.i.d., allora <span class="math inline">\(L(\theta) = \prod_{i=1}^n p(x_i \mid \theta)\)</span>
+</li>
+<li>Log-verosimiglianza: <span class="math inline">\(\ell(\theta) = \sum_{i=1}^n \log p(x_i \mid \theta)\)</span>
+</li>
+<li>Semplifica enormemente i calcoli</li>
+</ul>
+</li>
+<li>
+<strong>Massima verosimiglianza (MLE)</strong>
+<ul>
+<li><span class="math inline">\(\hat{\theta}_{\text{MLE}} = \arg\max_\theta L(\theta \mid D)\)</span></li>
+<li>Stima che “massimizza la compatibilità con i dati osservati”</li>
+<li>Importante ma <strong>non bayesiano</strong> (ignora il prior!)</li>
+<li>Spesso coincide con media posteriori per prior uniformi</li>
+</ul>
+</li>
+<li>
+<strong>Verosimiglianza relativa</strong>
+<ul>
+<li>
+<span class="math inline">\(R(\theta) = \frac{L(\theta)}{L(\hat{\theta}_{\text{MLE}})}\)</span> normalizza rispetto al massimo</li>
+<li>Sempre <span class="math inline">\(0 \leq R(\theta) \leq 1\)</span>
+</li>
+<li>Facilita interpretazione: “quanto meno supportato è <span class="math inline">\(\theta\)</span> rispetto alla MLE?”</li>
+</ul>
+</li>
+<li>
+<strong>Ruolo nel teorema di Bayes</strong>
+<ul>
+<li><span class="math inline">\(p(\theta \mid D) \propto L(\theta \mid D) \cdot p(\theta)\)</span></li>
+<li>Verosimiglianza “ribilancia” il prior alla luce dei dati</li>
+<li>Verosimiglianza piatta → posterior = prior (dati non informativi)</li>
+<li>Verosimiglianza concentrata → posterior dominata dai dati</li>
+</ul>
+</li>
+<li>
+<strong>Proprietà della verosimiglianza</strong>
+<ul>
+<li>
+<strong>Non è una probabilità</strong> (può essere &gt; 1 per variabili continue)</li>
+<li>
+<strong>Non si normalizza</strong> (non integra a 1)</li>
+<li>
+<strong>Scala arbitraria</strong>: solo i rapporti tra valori contano</li>
+<li>
+<strong>Forma dipende dal modello</strong> scelto</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Definizione:</strong> <span class="math display">\[
+L(\theta \mid D) = p(D \mid \theta) = \begin{cases}
+\prod_{i=1}^n p(x_i \mid \theta) &amp; \text{(i.i.d. discreto)} \\
+\prod_{i=1}^n f(x_i \mid \theta) &amp; \text{(i.i.d. continuo)}
+\end{cases}
+\]</span></p>
+<p><strong>Log-verosimiglianza:</strong> <span class="math display">\[
+\ell(\theta) = \log L(\theta \mid D) = \sum_{i=1}^n \log p(x_i \mid \theta)
+\]</span></p>
+<p><strong>Teorema di Bayes con verosimiglianza:</strong> <span class="math display">\[
+p(\theta \mid D) = \frac{L(\theta \mid D) \cdot p(\theta)}{\int L(\theta' \mid D) \cdot p(\theta') \, d\theta'}
+\]</span></p>
+<p><strong>Forma proporzionale:</strong> <span class="math display">\[
+p(\theta \mid D) \propto L(\theta \mid D) \cdot p(\theta)
+\]</span></p>
+<p><strong>Esempi di verosimiglianze:</strong></p>
+<ul>
+<li>
+<strong>Bernoulli</strong>: <span class="math inline">\(L(\theta) = \theta^k(1-\theta)^{n-k}\)</span> per <span class="math inline">\(k\)</span> successi su <span class="math inline">\(n\)</span>
+</li>
+<li>
+<strong>Normale</strong> (varianza nota): <span class="math inline">\(L(\mu) \propto \exp\left(-\frac{1}{2\sigma^2}\sum(x_i-\mu)^2\right)\)</span>
+</li>
+<li>
+<strong>Poisson</strong>: <span class="math inline">\(L(\lambda) = \frac{\lambda^{\sum x_i} e^{-n\lambda}}{\prod x_i!}\)</span>
+</li>
+</ul>
+<p><strong>Proprietà critiche:</strong></p>
+<ul>
+<li>La verosimiglianza non dipende dal prior (solo dai dati e dal modello)</li>
+<li>MLE ignora il prior → non è stima bayesiana</li>
+<li>Con prior uniforme, moda posteriore = MLE</li>
+<li>Log-verosimiglianza facilita derivazioni e calcoli numerici</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="15_properties_likelihood.html" class="quarto-xref"><span>Capitolo 15</span></a> approfondiremo le <strong>proprietà della verosimiglianza</strong>, studiando score function, informazione di Fisher, normalità asintotica, e il ruolo della verosimiglianza nell’aggiornamento bayesiano. Vedremo anche come le verosimiglianze si combinano con prior coniugati per produrre posterior di forma chiusa.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1845,7 +1996,7 @@ Figura&nbsp;14.5: Funzione di verosimiglianza con i due valori parametrici confr
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>

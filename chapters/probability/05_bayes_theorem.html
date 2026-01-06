@@ -1061,6 +1061,7 @@ window.Quarto = {
   <li><a href="#esempio-aggiornamento-diagnostico-tramite-odds" id="toc-esempio-aggiornamento-diagnostico-tramite-odds" class="nav-link" data-scroll-target="#esempio-aggiornamento-diagnostico-tramite-odds"><span class="header-section-number">5.4</span> Esempio: aggiornamento diagnostico tramite odds</a></li>
   <li><a href="#applicazioni" id="toc-applicazioni" class="nav-link" data-scroll-target="#applicazioni"><span class="header-section-number">5.5</span> Applicazioni</a></li>
   <li><a href="#aggiornamento-bayesiano-con-distribuzioni-continue" id="toc-aggiornamento-bayesiano-con-distribuzioni-continue" class="nav-link" data-scroll-target="#aggiornamento-bayesiano-con-distribuzioni-continue"><span class="header-section-number">5.6</span> Aggiornamento bayesiano con distribuzioni continue</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/05_bayes_theorem.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1083,17 +1084,6 @@ window.Quarto = {
 <p>Il <strong>teorema di Bayes</strong> rappresenta il punto di arrivo naturale del percorso concettuale sviluppato nei capitoli precedenti. Dopo aver interpretato la probabilità come <em>grado di credenza razionale</em> (<a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a>), chiarito il ruolo degli assiomi come vincoli di coerenza (<a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a>), riconosciuto l’equiprobabilità come caso particolare di simmetria epistemica (<a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a>) e identificato la probabilità condizionata come meccanismo generale di aggiornamento delle credenze (<a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a>), il teorema di Bayes emerge come la formalizzazione matematica di ciò che significa <strong>apprendere dall’esperienza</strong>.</p>
 <p>Il teorema affronta un problema epistemologico fondamentale: come trasformare l’informazione che proviene dal mondo (sotto forma di dati osservati, evidenze empiriche o sintomi clinici) in conoscenza riguardante ciò che non possiamo osservare direttamente, come le cause, le ipotesi o i parametri sottostanti. Questo passaggio richiede un’<strong>inversione della direzione del condizionamento probabilistico</strong>: non più stimare la probabilità dei dati assumendo vere le ipotesi, ma valutare la plausibilità delle ipotesi alla luce dei dati osservati. È in questa inversione che risiede l’essenza dell’inferenza induttiva.</p>
 <p>In questo capitolo esamineremo il teorema di Bayes non soltanto come uno strumento tecnico di calcolo, ma come un <strong>principio normativo</strong> che prescrive come un agente razionale dovrebbe integrare in modo coerente la conoscenza pregressa con nuove osservazioni. Vedremo come questo meccanismo si applichi in modo naturale ai problemi diagnostici in psicologia clinica, alla valutazione delle ipotesi nella ricerca sperimentale e, più in generale, al ragionamento quotidiano in condizioni di incertezza.</p>
-<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
-<ul>
-<li>Derivazione del teorema dalla simmetria della probabilità congiunta.</li>
-<li>Interpretazione epistemica delle componenti: prior, likelihood, posterior.</li>
-<li>Probabilità inversa come problema fondamentale dell’inferenza.</li>
-<li>Forma in odds e rapporti di verosimiglianza per applicazioni cliniche.</li>
-<li>Applicazioni a test diagnostici e valutazione della comorbilità.</li>
-<li>Fallacia del tasso base e sue implicazioni per il ragionamento clinico.</li>
-<li>Aggiornamento bayesiano con distribuzioni Beta.</li>
-<li>Intervalli di credibilità e loro interpretazione epistemica.</li>
-</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1106,13 +1096,40 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Aver letto i capitoli precedenti, specialmente <a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a>.</li>
-<li>Leggere <em>Everything is Predictable: How Bayesian Statistics Explain Our World</em> <span class="citation" data-cites="chivers2024everything">(<a href="#ref-chivers2024everything" role="doc-biblioref">Chivers, 2024</a>)</span>.</li>
+<li><a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a></li>
+<li><a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a></li>
+<li><a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a></li>
+<li>
+<a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a> — <strong>fondamentale</strong>
+</li>
+</ul>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a13_sets.html" class="quarto-xref"><span>Appendice D</span></a> - per operazioni su eventi</li>
+<li>
+<a href="../appendix/a12_sum_notation.html" class="quarto-xref"><span>Appendice C</span></a> - per legge della probabilità totale</li>
+</ul>
+<p>Letture complementari consigliate:</p>
+<ul>
+<li>Chivers, T. (2024). <em>Everything is Predictable: How Bayesian Statistics Explain Our World</em> <span class="citation" data-cites="chivers2024everything">(<a href="#ref-chivers2024everything" role="doc-biblioref">Chivers, 2024</a>)</span> - per una prospettiva divulgativa sul ragionamento bayesiano</li>
 </ul>
 </div>
 </div>
 </div>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Derivazione del teorema dalla simmetria della probabilità congiunta.</li>
+<li>Interpretazione epistemica delle componenti: prior, likelihood, posterior.</li>
+<li>Probabilità inversa come problema fondamentale dell’inferenza.</li>
+<li>Forma in odds e rapporti di verosimiglianza per applicazioni cliniche.</li>
+<li>Applicazioni a test diagnostici e valutazione della comorbilità.</li>
+<li>Fallacia del tasso base e sue implicazioni per il ragionamento clinico.</li>
+<li>Aggiornamento bayesiano con distribuzioni Beta.</li>
+<li>Intervalli di credibilità e loro interpretazione epistemica.</li>
+</ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -2165,6 +2182,189 @@ Figura&nbsp;5.3: Distribuzione a posteriori con intervallo di credibilità al 95
 <p>Le applicazioni discusse, dalla diagnostica clinica alla valutazione della comorbilità, dall’analisi di test sequenziali all’aggiornamento di parametri continui, illustrano la versatilità dell’approccio bayesiano. In ciascun caso, il teorema di Bayes rende operativo il processo inferenziale, esplicitando le assunzioni di partenza, distinguendo chiaramente tra direzione predittiva e direzione inferenziale, e fornendo una quantificazione coerente dell’aggiornamento delle credenze.</p>
 <p>Questo capitolo conclude la trattazione dei <strong>fondamenti della probabilità bayesiana</strong>. I concetti stabiliti, ovvero la specificazione del <em>prior</em>, il ruolo della <em>verosimiglianza</em>, il calcolo del <em>posterior</em> e l’inferenza basata sull’intera distribuzione risultante, costituiranno la base per sviluppi più avanzati, come l’inferenza su parametri continui, i modelli gerarchici, la selezione di modelli e i metodi computazionali per problemi complessi. Al crescere della complessità dei modelli, tuttavia, la logica sottostante rimarrà invariata: <strong>la razionalità come coerenza, l’apprendimento come aggiornamento bayesiano, la probabilità come grado di credenza</strong>.</p>
 <p>Come osservò Pierre-Simon Laplace oltre due secoli fa, il calcolo delle probabilità non è altro che <em>il buon senso ridotto a calcolo</em>. Il teorema di Bayes ne rappresenta il motore fondamentale.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Teorema di Bayes come inversione probabilistica</strong>
+<ul>
+<li>Nasce dalla simmetria della probabilità congiunta: <span class="math inline">\(P(A \cap B) = P(A \mid B)P(B) = P(B \mid A)P(A)\)</span>
+</li>
+<li>Permette di invertire il condizionamento: da <span class="math inline">\(P(B \mid A)\)</span> (verosimiglianza) a <span class="math inline">\(P(A \mid B)\)</span> (posterior)</li>
+<li>Non introduce nuovi principi, è una conseguenza algebrica della definizione di probabilità condizionata</li>
+</ul>
+</li>
+<li>
+<strong>Interpretazione epistemica dei componenti</strong>
+<ul>
+<li>
+<strong>Prior</strong> <span class="math inline">\(P(H)\)</span>: grado di credenza iniziale nell’ipotesi prima dei dati</li>
+<li>
+<strong>Verosimiglianza</strong> <span class="math inline">\(P(E \mid H)\)</span>: compatibilità dei dati con l’ipotesi (capacità predittiva)</li>
+<li>
+<strong>Evidenza marginale</strong> <span class="math inline">\(P(E)\)</span>: costante di normalizzazione (probabilità totale dei dati)</li>
+<li>
+<strong>Posterior</strong> <span class="math inline">\(P(H \mid E)\)</span>: credenza aggiornata nell’ipotesi dopo aver osservato i dati</li>
+</ul>
+</li>
+<li>
+<strong>Forma in odds e rapporto di verosimiglianza</strong>
+<ul>
+<li>Odds a posteriori = LR × Odds a priori</li>
+<li>
+<span class="math inline">\(\text{LR} = \frac{P(E \mid H)}{P(E \mid H^c)}\)</span> quantifica la forza diagnostica dell’evidenza</li>
+<li>Utile per aggiornamenti sequenziali: ogni evidenza moltiplica gli odds</li>
+</ul>
+</li>
+<li>
+<strong>Fallacia del tasso base</strong>
+<ul>
+<li>Ignorare il prior (prevalenza) porta a sovrastimare il VPP di test diagnostici</li>
+<li>Con bassa prevalenza, anche test accurati producono molti falsi positivi</li>
+<li>Esempio critico in screening di popolazione vs contesti clinici selezionati</li>
+</ul>
+</li>
+<li>
+<strong>Aggiornamento bayesiano sequenziale</strong>
+<ul>
+<li>Il posterior di oggi diventa il prior di domani</li>
+<li>Coerenza: l’ordine dei dati non cambia il posterior finale</li>
+<li>Permette di incorporare evidenze man mano che emergono</li>
+</ul>
+</li>
+<li>
+<strong>Modello Beta-Binomiale</strong>
+<ul>
+<li>Prior: <span class="math inline">\(\theta \sim \text{Beta}(\alpha, \beta)\)</span>
+</li>
+<li>Dati: <span class="math inline">\(k\)</span> successi su <span class="math inline">\(n\)</span> prove</li>
+<li>Posterior: <span class="math inline">\(\theta \mid k \sim \text{Beta}(\alpha + k, \beta + n - k)\)</span> (coniugazione)</li>
+<li>Media posteriore: compromesso ponderato tra prior e dati</li>
+</ul>
+</li>
+<li>
+<strong>Intervalli di credibilità vs intervalli di confidenza</strong>
+<ul>
+<li>
+<strong>Intervallo di credibilità (95%)</strong>: “C’è probabilità 0.95 che il parametro sia in questo intervallo”</li>
+<li>
+<strong>Intervallo di confidenza (95%)</strong>: “Se ripetessi infinite volte, il 95% degli intervalli conterrebbe il parametro”</li>
+<li>Interpretazione epistemica diretta vs proprietà della procedura</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><span class="math display">\[
+P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)} \quad \text{(forma base)}
+\]</span></p>
+<p><span class="math display">\[
+P(H \mid E) \propto P(E \mid H) \cdot P(H) \quad \text{(forma proporzionale)}
+\]</span></p>
+<p><span class="math display">\[
+\frac{P(H \mid E)}{P(H^c \mid E)} = \frac{P(E \mid H)}{P(E \mid H^c)} \cdot \frac{P(H)}{P(H^c)} \quad \text{(forma in odds)}
+\]</span></p>
+<p><span class="math display">\[
+\text{Beta}(\alpha, \beta) \xrightarrow{k/n} \text{Beta}(\alpha + k, \beta + n - k) \quad \text{(aggiornamento Beta-Binomiale)}
+\]</span></p>
+<p><strong>Applicazioni diagnostiche essenziali:</strong></p>
+<ul>
+<li>
+<strong>VPP con Bayes</strong>: <span class="math inline">\(P(D \mid T^+) = \frac{\text{sens} \cdot P(D)}{\text{sens} \cdot P(D) + (1-\text{spec}) \cdot P(D^c)}\)</span>
+</li>
+<li>
+<strong>LR positivo</strong>: <span class="math inline">\(\text{LR}^+ = \frac{\text{sens}}{1 - \text{spec}}\)</span>
+</li>
+<li>
+<strong>LR negativo</strong>: <span class="math inline">\(\text{LR}^- = \frac{1 - \text{sens}}{\text{spec}}\)</span>
+</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> inizieremo lo studio sistematico delle <strong>variabili casuali</strong>, formalizzando il passaggio da eventi discreti a quantità numeriche. Vedremo come il teorema di Bayes si generalizzi all’inferenza su parametri continui e come le distribuzioni di probabilità descrivano l’incertezza su valori numerici, preparando il terreno per modelli statistici sempre più sofisticati.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.0            tinytable_0.15.2      withr_3.0.2          </span></span>
+<span><span class="co">#&gt;  [4] systemfonts_1.3.1     patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.1        </span></span>
+<span><span class="co">#&gt; [10] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.6.1      </span></span>
+<span><span class="co">#&gt; [13] loo_2.9.0             rstan_2.32.7          StanHeaders_2.32.10  </span></span>
+<span><span class="co">#&gt; [16] brms_2.23.0           Rcpp_1.1.0            sessioninfo_1.2.3    </span></span>
+<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
+<span><span class="co">#&gt; [22] modelr_0.1.11         tibble_3.3.0          dplyr_1.1.4          </span></span>
+<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.2.4             here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
+<span><span class="co">#&gt;  [4] S7_0.2.1              fastmap_1.2.0         TH.data_1.1-5        </span></span>
+<span><span class="co">#&gt;  [7] tensorA_0.36.2.1      digest_0.6.39         timechange_0.3.0     </span></span>
+<span><span class="co">#&gt; [10] estimability_1.5.1    lifecycle_1.0.4       survival_3.8-3       </span></span>
+<span><span class="co">#&gt; [13] magrittr_2.0.4        compiler_4.5.2        rlang_1.1.6          </span></span>
+<span><span class="co">#&gt; [16] tools_4.5.2           yaml_2.3.12           knitr_1.51           </span></span>
+<span><span class="co">#&gt; [19] labeling_0.4.3        bridgesampling_1.2-1  htmlwidgets_1.6.4    </span></span>
+<span><span class="co">#&gt; [22] curl_7.0.0            pkgbuild_1.4.8        RColorBrewer_1.1-3   </span></span>
+<span><span class="co">#&gt; [25] abind_1.4-8           multcomp_1.4-29       purrr_1.2.0          </span></span>
+<span><span class="co">#&gt; [28] grid_4.5.2            stats4_4.5.2          colorspace_2.1-2     </span></span>
+<span><span class="co">#&gt; [31] xtable_1.8-4          inline_0.3.21         emmeans_2.0.1        </span></span>
+<span><span class="co">#&gt; [34] scales_1.4.0          MASS_7.3-65           cli_3.6.5            </span></span>
+<span><span class="co">#&gt; [37] mvtnorm_1.3-3         rmarkdown_2.30        generics_0.1.4       </span></span>
+<span><span class="co">#&gt; [40] otel_0.2.0            RcppParallel_5.1.11-1 cachem_1.1.0         </span></span>
+<span><span class="co">#&gt; [43] stringr_1.6.0         splines_4.5.2         parallel_4.5.2       </span></span>
+<span><span class="co">#&gt; [46] vctrs_0.6.5           V8_8.0.1              Matrix_1.7-4         </span></span>
+<span><span class="co">#&gt; [49] sandwich_3.1-1        jsonlite_2.0.0        arrayhelpers_1.1-0   </span></span>
+<span><span class="co">#&gt; [52] glue_1.8.0            codetools_0.2-20      distributional_0.5.0 </span></span>
+<span><span class="co">#&gt; [55] lubridate_1.9.4       stringi_1.8.7         gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [58] QuickJSR_1.8.1        pillar_1.11.1         htmltools_0.5.9      </span></span>
+<span><span class="co">#&gt; [61] Brobdingnag_1.2-9     R6_2.6.1              textshaping_1.0.4    </span></span>
+<span><span class="co">#&gt; [64] rprojroot_2.1.1       evaluate_1.0.5        lattice_0.22-7       </span></span>
+<span><span class="co">#&gt; [67] backports_1.5.0       memoise_2.0.1         broom_1.0.11         </span></span>
+<span><span class="co">#&gt; [70] snakecase_0.11.1      rstantools_2.5.0      gridExtra_2.3        </span></span>
+<span><span class="co">#&gt; [73] coda_0.19-4.1         nlme_3.1-168          checkmate_2.3.3      </span></span>
+<span><span class="co">#&gt; [76] xfun_0.55             zoo_1.8-15            pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
 </section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
 

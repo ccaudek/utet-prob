@@ -1037,9 +1037,11 @@ window.Quarto = {
    
   <ul class="collapse">
 <li><a href="#funzioni-r-per-le-distribuzioni" id="toc-funzioni-r-per-le-distribuzioni" class="nav-link active" data-scroll-target="#funzioni-r-per-le-distribuzioni"><span class="header-section-number">12.1</span> Funzioni R per le distribuzioni</a></li>
-  <li><a href="#distribuzione-di-bernoulli" id="toc-distribuzione-di-bernoulli" class="nav-link" data-scroll-target="#distribuzione-di-bernoulli"><span class="header-section-number">12.2</span> Distribuzione di Bernoulli</a></li>
-  <li><a href="#distribuzione-binomiale" id="toc-distribuzione-binomiale" class="nav-link" data-scroll-target="#distribuzione-binomiale"><span class="header-section-number">12.3</span> Distribuzione binomiale</a></li>
-  <li><a href="#distribuzione-di-poisson" id="toc-distribuzione-di-poisson" class="nav-link" data-scroll-target="#distribuzione-di-poisson"><span class="header-section-number">12.4</span> Distribuzione di Poisson</a></li>
+  <li><a href="#distribuzione-uniforme-discreta" id="toc-distribuzione-uniforme-discreta" class="nav-link" data-scroll-target="#distribuzione-uniforme-discreta"><span class="header-section-number">12.2</span> Distribuzione uniforme discreta</a></li>
+  <li><a href="#distribuzione-di-bernoulli" id="toc-distribuzione-di-bernoulli" class="nav-link" data-scroll-target="#distribuzione-di-bernoulli"><span class="header-section-number">12.3</span> Distribuzione di Bernoulli</a></li>
+  <li><a href="#distribuzione-binomiale" id="toc-distribuzione-binomiale" class="nav-link" data-scroll-target="#distribuzione-binomiale"><span class="header-section-number">12.4</span> Distribuzione binomiale</a></li>
+  <li><a href="#distribuzione-di-poisson" id="toc-distribuzione-di-poisson" class="nav-link" data-scroll-target="#distribuzione-di-poisson"><span class="header-section-number">12.5</span> Distribuzione di Poisson</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   <li><a href="#esercizi" id="toc-esercizi" class="nav-link" data-scroll-target="#esercizi">Esercizi</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/12_discr_rv_distr.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
@@ -1059,31 +1061,51 @@ window.Quarto = {
   
 
 
-</header><div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>Come discusso nel <a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a>, le distribuzioni di probabilità sono strumenti epistemici che permettono di rappresentare formalmente l’incertezza. In questo capitolo ci concentreremo sulle <em>distribuzioni discrete</em>, utilizzate per modellare fenomeni con esiti numerabili, come conteggi, scelte categoriali ed eventi binari.</p>
+<p>Nel framework bayesiano, le distribuzioni discrete svolgono tre ruoli strettamente interconnessi. In qualità di <strong>verosimiglianza</strong>, descrivono il modo in cui i dati osservati vengono generati in funzione di un determinato valore del parametro. Come <strong>distribuzioni a priori e a posteriori</strong>, rappresentano le nostre credenze sui parametri prima e dopo l’osservazione dei dati. Infine, come <strong>distribuzioni predittive</strong>, esprimono le nostre aspettative riguardo alle osservazioni future, integrando l’incertezza sui parametri con la struttura del modello.</p>
+<p>In questa prospettiva, i parametri delle distribuzioni, come <span class="math inline">\(p\)</span> nella distribuzione binomiale o <span class="math inline">\(\lambda\)</span> nella distribuzione di Poisson, non sono “valori veri da scoprire”, ma quantità incerte riguardo alle quali abbiamo credenze graduabili. L’inferenza bayesiana fornisce un meccanismo coerente per rappresentare tali credenze e aggiornarle sistematicamente alla luce dell’evidenza empirica.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Consiglio</span>Prerequisiti
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
+<ul>
+<li><a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a></li>
+<li><a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a></li>
+<li><a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a></li>
+<li>
+<a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a> — <strong>fondamentale</strong>
+</li>
+</ul>
+<p>Questo capitolo studia in dettaglio le <strong>distribuzioni discrete</strong> (Bernoulli, Binomiale, Poisson) essenziali per modellare conteggi, eventi binari e fenomeni psicologici discreti.</p>
+<p>Conoscenze matematiche richieste:</p>
 <ul>
 <li>
-<a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a>: introduzione alle distribuzioni di probabilità.</li>
+<a href="../appendix/a14_combinatorics.html" class="quarto-xref"><span>Appendice E</span></a> - per coefficienti binomiali</li>
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1096,10 +1118,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Come discusso nel <a href="11_intro_distributions.html" class="quarto-xref"><span>Capitolo 11</span></a>, le distribuzioni di probabilità sono strumenti epistemici che permettono di rappresentare formalmente l’incertezza. In questo capitolo ci concentreremo sulle <em>distribuzioni discrete</em>, utilizzate per modellare fenomeni con esiti numerabili, come conteggi, scelte categoriali ed eventi binari.</p>
-<p>Nel framework bayesiano, le distribuzioni discrete svolgono tre ruoli strettamente interconnessi. In qualità di <strong>verosimiglianza</strong>, descrivono il modo in cui i dati osservati vengono generati in funzione di un determinato valore del parametro. Come <strong>distribuzioni a priori e a posteriori</strong>, rappresentano le nostre credenze sui parametri prima e dopo l’osservazione dei dati. Infine, come <strong>distribuzioni predittive</strong>, esprimono le nostre aspettative riguardo alle osservazioni future, integrando l’incertezza sui parametri con la struttura del modello.</p>
-<p>In questa prospettiva, i parametri delle distribuzioni, come <span class="math inline">\(p\)</span> nella distribuzione binomiale o <span class="math inline">\(\lambda\)</span> nella distribuzione di Poisson, non sono “valori veri da scoprire”, ma quantità incerte riguardo alle quali abbiamo credenze graduabili. L’inferenza bayesiana fornisce un meccanismo coerente per rappresentare tali credenze e aggiornarle sistematicamente alla luce dell’evidenza empirica.</p>
+</div>
 </section><section id="funzioni-r-per-le-distribuzioni" class="level2" data-number="12.1"><h2 data-number="12.1" class="anchored" data-anchor-id="funzioni-r-per-le-distribuzioni">
 <span class="header-section-number">12.1</span> Funzioni R per le distribuzioni</h2>
 <p>Per ogni distribuzione, R fornisce quattro funzioni con prefissi standardizzati:</p>
@@ -1122,9 +1141,11 @@ window.Quarto = {
 <span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">5</span>, size <span class="op">=</span> <span class="fl">10</span>, prob <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>  <span class="co"># 5 simulazioni</span></span>
 <span><span class="co">#&gt; [1] 8 6 7 7 5</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Nell’inferenza bayesiana, la funzione <code>d</code> viene utilizzata per calcolare la verosimiglianza, mentre la funzione <code>r</code> permette di simulare dalla distribuzione predittiva. ## Distribuzione uniforme discreta</p>
-<section id="definizione-e-interpretazione-epistemica" class="level3" data-number="12.1.1"><h3 data-number="12.1.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica">
-<span class="header-section-number">12.1.1</span> Definizione e interpretazione epistemica</h3>
+<p>Nell’inferenza bayesiana, la funzione <code>d</code> viene utilizzata per calcolare la verosimiglianza, mentre la funzione <code>r</code> permette di simulare dalla distribuzione predittiva.</p>
+</section><section id="distribuzione-uniforme-discreta" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="distribuzione-uniforme-discreta">
+<span class="header-section-number">12.2</span> Distribuzione uniforme discreta</h2>
+<section id="definizione-e-interpretazione-epistemica" class="level3" data-number="12.2.1"><h3 data-number="12.2.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica">
+<span class="header-section-number">12.2.1</span> Definizione e interpretazione epistemica</h3>
 <div id="def-uniform-discrete" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 12.1</strong></span> Una variabile casuale <span class="math inline">\(X\)</span> ha distribuzione <em>uniforme discreta</em> su <span class="math inline">\({1,\ldots,N}\)</span> se a ciascun valore possibile viene assegnata la stessa probabilità:</p>
 <p><span class="math display">\[
@@ -1139,15 +1160,15 @@ P(X = x) = \frac{1}{N} \quad \text{per } x \in {1,\ldots,N}.
 \]</span></p>
 </div>
 <p><strong>Interpretazione epistemica</strong> La distribuzione uniforme discreta incarna il <em>principio di indifferenza</em>: quando non disponiamo di alcuna informazione che renda un’alternativa più plausibile delle altre, assegniamo a tutte le possibilità lo stesso grado di credibilità. In questo senso, la distribuzione uniforme non esprime una proprietà intrinseca del fenomeno, ma uno stato di conoscenza caratterizzato da massima ignoranza simmetrica.</p>
-</section><section id="ruolo-nellinferenza-bayesiana" class="level3" data-number="12.1.2"><h3 data-number="12.1.2" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana">
-<span class="header-section-number">12.1.2</span> Ruolo nell’inferenza bayesiana</h3>
+</section><section id="ruolo-nellinferenza-bayesiana" class="level3" data-number="12.2.2"><h3 data-number="12.2.2" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana">
+<span class="header-section-number">12.2.2</span> Ruolo nell’inferenza bayesiana</h3>
 <p>Nel contesto bayesiano, la distribuzione uniforme discreta viene spesso utilizzata come <strong>distribuzione a priori non informativa</strong> su insiemi finiti di ipotesi. Ad esempio, se dobbiamo scegliere tra <span class="math inline">\(K\)</span> modelli alternativi e non possediamo informazioni preliminari che favoriscano uno di essi, possiamo assegnare a ciascun modello la probabilità</p>
 <p><span class="math display">\[
 P(M_k) = \frac{1}{K}, \qquad k = 1,\ldots,K.
 \]</span></p>
 <p>Questa scelta rende esplicita l’assenza di preferenze iniziali e garantisce che l’aggiornamento delle credenze sia guidato esclusivamente dai dati osservati.</p>
-</section><section id="esempio-dado-equo" class="level3" data-number="12.1.3"><h3 data-number="12.1.3" class="anchored" data-anchor-id="esempio-dado-equo">
-<span class="header-section-number">12.1.3</span> Esempio: dado equo</h3>
+</section><section id="esempio-dado-equo" class="level3" data-number="12.2.3"><h3 data-number="12.2.3" class="anchored" data-anchor-id="esempio-dado-equo">
+<span class="header-section-number">12.2.3</span> Esempio: dado equo</h3>
 <p>Un esempio classico di distribuzione uniforme discreta è il lancio di un dado equo, in cui ciascun esito da 1 a 6 è ritenuto equiprobabile.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simulazione di 10000 lanci di dado</span></span>
@@ -1189,10 +1210,10 @@ P(M_k) = \frac{1}{K}, \qquad k = 1,\ldots,K.
 <p><strong>Attenzione:</strong> “Equiprobabile” è una scelta epistemica (assenza di informazione), non una proprietà del mondo.</p>
 </div>
 </div>
-</section></section><section id="distribuzione-di-bernoulli" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="distribuzione-di-bernoulli">
-<span class="header-section-number">12.2</span> Distribuzione di Bernoulli</h2>
-<section id="definizione-e-interpretazione-epistemica-1" class="level3" data-number="12.2.1"><h3 data-number="12.2.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-1">
-<span class="header-section-number">12.2.1</span> Definizione e interpretazione epistemica</h3>
+</section></section><section id="distribuzione-di-bernoulli" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="distribuzione-di-bernoulli">
+<span class="header-section-number">12.3</span> Distribuzione di Bernoulli</h2>
+<section id="definizione-e-interpretazione-epistemica-1" class="level3" data-number="12.3.1"><h3 data-number="12.3.1" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-1">
+<span class="header-section-number">12.3.1</span> Definizione e interpretazione epistemica</h3>
 <div id="def-bernoulli" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 12.2</strong></span> Una variabile casuale <span class="math inline">\(X\)</span> segue una distribuzione di <em>Bernoulli</em> con parametro <span class="math inline">\(p \in [0,1]\)</span> se può assumere solo due valori: 1 (interpretabile come “successo”) con probabilità <span class="math inline">\(p\)</span>, e 0 (“insuccesso”) con probabilità <span class="math inline">\(1-p\)</span>:</p>
 <p><span class="math display">\[
@@ -1208,8 +1229,8 @@ P(X = x) = p^x (1-p)^{1-x},
 \]</span></p>
 </div>
 <p><strong>Interpretazione epistemica</strong> Il parametro <span class="math inline">\(p\)</span> rappresenta il grado di credenza associato al verificarsi dell’evento etichettato come “successo”. La varianza <span class="math inline">\(p(1-p)\)</span> quantifica l’incertezza associata a una singola osservazione: essa è massima quando <span class="math inline">\(p = 0.5\)</span>, ossia quando i due esiti sono ritenuti ugualmente plausibili, e si riduce man mano che uno dei due esiti diventa dominante. In questo senso, la distribuzione di Bernoulli fornisce il modello più semplice per rappresentare l’incertezza in presenza di una scelta binaria.</p>
-</section><section id="ruolo-nellinferenza-bayesiana-1" class="level3" data-number="12.2.2"><h3 data-number="12.2.2" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana-1">
-<span class="header-section-number">12.2.2</span> Ruolo nell’inferenza bayesiana</h3>
+</section><section id="ruolo-nellinferenza-bayesiana-1" class="level3" data-number="12.3.2"><h3 data-number="12.3.2" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana-1">
+<span class="header-section-number">12.3.2</span> Ruolo nell’inferenza bayesiana</h3>
 <p>La distribuzione di Bernoulli è il modello di riferimento per i <strong>dati binari</strong>. Ogni singola osservazione che può assumere solo due valori (sì/no, presente/assente, corretto/errato) viene modellata come una variabile di Bernoulli. Quando si considerano <span class="math inline">\(n\)</span> osservazioni indipendenti con lo stesso parametro <span class="math inline">\(p\)</span>, la loro somma segue una distribuzione binomiale, che verrà introdotta nel prossimo paragrafo.</p>
 <p>Nel contesto bayesiano, il parametro <span class="math inline">\(p\)</span> è considerato una quantità incerta e a cui viene associata una distribuzione a priori. La <strong>distribuzione coniugata</strong> per <span class="math inline">\(p\)</span> è la distribuzione beta, che consente un aggiornamento analiticamente semplice delle credenze dopo l’osservazione dei dati.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -1239,8 +1260,8 @@ P(X = x) = p^x (1-p)^{1-x},
 <p><strong>Prior bayesiano tipico:</strong> Beta(1,1) [uniforme] o Beta(α,β) informativo se hai dati storici sulla difficoltà dell’item.</p>
 </div>
 </div>
-</section><section id="esempio-sensibilità-di-un-test-diagnostico" class="level3" data-number="12.2.3"><h3 data-number="12.2.3" class="anchored" data-anchor-id="esempio-sensibilità-di-un-test-diagnostico">
-<span class="header-section-number">12.2.3</span> Esempio: sensibilità di un test diagnostico</h3>
+</section><section id="esempio-sensibilità-di-un-test-diagnostico" class="level3" data-number="12.3.3"><h3 data-number="12.3.3" class="anchored" data-anchor-id="esempio-sensibilità-di-un-test-diagnostico">
+<span class="header-section-number">12.3.3</span> Esempio: sensibilità di un test diagnostico</h3>
 <p>Consideriamo un test diagnostico con sensibilità pari a 0.85, ossia con probabilità <span class="math inline">\(p = 0.85\)</span> di fornire un risultato positivo quando la condizione è presente. Ogni singolo esito del test può essere modellato come una variabile di Bernoulli.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test diagnostico con sensibilità 0.85</span></span>
@@ -1258,28 +1279,28 @@ P(X = x) = p^x (1-p)^{1-x},
 <span><span class="co">#&gt; Valore teorico: 0.85</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>La simulazione mostra che, su un numero elevato di osservazioni, la proporzione campionaria di esiti positivi si avvicina al valore del parametro <span class="math inline">\(p\)</span>. Tuttavia, per campioni più piccoli, tale proporzione può variare sensibilmente, riflettendo l’incertezza intrinseca associata alle singole osservazioni binarie.</p>
-</section></section><section id="distribuzione-binomiale" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="distribuzione-binomiale">
-<span class="header-section-number">12.3</span> Distribuzione binomiale</h2>
-<section id="da-bernoulli-a-binomiale-costruzione-passo-per-passo" class="level3" data-number="12.3.1"><h3 data-number="12.3.1" class="anchored" data-anchor-id="da-bernoulli-a-binomiale-costruzione-passo-per-passo">
-<span class="header-section-number">12.3.1</span> Da Bernoulli a Binomiale: costruzione passo per passo</h3>
+</section></section><section id="distribuzione-binomiale" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="distribuzione-binomiale">
+<span class="header-section-number">12.4</span> Distribuzione binomiale</h2>
+<section id="da-bernoulli-a-binomiale-costruzione-passo-per-passo" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="da-bernoulli-a-binomiale-costruzione-passo-per-passo">
+<span class="header-section-number">12.4.1</span> Da Bernoulli a Binomiale: costruzione passo per passo</h3>
 <p>Prima di introdurre formalmente la distribuzione binomiale, è utile capire <strong>da dove proviene la sua formula</strong>. La distribuzione binomiale non è un oggetto “nuovo”, ma emerge naturalmente come estensione della distribuzione di Bernoulli a più osservazioni.</p>
 <p>Supponiamo di osservare <span class="math inline">\(n\)</span> prove indipendenti, ciascuna modellata come una variabile di Bernoulli con probabilità di successo <span class="math inline">\(p\)</span>. Ogni prova può dare esito 1 (successo) o 0 (insuccesso).</p>
-<section id="passo-1-una-singola-sequenza-di-esiti" class="level4" data-number="12.3.1.1"><h4 data-number="12.3.1.1" class="anchored" data-anchor-id="passo-1-una-singola-sequenza-di-esiti">
-<span class="header-section-number">12.3.1.1</span> Passo 1: una singola sequenza di esiti</h4>
+<section id="passo-1-una-singola-sequenza-di-esiti" class="level4" data-number="12.4.1.1"><h4 data-number="12.4.1.1" class="anchored" data-anchor-id="passo-1-una-singola-sequenza-di-esiti">
+<span class="header-section-number">12.4.1.1</span> Passo 1: una singola sequenza di esiti</h4>
 <p>Consideriamo una <strong>specifica sequenza ordinata</strong> di <span class="math inline">\(n\)</span> prove che contiene esattamente <span class="math inline">\(k\)</span> successi e <span class="math inline">\(n-k\)</span> insuccessi. Poiché le prove sono indipendenti, la probabilità di quella sequenza particolare è data dal prodotto delle probabilità dei singoli esiti:</p>
 <p><span class="math display">\[
 p^k (1-p)^{n-k}.
 \]</span></p>
 <p>Questo vale per <em>qualsiasi</em> sequenza che contenga <span class="math inline">\(k\)</span> successi, indipendentemente dall’ordine in cui essi compaiono.</p>
-</section><section id="passo-2-quante-sequenze-producono-k-successi" class="level4" data-number="12.3.1.2"><h4 data-number="12.3.1.2" class="anchored" data-anchor-id="passo-2-quante-sequenze-producono-k-successi">
-<span class="header-section-number">12.3.1.2</span> Passo 2: quante sequenze producono <span class="math inline">\(k\)</span> successi?</h4>
+</section><section id="passo-2-quante-sequenze-producono-k-successi" class="level4" data-number="12.4.1.2"><h4 data-number="12.4.1.2" class="anchored" data-anchor-id="passo-2-quante-sequenze-producono-k-successi">
+<span class="header-section-number">12.4.1.2</span> Passo 2: quante sequenze producono <span class="math inline">\(k\)</span> successi?</h4>
 <p>Nella pratica, però, non ci interessa <em>quale</em> sequenza di successi e insuccessi osserviamo, ma solo <strong>quanti</strong> successi si verificano. Dobbiamo quindi contare quante sequenze diverse di lunghezza <span class="math inline">\(n\)</span> contengono esattamente <span class="math inline">\(k\)</span> successi.</p>
 <p>Il numero di tali sequenze è dato dal <strong>coefficiente binomiale</strong>:</p>
 <p><span class="math display">\[
 \binom{n}{k},
 \]</span> che rappresenta il numero di modi in cui possiamo scegliere <span class="math inline">\(k\)</span> posizioni di successo tra <span class="math inline">\(n\)</span> prove.</p>
-</section><section id="passo-3-probabilità-totale-di-k-successi" class="level4" data-number="12.3.1.3"><h4 data-number="12.3.1.3" class="anchored" data-anchor-id="passo-3-probabilità-totale-di-k-successi">
-<span class="header-section-number">12.3.1.3</span> Passo 3: probabilità totale di <span class="math inline">\(k\)</span> successi</h4>
+</section><section id="passo-3-probabilità-totale-di-k-successi" class="level4" data-number="12.4.1.3"><h4 data-number="12.4.1.3" class="anchored" data-anchor-id="passo-3-probabilità-totale-di-k-successi">
+<span class="header-section-number">12.4.1.3</span> Passo 3: probabilità totale di <span class="math inline">\(k\)</span> successi</h4>
 <p>Poiché tutte queste sequenze hanno la stessa probabilità <span class="math inline">\(p^k (1-p)^{n-k}\)</span> e sono mutuamente esclusive, la probabilità di osservare <strong>esattamente <span class="math inline">\(k\)</span> successi</strong> è data dalla somma delle loro probabilità:</p>
 <p><span class="math display">\[
 P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}.
@@ -1303,8 +1324,8 @@ P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}.
 <p>La binomiale combina <strong>probabilità</strong> e <strong>combinatoria</strong> per passare dalle singole osservazioni Bernoulli al conteggio dei successi.</p>
 </div>
 </div>
-</section></section><section id="definizione-e-interpretazione-epistemica-2" class="level3" data-number="12.3.2"><h3 data-number="12.3.2" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-2">
-<span class="header-section-number">12.3.2</span> Definizione e interpretazione epistemica</h3>
+</section></section><section id="definizione-e-interpretazione-epistemica-2" class="level3" data-number="12.4.2"><h3 data-number="12.4.2" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-2">
+<span class="header-section-number">12.4.2</span> Definizione e interpretazione epistemica</h3>
 <div id="def-binomial" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 12.3</strong></span> Una variabile casuale <span class="math inline">\(X\)</span> che conta il numero di successi in <span class="math inline">\(n\)</span> prove indipendenti di Bernoulli, ciascuna con probabilità di successo <span class="math inline">\(p\)</span>, segue una distribuzione binomiale:</p>
 <p><span class="math display">\[
@@ -1313,8 +1334,8 @@ X \sim \text{Binomiale}(n, p), \quad P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \q
 <p><strong>Proprietà</strong>: <span class="math inline">\(\mathbb{E}(X) = np\)</span>, <span class="math inline">\(\mathbb{V}(X) = np(1-p)\)</span>.</p>
 </div>
 <p><strong>Interpretazione epistemica</strong>: la distribuzione binomiale modella le nostre credenze sul numero di successi quando conosciamo il numero di prove <span class="math inline">\(n\)</span> e abbiamo delle credenze sul parametro <span class="math inline">\(p\)</span>. Il coefficiente binomiale <span class="math inline">\(\binom{n}{k}\)</span> indica il numero di modi in cui <span class="math inline">\(k\)</span> successi possono distribuirsi tra <span class="math inline">\(n\)</span> prove.</p>
-</section><section id="ruolo-nellinferenza-bayesiana-2" class="level3" data-number="12.3.3"><h3 data-number="12.3.3" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana-2">
-<span class="header-section-number">12.3.3</span> Ruolo nell’inferenza bayesiana</h3>
+</section><section id="ruolo-nellinferenza-bayesiana-2" class="level3" data-number="12.4.3"><h3 data-number="12.4.3" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana-2">
+<span class="header-section-number">12.4.3</span> Ruolo nell’inferenza bayesiana</h3>
 <p>La distribuzione binomiale costituisce la <strong>verosimiglianza fondamentale</strong> per dati binari aggregati. Quando osserviamo <span class="math inline">\(y\)</span> successi in <span class="math inline">\(n\)</span> prove, la verosimiglianza per <span class="math inline">\(p\)</span> è:</p>
 <p><span class="math display">\[
 L(p \mid y, n) \propto p^y (1-p)^{n-y}.
@@ -1324,8 +1345,8 @@ L(p \mid y, n) \propto p^y (1-p)^{n-y}.
 p \mid y \sim \text{Beta}(\alpha + y, \beta + n - y).
 \]</span></p>
 <p>Questa proprietà consente di aggiornare le credenze su <span class="math inline">\(p\)</span> in modo analitico: i parametri della posterior si ottengono semplicemente sommando i conteggi osservati (ossia i successi e gli insuccessi) agli pseudo-conteggi della prior (ossia <span class="math inline">\(\alpha - 1\)</span> e <span class="math inline">\(\beta - 1\)</span>).</p>
-</section><section id="esempio-aggiornamento-bayesiano" class="level3" data-number="12.3.4"><h3 data-number="12.3.4" class="anchored" data-anchor-id="esempio-aggiornamento-bayesiano">
-<span class="header-section-number">12.3.4</span> Esempio: aggiornamento bayesiano</h3>
+</section><section id="esempio-aggiornamento-bayesiano" class="level3" data-number="12.4.4"><h3 data-number="12.4.4" class="anchored" data-anchor-id="esempio-aggiornamento-bayesiano">
+<span class="header-section-number">12.4.4</span> Esempio: aggiornamento bayesiano</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Dati osservati: 23 successi su 30 prove</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
@@ -1404,10 +1425,10 @@ p \mid y \sim \text{Beta}(\alpha + y, \beta + n - y).
 <p><strong>Link con Bernoulli:</strong> La binomiale è la somma di n Bernoulli indipendenti.</p>
 </div>
 </div>
-</section></section><section id="distribuzione-di-poisson" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="distribuzione-di-poisson">
-<span class="header-section-number">12.4</span> Distribuzione di Poisson</h2>
-<section id="quando-ha-senso-usare-la-poisson" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="quando-ha-senso-usare-la-poisson">
-<span class="header-section-number">12.4.1</span> Quando ha senso usare la Poisson</h3>
+</section></section><section id="distribuzione-di-poisson" class="level2" data-number="12.5"><h2 data-number="12.5" class="anchored" data-anchor-id="distribuzione-di-poisson">
+<span class="header-section-number">12.5</span> Distribuzione di Poisson</h2>
+<section id="quando-ha-senso-usare-la-poisson" class="level3" data-number="12.5.1"><h3 data-number="12.5.1" class="anchored" data-anchor-id="quando-ha-senso-usare-la-poisson">
+<span class="header-section-number">12.5.1</span> Quando ha senso usare la Poisson</h3>
 <p>La distribuzione di Poisson viene utilizzata per modellare il <strong>numero di eventi che si verificano in un intervallo di tempo o di spazio</strong>, quando:</p>
 <ul>
 <li>gli eventi sono <strong>rari</strong> rispetto all’ampiezza dell’intervallo;</li>
@@ -1415,8 +1436,8 @@ p \mid y \sim \text{Beta}(\alpha + y, \beta + n - y).
 <li>la probabilità che più eventi si verifichino simultaneamente è trascurabile.</li>
 </ul>
 <p>Esempi tipici includono il numero di errori in un compito, il numero di accessi a un servizio in un’ora, o il numero di eventi clinici rari osservati in un certo periodo.</p>
-</section><section id="definizione-e-interpretazione-epistemica-3" class="level3" data-number="12.4.2"><h3 data-number="12.4.2" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-3">
-<span class="header-section-number">12.4.2</span> Definizione e interpretazione epistemica</h3>
+</section><section id="definizione-e-interpretazione-epistemica-3" class="level3" data-number="12.5.2"><h3 data-number="12.5.2" class="anchored" data-anchor-id="definizione-e-interpretazione-epistemica-3">
+<span class="header-section-number">12.5.2</span> Definizione e interpretazione epistemica</h3>
 <div id="def-poisson" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 12.4</strong></span> Una variabile casuale <span class="math inline">\(Y\)</span> segue una distribuzione di Poisson con parametro <span class="math inline">\(\lambda &gt; 0\)</span> se la probabilità di osservare <span class="math inline">\(y\)</span> eventi è:</p>
 <p><span class="math display">\[
@@ -1444,8 +1465,8 @@ P(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!},
 <p>La distribuzione di Poisson non descrive <em>se</em> un evento accade, ma <em>quanti</em> eventi accadono in un intervallo di tempo, quando il meccanismo generativo è dominato dalla rarità e dall’indipendenza.</p>
 </div>
 </div>
-</section><section id="ruolo-nellinferenza-bayesiana-3" class="level3" data-number="12.4.3"><h3 data-number="12.4.3" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana-3">
-<span class="header-section-number">12.4.3</span> Ruolo nell’inferenza bayesiana</h3>
+</section><section id="ruolo-nellinferenza-bayesiana-3" class="level3" data-number="12.5.3"><h3 data-number="12.5.3" class="anchored" data-anchor-id="ruolo-nellinferenza-bayesiana-3">
+<span class="header-section-number">12.5.3</span> Ruolo nell’inferenza bayesiana</h3>
 <p>Nel framework bayesiano, la distribuzione di Poisson svolge il ruolo di <strong>verosimiglianza</strong> per dati di conteggio. Il parametro <span class="math inline">\(\lambda\)</span> è trattato come una quantità incerta, su cui esprimiamo una distribuzione a priori.</p>
 <p>La <strong>distribuzione coniugata</strong> per <span class="math inline">\(\lambda\)</span> è la distribuzione gamma. Questa scelta consente un aggiornamento analiticamente semplice delle credenze.</p>
 <p><strong>Coniugazione gamma–Poisson.</strong> Se <span class="math display">\[
@@ -1503,8 +1524,8 @@ P(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!},
 </ul>
 </div>
 </div>
-</section><section id="esempio-eventi-rari-e-dati-storici" class="level3" data-number="12.4.4"><h3 data-number="12.4.4" class="anchored" data-anchor-id="esempio-eventi-rari-e-dati-storici">
-<span class="header-section-number">12.4.4</span> Esempio: eventi rari e dati storici</h3>
+</section><section id="esempio-eventi-rari-e-dati-storici" class="level3" data-number="12.5.4"><h3 data-number="12.5.4" class="anchored" data-anchor-id="esempio-eventi-rari-e-dati-storici">
+<span class="header-section-number">12.5.4</span> Esempio: eventi rari e dati storici</h3>
 <p>Un esempio classico di applicazione della distribuzione di Poisson è il dataset di von Bortkiewicz sui decessi causati da calci di cavallo nell’esercito prussiano, spesso citato come prototipo di processo con eventi rari e indipendenti.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Dati storici</span></span>
@@ -1528,8 +1549,8 @@ P(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!},
 <span><span class="co">#&gt; 5       4               0.005       0.0031</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>L’elevata corrispondenza tra le frequenze osservate e le probabilità teoriche suggerisce che il processo generativo sia compatibile con le assunzioni della distribuzione di Poisson.</p>
-</section><section id="aggiornamento-bayesiano-del-tasso" class="level3" data-number="12.4.5"><h3 data-number="12.4.5" class="anchored" data-anchor-id="aggiornamento-bayesiano-del-tasso">
-<span class="header-section-number">12.4.5</span> Aggiornamento bayesiano del tasso</h3>
+</section><section id="aggiornamento-bayesiano-del-tasso" class="level3" data-number="12.5.5"><h3 data-number="12.5.5" class="anchored" data-anchor-id="aggiornamento-bayesiano-del-tasso">
+<span class="header-section-number">12.5.5</span> Aggiornamento bayesiano del tasso</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prior debolmente informativa</span></span>
 <span><span class="va">alpha_prior</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span>
@@ -1780,9 +1801,106 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 </div>
 </div>
-</section></section><section id="esercizi" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esercizi">Esercizi</h2>
+</section></section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Distribuzione di Bernoulli</strong>
+<ul>
+<li>Modella singolo evento binario: successo (1) o fallimento (0)</li>
+<li>
+<span class="math inline">\(P(X=1) = \theta\)</span>, <span class="math inline">\(P(X=0) = 1-\theta\)</span>
+</li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = \theta\)</span>, <span class="math inline">\(\text{Var}(X) = \theta(1-\theta)\)</span>
+</li>
+<li>Base per tutti i modelli binari in psicologia</li>
+</ul>
+</li>
+<li>
+<strong>Distribuzione Binomiale</strong>
+<ul>
+<li>Conteggio di successi in <span class="math inline">\(n\)</span> prove Bernoulli indipendenti</li>
+<li><span class="math inline">\(P(X=k) = \binom{n}{k}\theta^k(1-\theta)^{n-k}\)</span></li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = n\theta\)</span>, <span class="math inline">\(\text{Var}(X) = n\theta(1-\theta)\)</span>
+</li>
+<li>Usata per: risposte corrette in test, prevalenze, adesione a trattamenti</li>
+</ul>
+</li>
+<li>
+<strong>Distribuzione di Poisson</strong>
+<ul>
+<li>Conteggio di eventi rari in intervallo fisso</li>
+<li>
+<span class="math inline">\(P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}\)</span>, <span class="math inline">\(k = 0,1,2,\ldots\)</span>
+</li>
+<li>
+<span class="math inline">\(\mathbb{E}[X] = \lambda\)</span>, <span class="math inline">\(\text{Var}(X) = \lambda\)</span> (equidispersione!)</li>
+<li>Usata per: numero sintomi, comportamenti rari, crisi panic</li>
+</ul>
+</li>
+<li>
+<strong>Proprietà chiave delle distribuzioni discrete</strong>
+<ul>
+<li>Dominio: valori numerabili (interi)</li>
+<li>Somma di PMF = 1</li>
+<li>Facilmente visualizzabili con diagrammi a barre</li>
+<li>Simulabili facilmente in R</li>
+</ul>
+</li>
+<li>
+<strong>Applicazioni in psicologia</strong>
+<ul>
+<li>
+<strong>Bernoulli</strong>: diagnosi binaria (disturbo presente/assente)</li>
+<li>
+<strong>Binomiale</strong>: accuratezza in test cognitivi, risposte “sì/no” in questionari</li>
+<li>
+<strong>Poisson</strong>: eventi psicopatologici infrequenti, conteggio sintomi DSM</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Bernoulli(<span class="math inline">\(\theta\)</span>):</strong> <span class="math display">\[
+P(X=x) = \theta^x(1-\theta)^{1-x}, \quad x \in \{0,1\}
+\]</span></p>
+<p><strong>Binomiale(<span class="math inline">\(n, \theta\)</span>):</strong> <span class="math display">\[
+P(X=k) = \binom{n}{k}\theta^k(1-\theta)^{n-k}, \quad k = 0,1,\ldots,n
+\]</span> <span class="math display">\[
+\mathbb{E}[X] = n\theta, \quad \text{Var}(X) = n\theta(1-\theta)
+\]</span></p>
+<p><strong>Poisson(<span class="math inline">\(\lambda\)</span>):</strong> <span class="math display">\[
+P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0,1,2,\ldots
+\]</span> <span class="math display">\[
+\mathbb{E}[X] = \lambda, \quad \text{Var}(X) = \lambda
+\]</span></p>
+<p><strong>Proprietà critiche:</strong></p>
+<ul>
+<li>Binomiale è somma di <span class="math inline">\(n\)</span> Bernoulli i.i.d.</li>
+<li>Poisson è limite di Binomiale per <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(p \to 0\)</span>, <span class="math inline">\(np = \lambda\)</span>
+</li>
+<li>Poisson ha equidispersione (media = varianza)</li>
+<li>Varianza Binomiale massima quando <span class="math inline">\(\theta = 0.5\)</span>
+</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="13_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 13</span></a> studieremo le <strong>distribuzioni continue</strong> (Beta, Normale, Gamma, Esponenziale), fondamentali per modellare proporzioni, misure psicometriche, tempi di reazione e parametri continui nei modelli bayesiani.</p>
+</div>
+</div>
+</section><section id="esercizi" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esercizi">Esercizi</h2>
 <div class="callout callout-style-default callout-important callout-titled" title="Esercizi di base">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1791,7 +1909,7 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Per ciascuna distribuzione (uniforme, Bernoulli, binomiale, Poisson):</p>
 <ol type="1">
@@ -1803,7 +1921,7 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1812,7 +1930,7 @@ Quando ogni unità (persona, gruppo, item) ha il proprio <span class="math inlin
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>

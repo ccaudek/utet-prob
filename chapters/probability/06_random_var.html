@@ -1049,6 +1049,7 @@ window.Quarto = {
   <li><a href="#distribuzione-congiunta" id="toc-distribuzione-congiunta" class="nav-link" data-scroll-target="#distribuzione-congiunta"><span class="header-section-number">6.12</span> Distribuzione congiunta</a></li>
   <li><a href="#distribuzioni-marginali" id="toc-distribuzioni-marginali" class="nav-link" data-scroll-target="#distribuzioni-marginali"><span class="header-section-number">6.13</span> Distribuzioni marginali</a></li>
   <li><a href="#indipendenza-stocastica-tra-variabili-casuali" id="toc-indipendenza-stocastica-tra-variabili-casuali" class="nav-link" data-scroll-target="#indipendenza-stocastica-tra-variabili-casuali"><span class="header-section-number">6.14</span> Indipendenza stocastica tra variabili casuali</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/06_random_var.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1072,15 +1073,6 @@ window.Quarto = {
 <p>La ricerca psicologica, tuttavia, raramente si esaurisce in domande puramente binarie. Lo psicologo clinico non si chiede soltanto <em>se</em> un paziente migliorerà, ma anche <em>di quanto</em> ci si aspetta che migliori. Il neuropsicologo non si interessa solo a <em>se</em> una risposta sarà corretta, ma anche a <em>quanto tempo</em> richiederà. Analogamente, nello studio della personalità o delle differenze individuali, l’interesse non è tanto la presenza o assenza di un tratto, quanto il <strong>valore</strong> che esso assume lungo una scala continua.</p>
 <p>Per affrontare questo tipo di domande è necessario estendere il concetto di probabilità dagli eventi alle <strong>quantità numeriche</strong>. Questo passaggio è reso possibile introducendo le <strong>variabili casuali</strong>, che non sono altro che funzioni capaci di associare a ciascun esito di un processo aleatorio un valore numerico. In questo modo, l’incertezza non riguarda più soltanto il verificarsi di un evento, ma anche l’ampiezza, la durata o l’intensità di un fenomeno.</p>
 <p>Le variabili casuali costituiscono quindi il <strong>ponte concettuale</strong> tra la teoria della probabilità sviluppata finora e i modelli statistici utilizzati nell’inferenza bayesiana. Comprendere questo concetto significa acquisire il vocabolario tecnico necessario per descrivere distribuzioni <em>a priori</em>, funzioni di <em>verosimiglianza</em> e distribuzioni <em>a posteriori</em>, che rappresentano i pilastri dell’intero edificio bayesiano.</p>
-<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
-<ul>
-<li>Definizione formale di variabile casuale come funzione dallo spazio campionario ai numeri reali.</li>
-<li>Distinzione tra variabili casuali discrete e continue.</li>
-<li>Funzione di massa di probabilità (PMF) per variabili discrete.</li>
-<li>Funzione di densità di probabilità (PDF) per variabili continue.</li>
-<li>Funzione di distribuzione cumulativa (CDF) come rappresentazione unificata.</li>
-<li>Variabili casuali multiple e nozione di indipendenza.</li>
-</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1093,14 +1085,37 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Aver letto i capitoli <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a>, <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> e <span class="quarto-unresolved-ref">?sec-bayes-theorem</span>.</li>
-<li>Leggere l’appendice <a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> per i concetti base di calcolo integrale.</li>
-<li>Familiarità con R e le operazioni vettoriali di base.</li>
+<li><a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a></li>
+<li><a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a></li>
+<li><a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a></li>
+<li><a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a></li>
+<li><a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a></li>
+</ul>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> — <strong>fondamentale</strong> per comprendere le PDF e le variabili continue</li>
+<li>
+<a href="../appendix/a12_sum_notation.html" class="quarto-xref"><span>Appendice C</span></a> - per marginalizzazione di variabili discrete</li>
+</ul>
+<p>Competenze pratiche:</p>
+<ul>
+<li>Familiarità con R e operazioni vettoriali di base per eseguire le simulazioni</li>
 </ul>
 </div>
 </div>
 </div>
+<section id="panoramica-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h3>
+<ul>
+<li>Definizione formale di variabile casuale come funzione dallo spazio campionario ai numeri reali.</li>
+<li>Distinzione tra variabili casuali discrete e continue.</li>
+<li>Funzione di massa di probabilità (PMF) per variabili discrete.</li>
+<li>Funzione di densità di probabilità (PDF) per variabili continue.</li>
+<li>Funzione di distribuzione cumulativa (CDF) come rappresentazione unificata.</li>
+<li>Variabili casuali multiple e nozione di indipendenza.</li>
+</ul>
 <div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1582,8 +1597,115 @@ p_{X,Y}(x,y) = p_X(x),p_Y(y)
 <p>Le variabili casuali permettono inoltre di passare dall’incertezza su singoli valori all’analisi delle <strong>proprietà globali</strong> delle distribuzioni. In questo contesto, il <strong>valore atteso</strong> e la <strong>varianza</strong> rappresentano strumenti fondamentali di sintesi: il valore atteso individua il baricentro probabilistico della distribuzione, mentre la varianza ne quantifica la dispersione attorno a tale centro. Le loro proprietà algebriche, in particolare la linearità del valore atteso e l’additività della varianza per variabili indipendenti, consentono di semplificare in modo significativo molti calcoli applicativi.</p>
 <p>Questi fondamenti troveranno immediata applicazione nei capitoli successivi, dedicati allo studio di specifiche <strong>famiglie parametriche di distribuzioni</strong> (come Beta, Normale, Poisson e Binomiale), che costituiscono i mattoni elementari della modellazione statistica bayesiana. Le distribuzioni <em>a priori</em>, le <em>funzioni di verosimiglianza</em> e le distribuzioni <em>a posteriori</em>, ovvero i tre pilastri concettuali dell’inferenza bayesiana, trovano infatti piena espressione e interpretabilità nel linguaggio delle variabili casuali introdotto in questo capitolo.</p>
 <p>In questo senso, le variabili casuali non rappresentano un semplice strumento tecnico, ma il <strong>vocabolario fondamentale</strong> attraverso cui la probabilità bayesiana descrive, quantifica e aggiorna l’incertezza nei modelli psicologici.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Variabile casuale come funzione dallo spazio campionario ai numeri reali</strong>
+<ul>
+<li>
+<span class="math inline">\(X: \Omega \to \mathbb{R}\)</span> associa a ogni esito <span class="math inline">\(\omega\)</span> un valore numerico <span class="math inline">\(X(\omega)\)</span>
+</li>
+<li>La funzione è deterministica; l’incertezza riguarda quale esito si realizzerà</li>
+<li>Ponte concettuale: da eventi qualitativi a quantità numeriche analizzabili matematicamente</li>
+</ul>
+</li>
+<li>
+<strong>Distinzione fondamentale: discrete vs continue</strong>
+<ul>
+<li>
+<strong>Discrete</strong>: assumono valori numerabili (finiti o infiniti), es. numero di successi, punteggi categoriali</li>
+<li>
+<strong>Continue</strong>: assumono valori in intervalli continui, es. tempi di reazione, punteggi psicometrici standardizzati</li>
+<li>Richiedono strumenti matematici differenti (somme vs integrali)</li>
+</ul>
+</li>
+<li>
+<strong>Funzione di massa di probabilità (PMF) per variabili discrete</strong>
+<ul>
+<li>
+<span class="math inline">\(p_X(x) = P(X = x)\)</span> assegna probabilità a ciascun valore specifico</li>
+<li>Proprietà: <span class="math inline">\(p_X(x) \geq 0\)</span> e <span class="math inline">\(\sum_x p_X(x) = 1\)</span>
+</li>
+<li>Visualizzazione: diagramma a barre</li>
+</ul>
+</li>
+<li>
+<strong>Funzione di densità di probabilità (PDF) per variabili continue</strong>
+<ul>
+<li>
+<span class="math inline">\(f_X(x)\)</span> descrive la densità di probabilità (non la probabilità stessa!)</li>
+<li>
+<span class="math inline">\(P(a \leq X \leq b) = \int_a^b f_X(x) \, dx\)</span> (probabilità tramite integrazione)</li>
+<li>Proprietà: <span class="math inline">\(f_X(x) \geq 0\)</span> e <span class="math inline">\(\int_{-\infty}^{+\infty} f_X(x) \, dx = 1\)</span>
+</li>
+<li>Attenzione: <span class="math inline">\(P(X = x) = 0\)</span> per ogni <span class="math inline">\(x\)</span> specifico (misura nulla in continuo)</li>
+</ul>
+</li>
+<li>
+<strong>Funzione di distribuzione cumulativa (CDF) come rappresentazione unificata</strong>
+<ul>
+<li>
+<span class="math inline">\(F_X(x) = P(X \leq x)\)</span> per ogni tipo di variabile</li>
+<li>Per discrete: <span class="math inline">\(F_X(x) = \sum_{x_i \leq x} p_X(x_i)\)</span> (funzione a gradini)</li>
+<li>Per continue: <span class="math inline">\(F_X(x) = \int_{-\infty}^x f_X(t) \, dt\)</span> (funzione continua)</li>
+<li>Proprietà: monotona non decrescente, <span class="math inline">\(\lim_{x \to -\infty} F_X(x) = 0\)</span>, <span class="math inline">\(\lim_{x \to +\infty} F_X(x) = 1\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Variabili casuali multiple e distribuzione congiunta</strong>
+<ul>
+<li>
+<span class="math inline">\(p_{X,Y}(x,y) = P(X=x, Y=y)\)</span> rappresenta lo stato di credenza completo su due variabili</li>
+<li>Marginalizzazione: <span class="math inline">\(p_X(x) = \sum_y p_{X,Y}(x,y)\)</span> elimina una variabile</li>
+<li>Indipendenza stocastica: <span class="math inline">\(p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y)\)</span> (assenza di relazione informativa)</li>
+</ul>
+</li>
+<li>
+<strong>Passaggio cruciale per l’inferenza bayesiana</strong>
+<ul>
+<li>Prior, verosimiglianza e posterior sono distribuzioni di probabilità su variabili casuali</li>
+<li>La CDF è fondamentale per calcolare quantili, intervalli di credibilità, probabilità di ipotesi</li>
+<li>Le variabili casuali permettono di modellare parametri continui (non solo eventi discreti)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><strong>Variabili discrete (PMF):</strong> <span class="math display">\[
+p_X(x) = P(X = x), \quad \sum_x p_X(x) = 1
+\]</span></p>
+<p><strong>Variabili continue (PDF):</strong> <span class="math display">\[
+P(a \leq X \leq b) = \int_a^b f_X(x) \, dx, \quad \int_{-\infty}^{+\infty} f_X(x) \, dx = 1
+\]</span></p>
+<p><strong>CDF (universale):</strong> <span class="math display">\[
+F_X(x) = P(X \leq x) = \begin{cases}
+\sum_{x_i \leq x} p_X(x_i) &amp; \text{(discreta)} \\
+\int_{-\infty}^x f_X(t) \, dt &amp; \text{(continua)}
+\end{cases}
+\]</span></p>
+<p><strong>Marginalizzazione (eliminare una variabile):</strong> <span class="math display">\[
+p_X(x) = \sum_y p_{X,Y}(x,y) \quad \text{o} \quad f_X(x) = \int f_{X,Y}(x,y) \, dy
+\]</span></p>
+<p><strong>Indipendenza stocastica:</strong> <span class="math display">\[
+X \perp Y \iff p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y)
+\]</span></p>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nei capitoli successivi studieremo sistematicamente le <strong>distribuzioni di massa e di densità</strong>, formalizzando le famiglie parametriche di distribuzioni (Bernoulli, Binomiale, Normale, Beta, ecc.) che costituiscono il vocabolario standard della modellazione bayesiana. Vedremo come ogni distribuzione codifichi specifiche assunzioni sul processo generativo dei dati e come i suoi parametri quantifichino l’incertezza in modo interpretabile.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1592,7 +1714,7 @@ p_{X,Y}(x,y) = p_X(x),p_Y(y)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>

@@ -1041,6 +1041,7 @@ window.Quarto = {
   <li><a href="#teorema-del-prodotto-regola-della-catena" id="toc-teorema-del-prodotto-regola-della-catena" class="nav-link" data-scroll-target="#teorema-del-prodotto-regola-della-catena"><span class="header-section-number">4.4</span> Teorema del prodotto (regola della catena)</a></li>
   <li><a href="#legge-della-probabilit%C3%A0-totale" id="toc-legge-della-probabilità-totale" class="nav-link" data-scroll-target="#legge-della-probabilit%C3%A0-totale"><span class="header-section-number">4.5</span> Legge della probabilità totale</a></li>
   <li><a href="#paradosso-di-simpson" id="toc-paradosso-di-simpson" class="nav-link" data-scroll-target="#paradosso-di-simpson"><span class="header-section-number">4.6</span> Paradosso di Simpson</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   <li><a href="#esercizi" id="toc-esercizi" class="nav-link" data-scroll-target="#esercizi">Esercizi</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/04_conditional_prob_bayesian.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
@@ -1086,10 +1087,23 @@ window.Quarto = {
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li>Aver letto i capitoli precedenti (<a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a>, <span class="quarto-unresolved-ref">?sec-prob-models</span>, <a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a>).</li>
-<li>Familiarità con tabelle congiunte.</li>
-<li>Nozioni base di R per simulazioni.</li>
+<li><a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a></li>
+<li><a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a></li>
+<li><a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a></li>
+</ul>
+<p>Conoscenze matematiche richieste:</p>
+<ul>
+<li>
+<a href="../appendix/a13_sets.html" class="quarto-xref"><span>Appendice D</span></a> - per operazioni su eventi (intersezione, unione)</li>
+<li>
+<a href="../appendix/a12_sum_notation.html" class="quarto-xref"><span>Appendice C</span></a> - per la legge della probabilità totale</li>
+</ul>
+<p>Competenze pratiche:</p>
+<ul>
+<li>Familiarità con tabelle congiunte e rappresentazioni 2×2</li>
+<li>Nozioni base di R per eseguire le simulazioni presentate</li>
 </ul>
 </div>
 </div>
@@ -1627,9 +1641,95 @@ P(\text{Guarigione} \mid \text{Trattamento}, \text{Clinica}).
 <p>Nel loro insieme, questi risultati mostrano che la probabilità condizionata non è soltanto uno strumento tecnico di calcolo, ma il <strong>fondamento concettuale del pensiero bayesiano</strong>. Essa chiarisce come l’informazione debba essere incorporata nelle credenze in modo sistematico e come il contesto informativo giochi un ruolo essenziale nell’interpretazione dei dati.</p>
 <p>Nel prossimo capitolo, il <strong>teorema di Bayes</strong> emergerà come un caso particolare e centrale di probabilità condizionata, formalizzando l’<strong>inversione probabilistica</strong> che consente di passare da <span class="math inline">\(P(\text{Evidenza} \mid \text{Ipotesi})\)</span> a <span class="math inline">\(P(\text{Ipotesi} \mid \text{Evidenza})\)</span>. Questo passaggio renderà esplicito il meccanismo con cui le osservazioni empiriche permettono di discriminare tra ipotesi alternative.</p>
 <p>In definitiva, ogni volta che utilizziamo espressioni come “dato che”, “sapendo che” o “alla luce di”, stiamo implicitamente applicando il principio della probabilità condizionata: stiamo aggiornando le nostre credenze in risposta a nuove informazioni, seguendo regole che sono al tempo stesso logicamente necessarie e matematicamente precise.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Concetti essenziali di questo capitolo:</strong></p>
+<ol type="1">
+<li>
+<strong>Probabilità condizionata come aggiornamento epistemico</strong>
+<ul>
+<li>
+<span class="math inline">\(P(A \mid B)\)</span> quantifica il grado di credenza in <span class="math inline">\(A\)</span> dopo aver appreso che <span class="math inline">\(B\)</span> è vero</li>
+<li>Meccanismo: riduzione dello spazio epistemico + rinormalizzazione</li>
+<li>Ogni probabilità è sempre relativa a uno sfondo informativo: <span class="math inline">\(P(A) = P(A \mid \mathcal{I})\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Indipendenza come assenza di informazione reciproca</strong>
+<ul>
+<li>
+<span class="math inline">\(A \perp B\)</span> se e solo se <span class="math inline">\(P(A \mid B) = P(A)\)</span> (apprendere <span class="math inline">\(B\)</span> non cambia credenza in <span class="math inline">\(A\)</span>)</li>
+<li>Equivalentemente: <span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span>
+</li>
+<li>Eventi disgiunti NON sono indipendenti (hanno informazione reciproca massima)</li>
+</ul>
+</li>
+<li>
+<strong>Teorema del prodotto per costruire probabilità congiunte</strong>
+<ul>
+<li>
+<span class="math inline">\(P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)\)</span> (simmetria fondamentale)</li>
+<li>Generalizzazione sequenziale: <span class="math inline">\(P(A_1 \cap \cdots \cap A_n) = P(A_1) \cdot P(A_2 \mid A_1) \cdot P(A_3 \mid A_1 \cap A_2) \cdots\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Legge della probabilità totale</strong>
+<ul>
+<li>Combina scenari alternativi: <span class="math inline">\(P(A) = \sum_{i} P(A \mid B_i) P(B_i)\)</span> per partizione <span class="math inline">\(\{B_i\}\)</span>
+</li>
+<li>Fondamentale per marginalizzare su variabili non osservate</li>
+</ul>
+</li>
+<li>
+<strong>Paradosso di Simpson</strong>
+<ul>
+<li>Trend aggregati possono invertirsi rispetto a trend stratificati</li>
+<li>Non è paradosso ma avvertimento: esplicita le assunzioni di omogeneità prima di aggregare</li>
+<li>Cruciale in psicologia per controllo di confondenti (età, genere, severità)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Formule da ricordare:</strong></p>
+<p><span class="math display">\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)} \quad \text{(definizione)}
+\]</span></p>
+<p><span class="math display">\[
+P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A) \quad \text{(teorema del prodotto)}
+\]</span></p>
+<p><span class="math display">\[
+P(A) = \sum_{i=1}^{n} P(A \mid B_i) P(B_i) \quad \text{(legge probabilità totale)}
+\]</span></p>
+<p><span class="math display">\[
+A \perp B \iff P(A \cap B) = P(A) \cdot P(B) \quad \text{(indipendenza)}
+\]</span></p>
+<p><strong>Applicazioni diagnostiche essenziali:</strong></p>
+<ul>
+<li>
+<strong>Valore Predittivo Positivo (VPP)</strong>: <span class="math inline">\(P(D \mid T^+) = \frac{P(T^+ \mid D) P(D)}{P(T^+)}\)</span>
+</li>
+<li>
+<strong>Valore Predittivo Negativo (VPN)</strong>: <span class="math inline">\(P(D^c \mid T^-) = \frac{P(T^- \mid D^c) P(D^c)}{P(T^-)}\)</span>
+</li>
+<li>La prevalenza <span class="math inline">\(P(D)\)</span> impatta drammaticamente su VPP e VPN</li>
+</ul>
+<p><strong>Per il prossimo capitolo:</strong></p>
+<p>Nel <a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a> vedremo come il teorema di Bayes permetta di <strong>invertire</strong> le probabilità condizionate, passando da <span class="math inline">\(P(E \mid H)\)</span> (verosimiglianza dei dati data l’ipotesi) a <span class="math inline">\(P(H \mid E)\)</span> (probabilità dell’ipotesi dati i dati), fornendo il meccanismo formale per l’aggiornamento bayesiano delle credenze scientifiche.</p>
+</div>
+</div>
 </section><section id="esercizi" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esercizi">Esercizi</h2>
 <div class="callout callout-style-default callout-important callout-titled" title="Problemi">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1638,7 +1738,7 @@ P(\text{Guarigione} \mid \text{Trattamento}, \text{Clinica}).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <section id="esercizi-concettuali" class="level3" data-number="4.6.5"><h3 data-number="4.6.5" class="anchored" data-anchor-id="esercizi-concettuali">
 <span class="header-section-number">4.6.5</span> Esercizi concettuali</h3>
@@ -1826,7 +1926,7 @@ P(\text{Guarigione} \mid \text{Trattamento}, \text{Clinica}).
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Soluzioni selezionate">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1835,7 +1935,7 @@ P(\text{Guarigione} \mid \text{Trattamento}, \text{Clinica}).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <section id="soluzioni-esercizi-concettuali" class="level3" data-number="4.6.13"><h3 data-number="4.6.13" class="anchored" data-anchor-id="soluzioni-esercizi-concettuali">
 <span class="header-section-number">4.6.13</span> Soluzioni esercizi concettuali</h3>
@@ -1918,6 +2018,82 @@ P(\text{Guarigione} \mid \text{Trattamento}, \text{Clinica}).
 </ul>
 </li>
 </ol></section>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin20</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] DiagrammeR_1.0.11     ggforce_0.5.0         ragg_1.5.0           </span></span>
+<span><span class="co">#&gt;  [4] tinytable_0.15.2      withr_3.0.2           systemfonts_1.3.1    </span></span>
+<span><span class="co">#&gt;  [7] patchwork_1.3.2       ggdist_3.3.3          tidybayes_3.0.7      </span></span>
+<span><span class="co">#&gt; [10] bayesplot_1.15.0      ggplot2_4.0.1         reliabilitydiag_0.2.1</span></span>
+<span><span class="co">#&gt; [13] priorsense_1.2.0      posterior_1.6.1       loo_2.9.0            </span></span>
+<span><span class="co">#&gt; [16] rstan_2.32.7          StanHeaders_2.32.10   brms_2.23.0          </span></span>
+<span><span class="co">#&gt; [19] Rcpp_1.1.0            sessioninfo_1.2.3     conflicted_1.2.0     </span></span>
+<span><span class="co">#&gt; [22] janitor_2.2.1         matrixStats_1.5.0     modelr_0.1.11        </span></span>
+<span><span class="co">#&gt; [25] tibble_3.3.0          dplyr_1.1.4           tidyr_1.3.2          </span></span>
+<span><span class="co">#&gt; [28] rio_1.2.4             here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] gridExtra_2.3         inline_0.3.21         sandwich_3.1-1       </span></span>
+<span><span class="co">#&gt;  [4] rlang_1.1.6           magrittr_2.0.4        multcomp_1.4-29      </span></span>
+<span><span class="co">#&gt;  [7] snakecase_0.11.1      otel_0.2.0            compiler_4.5.2       </span></span>
+<span><span class="co">#&gt; [10] vctrs_0.6.5           stringr_1.6.0         pkgconfig_2.0.3      </span></span>
+<span><span class="co">#&gt; [13] arrayhelpers_1.1-0    fastmap_1.2.0         backports_1.5.0      </span></span>
+<span><span class="co">#&gt; [16] labeling_0.4.3        rmarkdown_2.30        purrr_1.2.0          </span></span>
+<span><span class="co">#&gt; [19] xfun_0.55             cachem_1.1.0          jsonlite_2.0.0       </span></span>
+<span><span class="co">#&gt; [22] tweenr_2.0.3          broom_1.0.11          parallel_4.5.2       </span></span>
+<span><span class="co">#&gt; [25] R6_2.6.1              stringi_1.8.7         RColorBrewer_1.1-3   </span></span>
+<span><span class="co">#&gt; [28] lubridate_1.9.4       estimability_1.5.1    knitr_1.51           </span></span>
+<span><span class="co">#&gt; [31] zoo_1.8-15            pacman_0.5.1          Matrix_1.7-4         </span></span>
+<span><span class="co">#&gt; [34] splines_4.5.2         timechange_0.3.0      tidyselect_1.2.1     </span></span>
+<span><span class="co">#&gt; [37] abind_1.4-8           yaml_2.3.12           codetools_0.2-20     </span></span>
+<span><span class="co">#&gt; [40] curl_7.0.0            pkgbuild_1.4.8        lattice_0.22-7       </span></span>
+<span><span class="co">#&gt; [43] bridgesampling_1.2-1  S7_0.2.1              coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [46] evaluate_1.0.5        survival_3.8-3        polyclip_1.10-7      </span></span>
+<span><span class="co">#&gt; [49] RcppParallel_5.1.11-1 pillar_1.11.1         tensorA_0.36.2.1     </span></span>
+<span><span class="co">#&gt; [52] checkmate_2.3.3       stats4_4.5.2          distributional_0.5.0 </span></span>
+<span><span class="co">#&gt; [55] generics_0.1.4        rprojroot_2.1.1       rstantools_2.5.0     </span></span>
+<span><span class="co">#&gt; [58] scales_1.4.0          xtable_1.8-4          glue_1.8.0           </span></span>
+<span><span class="co">#&gt; [61] emmeans_2.0.1         tools_4.5.2           visNetwork_2.1.4     </span></span>
+<span><span class="co">#&gt; [64] mvtnorm_1.3-3         grid_4.5.2            QuickJSR_1.8.1       </span></span>
+<span><span class="co">#&gt; [67] colorspace_2.1-2      nlme_3.1-168          cli_3.6.5            </span></span>
+<span><span class="co">#&gt; [70] textshaping_1.0.4     svUnit_1.0.8          Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [73] V8_8.0.1              gtable_0.3.6          digest_0.6.39        </span></span>
+<span><span class="co">#&gt; [76] TH.data_1.1-5         htmlwidgets_1.6.4     farver_2.1.2         </span></span>
+<span><span class="co">#&gt; [79] memoise_2.0.1         htmltools_0.5.9       lifecycle_1.0.4      </span></span>
+<span><span class="co">#&gt; [82] MASS_7.3-65</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
