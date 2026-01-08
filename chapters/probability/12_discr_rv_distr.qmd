@@ -6,7 +6,16 @@ Come discusso nel @sec-prob-intro-distr, le distribuzioni di probabilità sono s
 
 Nel framework bayesiano, le distribuzioni discrete svolgono tre ruoli strettamente interconnessi. In qualità di **verosimiglianza**, descrivono il modo in cui i dati osservati vengono generati in funzione di un determinato valore del parametro. Come **distribuzioni a priori e a posteriori**, rappresentano le nostre credenze sui parametri prima e dopo l’osservazione dei dati. Infine, come **distribuzioni predittive**, esprimono le nostre aspettative riguardo alle osservazioni future, integrando l’incertezza sui parametri con la struttura del modello.
 
-In questa prospettiva, i parametri delle distribuzioni, come $p$ nella distribuzione binomiale o $\lambda$ nella distribuzione di Poisson, non sono “valori veri da scoprire”, ma quantità incerte riguardo alle quali abbiamo credenze graduabili. L’inferenza bayesiana fornisce un meccanismo coerente per rappresentare tali credenze e aggiornarle sistematicamente alla luce dell’evidenza empirica.
+In questa prospettiva, i parametri delle distribuzioni, come $p$ nella distribuzione binomiale o $\lambda$ nella distribuzione di Poisson, non sono valori da “scoprire”, ma quantità su cui siamo più o meno incerti. L’inferenza bayesiana permette di descrivere questa incertezza e di aggiornarla in modo coerente sulla base dei dati osservati.
+
+Una nota importante: quando presentiamo le distribuzioni discrete come 
+Bernoulli, Binomiale e Poisson, lavoriamo inizialmente con la **verosimiglianza 
+condizionale** $P(\text{dati}|\theta)$, dove $\theta$ (es. $p$ o $\lambda$) 
+è condizionato su un valore specifico. Questo non significa che $\theta$ sia 
+"noto" o "fisso" in senso ontologico, ma solo che stiamo calcolando la 
+probabilità dei dati *per un dato valore* del parametro. In seguito vedremo 
+come integrare l'incertezza su $\theta$ attraverso le **distribuzioni 
+predittive**, dove $\theta$ viene marginalizzato anziché condizionato.
 
 ::: {.callout-tip collapse="true"}
 ## Prerequisiti
@@ -33,8 +42,6 @@ here::here("code", "_common.R") |>
 library(reshape2)
 library(VGAM)
 library(extraDistr)
-# Riapplica il tema per sicurezza
-apply_visual_theme()
 ```
 :::
 
@@ -62,7 +69,7 @@ Nell'inferenza bayesiana, la funzione `d` viene utilizzata per calcolare la vero
 
 ## Distribuzione uniforme discreta
 
-### Definizione e interpretazione epistemica
+### Definizione 
 
 ::: {#def-uniform-discrete}
 Una variabile casuale $X$ ha distribuzione *uniforme discreta* su ${1,\ldots,N}$ se a ciascun valore possibile viene assegnata la stessa probabilità:
@@ -81,62 +88,89 @@ $$
 $$
 :::
 
-**Interpretazione epistemica**
-La distribuzione uniforme discreta incarna il *principio di indifferenza*: quando non disponiamo di alcuna informazione che renda un’alternativa più plausibile delle altre, assegniamo a tutte le possibilità lo stesso grado di credibilità. In questo senso, la distribuzione uniforme non esprime una proprietà intrinseca del fenomeno, ma uno stato di conoscenza caratterizzato da massima ignoranza simmetrica.
+#### Interpretazione epistemica
 
-### Ruolo nell’inferenza bayesiana
+La distribuzione uniforme discreta implementa il **principio di indifferenza**: quando non vi sono informazioni che discriminino tra le alternative, tutte le possibilità sono trattate come equiprobabili. La distribuzione uniforme riflette uno stato informativo simmetrico rispetto agli esiti, non una caratteristica oggettiva del sistema osservato.
 
-Nel contesto bayesiano, la distribuzione uniforme discreta viene spesso utilizzata come **distribuzione a priori non informativa** su insiemi finiti di ipotesi. Ad esempio, se dobbiamo scegliere tra $K$ modelli alternativi e non possediamo informazioni preliminari che favoriscano uno di essi, possiamo assegnare a ciascun modello la probabilità
+### Ruolo nell'inferenza bayesiana
+
+Nel paradigma bayesiano, la distribuzione uniforme discreta svolge un ruolo fondamentale come **distribuzione a priori non informativa** su spazi parametrici finiti. Quando ci troviamo di fronte a un insieme di $K$ ipotesi o modelli alternativi, e non disponiamo di alcuna informazione preliminare che favorisca specifiche alternative, la scelta più neutrale consiste nell'attribuire a ciascuna ipotesi la medesima probabilità iniziale:
 
 $$
-P(M_k) = \frac{1}{K}, \qquad k = 1,\ldots,K.
+P(M_k) = \frac{1}{K}, \qquad k = 1, \ldots, K.
 $$
 
-Questa scelta rende esplicita l’assenza di preferenze iniziali e garantisce che l’aggiornamento delle credenze sia guidato esclusivamente dai dati osservati.
+Questa assegnazione formalizza esplicitamente l'**indifferenza epistemica** tra le opzioni disponibili, assicurando che l'evidenza empirica derivante dai dati sia l'unico fattore a guidare l'aggiornamento delle credenze attraverso il teorema di Bayes.
 
-### Esempio: dado equo
+::: {.callout-note collapse="true" title="Esempio classico: dado equilibrato"}
 
-Un esempio classico di distribuzione uniforme discreta è il lancio di un dado equo, in cui ciascun esito da 1 a 6 è ritenuto equiprobabile.
+Il lancio di un dado a sei facce rappresenta l'esempio paradigmatico di distribuzione uniforme discreta. Nell'ipotesi di perfetta simmetria del dado, ogni esito $\{1, 2, 3, 4, 5, 6\}$ ha probabilità pari a $1/6$.
 
 ```{r}
-# Simulazione di 10000 lanci di dado
-N <- 6
+# Simulazione di lanci di dado
 set.seed(42)
-lanci <- sample(1:N, size = 10000, replace = TRUE)
+N <- 6
+n_lanci <- 10000
+lanci <- sample(1:N, size = n_lanci, replace = TRUE)
 ```
 
 ```{r}
-cat("Media teorica:", (N + 1) / 2,
-    "| Media empirica:", round(mean(lanci), 2), "\n")
+# Confronto tra valori teorici ed empirici
+media_teorica <- (N + 1) / 2
+varianza_teorica <- (N^2 - 1) / 12
+
+cat("Confronto statistico:\n")
+cat("  • Media:\n")
+cat("     Teorica:", media_teorica, "\n")
+cat("     Empirica:", round(mean(lanci), 4), "\n\n")
+cat("  • Varianza:\n")
+cat("     Teorica:", round(varianza_teorica, 4), "\n")
+cat("     Empirica:", round(var(lanci), 4))
 ```
 
 ```{r}
-cat("Varianza teorica:", round((N^2 - 1) / 12, 2),
-    "| Varianza empirica:", round(var(lanci), 2))
+# Visualizzazione della distribuzione empirica
+ggplot(data.frame(Esito = lanci), aes(x = factor(Esito))) +
+  geom_bar(aes(y = ..prop.., group = 1), alpha = 0.8) +
+  geom_hline(yintercept = 1/N, linetype = "dashed", linewidth = 1) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  scale_fill_qualitative() +
+  labs(
+    title = "Distribuzione empirica di 10.000 lanci di dado",
+    subtitle = paste("Linea tratteggiata: probabilità teorica uniforme (",
+                     round(100/N, 1), "%)", sep = ""),
+    x = "Esito del lancio",
+    y = "Frequenza relativa"
+  ) 
 ```
+:::
 
-La simulazione mostra che, al crescere del numero di lanci, le quantità empiriche si avvicinano ai valori teorici. È importante notare che l’“equità” del dado non è una proprietà osservabile direttamente in un singolo lancio, ma una credenza modellata attraverso la distribuzione uniforme che può essere successivamente verificata e aggiornata alla luce dei dati.
+:::{.callout-note icon=false}
+## 🧠 Applicazioni nella psicologia e nella ricerca sperimentale
 
-::: {.callout-note icon=false}
-## 🧠 Quando la usi in psicologia?
+**Contesti di utilizzo tipici:**
 
-**Situazioni tipiche:**
+* **Assegnazione casuale**: la distribuzione uniforme viene utilizzata per modellare la randomizzazione dei partecipanti in $K$ condizioni sperimentali, assumendo che ciascuna condizione abbia la stessa probabilità di essere assegnata. Questa procedura contribuisce a ridurre bias sistematici e a garantire la validità interna dello studio.
 
-- **Scelta casuale tra alternative** quando non hai preferenze (es. randomizzazione tra condizioni sperimentali)
-- **Prior non informativa** su un insieme finito di modelli (es. 5 teorie alternative equiprobabili)
-- **Item casuali** da un questionario (es. estrarre k domande da un pool di N)
+* **Prior non informativo**: in assenza di informazioni preliminari che favoriscano una specifica ipotesi teorica, una distribuzione uniforme su un insieme finito di ipotesi rappresenta una scelta iniziale neutrale e metodologicamente trasparente.
 
-**Esempio pratico:** In un esperimento con 6 condizioni sperimentali, assegni i partecipanti in modo equiprobabile → Uniforme(1,6).
+* **Campionamento di item**: quando stimoli, item o prove vengono selezionati casualmente da un insieme finito e ciascun elemento ha la stessa probabilità di essere scelto, la variabile casuale associata alla selezione può essere descritta mediante una distribuzione uniforme discreta.
 
-**Attenzione:** "Equiprobabile" è una scelta epistemica (assenza di informazione), non una proprietà del mondo.
+* **Modelli di scelta**: in alcuni compiti decisionali, la distribuzione uniforme è impiegata come modello di riferimento per rappresentare scelte puramente casuali, in assenza di preferenze sistematiche.
+
+**Esempio sperimentale**:
+in un esperimento di psicologia sociale con quattro condizioni sperimentali, l’assegnazione dei partecipanti può essere modellata assumendo una distribuzione uniforme discreta sui valori ${1, 2, 3, 4}$. In questo modo, ciascuna condizione ha la stessa probabilità di essere selezionata, indipendentemente dalle caratteristiche individuali dei partecipanti.
+
+**Nota metodologica fondamentale**:
+l’assunzione di equiprobabilità non implica che il fenomeno studiato sia intrinsecamente “casuale” o privo di struttura. Piuttosto, essa rappresenta una **scelta modellistica esplicita**, che riflette uno stato di incertezza iniziale o l’assenza di informazioni rilevanti sulle probabilità relative degli esiti possibili.
 :::
 
 ## Distribuzione di Bernoulli
 
-### Definizione e interpretazione epistemica
+### Definizione
 
 ::: {#def-bernoulli}
-Una variabile casuale $X$ segue una distribuzione di *Bernoulli* con parametro $p \in [0,1]$ se può assumere solo due valori: 1 (interpretabile come “successo”) con probabilità $p$, e 0 (“insuccesso”) con probabilità $1-p$:
+Una variabile casuale $X$ segue una distribuzione di *Bernoulli* se può assumere **solo due valori possibili**, convenzionalmente codificati come 1 (“successo”) e 0 (“insuccesso”). La probabilità di successo è indicata con $p$, mentre la probabilità di insuccesso è $1 - p$:
 
 $$
 X \sim \text{Bernoulli}(p),
@@ -153,32 +187,48 @@ $$
 $$
 :::
 
-**Interpretazione epistemica**
-Il parametro $p$ rappresenta il grado di credenza associato al verificarsi dell’evento etichettato come “successo”. La varianza $p(1-p)$ quantifica l’incertezza associata a una singola osservazione: essa è massima quando $p = 0.5$, ossia quando i due esiti sono ritenuti ugualmente plausibili, e si riduce man mano che uno dei due esiti diventa dominante. In questo senso, la distribuzione di Bernoulli fornisce il modello più semplice per rappresentare l’incertezza in presenza di una scelta binaria.
+La distribuzione di Bernoulli rappresenta il **modello probabilistico più semplice** per descrivere fenomeni aleatori dicotomici, nei quali ogni osservazione corrisponde a un singolo esito binario.
 
-### Ruolo nell’inferenza bayesiana
 
-La distribuzione di Bernoulli è il modello di riferimento per i **dati binari**. Ogni singola osservazione che può assumere solo due valori (sì/no, presente/assente, corretto/errato) viene modellata come una variabile di Bernoulli. Quando si considerano $n$ osservazioni indipendenti con lo stesso parametro $p$, la loro somma segue una distribuzione binomiale, che verrà introdotta nel prossimo paragrafo.
+#### Interpretazione epistemica
 
-Nel contesto bayesiano, il parametro $p$ è considerato una quantità incerta e a cui viene associata una distribuzione a priori. La **distribuzione coniugata** per $p$ è la distribuzione beta, che consente un aggiornamento analiticamente semplice delle credenze dopo l’osservazione dei dati.
+Il parametro $p$ rappresenta la **probabilità associata all’esito etichettato come “successo”**. Dal punto di vista epistemico, (p) può essere interpretato come il grado di credenza o l’informazione disponibile circa il verificarsi di tale esito, prima dell’osservazione dei dati.
 
-::: {.callout-note icon=false}
-## 🧠 Quando la usi in psicologia?
+In ambito psicologico e sperimentale, la distribuzione di Bernoulli è frequentemente utilizzata per modellare eventi come risposte corrette/errate, presenza/assenza di un comportamento, decisioni sì/no o superamento/fallimento di una prova. In tutti questi casi, l’incertezza riguarda un singolo evento e non una sequenza di prove.
 
-**Situazioni tipiche:**
+### Ruolo nell'inferenza bayesiana
 
-- **Risposte corrette/errate** a singoli item di test
-- **Presenza/assenza** di un sintomo (es. depressione clinica: sì/no)
-- **Diagnosi binarie** (es. test PTSD positivo/negativo)
-- **Scelte dicotomiche** (es. acquisto: sì/no)
-- **Comportamento singolo** (es. fumare in una giornata)
+La distribuzione di Bernoulli costituisce il **modello di base per l’analisi di dati binari** ed è un elemento fondamentale nell’inferenza bayesiana. In particolare, essa descrive il meccanismo generativo di ciascuna osservazione individuale, mentre l’aggregazione di più prove indipendenti conduce naturalmente alla distribuzione binomiale, trattata nel paragrafo successivo.
 
-**Esempio pratico:** Un paziente fa un test cognitivo: ogni risposta è Bernoulli(p) dove p = probabilità di rispondere correttamente.
+Nell’approccio bayesiano, il parametro $p$ è considerato una variabile casuale e viene tipicamente modellato mediante una distribuzione *Beta*, che funge da prior coniugato. Questa scelta consente di aggiornare le credenze su $p$ in modo analitico, combinando informazione a priori e dati osservati in maniera coerente e trasparente.
 
-**Prior bayesiano tipico:** Beta(1,1) [uniforme] o Beta(α,β) informativo se hai dati storici sulla difficoltà dell'item.
+:::{.callout-note icon=false}
+
+## 🧠 Applicazioni nella psicologia e nelle scienze comportamentali
+
+**Contesti tipici di utilizzo:**
+
+* **Item di test cognitivi**: risposta corretta o errata a una singola domanda.
+* **Diagnosi psicopatologiche**: presenza o assenza di uno specifico sintomo (ad es. attacchi di panico nella settimana precedente).
+* **Screening clinici**: esito positivo o negativo a strumenti di valutazione diagnostica (ad es. test per il PTSD).
+* **Scelte comportamentali**: decisioni dicotomiche, come accettare o rifiutare una proposta.
+* **Osservazioni comportamentali**: occorrenza o non occorrenza di un comportamento target (ad es. fare una pausa durante l’esecuzione di un compito).
+
+**Esempio concreto.**
+
+Un partecipante completa un test di memoria episodica composto da 10 item. Ciascuna risposta viene modellata come
+$$
+X_i \sim \text{Bernoulli}(p),
+$$
+dove $p$ rappresenta la probabilità di ricordare correttamente un singolo item. In questo contesto, la competenza mnestica del partecipante è sintetizzata dal valore del parametro $p$.
+
+**Scelta del prior bayesiano:**
+
+* **Prior non informativo**: $\text{Beta}(1,1)$, che corrisponde a una distribuzione uniforme sull’intervallo $[0,1]$.
+* **Prior informativo**: $\text{Beta}(\alpha, \beta)$, con i parametri $\alpha$ e $\beta$ scelti sulla base di dati normativi o di risultati provenienti da studi precedenti sulla difficoltà del compito.
 :::
 
-### Esempio: sensibilità di un test diagnostico
+::: {.callout-note collapse="true" title="Esempio: sensibilità di un test diagnostico"}
 
 Consideriamo un test diagnostico con sensibilità pari a 0.85, ossia con probabilità $p = 0.85$ di fornire un risultato positivo quando la condizione è presente. Ogni singolo esito del test può essere modellato come una variabile di Bernoulli.
 
@@ -199,89 +249,121 @@ cat("Valore teorico:", p_sens)
 ```
 
 La simulazione mostra che, su un numero elevato di osservazioni, la proporzione campionaria di esiti positivi si avvicina al valore del parametro $p$. Tuttavia, per campioni più piccoli, tale proporzione può variare sensibilmente, riflettendo l’incertezza intrinseca associata alle singole osservazioni binarie.
+:::
 
 ## Distribuzione binomiale
 
-### Da Bernoulli a Binomiale: costruzione passo per passo
+### Dalla Bernoulli alla binomiale
 
-Prima di introdurre formalmente la distribuzione binomiale, è utile capire **da dove proviene la sua formula**. La distribuzione binomiale non è un oggetto “nuovo”, ma emerge naturalmente come estensione della distribuzione di Bernoulli a più osservazioni.
+La distribuzione binomiale nasce come **estensione naturale della distribuzione di Bernoulli** al caso di **più osservazioni indipendenti**. Comprenderne la costruzione passo per passo aiuta a chiarire il significato della sua formula e delle sue componenti.
 
-Supponiamo di osservare $n$ prove indipendenti, ciascuna modellata come una variabile di Bernoulli con probabilità di successo $p$. Ogni prova può dare esito 1 (successo) o 0 (insuccesso).
+Supponiamo di osservare $n$ prove indipendenti, ciascuna caratterizzata da due soli esiti possibili:
 
-#### Passo 1: una singola sequenza di esiti
+* **successo** $1$, con probabilità $p$;
+* **insuccesso** $0$, con probabilità $1 - p$.
 
-Consideriamo una **specifica sequenza ordinata** di $n$ prove che contiene esattamente $k$ successi e $n-k$ insuccessi. Poiché le prove sono indipendenti, la probabilità di quella sequenza particolare è data dal prodotto delle probabilità dei singoli esiti:
+L’obiettivo è descrivere la probabilità di osservare un determinato **numero totale di successi** al termine delle $n$ prove.
+
+### Passo 1 — Probabilità di una sequenza specifica
+
+Consideriamo una **sequenza ordinata** di $n$ esiti che contenga esattamente $k$ successi e $n-k$ insuccessi.
+Poiché le prove sono indipendenti, la probabilità di osservare quella specifica sequenza è data dal prodotto delle probabilità dei singoli esiti:
 
 $$
 p^k (1-p)^{n-k}.
 $$
+Questa probabilità è identica per **qualsiasi** sequenza che presenti $k$ successi, indipendentemente dall’ordine in cui essi compaiono.
 
-Questo vale per *qualsiasi* sequenza che contenga $k$ successi, indipendentemente dall’ordine in cui essi compaiono.
+### Passo 2 — Conteggio delle sequenze possibili
 
-#### Passo 2: quante sequenze producono $k$ successi?
+Nella maggior parte delle applicazioni non interessa l’ordine degli esiti, ma solo **quanti** successi si verificano complessivamente.
+È quindi necessario contare quante sequenze distinte di lunghezza $n$ contengono esattamente $k$ successi.
 
-Nella pratica, però, non ci interessa *quale* sequenza di successi e insuccessi osserviamo, ma solo **quanti** successi si verificano. Dobbiamo quindi contare quante sequenze diverse di lunghezza $n$ contengono esattamente $k$ successi.
-
-Il numero di tali sequenze è dato dal **coefficiente binomiale**:
+Questo numero è fornito dal **coefficiente binomiale**:
 
 $$
 \binom{n}{k},
 $$
-che rappresenta il numero di modi in cui possiamo scegliere $k$ posizioni di successo tra $n$ prove.
+che rappresenta il numero di modi in cui è possibile scegliere $k$ posizioni di successo tra le $n$ prove disponibili.
 
-#### Passo 3: probabilità totale di $k$ successi
+### Passo 3 — Probabilità di $k$ successi
 
-Poiché tutte queste sequenze hanno la stessa probabilità $p^k (1-p)^{n-k}$ e sono mutuamente esclusive, la probabilità di osservare **esattamente $k$ successi** è data dalla somma delle loro probabilità:
+Le sequenze che contengono $k$ successi sono:
+
+* tutte equiprobabili;
+* mutuamente esclusive.
+
+La probabilità di osservare **esattamente $k$ successi** è quindi ottenuta sommando le probabilità di tutte queste sequenze:
 
 $$
 P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}.
 $$
 
-Questa è precisamente la **funzione di massa della distribuzione binomiale**.
+Questa espressione costituisce la **funzione di massa di probabilità della distribuzione binomiale**.
 
 ::: {.callout-note}
 
-### Idea chiave della binomiale
+#### Idea chiave {.unnumbered .unlisted}
 
-La distribuzione binomiale nasce da due ingredienti semplici:
+La distribuzione binomiale nasce dalla combinazione di due componenti fondamentali:
 
-1. la probabilità di una singola sequenza con $k$ successi: $p^k(1-p)^{n-k}$;
-2. il numero di sequenze che producono $k$ successi: $\binom{n}{k}$.
+* **Componente probabilistica**
+  $p^k (1-p)^{n-k}$: probabilità associata a una specifica configurazione di successi e insuccessi.
 
-La binomiale combina **probabilità** e **combinatoria** per passare dalle singole osservazioni Bernoulli al conteggio dei successi.
+* **Componente combinatoria**
+  $\binom{n}{k}$: numero di configurazioni distinte che producono lo stesso numero totale di successi.
+
+La probabilità binomiale è il prodotto di questi due fattori.
 :::
 
-### Definizione e interpretazione epistemica
+### Definizione
 
 ::: {#def-binomial}
-Una variabile casuale $X$ che conta il numero di successi in $n$ prove indipendenti di Bernoulli, ciascuna con probabilità di successo $p$, segue una distribuzione binomiale:
+Una variabile casuale $X$ che rappresenta il numero di successi osservati in $n$ prove indipendenti di Bernoulli, ciascuna con probabilità di successo $p$, segue una distribuzione binomiale:
 
 $$
-X \sim \text{Binomiale}(n, p), \quad P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0, 1, \dots, n.
+X \sim \mathrm{Binomiale}(n, p), \qquad
+P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0,1,\dots,n.
 $$
 
-**Proprietà**: $\mathbb{E}(X) = np$, $\mathbb{V}(X) = np(1-p)$.
+**Momenti principali**:
+$$
+\mathbb{E}(X) = np, \qquad \mathbb{V}(X) = np(1-p).
+$$
 :::
 
-**Interpretazione epistemica**: la distribuzione binomiale modella le nostre credenze sul numero di successi quando conosciamo il numero di prove $n$ e abbiamo delle credenze sul parametro $p$. Il coefficiente binomiale $\binom{n}{k}$ indica il numero di modi in cui $k$ successi possono distribuirsi tra $n$ prove.
+#### Interpretazione epistemica
 
-### Ruolo nell'inferenza bayesiana
+La distribuzione binomiale rappresenta le nostre **credenze sul numero di successi** quando:
 
-La distribuzione binomiale costituisce la **verosimiglianza fondamentale** per dati binari aggregati. Quando osserviamo $y$ successi in $n$ prove, la verosimiglianza per $p$ è:
+* il numero di prove $n$ è noto;
+* il parametro $p$ esprime l’incertezza sulla probabilità di successo di ciascuna singola prova.
+
+Il coefficiente binomiale riflette il fatto che **molti pattern distinti di esiti** possono condurre allo stesso conteggio complessivo di successi.
+
+### Ruolo nell’inferenza bayesiana
+
+La distribuzione binomiale costituisce la **verosimiglianza fondamentale** per dati binari aggregati.
+Osservati $y$ successi su $n$ prove, la verosimiglianza per il parametro $p$ è:
 
 $$
-L(p \mid y, n) \propto p^y (1-p)^{n-y}.
+L(p \mid y,n) \propto p^y (1-p)^{n-y}.
 $$
 
-**Coniugazione beta-binomiale**: se $p \sim \text{Beta}(\alpha, \beta)$, allora:
+Assumendo una prior beta:
 
 $$
-p \mid y \sim \text{Beta}(\alpha + y, \beta + n - y).
+p \sim \mathrm{Beta}(\alpha,\beta),
+$$
+la distribuzione a posteriori risulta ancora una beta:
+
+$$
+p \mid y \sim \mathrm{Beta}(\alpha + y,\; \beta + n - y).
 $$
 
-Questa proprietà consente di aggiornare le credenze su $p$ in modo analitico: i parametri della posterior si ottengono semplicemente sommando i conteggi osservati (ossia i successi e gli insuccessi) agli pseudo-conteggi della prior (ossia $\alpha - 1$ e $\beta - 1$).
+Questa relazione di coniugazione rende l’aggiornamento delle credenze particolarmente semplice: i dati osservati si traducono in un incremento diretto degli **pseudo-conteggi** associati alla *prior*.
 
-### Esempio: aggiornamento bayesiano
+::: {.callout-note collapse="true" title="Esempio: aggiornamento bayesiano"}
 
 ```{r}
 # Dati osservati: 23 successi su 30 prove
@@ -324,42 +406,46 @@ cat("Media prior:", round(alpha_prior/(alpha_prior + beta_prior), 3), "\n")
 cat("Media posterior:", round(alpha_post/(alpha_post + beta_post), 3), "\n")
 ```
 
-La posterior si concentra attorno a $p \approx 0.74$, mostrando una riduzione significativa dell'incertezza rispetto alla prior. Ciò riflette l'aggiornamento coerente delle credenze alla luce dei 23 successi osservati.
+La distribuzione a posteriori si concentra attorno a $p \approx 0.74$, mostrando una notevole riduzione dell'incertezza rispetto alla *prior*. Ciò riflette l'aggiornamento coerente delle credenze alla luce dei 23 successi osservati.
+:::
 
 ::: {.callout-note icon=false}
-## 🧠 Quando la usi in psicologia?
+## 🧠 Applicazioni in psicologia
 
-**Situazioni tipiche:**
+**Contesti tipici di utilizzo:**
 
-- **Numero di risposte corrette** su n item di un test (es. 18 su 20 domande)
-- **Conteggio sintomi presenti** su una checklist (es. 5 su 9 criteri DSM per depressione)
-- **Successi in trial ripetuti** (es. 7 recall corretti su 10 prove di memoria)
-- **Proporzione di comportamenti** in EMA (es. giorni di aderenza terapeutica su 30 giorni)
+* **Test cognitivi**: punteggio totale su $n$ item (ad es. 18 risposte corrette su 20).
+* **Scale diagnostiche**: numero di sintomi positivi in una checklist (ad es. 5 su 9 criteri del DSM-5).
+* **Compiti ripetuti**: risposte corrette in prove multiple (ad es. 7 richiami corretti su 10 prove).
+* **Monitoraggio longitudinale**: conteggio di comportamenti target in periodi definiti (ad es. 22 giorni di aderenza terapeutica su 30).
 
-**Esempio pratico:** Uno studente risponde a 25 domande vero/falso. Se la probabilità di rispondere correttamente è p=0.7, il numero di risposte corrette segue Binomiale(25, 0.7).
+**Esempio**:
+un partecipante risponde a 25 item Vero/Falso, ciascuno con probabilità di risposta corretta $p = 0.7$. Il punteggio totale segue una distribuzione binomiale $\mathrm{Binom}(25, 0.7)$.
 
-**Prior bayesiano tipico:** Beta(α,β) su p, che permette aggiornamento analitico:
+**Approccio bayesiano:**
+per il parametro $p$, la distribuzione Beta è il prior coniugato. Alcune configurazioni tipiche sono:
 
-- Beta(1,1): totale ignoranza
-- Beta(5,5): aspettativa p≈0.5 con moderata incertezza
-- Beta(20,10): credenza forte verso p≈0.67
+* $\mathrm{Beta}(1,1)$: prior non informativo (uniforme su $[0,1]$);
+* $\mathrm{Beta}(5,5)$: prior debolmente informativo, centrato intorno a $p \approx 0.5$;
+* $\mathrm{Beta}(20,10)$: prior informativo, con aspettativa $\mathbb{E}[p] \approx 0.67$.
 
-**Link con Bernoulli:** La binomiale è la somma di n Bernoulli indipendenti.
+**Relazione strutturale:**
+la distribuzione binomiale può essere interpretata come la **somma di $n$ variabili di Bernoulli indipendenti e identicamente distribuite**.
 :::
 
 ## Distribuzione di Poisson
 
-### Quando ha senso usare la Poisson
+### Quando ha senso usare la distribuzione di Poisson
 
-La distribuzione di Poisson viene utilizzata per modellare il **numero di eventi che si verificano in un intervallo di tempo o di spazio**, quando:
+La distribuzione di Poisson viene utilizzata per modellare il **numero di eventi che si verificano in un intervallo di tempo o di spazio**, quando sono soddisfatte le seguenti condizioni:
 
-* gli eventi sono **rari** rispetto all’ampiezza dell’intervallo;
-* gli eventi avvengono **indipendentemente** l’uno dall’altro;
-* la probabilità che più eventi si verifichino simultaneamente è trascurabile.
+* gli eventi sono **rari** rispetto all’ampiezza dell’intervallo considerato;
+* gli eventi si verificano **indipendentemente** l’uno dall’altro;
+* la probabilità che due o più eventi avvengano simultaneamente è trascurabile.
 
-Esempi tipici includono il numero di errori in un compito, il numero di accessi a un servizio in un’ora, o il numero di eventi clinici rari osservati in un certo periodo.
+Esempi tipici includono il numero di errori commessi in un compito, il numero di accessi a un servizio in un’ora oppure il numero di eventi clinici rari osservati in un determinato periodo.
 
-### Definizione e interpretazione epistemica
+### Definizione
 
 ::: {#def-poisson}
 Una variabile casuale $Y$ segue una distribuzione di Poisson con parametro $\lambda > 0$ se la probabilità di osservare $y$ eventi è:
@@ -377,22 +463,23 @@ $$
 $$
 :::
 
-**Interpretazione epistemica.**
-Il parametro $\lambda$ rappresenta il **tasso medio atteso di occorrenza degli eventi** nell’intervallo considerato. Dire, per esempio, che $\lambda = 0.7$, significa credere che in media ci si aspetta meno di un evento per intervallo, ma che eventi multipli sono comunque possibili.
+#### Interpretazione epistemica
 
-La proprietà $\mathbb{E}(Y) = \mathbb{V}(Y)$ è detta **equidispersione** ed è un’assunzione forte del modello: la variabilità attesa coincide con la media. Nei dati psicologici, tuttavia, è frequente osservare una **sovradispersione**, ovvero una varianza maggiore della media. In questi casi, la distribuzione di Poisson può risultare inadeguata e si preferiscono modelli più flessibili, come la distribuzione binomiale negativa.
+Il parametro $\lambda$ rappresenta il **tasso medio atteso di occorrenza degli eventi** nell’intervallo considerato. Ad esempio, affermare che $\lambda = 0.7$ significa ritenere che, in media, ci si aspetti meno di un evento per intervallo, pur ammettendo che possano verificarsi anche eventi multipli.
 
-::: {.callout-note title="Idea chiave della Poisson"}
-La distribuzione di Poisson non descrive *se* un evento accade, ma *quanti* eventi accadono in un intervallo di tempo, quando il meccanismo generativo è dominato dalla rarità e dall’indipendenza.
+La proprietà $\mathbb{E}(Y) = \mathbb{V}(Y)$ prende il nome di **equidispersione** e costituisce un’assunzione forte del modello. Nei dati psicologici e comportamentali è tuttavia frequente osservare **sovradispersione**, ossia una varianza maggiore della media. In tali situazioni, la distribuzione di Poisson può risultare inadeguata e vengono spesso preferiti modelli più flessibili, come la distribuzione binomiale negativa.
+
+::: {.callout-note title="Idea chiave della distribuzione di Poisson"}
+La distribuzione di Poisson non modella *se* un evento si verifica, ma **quante volte** si verifica in un dato intervallo, assumendo eventi rari e indipendenti nel tempo o nello spazio.
 :::
 
 ### Ruolo nell’inferenza bayesiana
 
-Nel framework bayesiano, la distribuzione di Poisson svolge il ruolo di **verosimiglianza** per dati di conteggio. Il parametro $\lambda$ è trattato come una quantità incerta, su cui esprimiamo una distribuzione a priori.
+Nel framework bayesiano, la distribuzione di Poisson svolge il ruolo di **verosimiglianza** per dati di conteggio. Il parametro $\lambda$ è trattato come una quantità incerta, su cui esprimere una distribuzione a priori.
 
-La **distribuzione coniugata** per $\lambda$ è la distribuzione gamma. Questa scelta consente un aggiornamento analiticamente semplice delle credenze.
+La **distribuzione coniugata** per $\lambda$ è la distribuzione Gamma, che consente un aggiornamento analiticamente semplice delle credenze.
 
-**Coniugazione gamma–Poisson.**
+**Coniugazione Gamma–Poisson.**
 Se
 $$
 \lambda \sim \text{Gamma}(\alpha, \beta),
@@ -402,7 +489,7 @@ e osserviamo conteggi indipendenti $y_1, \ldots, y_n$, allora la distribuzione a
 $$
 \lambda \mid \mathbf{y}
 \sim
-\text{Gamma}\left(\alpha + \sum_{i=1}^n y_i,; \beta + n\right).
+\text{Gamma}\left(\alpha + \sum_{i=1}^n y_i,\; \beta + n\right).
 $$
 
 L’aggiornamento è intuitivo:
@@ -411,33 +498,42 @@ L’aggiornamento è intuitivo:
 * il numero di intervalli osservati aggiorna il parametro di scala (o tasso).
 
 ::: {.callout-note icon=false}
-## 🧠 Quando la usi in psicologia?
+## 🧠 Applicazioni in psicologia
 
-**Situazioni tipiche:**
+**Quando è tipicamente utile:**
 
-- **Eventi rari in un periodo fisso**:
-  - Numero di attacchi di panico in un mese
-  - Errori di attenzione in un'ora di compito
-  - Accessi al pronto soccorso per crisi psichiatriche in una settimana
-- **Conteggi con esposizione variabile**:
-  - Numero di parole ricordate per minuto di studio
-  - Click su uno stimolo per secondo di esposizione
+* **Eventi rari nel tempo** (conteggi su un intervallo):
 
-**Esempio pratico:** Un paziente con disturbo d'ansia ha in media λ=2.5 attacchi di panico al mese. Il numero di attacchi in 30 giorni segue Poisson(2.5).
+  * attacchi di panico in un mese;
+  * errori di omissione in un compito di vigilanza;
+  * accessi al pronto soccorso per crisi psicotiche in una settimana.
+* **Conteggi con esposizione variabile** (tassi: eventi per unità di “tempo di esposizione”):
 
-**Prior bayesiano tipico:** Gamma(α,β) su λ, con interpretazione intuitiva:
+  * parole richiamate per minuto di studio;
+  * click su uno stimolo target per secondo di esposizione.
 
-- α = numero di "pseudo-eventi" già osservati
-- β = "pseudo-tempo" di esposizione
-- Es: Gamma(5, 2) → credenza che λ ≈ 2.5 basata su "5 eventi in 2 periodi"
+**Esempio clinico**
+Un paziente con disturbo d’ansia presenta una frequenza media di $\lambda = 2.5$ attacchi di panico al mese. Il numero di attacchi osservati in un periodo di **30 giorni** può essere modellato come:
 
-**Differenza con Binomiale:** 
+$$
+Y \sim \mathrm{Poisson}(2.5).
+$$
 
-- Binomiale: n fissato, conti successi
-- Poisson: n illimitato, conti eventi rari
+**Inferenza bayesiana**
+Per il parametro $\lambda$, la famiglia $\mathrm{Gamma}(\alpha,\beta)$ è il prior coniugato. In questa parametrizzazione:
+
+* **$\alpha$** rappresenta uno “pseudo-conteggio” di eventi;
+* **$\beta$** rappresenta una “pseudo-durata” dell’osservazione.
+
+Ad esempio, una prior $\mathrm{Gamma}(5, 2)$ equivale a una credenza simile a “**5 eventi osservati in 2 mesi**”.
+
+**Distinzione chiave**
+
+* **Binomiale**: numero *fisso* di prove → conteggio dei successi;
+* **Poisson**: eventi rari e indipendenti → conteggio delle occorrenze in un intervallo continuo (tempo o spazio).
 :::
 
-### Esempio: eventi rari e dati storici
+::: {.callout-note collapse="true" title="Esempio: eventi rari e dati storici"}
 
 Un esempio classico di applicazione della distribuzione di Poisson è il dataset di von Bortkiewicz sui decessi causati da calci di cavallo nell’esercito prussiano, spesso citato come prototipo di processo con eventi rari e indipendenti.
 
@@ -457,7 +553,8 @@ data.frame(
 )
 ```
 
-L’elevata corrispondenza tra le frequenze osservate e le probabilità teoriche  suggerisce che il processo generativo sia compatibile con le assunzioni della distribuzione di Poisson.
+L’elevata corrispondenza tra le frequenze osservate e le probabilità teoriche suggerisce che il processo generativo sia compatibile con le assunzioni della distribuzione di Poisson.
+:::
 
 ### Aggiornamento bayesiano del tasso
 
@@ -488,129 +585,163 @@ cat("Intervallo di credibilità 95%: [",
     round(IC_95[2], 3), "]\n", sep = "")
 ```
 
-La distribuzione a posteriori fornisce una stima coerente del tasso di occorrenza e quantifica esplicitamente l’incertezza residua su $\lambda$.
+La distribuzione a posteriori fornisce una stima coerente del tasso di occorrenza e quantifica in modo esplicito l’incertezza residua sul parametro $\lambda$.
 
-
-::: {.callout-note collapse="true" title="Nota avanzata: Distribuzione beta-binomiale (materiale opzionale per approfondimento futuro)"}
-
-**Quando il parametro $p$ è incerto: la distribuzione beta-binomiale.**
+::: {.callout-note collapse="true" title="Nota avanzata: distribuzione beta-binomiale (materiale opzionale per approfondimento futuro)"}
 
 > **Avvertenza per il lettore**
 >
-> Questa sezione introduce un concetto che verrà sviluppato sistematicamente nei capitoli successivi. Richiede familiarità con:
+> Questa sezione introduce un concetto che verrà sviluppato in modo sistematico nei capitoli successivi. La sua comprensione completa richiede familiarità con:
 >
-> - la distribuzione Beta (trattata nel prossimo capitolo),
-> - l'integrazione per marginalizzazione,
-> - le distribuzioni predittive e i modelli gerarchici.
+> * la distribuzione Beta (trattata nel prossimo capitolo),
+> * l’integrazione per marginalizzazione,
+> * le distribuzioni predittive e i modelli gerarchici.
 >
-> **Puoi tranquillamente saltare questa sezione** e tornarci dopo aver studiato le distribuzioni continue. È inclusa qui come riferimento anticipato per chi è curioso, ma non è necessaria per proseguire.
+> **È del tutto legittimo saltare questa sezione** e tornarci dopo aver studiato le distribuzioni continue. È inclusa come anticipazione concettuale per il lettore curioso, ma non è necessaria per proseguire.
 
-**L'idea di base.**
+#### Da verosimiglianza condizionale a distribuzione predittiva {.unnumbered .unlisted}
 
-Fino ad ora abbiamo sempre assunto che il parametro $p$ della distribuzione binomiale fosse **noto**. Ma cosa accade quando **non siamo certi del valore di $p$**?
-
-In questo caso, la nostra incertezza su $p$ può essere descritta da una distribuzione di probabilità (la distribuzione Beta), e il conteggio di successi risultante non segue più una semplice binomiale, ma una **distribuzione beta-binomiale**.
-
-Ruolo concettuale.** 
-
-La beta-binomiale **non descrive l'incertezza su un parametro**, ma la distribuzione di probabilità di un *conteggio di successi* quando il parametro di probabilità $p$ stesso è incerto.
-
-In altre parole, la beta-binomiale è una distribuzione sui **dati**, non sui **parametri**. Rappresenta una **distribuzione predittiva**: ci dice cosa aspettarci di osservare quando integriamo l'incertezza sul parametro.
-
-**Il modello gerarchico sottostante.**
-
-Il modello è strutturato su due livelli:
+Quando modelliamo $Y \sim \text{Binomiale}(n, p)$, lavoriamo tipicamente con la **verosimiglianza condizionale**:
 
 $$
-p \sim \text{Beta}(\alpha, \beta),
-\qquad
-Y \mid p \sim \text{Binomiale}(n, p).
+P(Y = k \mid p) = \binom{n}{k} p^k (1-p)^{n-k}
 $$
 
-- Al primo livello, la nostra incertezza su $p$ è descritta da una distribuzione Beta.
-- Al secondo livello, dato un valore di $p$, i dati seguono una binomiale.
+Questa formula ci dice: "Qual è la probabilità di osservare $k$ successi, *dato un valore specifico* del parametro $p$?" Qui $p$ è **condizionato**: stiamo calcolando la verosimiglianza per un particolare valore di $p$, non perché $p$ sia "noto" o "oggettivamente fisso", ma perché questa è la struttura della verosimiglianza.
 
-Per ottenere la distribuzione di $Y$ *prima di osservare i dati*, dobbiamo integrare via $p$:
+Tuttavia, nell'approccio bayesiano, $p$ è una **quantità incerta** su cui abbiamo una distribuzione di credenza. Quando vogliamo fare previsioni sui dati futuri **senza fissare un valore specifico di $p$**, dobbiamo integrare la nostra incertezza su $p$ attraverso la sua distribuzione a priori.
 
-$$
-P(Y = y) = \int_0^1 P(Y = y \mid p)\,P(p)\,dp.
-$$
+#### Dalla condizionalità alla marginalizzazione {.unnumbered .unlisted}
 
-Questa operazione produce la **distribuzione marginale** per $Y$, detta beta-binomiale.
-
-**Definizione formale.**
-
-::: {#def-beta-binomial}
-La variabile casuale $Y$ segue una distribuzione beta-binomiale se:
+Se rappresentiamo la nostra incertezza su $p$ con una distribuzione Beta:
 
 $$
-P(Y = y) = \binom{n}{y} \frac{B(y + \alpha,\, n - y + \beta)}{B(\alpha, \beta)}, \qquad y = 0,1,\ldots,n.
+p \sim \text{Beta}(\alpha, \beta)
+$$
+e vogliamo calcolare la probabilità di osservare $k$ successi **integrando** su tutti i possibili valori di $p$, dobbiamo calcolare la **distribuzione predittiva a priori**:
+
+$$
+P(Y = k) = \int_0^1 P(Y = k \mid p) \cdot P(p) \, dp = \int_0^1 \binom{n}{k} p^k (1-p)^{n-k} \cdot \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} p^{\alpha-1}(1-p)^{\beta-1} \, dp
 $$
 
-dove $B(\cdot, \cdot)$ è la funzione Beta (introdotta nel capitolo successivo).
-:::
+Questo integrale, sebbene tecnicamente complesso, produce una forma chiusa nota come **distribuzione beta-binomiale**:
 
-**Perché è importante: doppia incertezza.**
+$$
+Y \sim \text{BetaBinomiale}(n, \alpha, \beta)
+$$
+con funzione di massa:
 
-La beta-binomiale incorpora **due livelli di incertezza**:
+$$
+P(Y = k) = \binom{n}{k} \frac{B(k + \alpha, n - k + \beta)}{B(\alpha, \beta)}
+$$
+dove $B(\cdot, \cdot)$ è la funzione beta.
 
-1. **Incertezza campionaria**: dato un valore di $p$, quanti successi osserviamo su $n$ prove?
-2. **Incertezza epistemica**: quale valore di $p$ è plausibile, data la nostra conoscenza?
+#### Interpretazione epistemica {.unnumbered .unlisted}
 
-Per questo motivo, la beta-binomiale presenta una **variabilità maggiore** rispetto alla binomiale con $p$ fissato.
+La transizione da binomiale a beta-binomiale riflette un cambiamento di prospettiva:
 
-**Esempio: l'effetto pratico dell'incertezza.**
+- **Verosimiglianza condizionale** $P(Y \mid p)$: "Quant'è probabile osservare $k$ successi *condizionando su un valore specifico* $p$?" 
+  - Risposta: distribuzione **Binomiale**
+  - $p$ è trattato come parametro condizionato
 
-Il seguente esempio mostra concretamente **come l'incertezza su $p$ aumenti la varianza**.
+- **Distribuzione predittiva** $P(Y)$: "Quant'è probabile osservare $k$ successi *prima di sapere quale sia* il valore di $p$?" 
+  - Risposta: distribuzione **Beta-Binomiale**
+  - $p$ è marginalizzato (integrato via) per riflettere l'incertezza
+
+Entrambe sono perfettamente coerenti con l'approccio bayesiano: nella prima *condizioniamo* su $p$ per strutturare la verosimiglianza, nella seconda *marginalizziamo* su $p$ per fare previsioni che tengano conto dell'incertezza sul parametro.
+
+#### Simulazione in R {.unnumbered .unlisted}
+
+In R, la distribuzione beta-binomiale è disponibile tramite il pacchetto `extraDistr`:
 
 ```{r}
-# Parametri: n=10 prove, prior Beta(5,5) su p
-n_new <- 10
-alpha <- 5
-beta <- 5
-
+# Simulazione: confronto tra binomiale (p fisso) e beta-binomiale (p incerto)
 set.seed(42)
+n <- 20  # numero di prove
 
-# Simulazione beta-binomiale: p incerto
-y_bb <- rbetabinom(10000, size = n_new,
-                   prob = alpha / (alpha + beta),
-                   rho = 1 / (alpha + beta + 1))
+# Scenario 1: Binomiale con p fissato a 0.3
+# (come se sapessimo con certezza che p = 0.3)
+p_fisso <- 0.3
+y_bin <- rbinom(n = 10000, size = n, prob = p_fisso)
 
-# Simulazione binomiale classica: p fissato a E[p]=0.5
-y_bin <- rbinom(10000, size = n_new,
-                prob = alpha / (alpha + beta))
+# Scenario 2: Beta-binomiale con p ~ Beta(3, 7)
+# (rappresenta incertezza su p, con E[p] ≈ 0.3 ma varianza positiva)
+alpha <- 3
+beta <- 7
+y_bb <- rbbinom(n = 10000, size = n, alpha = alpha, beta = beta)
 ```
+
+Confrontiamo le distribuzioni:
+
+```{r}
+# Preparazione dati per visualizzazione
+df_comparison <- data.frame(
+  k = 0:n,
+  Binomiale = dbinom(0:n, size = n, prob = p_fisso),
+  BetaBinomiale = dbbinom(0:n, size = n, alpha = alpha, beta = beta)
+) |> 
+  pivot_longer(cols = c(Binomiale, BetaBinomiale), 
+               names_to = "Modello", 
+               values_to = "Probabilità")
+
+# Visualizzazione
+ggplot(df_comparison, aes(x = k, y = Probabilità, fill = Modello)) +
+  geom_col(position = "dodge", alpha = 0.8) +
+  scale_fill_qualitative() +
+  labs(
+    title = "Confronto: Binomiale vs Beta-Binomiale",
+    subtitle = bquote("Binomiale:" ~ p == 0.3 ~ "(fisso)"  ~ "|" ~ 
+                      "Beta-Binomiale:" ~ p %~% Beta(3,7) ~ "(incerto)"),
+    x = "Numero di successi (k)",
+    y = "Probabilità P(Y = k)"
+  ) +
+  theme(legend.position = "top")
+```
+
+**Osservazione chiave**: la beta-binomiale presenta **code più pesanti** e una distribuzione più dispersa rispetto alla binomiale. Questo riflette l'ulteriore fonte di incertezza: non solo la variabilità campionaria (binomiale), ma anche l'incertezza sul valore del parametro $p$ stesso.
+
+#### La sovradispersione come firma dell'incertezza parametrica {.unnumbered .unlisted}
+
+Confrontiamo le varianze empiriche:
 
 ```{r}
 cat("Beta-Binomiale - Varianza:", round(var(y_bb), 3), "\n")
+cat("Binomiale (p condizionato) - Varianza:", round(var(y_bin), 3), "\n")
 ```
 
-```{r}
-cat("Binomiale (p fisso) - Varianza:", round(var(y_bin), 3), "\n")
-```
+**Interpretazione**: la beta-binomiale **anticipa una maggiore dispersione**, poiché integra due fonti di incertezza:
 
-**Interpretazione**: la beta-binomiale **anticipa maggiore dispersione** perché tiene conto del fatto che il valore di $p$ non è noto con certezza.
+1. **Variabilità campionaria**: la fluttuazione casuale nel numero di successi (presente in entrambi i modelli).
+2. **Incertezza parametrica**: il fatto che non sappiamo esattamente quale sia il valore di $p$ (presente solo nella beta-binomiale).
 
-**Dove riapparirà nel manuale.**
+Questa "varianza extra" rispetto alla binomiale standard è detta **sovradispersione** ed è una caratteristica distintiva delle distribuzioni predittive.
 
-La distribuzione beta-binomiale tornerà in tre contesti chiave:
+#### Dove riapparirà nel manuale {.unnumbered .unlisted}
 
-1. **Distribuzioni predittive bayesiane**  
-   Quando vorremo prevedere nuove osservazioni integrando l'incertezza sui parametri.
-   
-2. **Sovradispersione nei dati**  
-   Quando la binomiale standard sottostima la variabilità osservata.
-   
-3. **Modelli gerarchici**  
-   Quando ogni unità (persona, gruppo, item) ha il proprio $p_i$ estratto da una distribuzione comune.
+La distribuzione beta-binomiale, e più in generale il concetto di distribuzione predittiva, ricomparirà in tre contesti fondamentali:
 
-**Messaggio da portare con sé.**
+1. **Distribuzioni predittive bayesiane**,
+   quando si vogliono prevedere nuove osservazioni integrando l'incertezza a posteriori sui parametri dopo aver osservato dati.
 
-> La distribuzione beta-binomiale non introduce un nuovo tipo di fenomeno, ma un nuovo **livello di incertezza**: quello sul parametro stesso.
+2. **Sovradispersione nei dati empirici**,
+   quando la variabilità osservata eccede quella prevista dalla binomiale standard, segnalando che è necessario modellare l'eterogeneità tra unità di osservazione.
 
-**Non preoccuparti se ora ti sembra oscura**: i dettagli matematici e le derivazioni verranno ripresi e chiariti sistematicamente quando affronteremo le distribuzioni continue, le distribuzioni predittive e i modelli gerarchici. 
+3. **Modelli gerarchici**,
+   quando ogni unità (persona, gruppo, item) possiede il proprio parametro $p_i$, estratto da una distribuzione comune $\text{Beta}(\alpha, \beta)$.
 
-Per ora, è sufficiente sapere che **esiste** e riconoscerne il ruolo concettuale come distribuzione che incorpora l'incertezza epistemica.
+#### Messaggio da portare con sé {.unnumbered .unlisted}
+
+> La distribuzione beta-binomiale non introduce un nuovo tipo di fenomeno, ma un nuovo **livello di rappresentazione dell'incertezza**: quello relativo al parametro stesso. Passa dalla domanda "Cosa succede dato $p$?" alla domanda "Cosa succede quando non so esattamente quale sia $p$?"
+
+**Non è necessario padroneggiare ora i dettagli matematici**: essi verranno ripresi e chiariti in modo sistematico nel capitolo dedicato alle distribuzioni continue (@sec-prob-cont-distr) e nei capitoli dedicati alle distribuzioni predittive e ai modelli gerarchici del sito [utet-companion](https://ccaudek.github.io/utet-companion/).
+
+Per il momento, è sufficiente:
+
+- riconoscere che la beta-binomiale **esiste**;
+- comprenderne il **ruolo concettuale**: marginalizzare l'incertezza sul parametro;
+- ricordare che produce **sovradispersione** rispetto alla binomiale condizionale.
+
+Questi concetti diventeranno centrali quando affronteremo l'inferenza bayesiana completa.
 
 :::
 
@@ -747,5 +878,3 @@ Per ciascuna distribuzione (uniforme, Bernoulli, binomiale, Poisson):
 sessionInfo()
 ```
 :::
-
-## Bibliografia {.unnumbered .unlisted}
