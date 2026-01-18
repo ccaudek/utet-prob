@@ -2,11 +2,12 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Nei capitoli precedenti abbiamo costruito un framework per ragionare in modo coerente in condizioni di incertezza. Abbiamo visto che, nell’interpretazione bayesiana, la probabilità rappresenta un grado di credenza razionale attribuito a proposizioni sul mondo e che gli assiomi di Kolmogorov forniscono vincoli di coerenza logica, evitando contraddizioni nelle nostre assegnazioni. Abbiamo poi esplorato le distribuzioni congiunte come strumento per rappresentare credenze su sistemi multivariati e la covarianza e la correlazione come sintesi numeriche della struttura di dipendenza.
+Un ricercatore sta progettando uno studio sui tempi di reazione in un compito di decisione lessicale. Sa che dovrà modellare questi dati statisticamente, ma si trova di fronte a una scelta: quale distribuzione utilizzare? I tempi di reazione sono sempre positivi, spesso asimmetrici verso destra, e occasionalmente presentano valori estremi. Una distribuzione normale, simmetrica e definita su tutti i numeri reali, sembra inadeguata. Forse una gamma o una log-normale sarebbero più appropriate?
 
-A questo punto emerge una domanda operativa: **come possiamo rappresentare concretamente le nostre credenze?** Se vogliamo esprimere l’incertezza sulla proporzione di pazienti che risponderanno a un trattamento o sul tempo di reazione medio in un compito cognitivo, dobbiamo tradurre l’idea generale di “distribuzione di probabilità” in oggetti matematici specifici, utilizzabili nei calcoli e interpretabili in modo trasparente.
+In un altro laboratorio, una clinica sta analizzando i dati di uno studio clinico su un nuovo intervento per la depressione. Deve modellare la proporzione di pazienti che raggiungono la remissione. Questa proporzione è necessariamente compresa tra 0 e 1: quale distribuzione può rappresentare adeguatamente l'incertezza di un parametro con questi vincoli?
 
-Le famiglie parametriche di distribuzioni, come la normale, la binomiale, la beta e la gamma, forniscono un vocabolario matematico per esprimere l’incertezza in forme standardizzate. Ogni famiglia presenta caratteristiche distintive che la rendono adatta a rappresentare determinati tipi di variabili e determinate configurazioni di credenze. Conoscere questo vocabolario consente di esplicitare le proprie assunzioni in modo preciso, di ragionare formalmente sulle conseguenze di tali assunzioni e di aggiornare le proprie credenze in modo coerente quando si osservano nuovi dati.
+Queste domande operative motivano il presente capitolo. Nei capitoli precedenti abbiamo costruito un framework per ragionare in modo coerente in condizioni di incertezza. Ora, però, sorge una questione pratica: **come possiamo rappresentare concretamente le nostre credenze?** Le famiglie parametriche di distribuzioni, come la normale, la binomiale, la beta, la gamma e altre, forniscono un vocabolario matematico per esprimere l'incertezza in forme standardizzate, ciascuna adatta a specifici tipi di variabili e configurazioni di credenze.
+
 
 ::: {.callout-tip collapse="true"}
 ## Prerequisiti
@@ -79,6 +80,18 @@ $$
 
 La distribuzione a posteriori nasce dall’integrazione dinamica tra la conoscenza pregressa sui parametri, formalizzata nel prior, e l’evidenza empirica dei dati, catturata dalla verosimiglianza. Poiché entrambe le componenti dell’inferenza sono espresse attraverso distribuzioni di probabilità, le famiglie parametriche costituiscono strumenti indispensabili per formulare modelli coerenti, interpretabili e aggiornabili nell’inferenza bayesiana.
 
+### Esempio concreto: la distribuzione Beta nel duplice ruolo
+
+Consideriamo uno studio sull'efficacia di un intervento CBT per l'ansia sociale. Il parametro di interesse è $\theta$, ovvero la probabilità di remissione.
+
+**Come prior**, prima di raccogliere dati, il ricercatore utilizza una $\text{Beta}(3, 7)$ per esprimere la credenza che la remissione sia possibile ma non molto probabile (media a priori = 0.30). Questa scelta riflette la letteratura esistente su interventi simili.
+
+**Come verosimiglianza**: i dati osservati (12 remissioni su 30 pazienti) sono modellati con una distribuzione Binomiale, che descrive il processo generativo: ogni paziente ha una probabilità $\theta$ di remissione, indipendentemente dagli altri.
+
+**Come posterior**: applicando il teorema di Bayes, si ottiene una distribuzione  $\text{Beta}(3+12, 7+18) = \text{Beta}(15, 25)$, che sintetizza ciò che sappiamo dopo aver osservato i dati. La media a posteriori (0.375) rappresenta un compromesso tra la credenza iniziale (0.30) e la proporzione osservata (0.40).
+
+In questo esempio, la distribuzione Beta appare sia come prior che come posterior (appartengono alla stessa famiglia, proprietà detta *coniugazione*), mentre la Binomiale funge da verosimiglianza. Questa è la struttura tipica dell'inferenza bayesiana per le proporzioni.
+
 ## Le famiglie parametriche come vocabolario
 
 ### Cosa significa “famiglia parametrica”
@@ -89,11 +102,92 @@ Specificare una famiglia parametrica equivale quindi a fare un’assunzione sull
 
 ### Il vocabolario delle forme
 
-Ogni famiglia parametrica possiede caratteristiche distintive che la rendono adatta a rappresentare specifici tipi di variabili e di credenze. In questo senso, le famiglie parametriche costituiscono un vero e proprio *vocabolario* per descrivere l’incertezza.
+Ogni famiglia parametrica possiede caratteristiche distintive che la rendono adatta a rappresentare specifici tipi di variabili. Vediamole con esempi dalla ricerca psicologica.
 
-Le **distribuzioni discrete** assegnano probabilità a valori distinti e contabili. La distribuzione di Bernoulli modella eventi binari (successo/fallimento); la distribuzione binomiale descrive il numero di successi in una sequenza di prove e la distribuzione di Poisson è appropriata per il conteggio di eventi rari in intervalli di tempo o di spazio.
+**Distribuzioni discrete** — assegnano probabilità a valori distinti e contabili:
 
-Le **distribuzioni continue**, invece, assegnano una densità di probabilità a intervalli di valori su scale numeriche continue. La distribuzione normale, con la sua caratteristica forma a campana simmetrica, emerge naturalmente quando un fenomeno è il risultato dell’azione congiunta di molti fattori indipendenti di piccolo effetto. La distribuzione gamma è adatta a modellare quantità positive e asimmetriche come, ad esempio, i tempi di attesa o le durate. La distribuzione beta, definita sull’intervallo $[0,1]$, è particolarmente indicata per rappresentare proporzioni e probabilità.
+- **Bernoulli**: modella eventi binari singoli. *Esempio*: la risposta di un paziente a un trattamento (remissione sì/no), la correttezza di una risposta a un item di test, la presenza/assenza di un sintomo.
+
+- **Binomiale**: descrive il numero di successi in una sequenza di prove. *Esempio*: quanti item corretti su 20 in un test di memoria, quanti pazienti su 50 rispondono a un farmaco, quanti giorni su 14 un paziente riporta umore depresso.
+
+- **Poisson**: appropriata per conteggi di eventi rari in intervalli definiti. *Esempio*: numero di attacchi di panico in un mese, numero di errori in un compito di attenzione sostenuta, frequenza di comportamenti autolesionistici in una settimana.
+
+**Distribuzioni continue** — assegnano densità di probabilità a scale numeriche continue:
+
+- **Normale (Gaussiana)**: emerge quando un fenomeno è influenzato da molti fattori indipendenti di piccolo effetto. *Esempio*: punteggi QI (costruiti per essere normali), punteggi a scale di personalità ben validate, misure antropometriche.
+
+- **Gamma e Log-normale**: adatte a quantità positive e asimmetriche. *Esempio*: tempi di reazione (sempre positivi, con coda destra), latenze di risposta, durata degli episodi depressivi, tempo alla ricaduta.
+
+- **Beta**: definita sull'intervallo [0,1], ideale per proporzioni e probabilità. *Esempio*: probabilità che un paziente risponda a un trattamento, proporzione di varianza spiegata, tasso di accuratezza in un compito.
+
+### Ponte applicativo: come scegliere la distribuzione appropriata
+
+Nella pratica, la scelta della distribuzione non è un atto astratto ma una **decisione informata**, che può essere affrontata in modo sistematico seguendo una logica a cascata. Le domande chiave sono poche, ma poste nell’ordine giusto.
+
+#### 1. Qual è il **supporto** della variabile? {.unnumbered .unlisted}
+
+Il primo criterio è sempre il dominio dei valori possibili: una distribuzione che assegna probabilità a valori impossibili è automaticamente esclusa.
+
+* Solo 0 e 1 → **Bernoulli**
+* Numero di successi tra 0 e *n* → **Binomiale**
+* Conteggi interi non negativi senza limite superiore → **Poisson**
+* Numeri reali positivi (> 0) → **Gamma**, **Log-normale**
+* Proporzioni comprese tra 0 e 1 → **Beta**
+* Numeri reali su tutta la retta → **Normale**, **t di Student**
+
+👉 Questa fase serve soprattutto a **escludere** modelli inadatti.
+
+#### 2. Qual è la **forma attesa** della distribuzione? {.unnumbered .unlisted}
+
+Una volta ristretto il campo, si considera la forma plausibile dei dati, sulla base di teoria, esperienza o letteratura.
+
+* Simmetrica, campaniforme → **Normale**
+* Asimmetrica a destra (coda lunga verso valori alti) → **Gamma**, **Log-normale**
+* Asimmetrica a sinistra → **Beta** con (\alpha > \beta)
+* Presenza di outlier o code pesanti → **t di Student**
+
+👉 Qui entra in gioco l’**intelligenza sostantiva** del problema, non solo la matematica.
+
+#### 3. Ci sono **informazioni pregresse** da incorporare? {.unnumbered .unlisted}
+
+Se il modello è bayesiano, la distribuzione scelta deve dialogare bene con il *prior*.
+
+* Se esistono conoscenze precedenti (studi, esperti, dati storici), il *prior* deve poterle rappresentare in modo naturale.
+* Le coppie **coniugate** (prior e posterior della stessa famiglia) non sono obbligatorie, ma:
+
+  * semplificano i calcoli,
+  * rendono l’interpretazione più trasparente,
+  * facilitano il debugging del modello.
+
+👉 La scelta della distribuzione non riguarda solo i dati, ma l’intero **ecosistema del modello**.
+
+#### Esempio applicativo {.unnumbered .unlisted}
+
+> *“Devo modellare i tempi di reazione in un esperimento di priming.”*
+
+1. **Supporto**
+   I tempi di reazione sono numeri reali positivi → la **Normale è esclusa**.
+
+2. **Forma attesa**
+   I tempi di reazione mostrano tipicamente una forte asimmetria a destra → candidati naturali: **Gamma** o **Log-normale**.
+
+3. **Considerazioni di modellazione**
+
+   * La **Gamma** ha parametri interpretabili (forma e scala).
+   * È compatibile con strutture gerarchiche e coniugazioni utili.
+   * È spesso più stabile numericamente in modelli complessi.
+
+✅ **Scelta finale**: **Distribuzione Gamma**.
+
+### In sintesi {.unnumbered .unlisted}
+
+Scegliere una distribuzione significa rispondere a tre domande fondamentali:
+
+1. *Quali valori sono possibili?*
+2. *Che forma mi aspetto realisticamente?*
+3. *Che tipo di inferenza voglio costruire (frequentista o bayesiana)?*
+
+Se queste tre risposte sono coerenti tra loro, la distribuzione “giusta” emerge quasi naturalmente.
 
 ### Parsimonia e flessibilità
 
@@ -205,15 +299,15 @@ Nei capitoli successivi, esploreremo progressivamente questo vocabolario, concen
 
 **Criteri di selezione:**
 
-| Tipo di variabile | Supporto | Famiglia tipica |
-|:---|:---|:---|
-| Binaria (0/1) | {0,1} | Bernoulli |
-| Conteggio successi | {0,1,...,n} | Binomiale |
-| Conteggio eventi rari | {0,1,2,...} | Poisson |
-| Proporzione/probabilità | [0,1] | Beta |
-| Misura continua simmetrica | $\mathbb{R}$ | Normale |
-| Tempo di attesa | $\mathbb{R}^+$ | Esponenziale, Gamma |
-| Varianza/precisione | $\mathbb{R}^+$ | Gamma, Inversa-Gamma |
+| Tipo di variabile | Supporto | Famiglia tipica | Esempio psicologico |
+|:---|:---|:---|:---|
+| Binaria (0/1) | {0,1} | Bernoulli | Risposta corretta/errata a un item |
+| Conteggio successi | {0,1,...,n} | Binomiale | Item corretti su 20 in un test |
+| Conteggio eventi rari | {0,1,2,...} | Poisson | Attacchi di panico in un mese |
+| Proporzione/probabilità | [0,1] | Beta | Tasso di remissione, accuratezza |
+| Misura continua simmetrica | $\mathbb{R}$ | Normale | Punteggi QI, scale standardizzate |
+| Tempo di attesa/reazione | $\mathbb{R}^+$ | Gamma, Log-normale | Tempi di reazione, latenze |
+| Varianza/precisione | $\mathbb{R}^+$ | Gamma, Inversa-Gamma | Variabilità tra soggetti |
 
 **Relazioni tra famiglie:**
 

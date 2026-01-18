@@ -2,19 +2,19 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Nel capitolo sulle variabili casuali (@sec-prob-random-var) abbiamo introdotto le variabili casuali come funzioni che associano valori numerici agli esiti di un esperimento aleatorio. Abbiamo visto come la *funzione di massa di probabilità* (PMF) e la *funzione di densità di probabilità* (PDF) forniscano una descrizione completa della distribuzione della probabilità sui possibili valori assunti da una variabile.
+Immaginiamo uno scenario comune nella pratica clinica. Una psicologa deve decidere se raccomandare a un paziente affetto da depressione moderata un nuovo protocollo di intervento cognitivo-comportamentale. I dati disponibili indicano che, in media, i pazienti trattati mostrano un miglioramento di 8 punti nel BDI-II dopo 12 settimane. Ma quanto è informativo questo numero da solo?
 
-Queste descrizioni sono teoricamente esaustive, ma in molti contesti pratici risultano eccessivamente dettagliate. Pensiamo, ad esempio, a uno psicologo clinico che deve comunicare a un paziente l’esito atteso di un trattamento, oppure a un ricercatore che deve confrontare l’efficacia media di due interventi. In situazioni di questo tipo, non è necessario conoscere l’intera distribuzione di probabilità: bastano pochi numeri riassuntivi capaci di catturarne le caratteristiche essenziali. Qual è il valore “tipico” attorno a cui si concentra la distribuzione? Quanto è ampia la variabilità attorno a questo valore?
+Un miglioramento medio di 8 punti potrebbe derivare da situazioni molto diverse: potrebbe significare che quasi tutti i pazienti migliorano di circa 8 punti, oppure che la metà dei pazienti migliora di 16 punti, mentre l'altra metà non mostra alcun cambiamento. Nel primo caso, il trattamento è prevedibilmente efficace, mentre nel secondo l'esito per il singolo paziente è molto più incerto. Per poter prendere una decisione informata, la clinica ha bisogno di sapere non solo dove si colloca il centro della distribuzione degli esiti, ma anche quanto i singoli esiti si disperdono attorno a questo centro.
 
-Questo capitolo introduce i due indicatori fondamentali che rispondono a queste domande: il **valore atteso**, che individua il “centro di gravità” della distribuzione, e la **varianza**, che ne quantifica la dispersione. Questi concetti non sono semplici convenzioni descrittive, ma possiedono un significato teorico profondo. In particolare, il valore atteso emerge naturalmente come la previsione ottimale quando le decisioni sono valutate tramite una perdita quadratica, mentre la varianza fornisce una misura formale dell’incertezza residua.
+Questo capitolo introduce i due indicatori fondamentali che rispondono a queste domande: il **valore atteso**, che individua il "centro di gravità" della distribuzione, e la **varianza**, che ne quantifica la dispersione. Questi concetti non sono semplici convenzioni descrittive, ma possiedono un significato teorico profondo. In una prospettiva bayesiana, il valore atteso rappresenta la nostra **aspettativa razionale** data l'informazione disponibile, mentre la varianza quantifica l'**incertezza residua**, ovvero quanto ancora non sappiamo sul valore che osserveremo.
 
-Per questo motivo, valore atteso e varianza occupano una posizione centrale non solo nella statistica descrittiva, ma anche nella **teoria delle decisioni** e nell’**inferenza bayesiana**. Comprenderne il significato e le proprietà è essenziale per interpretare correttamente le distribuzioni di probabilità e per utilizzarle come strumenti operativi nel ragionamento scientifico e clinico.
+Per questo motivo, il valore atteso e la varianza occupano una posizione centrale non solo nella statistica descrittiva, ma anche nella **teoria delle decisioni** e nell'**inferenza bayesiana**. Comprenderne il significato e le proprietà è essenziale per interpretare correttamente le distribuzioni di probabilità e per poterle utilizzare come strumenti operativi nel ragionamento scientifico e clinico.
 
 ### Panoramica del capitolo {.unnumbered .unlisted}
 
 - Il valore atteso come media ponderata e centro di massa probabilistico.
 - Proprietà algebriche del valore atteso: linearità e additività.
-- La varianza come misura della dispersione attorno al valore atteso.
+- La varianza come misura della dispersione e dell'incertezza.
 - Proprietà della varianza e formula computazionale alternativa.
 - Deviazione standard e standardizzazione.
 - Il teorema di Chebyshev e i momenti di una distribuzione.
@@ -24,19 +24,19 @@ Per questo motivo, valore atteso e varianza occupano una posizione centrale non 
 
 Per seguire questo capitolo è necessario aver letto:
 
-- @sec-prob-random-var — **fondamentale**
-- @sec-prob-distr — **fondamentale**
+- @sec-prob-random-var — **fondamentale**.
+- @sec-prob-distr — **fondamentale**.
 
 Questo capitolo introduce gli strumenti di sintesi numerica (valore atteso e varianza) per caratterizzare le distribuzioni di probabilità studiate nei capitoli precedenti.
 
 Conoscenze matematiche richieste:
 
-- @sec-apx-sums - per calcolo del valore atteso discreto
-- @sec-apx-calculus - per calcolo del valore atteso continuo
+- @sec-apx-sums - per il calcolo del valore atteso discreto.
+- @sec-apx-calculus - per il calcolo del valore atteso continuo.
 
 Competenze pratiche:
 
-- Familiarità con R e operazioni vettoriali per verificare le proprietà attraverso simulazioni
+- Familiarità con R e operazioni vettoriali per verificare le proprietà attraverso simulazioni.
 :::
 
 ::: {.callout-caution collapse=true title="Preparazione del Notebook"}
@@ -52,7 +52,7 @@ apply_visual_theme()
 
 ## Il valore atteso come centro di gravità
 
-Il **valore atteso** di una variabile casuale rappresenta il suo *baricentro probabilistico*, cioè il punto attorno al quale la probabilità si bilancia. In una prospettiva frequentista, esso corrisponde al valore medio che ci si aspetta di osservare in una lunga serie di ripetizioni dell’esperimento. In una prospettiva bayesiana, invece, il valore atteso formalizza la nostra **aspettativa razionale** alla luce dello stato informativo corrente.
+Il **valore atteso** di una variabile casuale rappresenta il suo *baricentro probabilistico*, ovvero il punto attorno al quale la probabilità si bilancia. In una prospettiva frequentista, esso corrisponde al valore medio che ci si aspetta di osservare in una lunga serie di ripetizioni dell'esperimento. In una prospettiva bayesiana, invece, il valore atteso formalizza la nostra **aspettativa razionale**, ovvero la migliore previsione puntuale che possiamo fare alla luce dello stato informativo corrente.
 
 ::: {#def-expected-value}
 
@@ -61,40 +61,44 @@ Il **valore atteso** di una variabile casuale rappresenta il suo *baricentro pro
 Il *valore atteso* (o *media* o *speranza matematica*) di una variabile casuale $X$ è definito come segue.
 
 Per variabili **discrete** con funzione di massa di probabilità $p_X$:
+
 $$
 \mathbb{E}[X] = \sum_{x \in \mathcal{X}} x \cdot p_X(x).
 $$
 
 Per variabili **continue** con funzione di densità di probabilità $f_X$:
+
 $$
-\mathbb{E}[X] = \int_{-\infty}^{+\infty} x \cdot f_X(x),dx.
+\mathbb{E}[X] = \int_{-\infty}^{+\infty} x \cdot f_X(x)\,dx.
 $$
 :::
 
 In entrambi i casi, il valore atteso è una **media ponderata** dei valori possibili della variabile, in cui i pesi sono dati dalle probabilità (nel caso discreto) o dalla densità di probabilità (nel caso continuo).
 
-È importante sottolineare che il valore atteso **non deve necessariamente coincidere con un valore osservabile** della variabile. Per la somma di due dadi, $\mathbb{E}[X] = 7$ è un valore possibile; per il lancio di un singolo dado, invece, $\mathbb{E}[X] = 3.5$ non può mai essere osservato direttamente. Ciò nonostante, 3.5 rappresenta correttamente il punto di equilibrio della distribuzione.
+È importante sottolineare che il valore atteso **non deve necessariamente coincidere con un valore osservabile** della variabile. Questo punto è particolarmente rilevante in psicologia, dove molte scale forniscono solo valori interi.
 
-::: {.callout-note collapse="true" title="Esempio: moneta equilibrata"}
+::: {.callout-note collapse="true" title="Esempio: risposta a un item dicotomico"}
 
 #### Il valore atteso non è un esito {.unnumbered .unlisted}
 
-Consideriamo una moneta equilibrata e definiamo la variabile casuale $X$ tale che:
+Consideriamo un singolo item di un test cognitivo. Definiamo la variabile casuale $X$ tale che:
 
-* $X = 1$ se esce *testa*,
-* $X = 0$ se esce *croce*.
+* $X = 1$ se la risposta è corretta,
+* $X = 0$ se la risposta è errata.
 
-Il valore atteso è:
+Se la probabilità di risposta corretta è $p = 0.7$ (ad esempio, per un item di difficoltà media), il valore atteso è:
 $$
-\mathbb{E}[X] = 0 \cdot \frac{1}{2} + 1 \cdot \frac{1}{2} = 0.5.
+\mathbb{E}[X] = 0 \cdot 0.3 + 1 \cdot 0.7 = 0.7.
 $$
 
-Il valore 0.5 non è un esito possibile del lancio della moneta, che produce sempre 0 o 1. Tuttavia, 0.5 rappresenta il **centro di gravità** della distribuzione e il valore verso cui tende la media empirica in una lunga sequenza di lanci.
+Il valore 0.7 non è un esito possibile per questo item — la risposta sarà sempre 0 o 1. Tuttavia, 0.7 rappresenta correttamente il **centro di gravità** della distribuzione: se somministrassimo questo item a molti soggetti con la stessa probabilità di successo, la proporzione di risposte corrette tenderebbe a 0.7.
+
+In termini bayesiani, 0.7 è la nostra **aspettativa razionale**: se dovessimo scommettere sul risultato prima di osservarlo, 0.7 rappresenterebbe la previsione ottimale in termini di minimizzazione dell'errore quadratico medio.
 :::
 
 ## Il valore atteso come limite di frequenze
 
-Un’interpretazione operativa del valore atteso è fornita dalla **legge dei grandi numeri**. Se ripetiamo un esperimento molte volte e calcoliamo la media aritmetica dei risultati, questa media tende al valore atteso teorico.
+Un'interpretazione operativa del valore atteso è fornita dalla **legge dei grandi numeri**. Se ripetiamo un esperimento molte volte e calcoliamo la media aritmetica dei risultati, questa media tende al valore atteso teorico.
 
 Formalmente, se $X_1, X_2, \ldots, X_n$ sono realizzazioni indipendenti della stessa variabile casuale $X$, allora:
 
@@ -106,43 +110,26 @@ $$
 
 Questa convergenza **non definisce** il valore atteso — che resta una media ponderata secondo la definizione formale — ma ne fornisce una giustificazione empirica. Il valore atteso è quindi il valore verso cui tende la media osservata quando il processo viene campionato ripetutamente.
 
-::: {.callout-note collapse="true" title="Esempio: valore atteso della somma di due dadi"}
+::: {.callout-note collapse="true" title="Esempio: punteggio totale su due subscale"}
 
 #### Verifica della convergenza {.unnumbered .unlisted}
 
-Sia $X$ la variabile casuale che rappresenta la somma di due dadi equilibrati. La sua distribuzione di probabilità è:
+Consideriamo un questionario composto da due sottoscale, ciascuna con punteggi da 1 a 6 (come in una scala Likert). Il punteggio totale $X$ è la somma dei punteggi sulle due sottoscale e può variare da 2 a 12.
 
-$$
-P(X = x) = \left\{
-\begin{array}{ll}
-\frac{x-1}{36} & \text{per } x = 2, 3, \ldots, 7 \\
-\frac{13-x}{36} & \text{per } x = 8, 9, \ldots, 12
-\end{array}
-\right.
-$$
+Supponiamo che ciascuna sottoscala abbia la seguente distribuzione (leggermente asimmetrica verso valori alti, tipica di scale di soddisfazione):
 
-In forma esplicita:
+| Punteggio | 1 | 2 | 3 | 4 | 5 | 6 |
+|:---------:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Probabilità | 0.05 | 0.10 | 0.15 | 0.25 | 0.30 | 0.15 |
+
+Il valore atteso di ciascuna sottoscala è:
 $$
-P(X = 2) = \frac{1}{36}, \quad
-P(X = 3) = \frac{2}{36}, \quad
-P(X = 4) = \frac{3}{36}, \quad
-P(X = 5) = \frac{4}{36}, \quad
-P(X = 6) = \frac{5}{36},
-$$
-$$
-P(X = 7) = \frac{6}{36}, \quad
-P(X = 8) = \frac{5}{36}, \quad
-P(X = 9) = \frac{4}{36}, \quad
-P(X = 10) = \frac{3}{36}, \quad
-P(X = 11) = \frac{2}{36}, 
-$$
-$$
-P(X = 12) = \frac{1}{36}.
+\mathbb{E}[S] = 1(0.05) + 2(0.10) + 3(0.15) + 4(0.25) + 5(0.30) + 6(0.15) = 4.10.
 $$
 
-Il valore atteso è:
+Per la somma delle due sottoscale (assumendo indipendenza):
 $$
-\mathbb{E}[X] = 7.
+\mathbb{E}[X] = \mathbb{E}[S_1] + \mathbb{E}[S_2] = 4.10 + 4.10 = 8.20.
 $$
 
 Una simulazione mostra che la media empirica converge a questo valore:
@@ -150,52 +137,43 @@ Una simulazione mostra che la media empirica converge a questo valore:
 ```{r}
 set.seed(123)
 
-valori <- 2:12
-prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
-E_teorico <- sum(valori * prob)
+# Distribuzione di ciascuna subscala
+valori_subscala <- 1:6
+prob_subscala <- c(0.05, 0.10, 0.15, 0.25, 0.30, 0.15)
+E_subscala <- sum(valori_subscala * prob_subscala)
 
-n_sim <- 1000000
-somme <- sample(1:6, n_sim, replace = TRUE) +
-         sample(1:6, n_sim, replace = TRUE)
-E_empirico <- mean(somme)
+# Simulazione
+n_sim <- 100000
+subscala1 <- sample(valori_subscala, n_sim, replace = TRUE, prob = prob_subscala)
+subscala2 <- sample(valori_subscala, n_sim, replace = TRUE, prob = prob_subscala)
+punteggio_totale <- subscala1 + subscala2
+
+E_teorico <- 2 * E_subscala
+E_empirico <- mean(punteggio_totale)
 
 cat("Valore atteso teorico:", E_teorico, "\n")
-cat("Media empirica:", E_empirico, "\n")
+cat("Media empirica:", round(E_empirico, 3), "\n")
 ```
 
-La convergenza della media empirica al valore 7 illustra concretamente la legge dei grandi numeri.
+La convergenza della media empirica al valore teorico illustra concretamente la legge dei grandi numeri.
 :::
 
-## Un calcolo più efficiente: la linearità del valore atteso
+### Ponte applicativo: il punteggio atteso di una scala
+
+Il risultato appena visto ha un'implicazione pratica immediata: **il punteggio atteso di una scala psicometrica** equivale alla somma dei valori attesi dei suoi singoli item. Ad esempio, se una scala è composta da 20 item, ciascuno con un valore atteso di 3.5 (su una scala da 1 a 5), il punteggio totale atteso sarà semplicemente $20 \times 3.5 = 70$.
+
+Questa proprietà, che formalizzeremo in seguito come *linearità del valore atteso*, semplifica notevolmente i calcoli e permette di ragionare sulle proprietà aggregate di scale composite senza dover ricostruire tutta la complessa distribuzione congiunta degli item.
+
+## La linearità del valore atteso
 
 Il valore atteso possiede una proprietà algebrica di importanza cruciale: la **linearità**. Per qualunque coppia di variabili casuali $X$ e $Y$ e per qualunque costante $a$ vale:
 $$
 \mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y],
 \qquad
-\mathbb{E}[aX] = a,\mathbb{E}[X].
+\mathbb{E}[aX] = a\,\mathbb{E}[X].
 $$
 
-Questa proprietà non richiede alcuna assunzione di indipendenza.
-
-Nel caso della somma di due dadi, se $D_1$ e $D_2$ rappresentano i risultati dei singoli dadi e $X = D_1 + D_2$, otteniamo:
-
-$$
-\mathbb{E}[X] = \mathbb{E}[D_1] + \mathbb{E}[D_2].
-$$
-
-Poiché per ciascun dado $\mathbb{E}[D_i] = 3.5$, segue immediatamente:
-
-$$
-\mathbb{E}[X] = 3.5 + 3.5 = 7.
-$$
-
-Questo approccio è non solo più efficiente dal punto di vista computazionale, ma mette in luce il ruolo del valore atteso come **operatore lineare**, una proprietà che lo rende centrale nella teoria delle decisioni, nell’inferenza bayesiana e nella modellazione statistica avanzata.
-
-## Proprietà del valore atteso
-
-Il valore atteso possiede proprietà algebriche di notevole importanza che ne rendono il calcolo spesso sorprendentemente semplice. Queste proprietà non sono assunzioni aggiuntive, ma **conseguenze dirette della definizione** di valore atteso come media ponderata, e valgono per qualsiasi variabile casuale per cui il valore atteso sia ben definito.
-
-## Linearità del valore atteso
+Questa proprietà **non richiede alcuna assunzione di indipendenza**: vale sempre, anche quando le variabili sono correlate.
 
 ::: {#thm-expected-value-linearity}
 
@@ -203,15 +181,11 @@ Il valore atteso possiede proprietà algebriche di notevole importanza che ne re
 
 Per qualsiasi variabile casuale $X$ e per qualunque costanti $a,b \in \mathbb{R}$ vale:
 $$
-\mathbb{E}[aX + b] = a,\mathbb{E}[X] + b.
+\mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b.
 $$
 :::
 
 La linearità afferma che **traslazioni** e **riscalamenti** dei valori di una variabile si riflettono in modo diretto sul valore atteso. Se moltiplichiamo tutti i valori per una costante $a$, la media viene moltiplicata per $a$; se aggiungiamo una costante $b$ a tutti i valori, la media aumenta di $b$.
-
-Questa proprietà rende il valore atteso uno strumento estremamente stabile e prevedibile, qualità essenziali nella modellazione statistica e nella teoria delle decisioni.
-
-## Additività del valore atteso
 
 ::: {#thm-expected-value-additivity}
 
@@ -225,15 +199,71 @@ $$
 Questa proprietà è valida **sempre**, indipendentemente dal fatto che $X$ e $Y$ siano indipendenti o dipendenti.
 :::
 
-L’additività è una conseguenza immediata della linearità ed è particolarmente notevole perché **non richiede l’indipendenza** tra le variabili. Anche in presenza di correlazione, il valore atteso della somma coincide con la somma dei valori attesi.
-
 Per una somma di $n$ variabili casuali $X_1, \ldots, X_n$ si ottiene:
 
 $$
 \mathbb{E}\left[\sum_{i=1}^{n} X_i\right] = \sum_{i=1}^{n} \mathbb{E}[X_i].
 $$
-Questa proprietà semplifica in modo drastico molti calcoli teorici e applicativi.
 
+::: {.callout-note collapse="true" title="Esempio: Punteggio composito di ansia e depressione"}
+
+**Applicazione della linearità in un contesto clinico**
+
+Si consideri una valutazione psicometrica che combina due scale:
+
+* punteggio di ansia $A$ (scala 0–21, es. GAD-7);
+* punteggio di depressione $D$ (scala 0–27, es. PHQ-9).
+
+Nella popolazione clinica di riferimento si supponga che:
+
+* $\mathbb{E}[A] = 12$ (ansia moderata);
+* $\mathbb{E}[D] = 14$ (depressione moderata).
+
+Un possibile indice composito di *distress psicologico* può essere definito come:
+$$
+\text{Distress} = A + D.
+$$
+
+Per la proprietà di linearità del valore atteso, otteniamo immediatamente:
+$$
+\mathbb{E}[\text{Distress}] = \mathbb{E}[A] + \mathbb{E}[D] = 12 + 14 = 26.
+$$
+
+**Nota importante:** il calcolo rimane valido **anche se ansia e depressione sono correlate**, come accade tipicamente per comorbidità clinica. La linearità non richiede l’indipendenza tra le variabili.
+
+Se volessimo costruire un indice ponderato che attribuisce maggiore peso alla depressione:
+$$
+\text{Distress}_w = 0.4 \cdot A + 0.6 \cdot D,
+$$
+il suo valore atteso sarebbe:
+$$
+\mathbb{E}[\text{Distress}_w] = 0.4 \cdot 12 + 0.6 \cdot 14 = 4.8 + 8.4 = 13.2.
+$$
+
+```{r}
+# Verifica con simulazione (ipotesi: correlazione moderata tra A e D)
+set.seed(42)
+library(MASS)
+
+# Generiamo dati correlati (correlazione r = 0.6, realistico in clinica)
+n <- 10000
+Sigma <- matrix(c(25, 18, 18, 36), 2, 2)  # Var(A)=25, Var(D)=36, Cov=18
+dati <- mvrnorm(n, mu = c(12, 14), Sigma = Sigma)
+A <- pmax(0, pmin(21, round(dati[,1])))   # adattiamo al range della scala
+D <- pmax(0, pmin(27, round(dati[,2])))
+
+distress <- A + D
+distress_w <- 0.4 * A + 0.6 * D
+
+cat("Valore atteso teorico di Distress: 26")
+cat(" | Valore atteso empirico:", round(mean(distress), 2), "\n")
+cat("Valore atteso teorico di Distress_w: 13.2")
+cat(" | Valore atteso empirico:", round(mean(distress_w), 2), "\n")
+cat("Correlazione osservata tra A e D:", round(cor(A, D), 2), "\n")
+```
+
+Come si vede, nonostante la correlazione tra le due scale, il valore atteso del punteggio composito coincide con il calcolo analitico, confermando la robustezza della proprietà di linearità.
+:::
 
 ### Prodotto di variabili casuali
 
@@ -248,39 +278,7 @@ $$
 $$
 :::
 
-A differenza dell’additività, questa proprietà **richiede** l’indipendenza. In generale, per variabili dipendenti il valore atteso del prodotto non è uguale al prodotto dei valori attesi. Questa distinzione sarà cruciale quando introdurremo concetti come covarianza e correlazione.
-
-::: {.callout-note collapse="true" title="Esempio: dado e moneta"}
-
-**Applicazione della linearità**
-
-Consideriamo l’esperimento di lanciare una moneta e un dado. Sia:
-
-* $X$ la variabile casuale associata alla moneta, con valori $0$ (croce) e $1$ (testa);
-* $Y$ la variabile casuale associata al dado, con valori da 1 a 6.
-
-Vogliamo calcolare il valore atteso di $X + Y$.
-
-Un approccio diretto richiederebbe di elencare tutti i 12 esiti possibili e calcolare la media ponderata. Utilizzando invece l’additività:
-$$
-\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y] = 0.5 + 3.5 = 4.0.
-$$
-
-La verifica diretta conferma il risultato:
-
-```{r}
-coin <- c(0, 1)
-die <- 1:6
-sample_space <- expand.grid(X = coin, Y = die)
-sample_space$sum <- sample_space$X + sample_space$Y
-
-E_diretto <- mean(sample_space$sum)
-E_lineare <- 0.5 + 3.5
-
-cat("Calcolo diretto:", E_diretto, "\n")
-cat("Calcolo via linearità:", E_lineare, "\n")
-```
-:::
+A differenza dell'additività, questa proprietà **richiede** l'indipendenza. In generale, per variabili dipendenti il valore atteso del prodotto non è uguale al prodotto dei valori attesi. Questa distinzione sarà cruciale quando introdurremo concetti come covarianza e correlazione.
 
 ### Valore atteso della media campionaria
 
@@ -298,54 +296,105 @@ $$
 
 Questo risultato mostra che la media campionaria è uno **stimatore non distorto** del valore atteso della popolazione: in media, la media campionaria coincide con il parametro che intende stimare.
 
-### Punto chiave da ricordare
+### Ponte applicativo: perché la media campionaria è uno stimatore coerente
 
-* La linearità è la proprietà centrale del valore atteso.
-* L'additività vale sempre, anche senza indipendenza.
-* Il prodotto richiede indipendenza.
-* La media campionaria conserva il valore atteso della popolazione.
+Questo risultato ha implicazioni dirette per la pratica della ricerca in psicologia. Quando calcoliamo la media dei punteggi BDI-II in un campione di pazienti, stiamo utilizzando la **media campionaria** come stimatore del valore atteso (media) della popolazione. La proprietà $\mathbb{E}[\bar{X}] = \mu$, nota come *non distorsione*, ci garantisce che, in media su infiniti campioni possibili, questa procedura di stima "centra il bersaglio".
 
----
+Tuttavia, ciò non significa che la stima ottenuta da un singolo campione sia perfettamente accurata: la media campionaria è soggetta a una variabilità intrinseca, poiché dipende dai soggetti selezionati. Per quantificare **quanto possa oscillare** questa stima da campione a campione, è necessario introdurre il concetto di *varianza* (e di errore standard, che da essa deriva).
 
-## La varianza come misura di dispersione
+## La varianza come misura di dispersione e incertezza
 
-Il valore atteso individua il centro di una distribuzione, ma da solo non fornisce informazioni su **quanto** i valori della variabile si discostino da questo centro. Due variabili casuali possono avere lo stesso valore atteso e tuttavia comportamenti molto diversi: una può essere fortemente concentrata attorno alla media, l'altra estremamente dispersa.
+Il valore atteso identifica il centro di una distribuzione, ma da solo non informa su **quanto** i valori reali tendano a discostarsene. Riprendiamo l'esempio clinico: sapere che il miglioramento medio nel BDI-II è di 8 punti non ci dice se questo cambiamento sia relativamente uniforme tra i pazienti o estremamente variabile.
 
-Per quantificare la dispersione, introduciamo gli **scarti dalla media**, cioè la variabile casuale $X - \mathbb{E}[X]$. Gli scarti possono assumere valori positivi o negativi e, per definizione del valore atteso, la loro media è sempre zero. Di conseguenza, una semplice media degli scarti non può fornire una misura utile della variabilità.
+Dal punto di vista epistemico, la varianza quantifica la nostra **incertezza residua** su una quantità, anche dopo averne stimato il valore centrale. Un’elevata varianza indica che, pur conoscendo la media, rimaniamo ampiamente incerti sul risultato specifico che osserveremo; una varianza bassa suggerisce invece che la media costituisce una guida affidabile per prevedere le singole realizzazioni.
 
-Per ottenere una misura non nulla e sempre positiva della dispersione, si considera il **quadrato degli scarti**, che elimina i segni e penalizza maggiormente le deviazioni più ampie.
+### Perché non usare la media degli scarti?
 
-## Definizione di varianza
+Per misurare la dispersione di una variabile attorno alla sua media, l’idea naturale è considerare gli **scarti dalla media**, ovvero $X - \mathbb{E}[X]$. Tuttavia, per la stessa definizione di valore atteso, si ha:
+$$
+\mathbb{E}[X - \mathbb{E}[X]] = \mathbb{E}[X] - \mathbb{E}[X] = 0.
+$$
+La media degli scarti è sempre zero: gli scarti positivi e quelli negativi si bilanciano esattamente, rendendo questa quantità inefficace come indice di variabilità.
+
+Per ottenere una misura che sia sempre non negativa e che rifletta l’entità delle deviazioni, si utilizza il **quadrato degli scarti**. Elevando al quadrato si eliminano i segni negativi e, allo stesso tempo, si dà un peso maggiore agli scostamenti più ampi rispetto alla media.
 
 ::: {#def-variance}
 
 ### Varianza
 
-La *varianza* di una variabile casuale $X$ è definita come il valore atteso degli scarti quadratici dalla media:
+La *varianza* di una variabile casuale $X$ è definita come il **valore atteso del quadrato degli scarti dalla media**:
 $$
-\text{Var}(X) = \mathbb{E}\left[(X - \mathbb{E}[X])^2\right].
+\operatorname{Var}(X) = \mathbb{E}\!\left[(X - \mathbb{E}[X])^2\right].
 $$
+
 :::
 
-Indicando con $\mu = \mathbb{E}[X]$, la varianza può essere scritta in forma esplicita come:
+Denotando con $\mu = \mathbb{E}[X]$, la definizione si esprime operativamente come:
 
-* **caso discreto**
+* **Caso discreto**
   $$
-  \text{Var}(X) = \sum_i (x_i - \mu)^2 \cdot p_X(x_i),
+  \operatorname{Var}(X) = \sum_i (x_i - \mu)^2 \; p_X(x_i),
   $$
+  dove $p_X$ è la funzione di massa di probabilità.
 
-* **caso continuo**
+* **Caso continuo**
   $$
-  \text{Var}(X) = \int_{-\infty}^{+\infty} (x - \mu)^2 \cdot f_X(x) \, dx.
+  \operatorname{Var}(X) = \int_{-\infty}^{+\infty} (x - \mu)^2 \; f_X(x) \, dx,
   $$
+  dove $f_X$ è la funzione di densità.
 
-La varianza è sempre **non negativa**, cioè $\text{Var}(X) \geq 0$ per ogni variabile casuale $X$. L'uguaglianza vale se e solo se $X$ è una costante, ossia se non esiste alcuna incertezza sul valore assunto dalla variabile.
+La varianza è una quantità **non negativa**: $\operatorname{Var}(X) \geq 0$. Vale $\operatorname{Var}(X)=0$ se e solo se $X$ assume un unico valore con probabilità 1 — cioè quando non c'è alcuna variabilità.
+### Interpretazione epistemica
 
-Valori elevati di varianza indicano una forte dispersione dei valori attorno alla media e quindi una maggiore incertezza nella previsione degli esiti. Al contrario, una varianza piccola segnala che la distribuzione è fortemente concentrata attorno al valore atteso.
+La varianza può essere letta come la **perdita attesa** quando utilizziamo il valore atteso $\mu$ come previsione puntuale e misuriamo l'errore con una *funzione di perdita quadratica*.
+Se formuliamo sempre $\mu$ come previsione, l’errore quadratico medio associato è:
+$$
+\mathbb{E}\big[(X - \mu)^2\big] = \operatorname{Var}(X).
+$$
+
+In quest’ottica, la varianza quantifica **quanto, in media, la nostra previsione si discosta** dal valore effettivo che osserveremo. Rappresenta quindi una misura dell'**incertezza residua** intrinseca alla variabile, anche una volta adottata la migliore stima puntuale possibile.
+
+::: {.callout-note collapse="true" title="Esempio: confronto tra due trattamenti"}
+
+#### Stessa media, varianza diversa {.unnumbered .unlisted}
+
+Consideriamo due trattamenti per la depressione. Entrambi producono un miglioramento medio di 8 punti al BDI-II, ma con distribuzioni diverse:
+
+**Trattamento A** (esiti prevedibili):
+| Miglioramento | 6 | 7 | 8 | 9 | 10 |
+|:-------------:|:-:|:-:|:-:|:-:|:--:|
+| Probabilità | 0.10 | 0.25 | 0.30 | 0.25 | 0.10 |
+
+**Trattamento B** (esiti variabili):
+| Miglioramento | 0 | 4 | 8 | 12 | 16 |
+|:-------------:|:-:|:-:|:-:|:--:|:--:|
+| Probabilità | 0.10 | 0.25 | 0.30 | 0.25 | 0.10 |
+
+```{r}
+# Trattamento A
+valori_A <- c(6, 7, 8, 9, 10)
+prob_A <- c(0.10, 0.25, 0.30, 0.25, 0.10)
+E_A <- sum(valori_A * prob_A)
+Var_A <- sum((valori_A - E_A)^2 * prob_A)
+
+# Trattamento B
+valori_B <- c(0, 4, 8, 12, 16)
+prob_B <- c(0.10, 0.25, 0.30, 0.25, 0.10)
+E_B <- sum(valori_B * prob_B)
+Var_B <- sum((valori_B - E_B)^2 * prob_B)
+
+cat("Trattamento A: E[X] =", E_A, ", Var(X) =", Var_A, "\n")
+cat("Trattamento B: E[X] =", E_B, ", Var(X) =", Var_B, "\n")
+```
+
+Entrambi i trattamenti hanno lo stesso valore atteso (8 punti), ma la varianza del Trattamento B è 16 volte maggiore! Con il Trattamento A, possiamo dire al paziente con ragionevole confidenza che migliorerà di circa 8 punti. Con il Trattamento B, invece, alcuni pazienti non miglioreranno affatto mentre altri miglioreranno moltissimo.
+
+La scelta tra i due trattamenti dipende dalle preferenze del paziente e del clinico riguardo al rischio: un paziente avverso al rischio potrebbe preferire il Trattamento A, mentre uno disposto a "scommettere" su un miglioramento maggiore potrebbe preferire il Trattamento B.
+:::
 
 ## Formula alternativa della varianza
 
-Esiste una forma equivalente della varianza che risulta spesso più conveniente dal punto di vista computazionale.
+Spesso, dal punto di vista computazionale, è più conveniente utilizzare una forma equivalente della varianza.
 
 ::: {#thm-variance-formula}
 
@@ -370,38 +419,62 @@ Sia $\mu = \mathbb{E}[X]$. Partendo dalla definizione:
 \end{align*}
 :::
 
-Questa formulazione mostra che la varianza dipende esclusivamente da due **momenti** della distribuzione: il valore atteso $\mathbb{E}[X]$ e il valore atteso del quadrato $\mathbb{E}[X^2]$. In molti casi, questo rende il calcolo più semplice ed efficiente rispetto all'uso diretto degli scarti.
+Questa formulazione mostra che la varianza dipende esclusivamente da due **momenti** della distribuzione: il valore atteso $\mathbb{E}[X]$ e il valore atteso del quadrato $\mathbb{E}[X^2]$.
 
-::: {.callout-note collapse="true" title="Esempio: varianza della somma di due dadi"}
+::: {.callout-note collapse="true" title="Esempio: varianza del punteggio su due subscale"}
 
 **Calcolo con entrambe le formule**
 
-Calcoliamo la varianza della variabile casuale $X$ che rappresenta la somma di due dadi equilibrati.
+Riprendiamo l'esempio delle due scale con distribuzione:
 
-**Formula diretta**
+| Punteggio | 1 | 2 | 3 | 4 | 5 | 6 |
+|:---------:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Probabilità | 0.05 | 0.10 | 0.15 | 0.25 | 0.30 | 0.15 |
 
-```{r}
-valori <- 2:12
-prob <- c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
-E_X <- sum(valori * prob)
-Var_diretta <- sum((valori - E_X)^2 * prob)
-cat("Varianza (formula diretta):", Var_diretta, "\n")
-```
-
-**Formula alternativa**
+**Varianza di una singola scala:**
 
 ```{r}
-E_X2 <- sum(valori^2 * prob)
-Var_alternativa <- E_X2 - E_X^2
-cat("Varianza (formula alternativa):", Var_alternativa, "\n")
+valori <- 1:6
+prob <- c(0.05, 0.10, 0.15, 0.25, 0.30, 0.15)
+
+E_S <- sum(valori * prob)
+E_S2 <- sum(valori^2 * prob)
+
+# Formula diretta
+Var_diretta <- sum((valori - E_S)^2 * prob)
+
+# Formula alternativa
+Var_alternativa <- E_S2 - E_S^2
+
+cat("E[S] =", E_S, "\n")
+cat("E[S²] =", E_S2, "\n")
+cat("Varianza (formula diretta):", round(Var_diretta, 4), "\n")
+cat("Varianza (formula alternativa):", round(Var_alternativa, 4), "\n")
 ```
 
-Le due formule producono lo stesso risultato, come atteso, ma la formula alternativa richiede solo il calcolo di due medie ponderate, senza dover calcolare esplicitamente tutti gli scarti dalla media.
+Le due formule producono lo stesso risultato, come atteso.
+
+**Varianza della somma di due scale indipendenti:**
+
+```{r}
+# Per variabili indipendenti: Var(S1 + S2) = Var(S1) + Var(S2)
+Var_somma_teorica <- 2 * Var_diretta
+
+# Verifica con simulazione
+set.seed(123)
+n_sim <- 100000
+S1 <- sample(valori, n_sim, replace = TRUE, prob = prob)
+S2 <- sample(valori, n_sim, replace = TRUE, prob = prob)
+somma <- S1 + S2
+
+cat("\nVarianza della somma (teorica):", round(Var_somma_teorica, 4), "\n")
+cat("Varianza della somma (empirica):", round(var(somma) * (n_sim-1)/n_sim, 4), "\n")
+```
 :::
 
 ## Proprietà algebriche della varianza
 
-La varianza possiede proprietà algebriche che, pur essendo simili a quelle del valore atteso, presentano differenze cruciali.
+La varianza presenta proprietà algebriche simili a quelle del valore atteso, ma con differenze cruciali che hanno importanti implicazioni per la pratica statistica.
 
 ### Trasformazioni lineari
 
@@ -422,7 +495,16 @@ Sia $\mu = \mathbb{E}[X]$. Allora $\mathbb{E}[aX + b] = a\mu + b$ e quindi:
 \end{align*}
 :::
 
-**Osservazione cruciale**: una traslazione (addizione di una costante $b$) **non modifica** la varianza, poiché non altera la dispersione dei valori attorno alla media. La moltiplicazione per una costante $a$ amplifica o riduce la varianza proporzionalmente a $a^2$.
+**Osservazione cruciale**: una traslazione (l'addizione di una costante $b$) **non modifica** la varianza. Questo ha senso: spostare tutti i valori di una costante non cambia quanto sono dispersi tra loro. La moltiplicazione per una costante $a$, invece, amplifica o riduce la varianza proporzionalmente a $a^2$.
+
+### Ponte applicativo: conversione tra scale
+
+Questa proprietà risulta particolarmente utile nella **trasformazione di scale psicometriche**. Ad esempio, convertendo un punteggio grezzo $X$ in un punteggio standardizzato del tipo $T = 10X + 50$ (come avviene per i *T-score*), la varianza si trasforma come:
+$$
+\operatorname{Var}(T) = 10^2 \cdot \operatorname{Var}(X) = 100 \cdot \operatorname{Var}(X).
+$$
+
+Si noti che il termine additivo (50) non ha alcun effetto sulla dispersione: solo il **coefficiente moltiplicativo** (10) amplifica la varianza secondo il suo quadrato.
 
 ### Additività della varianza per variabili indipendenti
 
@@ -432,41 +514,44 @@ $$
 \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y).
 $$
 
-A differenza dell'additività del valore atteso, che vale sempre, l'additività della varianza **richiede l'assenza di dipendenza**. In presenza di correlazione, la varianza della somma può essere maggiore o minore della somma delle varianze, a seconda del segno della covarianza.
+**Questa è una differenza fondamentale rispetto al valore atteso**: l'additività della varianza **richiede l'indipendenza**. In presenza di correlazione, la varianza della somma può essere maggiore o minore della somma delle varianze, a seconda del segno della covarianza.
 
-::: {.callout-note collapse="true" title="Esempio: varianza della somma vs varianza dei componenti"}
+::: {.callout-note collapse="true" title="Esempio: perché l'indipendenza conta"}
 
-**Due dadi indipendenti**
+**Varianza con e senza indipendenza**
 
-Consideriamo un singolo dado equilibrato. Il suo valore atteso e la sua varianza sono:
+Riprendiamo l'esempio di ansia ($A$) e depressione ($D$) con $\text{Var}(A) = 25$ e $\text{Var}(D) = 36$.
+
+**Se fossero indipendenti:**
+$$
+\text{Var}(A + D) = 25 + 36 = 61.
+$$
+
+**Con correlazione positiva** ($\rho = 0.6$, tipica per comorbidità):
+$$
+\text{Var}(A + D) = \text{Var}(A) + \text{Var}(D) + 2\text{Cov}(A, D).
+$$
+
+La covarianza è $\text{Cov}(A, D) = \rho \cdot \sigma_A \cdot \sigma_D = 0.6 \cdot 5 \cdot 6 = 18$, quindi:
+$$
+\text{Var}(A + D) = 25 + 36 + 2(18) = 97.
+$$
 
 ```{r}
-valori_dado <- 1:6
-prob_dado <- rep(1/6, 6)
-
-E_dado <- sum(valori_dado * prob_dado)
-E_dado2 <- sum(valori_dado^2 * prob_dado)
-Var_dado <- E_dado2 - E_dado^2
-
-cat("Singolo dado:\n")
-cat("  E[D] =", E_dado, "\n")
-cat("  Var(D) =", round(Var_dado, 4), "\n")
+# Verifica con i dati simulati precedentemente
+cat("Var(A) teorica: 25, empirica:", round(var(A), 1), "\n")
+cat("Var(D) teorica: 36, empirica:", round(var(D), 1), "\n")
+cat("Var(A+D) se indipendenti: 61\n")
+cat("Var(A+D) con correlazione teorica: 97\n")
+cat("Var(A+D) empirica:", round(var(A + D), 1), "\n")
 ```
 
-Per la somma $X = D_1 + D_2$ di due dadi indipendenti vale:
-
-```{r}
-cat("\nSomma di due dadi indipendenti:\n")
-cat("  E[X] = E[D₁] + E[D₂] =", 2 * E_dado, "\n")
-cat("  Var(X) = Var(D₁) + Var(D₂) =", round(2 * Var_dado, 4), "\n")
-```
-
-La varianza della somma è quindi circa $5.83$, esattamente il doppio della varianza di un singolo dado (circa $2.92$), come previsto dalla proprietà di additività per variabili indipendenti.
+La correlazione positiva **aumenta** la varianza della somma: quando una variabile è alta, l'altra tende a essere alta, amplificando la dispersione complessiva.
 :::
 
 ### Varianza della media campionaria
 
-Un risultato di rilevanza diretta per l'inferenza statistica riguarda la **varianza della media campionaria**. Siano $X_1, X_2, \ldots, X_n$ variabili casuali **indipendenti e identicamente distribuite** (i.i.d.) con
+Un risultato di diretta rilevanza per l'inferenza statistica riguarda la **varianza della media campionaria**. Siano $X_1, X_2, \ldots, X_n$ variabili casuali **indipendenti e identicamente distribuite** (i.i.d.) con
 
 $$
 \mathbb{E}[X_i] = \mu,
@@ -480,7 +565,7 @@ $$
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i.
 $$
 
-Applicando le proprietà della varianza, otteniamo:
+Applicando le proprietà della varianza:
 
 $$
 \text{Var}(\bar{X})
@@ -496,29 +581,72 @@ $$
 = n \sigma^2.
 $$
 
-Sostituendo, otteniamo:
+Sostituendo:
 
 $$
 \text{Var}(\bar{X}) = \frac{\sigma^2}{n}.
 $$
 
-**Interpretazione**: La varianza della media campionaria decresce linearmente con $1/n$. Questo significa che raddoppiare la dimensione campionaria dimezza la varianza della media, rendendo le stime progressivamente più precise all'aumentare dei dati. Questo risultato costituisce il fondamento matematico dell'idea che "più dati implicano maggiore precisione".
+### Ponte applicativo: perché campioni più grandi danno stime più precise
+
+Questo risultato costituisce il **fondamento matematico** del principio per cui "più dati portano a stime più precise". La varianza della media campionaria decresce linearmente con l'inverso della numerosità campionaria:
+
+- con $n = 25$ pazienti, $\operatorname{Var}(\bar{X}) = \sigma^2/25$;
+- con $n = 100$ pazienti, $\operatorname{Var}(\bar{X}) = \sigma^2/100$.
+
+Quadruplicando la dimensione del campione, la varianza si riduce a un quarto. In termini di deviazione standard, ovvero l’errore standard della media, si ha:
+$$
+\operatorname{SE}(\bar{X}) = \frac{\sigma}{\sqrt{n}}.
+$$
+
+Per dimezzare l’errore standard è necessario *quadruplicare* il campione. Questo legame inversamente proporzionale tra precisione e numerosità spiega perché gli studi clinici con campioni più ampi tendono a fornire stime dell’efficacia del trattamento più affidabili e meno influenzate dalla variabilità individuale.
+
+```{r}
+#| label: fig-varianza-media
+#| fig-cap: "La varianza della media campionaria decresce con la dimensione del campione. Questo è il fondamento della precisione statistica."
+
+# Simulazione della varianza della media per diversi n
+set.seed(123)
+sigma2 <- 100  # Varianza della popolazione
+n_values <- c(5, 10, 25, 50, 100, 200)
+n_rep <- 1000
+
+risultati <- data.frame(
+  n = integer(),
+  var_media = numeric()
+)
+
+for (n in n_values) {
+  medie <- replicate(n_rep, mean(rnorm(n, mean = 50, sd = sqrt(sigma2))))
+  risultati <- rbind(risultati, data.frame(
+    n = n,
+    var_media = var(medie),
+    var_teorica = sigma2 / n
+  ))
+}
+
+ggplot(risultati, aes(x = n)) +
+  geom_point(aes(y = var_media), size = 3) +
+  geom_line(aes(y = var_teorica), linewidth = 1) +
+  scale_x_continuous(breaks = n_values) +
+  labs(
+    x = "Dimensione campionaria (n)",
+    y = "Varianza della media campionaria",
+    title = expression(Var(bar(X)) == sigma^2 / n)
+  )
+```
 
 ::: {.callout-note}
 ### Approfondimento inferenziale
 
-Le proprietà della media campionaria qui derivate hanno implicazioni profonde per l'inferenza statistica e bayesiana. Nel @sec-prob-inference-uncertainty esamineremo in dettaglio come questi risultati si traducano operativamente nell'aggiornamento delle credenze e nella quantificazione dell'incertezza, introducendo concetti quali distribuzione campionaria, verosimiglianza ed errore standard.
+Le proprietà della media campionaria che abbiamo derivato hanno conseguenze profonde per l'inferenza statistica. Nel @sec-prob-inference-uncertainty esploreremo in dettaglio come questi risultati si concretizzino operativamente nell'aggiornamento delle credenze e nella quantificazione dell'incertezza, introducendo strumenti centrali come la distribuzione campionaria, la funzione di verosimiglianza e l'errore standard.
 :::
-
-### Punto chiave da ricordare
-
-* La media campionaria conserva il valore atteso della popolazione: $\mathbb{E}[\bar{X}] = \mu$.
-* La sua varianza decresce come $1/n$: $\text{Var}(\bar{X}) = \sigma^2/n$.
-* Questi risultati sono alla base della precisione statistica e dell'apprendimento dall'esperienza.
 
 ## Deviazione standard e standardizzazione
 
-La varianza è definita come valore atteso degli scarti quadratici dalla media e, di conseguenza, ha come unità di misura il **quadrato** dell’unità della variabile originaria. Questa caratteristica, pur essendo matematicamente conveniente, rende la varianza meno immediata da interpretare sul piano pratico. Per riportare la dispersione sulla **stessa scala dei dati**, si introduce la *deviazione standard*.
+La varianza è definita come il valore atteso degli scarti al quadrato dalla media, il che implica che la sua unità di misura è il **quadrato** di quella della variabile originale. Se, ad esempio, misuriamo il miglioramento in punti al BDI-II, la varianza sarà espressa in "punti al quadrato", un’unità priva di interpretazione clinica diretta.
+
+Per ottenere una misura di dispersione che sia **nella stessa scala dei dati** osservati, si introduce la *deviazione standard*.
 
 ::: {#def-standard-deviation}
 
@@ -530,11 +658,11 @@ $$
 $$
 :::
 
-La deviazione standard misura la dispersione in unità direttamente confrontabili con i valori osservati. In termini intuitivi, essa rappresenta una “distanza tipica” dei valori dalla media. Per molte distribuzioni simmetriche e unimodali, una larga parte delle osservazioni si concentra entro una o due deviazioni standard dal valore atteso, rendendo questa misura particolarmente informativa.
+La deviazione standard misura la dispersione in unità direttamente confrontabili con i valori osservati. In termini intuitivi, essa rappresenta una "distanza tipica" dei valori dalla media.
 
-## Standardizzazione
+### Standardizzazione
 
-Un ulteriore passo concettualmente importante consiste nel trasformare una variabile casuale in una forma *standardizzata*, eliminando l’effetto della scala e della posizione.
+Un ulteriore passo concettualmente importante consiste nel trasformare una variabile casuale in una forma *standardizzata*, eliminando l'effetto della scala e della posizione.
 
 ::: {#def-standardization}
 
@@ -554,82 +682,106 @@ $$
 \qquad
 \text{Var}(Z) = 1,
 $$
-indipendentemente dalla distribuzione originaria di $X$. La standardizzazione esprime ogni osservazione in termini di **quante deviazioni standard** essa si discosta dalla media, fornendo una misura adimensionale della posizione relativa.
+indipendentemente dalla distribuzione originaria di $X$. La standardizzazione esprime ogni osservazione in termini di **quante deviazioni standard** essa si discosta dalla media.
 
-Questo procedimento è fondamentale per confrontare variabili misurate su scale diverse e per interpretare i valori in modo comparabile, sia in ambito descrittivo sia inferenziale.
+::: {.callout-note collapse="true" title="Esempio: confronto tra scale psicometriche diverse"}
 
-::: {.callout-note collapse="true" title="Esempio: standardizzazione dei punteggi di QI"}
+**Standardizzazione per confrontare misure eterogenee**
 
-**Confronto tra scale diverse**
+Immaginiamo che una psicologa clinica voglia confrontare la gravità dei sintomi di due pazienti valutati con strumenti diversi:
 
-I punteggi di quoziente intellettivo (QI) sono tradizionalmente costruiti con media $\mu = 100$ e deviazione standard $\sigma = 15$. Un punteggio di 130 corrisponde a:
+- **Paziente A**: punteggio BDI-II = 28 (scala 0–63, con media $\mu = 14$ e deviazione standard $\sigma = 10$ nella popolazione di riferimento).
+- **Paziente B**: punteggio PHQ-9 = 18 (scala 0–27, con media $\mu = 10$ e deviazione standard $\sigma = 6$ nella stessa popolazione).
 
-$$
-z = \frac{130 - 100}{15} = 2.0,
-$$
-ovvero a 2 deviazioni standard sopra la media.
+Senza la standardizzazione, i punteggi grezzi non sono direttamente confrontabili, poiché le due scale differiscono per intervallo, unità di misura e distribuzione dei punteggi nella popolazione.
 
-Supponiamo ora un altro test cognitivo con media $\mu = 50$ e deviazione standard $\sigma = 10$. Il punteggio che occupa la **stessa posizione relativa** nella distribuzione è:
+```{r}
+# Standardizzazione
+z_A <- (28 - 14) / 10
+z_B <- (18 - 10) / 6
 
-$$
-x = \mu + z \cdot \sigma = 50 + 2.0 \times 10 = 70.
-$$
+cat("Paziente A (BDI-II = 28):\n")
+cat("  z =", z_A, "deviazioni standard sopra la media\n\n")
 
-La standardizzazione consente quindi di tradurre i punteggi tra scale diverse preservandone il significato relativo, rendendo possibile un confronto diretto tra misure apparentemente eterogenee.
+cat("Paziente B (PHQ-9 = 18):\n")
+cat("  z =", round(z_B, 2), "deviazioni standard sopra la media\n\n")
+
+cat("Interpretazione: Il Paziente A mostra sintomi più gravi in termini relativi,\n")
+cat("essendo più lontano dalla media della sua distribuzione di riferimento.\n")
+```
+
+La standardizzazione rivela che il Paziente A, pur avendo un punteggio grezzo che sembra "moderato" sulla scala BDI-II, in realtà si colloca più in alto nella distribuzione rispetto al Paziente B sulla scala PHQ-9.
+
+**Conversione in T-score (media 50, SD 10):**
+
+```{r}
+T_A <- 50 + 10 * z_A
+T_B <- 50 + 10 * z_B
+
+cat("T-score Paziente A:", T_A, "\n")
+cat("T-score Paziente B:", round(T_B, 1), "\n")
+```
+
+I T-score permettono un confronto immediato su una scala comune.
 :::
 
-### Significato concettuale
+### Ponte applicativo: la standardizzazione nella pratica clinica
 
-Deviazione standard e standardizzazione completano il quadro iniziato con valore atteso e varianza. Se il valore atteso individua il centro della distribuzione e la varianza quantifica la dispersione complessiva, la deviazione standard rende tale dispersione interpretabile nella scala dei dati, mentre la standardizzazione permette di confrontare distribuzioni diverse su una base comune.
+La trasformazione in punti z (o in punteggi standardizzati analoghi) è uno strumento essenziale in psicometria e nella valutazione clinica, poiché consente di:
+
+1. **Confrontare punteggi provenienti da scale diverse** – come nell'esempio del BDI-II e del PHQ-9 – neutralizzando le differenze di media e dispersione.
+2. **Interpretare la posizione di un individuo** all'interno della distribuzione del gruppo di riferimento, indipendentemente dalla scala originale.
+3. **Identificare punteghi clinicamente rilevanti o estremi**: convenzionalmente, valori con $|z| > 2$ sono considerati atipici, mentre con $|z| > 3$ sono molto rari nella popolazione di riferimento.
+4. **Costruire indicatori compositi** integrando misure che hanno unità e scale di misura differenti.
 
 ::: {.callout-note collapse="true" title="Approfondimento: il teorema di Chebyshev"}
 
-Una domanda naturale è: **quanto della distribuzione cade entro un certo numero di deviazioni standard dalla media?**  
-Il *teorema di Chebyshev* fornisce una risposta estremamente generale, valida per **qualsiasi distribuzione**, indipendentemente dalla sua forma.
+Una domanda che sorge naturalmente quando si interpretano deviazioni standard è: **quanta probabilità si concentra entro un certo numero di deviazioni standard dalla media?**  
+Il *teorema di Chebyshev* fornisce una risposta universale, applicabile a **qualsiasi distribuzione** con media e varianza finite, a prescindere dalla sua forma.
 
 ::: {#thm-chebyshev}
 **Teorema di Chebyshev**
 
-Per qualsiasi variabile casuale $X$ con media $\mu$ e deviazione standard $\sigma$, e per ogni $k > 0$ vale:
+Sia $X$ una variabile casuale con media $\mu$ e deviazione standard $\sigma$. Per ogni $k > 0$ vale:
 
 $$
 P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}.
 $$
 
-Equivalentemente:
+Formulato in modo equivalente:
 
 $$
 P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}.
 $$
 :::
 
-Il teorema fornisce quindi un **limite inferiore garantito** alla probabilità che una variabile cada entro $k$ deviazioni standard dalla media:
+Il teorema offre un **limite inferiore universale** alla probabilità che una qualsiasi osservazione cada entro $k$ deviazioni standard dalla media:
 
 | $k$ | $P(|X - \mu| < k\sigma) \geq$ |
 |:---:|:------------------------------:|
-| 1   | 0% (limite triviale)           |
+| 1   | 0% (limite banale)             |
 | 2   | 75%                            |
-| 3   | 89%                            |
-| 4   | 94%                            |
+| 3   | 88.9% (~89%)                   |
+| 4   | 93.75% (~94%)                  |
 
-Questi limiti sono **molto conservativi**. Per molte distribuzioni di interesse pratico (in particolare la distribuzione normale), le probabilità effettive sono significativamente più alte. Tuttavia, il teorema di Chebyshev ha un valore concettuale importante: **fornisce garanzie minime senza assumere nulla sulla forma della distribuzione**.
+Questi limiti sono **molto conservativi**. Per una distribuzione normale, le probabilità effettive sono notevolmente più alte: 68.3%, 95.4% e 99.7% rispettivamente per $k = 1, 2, 3$ — significativamente superiori a quanto garantito da Chebyshev.
 
-**Esempio applicativo**
+**Applicazione clinica**
 
-Un test psicometrico ha media 100 e deviazione standard 15. Anche senza conoscere la distribuzione esatta dei punteggi, possiamo affermare che **almeno il 75%** delle osservazioni cade nell’intervallo:
+Immaginiamo che un test cognitivo abbia una media di 100 e una deviazione standard di 15 nella popolazione di riferimento, ma che nulla sia noto sulla forma della sua distribuzione. Grazie a Chebyshev possiamo comunque affermare che **almeno il 75%** dei punteghi si trova nell'intervallo $[70, 130]$, indipendentemente da come i punteggi siano distribuiti.
 
-$$
-[100 - 2 \times 15,\; 100 + 2 \times 15] = [70,\;130].
-$$
+Questa proprietà è utile quando:
 
-Se la distribuzione fosse normale, la proporzione reale sarebbe circa il 95%, ma il teorema di Chebyshev ci fornisce una **garanzia universale** che vale anche nei casi peggiori.
+- la distribuzione è sconosciuta o non gaussiana;
+- si desiderano conclusioni robuste con minime assunzioni;
+- si lavora con scale nuove o non ancora completamente validate.
 :::
 
 ::: {.callout-note collapse="true" title="Approfondimento: i momenti di una distribuzione"}
 
 **Momenti di una distribuzione**
 
-Il valore atteso e la varianza possono essere visti come i primi due **momenti** di una distribuzione, ovvero una famiglia di quantità che descrivono in modo sistematico la forma della distribuzione.
+Il valore atteso e la varianza possono essere visti come i primi due **momenti** di una distribuzione — una famiglia di quantità che descrivono sistematicamente la forma della distribuzione.
 
 ::: {#def-moments}
 **Momenti**
@@ -650,27 +802,25 @@ $$
 dove $\mu = \mathbb{E}[X]$.
 :::
 
-- Il **momento di ordine 1** è il valore atteso.
-- Il **momento centrale di ordine 2** è la varianza.
-- I momenti centrali di ordine superiore descrivono aspetti più fini della distribuzione.
+- Il **momento di ordine 1** è il valore atteso (centro).
+- Il **momento centrale di ordine 2** è la varianza (dispersione).
+- Il **momento centrale di ordine 3** (normalizzato) è la **skewness** — misura l'asimmetria.
+- Il **momento centrale di ordine 4** (normalizzato) è la **kurtosis** — misura quanto le code sono "pesanti".
 
-In particolare:
-
-- il **terzo momento centrale**, opportunamente normalizzato, misura l’**asimmetria** (*skewness*);
-- il **quarto momento centrale** misura la **curtosi**, cioè quanto la distribuzione è più o meno “concentrata” e con code più o meno pesanti rispetto alla distribuzione normale.
-
-Questi concetti diventano rilevanti nello studio delle famiglie parametriche di distribuzioni (in particolare la normale) e nell’analisi della forma dei dati, ma per molti scopi applicativi il valore atteso e la varianza costituiscono già una descrizione estremamente informativa.
+Questi concetti diventano rilevanti nella validazione di scale psicometriche (dove la normalità è spesso assunta) e nella scelta di modelli statistici appropriati.
 :::
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Il **valore atteso** e la **varianza** costituiscono gli strumenti fondamentali per sintetizzare una distribuzione di probabilità. Il valore atteso individua il centro della distribuzione, ovvero il suo *baricentro probabilistico*, mentre la varianza misura la dispersione dei valori attorno a tale centro, quantificando il grado di incertezza associato alla variabile casuale.
+Il **valore atteso** e la **varianza** rappresentano i due strumenti fondamentali per sintetizzare una distribuzione di probabilità. Il primo identifica il centro della distribuzione, ovvero il suo *baricentro probabilistico*, mentre il secondo misura la dispersione dei valori attorno a questo centro, quantificando l’**incertezza residua** associata alla variabile.
 
-Le proprietà algebriche di queste quantità ne spiegano la centralità operativa. La **linearità del valore atteso** consente di calcolare in modo semplice le medie di trasformazioni e somme di variabili casuali, mentre il comportamento della **varianza** mette in evidenza il ruolo cruciale dell’indipendenza: solo in assenza di dipendenza la dispersione di una somma è la somma delle dispersioni. In particolare, il risultato secondo cui la varianza della media campionaria decresce come $1/n$ fornisce il fondamento matematico della precisione statistica e chiarisce perché l’accumulo di osservazioni rende le stime progressivamente più affidabili.
+Per lo psicologo clinico, questi concetti non sono mere astrazioni teoriche, ma strumenti operativi quotidiani. Quando comunichiamo a un paziente che "il miglioramento atteso è di circa 8 punti", stiamo facendo riferimento al valore atteso. Se aggiungiamo che "la maggior parte dei pazienti mostra un miglioramento compreso tra 4 e 12 punti", stiamo implicitamente descrivendo la varianza. Entrambi gli elementi sono essenziali per una comunicazione clinica completa e informativa.
 
-Questi concetti non sono soltanto strumenti descrittivi, ma assumono un significato pienamente **inferenziale** nel quadro bayesiano. Nei capitoli successivi, dedicati allo studio di famiglie parametriche di distribuzioni (Beta, Normale, Poisson e Binomiale) e alla costruzione dell’apparato formale dell’inferenza bayesiana, il valore atteso della distribuzione *a posteriori* fungerà da **stima puntuale razionale** del parametro di interesse, mentre la varianza *a posteriori* fornirà una misura quantitativa dell’incertezza residua dopo l’osservazione dei dati.
+Le proprietà algebriche di queste grandezze spiegano la loro importanza pratica. La **linearità del valore atteso** permette di calcolare in modo semplice le medie di somme e combinazioni lineari di variabili casuali: ecco perché il punteggio atteso di una scala psicometrica è semplicemente la somma dei punteggi attesi dei suoi item. Il comportamento della **varianza**, invece, sottolinea il ruolo cruciale dell’indipendenza: soltanto in assenza di dipendenza la varianza di una somma coincide con la somma delle varianze.
 
-In questo senso, valore atteso e varianza rappresentano il punto di incontro tra probabilità, decisione e apprendimento: sintetizzano ciò che sappiamo, guidano le previsioni ottimali e rendono misurabile quanto resta ancora incerto.
+Il risultato secondo cui la varianza della media campionaria decresce come $1/n$ fornisce il **fondamento matematico della precisione statistica**: maggiore è il numero di osservazioni, minore sarà l'incertezza associata alla stima. Questo principio guida la progettazione degli studi clinici, determinando le dimensioni campionarie necessarie, e spiega come l’accumulo di evidenza empirica riduca progressivamente l’incertezza nelle nostre conclusioni.
+
+Nel quadro bayesiano, questi concetti assumono una valenza pienamente **inferenziale**. Nei capitoli successivi, il valore atteso della distribuzione *a posteriori* fungerà da **stima puntuale razionale** del parametro di interesse, mentre la sua varianza misurerà l’incertezza residua dopo aver osservato i dati. In questo senso, valore atteso e varianza costituiscono il punto d’incontro tra probabilità, decisione e apprendimento: sintetizzano ciò che sappiamo, guidano le previsioni ottimali e rendono esplicito quanto ancora ignoriamo.
 
 ## Punti chiave da ricordare {.unnumbered}
 
@@ -678,102 +828,54 @@ In questo senso, valore atteso e varianza rappresentano il punto di incontro tra
 **Concetti essenziali di questo capitolo:**
 
 1. **Valore atteso come centro di gravità probabilistico**
-   - Media ponderata dei valori possibili, con pesi dati dalle probabilità (o densità)
-   - Rappresenta l'aspettativa razionale alla luce dello stato informativo corrente
-   - Non deve necessariamente coincidere con un valore osservabile (es. $\mathbb{E}[X] = 3.5$ per un dado)
-   - Legge dei grandi numeri: la media campionaria converge al valore atteso
+   - Media ponderata dei valori possibili, con pesi dati dalle probabilità.
+   - Rappresenta l'aspettativa razionale — la migliore previsione puntuale.
+   - Non deve necessariamente coincidere con un valore osservabile.
+   - Legge dei grandi numeri: la media campionaria converge al valore atteso.
 
 2. **Linearità del valore atteso (proprietà cruciale)**
-   - $\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$ **sempre** (anche se $X$ e $Y$ sono dipendenti!)
-   - $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$ per costanti $a, b$
-   - Semplifica enormemente i calcoli: non serve conoscere la distribuzione congiunta
+   - $\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$ **sempre** (anche con dipendenza!).
+   - $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$ per costanti $a, b$.
+   - Applicazione: il punteggio atteso di una scala è la somma dei valori attesi degli item.
 
-3. **Varianza come misura della dispersione**
-   - $\text{Var}(X) = \mathbb{E}[(X - \mu)^2]$ quantifica quanto i valori si discostano dalla media
-   - Interpretazione: "distanza quadratica media" dal centro
-   - Formula computazionale alternativa: $\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$
+3. **Varianza come misura di dispersione e incertezza**
+   - $\text{Var}(X) = \mathbb{E}[(X - \mu)^2]$ quantifica quanto i valori si discostano dalla media.
+   - Interpretazione epistemica: perdita attesa usando il valore atteso come previsione.
+   - Formula computazionale: $\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$.
 
 4. **Proprietà della varianza**
-   - $\text{Var}(aX + b) = a^2 \text{Var}(X)$ (traslazioni non cambiano dispersione; scale sì)
-   - $\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$ **solo se** $X \perp Y$ (dipendenza cambia tutto!)
-   - Varianza della media campionaria: $\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n}$ (fondamento della precisione statistica)
+   - $\text{Var}(aX + b) = a^2 \text{Var}(X)$ (traslazioni non cambiano dispersione).
+   - $\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$ **solo se** $X \perp Y$.
+   - Varianza della media campionaria: $\text{Var}(\bar{X}) = \sigma^2/n$ (fondamento della precisione statistica).
 
 5. **Deviazione standard e standardizzazione**
-   - $\sigma = \sqrt{\text{Var}(X)}$ riporta la dispersione nelle unità originali dei dati
-   - Rappresenta una "distanza tipica" dalla media
-   - Standardizzazione: $Z = \frac{X - \mu}{\sigma}$ crea variabile con $\mathbb{E}[Z] = 0$ e $\text{Var}(Z) = 1$
-   - Permette confronti tra scale diverse (es. confronto tra test psicometrici)
-
-6. **Teorema di Chebyshev**
-   - Garanzia universale: $P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}$ per **qualsiasi** distribuzione
-   - Almeno 75% entro $\pm 2\sigma$, almeno 89% entro $\pm 3\sigma$
-   - Limiti conservativi ma non richiedono assunzioni sulla forma della distribuzione
-
-7. **Momenti di una distribuzione**
-   - Momento di ordine $r$: $\mathbb{E}[X^r]$ descrive aspetti della forma
-   - Valore atteso = momento di ordine 1
-   - Varianza = momento centrale di ordine 2
-   - Momenti superiori: skewness (asimmetria), kurtosis (code pesanti)
+   - $\sigma = \sqrt{\text{Var}(X)}$ riporta la dispersione nelle unità originali.
+   - $Z = (X - \mu)/\sigma$ crea variabile con media 0 e varianza 1.
+   - Permette confronti tra scale diverse (es. BDI-II vs PHQ-9).
 
 **Formule da ricordare:**
 
-**Valore atteso:**
 $$
-\mathbb{E}[X] = \begin{cases}
-\sum_x x \cdot p_X(x) & \text{(discreta)} \\
-\int_{-\infty}^{+\infty} x \cdot f_X(x) \, dx & \text{(continua)}
-\end{cases}
-$$
-
-**Linearità del valore atteso:**
-$$
-\mathbb{E}[aX + bY + c] = a\mathbb{E}[X] + b\mathbb{E}[Y] + c
-$$
-
-**Varianza (definizione e formula computazionale):**
-$$
-\text{Var}(X) = \mathbb{E}[(X - \mu)^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2
-$$
-
-**Proprietà della varianza:**
-$$
-\text{Var}(aX + b) = a^2 \text{Var}(X)
+\mathbb{E}[X] = \sum_x x \cdot p_X(x) \quad \text{o} \quad \int x \cdot f_X(x)\,dx
 $$
 
 $$
-\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)
+\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2
 $$
 
 $$
-\text{Se } X \perp Y: \quad \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)
+\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n}
 $$
 
-**Varianza della media campionaria:**
-$$
-\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n} \quad \Rightarrow \quad \text{SD}(\bar{X}_n) = \frac{\sigma}{\sqrt{n}}
-$$
+**Proprietà critiche:**
 
-**Standardizzazione:**
-$$
-Z = \frac{X - \mu}{\sigma} \quad \Rightarrow \quad \mathbb{E}[Z] = 0, \; \text{Var}(Z) = 1
-$$
-
-**Teorema di Chebyshev:**
-$$
-P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}
-$$
-
-**Proprietà critiche da ricordare:**
-
-- **Linearità del valore atteso vale SEMPRE** (anche con dipendenza!)
-- **Additività della varianza richiede INDIPENDENZA**
-- Valore atteso può non essere un valore osservabile
-- Varianza ha unità al quadrato; deviazione standard ha unità originali
-- La varianza della media decresce con $n$ (più dati → meno incertezza)
+- Linearità del valore atteso vale **sempre** (anche con dipendenza).
+- Additività della varianza richiede **indipendenza**.
+- La varianza della media decresce con $n$ (più dati → meno incertezza).
 
 **Per il prossimo capitolo:**
 
-Nel @sec-prob-cov-cor studieremo come quantificare la **dipendenza stocastica** tra due variabili attraverso covarianza e correlazione. Vedremo come la covarianza generalizzi la varianza al caso bivariato e come la correlazione fornisca una misura adimensionale della forza dell'associazione lineare, preparando il terreno per modelli di regressione e analisi multivariata nell'inferenza bayesiana.
+Nel @sec-prob-cov-cor studieremo come quantificare la **dipendenza stocastica** tra due variabili attraverso la covarianza e la correlazione, concetti essenziali per comprendere quando e perché l'additività della varianza fallisce e per costruire modelli in grado di catturare le relazioni tra le variabili psicologiche.
 :::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
@@ -781,5 +883,3 @@ Nel @sec-prob-cov-cor studieremo come quantificare la **dipendenza stocastica** 
 sessionInfo()
 ```
 :::
-
-

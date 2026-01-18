@@ -2,11 +2,11 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Nel capitolo precedente (@sec-prob-random-var) abbiamo introdotto le **variabili casuali** come funzioni che associano valori numerici agli esiti di un esperimento aleatorio. Abbiamo distinto tra variabili casuali **discrete**, che assumono un insieme finito o numerabile di valori, e variabili casuali **continue**, che possono assumere qualsiasi valore all’interno di un intervallo. Per ciascun caso, abbiamo definito formalmente la *funzione di massa di probabilità* (PMF) e la *funzione di densità di probabilità* (PDF) come strumenti fondamentali per descrivere l’incertezza sui valori assunti dalla variabile.
+Nel capitolo precedente (@sec-prob-random-var) abbiamo introdotto le **variabili casuali** come funzioni che associano valori numerici agli esiti di un esperimento aleatorio. Abbiamo distinto tra variabili casuali **discrete**, che assumono un insieme finito o numerabile di valori, e variabili casuali **continue**, che possono assumere qualsiasi valore all'interno di un intervallo. Per ciascun caso, abbiamo definito formalmente la *funzione di massa di probabilità* (PMF) e la *funzione di densità di probabilità* (PDF) come strumenti fondamentali per descrivere l'incertezza sui valori assunti dalla variabile.
 
-Questo capitolo ha lo scopo di approfondire la **comprensione intuitiva, geometrica e operativa** di tali concetti. Vedremo come la PMF assegni “pesi” discreti a singoli valori, mentre la PDF distribuisca la probabilità in modo continuo lungo la retta reale, rendendo necessario l’uso dell’integrazione per calcolare la probabilità associata a intervalli di valori. In questo contesto affronteremo anche il noto “paradosso” secondo cui, per una variabile casuale continua, la probabilità di osservare un valore esatto è sempre pari a zero, mostrando come questa proprietà non sia affatto paradossale, ma una conseguenza naturale della struttura matematica del continuo.
+Questo capitolo ha lo scopo di approfondire la **comprensione intuitiva, geometrica e operativa** di tali concetti. Vedremo come la PMF assegni "pesi" discreti a singoli valori, mentre la PDF distribuisca la probabilità in modo continuo lungo la retta reale, rendendo necessario l'uso dell'integrazione per calcolare la probabilità associata a intervalli di valori. In questo contesto affronteremo anche il noto "paradosso" secondo cui, per una variabile casuale continua, la probabilità di osservare un valore esatto è sempre pari a zero, mostrando come questa proprietà non sia affatto paradossale, ma una conseguenza naturale della struttura matematica del continuo.
 
-Un aspetto centrale della trattazione riguarda inoltre la **distinzione interpretativa** tra l’approccio frequentista e quello bayesiano alle distribuzioni di probabilità. Nel paradigma frequentista, la funzione di densità descrive il comportamento dei dati in ipotetiche ripetizioni dell’esperimento. Nell’approccio bayesiano, invece, la PDF rappresenta il **grado di credenza** assegnato ai possibili valori di una quantità incerta, come un parametro o una grandezza latente. Questa differenza concettuale, apparentemente sottile, ha implicazioni profonde per il modo in cui interpretiamo le distribuzioni, calcoliamo le probabilità e traiamo conclusioni inferenziali.
+Un aspetto centrale della trattazione riguarda inoltre la **distinzione interpretativa** tra l'approccio frequentista e quello bayesiano alle distribuzioni di probabilità. Nel paradigma frequentista, la funzione di densità descrive il comportamento dei dati in ipotetiche ripetizioni dell'esperimento. Nell'approccio bayesiano, invece, la PDF rappresenta il **grado di credenza** assegnato ai possibili valori di una quantità incerta, come un parametro o una grandezza latente. Questa differenza concettuale, apparentemente sottile, ha implicazioni profonde per il modo in cui interpretiamo le distribuzioni, calcoliamo le probabilità e traiamo conclusioni inferenziali.
 
 ::: {.callout-tip collapse="true"}
 ## Prerequisiti
@@ -54,7 +54,7 @@ Questa differenza concettuale è cruciale per comprendere correttamente il ruolo
 
 ## La funzione di massa di probabilità
 
-Per una variabile casuale discreta $X$ che assume valori nell’insieme
+Per una variabile casuale discreta $X$ che assume valori nell'insieme
 $$
 \mathcal{X} = {x_1, x_2, \ldots},
 $$
@@ -63,35 +63,36 @@ $$
 p_X(x) = P(X = x).
 $$
 
-Il termine *massa* evoca una metafora fisica appropriata: la probabilità può essere immaginata come una collezione di **pesi discreti** collocati sui valori possibili della variabile. Ogni valore $x_i$ è associato a una quantità $p_X(x_i)$, e la somma totale delle masse deve essere pari a 1. In questo contesto, è perfettamente lecito “concentrare” una parte rilevante della probabilità in pochi punti specifici.
+Il termine *massa* evoca una metafora fisica appropriata: la probabilità può essere immaginata come una collezione di **pesi discreti** collocati sui valori possibili della variabile. Ogni valore $x_i$ è associato a una quantità $p_X(x_i)$ e la somma totale delle masse deve essere pari a 1. In questo contesto, è perfettamente lecito "concentrare" una parte rilevante della probabilità in pochi punti specifici.
 
-::: {.callout-note collapse="true" title="Esempio: dado sbilanciato"}
+::: {.callout-note collapse="true" title="Esempio: soddisfazione lavorativa su scala Likert"}
 
-#### Distribuzione non uniforme {.unnumbered .unlisted}
+#### Distribuzione tipica delle risposte {.unnumbered .unlisted}
 
-Consideriamo un dado truccato con la seguente distribuzione di probabilità:
+Consideriamo le risposte a un item sulla soddisfazione lavorativa, misurata su una scala Likert a 5 punti (1 = "molto insoddisfatto", 5 = "molto soddisfatto"). In molte popolazioni lavorative, le risposte tendono a concentrarsi sui valori centrali e moderatamente positivi, con una distribuzione asimmetrica:
 
-|  Faccia  |   1  |   2  |   3  |   4  |   5  |   6  |
-| :------: | :--: | :--: | :--: | :--: | :--: | :--: |
-| $p_X(x)$ | 0.10 | 0.15 | 0.20 | 0.25 | 0.20 | 0.10 |
+| Risposta | 1 (molto insod.) | 2 | 3 | 4 | 5 (molto sodd.) |
+|:--------:|:----------------:|:-:|:-:|:-:|:---------------:|
+| $p_X(x)$ | 0.05 | 0.10 | 0.25 | 0.40 | 0.20 |
 
-Questa PMF assegna maggiore probabilità ai valori centrali (3, 4, 5) rispetto a quelli estremi (1 e 6). La coerenza della distribuzione è immediatamente verificabile:
+Questa PMF riflette un pattern tipico: pochi lavoratori dichiarano una forte insoddisfazione, la maggior parte si colloca su livelli moderati o buoni, e una minoranza esprime una piena soddisfazione. La coerenza della distribuzione è immediatamente verificabile:
+
 $$
-\sum_{x=1}^{6} p_X(x) = 1.
+\sum_{x=1}^{5} p_X(x) = 0.05 + 0.10 + 0.25 + 0.40 + 0.20 = 1.
 $$
 
-Simulando 10 000 lanci di questo dado e confrontando le frequenze empiriche con la PMF teorica, osserviamo una chiara convergenza:
+Simulando 10,000 risposte secondo questa distribuzione e confrontando le frequenze empiriche con la PMF teorica, osserviamo una chiara convergenza:
 
 ```{r}
 set.seed(123)
-prob_teoriche <- c(0.10, 0.15, 0.20, 0.25, 0.20, 0.10)
-n_lanci <- 10000
+prob_teoriche <- c(0.05, 0.10, 0.25, 0.40, 0.20)
+n_risposte <- 10000
 
-lanci <- sample(1:6, size = n_lanci, replace = TRUE, prob = prob_teoriche)
-freq_rel <- table(lanci) / n_lanci
+risposte <- sample(1:5, size = n_risposte, replace = TRUE, prob = prob_teoriche)
+freq_rel <- table(risposte) / n_risposte
 
 df <- data.frame(
-  valore = 1:6,
+  valore = 1:5,
   empirica = as.numeric(freq_rel),
   teorica = prob_teoriche
 )
@@ -100,44 +101,62 @@ ggplot(df, aes(x = factor(valore))) +
   geom_col(aes(y = empirica), alpha = 0.7, width = 0.6) +
   geom_point(aes(y = teorica), size = 4) +
   scale_fill_binary() +
-  labs(x = "Faccia del dado", y = "Probabilità / Frequenza relativa") 
+  labs(
+    x = "Livello di soddisfazione", 
+    y = "Probabilità / Frequenza relativa",
+    title = "PMF della soddisfazione lavorativa (scala Likert 1-5)"
+  ) 
 ```
 
-Questa convergenza non **definisce** le probabilità teoriche, ma ne verifica la coerenza: un sistema di credenze coerente produce il comportamento empirico atteso quando viene messo alla prova ripetutamente.
+Da questa distribuzione possiamo calcolare probabilità di interesse pratico. Ad esempio, la probabilità che un lavoratore riporti almeno un livello di soddisfazione "buono" (4 o 5) è:
+
+$$
+P(X \geq 4) = p_X(4) + p_X(5) = 0.40 + 0.20 = 0.60.
+$$
+
+La probabilità di insoddisfazione (1 o 2) è invece:
+$$
+P(X \leq 2) = p_X(1) + p_X(2) = 0.05 + 0.10 = 0.15.
+$$
+
+Questa convergenza tra frequenze empiriche e probabilità teoriche non **definisce** le probabilità, ma ne verifica la coerenza: un sistema di credenze coerente produce il comportamento empirico atteso quando viene sottoposto a prove ripetute.
 :::
 
 ## La funzione di densità di probabilità
 
-Nel caso delle variabili casuali continue, questo approccio non è più possibile. Non possiamo assegnare probabilità positive ai singoli valori, perché i punti sono infinitamente molti e la somma delle probabilità divergerebbe. La soluzione concettuale è passare dalla *massa* alla **densità**.
+Nel caso delle variabili casuali continue, questo approccio non è più possibile. Non è possibile assegnare probabilità positive ai singoli valori, in quanto i punti sono infiniti e la somma delle probabilità divergerebbe. La soluzione concettuale consiste nel passare dalla "massa" alla "densità".
 
-Invece di chiedere quanta probabilità c’è *in* un punto, chiediamo quanta probabilità c’è *attorno* a un punto, per unità di lunghezza.
+Invece di chiederci quanta probabilità c'è *in* un punto, ci chiediamo quanta probabilità c'è *attorno* a un punto per unità di lunghezza.
 
 ::: {#def-pdf}
 
 ### Funzione di densità di probabilità
 
-Una funzione
+Una funzione  
+
 $$
 f_X : \mathbb{R} \to [0, +\infty)
-$$
+$$  
 è una *funzione di densità di probabilità* (PDF) per una variabile casuale continua $X$ se, per ogni intervallo $[a,b] \subseteq \mathbb{R}$,
-$$
-P(a \leq X \leq b) = \int_a^b f_X(x),dx,
-$$
-e se soddisfa la condizione di normalizzazione
-$$
-\int_{-\infty}^{+\infty} f_X(x),dx = 1.
-$$
-:::
 
-La densità $f_X(x)$ misura la **concentrazione locale della probabilità** in prossimità del punto $x$. Valori elevati di $f_X(x)$ indicano regioni in cui piccoli intervalli contengono una quota relativamente maggiore di probabilità. Ciò non significa che $P(X=x)$ sia elevata: per una variabile continua vale sempre
 $$
-P(X = x) = 0.
+P(a \leq X \leq b) = \int_a^b f_X(x)\,dx,
 $$
+e se soddisfa la condizione di normalizzazione  
+
+$$
+\int_{-\infty}^{+\infty} f_X(x)\,dx = 1.
+$$
+
+La densità $f_X(x)$ misura la **concentrazione locale della probabilità** in prossimità del punto $x$. Un valore elevato di $f_X(x)$ indica che, in un intorno molto piccolo di $x$, si concentra una probabilità relativamente maggiore rispetto alle regioni con densità inferiore.  
+
+È importante notare che la densità non rappresenta una probabilità puntuale: per una variabile continua la probabilità che $X$ assuma esattamente un singolo valore è sempre zero, $P(X = x) = 0$. La probabilità è un’area sotto la curva della PDF, non un’altezza.
 
 ## Dagli istogrammi alle densità
 
-Un modo particolarmente intuitivo di comprendere la PDF consiste nel considerarla come il **limite ideale di un istogramma**. All’aumentare della dimensione campionaria e al diminuire della larghezza dei bin, l’istogramma delle frequenze relative tende a una curva liscia che approssima la funzione di densità teorica.
+Un modo particolarmente intuitivo per comprendere la PDF consiste nel considerarla come il **limite ideale di un istogramma**: all’aumentare delle osservazioni e al ridursi della larghezza delle classi, il profilo dell'istogramma delle frequenze relative tende a una curva liscia che approssima la funzione di densità teorica.
+
+Per illustrare questo concetto, consideriamo la distribuzione del quoziente intellettivo (QI) nella popolazione generale. Il QI è convenzionalmente definito con una media $\mu = 100$ e una deviazione standard $\sigma = 15$, e segue approssimativamente una distribuzione normale. Osserviamo come l'istogramma tenda alla PDF teorica all'aumentare della dimensione campionaria:
 
 ```{r}
 set.seed(42)
@@ -159,7 +178,8 @@ p1 <- ggplot(data.frame(x = x_piccolo), aes(x = x)) +
                  color = "white", alpha = 0.7) +
   geom_line(data = df_teorica, aes(x = x, y = y),
             linewidth = 1) +
-  labs(title = paste("n =", n_piccolo), x = "x", y = "Densità") 
+  labs(title = paste("n =", n_piccolo, "individui"), 
+       x = "QI", y = "Densità") 
 
 p2 <- ggplot(data.frame(x = x_grande), aes(x = x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 50,
@@ -167,12 +187,15 @@ p2 <- ggplot(data.frame(x = x_grande), aes(x = x)) +
   geom_line(data = df_teorica, aes(x = x, y = y),
             linewidth = 1) +
   labs(
-    title = paste("n =", format(n_grande, big.mark = ",")), x = "x", y = "Densità") 
+    title = paste("n =", format(n_grande, big.mark = ","), "individui"), 
+    x = "QI", y = "Densità") 
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
-La PDF non descrive i dettagli di ogni singola osservazione, ma il **pattern probabilistico sottostante** che emerge quando si aggrega un gran numero di dati. Essa rappresenta quindi un **modello idealizzato** della popolazione, che sacrifica il rumore individuale per ottenere maggiore potere descrittivo, predittivo e inferenziale.
+Con soli 50 individui (pannello di sinistra), l'istogramma mostra delle irregolarità dovute alla variabilità campionaria. Con 20.000 individui (pannello di destra), l'istogramma aderisce quasi perfettamente alla curva normale teorica. Questo passaggio dal discreto al continuo mostra visivamente come la PDF emerga come modello ideale della distribuzione dei dati nella popolazione.
+
+La PDF non descrive i dettagli di ogni singola osservazione, ma il **pattern probabilistico sottostante** che emerge quando si aggrega un gran numero di dati. Essa rappresenta quindi un **modello idealizzato** della popolazione che, sacrificando il rumore individuale, permette di ottenere un maggiore potere descrittivo, predittivo e inferenziale.
 
 ### Punto chiave da ricordare
 
@@ -184,80 +207,95 @@ La PDF non descrive i dettagli di ogni singola osservazione, ma il **pattern pro
 ## Il paradosso della probabilità nulla
 
 Una delle proprietà più controintuitive delle variabili casuali continue è che la probabilità di osservare *esattamente* un valore specifico è sempre nulla:
+
 $$
 P(X = x_0) = 0 \quad \text{per ogni } x_0 \in \mathbb{R}.
 $$
 
-A prima vista ciò sembra generare un paradosso epistemologico: se ogni valore puntuale ha probabilità zero, com’è possibile osservare empiricamente un valore qualunque? Quando misuriamo un’altezza di 170 cm, non stiamo forse registrando un evento che, secondo la teoria, avrebbe probabilità nulla?
+A prima vista ciò sembra generare un paradosso epistemologico: se ogni valore puntuale ha probabilità zero, com'è possibile osservare empiricamente un valore qualunque? Quando misuriamo un'altezza di 170 cm, non stiamo forse registrando un evento che, secondo la teoria, avrebbe una probabilità nulla?
 
 ### Fondamento matematico della probabilità puntuale nulla
 
-La chiave sta nel significato geometrico dell’integrazione. Per una variabile continua, la probabilità si ottiene come area sotto la densità su un intervallo. Un singolo punto corrisponde a un intervallo di ampiezza nulla, e quindi a un’area nulla:
-$$
-P(X = x_0) = \int_{x_0}^{x_0} f_X(x),dx = 0.
-$$
-
-Questo non è un difetto della teoria, ma una conseguenza inevitabile del continuo matematico: qualsiasi area calcolata su un intervallo di lunghezza zero è necessariamente uguale a zero.
-
-La stessa conclusione emerge dal vincolo di normalizzazione. Se a ogni punto di un intervallo $[a,b]$ assegnassimo una probabilità positiva $\varepsilon > 0$, l’accumulo su un insieme non numerabile di punti violerebbe la condizione di coerenza
+La chiave interpretativa risiede nel significato geometrico dell'integrazione. Per una variabile continua, la probabilità si ottiene come area sottostante la densità su un intervallo. Un singolo punto corrisponde a un intervallo di ampiezza nulla e, quindi, a un'area nulla:
 
 $$
-\int_{-\infty}^{+\infty} f_X(x),dx = 1.
+P(X = x_0) = \int_{x_0}^{x_0} f_X(x) \, dx = 0.
 $$
-Per mantenere la normalizzazione, la teoria richiede che la probabilità puntuale sia zero per ogni punto.
+
+Questa non è una lacuna della teoria, bensì una proprietà logica del continuo matematico: qualsiasi area calcolata su un intervallo di lunghezza zero è necessariamente pari a zero. 
+
+Se ciò sembra controintuitivo, si consideri la **condizione di normalizzazione**:
+
+$$
+\int_{-\infty}^{+\infty} f_X(x) \, dx = 1.
+$$
+Se a ogni punto singolo fosse assegnata una probabilità positiva $\varepsilon > 0$, l'accumulo su un insieme non numerabile di punti violerebbe la condizione di normalizzazione. Pertanto, l'unico modo per mantenere coerenza tra densità e probabilità totale è assegnare probabilità zero a ogni punto, affidando tutta la massa di probabilità a insiemi con estensione (misura) positiva.
 
 ### Perché allora osserviamo un valore?
 
-L’apparente paradosso si dissolve ricordando che una misura empirica non fornisce mai un punto matematico “perfetto”, ma un valore con una **risoluzione finita**. Dire “170 cm” significa in pratica “un valore in un piccolo intervallo attorno a 170”, determinato dalla precisione dello strumento e dal processo di arrotondamento. La teoria continua descrive proprio questo: probabilità su intervalli, non su singoli punti.
+L'apparente paradosso si dissolve ricordando che una misura empirica non fornisce mai un punto matematico "perfetto", ma un valore con una **risoluzione finita**. Dire "170 cm" significa, in pratica, "un valore in un piccolo intervallo attorno a 170", determinato dalla precisione dello strumento e dal processo di arrotondamento. La teoria continua descrive proprio questo: le probabilità su intervalli, non su singoli punti.
 
 ### La prospettiva degli infinitesimi
 
-Un modo alternativo, più “intuitivo” ma non necessario per la teoria standard, consiste nel richiamare la prospettiva degli infinitesimi della teoria dei numeri iperreali (Abraham Robinson, anni ’60). Senza entrare nei dettagli formali, l’idea è che si possa associare a un singolo punto una quantità infinitesimale: non esattamente zero, ma più piccola di qualsiasi numero reale positivo.
+Un modo alternativo, più "intuitivo" ma non necessario per la teoria standard, consiste nel richiamare la prospettiva degli infinitesimi della teoria dei numeri iperreali, proposta da Abraham Robinson negli anni '60. Senza entrare nei dettagli formali, l'idea è che a ogni singolo punto si possa associare una quantità infinitesimale, più piccola di qualsiasi numero reale positivo, ma non esattamente pari a zero [@keisler2012elementary].
 
 In questa lettura:
 
 * a un punto $x_0$ si potrebbe associare una probabilità infinitesimale;
-* un intervallo $[a,b]$ avrebbe probabilità finita perché “somma” un numero enorme di contributi infinitesimali;
-* il limite di queste somme è precisamente l’integrale.
+* un intervallo $[a,b]$ ha probabilità finita perché "somma" un numero enorme di contributi infinitesimali;
+* il limite di queste somme è precisamente l'integrale.
 
-Questa prospettiva non modifica i risultati della teoria classica, ma può aiutare a conciliare l’intuizione con il fatto che nel continuo la probabilità si manifesta come area, non come massa puntuale.
+Questa prospettiva non modifica i risultati della teoria classica, ma può aiutare a conciliare l'intuizione con il fatto che nel continuo la probabilità si manifesta come area e non come massa puntuale.
 
 ::: {.callout-note collapse="true" title="Esempio: Il paradosso di Zenone"}
 #### Un'analogia classica {.unnumbered .unlisted}
 
-Il paradosso della probabilità puntuale nulla ricorda il celebre paradosso di Zenone della freccia: in ogni istante la freccia occupa una posizione determinata e quindi, in quell’istante, sembra “immobile”; ma se è immobile in ogni istante, come può muoversi?
+Il paradosso della probabilità puntuale nulla ricorda il celebre paradosso di Zenone della freccia: in ogni istante la freccia occupa una posizione determinata e quindi, in quell'istante, sembra "immobile" in quell'istante; ma se è immobile in ogni istante, come può muoversi?
 
-La risoluzione moderna riconosce che il movimento non è una somma di posizioni statiche, ma un fenomeno che si descrive correttamente nel continuo attraverso limiti e integrazione. Analogamente, la probabilità continua non è una “somma” di probabilità puntuali (tutte nulle), ma l’integrale della densità su intervalli.
+La risoluzione moderna riconosce che il movimento non è la somma di posizioni statiche, ma un fenomeno che può essere descritto correttamente nel continuo attraverso limiti e integrazione. Allo stesso modo, la probabilità continua non è la "somma" di probabilità puntuali (tutte nulle), ma l'integrale della densità su intervalli.
 
-In entrambi i casi, il paradosso nasce dall’applicazione di intuizioni discrete a un contesto continuo.
+In entrambi i casi, il paradosso nasce dall'applicazione di intuizioni discrete a un contesto continuo.
 :::
 
 ### Implicazioni pratiche
 
-Per le variabili continue non ha senso chiedersi: “Qual è la probabilità che il tempo di reazione sia *esattamente* 250 ms?”. La domanda operativa corretta è: “Qual è la probabilità che il tempo di reazione sia compreso tra 245 e 255 ms?”. Le probabilità si calcolano sempre su **intervalli**, mai su punti singoli.
+Per le variabili continue non ha senso chiedersi: "Qual è la probabilità che il tempo di reazione sia *esattamente* 250 ms?". La domanda operativa corretta è: "Qual è la probabilità che il tempo di reazione sia compreso tra 245 e 255 ms?". Le probabilità si calcolano sempre su **intervalli**, mai su punti singoli.
 
-Un corollario importante è che, per le variabili continue, includere o escludere gli estremi di un intervallo non cambia la probabilità:
+Un corollario importante è che, per le variabili continue, includere o escludere gli estremi di un intervallo non modifica la probabilità.
 
 $$
 P(a < X < b) = P(a \leq X < b) = P(a < X \leq b) = P(a \leq X \leq b).
 $$
 Questo perché i singoli punti $a$ e $b$ hanno probabilità zero.
 
+### Ponte applicativo: conseguenze per la valutazione psicologica
+
+Questa proprietà matematica ha conseguenze dirette sull'interpretazione dei punteggi nei test psicologici. Consideriamo, ad esempio, la valutazione del QI: non ha senso chiedersi "qual è la probabilità che il QI di questo bambino sia esattamente 115?". La risposta sarebbe sempre zero, a prescindere dal bambino.
+
+Le domande clinicamente significative riguardano invece gli intervalli:
+
+- "Qual è la probabilità che il QI rientri nell'intervallo 110-120?" (nella media superiore).
+- "Qual è la probabilità che il QI sia inferiore a 70?" (soglia per la disabilità intellettiva).
+- "Qual è la probabilità che il QI superi 130?" (soglia per alto potenziale).
+
+Questo principio si applica a tutte le misurazioni continue in psicologia: punteggi di ansia, tempi di reazione, livelli di cortisolo e indici di benessere. La teoria delle variabili continue ci insegna a formulare le domande nel modo corretto, sempre in termini di intervalli e mai di valori puntuali.
+
 ## La funzione di distribuzione cumulativa
 
-La funzione di distribuzione cumulativa (CDF) fornisce una rappresentazione unificata delle distribuzioni di probabilità, valida sia per variabili discrete sia per variabili continue.
+La funzione di distribuzione cumulativa (CDF) fornisce una rappresentazione unificata delle distribuzioni di probabilità, valida sia per le variabili discrete che per quelle continue.
 
 ::: {#def-cdf-unified}
 
 ### Funzione di distribuzione cumulativa
 
 La *funzione di distribuzione cumulativa* di una variabile casuale $X$ è definita come
+
 $$
 F_X(x) = P(X \leq x).
 $$
 :::
 
-Questa definizione è universale: la CDF “accumula” probabilità da $-\infty$ fino al valore $x$, e quantifica la credenza che la variabile non superi la soglia $x$.
+Questa definizione è universale: la CDF "accumula" probabilità da $-\infty$ fino al valore $x$, e quantifica la credenza che la variabile non superi la soglia $x$.
 
 ### Proprietà fondamentali della CDF
 
@@ -274,19 +312,19 @@ Per qualsiasi variabile casuale $X$, la CDF $F_X$ soddisfa:
 3. **Continuità a destra**: $\lim_{h \to 0^+} F_X(x+h) = F_X(x)$ per ogni $x$.
 :::
 
-La monotonia riflette l’ovvio: ampliando l’intervallo $(-\infty,x]$ non si può perdere probabilità. I limiti garantiscono la normalizzazione globale. La continuità a destra è una convenzione tecnica necessaria soprattutto per le variabili discrete, dove la CDF presenta salti.
+La monotonia riflette l'ovvio: ampliando l'intervallo $(-\infty,x]$ non si può perdere probabilità. I limiti garantiscono la normalizzazione globale. La continuità a destra è una convenzione tecnica necessaria soprattutto per le variabili discrete, in cui la CDF presenta salti.
 
 ### CDF per variabili discrete e continue
 
-Per variabili **discrete**, la CDF è una funzione a gradini: è costante tra due valori possibili e cresce a salti. L’altezza del salto nel punto $x_i$ è esattamente $p_X(x_i)$.
+Per variabili **discrete**, la CDF è una funzione a gradini: è costante tra due valori possibili e cresce a salti. L'altezza del salto nel punto $x_i$ è esattamente $p_X(x_i)$.
 
-Per variabili **continue**, la CDF è continua e spesso derivabile. In questo caso, la densità si ottiene come derivata:
+Per le variabili **continue**, invece, la CDF è continua e spesso derivabile. In questo caso, la densità si ottiene come derivata:
 $$
 f_X(x) = \frac{d}{dx} F_X(x),
 $$
 e reciprocamente la CDF si ottiene integrando la densità:
 $$
-F_X(x) = \int_{-\infty}^{x} f_X(t),dt.
+F_X(x) = \int_{-\infty}^{x} f_X(t)\,dt.
 $$
 
 ```{r}
@@ -295,51 +333,54 @@ $$
 #| fig-width: 10
 #| fig-height: 4
 
-# CDF discreta (dado equilibrato)
-x_disc <- 0:7
-cdf_disc <- c(0, cumsum(rep(1/6, 6)), 1)
+# CDF discreta (soddisfazione lavorativa 1-5)
+valori_disc <- 1:5
+prob_disc <- c(0.05, 0.10, 0.25, 0.40, 0.20)
+cdf_disc <- cumsum(prob_disc)
 
-df_disc <- data.frame(x_start = x_disc[-length(x_disc)], 
-                      x_end = x_disc[-1], 
-                      y = cdf_disc[-length(cdf_disc)])
+df_disc <- data.frame(
+  x_start = c(0, valori_disc), 
+  x_end = c(valori_disc, 6), 
+  y = c(0, cdf_disc)
+)
 
 p1 <- ggplot() +
   geom_segment(data = df_disc, aes(x = x_start, xend = x_end, y = y, yend = y),
                linewidth = 1) +
-  geom_point(data = data.frame(x = 1:6, y = cumsum(rep(1/6, 6))),
+  geom_point(data = data.frame(x = valori_disc, y = cdf_disc),
              aes(x = x, y = y), size = 3) +
-  geom_point(data = data.frame(x = 1:6, y = c(0, cumsum(rep(1/6, 5)))),
+  geom_point(data = data.frame(x = valori_disc, y = c(0, cdf_disc[-5])),
              aes(x = x, y = y), size = 3, shape = 1) +
-  scale_x_continuous(breaks = 0:7, limits = c(0, 7)) +
+  scale_x_continuous(breaks = 0:6, limits = c(0, 6)) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
   scale_fill_qualitative() +
-  labs(title = "CDF discreta (dado equilibrato)", 
-       x = "x", y = expression(F[X](x))) 
+  labs(title = "CDF discreta (soddisfazione lavorativa)", 
+       x = "Livello di soddisfazione", y = expression(F[X](x))) 
 
-# CDF continua (normale standard)
-x_cont <- seq(-4, 4, length.out = 200)
-cdf_cont <- pnorm(x_cont)
+# CDF continua (QI, normale con mu=100, sigma=15)
+x_cont <- seq(40, 160, length.out = 200)
+cdf_cont <- pnorm(x_cont, mean = 100, sd = 15)
 
 p2 <- ggplot(data.frame(x = x_cont, y = cdf_cont), aes(x = x, y = y)) +
   geom_line(linewidth = 1) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
   scale_fill_qualitative() +
-  labs(title = "CDF continua (normale standard)", 
-       x = "x", y = expression(F[X](x))) 
+  labs(title = "CDF continua (QI)", 
+       x = "QI", y = expression(F[X](x))) 
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
 ### Calcolo di probabilità mediante la CDF
 
-Uno dei vantaggi principali della CDF è che permette di calcolare la probabilità di qualsiasi intervallo come differenza di due valori:
+Uno dei principali vantaggi principali della CDF è che permette di calcolare la probabilità di qualsiasi intervallo come differenza di due valori:
 $$
 P(a < X \leq b) = F_X(b) - F_X(a).
 $$
-Questa relazione è valida sia per variabili discrete sia per variabili continue ed è uno strumento computazionale centrale in statistica.
+Questa relazione è valida sia per le variabili discrete che per quelle continue ed è uno strumento computazionale fondamentale in statistica.
 
 ::: {.callout-note collapse="true" title="Esempio: calcoli con la CDF normale"}
-#### Probabilità per la distribuzione normale {.unnumbered .unlisted}
+#### Probabilità per la distribuzione del QI {.unnumbered .unlisted}
 
 Consideriamo il quoziente intellettivo (QI) come variabile normale con media $\mu = 100$ e deviazione standard $\sigma = 15$. Calcoliamo alcune probabilità di interesse clinico.
 
@@ -347,7 +388,7 @@ Consideriamo il quoziente intellettivo (QI) come variabile normale con media $\m
 mu <- 100
 sigma <- 15
 
-# P(QI > 130) - QI molto elevato
+# P(QI > 130) - QI molto elevato (gifted)
 p_alto <- 1 - pnorm(130, mean = mu, sd = sigma)
 cat("P(QI > 130) =", round(p_alto, 4), "\n")
 
@@ -364,48 +405,55 @@ q95 <- qnorm(0.95, mean = mu, sd = sigma)
 cat("95° percentile:", round(q95, 1), "\n")
 ```
 
-Questi calcoli mostrano come la CDF (implementata in R da `pnorm`) consenta di tradurre domande applicative in operazioni matematiche dirette.
+Questi calcoli mostrano come la CDF (implementata in R da `pnorm`) consenta di tradurre le domande cliniche in operazioni matematiche dirette:
+
+- solo circa il 2.3% della popolazione ha un QI superiore a 130 (comunemente utilizzato per definire un "alto potenziale cognitivo");
+- circa il 68% della popolazione ha un QI compreso tra 85 e 115 (all'interno di una deviazione standard dalla media);
+- circa il 2.3% ha un QI inferiore a 70 (soglia tradizionale per la disabilità intellettiva);
+- il 95° percentile corrisponde a un QI di circa 125.
 :::
 
 ## Interpretazioni bayesiana e frequentista
 
-Le distribuzioni di probabilità assumono significati diversi nei due principali paradigmi dell’inferenza statistica. Questa distinzione non è soltanto filosofica: influenza direttamente il modo in cui interpretiamo i risultati, formuliamo i modelli e comunichiamo l’incertezza.
+Le distribuzioni di probabilità assumono significati diversi nei due principali paradigmi dell'inferenza statistica. Questa distinzione non è soltanto filosofica, ma ha un impatto diretto sul modo in cui interpretiamo i risultati, formuliamo i modelli e comunichiamo l'incertezza.
 
-### L’interpretazione frequentista
+### L'interpretazione frequentista
 
-Nel paradigma frequentista, la probabilità è definita in termini di **frequenze relative** in una sequenza ideale di ripetizioni dello stesso esperimento, eseguite nelle medesime condizioni. In particolare, per un evento del tipo $a \leq X \leq b$ si assume:
+Eccola rivista per migliorare la struttura logica, la precisione terminologica e il flusso del discorso.
+
+Nel paradigma frequentista, la probabilità è definita come **frequenza relativa limite** in una lunga serie ideale di ripetizioni indipendenti dello stesso esperimento, eseguite in condizioni identiche. Per un evento del tipo $a \leq X \leq b$, questa interpretazione implica:
 
 $$
-P(a \leq X \leq b) = \lim_{n \to \infty} \frac{\#{X_i \in [a,b]}}{n},
+P(a \leq X \leq b) = \lim_{n \to \infty} \frac{\#\{X_i \in [a,b]\}}{n},
 $$
-dove $X_1, X_2, \ldots, X_n$ sono osservazioni indipendenti generate dal medesimo processo stocastico.
+dove $X_1, X_2, \ldots, X_n$ sono realizzazioni indipendenti dello stesso processo stocastico.
 
-In questa prospettiva, la PDF non è tanto “una credenza” quanto una **descrizione del meccanismo generativo dei dati**: è la forma limite verso cui tende l’istogramma delle osservazioni quando il campione cresce e gli intervalli diventano sempre più fini. La variabile casuale $X$ rappresenta l’esito di un esperimento ripetibile, e la PDF descrive la variabilità **tra** ripetizioni dell’esperimento.
+In questa prospettiva, la funzione di densità (PDF) non è una misura di credenza soggettiva, ma una **descrizione del meccanismo generativo dei dati**: essa rappresenta la forma limite alla quale converge l'istogramma delle osservazioni man mano che il campione si espande e gli intervalli di classizzazione diventano arbitrariamente fini. La variabile casuale $X$ modella l'esito di un esperimento ripetibile, e la sua PDF descrive la variabilità osservabile **tra** le diverse ripetizioni.
 
-Un esempio standard è la distribuzione dell’altezza nella popolazione: un modello normale con media $\mu = 170$ cm e deviazione standard $\sigma = 10$ cm descrive quale proporzione di individui ci aspettiamo in ogni intervallo di altezza, se campionassimo ripetutamente individui da una popolazione molto ampia secondo condizioni stabili.
+Un esempio classico è la distribuzione dell'altezza nella popolazione adulta. Un modello normale con media $\mu = 170$ cm e deviazione standard $\sigma = 10$ cm descrive quale proporzione di individui ci aspetteremmo di osservare in ogni intervallo di altezza, se potessimo campionare ripetutamente e a caso da una popolazione di riferimento molto ampia e stabile.
 
-### L’interpretazione bayesiana
+### L'interpretazione bayesiana
 
-Nel paradigma bayesiano, la probabilità quantifica un **grado di credenza razionale**: una misura della plausibilità assegnata a diverse possibilità, alla luce delle informazioni disponibili. Non è necessario immaginare ripetizioni ipotetiche: la probabilità è una proprietà dello stato informativo dell’osservatore.
+Nel paradigma bayesiano, la probabilità quantifica un **grado di credenza razionale**, ovvero una misura della plausibilità assegnata a diverse possibilità alla luce delle informazioni disponibili. Non è necessario immaginare delle ripetizioni ipotetiche: la probabilità è una proprietà dello stato informativo dell'osservatore.
 
 ::: {#def-bayesian-pdf}
 
 ### Interpretazione bayesiana della PDF
 
-In una prospettiva bayesiana, la funzione di densità $f_X(x)$ rappresenta la **distribuzione di credenza** su una quantità $X$ il cui valore vero è fisso ma sconosciuto. L’integrale $\int_a^b f_X(x),dx$ quantifica quanto fortemente crediamo che il valore vero cada nell’intervallo $[a,b]$.
+Dal punto di vista bayesiano, la funzione di densità $f_X(x)$ rappresenta la **distribuzione della nostra incertezza** sul valore di una quantità $X$, che è considerata fissa ma ignota. L'integrale $\int_a^b f_X(x)\,dx$ non misura una frequenza, ma il **grado di credenza** che il valore effettivo di $X$ appartenga all'intervallo $[a,b]$.
 :::
 
-Ne segue una differenza cruciale: l’approccio bayesiano consente di assegnare distribuzioni di probabilità non solo ai dati, ma anche a quantità che nel frequentismo sono trattate come **parametri fissi**, ad esempio l’effetto medio di un trattamento, la prevalenza di un disturbo o la probabilità individuale di risposta alla terapia.
+Ne deriva un'implicazione cruciale: il paradigma bayesiano permette di descrivere con distribuzioni di probabilità non solo i dati osservabili, ma anche quelle quantità che nel frequentismo sono considerate parametri fissi, come l'effetto medio di un trattamento, la prevalenza di una malattia o la probabilità soggettiva di risposta alla terapia.
 
-In questo senso, la PDF bayesiana può essere letta come una **mappa di plausibilità**: regioni con densità alta corrispondono a valori più credibili, regioni con densità bassa a valori meno plausibili. La forma della distribuzione (simmetria o asimmetria, code, concentrazione) codifica esplicitamente ciò che sappiamo—e soprattutto ciò che *non* sappiamo—sulla quantità di interesse.
+In questa logica, una funzione di densità bayesiana rappresenta una mappa di plausibilità: le regioni con densità più alta corrispondono a valori che riteniamo più credibili, mentre quelle con densità bassa riflettono ipotesi meno plausibili. La forma stessa della distribuzione, la sua simmetria o asimmetria, l'estensione delle code e il grado di concentrazione esprimono esplicitamente ciò che sappiamo e, soprattutto, ciò che ignoriamo sulla quantità di interesse.
 
 ### Confronto tra le due prospettive
 
-Le differenze diventano evidenti in un esempio semplice. Supponiamo di voler stimare l’altezza media di una popolazione, indicata con $\theta$.
+Le differenze metodologiche emergono in modo netto in un esempio elementare. Supponiamo di voler stimare l’altezza media di una popolazione, denotata con $\theta$.
 
-Nel paradigma frequentista, $\theta$ è un parametro **fisso ma ignoto**. La distribuzione di probabilità riguarda invece una statistica campionaria, ad esempio la media $\bar{X}$. La PDF di $\bar{X}$ descrive come essa varierebbe se ripetessimo infinite volte il campionamento dalla stessa popolazione. Di conseguenza, un intervallo di confidenza al 95% **non** significa che $\theta$ ha probabilità 0,95 di cadere nell’intervallo (perché $\theta$ non è casuale), ma che la procedura che costruisce l’intervallo contiene il valore vero di $\theta$ nel 95% delle ripetizioni.
+*   **Nel paradigma frequentista**, $\theta$ è un **parametro fisso ma sconosciuto**. La probabilità si applica alle statistiche calcolate dai campioni, come la media campionaria $\bar{X}$. La PDF di $\bar{X}$ descrive come quest’ultima varierebbe se ripetessimo infinite volte il campionamento dalla stessa popolazione. Di conseguenza, un intervallo di confidenza al 95% **non** afferma che il valore di $\theta$ abbia una probabilità dello 0.95 di cadere in quell’intervallo (dal momento che  $\theta$ non è una variabile casuale), ma piuttosto che il *metodo* utilizzato per costruire l’intervallo lo conterrebbe nel 95% delle ripetizioni sperimentali.
 
-Nel paradigma bayesiano, invece, si assegna direttamente una distribuzione a $\theta$. La distribuzione a priori rappresenta le credenze prima dei dati; la distribuzione a posteriori rappresenta le credenze aggiornate dopo l’osservazione. Un intervallo di credibilità al 95% significa precisamente ciò che afferma: alla luce di prior e dati, assegniamo probabilità 0,95 al fatto che $\theta$ appartenga a quell’intervallo.
+*   **Nel paradigma bayesiano**, invece, è possibile assegnare direttamente una distribuzione di probabilità a $\theta$, quantificando la nostra incertezza su di esso. La distribuzione *a priori* formalizza le conoscenze iniziali, mentre quella *a posteriori* aggiorna tali conoscenze con le informazioni provenienti dai dati. Pertanto, un intervallo di credibilità al 95% dichiara esattamente ciò che suggerisce: alla luce dei dati osservati e della prior, la probabilità soggettiva che il valore di $\theta$ si trovi in quell’intervallo è 0.95.
 
 ```{r}
 #| label: fig-freq-vs-bayes
@@ -450,28 +498,17 @@ p2 <- ggplot() +
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
-In entrambi i paradigmi la CDF resta lo strumento operativo per calcolare probabilità, ma cambia **che cosa** quella probabilità sta interpretando: frequenze future nel paradigma frequentista, gradi di credenza presenti nel paradigma bayesiano.
+La CDF rimane in entrambi i paradigmi lo strumento fondamentale per calcolare le probabilità degli intervalli. A cambiare è **il significato** che attribuiamo a queste probabilità: nel paradigma frequentista essa rappresenta una **frequenza limite** di un evento su ripetizioni ideali dell'esperimento; nel paradigma bayesiana, essa esprime il **grado di credenza** soggettiva che una proposizione sia vera, sulla base delle informazioni disponibili.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-La distinzione tra **massa** e **densità** di probabilità riflette una differenza fondamentale nella struttura matematica delle variabili casuali discrete e continue. Nel caso discreto, la probabilità può essere concentrata in punti isolati dello spazio dei valori; nel caso continuo, essa è distribuita lungo un continuum e diventa misurabile esclusivamente attraverso l’integrazione su intervalli.
+La distinzione tra **massa** e **densità** di probabilità evidenzia una differenza strutturale fondamentale tra variabili casuali discrete e continue. Per le variabili casuali discrete, la probabilità è concentrata in punti isolati, mentre per quelle continue è distribuita in modo continuo e misurabile solo integrando su intervalli di valori.
 
-Il cosiddetto *paradosso* della probabilità nulla associata ai valori esatti nelle distribuzioni continue si dissolve non appena si riconosce che, in questo contesto, la probabilità è intrinsecamente una proprietà degli **intervalli** e non dei **punti**. Ogni singolo valore contribuisce con una probabilità nulla, ma l’integrazione su un insieme continuo di valori produce quantità probabilistiche finite e semanticamente significative.
+Il cosiddetto "paradosso" della probabilità nulla per punti esatti nelle distribuzioni continue si dissolve quando si riconosce che, in questo ambito, la probabilità è intrinsecamente una proprietà degli **intervalli**, non dei **punti**. Ogni singolo valore contribuisce con probabilità nulla, ma l’integrazione su un continuum di valori produce quantità probabilisticamente significative. Per lo psicologo, ciò si traduce in una prassi operativa: formulare domande come “Qual è la probabilità che il punteggio cada in *questo intervallo*?”, anziché chiedersi “Qual è la probabilità di ottenere *esattamente questo* punteggio?”.
 
-La **funzione di distribuzione cumulativa** (CDF) emerge come uno strumento unificante per entrambe le classi di variabili casuali. Essa fornisce una rappresentazione coerente della distribuzione di probabilità, consente il calcolo sistematico delle probabilità su intervalli arbitrari e chiarisce il legame tra funzione di massa, funzione di densità e probabilità osservabili.
+In questo contesto, la **funzione di distribuzione cumulativa** (CDF) si rivela  uno strumento unificante. Essa offre una rappresentazione coerente delle distribuzioni sia per variabili discrete che continue, consente il calcolo diretto delle probabilità su intervalli arbitrari e chiarisce sistematicamente il legame tra la funzione di massa, la funzione di densità e le probabilità osservabili.
 
-Infine, la distinzione tra interpretazione **frequentista** e **bayesiana** delle distribuzioni di probabilità non è una mera questione filosofica, ma ha conseguenze operative rilevanti per la costruzione e l’interpretazione dei modelli statistici. Poiché l’obiettivo di questo corso è l’inferenza in condizioni di incertezza, l’attenzione sarà rivolta al paradigma bayesiano, il cui apparato formale è progettato per rappresentare e aggiornare in modo logicamente coerente lo stato della conoscenza alla luce dell’evidenza empirica.
-
-### Nota di valutazione complessiva
-
-Questo capitolo di transizione ora:
-
-* chiude in modo solido la parte su variabili casuali;
-* chiarisce definitivamente PMF, PDF e CDF;
-* smonta in modo convincente il “paradosso” della probabilità nulla;
-* rende esplicita la scelta bayesiana senza contrapposizioni polemiche.
-
-Fornisce una base per passare, nel capitolo successivo, allo studio sistematico delle **distribuzioni parametriche** (Normale, Beta, Binomiale, Poisson) come *modelli di credenza* e *modelli generativi*.
+Infine, la differenza tra l’interpretazione **frequentista** e **bayesiana** delle distribuzioni non è un dibattito puramente filosofico, ma implica scelte metodologiche concrete nella costruzione e nell'interpretazione dei modelli statistici. Poiché l'obiettivo di questo corso è l'inferenza in condizioni di incertezza, ci concentreremo sul paradigma bayesiano, il cui formalismo è appositamente concepito per rappresentare, e aggiornare in modo logicamente coerente, lo stato delle nostre conoscenze alla luce dell'evidenza empirica.
 
 ## Punti chiave da ricordare {.unnumbered}
 
@@ -479,42 +516,42 @@ Fornisce una base per passare, nel capitolo successivo, allo studio sistematico 
 **Concetti essenziali di questo capitolo:**
 
 1. **Massa vs densità: due modi profondamente diversi di distribuire probabilità**
-   - **Massa (PMF)**: probabilità concentrata in punti discreti, come "pesi" su una bilancia
-   - **Densità (PDF)**: probabilità distribuita su un continuum, come massa in un fluido
-   - La distinzione non è solo tecnica ma riflette strutture matematiche diverse (somme vs integrali)
+   - **Massa (PMF)**: probabilità concentrata in punti discreti, come "pesi" su una bilancia.
+   - **Densità (PDF)**: probabilità distribuita su un continuum, come massa in un fluido.
+   - La distinzione non è solo tecnica ma riflette strutture matematiche diverse (somme vs integrali).
 
 2. **La PMF assegna probabilità dirette a valori specifici**
-   - $p_X(x) = P(X = x)$ è la probabilità *del* punto $x$
-   - Diagramma a barre: l'altezza rappresenta direttamente la probabilità
-   - Somma delle probabilità: $\sum_x p_X(x) = 1$
+   - $p_X(x) = P(X = x)$ è la probabilità *del* punto $x$.
+   - Diagramma a barre: l'altezza rappresenta direttamente la probabilità.
+   - Somma delle probabilità: $\sum_x p_X(x) = 1$.
 
 3. **La PDF misura concentrazione locale, non probabilità diretta**
-   - $f_X(x)$ indica "quanta probabilità c'è per unità di lunghezza" attorno a $x$
-   - $f_X(x)$ può essere maggiore di 1 (non è una probabilità!)
-   - Probabilità tramite integrazione: $P(a \leq X \leq b) = \int_a^b f_X(x) \, dx$
+   - $f_X(x)$ indica "quanta probabilità c'è per unità di lunghezza" attorno a $x$.
+   - $f_X(x)$ può essere maggiore di 1 (non è una probabilità!).
+   - Probabilità tramite integrazione: $P(a \leq X \leq b) = \int_a^b f_X(x) \, dx$.
 
 4. **Il "paradosso" P(X = x) = 0 per variabili continue**
-   - Non è un paradosso: un singolo punto ha "misura zero" nel continuo
-   - Come la "massa di un punto" in un filo: zero, ma il punto esiste
-   - Differenza cruciale: probabilità zero ≠ impossibilità logica
-   - Solo intervalli (anche infinitesimi) hanno probabilità positiva
+   - Non è un paradosso: un singolo punto ha "misura zero" nel continuo.
+   - Come la "massa di un punto" in un filo: zero, ma il punto esiste.
+   - Differenza cruciale: probabilità zero ≠ impossibilità logica.
+   - Solo intervalli (anche infinitesimi) hanno probabilità positiva.
 
 5. **Dagli istogrammi alle densità: il limite continuo**
-   - All'aumentare di $n$ e al diminuire della larghezza dei bin, gli istogrammi convergono alla PDF
-   - La PDF è il limite ideale quando bin → 0 e $n$ → ∞
-   - Illustra visivamente come la densità emerga naturalmente dai dati
+   - All'aumentare di $n$ e al diminuire della larghezza dei bin, gli istogrammi convergono alla PDF.
+   - La PDF è il limite ideale quando bin → 0 e $n$ → ∞.
+   - Illustra visivamente come la densità emerga naturalmente dai dati.
 
 6. **CDF come rappresentazione unificata**
-   - $F_X(x) = P(X \leq x)$ vale sia per discrete che per continue
-   - Discrete: funzione a gradini con salti in corrispondenza dei valori possibili
-   - Continue: funzione liscia e crescente
-   - Proprietà universali: monotona non decrescente, $F(-\infty) = 0$, $F(+\infty) = 1$
+   - $F_X(x) = P(X \leq x)$ vale sia per discrete che per continue.
+   - Discrete: funzione a gradini con salti in corrispondenza dei valori possibili.
+   - Continue: funzione liscia e crescente.
+   - Proprietà universali: monotona non decrescente, $F(-\infty) = 0$, $F(+\infty) = 1$.
 
 7. **Interpretazioni bayesiana vs frequentista delle distribuzioni**
-   - **Frequentista**: la PDF descrive il comportamento dei dati in ripetizioni ipotetiche
-   - **Bayesiano**: la PDF rappresenta il grado di credenza sui possibili valori (anche parametri!)
-   - Stessa forma matematica, interpretazione epistemica profondamente diversa
-   - Per il bayesiano, distribuzioni di parametri sono naturali; per il frequentista no
+   - **Frequentista**: la PDF descrive il comportamento dei dati in ripetizioni ipotetiche.
+   - **Bayesiano**: la PDF rappresenta il grado di credenza sui possibili valori (anche parametri!).
+   - Stessa forma matematica, interpretazione epistemica profondamente diversa.
+   - Per il bayesiano, distribuzioni di parametri sono naturali; per il frequentista no.
 
 **Formule da ricordare:**
 
@@ -548,10 +585,10 @@ $$
 
 **Proprietà chiave:**
 
-- **Discrete**: $P(X = x) = p_X(x) > 0$ è possibile
-- **Continue**: $P(X = x) = 0$ sempre (ma $f_X(x)$ può essere > 0)
+- **Discrete**: $P(X = x) = p_X(x) > 0$ è possibile.
+- **Continue**: $P(X = x) = 0$ sempre (ma $f_X(x)$ può essere > 0).
 - **PDF può essere > 1**: non è una probabilità ma una densità!
-- **CDF sempre ∈ [0,1]**: rappresenta una probabilità cumulativa
+- **CDF sempre ∈ [0,1]**: rappresenta una probabilità cumulativa.
 
 **Per il prossimo capitolo:**
 
