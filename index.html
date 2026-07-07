@@ -2,11 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Corrado Caudek">
+<meta name="description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
 <title>Probabilità per la psicologia</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -29,33 +33,34 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <link href="./chapters/probability/01_intro_prob_bayesian.html" rel="next">
 <link href="./style/gauss.png" rel="icon" type="image/png">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-88f89515ec50d56ed60c0d65bb29dbd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-12c7548f543ff79fe76bca8cab42d0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-88f89515ec50d56ed60c0d65bb29dbd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-aa873432a3c62897e6c2091c0d30a948.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
-  "copy-button": false,
+  "copy-button": true,
   "collapse-after": 3,
   "panel-placement": "start",
-  "type": "textbox",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
-  "show-item-context": false,
+  "show-item-context": true,
   "language": {
     "search-no-results-text": "Nessun risultato",
     "search-matching-documents-text": "documenti trovati",
@@ -69,14 +74,39 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Inviare",
     "search-label": "Ricerca"
   }
-}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/javascript">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
+</script><script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"it"
+  });
+});
 </script><style>html{ scroll-behavior: smooth; }</style>
-<link rel="stylesheet" href="style/custom.css">
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script><link rel="stylesheet" href="style/custom.css">
+<meta property="og:title" content="Probabilità per la psicologia">
+<meta property="og:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
+<meta property="og:image" content="https://ccaudek.github.io/utet-prob/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta property="og:site_name" content="Probabilità per la psicologia">
+<meta name="twitter:title" content="Probabilità per la psicologia">
+<meta name="twitter:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
+<meta name="twitter:image" content="https://ccaudek.github.io/utet-prob/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://ccaudek.github.io/utet-prob/">
 <meta name="citation_title" content="Probabilità per la psicologia">
 <meta name="citation_author" content="Corrado Caudek">
 <meta name="citation_publication_date" content="NaN-NaN-NaN">
@@ -356,7 +386,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <meta name="citation_reference" content="citation_title=The statistical crisis in science;,citation_author=Andrew Gelman;,citation_author=Eric Loken;,citation_publication_date=2014;,citation_cover_date=2014;,citation_year=2014;,citation_issue=6;,citation_volume=102;,citation_journal_title=American scientist;">
 <meta name="citation_reference" content="citation_title=The ironic effect of significant results on the credibility of multiple-study articles.;,citation_author=Ulrich Schimmack;,citation_publication_date=2012;,citation_cover_date=2012;,citation_year=2012;,citation_issue=4;,citation_volume=17;,citation_journal_title=Psychological methods;,citation_publisher=American Psychological Association;">
 <meta name="citation_reference" content="citation_title=A meta-psychological perspective on the decade of replication failures in social psychology.;,citation_author=Ulrich Schimmack;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_issue=4;,citation_volume=61;,citation_journal_title=Canadian Psychology/Psychologie Canadienne;,citation_publisher=Educational Publishing Foundation;">
-<meta name="citation_reference" content="citation_title=Checking the Asumption of Independence in Binomial Trials Using Posterior Predictive Checking;,citation_author=Ladislas Nalborczyk;,citation_publication_date=2018-01-23;,citation_cover_date=2018-01-23;,citation_year=2018;,citation_fulltext_html_url=https://lnalborczyk.github.io/blog/2018-01-23-ppc;,citation_language=en;">
+<meta name="citation_reference" content="citation_title=Checking the asumption of independence in binomial trials using posterior predictive checking;,citation_author=Ladislas Nalborczyk;,citation_publication_date=2018-01-23;,citation_cover_date=2018-01-23;,citation_year=2018;,citation_fulltext_html_url=https://lnalborczyk.github.io/blog/2018-01-23-ppc;,citation_language=en;">
 <meta name="citation_reference" content="citation_title=Ten quick tips to get you started with bayesian statistics;,citation_author=Olivier Gimenez;,citation_author=Andy Royle;,citation_author=Marc Kéry;,citation_author=Chloé R Nater;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_issue=4;,citation_volume=21;,citation_journal_title=PLOS Computational Biology;,citation_publisher=Public Library of Science San Francisco, CA USA;">
 <meta name="citation_reference" content="citation_title=The natural selection of bad science;,citation_author=Paul E Smaldino;,citation_author=Richard McElreath;,citation_publication_date=2016;,citation_cover_date=2016;,citation_year=2016;,citation_issue=9;,citation_volume=3;,citation_journal_title=Royal Society Open Science;,citation_publisher=The Royal Society;">
 <meta name="citation_reference" content="citation_title=The bitter truth about sugar and willpower: The limited evidential value of the glucose model of ego depletion;,citation_author=Miguel A Vadillo;,citation_author=Natalie Gold;,citation_author=Magda Osman;,citation_publication_date=2016;,citation_cover_date=2016;,citation_year=2016;,citation_issue=9;,citation_volume=27;,citation_journal_title=Psychological Science;,citation_publisher=Sage Publications Sage CA: Los Angeles, CA;">
@@ -761,7 +791,8 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -774,6 +805,14 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -800,21 +839,17 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/ccaudek/utet-prob/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/ccaudek/utet-prob/" title="Eseguire il codice" class="quarto-navigation-tool px-1" aria-label="Eseguire il codice"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Attiva/disattiva la modalità oscura"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Attiva/disattiva la modalità lettore">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
 </a>
+    <div id="quarto-search" class="quarto-navigation-tool px-1" title="Ricerca"></div>
 </div>
     </div>
       </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Ricerca"></div>
-        </div>
-        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item">
@@ -966,7 +1001,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">Appendices</span></a>
+ <span class="menu-text">Appendici</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Attiva/disattiva sezione">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -1021,6 +1056,11 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <p class="subtitle lead">Modulo di richiamo</p>
 </div>
 
+<div>
+  <div class="description">
+    <p>Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.</p>
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -1035,7 +1075,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Data di Pubblicazione</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">18 gennaio 2026</p>
+      <p class="date">07 luglio 2026</p>
     </div>
   </div>
   
@@ -1066,23 +1106,23 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="dwxxzkoqlv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dwxxzkoqlv table {
+<div id="gqucddrevg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gqucddrevg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dwxxzkoqlv thead, #dwxxzkoqlv tbody, #dwxxzkoqlv tfoot, #dwxxzkoqlv tr, #dwxxzkoqlv td, #dwxxzkoqlv th {
+#gqucddrevg thead, #gqucddrevg tbody, #gqucddrevg tfoot, #gqucddrevg tr, #gqucddrevg td, #gqucddrevg th {
   border-style: none;
 }
 
-#dwxxzkoqlv p {
+#gqucddrevg p {
   margin: 0;
   padding: 0;
 }
 
-#dwxxzkoqlv .gt_table {
+#gqucddrevg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1108,12 +1148,12 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-left-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_caption {
+#gqucddrevg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dwxxzkoqlv .gt_title {
+#gqucddrevg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1125,7 +1165,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-bottom-width: 0;
 }
 
-#dwxxzkoqlv .gt_subtitle {
+#gqucddrevg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1137,7 +1177,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-top-width: 0;
 }
 
-#dwxxzkoqlv .gt_heading {
+#gqucddrevg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1149,13 +1189,13 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_bottom_border {
+#gqucddrevg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_col_headings {
+#gqucddrevg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #2C3E50;
@@ -1170,7 +1210,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_col_heading {
+#gqucddrevg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1190,7 +1230,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   overflow-x: hidden;
 }
 
-#dwxxzkoqlv .gt_column_spanner_outer {
+#gqucddrevg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1202,15 +1242,15 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   padding-right: 4px;
 }
 
-#dwxxzkoqlv .gt_column_spanner_outer:first-child {
+#gqucddrevg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dwxxzkoqlv .gt_column_spanner_outer:last-child {
+#gqucddrevg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dwxxzkoqlv .gt_column_spanner {
+#gqucddrevg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #2C3E50;
@@ -1222,11 +1262,11 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   width: 100%;
 }
 
-#dwxxzkoqlv .gt_spanner_row {
+#gqucddrevg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dwxxzkoqlv .gt_group_heading {
+#gqucddrevg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1252,7 +1292,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   text-align: left;
 }
 
-#dwxxzkoqlv .gt_empty_group_heading {
+#gqucddrevg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1267,15 +1307,15 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   vertical-align: middle;
 }
 
-#dwxxzkoqlv .gt_from_md > :first-child {
+#gqucddrevg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dwxxzkoqlv .gt_from_md > :last-child {
+#gqucddrevg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dwxxzkoqlv .gt_row {
+#gqucddrevg .gt_row {
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 5px;
@@ -1294,7 +1334,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   overflow-x: hidden;
 }
 
-#dwxxzkoqlv .gt_stub {
+#gqucddrevg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1307,7 +1347,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#dwxxzkoqlv .gt_stub_row_group {
+#gqucddrevg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1321,15 +1361,15 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   vertical-align: top;
 }
 
-#dwxxzkoqlv .gt_row_group_first td {
+#gqucddrevg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dwxxzkoqlv .gt_row_group_first th {
+#gqucddrevg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dwxxzkoqlv .gt_summary_row {
+#gqucddrevg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1339,16 +1379,16 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#dwxxzkoqlv .gt_first_summary_row {
+#gqucddrevg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_first_summary_row.thick {
+#gqucddrevg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dwxxzkoqlv .gt_last_summary_row {
+#gqucddrevg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1358,7 +1398,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-bottom-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_grand_summary_row {
+#gqucddrevg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1368,7 +1408,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#dwxxzkoqlv .gt_first_grand_summary_row {
+#gqucddrevg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1378,7 +1418,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-top-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_last_grand_summary_row_top {
+#gqucddrevg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1388,11 +1428,11 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-bottom-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_striped {
+#gqucddrevg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dwxxzkoqlv .gt_table_body {
+#gqucddrevg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1401,7 +1441,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-bottom-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_footnotes {
+#gqucddrevg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1415,7 +1455,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_footnote {
+#gqucddrevg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1424,7 +1464,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#dwxxzkoqlv .gt_sourcenotes {
+#gqucddrevg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1438,7 +1478,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#dwxxzkoqlv .gt_sourcenote {
+#gqucddrevg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1446,72 +1486,72 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#dwxxzkoqlv .gt_left {
+#gqucddrevg .gt_left {
   text-align: left;
 }
 
-#dwxxzkoqlv .gt_center {
+#gqucddrevg .gt_center {
   text-align: center;
 }
 
-#dwxxzkoqlv .gt_right {
+#gqucddrevg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dwxxzkoqlv .gt_font_normal {
+#gqucddrevg .gt_font_normal {
   font-weight: normal;
 }
 
-#dwxxzkoqlv .gt_font_bold {
+#gqucddrevg .gt_font_bold {
   font-weight: bold;
 }
 
-#dwxxzkoqlv .gt_font_italic {
+#gqucddrevg .gt_font_italic {
   font-style: italic;
 }
 
-#dwxxzkoqlv .gt_super {
+#gqucddrevg .gt_super {
   font-size: 65%;
 }
 
-#dwxxzkoqlv .gt_footnote_marks {
+#gqucddrevg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dwxxzkoqlv .gt_asterisk {
+#gqucddrevg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dwxxzkoqlv .gt_indent_1 {
+#gqucddrevg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dwxxzkoqlv .gt_indent_2 {
+#gqucddrevg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dwxxzkoqlv .gt_indent_3 {
+#gqucddrevg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dwxxzkoqlv .gt_indent_4 {
+#gqucddrevg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dwxxzkoqlv .gt_indent_5 {
+#gqucddrevg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dwxxzkoqlv .katex-display {
+#gqucddrevg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dwxxzkoqlv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gqucddrevg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1717,7 +1757,7 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/ccaudek\.github\.io\/utet-prob\/");
+        var filterRegex = new RegExp("^(?:https?:)?//ccaudek\.github\.io/utet-prob/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -2064,8 +2104,8 @@ gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
 <p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Metodi bayesiani in psicologia</em>.</p>
 </div>   
     <div class="nav-footer-center">
-      &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></div>
+
+<div class="toc-actions"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Preferenze cookie</a></div></div>
     <div class="nav-footer-right">
 <p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
