@@ -479,11 +479,9 @@ La distribuzione $t$ di Student presenta **code più pesanti rispetto alla norma
 
 ### Ruolo nell'inferenza bayesiana
 
-La distribuzione $t$ di Student riveste un ruolo di particolare rilievo nell’inferenza bayesiana per almeno tre motivi fondamentali.
+La distribuzione $t$ di Student riveste un ruolo di particolare rilievo nell’inferenza bayesiana per almeno tre motivi fondamentali. In primo luogo, essa funge da **prior robusta per parametri di posizione**. L’uso di una distribuzione $t_\nu(\mu_0, \sigma_0)$ come prior per una media assegna una maggiore plausibilità ai valori estremi rispetto a una distribuzione normale, rendendo il modello meno sensibile a osservazioni anomale o inattese.
 
-In primo luogo, essa funge da **prior robusta per parametri di posizione**. L’uso di una distribuzione $t_\nu(\mu_0, \sigma_0)$ come prior per una media assegna una maggiore plausibilità ai valori estremi rispetto a una distribuzione normale, rendendo il modello meno sensibile a osservazioni anomale o inattese.
-
-In secondo luogo, la distribuzione $t$ emerge naturalmente come **distribuzione predittiva** quando si tiene conto dell’incertezza congiunta sia sulla media sia sulla varianza in un modello normale. In tali condizioni, la distribuzione predittiva marginale per nuove osservazioni assume una forma t di Student, a differenza del caso in cui la varianza sia nota, dove la predittiva rimane normale.
+In secondo luogo, la distribuzione $t$ emerge naturalmente come **distribuzione predittiva** quando si tiene conto dell’incertezza congiunta sia sulla media sia sulla varianza in un modello normale. In tali condizioni, la distribuzione predittiva marginale per nuove osservazioni assume una forma $t$ di Student, a differenza del caso in cui la varianza sia nota, dove la predittiva rimane normale.
 
 Infine, la distribuzione $t$ si presta efficacemente come **prior debolmente informativa**. Specificando un numero ridotto di gradi di libertà, come $\nu = 3$, o nel caso limite $\nu = 1$, che corrisponde alla distribuzione di Cauchy, è possibile costruire prior che esercitano una regolarizzazione moderata senza dominare l’evidenza fornita dai dati, anche in presenza di campioni di piccole dimensioni.
 
@@ -573,14 +571,14 @@ Il confronto evidenzia come la distribuzione di Cauchy presenti le code più pes
 
 Nel complesso, la distribuzione di Cauchy rappresenta il punto estremo di un continuum che va dalla distribuzione normale alla $t$ di Student: al crescere dell’incertezza sulla scala del fenomeno, il modello probabilistico adotta code sempre più pesanti, riflettendo un atteggiamento epistemico progressivamente più prudente. In questo senso, la Cauchy non costituisce un’anomalia, ma una scelta coerente quando si desidera minimizzare le assunzioni a priori sulla variabilità dei dati.
 
-## Distribuzione beta
+## Distribuzione Beta
 
 ### Definizione e interpretazione epistemica
 
-La distribuzione beta è la scelta naturale per rappresentare credenze su proporzioni o probabilità, ovvero quantità vincolate all'intervallo $(0, 1)$. È importante sottolineare che la distribuzione beta non descrive la variabilità dei dati osservati, bensì **lo stato di conoscenza (o di incertezza)** riguardo al valore del parametro $p$, che rimane non osservabile.
+La distribuzione Beta è la scelta naturale per rappresentare credenze su proporzioni o probabilità, ovvero quantità vincolate all'intervallo $(0, 1)$. È importante sottolineare che la distribuzione Beta non descrive la variabilità dei dati osservati, bensì **lo stato di conoscenza (o di incertezza)** riguardo al valore del parametro $p$, che rimane non osservabile.
 
 ::: {#def-beta}
-Una variabile casuale $\theta$ segue una distribuzione beta con parametri $\alpha > 0$ e $\beta > 0$ se:
+Una variabile casuale $\theta$ segue una distribuzione Beta con parametri $\alpha > 0$ e $\beta > 0$ se:
 
 $$
 \theta \sim \text{Beta}(\alpha, \beta), \quad f(\theta) = \frac{\theta^{\alpha-1}(1-\theta)^{\beta-1}}{B(\alpha, \beta)},
@@ -594,13 +592,13 @@ dove $B(\alpha, \beta)$ è la funzione beta di Eulero.
 - Moda (per $\alpha, \beta > 1$): $\frac{\alpha - 1}{\alpha + \beta - 2}$.
 :::
 
-**Interpretazione epistemica dei parametri**: i parametri $\alpha$ e $\beta$ della distribuzione beta ammettono un'interpretazione epistemica particolarmente intuitiva in termini di "pseudo-osservazioni". In questa prospettiva, $\alpha - 1$ rappresenta il numero ipotetico di successi precedentemente osservati, mentre $\beta - 1$ corrisponde al numero analogo di insuccessi. Questa caratteristica consente di incorporare in modo trasparente l'informazione a priori nel modello. Il caso particolare $\alpha = \beta = 1$ assume un significato speciale, in quanto produce una distribuzione uniforme che rappresenta formalmente uno stato di massima ignoranza riguardo al parametro di interesse.
+**Interpretazione epistemica dei parametri**: i parametri $\alpha$ e $\beta$ della distribuzione Beta ammettono un'interpretazione epistemica particolarmente intuitiva in termini di "pseudo-osservazioni". In questa prospettiva, $\alpha - 1$ rappresenta il numero ipotetico di successi precedentemente osservati, mentre $\beta - 1$ corrisponde al numero analogo di insuccessi. Questa caratteristica consente di incorporare in modo trasparente l'informazione a priori nel modello. Il caso particolare $\alpha = \beta = 1$ assume un significato speciale, in quanto produce una distribuzione uniforme che rappresenta formalmente uno stato di massima ignoranza riguardo al parametro di interesse.
 
 In questa interpretazione, la quantità $\alpha + \beta$ può essere vista come la **dimensione di un campione virtuale** che quantifica la forza informativa della prior. Valori piccoli di $\alpha + \beta$ corrispondono a credenze deboli e facilmente aggiornabili dai dati, mentre valori grandi indicano credenze più rigide che richiedono un’evidenza empirica consistente per essere modificate.
 
 ### Ruolo nell'inferenza bayesiana
 
-La beta è la **prior coniugata** per il parametro $p$ della distribuzione binomiale:
+La Beta è la **prior coniugata** per il parametro $p$ della distribuzione binomiale:
 
 $$
 \text{Prior: } p \sim \text{Beta}(\alpha, \beta), \quad \text{Dati: } k \text{ successi su } n \text{ prove}.
@@ -613,7 +611,7 @@ Questa proprietà rende l'aggiornamento bayesiano analiticamente trattabile: i p
 
 La media della distribuzione a posteriori può essere interpretata come una media ponderata tra la proporzione implicita nella prior e la proporzione osservata nei dati, con pesi determinati rispettivamente dalla forza della prior e dalla dimensione del campione osservato. In questo senso, l’aggiornamento bayesiano realizza un compromesso quantitativo tra credenze iniziali ed evidenza empirica.
 
-La coniugazione tra distribuzione beta e modello binomiale non rappresenta soltanto una semplificazione computazionale, ma riflette una profonda **coerenza epistemica**: le informazioni a priori e quelle fornite dai dati sono espresse nella stessa unità concettuale, ovvero conteggi di successi e insuccessi, rendendo l’aggiornamento trasparente e interpretabile.
+La coniugazione tra distribuzione Beta e modello binomiale non rappresenta soltanto una semplificazione computazionale, ma riflette una profonda **coerenza epistemica**: le informazioni a priori e quelle fornite dai dati sono espresse nella stessa unità concettuale, ovvero conteggi di successi e insuccessi, rendendo l’aggiornamento trasparente e interpretabile.
 
 ::: {.callout-note icon=false}
 ## 🧠 Quando la usi in psicologia?

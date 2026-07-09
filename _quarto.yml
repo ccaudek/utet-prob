@@ -107,15 +107,22 @@ google-scholar: true
 
 format:
   html:
+    highlight-style: arrow
+
     theme:
-      light: cosmo
-      dark: darkly
-    css: style/custom.css
+      light:
+        - cosmo
+        - style/custom.scss
+      dark:
+        - darkly
+        - style/custom.scss
+        - style/custom-dark.scss
 
     respect-user-color-scheme: true
     canonical-url: true
 
     toc: true
+    toc-location: right
     toc-depth: 2
     toc-title: "Sommario"
     toc-expand: 2
@@ -126,7 +133,7 @@ format:
     code-summary: "Mostra/Nascondi codice"
     code-copy: hover
     code-link: true
-    code-overflow: scroll
+    code-overflow: wrap
     code-block-bg: true
 
     fig-responsive: true
@@ -144,9 +151,12 @@ format:
     link-external-newwindow: true
     link-external-filter: "^(?:https?:)?//ccaudek\\.github\\.io/utet-prob/"
 
-    html-math-method:
+    html-math-method: 
       method: mathjax
-      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      mathjax:
+        config: TeX-AMS_CHTML
+        options:
+          font: "Latin-Modern"
 
 execute:
   freeze: auto
@@ -157,13 +167,14 @@ execute:
   message: false
   error: false
 
-  fig.width: 6
+  fig.width: 6.5
   fig.asp: 0.618
   fig.retina: 2
   fig.align: center
   fig.show: hold
 
   options:
-    width: 120
-    pillar.width: Inf
-    tibble.width: Inf
+    width: 90
+    pillar.width: 90
+    tibble.width: 90
+

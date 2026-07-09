@@ -146,7 +146,7 @@ ggplot(data.frame(Esito = lanci), aes(x = factor(Esito))) +
 :::
 
 :::{.callout-note icon=false}
-## 🧠 Applicazioni nella psicologia e nella ricerca sperimentale
+## Applicazioni nella psicologia e nella ricerca sperimentale
 
 **Contesti di utilizzo tipici:**
 
@@ -192,7 +192,7 @@ La distribuzione di Bernoulli rappresenta il **modello probabilistico più sempl
 
 #### Interpretazione epistemica
 
-Il parametro $p$ rappresenta la **probabilità associata all’esito etichettato come “successo”**. Dal punto di vista epistemico, (p) può essere interpretato come il grado di credenza o l’informazione disponibile circa il verificarsi di tale esito, prima dell’osservazione dei dati.
+Il parametro $p$ rappresenta la **probabilità associata all’esito etichettato come “successo”**. Dal punto di vista epistemico, $p$ può essere interpretato come il grado di credenza o l’informazione disponibile circa il verificarsi di tale esito, prima dell’osservazione dei dati.
 
 In ambito psicologico e sperimentale, la distribuzione di Bernoulli è frequentemente utilizzata per modellare eventi come risposte corrette/errate, presenza/assenza di un comportamento, decisioni sì/no o superamento/fallimento di una prova. In tutti questi casi, l’incertezza riguarda un singolo evento e non una sequenza di prove.
 
@@ -200,11 +200,11 @@ In ambito psicologico e sperimentale, la distribuzione di Bernoulli è frequente
 
 La distribuzione di Bernoulli costituisce il **modello di base per l’analisi di dati binari** ed è un elemento fondamentale nell’inferenza bayesiana. In particolare, essa descrive il meccanismo generativo di ciascuna osservazione individuale, mentre l’aggregazione di più prove indipendenti conduce naturalmente alla distribuzione binomiale, trattata nel paragrafo successivo.
 
-Nell’approccio bayesiano, il parametro $p$ è considerato una variabile casuale e viene tipicamente modellato mediante una distribuzione *Beta*, che funge da prior coniugato. Questa scelta consente di aggiornare le credenze su $p$ in modo analitico, combinando informazione a priori e dati osservati in maniera coerente e trasparente.
+Nell’approccio bayesiano, il parametro $p$ è considerato una variabile casuale e viene tipicamente modellato mediante una distribuzione Beta, che funge da prior coniugato. Questa scelta consente di aggiornare le credenze su $p$ in modo analitico, combinando informazione a priori e dati osservati in maniera coerente e trasparente.
 
 :::{.callout-note icon=false}
 
-## 🧠 Applicazioni nella psicologia e nelle scienze comportamentali
+## Applicazioni nella psicologia e nelle scienze comportamentali
 
 **Contesti tipici di utilizzo:**
 
@@ -410,7 +410,7 @@ La distribuzione a posteriori si concentra attorno a $p \approx 0.74$, mostrando
 :::
 
 ::: {.callout-note icon=false}
-## 🧠 Applicazioni in psicologia
+## Applicazioni in psicologia
 
 **Contesti tipici di utilizzo:**
 
@@ -501,7 +501,7 @@ L’aggiornamento è intuitivo:
 * il numero di intervalli osservati aggiorna il parametro di scala (o tasso).
 
 ::: {.callout-note icon=false}
-## 🧠 Applicazioni in psicologia
+## Applicazioni in psicologia
 
 **Quando è tipicamente utile:**
 
@@ -635,7 +635,7 @@ $$
 con funzione di massa:
 
 $$
-P(Y = k) = \binom{n}{k} \frac{B(k + \alpha, n - k + \beta)}{B(\alpha, \beta)}
+P(Y = k) = \binom{n}{k} \frac{B(k + \alpha, n - k + \beta)}{B(\alpha, \beta)},
 $$
 dove $B(\cdot, \cdot)$ è la funzione beta.
 
@@ -765,36 +765,6 @@ Nel capitolo successivo ci occuperemo delle **distribuzioni continue**, come la 
 | **Binomiale** | {0,...,n} | Numero di successi su n prove indipendenti | Beta(α,β) | 18 risposte corrette su 25 domande |
 | **Poisson** | {0,1,2,...} | Conteggio di eventi rari in tempo/spazio fisso | Gamma(α,β) | 3 attacchi di panico in un mese |
 | **Beta-Binomiale** | {0,...,n} | Binomiale con p incerto (sovradispersione) | Beta(α,β) su p | Successi quando ogni soggetto ha un p diverso |
-
-### Come scelgo la distribuzione giusta? {.unnumbered .unlisted}
-
-Segui questo albero decisionale per identificare la distribuzione appropriata:
-
-```{mermaid}
-%%| fig-width: 8
-flowchart TD
-    A[Che tipo di dato hai?] --> B{Binario0/1}
-    A --> C{Conteggiointero ≥ 0}
-    A --> D{Categorico1,2,...,K}
-    
-    B --> B1[Singola osservazione?]
-    B1 -->|Sì| B2[Bernoullies: risposta corretta]
-    B1 -->|No, n prove| B3[Binomialees: k su n corrette]
-    
-    C --> C1{Eventi rariin tempo/spaziofisso?}
-    C1 -->|Sì| C2[Poissones: attacchi di panico/mese]
-    C1 -->|No, n fissato| C3[Binomialees: sintomi presenti su checklist]
-    
-    D --> D1{Tutti ugualmenteprobabili?}
-    D1 -->|Sì| D2[Uniforme discretaes: dado equo]
-    D1 -->|No| D3[Categorica/Multinomialecapitolo futuro]
-    
-    style B2 fill:#e1f5e1
-    style B3 fill:#e1f5e1
-    style C2 fill:#fff4e1
-    style C3 fill:#e1f5e1
-    style D2 fill:#f0f0f0
-```
 
 ## Punti chiave da ricordare {.unnumbered}
 
