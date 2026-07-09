@@ -212,67 +212,39 @@ $$
 P(X = x_0) = 0 \quad \text{per ogni } x_0 \in \mathbb{R}.
 $$
 
-A prima vista ciò sembra generare un paradosso epistemologico: se ogni valore puntuale ha probabilità zero, com'è possibile osservare empiricamente un valore qualunque? Quando misuriamo un'altezza di 170 cm, non stiamo forse registrando un evento che, secondo la teoria, avrebbe una probabilità nulla?
+A prima vista, ciò sembra generare un paradosso: se ogni valore puntuale ha probabilità zero, com'è possibile osservare empiricamente un valore qualunque? Quando misuriamo un'altezza di 170 cm, non stiamo forse registrando un evento che la teoria considera impossibile?
 
-### Fondamento matematico della probabilità puntuale nulla
+### Perché la probabilità di un punto è zero
 
-La chiave interpretativa risiede nel significato geometrico dell'integrazione. Per una variabile continua, la probabilità si ottiene come area sottostante la densità su un intervallo. Un singolo punto corrisponde a un intervallo di ampiezza nulla e, quindi, a un'area nulla:
+La risposta risiede nel significato geometrico della densità di probabilità. Per una variabile continua, la probabilità si ottiene come l'**area sottostante la curva** su un intervallo. Un singolo punto corrisponde a un intervallo di ampiezza nulla e, quindi, a un'area nulla:
 
 $$
 P(X = x_0) = \int_{x_0}^{x_0} f_X(x) \, dx = 0.
 $$
 
-Questa non è una lacuna della teoria, bensì una proprietà logica del continuo matematico: qualsiasi area calcolata su un intervallo di lunghezza zero è necessariamente pari a zero. 
-
-Se ciò sembra controintuitivo, si consideri la **condizione di normalizzazione**:
-
-$$
-\int_{-\infty}^{+\infty} f_X(x) \, dx = 1.
-$$
-Se a ogni punto singolo fosse assegnata una probabilità positiva $\varepsilon > 0$, l'accumulo su un insieme non numerabile di punti violerebbe la condizione di normalizzazione. Pertanto, l'unico modo per mantenere coerenza tra densità e probabilità totale è assegnare probabilità zero a ogni punto, affidando tutta la massa di probabilità a insiemi con estensione (misura) positiva.
+Questa non è una lacuna della teoria, bensì una proprietà logica del continuo matematico: qualsiasi area calcolata su un intervallo di lunghezza zero è necessariamente pari a zero. Se a ogni singolo punto fosse assegnata una probabilità positiva, l'accumulo su un insieme non numerabile di punti violerebbe la condizione di normalizzazione, secondo cui l'area totale sottostante alla densità deve essere pari a 1.
 
 ### Perché allora osserviamo un valore?
 
-L'apparente paradosso si dissolve ricordando che una misura empirica non fornisce mai un punto matematico "perfetto", ma un valore con una **risoluzione finita**. Dire "170 cm" significa, in pratica, "un valore in un piccolo intervallo attorno a 170", determinato dalla precisione dello strumento e dal processo di arrotondamento. La teoria continua descrive proprio questo: le probabilità su intervalli, non su singoli punti.
-
-### La prospettiva degli infinitesimi
-
-Un modo alternativo, più "intuitivo" ma non necessario per la teoria standard, consiste nel richiamare la prospettiva degli infinitesimi della teoria dei numeri iperreali, proposta da Abraham Robinson negli anni '60. Senza entrare nei dettagli formali, l'idea è che a ogni singolo punto si possa associare una quantità infinitesimale, più piccola di qualsiasi numero reale positivo, ma non esattamente pari a zero [@keisler2012elementary].
-
-In questa lettura:
-
-* a un punto $x_0$ si potrebbe associare una probabilità infinitesimale;
-* un intervallo $[a,b]$ ha probabilità finita perché "somma" un numero enorme di contributi infinitesimali;
-* il limite di queste somme è precisamente l'integrale.
-
-Questa prospettiva non modifica i risultati della teoria classica, ma può aiutare a conciliare l'intuizione con il fatto che nel continuo la probabilità si manifesta come area e non come massa puntuale.
-
-::: {.callout-note collapse="true" title="Esempio: Il paradosso di Zenone"}
-#### Un'analogia classica {.unnumbered .unlisted}
-
-Il paradosso della probabilità puntuale nulla ricorda il celebre paradosso di Zenone della freccia: in ogni istante la freccia occupa una posizione determinata e quindi, in quell'istante, sembra "immobile" in quell'istante; ma se è immobile in ogni istante, come può muoversi?
-
-La risoluzione moderna riconosce che il movimento non è la somma di posizioni statiche, ma un fenomeno che può essere descritto correttamente nel continuo attraverso limiti e integrazione. Allo stesso modo, la probabilità continua non è la "somma" di probabilità puntuali (tutte nulle), ma l'integrale della densità su intervalli.
-
-In entrambi i casi, il paradosso nasce dall'applicazione di intuizioni discrete a un contesto continuo.
-:::
+L'apparente paradosso si dissolve ricordando che una misura empirica non fornisce mai un punto matematico "perfetto", bensì un valore con una **risoluzione finita**. Dire "170 cm" significa, in pratica, "un valore in un piccolo intervallo attorno a 170", determinato dalla precisione dello strumento e dal processo di arrotondamento. La teoria continua descrive proprio questo: le probabilità su intervalli, non su singoli punti.
 
 ### Implicazioni pratiche
 
 Per le variabili continue non ha senso chiedersi: "Qual è la probabilità che il tempo di reazione sia *esattamente* 250 ms?". La domanda operativa corretta è: "Qual è la probabilità che il tempo di reazione sia compreso tra 245 e 255 ms?". Le probabilità si calcolano sempre su **intervalli**, mai su punti singoli.
 
-Un corollario importante è che, per le variabili continue, includere o escludere gli estremi di un intervallo non modifica la probabilità.
+Un corollario importante è che, per le variabili continue, includere o escludere gli estremi di un intervallo non modifica la probabilità:
 
 $$
 P(a < X < b) = P(a \leq X < b) = P(a < X \leq b) = P(a \leq X \leq b).
 $$
+
 Questo perché i singoli punti $a$ e $b$ hanno probabilità zero.
 
-### Ponte applicativo: conseguenze per la valutazione psicologica
+### Conseguenze per la valutazione psicologica
 
-Questa proprietà matematica ha conseguenze dirette sull'interpretazione dei punteggi nei test psicologici. Consideriamo, ad esempio, la valutazione del QI: non ha senso chiedersi "qual è la probabilità che il QI di questo bambino sia esattamente 115?". La risposta sarebbe sempre zero, a prescindere dal bambino.
+Questa proprietà matematica ha implicazioni dirette sull'interpretazione dei punteggi nei test psicologici. Consideriamo la valutazione del QI: non ha senso chiedersi "qual è la probabilità che il QI di questo bambino sia esattamente 115?" – la risposta sarebbe sempre zero, a prescindere dal bambino.
 
-Le domande clinicamente significative riguardano invece gli intervalli:
+Le domande clinicamente rilevanti riguardano invece gli intervalli:
 
 - "Qual è la probabilità che il QI rientri nell'intervallo 110-120?" (nella media superiore).
 - "Qual è la probabilità che il QI sia inferiore a 70?" (soglia per la disabilità intellettiva).
