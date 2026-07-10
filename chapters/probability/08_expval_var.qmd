@@ -52,7 +52,7 @@ apply_visual_theme()
 
 ## Il valore atteso come centro di gravità
 
-Il **valore atteso** di una variabile casuale rappresenta il suo *baricentro probabilistico*, ovvero il punto attorno al quale la probabilità si bilancia. In una prospettiva frequentista, esso corrisponde al valore medio che ci si aspetta di osservare in una lunga serie di ripetizioni dell'esperimento. In una prospettiva bayesiana, invece, il valore atteso formalizza la nostra **aspettativa razionale**, ovvero la migliore previsione puntuale che possiamo fare alla luce dello stato informativo corrente.
+Il **valore atteso** di una variabile casuale rappresenta il suo *baricentro probabilistico*, ovvero il punto attorno al quale la probabilità si bilancia.  In una prospettiva bayesiana,  il valore atteso formalizza la nostra **aspettativa razionale**, ovvero la migliore previsione puntuale che possiamo fare alla luce dello stato informativo corrente. In una prospettiva frequentista, invece, esso corrisponde al valore medio che ci si aspetta di osservare in una lunga serie di ripetizioni dell'esperimento.
 
 ::: {#def-expected-value}
 
@@ -108,7 +108,7 @@ $$
 \mathbb{E}[X].
 $$
 
-Questa convergenza **non definisce** il valore atteso — che resta una media ponderata secondo la definizione formale — ma ne fornisce una giustificazione empirica. Il valore atteso è quindi il valore verso cui tende la media osservata quando il processo viene campionato ripetutamente.
+Questa convergenza **non definisce** il valore atteso, che resta una media ponderata secondo la definizione formale, ma ne fornisce una giustificazione empirica. Il valore atteso è quindi il valore verso cui tende la media osservata quando il processo viene campionato ripetutamente.
 
 ::: {.callout-note collapse="true" title="Esempio: punteggio totale su due subscale"}
 
@@ -166,7 +166,7 @@ Questa proprietà, che formalizzeremo in seguito come *linearità del valore att
 
 ## La linearità del valore atteso
 
-Il valore atteso possiede una proprietà algebrica di importanza cruciale: la **linearità**. Per qualunque coppia di variabili casuali $X$ e $Y$ e per qualunque costante $a$ vale:
+Il valore atteso possiede un'importante proprietà algebrica: la **linearità**. Per qualunque coppia di variabili casuali $X$ e $Y$ e per qualunque costante $a$, vale:
 $$
 \mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y],
 \qquad
@@ -179,13 +179,13 @@ Questa proprietà **non richiede alcuna assunzione di indipendenza**: vale sempr
 
 ### Linearità
 
-Per qualsiasi variabile casuale $X$ e per qualunque costanti $a,b \in \mathbb{R}$ vale:
+Per qualsiasi variabile casuale $X$ e per qualunque costanti $a,b \in \mathbb{R}$, vale:
 $$
 \mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b.
 $$
 :::
 
-La linearità afferma che **traslazioni** e **riscalamenti** dei valori di una variabile si riflettono in modo diretto sul valore atteso. Se moltiplichiamo tutti i valori per una costante $a$, la media viene moltiplicata per $a$; se aggiungiamo una costante $b$ a tutti i valori, la media aumenta di $b$.
+La linearità afferma che le **traslazioni** e i **riscalamenti** dei valori di una variabile si riflettono direttamente sul valore atteso. Se moltiplichiamo tutti i valori per una costante $a$, la media viene moltiplicata per $a$; se aggiungiamo una costante $b$ a tutti i valori, la media aumenta di $b$.
 
 ::: {#thm-expected-value-additivity}
 
@@ -196,7 +196,7 @@ Per qualsiasi coppia di variabili casuali $X$ e $Y$ vale:
 $$
 \mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y].
 $$
-Questa proprietà è valida **sempre**, indipendentemente dal fatto che $X$ e $Y$ siano indipendenti o dipendenti.
+Questa proprietà è valida **sempre**, sia che $X$ e $Y$ siano indipendenti o dipendenti.
 :::
 
 Per una somma di $n$ variabili casuali $X_1, \ldots, X_n$ si ottiene:
@@ -229,7 +229,7 @@ $$
 \mathbb{E}[\text{Distress}] = \mathbb{E}[A] + \mathbb{E}[D] = 12 + 14 = 26.
 $$
 
-**Nota importante:** il calcolo rimane valido **anche se ansia e depressione sono correlate**, come accade tipicamente per comorbidità clinica. La linearità non richiede l’indipendenza tra le variabili.
+**Nota importante:** il calcolo rimane valido **anche se ansia e depressione sono correlate**, come accade tipicamente in caso di comorbidità clinica. La linearità non richiede l'indipendenza tra le variabili.
 
 Se volessimo costruire un indice ponderato che attribuisce maggiore peso alla depressione:
 $$
@@ -262,7 +262,7 @@ cat(" | Valore atteso empirico:", round(mean(distress_w), 2), "\n")
 cat("Correlazione osservata tra A e D:", round(cor(A, D), 2), "\n")
 ```
 
-Come si vede, nonostante la correlazione tra le due scale, il valore atteso del punteggio composito coincide con il calcolo analitico, confermando la robustezza della proprietà di linearità.
+Come si può notare, nonostante la correlazione tra le due scale, il valore atteso del punteggio composito coincide con il calcolo analitico, confermando la robustezza della linearità.
 :::
 
 ### Prodotto di variabili casuali
@@ -278,11 +278,11 @@ $$
 $$
 :::
 
-A differenza dell'additività, questa proprietà **richiede** l'indipendenza. In generale, per variabili dipendenti il valore atteso del prodotto non è uguale al prodotto dei valori attesi. Questa distinzione sarà cruciale quando introdurremo concetti come covarianza e correlazione.
+A differenza dell'additività, questa proprietà **richiede** l'indipendenza. In generale, per le variabili dipendenti il valore atteso del prodotto non è uguale al prodotto dei valori attesi. Questa distinzione sarà cruciale quando introdurremo i concetti di covarianza e correlazione.
 
 ### Valore atteso della media campionaria
 
-Una conseguenza fondamentale della linearità riguarda la **media aritmetica** di più osservazioni. Se $X_1, \ldots, X_n$ sono variabili casuali indipendenti e identicamente distribuite (i.i.d.) con valore atteso $\mathbb{E}[X_i] = \mu$, la media campionaria:
+Una conseguenza fondamentale della linearità riguarda la **media aritmetica** di più osservazioni. Se $X_1, \ldots, X_n$ sono variabili casuali indipendenti e identicamente distribuite (i.i.d.) con valore atteso $\mathbb{E}[X_i] = \mu$, la media campionaria
 
 $$
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i
@@ -294,19 +294,19 @@ $$
 \mathbb{E}[\bar{X}] = \frac{1}{n}\sum_{i=1}^{n} \mathbb{E}[X_i] = \frac{1}{n} \cdot n \cdot \mu = \mu.
 $$
 
-Questo risultato mostra che la media campionaria è uno **stimatore non distorto** del valore atteso della popolazione: in media, la media campionaria coincide con il parametro che intende stimare.
+Questo risultato mostra che la media campionaria è uno stimatore non distorto del valore atteso della popolazione: in media, la media campionaria coincide con il parametro che si intende stimare.
 
 ### Ponte applicativo: perché la media campionaria è uno stimatore coerente
 
-Questo risultato ha implicazioni dirette per la pratica della ricerca in psicologia. Quando calcoliamo la media dei punteggi BDI-II in un campione di pazienti, stiamo utilizzando la **media campionaria** come stimatore del valore atteso (media) della popolazione. La proprietà $\mathbb{E}[\bar{X}] = \mu$, nota come *non distorsione*, ci garantisce che, in media su infiniti campioni possibili, questa procedura di stima "centra il bersaglio".
+Questo risultato ha implicazioni dirette per la pratica della ricerca in psicologia. Quando calcoliamo la media dei punteggi BDI-II in un campione di pazienti, utilizziamo la **media campionaria** come stimatore del valore atteso (media) della popolazione. La proprietà $\mathbb{E}[\bar{X}] = \mu$, nota come *non distorsione*, ci garantisce che, in media su infiniti campioni possibili, questa procedura di stima "centra il bersaglio".
 
-Tuttavia, ciò non significa che la stima ottenuta da un singolo campione sia perfettamente accurata: la media campionaria è soggetta a una variabilità intrinseca, poiché dipende dai soggetti selezionati. Per quantificare **quanto possa oscillare** questa stima da campione a campione, è necessario introdurre il concetto di *varianza* (e di errore standard, che da essa deriva).
+Tuttavia, ciò non significa che la stima ottenuta da un singolo campione sia perfettamente accurata: la media campionaria è soggetta a una variabilità intrinseca, in quanto dipende dai soggetti selezionati. Per quantificare **quanto possa oscillare** questa stima da campione a campione, è necessario introdurre il concetto di *varianza* (e di errore standard, che da essa deriva).
 
 ## La varianza come misura di dispersione e incertezza
 
-Il valore atteso identifica il centro di una distribuzione, ma da solo non informa su **quanto** i valori reali tendano a discostarsene. Riprendiamo l'esempio clinico: sapere che il miglioramento medio nel BDI-II è di 8 punti non ci dice se questo cambiamento sia relativamente uniforme tra i pazienti o estremamente variabile.
+Il valore atteso identifica il centro di una distribuzione, ma da solo non fornisce informazioni su quanto i valori reali tendano a discostarsene. Riprendiamo l'esempio clinico: sapere che il miglioramento medio nel BDI-II è di 8 punti non ci dice se tale cambiamento sia relativamente uniforme tra i pazienti o estremamente variabile.
 
-Dal punto di vista epistemico, la varianza quantifica la nostra **incertezza residua** su una quantità, anche dopo averne stimato il valore centrale. Un’elevata varianza indica che, pur conoscendo la media, rimaniamo ampiamente incerti sul risultato specifico che osserveremo; una varianza bassa suggerisce invece che la media costituisce una guida affidabile per prevedere le singole realizzazioni.
+Dal punto di vista epistemico, la varianza quantifica l'**incertezza residua** su una quantità, anche dopo averne stimato il valore centrale. Un’elevata varianza indica che, pur conoscendo la media, rimaniamo ampiamente incerti sul risultato specifico che osserveremo, mentre una varianza bassa suggerisce invece che la media costituisce una guida affidabile per prevedere le singole realizzazioni.
 
 ### Perché non usare la media degli scarti?
 
@@ -314,9 +314,9 @@ Per misurare la dispersione di una variabile attorno alla sua media, l’idea na
 $$
 \mathbb{E}[X - \mathbb{E}[X]] = \mathbb{E}[X] - \mathbb{E}[X] = 0.
 $$
-La media degli scarti è sempre zero: gli scarti positivi e quelli negativi si bilanciano esattamente, rendendo questa quantità inefficace come indice di variabilità.
+La media degli scarti è sempre pari a zero, in quanto gli scarti positivi e quelli negativi si compensano a vicenda, rendendo questa quantità inefficace come indice di variabilità.
 
-Per ottenere una misura che sia sempre non negativa e che rifletta l’entità delle deviazioni, si utilizza il **quadrato degli scarti**. Elevando al quadrato si eliminano i segni negativi e, allo stesso tempo, si dà un peso maggiore agli scostamenti più ampi rispetto alla media.
+Per ottenere una misura che sia sempre non negativa e che rifletta l’entità delle deviazioni, si utilizza il **quadrato degli scarti**. Elevando al quadrato, si eliminano i segni negativi e, allo stesso tempo, si attribuisce un peso maggiore agli scostamenti più ampi rispetto alla media.
 
 ::: {#def-variance}
 
@@ -343,16 +343,17 @@ Denotando con $\mu = \mathbb{E}[X]$, la definizione si esprime operativamente co
   $$
   dove $f_X$ è la funzione di densità.
 
-La varianza è una quantità **non negativa**: $\operatorname{Var}(X) \geq 0$. Vale $\operatorname{Var}(X)=0$ se e solo se $X$ assume un unico valore con probabilità 1 — cioè quando non c'è alcuna variabilità.
+La varianza è una quantità **non negativa**: $\operatorname{Var}(X) \geq 0$. Vale $\operatorname{Var}(X)=0$ se e solo se $X$ assume un unico valore con probabilità 1, ovvero quando non c'è alcuna variabilità.
+
 ### Interpretazione epistemica
 
-La varianza può essere letta come la **perdita attesa** quando utilizziamo il valore atteso $\mu$ come previsione puntuale e misuriamo l'errore con una *funzione di perdita quadratica*.
+La varianza può essere interpretata come la **perdita attesa** quando si utilizza il valore atteso $\mu$ come previsione puntuale e si misuria l'errore con una *funzione di perdita quadratica*.
 Se formuliamo sempre $\mu$ come previsione, l’errore quadratico medio associato è:
 $$
 \mathbb{E}\big[(X - \mu)^2\big] = \operatorname{Var}(X).
 $$
 
-In quest’ottica, la varianza quantifica **quanto, in media, la nostra previsione si discosta** dal valore effettivo che osserveremo. Rappresenta quindi una misura dell'**incertezza residua** intrinseca alla variabile, anche una volta adottata la migliore stima puntuale possibile.
+In questa ottica,  la varianza quantifica **quanto, in media, la nostra previsione si discosta** dal valore effettivo che osserveremo. Rappresenta quindi una misura dell'**incertezza residua** intrinseca alla variabile, anche una volta adottata la migliore stima puntuale possibile.
 
 ::: {.callout-note collapse="true" title="Esempio: confronto tra due trattamenti"}
 
@@ -495,16 +496,16 @@ Sia $\mu = \mathbb{E}[X]$. Allora $\mathbb{E}[aX + b] = a\mu + b$ e quindi:
 \end{align*}
 :::
 
-**Osservazione cruciale**: una traslazione (l'addizione di una costante $b$) **non modifica** la varianza. Questo ha senso: spostare tutti i valori di una costante non cambia quanto sono dispersi tra loro. La moltiplicazione per una costante $a$, invece, amplifica o riduce la varianza proporzionalmente a $a^2$.
+**Osservazione**: una traslazione (l'addizione di una costante $b$) **non modifica** la varianza. Ciò ha senso: spostare tutti i valori di una costante non cambia quanto sono dispersi tra loro. La moltiplicazione per una costante $a$, invece, amplifica o riduce la varianza proporzionalmente a $a^2$.
 
 ### Ponte applicativo: conversione tra scale
 
-Questa proprietà risulta particolarmente utile nella **trasformazione di scale psicometriche**. Ad esempio, convertendo un punteggio grezzo $X$ in un punteggio standardizzato del tipo $T = 10X + 50$ (come avviene per i *T-score*), la varianza si trasforma come:
+Questa proprietà risulta particolarmente utile nella **trasformazione delle scale psicometriche**. Ad esempio, convertendo un punteggio grezzo $X$ in un punteggio standardizzato del tipo $T = 10X + 50$ (come avviene per i *T-score*), la varianza si trasforma come:
 $$
 \operatorname{Var}(T) = 10^2 \cdot \operatorname{Var}(X) = 100 \cdot \operatorname{Var}(X).
 $$
 
-Si noti che il termine additivo (50) non ha alcun effetto sulla dispersione: solo il **coefficiente moltiplicativo** (10) amplifica la varianza secondo il suo quadrato.
+Si noti che il termine additivo (50) non ha alcun effetto sulla dispersione, ma solo il **coefficiente moltiplicativo** (10) la amplifica secondo il suo quadrato.
 
 ### Additività della varianza per variabili indipendenti
 

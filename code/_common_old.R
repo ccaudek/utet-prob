@@ -66,7 +66,6 @@ TEXT_MED <- "#2b3137"
 TEXT_LIGHT <- "#6C6C6C"
 BORDER <- "#e1e4e8"
 GRID <- "#f1f3f5"
-FIG_BG <- "#ffffff"
 
 modern_palette <- list(
   white = "#ffffff",
@@ -149,11 +148,10 @@ apply_visual_theme <- function(base_size = 15) {
   theme_set(
     theme_minimal(base_family = modern_sans, base_size = base_size) +
       theme(
-        # Sfondo bianco esplicito: mantiene leggibili assi, titoli
-        # ed etichette anche quando la pagina Quarto e' in dark mode.
-        plot.background = element_rect(fill = FIG_BG, colour = NA),
-        panel.background = element_rect(fill = FIG_BG, colour = NA),
-        legend.background = element_rect(fill = FIG_BG, colour = NA),
+        # Background trasparente per integrazione HTML
+        plot.background = element_rect(fill = "transparent", colour = NA),
+        panel.background = element_rect(fill = "white", colour = NA),
+        legend.background = element_rect(fill = "transparent", colour = NA),
 
         # Griglia sottile
         panel.grid.major = element_line(colour = "#eaeaea", linewidth = 0.4),
@@ -165,7 +163,7 @@ apply_visual_theme <- function(base_size = 15) {
 
         # Strip per facet
         strip.background = element_rect(
-          fill = FIG_BG,
+          fill = "white",
           colour = modern_palette$border
         ),
         strip.text = element_text(
@@ -200,18 +198,7 @@ apply_visual_theme <- function(base_size = 15) {
     bayesplot::theme_default(
       base_family = modern_sans,
       base_size = base_size + 1
-    ) +
-      theme(
-        plot.background = element_rect(fill = FIG_BG, colour = NA),
-        panel.background = element_rect(fill = FIG_BG, colour = NA),
-        legend.background = element_rect(fill = FIG_BG, colour = NA),
-        text = element_text(colour = modern_palette$text_dark),
-        axis.title = element_text(colour = modern_palette$text_medium),
-        axis.text = element_text(colour = modern_palette$text_dark),
-        plot.title = element_text(colour = modern_palette$text_dark),
-        plot.subtitle = element_text(colour = modern_palette$text_medium),
-        plot.caption = element_text(colour = modern_palette$text_light)
-      )
+    )
   )
   bayesplot::color_scheme_set("blue")
 
@@ -329,10 +316,9 @@ knitr::opts_chunk$set(
   # Device
   dev = "ragg_png",
   fig.ext = "png",
-  dev.args = list(background = FIG_BG),
-  fig.bg = FIG_BG,
+  dev.args = list(background = "transparent"),
 
-  # Risoluzione (ottimizzata per web)
+  # Risoluzione (OTTIMIZZATO per web)
   dpi = 150, # Sufficiente per web
   fig.retina = 2, # Effettivo 300 DPI su display retina
 
