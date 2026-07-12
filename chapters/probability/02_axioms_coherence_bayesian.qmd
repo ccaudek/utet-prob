@@ -10,13 +10,7 @@ Questo capitolo sviluppa il quadro matematico che rende espliciti e controllabil
 
 ### Perché questo è importante per la psicologia {.unnumbered .unlisted}
 
-Lo psicologo potrebbe chiedersi: "Perché dovrei preoccuparmi di assiomi e vincoli formali?" La risposta tocca il cuore stesso della disciplina.
-
-La psicologia studia il modo in cui le persone ragionano, decidono e valutano rischi e incertezze. Decenni di ricerca, a partire da Kahneman e Tversky, hanno documentato sistematicamente le violazioni della razionalità normativa nel giudizio umano [@kahneman1979prospect]. Ma per identificare una violazione, dobbiamo prima sapere cosa dovrebbe essere. Gli assiomi di coerenza che studieremo in questo capitolo definiscono precisamente questo standard normativo.
-
-Inoltre, quando costruiamo modelli statistici per analizzare i dati psicologici, stiamo implicitamente assumendo che le nostre specificazioni probabilistiche siano coerenti. Un modello con assunzioni incoerenti non è semplicemente "sbagliato", ma è logicamente impossibile, come un triangolo con quattro lati. Comprendere i vincoli di coerenza ci rende ricercatori più consapevoli.
-
-Infine, nella pratica clinica, i professionisti formulano continuamente giudizi probabilistici: quanto è probabile che questo paziente soffra di depressione? Quanto è probabile che risponda a un certo trattamento? La capacità di formulare questi giudizi in modo coerente e di riconoscere quando non lo sono è una competenza professionale fondamentale.
+Per gli psicologi, questi assiomi definiscono lo standard normativo contro cui valutare il ragionamento umano in condizioni di incertezza, un tema centrale nella ricerca sui bias cognitivi a partire da Kahneman e Tversky. Inoltre, quando costruiamo modelli statistici, la coerenza probabilistica non è un optional: un modello incoerente è logicamente impossibile, come un triangolo con quattro lati. Comprendere questi vincoli ci rende ricercatori più consapevoli e clinici più competenti.
 
 ::: {.callout-tip collapse="true"}
 ## Prerequisiti
@@ -204,13 +198,13 @@ Per essere *coerente*, la funzione $P$ deve soddisfare i seguenti **assiomi di c
 2. **Normalizzazione**  
    $$P(\Omega) = 1.$$
 
-3. **Additività finita**  
-   Se $A$ e $B$ sono eventi mutuamente esclusivi ($A \cap B = \varnothing$), allora
-   $$P(A \cup B) = P(A) + P(B).$$
-
-4. **Additività numerabile** (per spazi infiniti)  
-   Se $A_1, A_2, \ldots$ è una sequenza di eventi mutuamente esclusivi, allora
+3. **Additività**  
+    Se $A$ e $B$ sono eventi mutuamente esclusivi ($A \cap B = \varnothing$), allora
+    $$P(A \cup B) = P(A) + P(B).$$
+   
+   Per spazi campionari infiniti, questo principio si estende a successioni numerabili di eventi: se $A_1, A_2, \ldots$ sono a due a due disgiunti, allora
    $$P\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i).$$
+   Nella pratica psicologica, tuttavia, lavoreremo quasi sempre con spazi finiti, per cui la versione finita è quella che utilizzeremo più spesso.
 :::
 
 ### Perché questi assiomi e non altri?
@@ -226,6 +220,12 @@ Una domanda legittima è: perché proprio questi tre (o quattro) vincoli? La ris
 Perché? Qualsiasi altra assegnazione sarebbe incoerente. Se assegnassi $P(A \cup B) < P(A) + P(B)$, direi che credo "meno" nella disgiunzione rispetto alle due opzioni prese separatamente, ma la disgiunzione include entrambe le opzioni! Viceversa, se assegnassi $P(A \cup B) > P(A) + P(B)$, starei "contando due volte" qualcosa.
 
 L'**additività numerabile** estende questo ragionamento a sequenze infinite di eventi, necessarie per trattare variabili continue, ma il principio è lo stesso.
+
+::: {.callout-note collapse="true" title="Un'analogia utile: le aree"}
+Le proprietà della probabilità sono analoghe a quelle delle aree. Se due regioni non si sovrappongono, la loro area totale è la somma delle due aree. Se le regioni si sovrappongono, devo sottrarre l'area di sovrapposizione per evitare di contarla due volte. L'area totale disponibile (normalizzata a 1) non può essere superata. Nessuna regione ha un'area negativa.
+
+Questa analogia non è casuale: matematicamente, la probabilità è una "misura" e le misure generalizzano il concetto di area/volume. Tuttavia, l'interpretazione è diversa: non stiamo misurando estensioni spaziali, ma gradi di credenza.
+:::
 
 ### Conseguenze immediate degli assiomi
 
@@ -257,12 +257,6 @@ Una volta accettati questi vincoli fondamentali, molte altre proprietà ne deriv
 La prima proprietà è particolarmente importante e vale la pena di comprenderla bene: se credo che pioverà con probabilità 0.7, *devo* credere che non pioverà con probabilità 0.3. Non ho scelta. È una conseguenza logica degli assiomi.
 
 La quarta proprietà (regola dell'unione generale) merita attenzione, in quanto mostra cosa accade quando gli eventi non sono disgiunti. La sottrazione di $P(A \cap B)$ corregge il "doppio conteggio" che si verificherebbe sommando semplicemente le due probabilità.
-
-::: {.callout-note collapse="true" title="Un'analogia utile: le aree"}
-Le proprietà della probabilità sono analoghe a quelle delle aree. Se due regioni non si sovrappongono, la loro area totale è la somma delle due aree. Se le regioni si sovrappongono, devo sottrarre l'area di sovrapposizione per evitare di contarla due volte. L'area totale disponibile (normalizzata a 1) non può essere superata. Nessuna regione ha un'area negativa.
-
-Questa analogia non è casuale: matematicamente, la probabilità è una "misura" e le misure generalizzano il concetto di area/volume. Tuttavia, l'interpretazione è diversa: non stiamo misurando estensioni spaziali, ma gradi di credenza.
-:::
 
 ## Diagnosi di incoerenze: casi tipici
 
@@ -381,20 +375,17 @@ Passiamo ora dallo studio dei vincoli teorici alla costruzione di rappresentazio
 
 ### L'idea centrale: la distribuzione congiunta è la "fonte"
 
-Prima di addentrarci nei dettagli tecnici, è importante comprendere il principio guida. Quando abbiamo due o più variabili (o eventi), possiamo chiederci:
+Quando abbiamo due o più variabili, possiamo chiederci:
 
 - Qual è la probabilità di ciascun valore della prima variabile? (*marginale*)
-- Qual è la probabilità di ciascun valore della seconda variabile? (*marginale*)
 - Qual è la probabilità di ciascuna *combinazione* di valori? (*congiunta*)
-- Se conosco il valore della prima variabile, qual è la probabilità dei valori della seconda? (*condizionata*)
+- Se conosco il valore di una variabile, qual è la probabilità dei valori dell'altra? (*condizionata*)
 
-Tutte queste domande hanno risposte diverse. Ma ecco il punto cruciale: **non si tratta di domande indipendenti**. Se conosco la distribuzione congiunta, ovvero le probabilità di tutte le combinazioni, posso **derivare** tutte le altre.
-
-La distribuzione congiunta è come il DNA del sistema: contiene tutte le informazioni. Le distribuzioni marginali e condizionate sono come le caratteristiche fenotipiche che emergono da quel DNA.
+Queste domande non sono indipendenti. Se conosco la distribuzione congiunta — ovvero le probabilità di tutte le combinazioni — posso **derivare** tutte le altre. La distribuzione congiunta è come il DNA del sistema: contiene tutte le informazioni; marginali e condizionate sono caratteristiche che emergono da quel DNA.
 
 ### Struttura di una tabella 2×2
 
-Consideriamo il caso più semplice: due eventi dicotomici $A$ e $B$. La loro distribuzione congiunta può essere rappresentata in una tabella:
+Consideriamo il caso più semplice: due eventi dicotomici $A$ e $B$.
 
 |               | $B$             | $B^c$             | Marginale |
 | ------------- | --------------- | ----------------- | --------- |
@@ -402,191 +393,146 @@ Consideriamo il caso più semplice: due eventi dicotomici $A$ e $B$. La loro dis
 | $A^c$         | $P(A^c \cap B)$ | $P(A^c \cap B^c)$ | $P(A^c)$  |
 | **Marginale** | $P(B)$          | $P(B^c)$          | $1$       |
 
-**Le quattro celle interne** contengono le probabilità congiunte, ovvero quanto crediamo in ciascuna delle quattro possibili combinazioni.
+- Le **quattro celle interne** contengono le probabilità congiunte.
+- I **margini** contengono le probabilità marginali, ottenute sommando righe o colonne:
 
-**I margini (i bordi)** contengono le probabilità marginali, ottenute sommando le righe o le colonne:
-$$P(A) = P(A \cap B) + P(A \cap B^c)$$
-$$P(B) = P(A \cap B) + P(A^c \cap B)$$
+$$P(A) = P(A \cap B) + P(A \cap B^c), \qquad P(B) = P(A \cap B) + P(A^c \cap B).$$
 
-**L'angolo in basso a destra** deve valere 1: la somma di tutte le celle interne (e di tutte le marginali su ciascun asse) deve dare 1.
+- L'**angolo in basso a destra** deve valere 1: la somma di tutte le celle (e di tutte le marginali) è 1.
 
-::: {.callout-note collapse=true title="Esempio completo: test diagnostico per la depressione"}
+### Costruzione di una tabella congiunta
 
-#### Costruzione passo-passo {.unnumbered .unlisted}
+Come si costruisce una tabella congiunta a partire dalle informazioni disponibili? La regola fondamentale è il **principio del prodotto**:
 
-Consideriamo un test diagnostico per la depressione. Ci sono due variabili:
+$$P(A \cap B) = P(A \mid B) \, P(B) = P(B \mid A) \, P(A).$$
 
-- **stato reale**: $D$ (depresso) o $D^c$ (non depresso);
-- **esito del test**: $T^+$ (positivo) o $T^-$ (negativo).
+Se conosciamo una probabilità marginale e una condizionata, possiamo ricavare la congiunta.
 
-Supponiamo di conoscere:
+::: {.callout-note collapse=true title="Esempio: test diagnostico per la depressione"}
 
-- **prevalenza**: $P(D) = 0.15$ (il 15% della popolazione clinica è depresso);
-- **sensibilità**: $P(T^+ \mid D) = 0.85$ (l'85% dei depressi risulta positivo);
-- **tasso di falsi positivi**: $P(T^+ \mid D^c) = 0.20$ (il 20% dei non depressi risulta positivo).
+Consideriamo un test per la depressione con:
 
-Come costruiamo la tabella congiunta? Usiamo la regola del prodotto:
+- **prevalenza**: $P(D) = 0.15$;
+- **sensibilità**: $P(T^+ \mid D) = 0.85$;
+- **tasso di falsi positivi**: $P(T^+ \mid D^c) = 0.20$.
 
-$$
-P(D \cap T^+) = P(T^+ \mid D) \cdot P(D) = 0.85 \times 0.15 = 0.1275.
-$$
-
-Procediamo sistematicamente:
+Costruiamo la tabella congiunta:
 
 ```{r}
 #| echo: true
-# Parametri di base
 prevalenza <- 0.15
 sensibilita <- 0.85
 tasso_falsi_positivi <- 0.20
 
-# Calcolo delle probabilità congiunte
-p_depresso_positivo <- sensibilita * prevalenza
-p_depresso_negativo <- (1 - sensibilita) * prevalenza
-p_non_depresso_positivo <- tasso_falsi_positivi * (1 - prevalenza)
-p_non_depresso_negativo <- (1 - tasso_falsi_positivi) * (1 - prevalenza)
+p_D_pos <- sensibilita * prevalenza          # 0.1275
+p_D_neg <- (1 - sensibilita) * prevalenza    # 0.0225
+p_Dc_pos <- tasso_falsi_positivi * (1 - prevalenza)   # 0.1700
+p_Dc_neg <- (1 - tasso_falsi_positivi) * (1 - prevalenza) # 0.6800
 
-# Creazione della tabella
 tabella_congiunta <- matrix(
-  c(p_depresso_positivo, p_depresso_negativo,
-    p_non_depresso_positivo, p_non_depresso_negativo),
-  nrow = 2,
-  byrow = TRUE,
+  c(p_D_pos, p_D_neg, p_Dc_pos, p_Dc_neg),
+  nrow = 2, byrow = TRUE,
   dimnames = list(
     "Stato reale" = c("Depresso", "Non depresso"),
-    "Risultato test" = c("Positivo", "Negativo")
+    "Test" = c("Positivo", "Negativo")
   )
 )
-
-print(round(tabella_congiunta, 4))
+round(tabella_congiunta, 4)
 ```
 
-**Interpretazione delle celle:**
-
-- **0.1275**: probabilità di essere depresso *e* risultare positivo (vero positivo);
-- **0.0225**: probabilità di essere depresso *e* risultare negativo (falso negativo);
-- **0.1700**: probabilità di non essere depresso *e* risultare positivo (falso positivo);
-- **0.6800**: probabilità di non essere depresso *e* risultare negativo (vero negativo).
-
-**Verifica di coerenza**: $0.1275 + 0.0225 + 0.1700 + 0.6800 = 1.0000$ ✓
+Ogni cella rappresenta la probabilità di una combinazione: veri positivi (0.1275), falsi negativi (0.0225), falsi positivi (0.1700), veri negativi (0.6800). La somma è 1.
 
 ```{r}
 #| echo: false
-# Visualizzazione
 df_tab <- as.data.frame(as.table(tabella_congiunta))
 colnames(df_tab) <- c("Stato", "Test", "Probabilita")
 
 ggplot(df_tab, aes(x = Test, y = Stato, fill = Probabilita)) +
   geom_tile(color = "white", size = 1) +
   geom_text(aes(label = sprintf("%.4f", Probabilita)), 
-            color = "white", size = 6, fontface = "bold") +
+            color = "white", size = 5, fontface = "bold") +
   scale_fill_viridis_c(option = "plasma") +
   labs(
-    title = "Tabella di probabilità congiunta: Test × Stato",
-    subtitle = "Ogni cella mostra P(Stato ∩ Test)",
+    title = "Tabella congiunta: Test × Stato",
     x = "Risultato Test",
     y = "Stato reale"
-  )  
+  )
 ```
 
 :::
 
-### Calcolo di probabilità marginali e condizionate
+### Calcolo di marginali e condizionate
 
-Una volta costruita la tabella congiunta, tutte le altre probabilità di interesse si ottengono con semplici operazioni algebriche.
+Una volta costruita la tabella congiunta, tutto il resto si ottiene per derivazione.
 
 #### Probabilità marginali
 
-Le probabilità marginali si ottengono **sommando** lungo righe o colonne:
+Si ottengono sommando lungo righe o colonne:
 
-$$P(A) = P(A \cap B) + P(A \cap B^c)$$
-$$P(B) = P(A \cap B) + P(A^c \cap B)$$
-
-Il nome "marginale" deriva dal fatto che questi valori compaiono sui *margini* della tabella.
-
-::: {.callout-note collapse=true title="Esempio: marginali dal test diagnostico"}
 ```{r}
 #| echo: false
-cat("Probabilità marginali derivate:\n")
-cat("P(D) =", rowSums(tabella_congiunta)[1], "(prevalenza depressione)\n")
-cat("P(D^c) =", rowSums(tabella_congiunta)[2], "(assenza depressione)\n")
-cat("P(T+) =", colSums(tabella_congiunta)[1], "(test positivo)\n")
-cat("P(T-) =", colSums(tabella_congiunta)[2], "(test negativo)\n")
+cat("P(D)     =", rowSums(tabella_congiunta)[1], "(prevalenza)\n")
+cat("P(T+)    =", colSums(tabella_congiunta)[1], "(test positivo)\n")
 ```
 
-Notiamo che la probabilità di un test positivo (≈0.30) è molto più alta della prevalenza della depressione (0.15). Ciò è dovuto al fatto che include sia i veri positivi che i falsi positivi.
-:::
+Notiamo che $P(T^+) \approx 0.30$ è molto più alta della prevalenza (0.15), perché include sia i veri che i falsi positivi.
 
 #### Probabilità condizionate
 
-Le probabilità condizionate si ottengono come **rapporto** tra la probabilità congiunta e quella marginale:
+Si ottengono come rapporto tra probabilità congiunta e marginale:
 
-$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}.$$
 
-**Interpretazione epistemica**: condizionare significa *restringere* lo spazio delle possibilità a quelle compatibili con l'informazione acquisita. Se si sa che $B$ si è verificato, le uniche configurazioni rilevanti sono quelle in cui $B$ è vero. La probabilità condizionata ri-normalizza le probabilità congiunte su questo spazio ristretto.
+**Interpretazione epistemica**: condizionare significa *restringere* lo spazio delle possibilità a quelle compatibili con l'informazione acquisita, ri-normalizzando le probabilità su questo spazio ristretto.
 
-::: {.callout-note collapse=true title="Esempio: condizionate dal test diagnostico"}
+::: {.callout-note collapse=true title="Esempio: valore predittivo positivo"}
 
-La domanda clinica più importante è: "Se il test è positivo, qual è la probabilità che il paziente soffra di depressione?"
+La domanda clinica cruciale: "Se il test è positivo, qual è la probabilità che il paziente sia depresso?"
+
+$$P(D \mid T^+) = \frac{P(D \cap T^+)}{P(T^+)} = \frac{0.1275}{0.1275 + 0.1700} \approx 0.429.$$
 
 ```{r}
 #| echo: false
 p_T_plus <- colSums(tabella_congiunta)[1]
-p_T_minus <- colSums(tabella_congiunta)[2]
-
 p_D_given_Tplus <- tabella_congiunta[1, 1] / p_T_plus
-p_D_given_Tminus <- tabella_congiunta[1, 2] / p_T_minus
-
-cat("Probabilità condizionate derivate:\n")
-cat("P(D | T+) =", round(p_D_given_Tplus, 4), "(Valore predittivo positivo)\n")
-cat("P(D | T-) =", round(p_D_given_Tminus, 4), "(Probabilità residua dopo test negativo)\n")
+cat("P(D | T+) =", round(p_D_given_Tplus, 4), "\n")
 ```
 
-Questo risultato è spesso sorprendente: nonostante una sensibilità dell'85%,  un test positivo indica la presenza di depressione solo nel 43% dei casi! La ragione è la bassa prevalenza: la maggior parte dei risultati positivi è falsa.
+Nonostante l'85% di sensibilità, un test positivo indica depressione solo nel 43% dei casi. La ragione è la bassa prevalenza: la maggior parte dei positivi è falsa. Questo fenomeno, il *paradosso dei test diagnostici*, è stato introdotto nel capitolo precedente e sarà ripreso nel @sec-prob-bayes-theorem.
 
-Questo fenomeno, noto come "paradosso dei test diagnostici", è stato introdotto nel @sec-prob-interpretation e sarà approfondito nel @sec-prob-bayes-theorem. Per ora, il punto importante è che questa probabilità è stata *derivata* dalla tabella congiunta, non è stata assunta.
 :::
 
-::: {.callout-important title="Messaggio chiave: le condizionate non sono numeri a parte"}
+::: {.callout-important title="Messaggio chiave"}
 
-Un errore comune è quello di considerare le probabilità condizionate come assegnazioni indipendenti. Non lo sono. Una volta specificata la tabella congiunta, le probabilità condizionate sono **determinate** e non c'è libertà di scelta.
+Una volta specificata la tabella congiunta, marginali e condizionate sono **determinate**. Non c'è libertà di scelta: specificare separatamente $P(A \mid B)$ e $P(B \mid A)$ senza una congiunta coerente quasi certamente introduce contraddizioni.
 
-Ciò garantisce la **coerenza interna** del sistema. Se provassimo a specificare arbitrariamente sia $P(A \mid B)$, sia $P(B \mid A)$, sia $P(A \cap B)$, quasi certamente introdurremmo delle contraddizioni.
+La regola è: **specificare la distribuzione congiunta, derivare tutto il resto**.
 
-La regola è: **specificare la distribuzione congiunta e derivare tutto il resto**.
 :::
 
-### Verifica empirica: le simulazioni come test di coerenza
+### Verifica empirica mediante simulazione
 
-Un modo potente per verificare la coerenza di un sistema di credenze è *simulare* dati secondo quella distribuzione e controllare che le frequenze osservate convergano alle probabilità teoriche.
+Un modo potente per verificare la coerenza di un sistema di credenze è simulare dati secondo quella distribuzione e controllare che le frequenze osservate convergano alle probabilità teoriche.
 
-Se la distribuzione congiunta è coerente, le simulazioni produrranno dati con le proprietà attese. Se c'è un errore (di calcolo o concettuale), le simulazioni lo evidenzieranno.
+::: {.callout-note collapse=true title="Verifica Monte Carlo"}
 
-::: {.callout-note collapse=true title="Verifica mediante simulazione Monte Carlo"}
+Simuliamo 100.000 osservazioni dalla tabella congiunta:
+
 ```{r}
 set.seed(123)
 N <- 100000
-
-# Simulare secondo la distribuzione congiunta
-probs_vector <- c(p_depresso_positivo, p_depresso_negativo, 
-                  p_non_depresso_positivo, p_non_depresso_negativo)
-
-outcomes <- sample(1:4, size = N, replace = TRUE, prob = probs_vector)
-
-# Contare frequenze empiriche
+probs <- c(p_D_pos, p_D_neg, p_Dc_pos, p_Dc_neg)
+outcomes <- sample(1:4, size = N, replace = TRUE, prob = probs)
 freq_empiriche <- table(outcomes) / N
 
-# Confronto
 df_verifica <- data.frame(
   Configurazione = c("D∩T+", "D∩T-", "D^c∩T+", "D^c∩T-"),
-  Teorica = probs_vector,
-  Empirica = as.numeric(freq_empiriche)
+  Teorica = round(probs, 4),
+  Empirica = round(as.numeric(freq_empiriche), 4)
 )
-
-df_verifica$Teorica <- round(df_verifica$Teorica, 4)
-df_verifica$Empirica <- round(df_verifica$Empirica, 4)
 print(df_verifica)
 ```
+
 ```{r}
 #| echo: false
 df_verifica_long <- df_verifica %>%
@@ -598,70 +544,55 @@ ggplot(df_verifica_long, aes(x = Configurazione, y = Probabilita, fill = Tipo)) 
   geom_col(position = "dodge") +
   labs(
     title = "Verifica empirica della tabella congiunta",
-    subtitle = paste0("Simulazione con N = ", format(N, big.mark = ","), " campioni"),
+    subtitle = paste0("Simulazione con N = ", format(N, big.mark = ",")),
     y = "Probabilità / Frequenza relativa"
-  ) 
+  )
 ```
 
-La convergenza delle frequenze empiriche verso le probabilità teoriche conferma che la distribuzione congiunta è un sistema coerente in grado di generare dati con le proprietà attese.
+La convergenza delle frequenze empiriche verso le probabilità teoriche conferma che la distribuzione congiunta è un sistema coerente che specifica un *modello generativo* del mondo.
 
-Questo collegamento tra probabilità teoriche e dati simulati è un tema centrale dell'approccio bayesiano: le probabilità non sono "solo numeri", ma specificano un *modello generativo* del mondo.
 :::
 
-## Estensione a tabelle multidimensionali
+### Estensione a tabelle multidimensionali
 
-Il framework delle tabelle congiunte si estende naturalmente a situazioni più complesse con più variabili e più categorie. Il principio rimane lo stesso: specificare le probabilità di tutte le combinazioni, da cui derivare tutto il resto.
+Il framework si estende naturalmente a più variabili e più categorie. Il principio è invariato: specificare le probabilità di tutte le combinazioni, derivare tutto il resto.
 
-::: {.callout-note collapse=true title="Esempio: depressione × livelli di ansia (tabella 2×3)"}
-
-Consideriamo due dimensioni:
-
-- **depressione**: presente o assente (2 livelli);
-- **severità dell'ansia**: nessuna, lieve, grave (3 livelli).
+::: {.callout-note collapse=true title="Esempio: depressione × ansia (tabella 2×3)"}
 
 ```{r}
 tab_2x3 <- matrix(
-  c(0.15, 0.20, 0.15,  # Depresso: Ansia Nessuna/Lieve/Grave
-    0.35, 0.10, 0.05), # Non depresso: Ansia Nessuna/Lieve/Grave
+  c(0.15, 0.20, 0.15,  # Depresso: ansia nessuna/lieve/grave
+    0.35, 0.10, 0.05), # Non depresso: ansia nessuna/lieve/grave
   nrow = 2, byrow = TRUE,
   dimnames = list(
     Depressione = c("D", "D^c"),
     Ansia = c("Nessuna", "Lieve", "Grave")
   )
 )
-
-cat("Tabella 2×3:\n")
 print(tab_2x3)
-cat("\nMarginali:\n")
-cat("Depressione:", rowSums(tab_2x3), "\n")
-cat("Ansia:", colSums(tab_2x3), "\n")
-cat("Totale:", sum(tab_2x3), "\n")
+cat("\nMarginali depressione:", rowSums(tab_2x3), "\n")
+cat("Marginali ansia:", colSums(tab_2x3), "\n")
 ```
-
-La struttura rivela pattern clinicamente interessanti. Ad esempio:
-
-- i pazienti depressi mostrano più frequentemente ansia lieve o grave;
-- tra i non depressi, la maggior parte non soffre di ansia;
-- la comorbidità depressione + ansia grave riguarda il 15% della popolazione.
 
 ```{r}
 #| echo: false
 df_2x3 <- as.data.frame(as.table(tab_2x3))
-colnames(df_2x3) <- c("Depressione", "SeveritaAnsia", "Probabilita")
+colnames(df_2x3) <- c("Depressione", "Ansia", "Probabilita")
 
-ggplot(df_2x3, aes(x = SeveritaAnsia, y = Depressione, fill = Probabilita)) +
+ggplot(df_2x3, aes(x = Ansia, y = Depressione, fill = Probabilita)) +
   geom_tile(color = "white", size = 1) +
   geom_text(aes(label = round(Probabilita, 2)), 
-            color = "white", size = 6, fontface = "bold") +
+            color = "white", size = 5, fontface = "bold") +
   scale_fill_viridis_c(option = "plasma") +
   labs(
-    title = "Tabella congiunta 2×3: Depressione × Severità Ansia",
+    title = "Tabella congiunta 2×3: Depressione × Ansia",
     x = "Livello di ansia",
-    subtitle = "Ogni cella rappresenta la credenza in una specifica configurazione clinica"
-  ) 
+    y = "Stato depressivo"
+  )
 ```
 
 :::
+
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
@@ -893,11 +824,12 @@ Nel @sec-equiprobability-combinatorics vedremo come applicare questi assiomi a s
        return(FALSE)
      }
    }
-```
+   ```
 
 ### Soluzioni tabelle congiunte
 
 7. Tabella completata:
+
    - $P(A \cap B^c) = 0.40 - 0.25 = 0.15$
    - $P(A^c \cap B) = P(B) - 0.25$ (serve calcolare $P(B)$ da altre info)
    - $P(A^c) = 1 - 0.40 = 0.60$
@@ -925,7 +857,7 @@ Nel @sec-equiprobability-combinatorics vedremo come applicare questi assiomi a s
    # a) P(C | +) = 0.045 / 0.08 = 0.5625
    # b) P(C | -) = 0.005 / 0.92 ≈ 0.0054
    # c) Specificità = P(- | C^c) = 0.915 / 0.95 ≈ 0.963
-```
+   ```
 
 ### Soluzioni esercizi applicati
 
@@ -946,16 +878,17 @@ Nel @sec-equiprobability-combinatorics vedremo come applicare questi assiomi a s
     #    P(D ∩ P) = 0.2475 ≠ 0.165 → DIPENDENTI
     
     # d) P(D ∪ P) = 0.55 + 0.30 - 0.2475 = 0.6025
-```
+    ```
 
 11. ```r
     # Vedi soluzione 8, adattata con prevalenza 0.25
     # a) Tabella costruita con sens=0.80, spec=0.85, prev=0.25
     # b) P(A | +) = [0.80 × 0.25] / [0.80 × 0.25 + 0.15 × 0.75] ≈ 0.640
     # c) P(A^c | -) = [0.85 × 0.75] / [0.20 × 0.25 + 0.85 × 0.75] ≈ 0.927
-```
+    ```
 
 12. Somma = 1.05 > 1. Incoerente. Correzione (normalizzazione):
+
     - $P(D) = 0.40 / 1.05 ≈ 0.381$
     - $P(A) = 0.35 / 1.05 ≈ 0.333$
     - $P(N) = 0.30 / 1.05 ≈ 0.286$
@@ -971,6 +904,7 @@ Nel @sec-equiprobability-combinatorics vedremo come applicare questi assiomi a s
 :::
 
 ::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+
 ```{r}
 sessionInfo()
 ```
