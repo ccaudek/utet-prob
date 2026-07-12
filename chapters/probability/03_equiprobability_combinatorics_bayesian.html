@@ -1115,13 +1115,12 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-<li><a href="#il-principio-di-indifferenza" id="toc-il-principio-di-indifferenza" class="nav-link active" data-scroll-target="#il-principio-di-indifferenza"><span class="header-section-number">3.1</span> Il principio di indifferenza</a></li>
-  <li><a href="#la-formula-classica-come-caso-speciale" id="toc-la-formula-classica-come-caso-speciale" class="nav-link" data-scroll-target="#la-formula-classica-come-caso-speciale"><span class="header-section-number">3.2</span> La formula classica come caso speciale</a></li>
-  <li><a href="#tecniche-di-calcolo-combinatorio" id="toc-tecniche-di-calcolo-combinatorio" class="nav-link" data-scroll-target="#tecniche-di-calcolo-combinatorio"><span class="header-section-number">3.3</span> Tecniche di calcolo combinatorio</a></li>
-  <li><a href="#quando-lequiprobabilit%C3%A0-non-si-applica" id="toc-quando-lequiprobabilità-non-si-applica" class="nav-link" data-scroll-target="#quando-lequiprobabilit%C3%A0-non-si-applica"><span class="header-section-number">3.4</span> Quando l’equiprobabilità non si applica</a></li>
-  <li><a href="#la-distribuzione-beta-dal-discreto-al-continuo" id="toc-la-distribuzione-beta-dal-discreto-al-continuo" class="nav-link" data-scroll-target="#la-distribuzione-beta-dal-discreto-al-continuo"><span class="header-section-number">3.5</span> La distribuzione Beta: dal discreto al continuo</a></li>
-  <li><a href="#aggiornamento-bayesiano-il-modello-beta-binomiale" id="toc-aggiornamento-bayesiano-il-modello-beta-binomiale" class="nav-link" data-scroll-target="#aggiornamento-bayesiano-il-modello-beta-binomiale"><span class="header-section-number">3.6</span> Aggiornamento bayesiano: il modello Beta-Binomiale</a></li>
-  <li><a href="#applicazioni-psicologiche" id="toc-applicazioni-psicologiche" class="nav-link" data-scroll-target="#applicazioni-psicologiche"><span class="header-section-number">3.7</span> Applicazioni psicologiche</a></li>
+<li><a href="#sec-indifferenza" id="toc-sec-indifferenza" class="nav-link active" data-scroll-target="#sec-indifferenza"><span class="header-section-number">3.1</span> Il principio di indifferenza</a></li>
+  <li><a href="#sec-classical-formula" id="toc-sec-classical-formula" class="nav-link" data-scroll-target="#sec-classical-formula"><span class="header-section-number">3.2</span> La formula classica come caso speciale</a></li>
+  <li><a href="#sec-combinatorics" id="toc-sec-combinatorics" class="nav-link" data-scroll-target="#sec-combinatorics"><span class="header-section-number">3.3</span> Tecniche di calcolo combinatorio</a></li>
+  <li><a href="#sec-limits-of-equiprobability" id="toc-sec-limits-of-equiprobability" class="nav-link" data-scroll-target="#sec-limits-of-equiprobability"><span class="header-section-number">3.4</span> Quando l’equiprobabilità non si applica</a></li>
+  <li><a href="#sec-beta-distribution" id="toc-sec-beta-distribution" class="nav-link" data-scroll-target="#sec-beta-distribution"><span class="header-section-number">3.5</span> La distribuzione Beta: dal discreto al continuo</a></li>
+  <li><a href="#sec-applications-psychology" id="toc-sec-applications-psychology" class="nav-link" data-scroll-target="#sec-applications-psychology"><span class="header-section-number">3.6</span> Applicazioni psicologiche</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/03_equiprobability_combinatorics_bayesian.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -1141,25 +1140,13 @@ window.Quarto = {
 
 
 </header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Qual è la probabilità di ottenere “testa” nel lancio di una moneta? La risposta che viene spontanea, “1/2”, sembra ovvia, quasi banale. Eppure, dietro a questa apparente semplicità si nasconde una questione epistemologica profonda che merita di essere esaminata con attenzione.</p>
-<p>La formula che abbiamo imparato a scuola,</p>
+<p>Qual è la probabilità di ottenere “testa” nel lancio di una moneta? La risposta che viene spontanea, “1/2”, sembra ovvia, quasi banale. Eppure, dietro a questa apparente semplicità si nasconde una questione epistemologica profonda.</p>
+<p>La formula che abbiamo imparato,</p>
 <p><span class="math display">\[
 \text{Probabilità} = \frac{\text{casi favorevoli}}{\text{casi possibili}},
-\]</span> viene spesso presentata come <em>la</em> definizione di probabilità. Ma è davvero così? E soprattutto: quando possiamo legittimamente utilizzarla?</p>
-<section id="il-problema-nascosto-nella-formula-ovvia" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="il-problema-nascosto-nella-formula-ovvia">Il problema nascosto nella formula “ovvia”</h3>
-<p>Fermiamoci un momento a riflettere. Perché diciamo che la probabilità di <em>testa</em> è 1/2? La risposta immediata è: “Perché ci sono due esiti possibili e uno solo è favorevole.” Ma questa risposta presuppone qualcosa di cruciale che non viene detto esplicitamente: che i due esiti siano <em>ugualmente plausibili</em>.</p>
-<p>E perché dovrebbero esserlo? Non per una legge di natura. Una moneta truccata ha comunque due facce, ma non assegneremmo 1/2 a ciascuna. L’equiprobabilità non è una proprietà della moneta, ma delle nostre credenze sulla moneta, basate su ciò che sappiamo (o non sappiamo) di essa.</p>
-<p>Questa osservazione, apparentemente pedante, ha conseguenze profonde. Ciò significa che la formula classica non definisce la probabilità in generale, ma vale solo in un contesto ben preciso: quello delle <strong>condizioni di equiprobabilità</strong>, in cui tutti gli esiti sono considerati <em>a priori</em> ugualmente plausibili.</p>
-</section><section id="perché-questo-è-importante-per-la-psicologia" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="perché-questo-è-importante-per-la-psicologia">Perché questo è importante per la psicologia</h3>
-<p>Lo psicologo potrebbe chiedersi: “Perché preoccuparsi di queste sottigliezze filosofiche?” La risposta è che nella ricerca psicologica l’equiprobabilità è quasi sempre <strong>violata</strong> e ignorare questo fatto porta a errori sistematici.</p>
-<p>Consideriamo alcuni esempi:</p>
-<ul>
-<li><p><strong>Test psicometrici</strong>: gli item di un questionario non sono tutti ugualmente difficili. Assumere che ogni risposta sia equiprobabile significa ignorare completamente la struttura del test.</p></li>
-<li><p><strong>Risposte ai questionari</strong>: le persone non scelgono le opzioni di risposta in modo casuale. Fenomeni come l’acquiescenza (tendenza a rispondere “sì”) o la desiderabilità sociale rendono alcune risposte più probabili di altre.</p></li>
-<li><p><strong>Variabilità individuale</strong>: in quasi ogni fenomeno psicologico, le persone differiscono sistematicamente. Un trattamento non ha la stessa probabilità di successo per tutti i pazienti.</p></li>
-</ul>
-<p>In tutti questi casi, applicare meccanicamente la formula “casi favorevoli su casi possibili” produce risultati fuorvianti. La formula presuppone una simmetria che semplicemente non esiste.</p>
-</section><section id="il-percorso-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="il-percorso-del-capitolo">Il percorso del capitolo</h3>
+\]</span> viene spesso presentata come <em>la</em> definizione di probabilità. Ma è davvero così? E soprattutto: quando possiamo utilizzarla in modo legittimo?</p>
+<p>La risposta è che questa formula vale solo in un contesto ben preciso: quello in cui tutti gli esiti sono considerati <em>a priori</em> ugualmente plausibili. Questo capitolo esplora il significato di questa assunzione, i suoi limiti e gli strumenti per andare oltre, dalla combinatoria alla distribuzione Beta.</p>
+<section id="il-percorso-del-capitolo" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="il-percorso-del-capitolo">Il percorso del capitolo</h3>
 <p>In questo capitolo faremo tre cose:</p>
 <ol type="1">
 <li><p><strong>Capiremo quando l’equiprobabilità è giustificata</strong> e cosa significa esattamente assumerla. Capiremo che non si tratta di una proprietà del mondo, ma di una scelta inferenziale basata sullo stato delle nostre informazioni.</p></li>
@@ -1231,7 +1218,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section></section><section id="il-principio-di-indifferenza" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="il-principio-di-indifferenza">
+</section></section><section id="sec-indifferenza" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="sec-indifferenza">
 <span class="header-section-number">3.1</span> Il principio di indifferenza</h2>
 <p>Partiamo dalla domanda fondamentale: quando è legittimo assumere che tutti gli esiti siano ugualmente probabili?</p>
 <p>La risposta, secondo la prospettiva bayesiana, non riguarda le proprietà fisiche degli oggetti, ma <em>lo stato delle nostre conoscenze</em>. Il principio che giustifica l’equiprobabilità è chiamato <strong>principio di indifferenza</strong>.</p>
@@ -1242,63 +1229,57 @@ window.Quarto = {
 <span class="header-section-number">3.1.1</span> L’equiprobabilità come simmetria dell’ignoranza</h3>
 <p>Questa definizione merita una lettura attenta. Non dice che gli esiti <em>sono</em> equiprobabili. Dice che <em>è razionale trattarli come tali</em> quando non abbiamo informazioni che ci permettano di distinguerli.</p>
 <p>In questa prospettiva, l’equiprobabilità non è una proprietà del mondo, ma una proprietà della nostra relazione epistemica con esso. Riflette la <strong>simmetria della nostra ignoranza</strong>: se non conosciamo nulla che favorisca un esito rispetto a un altro, non abbiamo basi razionali per assegnare probabilità diverse.</p>
-<p>Questa è una distinzione cruciale che separa l’interpretazione bayesiana da quella frequentista:</p>
+</section><section id="condizioni-di-applicabilità" class="level3" data-number="3.1.2"><h3 data-number="3.1.2" class="anchored" data-anchor-id="condizioni-di-applicabilità">
+<span class="header-section-number">3.1.2</span> Condizioni di applicabilità</h3>
+<p>Il principio di indifferenza è potente ma non automatico. La sua applicazione richiede che siano soddisfatte alcune condizioni:</p>
+<ol type="1">
+<li>
+<strong>Simmetria fisica rilevante</strong>: il sistema non deve presentare differenze <em>rilevanti</em> tra gli esiti.</li>
+<li>
+<strong>Ignoranza genuina</strong>: non devono essere disponibili informazioni che permettano di distinguere razionalmente tra gli esiti.</li>
+<li>
+<strong>Assenza di struttura rilevante</strong>: il processo non deve presentare pattern o vincoli che rendano alcuni risultati più probabili di altri.</li>
+</ol>
+<p>La parola chiave qui è <em>giudizio</em>. L’equiprobabilità non si applica in modo meccanico, ma richiede una valutazione esplicita del contesto.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Due modi di pensare all'equiprobabilità">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Importante</span>Due modi di pensare all’equiprobabilità
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Prospettiva frequentista</strong></p>
-<blockquote class="blockquote">
-<p>«Il dado è equo, quindi ogni faccia ha probabilità 1/6.»</p>
-</blockquote>
-<p>Qui l’equiprobabilità è una proprietà <em>fisica</em> del dado, qualcosa che esiste indipendentemente da chi osserva.</p>
-<p><strong>Prospettiva bayesiana</strong></p>
-<blockquote class="blockquote">
-<p>«Non dispongo di informazioni che favoriscano una faccia rispetto alle altre, quindi assegno a ciascuna una probabilità di 1/6.»</p>
-</blockquote>
-<p>In questo caso, l’equiprobabilità è una proprietà dello <em>stato informativo</em> dell’osservatore, non del dado in sé.</p>
+<p><strong>Prospettiva frequentista</strong>: «Il dado è equo, quindi ogni faccia ha probabilità 1/6.»<br><strong>Prospettiva bayesiana</strong>: «Non dispongo di informazioni che favoriscano una faccia rispetto alle altre, quindi assegno a ciascuna una probabilità di 1/6.»</p>
+<p>La differenza è sostanziale: nel primo caso l’equiprobabilità è una proprietà fisica; nel secondo è una proprietà dello stato informativo dell’osservatore.</p>
 </div>
 </div>
-<p>La differenza può sembrare sottile, ma ha conseguenze importanti. Secondo la prospettiva bayesiana, se domani scoprissi che il dado è leggermente sbilanciato, non direi: “Mi ero sbagliato sulla natura del dado”, ma piuttosto: “Le mie informazioni sono cambiate, quindi cambiano anche le mie assegnazioni probabilistiche”. L’equiprobabilità iniziale non era un errore, ma la scelta razionale, <em>date le informazioni disponibili in quel momento</em>.</p>
-</section><section id="condizioni-di-applicabilità" class="level3" data-number="3.1.2"><h3 data-number="3.1.2" class="anchored" data-anchor-id="condizioni-di-applicabilità">
-<span class="header-section-number">3.1.2</span> Condizioni di applicabilità</h3>
-<p>Il principio di indifferenza è potente ma non automatico. Non possiamo invocarlo ogni volta che ci fa comodo. La sua applicazione richiede che siano soddisfatte alcune condizioni:</p>
-<ol type="1">
-<li><p><strong>Simmetria fisica rilevante</strong> Il sistema deve essere costruito o configurato in modo che non ci siano differenze <em>rilevanti</em> tra gli esiti. Un dado regolare, una moneta bilanciata o un’urna con palline indistinguibili soddisfano questa condizione.</p></li>
-<li><p><strong>Ignoranza genuina</strong> Non devono essere disponibili informazioni empiriche, teoriche o contestuali che permettano di distinguere razionalmente tra gli esiti. Se so che il mio avversario bara, non posso più assumere equiprobabilità.</p></li>
-<li><p><strong>Assenza di struttura rilevante</strong> Il processo che genera gli esiti non deve presentare pattern, dipendenze o vincoli che rendano alcuni risultati più probabili di altri.</p></li>
-</ol>
-<p>La parola chiave qui è <em>giudizio</em>. L’equiprobabilità non si applica in modo meccanico, ma richiede una valutazione esplicita del contesto e delle assunzioni implicite. L’indifferenza non è mai “data”; è sempre <em>assunta</em> e, in quanto tale, deve poter essere <em>giustificata</em>.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Il paradosso di Bertrand: quando l'indifferenza fallisce">
-<div class="callout-header d-flex align-content-center">
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Il paradosso di Bertrand (approfondimento)">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Avviso</span>Il paradosso di Bertrand: quando l’indifferenza fallisce
+<span class="screen-reader-only">Nota</span>Il paradosso di Bertrand (approfondimento)
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>L’applicazione ingenua del principio di indifferenza può condurre a contraddizioni, come mostra il celebre <strong>paradosso di Bertrand</strong>.</p>
-<p>Supponiamo che una fabbrica produca cubi con lato compreso tra 0 e 1 metro. Qual è la probabilità che un cubo selezionato a caso abbia un lato maggiore di 0.5 m?</p>
-<p><strong>Risposta 1</strong>: se assumiamo equiprobabilità rispetto alla <em>lunghezza del lato</em>, otteniamo <span class="math inline">\(P(\text{lato} &gt; 0.5) = 0.5\)</span>.</p>
-<p><strong>Risposta 2</strong>: se assumiamo equiprobabilità rispetto al <em>volume</em>, il calcolo cambia completamente (il volume varia come il cubo del lato).</p>
-<p>Quale risposta è corretta? Entrambe e nessuna. Il paradosso non segnala un fallimento della teoria, ma un’<strong>ambiguità nella formulazione del problema</strong>. La domanda “Qual è la probabilità?” non ha senso finché non specifichiamo <em>rispetto a quale variabile</em> stiamo assumendo l’indifferenza.</p>
-<p>Dal punto di vista bayesiano, ciò significa che il principio di indifferenza richiede sempre di specificare lo <strong>spazio delle possibilità</strong> che riteniamo epistemicamente appropriato. Non esiste un’applicazione “automatica”: ogni assunzione di equiprobabilità è una scelta di modellazione che deve essere argomentata.</p>
+<p>L’applicazione ingenua del principio di indifferenza può condurre a contraddizioni. Supponiamo che una fabbrica produca cubi con lato compreso tra 0 e 1 metro. Qual è la probabilità che un cubo selezionato a caso abbia lato &gt; 0.5?</p>
+<ul>
+<li>Se assumiamo equiprobabilità rispetto alla <em>lunghezza</em>, otteniamo 0.5.</li>
+<li>Se assumiamo equiprobabilità rispetto al <em>volume</em>, il calcolo cambia.</li>
+</ul>
+<p>Il paradosso non segnala un fallimento della teoria, ma un’<strong>ambiguità nella formulazione del problema</strong>: la probabilità non ha senso finché non specifichiamo <em>rispetto a quale variabile</em> assumiamo l’indifferenza.</p>
 </div>
 </div>
-</section><section id="un-principio-umile" class="level3" data-number="3.1.3"><h3 data-number="3.1.3" class="anchored" data-anchor-id="un-principio-umile">
-<span class="header-section-number">3.1.3</span> Un principio umile</h3>
-<p>Il principio di indifferenza è spesso frainteso come una regola che ci dice cosa <em>è</em> probabile. In realtà è molto più modesto: ci dice cosa è <em>razionale credere</em> quando non sappiamo nulla.</p>
-<p>In un certo senso, è il punto di partenza dell’ignoranza razionale. Non pretende di descrivere il mondo, ma di fornire una base coerente da cui partire quando le informazioni sono assenti. Non appena si acquisiscono informazioni rilevanti, l’equiprobabilità cede il passo a distribuzioni più informate.</p>
-<p>Questa umiltà epistemica è fondamentale. L’equiprobabilità non è la regola, ma il caso limite dell’assenza di regole.</p>
-</section></section><section id="la-formula-classica-come-caso-speciale" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="la-formula-classica-come-caso-speciale">
+</div>
+</section></section><section id="sec-classical-formula" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="sec-classical-formula">
 <span class="header-section-number">3.2</span> La formula classica come caso speciale</h2>
 <p>Una volta compreso il principio di indifferenza, possiamo finalmente dare una collocazione precisa alla formula classica della probabilità. Non si tratta di una definizione fondamentale, ma di un <strong>teorema derivato</strong> che vale sotto condizioni specifiche.</p>
 <div id="thm-classical-formula" class="theorem">
@@ -1311,52 +1292,30 @@ P(\omega_i) = \frac{1}{n} \quad \text{per ogni } i.
 P(A) = \frac{|A|}{|\Omega|}
 = \frac{\text{casi favorevoli}}{\text{casi possibili}}.
 \]</span></p>
-<p><strong>Dimostrazione</strong></p>
-<p>Per l’assioma di additività, la probabilità di un evento <span class="math inline">\(A\)</span> è data dalla somma delle probabilità degli esiti elementari che lo compongono:</p>
-<p><span class="math display">\[
-P(A) = \sum_{\omega_i \in A} P(\omega_i).
-\]</span></p>
-<p>Poiché ciascun esito ha probabilità <span class="math inline">\(1/n\)</span> e l’evento <span class="math inline">\(A\)</span> contiene <span class="math inline">\(|A|\)</span> elementi:</p>
-<p><span class="math display">\[
-P(A) = |A| \cdot \frac{1}{n} = \frac{|A|}{|\Omega|}.
-\]</span></p>
 </div>
-<section id="la-formula-classica-è-una-conseguenza-non-un-punto-di-partenza" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="la-formula-classica-è-una-conseguenza-non-un-punto-di-partenza">
-<span class="header-section-number">3.2.1</span> La formula classica è una conseguenza, non un punto di partenza</h3>
-<p>Questa derivazione chiarisce un punto spesso oscurato nelle presentazioni introduttive: la formula “casi favorevoli su casi possibili” <strong>non definisce</strong> che cosa sia una probabilità. È una <strong>conseguenza</strong> degli assiomi di coerenza che abbiamo visto nel capitolo precedente e vale solo quando l’ipotesi di equiprobabilità è giustificata.</p>
-<p>Le condizioni necessarie sono:</p>
-<ul>
-<li>spazio campionario finito e ben definito;</li>
-<li>assunzione giustificata di equiprobabilità;</li>
-<li>rispetto degli assiomi di coerenza.</li>
-</ul>
-<p>Se una di queste condizioni viene meno, la formula perde di validità. Non è “sbagliata” in senso assoluto, semplicemente non si applica.</p>
-</section><section id="implicazioni-per-luso-della-combinatoria" class="level3" data-number="3.2.2"><h3 data-number="3.2.2" class="anchored" data-anchor-id="implicazioni-per-luso-della-combinatoria">
-<span class="header-section-number">3.2.2</span> Implicazioni per l’uso della combinatoria</h3>
-<p>Questa comprensione ha una conseguenza pratica importante: il calcolo combinatorio (permutazioni, disposizioni, combinazioni) è uno <strong>strumento operativo</strong>, non un fondamento teorico della probabilità.</p>
-<p>La combinatoria ci aiuta a <em>contare</em> le configurazioni possibili. Tale conteggio ha un senso probabilistico solo se le configurazioni contate sono equiprobabili. Se non lo sono, contare non serve a nulla, o peggio, fornisce risposte fuorvianti.</p>
-<p>In altre parole: <strong>prima</strong> verifichiamo se l’equiprobabilità è giustificata, <strong>poi</strong> usiamo la combinatoria per contare. Non il contrario.</p>
-</section></section><section id="tecniche-di-calcolo-combinatorio" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="tecniche-di-calcolo-combinatorio">
+<blockquote class="blockquote">
+<p><strong>Messaggio chiave</strong>: la formula classica <strong>non definisce</strong> che cosa sia una probabilità. È una <strong>conseguenza</strong> degli assiomi di coerenza e vale solo quando l’ipotesi di equiprobabilità è giustificata.</p>
+</blockquote>
+</section><section id="sec-combinatorics" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="sec-combinatorics">
 <span class="header-section-number">3.3</span> Tecniche di calcolo combinatorio</h2>
-<p>Assumendo che l’equiprobabilità sia stata verificata e giustificata, il calcolo combinatorio fornisce gli strumenti per elencare sistematicamente tutte le possibili configurazioni. La scelta della tecnica appropriata dipende da due domande:</p>
+<p>Assumendo che l’equiprobabilità sia stata verificata, il calcolo combinatorio fornisce gli strumenti per contare le configurazioni. La scelta della tecnica appropriata dipende da due domande:</p>
 <ol type="1">
-<li>
-<strong>L’ordine conta?</strong> La sequenza ABC è diversa da CBA?</li>
-<li><strong>Selezioniamo tutti gli elementi o solo alcuni?</strong></li>
+<li>L’ordine conta?</li>
+<li>Selezioniamo tutti gli elementi o solo alcuni?</li>
 </ol>
 <section id="principio-della-somma" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="principio-della-somma">
 <span class="header-section-number">3.3.1</span> Principio della somma</h3>
-<p>Quando uno spazio delle possibilità si suddivide in categorie <strong>mutuamente esclusive</strong>, il numero totale di configurazioni è la somma dei casi in ciascuna categoria:</p>
+<p>Quando le possibilità si suddividono in categorie mutualmente esclusive, il numero totale è la somma delle possibilità di ciascuna categoria.:</p>
 <p><span class="math display">\[
 n_{\text{totale}} = n_1 + n_2 + \dots + n_k.
 \]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio clinico">
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio psicologico">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio clinico
+<span class="screen-reader-only">Nota</span>Esempio psicologico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1378,17 +1337,17 @@ n_{\text{totale}} = n_1 + n_2 + \dots + n_k.
 </div>
 </section><section id="principio-del-prodotto" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="principio-del-prodotto">
 <span class="header-section-number">3.3.2</span> Principio del prodotto</h3>
-<p>Quando una configurazione è il risultato di <strong>scelte sequenziali indipendenti</strong>, il numero totale di possibilità si ottiene moltiplicando:</p>
+<p>Quando una configurazione è il risultato di scelte sequenziali indipendenti, il numero totale è il prodotto delle possibilità di ciascuna scelta.:</p>
 <p><span class="math display">\[
 n_{\text{totale}} = n_1 \times n_2 \times \dots \times n_k.
 \]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: disegno sperimentale">
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio psicologico">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: disegno sperimentale
+<span class="screen-reader-only">Nota</span>Esempio psicologico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1415,13 +1374,13 @@ n_{\text{totale}} = n_1 \times n_2 \times \dots \times n_k.
 P_n = n! = n \times (n-1) \times \cdots \times 1.
 \tag{3.1}\]</span></span></p>
 <p>L’intuizione è semplice: il primo elemento può essere scelto in <span class="math inline">\(n\)</span> modi, il secondo in <span class="math inline">\(n-1\)</span>, e così via.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: ordine di presentazione degli stimoli">
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio psicologico">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: ordine di presentazione degli stimoli
+<span class="screen-reader-only">Nota</span>Esempio psicologico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1454,7 +1413,7 @@ P_n = n! = n \times (n-1) \times \cdots \times 1.
 <span><span class="co">#&gt;   Automobile → Tavolo → Fiore → Libro → Stella </span></span>
 <span><span class="co">#&gt;   Fiore → Automobile → Tavolo → Stella → Libro</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><em>Nota psicologica</em>: l’equiprobabilità degli ordinamenti è ciò che la randomizzazione <em>produce</em> per disegno. Tuttavia, gli <em>effetti</em> psicologici degli ordinamenti non sono equiprobabili: alcuni ordinamenti possono produrre più interferenza di altri, alcuni possono facilitare la memoria. La randomizzazione garantisce l’equiprobabilità nella <em>selezione</em>, non negli <em>effetti</em>.</p>
+<p><em>Nota psicologica</em>: l’equiprobabilità riguarda la selezione, non gli effetti psicologici dell’ordine.</p>
 </div>
 </div>
 </div>
@@ -1466,38 +1425,24 @@ P_n = n! = n \times (n-1) \times \cdots \times 1.
 D_{n,k} = \frac{n!}{(n-k)!}
        = n \times (n-1) \times \cdots \times (n-k+1).
 \tag{3.2}\]</span></span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: assegnazione di ruoli in terapia di gruppo">
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio psicologico">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: assegnazione di ruoli in terapia di gruppo
+<span class="screen-reader-only">Nota</span>Esempio psicologico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Con 8 partecipanti e 3 ruoli distinti (facilitatore, osservatore, timekeeper):</p>
+<p>Con 8 partecipanti e 3 ruoli distinti (facilitatore, osservatore, timekeeper), le assegnazioni possibili sono:</p>
 <p><span class="math display">\[
 D_{8,3} = \frac{8!}{5!} = 8 \times 7 \times 6 = 336.
 \]</span></p>
-<p>In assenza di informazioni sulle competenze individuali, ogni assegnazione ha una probabilità di <span class="math inline">\(1/336 \approx 0.003\)</span>.</p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">8</span>  <span class="co"># partecipanti</span></span>
-<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">3</span>  <span class="co"># ruoli</span></span>
-<span><span class="va">n_disp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">factorial</a></span><span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Partecipanti:"</span>, <span class="va">n</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Partecipanti: 8</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Ruoli da assegnare:"</span>, <span class="va">k</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Ruoli da assegnare: 3</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Assegnazioni possibili:"</span>, <span class="va">n_disp</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Assegnazioni possibili: 336</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"P(assegnazione specifica):"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">n_disp</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; P(assegnazione specifica): 0.00298</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><em>Nota clinica</em>: nella pratica, raramente si assegnano ruoli ignorando le caratteristiche delle persone. Un facilitatore efficace richiede competenze specifiche. L’equiprobabilità descrive l’assegnazione casuale pura, non la decisione clinica informata.</p>
+<p>In assenza di informazioni sulle competenze, ogni assegnazione ha probabilità <span class="math inline">\(1/336 \approx 0.003\)</span>.</p>
+<p><em>Nota</em>: nella pratica, i ruoli si assegnano in base alle competenze, quindi l’equiprobabilità è spesso inappropriata.</p>
 </div>
 </div>
 </div>
@@ -1508,14 +1453,13 @@ D_{8,3} = \frac{8!}{5!} = 8 \times 7 \times 6 = 336.
 <p><span id="eq-combinations-def"><span class="math display">\[
 C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 \tag{3.3}\]</span></span></p>
-<p>La formula si ottiene dividendo le disposizioni per <span class="math inline">\(k!\)</span>, che elimina i conteggi multipli degli stessi elementi in ordini diversi.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: formazione di coppie terapeutiche">
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio psicologico">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: formazione di coppie terapeutiche
+<span class="screen-reader-only">Nota</span>Esempio psicologico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1523,21 +1467,10 @@ C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 <div class="callout-body-container callout-body">
 <p>Con 12 volontari per il peer counseling, le coppie possibili sono:</p>
 <p><span class="math display">\[
-\binom{12}{2} = \frac{12!}{2! \cdot 10!} = \frac{12 \times 11}{2} = 66.
+\binom{12}{2} = \frac{12!}{2! \cdot 10!} = 66.
 \]</span></p>
-<p>Se non disponiamo di informazioni sulla compatibilità, ogni coppia ha una probabilità di <span class="math inline">\(1/66 \approx 0.015\)</span>.</p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n_volontari</span> <span class="op">&lt;-</span> <span class="fl">12</span></span>
-<span><span class="va">n_coppie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">choose</a></span><span class="op">(</span><span class="va">n_volontari</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Volontari:"</span>, <span class="va">n_volontari</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Volontari: 12</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Coppie possibili:"</span>, <span class="va">n_coppie</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Coppie possibili: 66</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"P(coppia specifica):"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">n_coppie</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; P(coppia specifica): 0.0152</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><em>Nota</em>: l’equiprobabilità delle coppie è un’assunzione molto forte. Nella realtà, alcune coppie funzionano meglio di altre per ragioni di personalità, di esperienza o semplicemente per “chimica” interpersonale. Un modello più realistico dovrebbe assegnare probabilità diverse a coppie diverse in base a predittori di compatibilità.</p>
+<p>Se non abbiamo informazioni sulla compatibilità, ogni coppia ha probabilità <span class="math inline">\(1/66 \approx 0.015\)</span>.</p>
+<p><em>Nota</em>: nella realtà, alcune coppie funzionano meglio di altre. Un modello realistico dovrebbe assegnare probabilità diverse in base a predittori di compatibilità.</p>
 </div>
 </div>
 </div>
@@ -1597,24 +1530,20 @@ C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Ogni formula combinatoria presuppone che tutte le configurazioni elencate siano <strong>equiprobabili</strong>.</p>
-<p>Se disponiamo di informazioni che distinguono alcune configurazioni, come ordini che causano interferenza, ruoli assegnati in base alle competenze o coppie incompatibili, il modello uniforme non è più appropriato. La combinatoria ci dice <em>quante</em> configurazioni esistono, non <em>quali</em> siano più probabili.</p>
+<p>Ogni formula combinatoria presuppone che tutte le configurazioni elencate siano <strong>equiprobabili</strong>. La combinatoria ci dice <em>quante</em> configurazioni esistono, non <em>quali</em> siano più probabili.</p>
 </div>
 </div>
-</section></section><section id="quando-lequiprobabilità-non-si-applica" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="quando-lequiprobabilità-non-si-applica">
+</section></section><section id="sec-limits-of-equiprobability" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="sec-limits-of-equiprobability">
 <span class="header-section-number">3.4</span> Quando l’equiprobabilità non si applica</h2>
 <p>Finora abbiamo trattato l’equiprobabilità come se fosse la norma. È il momento di ribaltare la prospettiva: nella ricerca psicologica, l’equiprobabilità è l’<em>eccezione</em>, non la regola.</p>
 <section id="la-variabilità-è-la-norma-non-lanomalia" class="level3" data-number="3.4.1"><h3 data-number="3.4.1" class="anchored" data-anchor-id="la-variabilità-è-la-norma-non-lanomalia">
 <span class="header-section-number">3.4.1</span> La variabilità è la norma, non l’anomalia</h3>
-<p>Quasi ogni fenomeno psicologico presenta una variabilità sistematica. Gli item di un test hanno difficoltà diverse. Le persone hanno abilità diverse. I trattamenti funzionano in modo diverso per pazienti diversi. Le risposte ai questionari sono influenzate dagli stili individuali.</p>
-<p>Questa variabilità non è “rumore” da eliminare, ma spesso è la <em>sostanza</em> stessa di ciò che studiamo. Ignorarla assumendo equiprobabilità significa perdere l’essenza del fenomeno.</p>
+<p>Quasi ogni fenomeno psicologico presenta una variabilità sistematica. Gli item di un test hanno difficoltà diverse. Le persone hanno abilità diverse. I trattamenti funzionano in modo diverso per pazienti diversi. Ignorare questa variabilità assumendo equiprobabilità significa perdere l’essenza del fenomeno.</p>
 </section><section id="esempio-difficoltà-degli-item-nei-test" class="level3" data-number="3.4.2"><h3 data-number="3.4.2" class="anchored" data-anchor-id="esempio-difficoltà-degli-item-nei-test">
 <span class="header-section-number">3.4.2</span> Esempio: difficoltà degli item nei test</h3>
-<p>Consideriamo un test psicometrico con 5 item di difficoltà diversa:</p>
+<p>Consideriamo un test con 5 item di difficoltà diversa:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Item con diversi livelli di difficoltà (probabilità di risposta corretta)</span></span>
-<span><span class="va">item_difficolta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.7</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span><span class="op">)</span></span>
-<span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">item_difficolta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.7</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Probabilità di risposta corretta per item:\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Probabilità di risposta corretta per item:</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">item_difficolta</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1625,58 +1554,53 @@ C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 <span><span class="co">#&gt;   Item 3 : 0.5 </span></span>
 <span><span class="co">#&gt;   Item 4 : 0.3 </span></span>
 <span><span class="co">#&gt;   Item 5 : 0.1</span></span>
-<span></span>
-<span><span class="co"># Simulazione: 1000 rispondenti completano il test</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">risposte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, <span class="va">item_difficolta</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nProporzioni osservate (simulate):"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">risposte</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Proporzioni osservate (simulate): 0.89 0.71 0.48 0.29 0.1</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Le proporzioni osservate riflettono fedelmente le probabilità sottostanti, che sono molto diverse tra loro. Assumere equiprobabilità (<span class="math inline">\(P = 0.5\)</span> per ogni item) produrrebbe:</p>
-<ul>
-<li>una <strong>sottostima</strong> della performance sugli item facili (0.9 e 0.7);</li>
-<li>una <strong>sovrastima</strong> della performance sugli item difficili (0.3 e 0.1).</li>
-</ul>
-<p>L’errore non è solo quantitativo. È <em>concettuale</em>: si ignorerebbe una proprietà fondamentale degli item, ovvero la loro difficoltà, che è esattamente ciò che il test è progettato per sfruttare.</p>
+<p>Assumere equiprobabilità (<span class="math inline">\(P = 0.5\)</span> per ogni item) produrrebbe una sottostima sugli item facili e una sovrastima su quelli difficili. L’errore non è solo quantitativo: si ignorerebbe una proprietà fondamentale degli item.</p>
 </section><section id="la-lezione-più-ampia" class="level3" data-number="3.4.3"><h3 data-number="3.4.3" class="anchored" data-anchor-id="la-lezione-più-ampia">
 <span class="header-section-number">3.4.3</span> La lezione più ampia</h3>
-<p>Questo esempio illustra un principio generale: <strong>l’equiprobabilità è un’ipotesi da verificare, non da assumere per default</strong>.</p>
-<p>Quando la rifiutiamo, non stiamo “complicando” il modello. Riconosciamo che il mondo è più ricco di quanto l’equiprobabilità possa rappresentare. Per fortuna, esistono strumenti che ci permettono di esprimere questa ricchezza, come la distribuzione Beta che vedremo ora.</p>
-</section></section><section id="la-distribuzione-beta-dal-discreto-al-continuo" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="la-distribuzione-beta-dal-discreto-al-continuo">
+<p><strong>L’equiprobabilità è un’ipotesi da verificare, non da assumere per default</strong>. Quando la rifiutiamo, riconosciamo che il mondo è più ricco di quanto l’equiprobabilità possa rappresentare. La distribuzione Beta, che vedremo ora, ci offre uno strumento per esprimere questa ricchezza.</p>
+</section></section><section id="sec-beta-distribution" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="sec-beta-distribution">
 <span class="header-section-number">3.5</span> La distribuzione Beta: dal discreto al continuo</h2>
-<p>Finora abbiamo ragionato su spazi finiti, ovvero un numero limitato di esiti ciascuno con la propria probabilità. Ma in molti contesti di ricerca psicologica non ci limitiamo a contare gli eventi, bensì dobbiamo stimare dei <strong>parametri sconosciuti</strong> che possono assumere qualsiasi valore in un intervallo continuo.</p>
-<p>Qual è la probabilità che un paziente risponda a un trattamento? Non si tratta di un esito discreto tra un numero finito di possibilità, ma di un valore <span class="math inline">\(\theta\)</span> che può assumere qualsiasi valore compreso tra 0 e 1.</p>
-<p>La <strong>distribuzione Beta</strong> è lo strumento che ci permette di rappresentare le nostre credenze sui parametri di questo tipo.</p>
+<p>Finora abbiamo ragionato su spazi finiti. Ma in molti contesti psicologici dobbiamo stimare dei <strong>parametri sconosciuti</strong> che possono assumere qualsiasi valore in un intervallo continuo (ad esempio, la probabilità di risposta a un trattamento).</p>
+<p>La <strong>distribuzione Beta</strong> è lo strumento che ci permette di rappresentare le nostre credenze su questi parametri.</p>
 <section id="intuizione-la-beta-come-memoria-di-esperienze" class="level3" data-number="3.5.1"><h3 data-number="3.5.1" class="anchored" data-anchor-id="intuizione-la-beta-come-memoria-di-esperienze">
 <span class="header-section-number">3.5.1</span> Intuizione: la Beta come “memoria di esperienze”</h3>
-<p>Prima di vedere le formule, cerchiamo di capire l’intuizione alla base. La distribuzione <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> può essere pensata come la <strong>sintesi di esperienze passate</strong> codificate sotto forma di “conteggi virtuali”:</p>
+<p>La distribuzione <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> può essere pensata come la <strong>sintesi di esperienze passate</strong> codificate sotto forma di “conteggi virtuali”:</p>
 <ul>
-<li>
-<span class="math inline">\(\alpha - 1\)</span> = numero di “successi” osservati (o immaginati);</li>
-<li>
-<span class="math inline">\(\beta - 1\)</span> = numero di “insuccessi” osservati (o immaginati).</li>
+<li><p><span class="math inline">\(\alpha - 1\)</span> = numero di “successi” osservati (o immaginati);</p></li>
+<li><p><span class="math inline">\(\beta - 1\)</span> = numero di “insuccessi” osservati (o immaginati).</p></li>
+<li><p><strong>Beta(1,1)</strong>: nessuna esperienza pregressa — ogni valore è ugualmente plausibile (analogo continuo dell’equiprobabilità).</p></li>
+<li><p><strong>Beta(5,5)</strong>: come se avessimo osservato 4 successi e 4 insuccessi — credenza centrata, incertezza moderata.</p></li>
+<li><p><strong>Beta(20,10)</strong>: come se avessimo osservato 19 successi e 9 insuccessi — aspettativa elevata, maggiore certezza.</p></li>
 </ul>
-<p>Questa interpretazione rende la Beta sorprendentemente intuitiva:</p>
-<ul>
-<li><p><strong>Beta(1, 1)</strong>: nessuna esperienza pregressa. Ogni valore di <span class="math inline">\(\theta\)</span> è ugualmente plausibile. È l’analogo continuo dell’equiprobabilità.</p></li>
-<li><p><strong>Beta(5, 5)</strong>: è come se avessimo osservato 4 successi e 4 insuccessi. Credenza centrata sui valori medi, con incertezza moderata.</p></li>
-<li><p><strong>Beta(20, 10)</strong>: come se avessimo osservato 19 successi e 9 insuccessi. Aspettativa di valori elevati (~0.67), con maggiore certezza.</p></li>
-<li><p><strong>Beta(2, 8)</strong>: come se avessimo osservato 1 successo e 7 insuccessi. Aspettativa di valori bassi (~0.20).</p></li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled" title="Visualizzazione: forme della distribuzione Beta">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Visualizzazione: forme della distribuzione Beta
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="va">beta_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Beta(1,1): Ignoranza totale"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Beta(5,5): Credenza centrale"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Beta(20,10): Aspettativa alta"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  <span class="st">"Beta(2,8): Aspettativa bassa"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">df_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">nome</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">beta_params</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">params</span> <span class="op">&lt;-</span> <span class="va">beta_params</span><span class="op">[[</span><span class="va">nome</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="va">df_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">df_beta</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>    theta <span class="op">=</span> <span class="va">theta</span>,</span>
+<span>    Densita <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="va">params</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">params</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>    Distribuzione <span class="op">=</span> <span class="va">nome</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_beta</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">Densita</span>, color <span class="op">=</span> <span class="va">Distribuzione</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">Distribuzione</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Forme della distribuzione Beta"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
@@ -1684,105 +1608,31 @@ C_{n,k} = \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 </div>
 </div>
 </div>
-<p>Ogni grafico mostra una diversa distribuzione Beta. La forma cambia drammaticamente in base ai parametri, consentendo di rappresentare credenze molto diverse, dalla completa ignoranza alla forte convinzione, dalla simmetria all’asimmetria marcata.</p>
-</div>
-</div>
-</div>
 </section><section id="due-parametri-due-significati" class="level3" data-number="3.5.2"><h3 data-number="3.5.2" class="anchored" data-anchor-id="due-parametri-due-significati">
 <span class="header-section-number">3.5.2</span> Due parametri, due significati</h3>
-<p>La distribuzione Beta ha due parametri, <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>, che controllano due aspetti distinti delle nostre credenze:</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Interpretazione dei parametri">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Consiglio</span>Interpretazione dei parametri
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <ul>
 <li>
-<p><strong>Posizione (dove pensiamo che si trovi <span class="math inline">\(\theta\)</span>)</strong>:<br><span class="math display">\[\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}\]</span></p>
-<p>Se <span class="math inline">\(\alpha &gt; \beta\)</span>, la media è maggiore di 0.5; se <span class="math inline">\(\alpha &lt; \beta\)</span>, è minore di 0.5.</p>
+<strong>Posizione</strong> (dove pensiamo che sia <span class="math inline">\(\theta\)</span>):<br><span class="math display">\[\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}\]</span>
 </li>
 <li>
-<p><strong>Forza della convinzione (quanto siamo sicuri)</strong>:<br>
-la somma <span class="math inline">\(\alpha + \beta\)</span> controlla la concentrazione della distribuzione.</p>
-<p>Valori elevati → distribuzione stretta (siamo sicuri);<br>
-Valori bassi → distribuzione diffusa (siamo incerti).</p>
-</li>
-</ul>
-</div>
-</div>
-<p>Questa separazione è cruciale: possiamo esprimere credenze diverse sia su <em>dove</em> pensiamo che si trovi il parametro, sia su <em>quanto</em> siamo sicuri di questa valutazione.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
-</figure>
-</div>
-</div>
-</div>
-</section><section id="definizione-formale" class="level3" data-number="3.5.3"><h3 data-number="3.5.3" class="anchored" data-anchor-id="definizione-formale">
-<span class="header-section-number">3.5.3</span> Definizione formale</h3>
-<div id="def-beta-distribution" class="theorem definition">
-<p><span class="theorem-title"><strong>Definizione 3.2</strong></span> Una variabile casuale <span class="math inline">\(\theta \sim \text{Beta}(\alpha, \beta)\)</span> ha densità:</p>
-<p><span class="math display">\[
-f(\theta; \alpha, \beta)
-= \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}
-  \theta^{\alpha-1}(1-\theta)^{\beta-1},
-\quad \theta \in [0,1].
-\]</span></p>
-<p><strong>Proprietà principali</strong></p>
-<ul>
-<li>Media: <span class="math inline">\(\mathbb{E}[\theta] = \frac{\alpha}{\alpha+\beta}\)</span>
-</li>
-<li>Varianza: <span class="math inline">\(\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\)</span>
-</li>
-<li>Moda: <span class="math inline">\(\frac{\alpha-1}{\alpha+\beta-2}\)</span> per <span class="math inline">\(\alpha,\beta&gt;1\)</span>
-</li>
-</ul>
-<p><strong>Casi notevoli</strong></p>
-<ul>
-<li>
-<strong>Beta(1,1)</strong>: distribuzione uniforme su [0,1]—massima ignoranza</li>
-<li>
-<strong>Beta(0.5,0.5)</strong>: prior di Jeffreys—ignoranza “non informativa” in senso tecnico</li>
-</ul>
-</div>
-</section><section id="beta11-lequiprobabilità-continua" class="level3" data-number="3.5.4"><h3 data-number="3.5.4" class="anchored" data-anchor-id="beta11-lequiprobabilità-continua">
-<span class="header-section-number">3.5.4</span> Beta(1,1): l’equiprobabilità continua</h3>
-<p>Il caso Beta(1,1) merita un’attenzione particolare. Questa distribuzione è semplicemente la <strong>distribuzione uniforme</strong> sull’intervallo [0,1]: ogni valore è ugualmente plausibile.</p>
-<p>Rappresenta l’analogo <em>continuo</em> del principio di indifferenza. Se nel caso discreto affermavamo che “tutti gli esiti sono ugualmente probabili”, nel caso continuo possiamo dire che “tutti i valori del parametro sono ugualmente plausibili”.</p>
-<p>Questo crea un ponte concettuale importante:</p>
+<strong>Forza della convinzione</strong> (quanto siamo sicuri):<br><span class="math inline">\(\alpha + \beta\)</span> controlla la concentrazione. Valori alti → distribuzione stretta (sicurezza); valori bassi → distribuzione diffusa (incertezza).</li>
+</ul></section><section id="beta11-lequiprobabilità-continua" class="level3" data-number="3.5.3"><h3 data-number="3.5.3" class="anchored" data-anchor-id="beta11-lequiprobabilità-continua">
+<span class="header-section-number">3.5.3</span> Beta(1,1): l’equiprobabilità continua</h3>
+<p>Beta(1,1) è semplicemente la <strong>distribuzione uniforme</strong> su [0,1]: ogni valore è ugualmente plausibile. Rappresenta l’analogo <em>continuo</em> del principio di indifferenza:</p>
 <p><span class="math display">\[
 \text{Equiprobabilità discreta} \longleftrightarrow \text{Uniformità continua (Beta(1,1))}
 \]</span></p>
-<p>Ma proprio come l’equiprobabilità discreta è spesso inappropriata, anche la Beta(1,1) è spesso una scelta troppo “ignorante”. Se abbiamo qualche informazione sul parametro, e quasi sempre l’abbiamo, possiamo codificarla in una distribuzione Beta più informativa.</p>
-</section></section><section id="aggiornamento-bayesiano-il-modello-beta-binomiale" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="aggiornamento-bayesiano-il-modello-beta-binomiale">
-<span class="header-section-number">3.6</span> Aggiornamento bayesiano: il modello Beta-Binomiale</h2>
-<p>La distribuzione Beta non è solo uno strumento per rappresentare le credenze <em>a priori</em>. Possiede una proprietà matematica straordinaria: quando osserviamo dati binomiali (successi e insuccessi), la forma della distribuzione si aggiorna in modo semplice e interpretabile.</p>
-<section id="la-regola-dellaggiornamento" class="level3" data-number="3.6.1"><h3 data-number="3.6.1" class="anchored" data-anchor-id="la-regola-dellaggiornamento">
-<span class="header-section-number">3.6.1</span> La regola dell’aggiornamento</h3>
-<p>Se partiamo da una credenza <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> e osserviamo <span class="math inline">\(k\)</span> successi su <span class="math inline">\(n\)</span> prove, la nuova credenza (posteriore) è:</p>
+</section><section id="aggiornamento-bayesiano-il-modello-beta-binomiale" class="level3" data-number="3.5.4"><h3 data-number="3.5.4" class="anchored" data-anchor-id="aggiornamento-bayesiano-il-modello-beta-binomiale">
+<span class="header-section-number">3.5.4</span> Aggiornamento bayesiano: il modello Beta-Binomiale</h3>
+<p>Se partiamo da <span class="math inline">\(\text{Beta}(\alpha, \beta)\)</span> e osserviamo <span class="math inline">\(k\)</span> successi su <span class="math inline">\(n\)</span> prove, la nuova credenza (posteriore) è:</p>
 <p><span class="math display">\[
 \theta \sim \text{Beta}(\alpha, \beta)
 \;\xrightarrow{\text{osserviamo } k \text{ su } n}\;
 \theta \mid k \sim \text{Beta}(\alpha + k, \beta + n - k).
 \]</span></p>
-<p>Questa proprietà, chiamata <strong>coniugazione Beta-Binomiale</strong>, rende l’aggiornamento bayesiano estremamente intuitivo: i successi osservati si “aggiungono” ad <span class="math inline">\(\alpha\)</span>, mentre gli insuccessi si “aggiungono” a <span class="math inline">\(\beta\)</span>.</p>
-</section><section id="interpretazione-combinare-conoscenza-precedente-e-nuovi-dati" class="level3" data-number="3.6.2"><h3 data-number="3.6.2" class="anchored" data-anchor-id="interpretazione-combinare-conoscenza-precedente-e-nuovi-dati">
-<span class="header-section-number">3.6.2</span> Interpretazione: combinare conoscenza precedente e nuovi dati</h3>
-<p>L’aggiornamento ha un’interpretazione semplice in termini di “conteggi virtuali”:</p>
-<ul>
-<li>prima dell’osservazione: abbiamo <span class="math inline">\(\alpha - 1\)</span> successi virtuali e <span class="math inline">\(\beta - 1\)</span> insuccessi virtuali;</li>
-<li>dopo l’osservazione: si aggiungono <span class="math inline">\(k\)</span> successi reali e <span class="math inline">\(n-k\)</span> insuccessi reali;</li>
-<li>risultato: <span class="math inline">\((\alpha - 1 + k)\)</span> successi totali, <span class="math inline">\((\beta - 1 + n - k)\)</span> insuccessi totali.</li>
-</ul>
-<p>I dati “si sommano” alla conoscenza precedente. Più dati raccogliamo, più la distribuzione si concentra e la nostra certezza aumenta.</p>
+<p>I successi osservati si “aggiungono” ad <span class="math inline">\(\alpha\)</span>, gli insuccessi a <span class="math inline">\(\beta\)</span>. L’aggiornamento è intuitivo: la conoscenza precedente si combina con i nuovi dati.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Esempio: test a scelta multipla">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1791,87 +1641,53 @@ f(\theta; \alpha, \beta)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Uno studente risponde a 20 domande con quattro opzioni di risposta ciascuna. Adottiamo un prior Beta(1,3), che riflette l’ipotesi iniziale di risposte casuali (media = 1/4 = 0.25).</p>
-<p>Osserviamo 7 risposte corrette. La posterior diventa:</p>
-<p><span class="math display">\[
-\text{Beta}(1 + 7, 3 + 13) = \text{Beta}(8, 16).
-\]</span></p>
-<p>La media posteriore è <span class="math inline">\(8/24 \approx 0.33\)</span>, un valore più alto del prior (0.25), ma non di molto. Lo studente sembra ottenere risultati leggermente migliori rispetto al caso, ma i dati non sono sufficienti per esserne certi.</p>
+<p>Uno studente risponde a 20 domande a scelta multipla (4 opzioni). Adottiamo un prior Beta(1,3), che riflette l’ipotesi di risposte casuali (media = 0.25). Se osserva 7 risposte corrette, la posterior diventa Beta(8,16), con media <span class="math inline">\(8/24 \approx 0.33\)</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
-<span><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">8</span>, <span class="fl">16</span><span class="op">)</span></span>
-<span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">theta</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  Densita <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">prior</span>, <span class="va">posterior</span><span class="op">)</span>,</span>
 <span>  Tipo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior Beta(1,3)"</span>, <span class="st">"Posterior Beta(8,16)"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">Densita</span>, color <span class="op">=</span> <span class="va">Tipo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.33</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Aggiornamento bayesiano: prima e dopo 20 risposte"</span>,</span>
 <span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span> <span class="op">~</span> <span class="st">"(probabilità di risposta corretta)"</span><span class="op">)</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Densità"</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>       y <span class="op">=</span> <span class="st">"Densità"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+<figure class="figure"><p><a href="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Intervallo di credibilità</strong></p>
+<p><strong>Intervallo di credibilità 95%</strong>:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">alpha_post</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
-<span><span class="va">beta_post</span> <span class="op">&lt;-</span> <span class="fl">16</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">alpha_post</span> <span class="op">&lt;-</span> <span class="fl">8</span>; <span class="va">beta_post</span> <span class="op">&lt;-</span> <span class="fl">16</span></span>
 <span><span class="va">ci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="va">alpha_post</span>, <span class="va">beta_post</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media posteriore:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">alpha_post</span><span class="op">/</span><span class="op">(</span><span class="va">alpha_post</span> <span class="op">+</span> <span class="va">beta_post</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Media posteriore: 0.333</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Intervallo di credibilità 95%: ["</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ci</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">","</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ci</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"]"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Intervallo di credibilità 95%: [ 0.16 , 0.53 ]</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Intervallo 95%: ["</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ci</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">","</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">ci</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"]"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Intervallo 95%: [ 0.16 , 0.53 ]</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>L’intervallo [0.18, 0.52] esprime la nostra incertezza residua: siamo ragionevolmente sicuri che la probabilità vera si trovi in questo intervallo, ma l’intervallo è ancora piuttosto ampio.</p>
+<p>L’intervallo [0.18, 0.52] esprime l’incertezza residua: siamo ragionevolmente sicuri che la probabilità vera si trovi lì, ma l’intervallo è ancora piuttosto ampio.</p>
 </div>
 </div>
 </div>
-</section><section id="nota-sullinterpretazione-degli-intervalli" class="level3" data-number="3.6.3"><h3 data-number="3.6.3" class="anchored" data-anchor-id="nota-sullinterpretazione-degli-intervalli">
-<span class="header-section-number">3.6.3</span> Nota sull’interpretazione degli intervalli</h3>
-<p>Gli intervalli di credibilità bayesiani hanno un’interpretazione diretta e intuitiva che spesso manca agli intervalli di confidenza frequentisti:</p>
-<ul>
-<li><p><strong>Intervallo di credibilità (95%)</strong>: “C’è il 95% di probabilità che il valore vero del parametro sia compreso in questo intervallo, date le informazioni a nostra disposizione.”</p></li>
-<li><p><strong>Intervallo di confidenza (95%)</strong>: “Se ripetessimo l’esperimento infinite volte, il 95% degli intervalli così calcolati conterrebbe il vero parametro.”</p></li>
-</ul>
-<p>La prima interpretazione è quella che le persone <em>pensano</em> di fare quando usano gli intervalli di confidenza. La seconda è quella che stanno <em>effettivamente</em> stanno facendo nel framework frequentista. L’approccio bayesiano permette di fare ciò che è naturale pensare.</p>
-</section><section id="aggiornamento-sequenziale-la-conoscenza-si-accumula" class="level3" data-number="3.6.4"><h3 data-number="3.6.4" class="anchored" data-anchor-id="aggiornamento-sequenziale-la-conoscenza-si-accumula">
-<span class="header-section-number">3.6.4</span> Aggiornamento sequenziale: la conoscenza si accumula</h3>
-<p>Una conseguenza pratica importante del modello Beta-Binomiale è che consente di aggiornare le credenze <strong>man mano che si osservano nuovi dati</strong>, senza dover ricalcolare tutto da capo.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: apprendimento progressivo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: apprendimento progressivo
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Osserviamo uno studente che risponde a 20 domande una alla volta. Come cambiano le nostre credenze?</p>
+</section><section id="aggiornamento-sequenziale-la-conoscenza-si-accumula" class="level3" data-number="3.5.5"><h3 data-number="3.5.5" class="anchored" data-anchor-id="aggiornamento-sequenziale-la-conoscenza-si-accumula">
+<span class="header-section-number">3.5.5</span> Aggiornamento sequenziale: la conoscenza si accumula</h3>
+<p>Una conseguenza pratica importante è che l’aggiornamento può avvenire <strong>man mano che si osservano nuovi dati</strong>, senza ricalcolare tutto da capo.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="va">theta_vero</span> <span class="op">&lt;-</span> <span class="fl">0.4</span>  <span class="co"># La "vera" abilità dello studente</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">theta_vero</span> <span class="op">&lt;-</span> <span class="fl">0.4</span></span>
 <span><span class="va">n_domande</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
 <span><span class="va">risposte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">n_domande</span>, <span class="fl">1</span>, <span class="va">theta_vero</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span>; <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">3</span>  <span class="co"># Prior</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span>; <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
 <span><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
-<span></span>
 <span><span class="va">df_evol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span><span class="op">(</span><span class="va">i</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1887,82 +1703,50 @@ f(\theta; \alpha, \beta)
 <span>    theta <span class="op">=</span> <span class="va">theta_grid</span>, Densita <span class="op">=</span> <span class="va">dens</span>, n <span class="op">=</span> <span class="va">label</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_evol</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">Densita</span>, color <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">theta_vero</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, x <span class="op">=</span> <span class="va">theta_vero</span> <span class="op">+</span> <span class="fl">0.05</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">df_evol</span><span class="op">$</span><span class="va">Densita</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.9</span>,</span>
 <span>           label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">~</span><span class="st">"vero"</span><span class="op">)</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_fill_qualitative</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Come cambiano le credenze con l'accumularsi dei dati"</span>,</span>
-<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, y <span class="op">=</span> <span class="st">"Densità"</span>, color <span class="op">=</span> <span class="st">"Osservazioni"</span><span class="op">)</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Evoluzione delle credenze all'accumularsi dei dati"</span>,</span>
+<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>, y <span class="op">=</span> <span class="st">"Densità"</span>, color <span class="op">=</span> <span class="st">"Osservazioni"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
+<figure class="figure"><p><a href="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="03_equiprobability_combinatorics_bayesian_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Interpretazione</strong>: partendo da un prior diffuso e centrato su valori bassi, la distribuzione si sposta gradualmente verso il valore vero (<span class="math inline">\(\theta = 0.4\)</span>) e si restringe, riflettendo una crescente certezza. Questo è l’apprendimento bayesiano in azione: la conoscenza si accumula e l’incertezza diminuisce.</p>
-</div>
-</div>
-</div>
-</section></section><section id="applicazioni-psicologiche" class="level2" data-number="3.7"><h2 data-number="3.7" class="anchored" data-anchor-id="applicazioni-psicologiche">
-<span class="header-section-number">3.7</span> Applicazioni psicologiche</h2>
-<p>Gli strumenti che abbiamo sviluppato, come il principio di indifferenza, la combinatoria e la distribuzione Beta, non sono esercizi astratti. Trovano infatti applicazione diretta in contesti psicologici concreti.</p>
-<section id="item-response-theory-irt-oltre-lequiprobabilità-degli-item" class="level3" data-number="3.7.1"><h3 data-number="3.7.1" class="anchored" data-anchor-id="item-response-theory-irt-oltre-lequiprobabilità-degli-item">
-<span class="header-section-number">3.7.1</span> Item Response Theory (IRT): oltre l’equiprobabilità degli item</h3>
-<p>Nella psicologia dell’apprendimento, la <strong>teoria della risposta agli item</strong> (IRT) formalizza ciò che ogni insegnante sa intuitivamente: la probabilità di rispondere correttamente a una domanda dipende sia dallo studente che dalla domanda stessa.</p>
-<p>Il modello base della IRT esprime questa dipendenza:</p>
+<p>La distribuzione si sposta gradualmente verso il valore vero (<span class="math inline">\(\theta = 0.4\)</span>) e si restringe, riflettendo una crescente certezza.</p>
+</section></section><section id="sec-applications-psychology" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="sec-applications-psychology">
+<span class="header-section-number">3.6</span> Applicazioni psicologiche</h2>
+<p>Gli strumenti che abbiamo sviluppato trovano applicazione diretta in contesti psicologici concreti.</p>
+<section id="item-response-theory-irt" class="level3" data-number="3.6.1"><h3 data-number="3.6.1" class="anchored" data-anchor-id="item-response-theory-irt">
+<span class="header-section-number">3.6.1</span> Item Response Theory (IRT)</h3>
+<p>La <strong>teoria della risposta agli item</strong> formalizza ciò che ogni insegnante sa intuitivamente: la probabilità di rispondere correttamente a una domanda dipende sia dallo studente che dalla domanda. Il modello base è:</p>
 <p><span class="math display">\[
 P(\text{corretto} \mid \theta, b) = \frac{1}{1 + e^{-(\theta - b)}},
-\]</span> dove:</p>
-<ul>
-<li>
-<span class="math inline">\(\theta\)</span> è l’abilità dello studente (un parametro continuo);</li>
-<li>
-<span class="math inline">\(b\)</span> è la difficoltà dell’item (un altro parametro).</li>
-</ul>
-<p>Questa formulazione rifiuta esplicitamente il presupposto dell’equiprobabilità, riconoscendo che gli item presentano livelli di difficoltà intrinseci diversi e che la probabilità di risposta corretta per lo stesso item varia in base alle abilità degli individui. L’<em>Item Response Theory</em> incarna questo principio, sostituendo l’assunzione di equiprobabilità con un modello che mira a catturare la struttura latente e differenziata del fenomeno psicometrico.</p>
-</section><section id="bias-di-risposta-nei-questionari" class="level3" data-number="3.7.2"><h3 data-number="3.7.2" class="anchored" data-anchor-id="bias-di-risposta-nei-questionari">
-<span class="header-section-number">3.7.2</span> Bias di risposta nei questionari</h3>
-<p>Quando un partecipante risponde a un questionario, non sceglie le opzioni “a caso”. Ci sono dei fenomeni sistematici che influenzano le risposte:</p>
-<ul>
-<li>
-<strong>Acquiescenza</strong>: tendenza a rispondere “sì” o “d’accordo” indipendentemente dal contenuto;</li>
-<li>
-<strong>Desiderabilità sociale</strong>: tendenza a dare risposte socialmente accettabili;</li>
-<li>
-<strong>Effetti di posizione</strong>: preferenza per le opzioni centrali o estreme.</li>
-</ul>
-<p>Questi bias significano che le opzioni di risposta non sono equiprobabili. Un modello adeguato deve esplicitare queste tendenze e distinguere la variabilità dovuta al costrutto misurato da quella dovuta allo stile di risposta.</p>
-</section><section id="efficacia-degli-interventi-variabilità-individuale" class="level3" data-number="3.7.3"><h3 data-number="3.7.3" class="anchored" data-anchor-id="efficacia-degli-interventi-variabilità-individuale">
-<span class="header-section-number">3.7.3</span> Efficacia degli interventi: variabilità individuale</h3>
-<p>Quando si valuta l’efficacia di un trattamento, l’equiprobabilità è particolarmente inappropriata. Non tutti i pazienti rispondono allo stesso modo: alcuni migliorano, altri no e altri ancora peggiorano.</p>
-<p>L’approccio bayesiano permette di:</p>
+\]</span></p>
+<p>dove <span class="math inline">\(\theta\)</span> è l’abilità dello studente e <span class="math inline">\(b\)</span> la difficoltà dell’item. Questa formulazione <strong>rifiuta esplicitamente</strong> l’equiprobabilità, riconoscendo che gli item hanno difficoltà diverse e che la probabilità di risposta corretta varia sistematicamente.</p>
+</section><section id="bias-di-risposta-nei-questionari" class="level3" data-number="3.6.2"><h3 data-number="3.6.2" class="anchored" data-anchor-id="bias-di-risposta-nei-questionari">
+<span class="header-section-number">3.6.2</span> Bias di risposta nei questionari</h3>
+<p>Le risposte ai questionari sono influenzate da fenomeni sistematici come l’<strong>acquiescenza</strong> (tendenza a rispondere “sì”), la <strong>desiderabilità sociale</strong> o gli <strong>effetti di posizione</strong>. Questi bias significano che le opzioni di risposta non sono equiprobabili. Un modello adeguato deve esplicitare queste tendenze, distinguendo la variabilità dovuta al costrutto misurato da quella dovuta allo stile di risposta.</p>
+</section><section id="efficacia-degli-interventi" class="level3" data-number="3.6.3"><h3 data-number="3.6.3" class="anchored" data-anchor-id="efficacia-degli-interventi">
+<span class="header-section-number">3.6.3</span> Efficacia degli interventi</h3>
+<p>Quando si valuta l’efficacia di un trattamento, l’equiprobabilità è particolarmente inappropriata. Non tutti i pazienti rispondono allo stesso modo. L’approccio bayesiano permette di:</p>
 <ol type="1">
-<li>
-<strong>iniziare con prior informativi</strong> basati su studi precedenti o meta-analisi;</li>
-<li>
-<strong>aggiornare progressivamente</strong> man mano che i dati si accumulano;</li>
-<li>
-<strong>rappresentare esplicitamente la variabilità</strong> interindividuale;</li>
-<li>
-<strong>quantificare l’incertezza</strong> in modo interpretabile.</li>
+<li>iniziare con prior informativi basati su studi precedenti;</li>
+<li>aggiornare progressivamente man mano che i dati si accumulano;</li>
+<li>rappresentare esplicitamente la variabilità interindividuale;</li>
+<li>quantificare l’incertezza in modo interpretabile.</li>
 </ol>
 <p>Questo approccio produce stime che riconoscono la complessità del fenomeno, invece di nasconderla sotto l’ipotesi di uniformità.</p>
 </section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
-<p>Siamo partiti da una domanda apparentemente ingenua: “Quando possiamo dire che gli esiti sono ‘ugualmente probabili’?” e abbiamo scoperto che la risposta ci porta al cuore dell’epistemologia della probabilità.</p>
-<section id="il-messaggio-fondamentale" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="il-messaggio-fondamentale">Il messaggio fondamentale</h3>
-<p>L’equiprobabilità non è un fatto del mondo. Si tratta di una <strong>scelta inferenziale</strong> che riflette uno stato particolare di conoscenza: quello in cui non abbiamo ragioni per distinguere tra le varie possibilità. Rappresenta il punto di partenza dell’ignoranza razionale, non la descrizione di come funziona la realtà.</p>
-<p>La formula “casi favorevoli su casi possibili” è una conseguenza di questa assunzione, non una legge universale. Il calcolo combinatorio è uno strumento per <em>contare</em> configurazioni equiprobabili, ma non ci dice nulla su quali configurazioni <em>siano</em> equiprobabili.</p>
-</section><section id="verso-modelli-più-ricchi" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="verso-modelli-più-ricchi">Verso modelli più ricchi</h3>
-<p>Nella ricerca psicologica, l’equiprobabilità è quasi sempre violata. Gli item differiscono per difficoltà, le persone differiscono per abilità e i trattamenti funzionano in modo diverso per pazienti diversi. Questa variabilità non è un fastidio da eliminare: è spesso la <em>sostanza</em> stessa di ciò che studiamo.</p>
-<p>La distribuzione Beta ci offre un primo strumento per andare oltre l’equiprobabilità, consentendo di rappresentare credenze con forme e intensità diverse. L’aggiornamento bayesiano ci mostra come queste credenze possano evolversi in modo coerente quando acquisiamo nuove informazioni.</p>
-</section><section id="guardando-avanti" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="guardando-avanti">Guardando avanti</h3>
-<p>Questo capitolo ha stabilito che l’equiprobabilità è un caso speciale, non la norma. Ma come aggiorniamo le nostre credenze quando riceviamo informazioni parziali? Come rappresentiamo la dipendenza tra eventi?</p>
-<p>Queste domande ci portano al tema del prossimo capitolo: la <strong>probabilità condizionata</strong> e il <strong>teorema di Bayes</strong>, che formalizzano il processo di apprendimento dall’esperienza e costituiscono il cuore dell’inferenza bayesiana.</p>
-</section></section><section id="punti-chiave-da-ricordare" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<p>Siamo partiti da una domanda apparentemente ingenua — “Quando possiamo dire che gli esiti sono ‘ugualmente probabili’?” — e abbiamo scoperto che la risposta ci porta al cuore dell’epistemologia della probabilità.</p>
+<p>L’equiprobabilità non è un fatto del mondo. È una <strong>scelta inferenziale</strong> che riflette uno stato particolare di conoscenza: quello in cui non abbiamo ragioni per distinguere tra le varie possibilità. La formula “casi favorevoli su casi possibili” è una conseguenza di questa assunzione, non una legge universale.</p>
+<p>Nella ricerca psicologica, l’equiprobabilità è quasi sempre violata. Questa variabilità non è un fastidio da eliminare: è spesso la <em>sostanza</em> stessa di ciò che studiamo. La distribuzione Beta ci offre un primo strumento per andare oltre, consentendo di rappresentare credenze con forme e intensità diverse.</p>
+<p>Nel prossimo capitolo vedremo come la <strong>probabilità condizionata</strong> e il <strong>teorema di Bayes</strong> formalizzino il processo di apprendimento dall’esperienza — non solo quando partiamo dall’equiprobabilità, ma anche quando disponiamo di informazioni strutturate.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1973,80 +1757,30 @@ Importante
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Concetti essenziali di questo capitolo:</strong></p>
 <ol type="1">
+<li><p><strong>Principio di indifferenza</strong>: l’equiprobabilità riflette simmetria epistemica, non una proprietà fisica. Assegniamo <span class="math inline">\(P(\omega_i) = 1/n\)</span> solo quando non abbiamo ragioni per preferire un esito.</p></li>
+<li><p><strong>Formula classica come caso speciale</strong>: <span class="math inline">\(P(A) = |A|/|\Omega|\)</span> è una <em>conseguenza</em> degli assiomi quando vale l’equiprobabilità, non una definizione universale.</p></li>
 <li>
-<strong>Principio di indifferenza</strong>
+<p><strong>Tecniche combinatorie</strong>:</p>
 <ul>
-<li>L’equiprobabilità riflette <em>simmetria epistemica</em>, non una proprietà fisica del mondo.</li>
-<li>Assegniamo <span class="math inline">\(P(\omega_i) = 1/n\)</span> solo quando non abbiamo ragioni per preferire un esito.</li>
-<li>Richiede giudizio esplicito sul contesto (simmetria fisica, ignoranza genuina, assenza di struttura).</li>
+<li>Permutazioni: <span class="math inline">\(n!\)</span> (ordine conta, tutti gli elementi)</li>
+<li>Disposizioni: <span class="math inline">\(n!/(n-k)!\)</span> (ordine conta, <span class="math inline">\(k\)</span> elementi)</li>
+<li>Combinazioni: <span class="math inline">\(\binom{n}{k}\)</span> (ordine non conta)</li>
 </ul>
 </li>
 <li>
-<strong>Formula classica come caso speciale</strong>
+<p><strong>Distribuzione Beta</strong>:</p>
 <ul>
-<li>
-<span class="math inline">\(P(A) = |A|/|\Omega|\)</span> è una <em>conseguenza</em> degli assiomi quando vale l’equiprobabilità.</li>
-<li>Non è una definizione universale, ma un’applicazione condizionata.</li>
-<li>Il calcolo combinatorio è strumento operativo, non fondamento teorico.</li>
+<li>Beta(1,1) = massima ignoranza (equiprobabilità continua).</li>
+<li>Aggiornamento: <span class="math inline">\(\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)\)</span>.</li>
 </ul>
 </li>
-<li>
-<strong>Distribuzione Beta come generalizzazione continua</strong>
-<ul>
-<li>Beta(1,1) = massima ignoranza (analogo continuo dell’equiprobabilità).</li>
-<li>I parametri <span class="math inline">\((\alpha, \beta)\)</span> codificano posizione e forza delle credenze.</li>
-<li>L’aggiornamento: <span class="math inline">\(\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)\)</span>.</li>
-</ul>
-</li>
-<li>
-<strong>Limiti dell’equiprobabilità in psicologia</strong>
-<ul>
-<li>IRT: probabilità dipende da abilità individuale e difficoltà item.</li>
-<li>Bias di risposta: acquiescenza e desiderabilità sociale violano l’uniformità.</li>
-<li>Variabilità interindividuale richiede modelli flessibili.</li>
-</ul>
-</li>
+<li><p><strong>Limiti dell’equiprobabilità in psicologia</strong>: IRT, bias di risposta e variabilità interindividuale richiedono modelli flessibili che vadano oltre l’assunzione di uniformità.</p></li>
 </ol>
-<p><strong>Formule da ricordare:</strong></p>
-<p><span class="math display">\[
-P(A) = \frac{|A|}{|\Omega|} \quad \text{(solo con equiprobabilità)}
-\]</span></p>
-<p><span class="math display">\[
-\text{Beta}(\alpha, \beta) \xrightarrow{\text{dati } k, n} \text{Beta}(\alpha + k, \beta + n - k)
-\]</span></p>
-<p><strong>Tecniche combinatorie:</strong></p>
-<table class="caption-top table">
-<thead><tr class="header">
-<th>Tecnica</th>
-<th>Formula</th>
-<th>Quando usarla</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Permutazioni</td>
-<td><span class="math inline">\(n!\)</span></td>
-<td>Ordine conta, tutti gli elementi</td>
-</tr>
-<tr class="even">
-<td>Disposizioni</td>
-<td><span class="math inline">\(\frac{n!}{(n-k)!}\)</span></td>
-<td>Ordine conta, <span class="math inline">\(k\)</span> elementi</td>
-</tr>
-<tr class="odd">
-<td>Combinazioni</td>
-<td><span class="math inline">\(\binom{n}{k}\)</span></td>
-<td>Ordine non conta</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Per il prossimo capitolo:</strong></p>
-<p>Nel <a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a> vedremo come la probabilità condizionata rappresenti l’aggiornamento bayesiano delle credenze quando riceviamo nuova informazione.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2055,13 +1789,13 @@ P(A) = \frac{|A|}{|\Omega|} \quad \text{(solo con equiprobabilità)}
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.6.0 (2026-04-24)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin23</span></span>
-<span><span class="co">#&gt; Running under: macOS Tahoe 26.5.1</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.5.2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib </span></span>
@@ -2083,7 +1817,7 @@ P(A) = \frac{|A|}{|\Omega|} \quad \text{(solo con equiprobabilità)}
 <span><span class="co">#&gt; [10] bayesplot_1.15.0      ggplot2_4.0.3         reliabilitydiag_0.2.1</span></span>
 <span><span class="co">#&gt; [13] priorsense_1.2.0      posterior_1.7.0       loo_2.10.0           </span></span>
 <span><span class="co">#&gt; [16] rstan_2.32.7          StanHeaders_2.32.10   brms_2.23.0          </span></span>
-<span><span class="co">#&gt; [19] Rcpp_1.1.1-1.1        sessioninfo_1.2.4     conflicted_1.2.0     </span></span>
+<span><span class="co">#&gt; [19] Rcpp_1.1.2            sessioninfo_1.2.4     conflicted_1.2.0     </span></span>
 <span><span class="co">#&gt; [22] janitor_2.2.1         matrixStats_1.5.0     modelr_0.1.11        </span></span>
 <span><span class="co">#&gt; [25] tibble_3.3.1          dplyr_1.2.1           tidyr_1.3.2          </span></span>
 <span><span class="co">#&gt; [28] rio_1.3.0             here_1.0.2           </span></span>
@@ -2093,16 +1827,16 @@ P(A) = \frac{|A|}{|\Omega|} \quad \text{(solo con equiprobabilità)}
 <span><span class="co">#&gt;  [4] S7_0.2.2              fastmap_1.2.0         tensorA_0.36.2.1     </span></span>
 <span><span class="co">#&gt;  [7] pacman_0.5.1          digest_0.6.39         timechange_0.4.0     </span></span>
 <span><span class="co">#&gt; [10] estimability_2.0.0    lifecycle_1.0.5       magrittr_2.0.5       </span></span>
-<span><span class="co">#&gt; [13] compiler_4.6.0        rlang_1.2.0           tools_4.6.0          </span></span>
+<span><span class="co">#&gt; [13] compiler_4.6.1        rlang_1.3.0           tools_4.6.1          </span></span>
 <span><span class="co">#&gt; [16] yaml_2.3.12           knitr_1.51            labeling_0.4.3       </span></span>
 <span><span class="co">#&gt; [19] bridgesampling_1.2-1  htmlwidgets_1.6.4     pkgbuild_1.4.8       </span></span>
 <span><span class="co">#&gt; [22] curl_7.1.0            RColorBrewer_1.1-3    abind_1.4-8          </span></span>
-<span><span class="co">#&gt; [25] purrr_1.2.2           grid_4.6.0            stats4_4.6.0         </span></span>
+<span><span class="co">#&gt; [25] purrr_1.2.2           grid_4.6.1            stats4_4.6.1         </span></span>
 <span><span class="co">#&gt; [28] xtable_1.8-8          inline_0.3.21         emmeans_2.0.3        </span></span>
 <span><span class="co">#&gt; [31] scales_1.4.0          cli_3.6.6             mvtnorm_1.4-1        </span></span>
 <span><span class="co">#&gt; [34] rmarkdown_2.31        generics_0.1.4        otel_0.2.0           </span></span>
 <span><span class="co">#&gt; [37] RcppParallel_5.1.11-2 cachem_1.1.0          stringr_1.6.0        </span></span>
-<span><span class="co">#&gt; [40] parallel_4.6.0        vctrs_0.7.3           V8_8.2.0             </span></span>
+<span><span class="co">#&gt; [40] parallel_4.6.1        vctrs_0.7.3           V8_8.2.0             </span></span>
 <span><span class="co">#&gt; [43] Matrix_1.7-5          jsonlite_2.0.0        arrayhelpers_1.1-1   </span></span>
 <span><span class="co">#&gt; [46] glue_1.8.1            codetools_0.2-20      distributional_0.8.1 </span></span>
 <span><span class="co">#&gt; [49] lubridate_1.9.5       stringi_1.8.7         gtable_0.3.6         </span></span>
@@ -2112,7 +1846,7 @@ P(A) = \frac{|A|}{|\Omega|} \quad \text{(solo con equiprobabilità)}
 <span><span class="co">#&gt; [61] backports_1.5.1       memoise_2.0.1         broom_1.0.13         </span></span>
 <span><span class="co">#&gt; [64] snakecase_0.11.1      rstantools_2.6.0      coda_0.19-4.1        </span></span>
 <span><span class="co">#&gt; [67] gridExtra_2.3.1       nlme_3.1-169          checkmate_2.3.4      </span></span>
-<span><span class="co">#&gt; [70] xfun_0.59             pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [70] xfun_0.60             pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

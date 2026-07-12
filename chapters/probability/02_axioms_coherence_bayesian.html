@@ -56,27 +56,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -1142,7 +1122,6 @@ window.Quarto = {
   <li><a href="#gli-assiomi-di-kolmogorov-come-vincoli-di-coerenza" id="toc-gli-assiomi-di-kolmogorov-come-vincoli-di-coerenza" class="nav-link" data-scroll-target="#gli-assiomi-di-kolmogorov-come-vincoli-di-coerenza"><span class="header-section-number">2.3</span> Gli assiomi di Kolmogorov come vincoli di coerenza</a></li>
   <li><a href="#diagnosi-di-incoerenze-casi-tipici" id="toc-diagnosi-di-incoerenze-casi-tipici" class="nav-link" data-scroll-target="#diagnosi-di-incoerenze-casi-tipici"><span class="header-section-number">2.4</span> Diagnosi di incoerenze: casi tipici</a></li>
   <li><a href="#tabelle-di-probabilit%C3%A0-congiunta" id="toc-tabelle-di-probabilità-congiunta" class="nav-link" data-scroll-target="#tabelle-di-probabilit%C3%A0-congiunta"><span class="header-section-number">2.5</span> Tabelle di probabilità congiunta</a></li>
-  <li><a href="#estensione-a-tabelle-multidimensionali" id="toc-estensione-a-tabelle-multidimensionali" class="nav-link" data-scroll-target="#estensione-a-tabelle-multidimensionali"><span class="header-section-number">2.6</span> Estensione a tabelle multidimensionali</a></li>
   <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/02_axioms_coherence_bayesian.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
@@ -1167,10 +1146,7 @@ window.Quarto = {
 <p>Non basta avere opinioni: tutti ne abbiamo. Non basta nemmeno avere opinioni informate o ragionevoli. Il punto è più sottile e profondo: le nostre credenze devono essere <strong>internamente coerenti</strong> tra loro. Se, per esempio, credo che pioverà con probabilità 0.7 e che non pioverà con probabilità 0.5, sto commettendo un errore logico, a prescindere da quanto siano informate le mie valutazioni meteorologiche. La somma delle mie credenze su eventi mutuamente esclusivi ed esaustivi deve essere 1, non per una convenzione arbitraria, ma perché altrimenti il mio sistema di credenze si contraddice.</p>
 <p>Questo capitolo sviluppa il quadro matematico che rende espliciti e controllabili questi vincoli di coerenza. Ma attenzione: non si tratta di aggiungere un livello puramente formale alla discussione. La matematica che introdurremo non è un semplice ornamento tecnico, ma il <em>linguaggio</em> attraverso cui possiamo esprimere con precisione il significato di un ragionamento coerente in condizioni di incertezza.</p>
 <section id="perché-questo-è-importante-per-la-psicologia" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="perché-questo-è-importante-per-la-psicologia">Perché questo è importante per la psicologia</h3>
-<p>Lo psicologo potrebbe chiedersi: “Perché dovrei preoccuparmi di assiomi e vincoli formali?” La risposta tocca il cuore stesso della disciplina.</p>
-<p>La psicologia studia il modo in cui le persone ragionano, decidono e valutano rischi e incertezze. Decenni di ricerca, a partire da Kahneman e Tversky, hanno documentato sistematicamente le violazioni della razionalità normativa nel giudizio umano <span class="citation" data-cites="kahneman1979prospect">(<a href="#ref-kahneman1979prospect" role="doc-biblioref">Kahneman &amp; Tversky, 1979</a>)</span>. Ma per identificare una violazione, dobbiamo prima sapere cosa dovrebbe essere. Gli assiomi di coerenza che studieremo in questo capitolo definiscono precisamente questo standard normativo.</p>
-<p>Inoltre, quando costruiamo modelli statistici per analizzare i dati psicologici, stiamo implicitamente assumendo che le nostre specificazioni probabilistiche siano coerenti. Un modello con assunzioni incoerenti non è semplicemente “sbagliato”, ma è logicamente impossibile, come un triangolo con quattro lati. Comprendere i vincoli di coerenza ci rende ricercatori più consapevoli.</p>
-<p>Infine, nella pratica clinica, i professionisti formulano continuamente giudizi probabilistici: quanto è probabile che questo paziente soffra di depressione? Quanto è probabile che risponda a un certo trattamento? La capacità di formulare questi giudizi in modo coerente e di riconoscere quando non lo sono è una competenza professionale fondamentale.</p>
+<p>Per gli psicologi, questi assiomi definiscono lo standard normativo contro cui valutare il ragionamento umano in condizioni di incertezza, un tema centrale nella ricerca sui bias cognitivi a partire da Kahneman e Tversky. Inoltre, quando costruiamo modelli statistici, la coerenza probabilistica non è un optional: un modello incoerente è logicamente impossibile, come un triangolo con quattro lati. Comprendere questi vincoli ci rende ricercatori più consapevoli e clinici più competenti.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1362,10 +1338,11 @@ P: \mathcal{F} \to [0,1],
 <ol type="1">
 <li><p><strong>Non negatività</strong><br><span class="math display">\[P(A) \geq 0 \quad \text{per ogni evento } A.\]</span></p></li>
 <li><p><strong>Normalizzazione</strong><br><span class="math display">\[P(\Omega) = 1.\]</span></p></li>
-<li><p><strong>Additività finita</strong><br>
-Se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono eventi mutuamente esclusivi (<span class="math inline">\(A \cap B = \varnothing\)</span>), allora <span class="math display">\[P(A \cup B) = P(A) + P(B).\]</span></p></li>
-<li><p><strong>Additività numerabile</strong> (per spazi infiniti)<br>
-Se <span class="math inline">\(A_1, A_2, \ldots\)</span> è una sequenza di eventi mutuamente esclusivi, allora <span class="math display">\[P\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i).\]</span></p></li>
+<li>
+<p><strong>Additività</strong><br>
+Se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono eventi mutuamente esclusivi (<span class="math inline">\(A \cap B = \varnothing\)</span>), allora <span class="math display">\[P(A \cup B) = P(A) + P(B).\]</span></p>
+<p>Per spazi campionari infiniti, questo principio si estende a successioni numerabili di eventi: se <span class="math inline">\(A_1, A_2, \ldots\)</span> sono a due a due disgiunti, allora <span class="math display">\[P\!\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i).\]</span> Nella pratica psicologica, tuttavia, lavoreremo quasi sempre con spazi finiti, per cui la versione finita è quella che utilizzeremo più spesso.</p>
+</li>
 </ol>
 </div>
 </section><section id="perché-questi-assiomi-e-non-altri" class="level3" data-number="2.3.2"><h3 data-number="2.3.2" class="anchored" data-anchor-id="perché-questi-assiomi-e-non-altri">
@@ -1376,6 +1353,23 @@ Se <span class="math inline">\(A_1, A_2, \ldots\)</span> è una sequenza di even
 <p><strong>L’additività</strong> è forse il vincolo più importante, e merita una riflessione più approfondita. Dice che, se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> non possono verificarsi insieme, allora la mia credenza che “si verifichi <span class="math inline">\(A\)</span> oppure <span class="math inline">\(B\)</span>” deve essere esattamente la somma delle mie credenze separate in <span class="math inline">\(A\)</span> e in <span class="math inline">\(B\)</span>.</p>
 <p>Perché? Qualsiasi altra assegnazione sarebbe incoerente. Se assegnassi <span class="math inline">\(P(A \cup B) &lt; P(A) + P(B)\)</span>, direi che credo “meno” nella disgiunzione rispetto alle due opzioni prese separatamente, ma la disgiunzione include entrambe le opzioni! Viceversa, se assegnassi <span class="math inline">\(P(A \cup B) &gt; P(A) + P(B)\)</span>, starei “contando due volte” qualcosa.</p>
 <p>L’<strong>additività numerabile</strong> estende questo ragionamento a sequenze infinite di eventi, necessarie per trattare variabili continue, ma il principio è lo stesso.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Un'analogia utile: le aree">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Un’analogia utile: le aree
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Le proprietà della probabilità sono analoghe a quelle delle aree. Se due regioni non si sovrappongono, la loro area totale è la somma delle due aree. Se le regioni si sovrappongono, devo sottrarre l’area di sovrapposizione per evitare di contarla due volte. L’area totale disponibile (normalizzata a 1) non può essere superata. Nessuna regione ha un’area negativa.</p>
+<p>Questa analogia non è casuale: matematicamente, la probabilità è una “misura” e le misure generalizzano il concetto di area/volume. Tuttavia, l’interpretazione è diversa: non stiamo misurando estensioni spaziali, ma gradi di credenza.</p>
+</div>
+</div>
+</div>
 </section><section id="conseguenze-immediate-degli-assiomi" class="level3" data-number="2.3.3"><h3 data-number="2.3.3" class="anchored" data-anchor-id="conseguenze-immediate-degli-assiomi">
 <span class="header-section-number">2.3.3</span> Conseguenze immediate degli assiomi</h3>
 <p>Una volta accettati questi vincoli fondamentali, molte altre proprietà ne derivano come conseguenze logiche necessarie. Non si tratta di regole aggiuntive da memorizzare, ma di teoremi che <em>derivano</em> dagli assiomi.</p>
@@ -1395,23 +1389,6 @@ Se <span class="math inline">\(A \subseteq B\)</span>, allora <span class="math 
 </div>
 <p>La prima proprietà è particolarmente importante e vale la pena di comprenderla bene: se credo che pioverà con probabilità 0.7, <em>devo</em> credere che non pioverà con probabilità 0.3. Non ho scelta. È una conseguenza logica degli assiomi.</p>
 <p>La quarta proprietà (regola dell’unione generale) merita attenzione, in quanto mostra cosa accade quando gli eventi non sono disgiunti. La sottrazione di <span class="math inline">\(P(A \cap B)\)</span> corregge il “doppio conteggio” che si verificherebbe sommando semplicemente le due probabilità.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Un'analogia utile: le aree">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Un’analogia utile: le aree
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Le proprietà della probabilità sono analoghe a quelle delle aree. Se due regioni non si sovrappongono, la loro area totale è la somma delle due aree. Se le regioni si sovrappongono, devo sottrarre l’area di sovrapposizione per evitare di contarla due volte. L’area totale disponibile (normalizzata a 1) non può essere superata. Nessuna regione ha un’area negativa.</p>
-<p>Questa analogia non è casuale: matematicamente, la probabilità è una “misura” e le misure generalizzano il concetto di area/volume. Tuttavia, l’interpretazione è diversa: non stiamo misurando estensioni spaziali, ma gradi di credenza.</p>
-</div>
-</div>
-</div>
 </section></section><section id="diagnosi-di-incoerenze-casi-tipici" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="diagnosi-di-incoerenze-casi-tipici">
 <span class="header-section-number">2.4</span> Diagnosi di incoerenze: casi tipici</h2>
 <p>La teoria è utile solo se ci permette di individuare e correggere gli errori nella pratica. Vediamo alcuni pattern comuni di incoerenza e come riconoscerli.</p>
@@ -1531,18 +1508,16 @@ P(A \cap B)
 <p>Passiamo ora dallo studio dei vincoli teorici alla costruzione di rappresentazioni operative. Le <strong>tabelle di probabilità congiunta</strong> sono lo strumento fondamentale per questo scopo.</p>
 <section id="lidea-centrale-la-distribuzione-congiunta-è-la-fonte" class="level3" data-number="2.5.1"><h3 data-number="2.5.1" class="anchored" data-anchor-id="lidea-centrale-la-distribuzione-congiunta-è-la-fonte">
 <span class="header-section-number">2.5.1</span> L’idea centrale: la distribuzione congiunta è la “fonte”</h3>
-<p>Prima di addentrarci nei dettagli tecnici, è importante comprendere il principio guida. Quando abbiamo due o più variabili (o eventi), possiamo chiederci:</p>
+<p>Quando abbiamo due o più variabili, possiamo chiederci:</p>
 <ul>
 <li>Qual è la probabilità di ciascun valore della prima variabile? (<em>marginale</em>)</li>
-<li>Qual è la probabilità di ciascun valore della seconda variabile? (<em>marginale</em>)</li>
 <li>Qual è la probabilità di ciascuna <em>combinazione</em> di valori? (<em>congiunta</em>)</li>
-<li>Se conosco il valore della prima variabile, qual è la probabilità dei valori della seconda? (<em>condizionata</em>)</li>
+<li>Se conosco il valore di una variabile, qual è la probabilità dei valori dell’altra? (<em>condizionata</em>)</li>
 </ul>
-<p>Tutte queste domande hanno risposte diverse. Ma ecco il punto cruciale: <strong>non si tratta di domande indipendenti</strong>. Se conosco la distribuzione congiunta, ovvero le probabilità di tutte le combinazioni, posso <strong>derivare</strong> tutte le altre.</p>
-<p>La distribuzione congiunta è come il DNA del sistema: contiene tutte le informazioni. Le distribuzioni marginali e condizionate sono come le caratteristiche fenotipiche che emergono da quel DNA.</p>
+<p>Queste domande non sono indipendenti. Se conosco la distribuzione congiunta — ovvero le probabilità di tutte le combinazioni — posso <strong>derivare</strong> tutte le altre. La distribuzione congiunta è come il DNA del sistema: contiene tutte le informazioni; marginali e condizionate sono caratteristiche che emergono da quel DNA.</p>
 </section><section id="struttura-di-una-tabella-22" class="level3" data-number="2.5.2"><h3 data-number="2.5.2" class="anchored" data-anchor-id="struttura-di-una-tabella-22">
 <span class="header-section-number">2.5.2</span> Struttura di una tabella 2×2</h3>
-<p>Consideriamo il caso più semplice: due eventi dicotomici <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>. La loro distribuzione congiunta può essere rappresentata in una tabella:</p>
+<p>Consideriamo il caso più semplice: due eventi dicotomici <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>.</p>
 <table class="caption-top table">
 <thead><tr class="header">
 <th></th>
@@ -1571,84 +1546,65 @@ P(A \cap B)
 </tr>
 </tbody>
 </table>
-<p><strong>Le quattro celle interne</strong> contengono le probabilità congiunte, ovvero quanto crediamo in ciascuna delle quattro possibili combinazioni.</p>
-<p><strong>I margini (i bordi)</strong> contengono le probabilità marginali, ottenute sommando le righe o le colonne: <span class="math display">\[P(A) = P(A \cap B) + P(A \cap B^c)\]</span> <span class="math display">\[P(B) = P(A \cap B) + P(A^c \cap B)\]</span></p>
-<p><strong>L’angolo in basso a destra</strong> deve valere 1: la somma di tutte le celle interne (e di tutte le marginali su ciascun asse) deve dare 1.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio completo: test diagnostico per la depressione">
+<ul>
+<li>Le <strong>quattro celle interne</strong> contengono le probabilità congiunte.</li>
+<li>I <strong>margini</strong> contengono le probabilità marginali, ottenute sommando righe o colonne:</li>
+</ul>
+<p><span class="math display">\[P(A) = P(A \cap B) + P(A \cap B^c), \qquad P(B) = P(A \cap B) + P(A^c \cap B).\]</span></p>
+<ul>
+<li>L’<strong>angolo in basso a destra</strong> deve valere 1: la somma di tutte le celle (e di tutte le marginali) è 1.</li>
+</ul></section><section id="costruzione-di-una-tabella-congiunta" class="level3" data-number="2.5.3"><h3 data-number="2.5.3" class="anchored" data-anchor-id="costruzione-di-una-tabella-congiunta">
+<span class="header-section-number">2.5.3</span> Costruzione di una tabella congiunta</h3>
+<p>Come si costruisce una tabella congiunta a partire dalle informazioni disponibili? La regola fondamentale è il <strong>principio del prodotto</strong>:</p>
+<p><span class="math display">\[P(A \cap B) = P(A \mid B) \, P(B) = P(B \mid A) \, P(A).\]</span></p>
+<p>Se conosciamo una probabilità marginale e una condizionata, possiamo ricavare la congiunta.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio: test diagnostico per la depressione">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio completo: test diagnostico per la depressione
+<span class="screen-reader-only">Nota</span>Esempio: test diagnostico per la depressione
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<section id="costruzione-passo-passo" class="level4 unnumbered unlisted callout-body-container callout-body"><h4 class="unnumbered unlisted anchored" data-anchor-id="costruzione-passo-passo">Costruzione passo-passo</h4>
-<p>Consideriamo un test diagnostico per la depressione. Ci sono due variabili:</p>
+<div class="callout-body-container callout-body">
+<p>Consideriamo un test per la depressione con:</p>
 <ul>
 <li>
-<strong>stato reale</strong>: <span class="math inline">\(D\)</span> (depresso) o <span class="math inline">\(D^c\)</span> (non depresso);</li>
+<strong>prevalenza</strong>: <span class="math inline">\(P(D) = 0.15\)</span>;</li>
 <li>
-<strong>esito del test</strong>: <span class="math inline">\(T^+\)</span> (positivo) o <span class="math inline">\(T^-\)</span> (negativo).</li>
+<strong>sensibilità</strong>: <span class="math inline">\(P(T^+ \mid D) = 0.85\)</span>;</li>
+<li>
+<strong>tasso di falsi positivi</strong>: <span class="math inline">\(P(T^+ \mid D^c) = 0.20\)</span>.</li>
 </ul>
-<p>Supponiamo di conoscere:</p>
-<ul>
-<li>
-<strong>prevalenza</strong>: <span class="math inline">\(P(D) = 0.15\)</span> (il 15% della popolazione clinica è depresso);</li>
-<li>
-<strong>sensibilità</strong>: <span class="math inline">\(P(T^+ \mid D) = 0.85\)</span> (l’85% dei depressi risulta positivo);</li>
-<li>
-<strong>tasso di falsi positivi</strong>: <span class="math inline">\(P(T^+ \mid D^c) = 0.20\)</span> (il 20% dei non depressi risulta positivo).</li>
-</ul>
-<p>Come costruiamo la tabella congiunta? Usiamo la regola del prodotto:</p>
-<p><span class="math display">\[
-P(D \cap T^+) = P(T^+ \mid D) \cdot P(D) = 0.85 \times 0.15 = 0.1275.
-\]</span></p>
-<p>Procediamo sistematicamente:</p>
+<p>Costruiamo la tabella congiunta:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri di base</span></span>
-<span><span class="va">prevalenza</span> <span class="op">&lt;-</span> <span class="fl">0.15</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prevalenza</span> <span class="op">&lt;-</span> <span class="fl">0.15</span></span>
 <span><span class="va">sensibilita</span> <span class="op">&lt;-</span> <span class="fl">0.85</span></span>
 <span><span class="va">tasso_falsi_positivi</span> <span class="op">&lt;-</span> <span class="fl">0.20</span></span>
 <span></span>
-<span><span class="co"># Calcolo delle probabilità congiunte</span></span>
-<span><span class="va">p_depresso_positivo</span> <span class="op">&lt;-</span> <span class="va">sensibilita</span> <span class="op">*</span> <span class="va">prevalenza</span></span>
-<span><span class="va">p_depresso_negativo</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sensibilita</span><span class="op">)</span> <span class="op">*</span> <span class="va">prevalenza</span></span>
-<span><span class="va">p_non_depresso_positivo</span> <span class="op">&lt;-</span> <span class="va">tasso_falsi_positivi</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">prevalenza</span><span class="op">)</span></span>
-<span><span class="va">p_non_depresso_negativo</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">tasso_falsi_positivi</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">prevalenza</span><span class="op">)</span></span>
+<span><span class="va">p_D_pos</span> <span class="op">&lt;-</span> <span class="va">sensibilita</span> <span class="op">*</span> <span class="va">prevalenza</span>          <span class="co"># 0.1275</span></span>
+<span><span class="va">p_D_neg</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">sensibilita</span><span class="op">)</span> <span class="op">*</span> <span class="va">prevalenza</span>    <span class="co"># 0.0225</span></span>
+<span><span class="va">p_Dc_pos</span> <span class="op">&lt;-</span> <span class="va">tasso_falsi_positivi</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">prevalenza</span><span class="op">)</span>   <span class="co"># 0.1700</span></span>
+<span><span class="va">p_Dc_neg</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">tasso_falsi_positivi</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">prevalenza</span><span class="op">)</span> <span class="co"># 0.6800</span></span>
 <span></span>
-<span><span class="co"># Creazione della tabella</span></span>
 <span><span class="va">tabella_congiunta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">p_depresso_positivo</span>, <span class="va">p_depresso_negativo</span>,</span>
-<span>    <span class="va">p_non_depresso_positivo</span>, <span class="va">p_non_depresso_negativo</span><span class="op">)</span>,</span>
-<span>  nrow <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>  byrow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">p_D_pos</span>, <span class="va">p_D_neg</span>, <span class="va">p_Dc_pos</span>, <span class="va">p_Dc_neg</span><span class="op">)</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Stato reale"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Depresso"</span>, <span class="st">"Non depresso"</span><span class="op">)</span>,</span>
-<span>    <span class="st">"Risultato test"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Positivo"</span>, <span class="st">"Negativo"</span><span class="op">)</span></span>
+<span>    <span class="st">"Test"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Positivo"</span>, <span class="st">"Negativo"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">tabella_congiunta</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;               Risultato test</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">tabella_congiunta</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               Test</span></span>
 <span><span class="co">#&gt; Stato reale    Positivo Negativo</span></span>
 <span><span class="co">#&gt;   Depresso        0.128   0.0225</span></span>
 <span><span class="co">#&gt;   Non depresso    0.170   0.6800</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>Interpretazione delle celle:</strong></p>
-<ul>
-<li>
-<strong>0.1275</strong>: probabilità di essere depresso <em>e</em> risultare positivo (vero positivo);</li>
-<li>
-<strong>0.0225</strong>: probabilità di essere depresso <em>e</em> risultare negativo (falso negativo);</li>
-<li>
-<strong>0.1700</strong>: probabilità di non essere depresso <em>e</em> risultare positivo (falso positivo);</li>
-<li>
-<strong>0.6800</strong>: probabilità di non essere depresso <em>e</em> risultare negativo (vero negativo).</li>
-</ul>
-<p><strong>Verifica di coerenza</strong>: <span class="math inline">\(0.1275 + 0.0225 + 0.1700 + 0.6800 = 1.0000\)</span> ✓</p>
+<p>Ogni cella rappresenta la probabilità di una combinazione: veri positivi (0.1275), falsi negativi (0.0225), falsi positivi (0.1700), veri negativi (0.6800). La somma è 1.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1657,121 +1613,88 @@ P(D \cap T^+) = P(T^+ \mid D) \cdot P(D) = 0.85 \times 0.15 = 0.1275.
 </div>
 </div>
 </div>
-</section>
 </div>
 </div>
-</section><section id="calcolo-di-probabilità-marginali-e-condizionate" class="level3" data-number="2.5.3"><h3 data-number="2.5.3" class="anchored" data-anchor-id="calcolo-di-probabilità-marginali-e-condizionate">
-<span class="header-section-number">2.5.3</span> Calcolo di probabilità marginali e condizionate</h3>
-<p>Una volta costruita la tabella congiunta, tutte le altre probabilità di interesse si ottengono con semplici operazioni algebriche.</p>
-<section id="probabilità-marginali" class="level4" data-number="2.5.3.1"><h4 data-number="2.5.3.1" class="anchored" data-anchor-id="probabilità-marginali">
-<span class="header-section-number">2.5.3.1</span> Probabilità marginali</h4>
-<p>Le probabilità marginali si ottengono <strong>sommando</strong> lungo righe o colonne:</p>
-<p><span class="math display">\[P(A) = P(A \cap B) + P(A \cap B^c)\]</span> <span class="math display">\[P(B) = P(A \cap B) + P(A^c \cap B)\]</span></p>
-<p>Il nome “marginale” deriva dal fatto che questi valori compaiono sui <em>margini</em> della tabella.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: marginali dal test diagnostico">
+</div>
+</section><section id="calcolo-di-marginali-e-condizionate" class="level3" data-number="2.5.4"><h3 data-number="2.5.4" class="anchored" data-anchor-id="calcolo-di-marginali-e-condizionate">
+<span class="header-section-number">2.5.4</span> Calcolo di marginali e condizionate</h3>
+<p>Una volta costruita la tabella congiunta, tutto il resto si ottiene per derivazione.</p>
+<section id="probabilità-marginali" class="level4" data-number="2.5.4.1"><h4 data-number="2.5.4.1" class="anchored" data-anchor-id="probabilità-marginali">
+<span class="header-section-number">2.5.4.1</span> Probabilità marginali</h4>
+<p>Si ottengono sommando lungo righe o colonne:</p>
+<div class="cell" data-layout-align="center">
+<pre><code>#&gt; P(D)     = 0.15 (prevalenza)
+#&gt; P(T+)    = 0.297 (test positivo)</code></pre>
+</div>
+<p>Notiamo che <span class="math inline">\(P(T^+) \approx 0.30\)</span> è molto più alta della prevalenza (0.15), perché include sia i veri che i falsi positivi.</p>
+</section><section id="probabilità-condizionate" class="level4" data-number="2.5.4.2"><h4 data-number="2.5.4.2" class="anchored" data-anchor-id="probabilità-condizionate">
+<span class="header-section-number">2.5.4.2</span> Probabilità condizionate</h4>
+<p>Si ottengono come rapporto tra probabilità congiunta e marginale:</p>
+<p><span class="math display">\[P(A \mid B) = \frac{P(A \cap B)}{P(B)}.\]</span></p>
+<p><strong>Interpretazione epistemica</strong>: condizionare significa <em>restringere</em> lo spazio delle possibilità a quelle compatibili con l’informazione acquisita, ri-normalizzando le probabilità su questo spazio ristretto.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio: valore predittivo positivo">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: marginali dal test diagnostico
+<span class="screen-reader-only">Nota</span>Esempio: valore predittivo positivo
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>La domanda clinica cruciale: “Se il test è positivo, qual è la probabilità che il paziente sia depresso?”</p>
+<p><span class="math display">\[P(D \mid T^+) = \frac{P(D \cap T^+)}{P(T^+)} = \frac{0.1275}{0.1275 + 0.1700} \approx 0.429.\]</span></p>
 <div class="cell" data-layout-align="center">
-<pre><code>#&gt; Probabilità marginali derivate:
-#&gt; P(D) = 0.15 (prevalenza depressione)
-#&gt; P(D^c) = 0.85 (assenza depressione)
-#&gt; P(T+) = 0.297 (test positivo)
-#&gt; P(T-) = 0.703 (test negativo)</code></pre>
+<pre><code>#&gt; P(D | T+) = 0.429</code></pre>
 </div>
-<p>Notiamo che la probabilità di un test positivo (≈0.30) è molto più alta della prevalenza della depressione (0.15). Ciò è dovuto al fatto che include sia i veri positivi che i falsi positivi.</p>
+<p>Nonostante l’85% di sensibilità, un test positivo indica depressione solo nel 43% dei casi. La ragione è la bassa prevalenza: la maggior parte dei positivi è falsa. Questo fenomeno, il <em>paradosso dei test diagnostici</em>, è stato introdotto nel capitolo precedente e sarà ripreso nel <a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a>.</p>
 </div>
 </div>
 </div>
-</section><section id="probabilità-condizionate" class="level4" data-number="2.5.3.2"><h4 data-number="2.5.3.2" class="anchored" data-anchor-id="probabilità-condizionate">
-<span class="header-section-number">2.5.3.2</span> Probabilità condizionate</h4>
-<p>Le probabilità condizionate si ottengono come <strong>rapporto</strong> tra la probabilità congiunta e quella marginale:</p>
-<p><span class="math display">\[P(A \mid B) = \frac{P(A \cap B)}{P(B)}\]</span></p>
-<p><strong>Interpretazione epistemica</strong>: condizionare significa <em>restringere</em> lo spazio delle possibilità a quelle compatibili con l’informazione acquisita. Se si sa che <span class="math inline">\(B\)</span> si è verificato, le uniche configurazioni rilevanti sono quelle in cui <span class="math inline">\(B\)</span> è vero. La probabilità condizionata ri-normalizza le probabilità congiunte su questo spazio ristretto.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: condizionate dal test diagnostico">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: condizionate dal test diagnostico
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>La domanda clinica più importante è: “Se il test è positivo, qual è la probabilità che il paziente soffra di depressione?”</p>
-<div class="cell" data-layout-align="center">
-<pre><code>#&gt; Probabilità condizionate derivate:
-#&gt; P(D | T+) = 0.429 (Valore predittivo positivo)
-#&gt; P(D | T-) = 0.032 (Probabilità residua dopo test negativo)</code></pre>
-</div>
-<p>Questo risultato è spesso sorprendente: nonostante una sensibilità dell’85%, un test positivo indica la presenza di depressione solo nel 43% dei casi! La ragione è la bassa prevalenza: la maggior parte dei risultati positivi è falsa.</p>
-<p>Questo fenomeno, noto come “paradosso dei test diagnostici”, è stato introdotto nel <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a> e sarà approfondito nel <a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a>. Per ora, il punto importante è che questa probabilità è stata <em>derivata</em> dalla tabella congiunta, non è stata assunta.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Messaggio chiave: le condizionate non sono numeri a parte">
+<div class="callout callout-style-default callout-important callout-titled" title="Messaggio chiave">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Messaggio chiave: le condizionate non sono numeri a parte
+<span class="screen-reader-only">Importante</span>Messaggio chiave
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Un errore comune è quello di considerare le probabilità condizionate come assegnazioni indipendenti. Non lo sono. Una volta specificata la tabella congiunta, le probabilità condizionate sono <strong>determinate</strong> e non c’è libertà di scelta.</p>
-<p>Ciò garantisce la <strong>coerenza interna</strong> del sistema. Se provassimo a specificare arbitrariamente sia <span class="math inline">\(P(A \mid B)\)</span>, sia <span class="math inline">\(P(B \mid A)\)</span>, sia <span class="math inline">\(P(A \cap B)\)</span>, quasi certamente introdurremmo delle contraddizioni.</p>
-<p>La regola è: <strong>specificare la distribuzione congiunta e derivare tutto il resto</strong>.</p>
+<p>Una volta specificata la tabella congiunta, marginali e condizionate sono <strong>determinate</strong>. Non c’è libertà di scelta: specificare separatamente <span class="math inline">\(P(A \mid B)\)</span> e <span class="math inline">\(P(B \mid A)\)</span> senza una congiunta coerente quasi certamente introduce contraddizioni.</p>
+<p>La regola è: <strong>specificare la distribuzione congiunta, derivare tutto il resto</strong>.</p>
 </div>
 </div>
-</section></section><section id="verifica-empirica-le-simulazioni-come-test-di-coerenza" class="level3" data-number="2.5.4"><h3 data-number="2.5.4" class="anchored" data-anchor-id="verifica-empirica-le-simulazioni-come-test-di-coerenza">
-<span class="header-section-number">2.5.4</span> Verifica empirica: le simulazioni come test di coerenza</h3>
-<p>Un modo potente per verificare la coerenza di un sistema di credenze è <em>simulare</em> dati secondo quella distribuzione e controllare che le frequenze osservate convergano alle probabilità teoriche.</p>
-<p>Se la distribuzione congiunta è coerente, le simulazioni produrranno dati con le proprietà attese. Se c’è un errore (di calcolo o concettuale), le simulazioni lo evidenzieranno.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Verifica mediante simulazione Monte Carlo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+</section></section><section id="verifica-empirica-mediante-simulazione" class="level3" data-number="2.5.5"><h3 data-number="2.5.5" class="anchored" data-anchor-id="verifica-empirica-mediante-simulazione">
+<span class="header-section-number">2.5.5</span> Verifica empirica mediante simulazione</h3>
+<p>Un modo potente per verificare la coerenza di un sistema di credenze è simulare dati secondo quella distribuzione e controllare che le frequenze osservate convergano alle probabilità teoriche.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Verifica Monte Carlo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Verifica mediante simulazione Monte Carlo
+<span class="screen-reader-only">Nota</span>Verifica Monte Carlo
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Simuliamo 100.000 osservazioni dalla tabella congiunta:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">100000</span></span>
-<span></span>
-<span><span class="co"># Simulare secondo la distribuzione congiunta</span></span>
-<span><span class="va">probs_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">p_depresso_positivo</span>, <span class="va">p_depresso_negativo</span>, </span>
-<span>                  <span class="va">p_non_depresso_positivo</span>, <span class="va">p_non_depresso_negativo</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">outcomes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, size <span class="op">=</span> <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="va">probs_vector</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Contare frequenze empiriche</span></span>
+<span><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">p_D_pos</span>, <span class="va">p_D_neg</span>, <span class="va">p_Dc_pos</span>, <span class="va">p_Dc_neg</span><span class="op">)</span></span>
+<span><span class="va">outcomes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, size <span class="op">=</span> <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="va">probs</span><span class="op">)</span></span>
 <span><span class="va">freq_empiriche</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">outcomes</span><span class="op">)</span> <span class="op">/</span> <span class="va">N</span></span>
 <span></span>
-<span><span class="co"># Confronto</span></span>
 <span><span class="va">df_verifica</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  Configurazione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"D∩T+"</span>, <span class="st">"D∩T-"</span>, <span class="st">"D^c∩T+"</span>, <span class="st">"D^c∩T-"</span><span class="op">)</span>,</span>
-<span>  Teorica <span class="op">=</span> <span class="va">probs_vector</span>,</span>
-<span>  Empirica <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq_empiriche</span><span class="op">)</span></span>
+<span>  Teorica <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">probs</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  Empirica <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq_empiriche</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">df_verifica</span><span class="op">$</span><span class="va">Teorica</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">df_verifica</span><span class="op">$</span><span class="va">Teorica</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">df_verifica</span><span class="op">$</span><span class="va">Empirica</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">df_verifica</span><span class="op">$</span><span class="va">Empirica</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">df_verifica</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   Configurazione Teorica Empirica</span></span>
 <span><span class="co">#&gt; 1           D∩T+  0.1275   0.1266</span></span>
@@ -1787,67 +1710,46 @@ P(D \cap T^+) = P(T^+ \mid D) \cdot P(D) = 0.85 \times 0.15 = 0.1275.
 </div>
 </div>
 </div>
-<p>La convergenza delle frequenze empiriche verso le probabilità teoriche conferma che la distribuzione congiunta è un sistema coerente in grado di generare dati con le proprietà attese.</p>
-<p>Questo collegamento tra probabilità teoriche e dati simulati è un tema centrale dell’approccio bayesiano: le probabilità non sono “solo numeri”, ma specificano un <em>modello generativo</em> del mondo.</p>
+<p>La convergenza delle frequenze empiriche verso le probabilità teoriche conferma che la distribuzione congiunta è un sistema coerente che specifica un <em>modello generativo</em> del mondo.</p>
 </div>
 </div>
 </div>
-</section></section><section id="estensione-a-tabelle-multidimensionali" class="level2" data-number="2.6"><h2 data-number="2.6" class="anchored" data-anchor-id="estensione-a-tabelle-multidimensionali">
-<span class="header-section-number">2.6</span> Estensione a tabelle multidimensionali</h2>
-<p>Il framework delle tabelle congiunte si estende naturalmente a situazioni più complesse con più variabili e più categorie. Il principio rimane lo stesso: specificare le probabilità di tutte le combinazioni, da cui derivare tutto il resto.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esempio: depressione × livelli di ansia (tabella 2×3)">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+</section><section id="estensione-a-tabelle-multidimensionali" class="level3" data-number="2.5.6"><h3 data-number="2.5.6" class="anchored" data-anchor-id="estensione-a-tabelle-multidimensionali">
+<span class="header-section-number">2.5.6</span> Estensione a tabelle multidimensionali</h3>
+<p>Il framework si estende naturalmente a più variabili e più categorie. Il principio è invariato: specificare le probabilità di tutte le combinazioni, derivare tutto il resto.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esempio: depressione × ansia (tabella 2×3)">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esempio: depressione × livelli di ansia (tabella 2×3)
+<span class="screen-reader-only">Nota</span>Esempio: depressione × ansia (tabella 2×3)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Consideriamo due dimensioni:</p>
-<ul>
-<li>
-<strong>depressione</strong>: presente o assente (2 livelli);</li>
-<li>
-<strong>severità dell’ansia</strong>: nessuna, lieve, grave (3 livelli).</li>
-</ul>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tab_2x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.20</span>, <span class="fl">0.15</span>,  <span class="co"># Depresso: Ansia Nessuna/Lieve/Grave</span></span>
-<span>    <span class="fl">0.35</span>, <span class="fl">0.10</span>, <span class="fl">0.05</span><span class="op">)</span>, <span class="co"># Non depresso: Ansia Nessuna/Lieve/Grave</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.20</span>, <span class="fl">0.15</span>,  <span class="co"># Depresso: ansia nessuna/lieve/grave</span></span>
+<span>    <span class="fl">0.35</span>, <span class="fl">0.10</span>, <span class="fl">0.05</span><span class="op">)</span>, <span class="co"># Non depresso: ansia nessuna/lieve/grave</span></span>
 <span>  nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>    Depressione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"D"</span>, <span class="st">"D^c"</span><span class="op">)</span>,</span>
 <span>    Ansia <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Nessuna"</span>, <span class="st">"Lieve"</span>, <span class="st">"Grave"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Tabella 2×3:\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Tabella 2×3:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">tab_2x3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            Ansia</span></span>
 <span><span class="co">#&gt; Depressione Nessuna Lieve Grave</span></span>
 <span><span class="co">#&gt;         D      0.15   0.2  0.15</span></span>
 <span><span class="co">#&gt;         D^c    0.35   0.1  0.05</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nMarginali:\n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nMarginali depressione:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">tab_2x3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Marginali:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Depressione:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">tab_2x3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Depressione: 0.5 0.5</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Ansia:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">tab_2x3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Ansia: 0.5 0.3 0.2</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Totale:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tab_2x3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Totale: 1</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; Marginali depressione: 0.5 0.5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Marginali ansia:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">tab_2x3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Marginali ansia: 0.5 0.3 0.2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>La struttura rivela pattern clinicamente interessanti. Ad esempio:</p>
-<ul>
-<li>i pazienti depressi mostrano più frequentemente ansia lieve o grave;</li>
-<li>tra i non depressi, la maggior parte non soffre di ansia;</li>
-<li>la comorbidità depressione + ansia grave riguarda il 15% della popolazione.</li>
-</ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1859,19 +1761,19 @@ P(D \cap T^+) = P(T^+ \mid D) \cdot P(D) = 0.85 \times 0.15 = 0.1275.
 </div>
 </div>
 </div>
-</section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+</section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
 <p>Siamo partiti da una domanda apparentemente astratta: cosa significa che le credenze siano “coerenti”? e siamo arrivati a strumenti concreti per rappresentare e manipolare sistemi di credenze complessi.</p>
 <p>Il percorso ha rivelato che la matematica della probabilità non è un formalismo arbitrario, ma la <strong>struttura logica necessaria</strong> per ragionare in modo coerente in situazioni di incertezza. Gli assiomi di Kolmogorov non sono delle semplici convenzioni, ma dei vincoli che <strong>dobbiamo rispettare</strong> se vogliamo evitare contraddizioni.</p>
-<section id="cosa-abbiamo-guadagnato" class="level3" data-number="2.6.1"><h3 data-number="2.6.1" class="anchored" data-anchor-id="cosa-abbiamo-guadagnato">
-<span class="header-section-number">2.6.1</span> Cosa abbiamo guadagnato</h3>
+<section id="cosa-abbiamo-guadagnato" class="level3" data-number="2.5.7"><h3 data-number="2.5.7" class="anchored" data-anchor-id="cosa-abbiamo-guadagnato">
+<span class="header-section-number">2.5.7</span> Cosa abbiamo guadagnato</h3>
 <p>Per lo psicologo, questo framework offre diversi vantaggi:</p>
 <ol type="1">
 <li><p><strong>Uno standard normativo</strong>: ora sappiamo cosa significa che un giudizio probabilistico sia “corretto” dal punto di vista logico, anche se può essere sbagliato dal punto di vista empirico.</p></li>
 <li><p><strong>Strumenti diagnostici</strong>: possiamo identificare incoerenze nei ragionamenti (nostri e altrui) utilizzando criteri precisi, come i vincoli di Fréchet.</p></li>
 <li><p><strong>Una rappresentazione unificata</strong>: le tabelle di probabilità congiunta condensano in un’unica struttura tutte le informazioni probabilistiche rilevanti su un sistema.</p></li>
 <li><p><strong>Un ponte verso i dati</strong>: la connessione tra probabilità teoriche e simulazioni mostra come le nostre credenze si traducano in aspettative sui dati osservabili.</p></li>
-</ol></section><section id="cosa-manca-ancora" class="level3" data-number="2.6.2"><h3 data-number="2.6.2" class="anchored" data-anchor-id="cosa-manca-ancora">
-<span class="header-section-number">2.6.2</span> Cosa manca ancora</h3>
+</ol></section><section id="cosa-manca-ancora" class="level3" data-number="2.5.8"><h3 data-number="2.5.8" class="anchored" data-anchor-id="cosa-manca-ancora">
+<span class="header-section-number">2.5.8</span> Cosa manca ancora</h3>
 <p>Questo capitolo ha gettato le basi, ma restano ancora delle domande senza risposta:</p>
 <ul>
 <li>Come assegnare le probabilità <em>iniziali</em> quando non abbiamo dati? (Tema dell’equiprobabilità).</li>
@@ -1879,8 +1781,8 @@ P(D \cap T^+) = P(T^+ \mid D) \cdot P(D) = 0.85 \times 0.15 = 0.1275.
 <li>Come trattiamo variabili <em>continue</em> che non rientrano in tabelle discrete? (Distribuzioni di probabilità).</li>
 </ul>
 <p>Questi temi verranno sviluppati nei capitoli successivi. Tuttavia, la struttura di coerenza che abbiamo costruito rimarrà la cornice di riferimento.</p>
-</section><section id="un-invito-alla-riflessione" class="level3" data-number="2.6.3"><h3 data-number="2.6.3" class="anchored" data-anchor-id="un-invito-alla-riflessione">
-<span class="header-section-number">2.6.3</span> Un invito alla riflessione</h3>
+</section><section id="un-invito-alla-riflessione" class="level3" data-number="2.5.9"><h3 data-number="2.5.9" class="anchored" data-anchor-id="un-invito-alla-riflessione">
+<span class="header-section-number">2.5.9</span> Un invito alla riflessione</h3>
 <p>Prima di procedere, è opportuno soffermarsi a considerare un punto filosofico più profondo. Abbiamo visto che la coerenza è <em>necessaria</em> per evitare contraddizioni. Ma è <em>sufficiente</em> per ragionare bene?</p>
 <p>La risposta è no. Un sistema di credenze può essere perfettamente coerente ma completamente errato. Posso credere con certezza matematica che domani pioveranno pesci dal cielo, e queste credenze possono essere internamente coerenti, ma saranno smentite dalla realtà.</p>
 <p>La coerenza è una condizione <em>minima</em>, non una garanzia di verità. Ci protegge dagli errori logici, ma non da quelli empirici. Per avvicinarci alla verità, dobbiamo anche confrontare le nostre credenze con i dati, e questo sarà il tema dell’<strong>inferenza bayesiana</strong>.</p>
@@ -1941,7 +1843,7 @@ Importante
 </div>
 </section><section id="esercizi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="esercizi">Esercizi</h2>
 <div class="callout callout-style-default callout-important callout-titled" title="Problemi">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1950,10 +1852,10 @@ Importante
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<section id="esercizi-sulla-coerenza" class="level3" data-number="2.6.4"><h3 data-number="2.6.4" class="anchored" data-anchor-id="esercizi-sulla-coerenza">
-<span class="header-section-number">2.6.4</span> Esercizi sulla coerenza</h3>
+<section id="esercizi-sulla-coerenza" class="level3" data-number="2.5.10"><h3 data-number="2.5.10" class="anchored" data-anchor-id="esercizi-sulla-coerenza">
+<span class="header-section-number">2.5.10</span> Esercizi sulla coerenza</h3>
 <ol type="1">
 <li>
 <p>Verifica se le seguenti assegnazioni per eventi mutuamente esclusivi sono coerenti:</p>
@@ -1965,8 +1867,8 @@ Importante
 </li>
 <li><p>Un ricercatore assegna <span class="math inline">\(P(A) = 0.7\)</span> e <span class="math inline">\(P(A^c) = 0.4\)</span>. Identifica l’incoerenza e spiega perché viola gli assiomi.</p></li>
 <li><p>Per eventi disgiunti <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> con <span class="math inline">\(P(A) = 0.6\)</span> e <span class="math inline">\(P(B) = 0.3\)</span>, qualcuno afferma <span class="math inline">\(P(A \cup B) = 0.8\)</span>. È coerente? Se no, qual è il valore corretto?</p></li>
-</ol></section><section id="esercizi-sui-vincoli-di-fréchet" class="level3" data-number="2.6.5"><h3 data-number="2.6.5" class="anchored" data-anchor-id="esercizi-sui-vincoli-di-fréchet">
-<span class="header-section-number">2.6.5</span> Esercizi sui vincoli di Fréchet</h3>
+</ol></section><section id="esercizi-sui-vincoli-di-fréchet" class="level3" data-number="2.5.11"><h3 data-number="2.5.11" class="anchored" data-anchor-id="esercizi-sui-vincoli-di-fréchet">
+<span class="header-section-number">2.5.11</span> Esercizi sui vincoli di Fréchet</h3>
 <ol start="4" type="1">
 <li>
 <p>Dati <span class="math inline">\(P(A) = 0.4\)</span> e <span class="math inline">\(P(B) = 0.7\)</span>:</p>
@@ -1986,8 +1888,8 @@ Importante
 <p>Determina l’intervallo di valori plausibili per <span class="math inline">\(P(\text{Depressione} \cap \text{Insonnia})\)</span>.</p>
 </li>
 <li><p>Scrivi una funzione R che, dati <span class="math inline">\(P(A)\)</span> e <span class="math inline">\(P(B)\)</span>, verifichi se un proposto <span class="math inline">\(P(A \cap B)\)</span> rispetta i vincoli di Fréchet.</p></li>
-</ol></section><section id="esercizi-su-tabelle-congiunte" class="level3" data-number="2.6.6"><h3 data-number="2.6.6" class="anchored" data-anchor-id="esercizi-su-tabelle-congiunte">
-<span class="header-section-number">2.6.6</span> Esercizi su tabelle congiunte</h3>
+</ol></section><section id="esercizi-su-tabelle-congiunte" class="level3" data-number="2.5.12"><h3 data-number="2.5.12" class="anchored" data-anchor-id="esercizi-su-tabelle-congiunte">
+<span class="header-section-number">2.5.12</span> Esercizi su tabelle congiunte</h3>
 <ol start="7" type="1">
 <li>
 <p>Completa la seguente tabella congiunta (alcune celle sono mancanti):</p>
@@ -2040,8 +1942,8 @@ Importante
 </ol>
 </li>
 <li><p>Verifica con simulazione Monte Carlo (N=100,000) che la tabella dell’esercizio 8 è coerente confrontando frequenze empiriche con probabilità teoriche.</p></li>
-</ol></section><section id="esercizi-applicati-psicologia" class="level3" data-number="2.6.7"><h3 data-number="2.6.7" class="anchored" data-anchor-id="esercizi-applicati-psicologia">
-<span class="header-section-number">2.6.7</span> Esercizi applicati (psicologia)</h3>
+</ol></section><section id="esercizi-applicati-psicologia" class="level3" data-number="2.5.13"><h3 data-number="2.5.13" class="anchored" data-anchor-id="esercizi-applicati-psicologia">
+<span class="header-section-number">2.5.13</span> Esercizi applicati (psicologia)</h3>
 <ol start="10" type="1">
 <li>
 <p><strong>Comorbidità</strong>: In un campione clinico:</p>
@@ -2080,14 +1982,14 @@ Importante
 </ul>
 <p>Identifica e correggi l’incoerenza.</p>
 </li>
-</ol></section><section id="esercizi-di-pensiero-critico" class="level3" data-number="2.6.8"><h3 data-number="2.6.8" class="anchored" data-anchor-id="esercizi-di-pensiero-critico">
-<span class="header-section-number">2.6.8</span> Esercizi di pensiero critico</h3>
+</ol></section><section id="esercizi-di-pensiero-critico" class="level3" data-number="2.5.14"><h3 data-number="2.5.14" class="anchored" data-anchor-id="esercizi-di-pensiero-critico">
+<span class="header-section-number">2.5.14</span> Esercizi di pensiero critico</h3>
 <ol start="13" type="1">
 <li><p>Spiega perché, nell’approccio bayesiano, specificare una tabella congiunta coerente è “più fondamentale” che specificare separatamente marginali e condizionate.</p></li>
 <li><p>Un frequentista obietta: “Le tabelle congiunte funzionano solo per spazi finiti. Come gestite il caso continuo?” Rispondi dall’ottica bayesiana.</p></li>
 <li><p>Due clinici costruiscono tabelle congiunte diverse per Depressione × Test, partendo da prior diversi ma usando la stessa sensibilità/specificità. È un problema? Cosa succederebbe con molti dati?</p></li>
-</ol></section><section id="esercizi-computazionali" class="level3" data-number="2.6.9"><h3 data-number="2.6.9" class="anchored" data-anchor-id="esercizi-computazionali">
-<span class="header-section-number">2.6.9</span> Esercizi computazionali</h3>
+</ol></section><section id="esercizi-computazionali" class="level3" data-number="2.5.15"><h3 data-number="2.5.15" class="anchored" data-anchor-id="esercizi-computazionali">
+<span class="header-section-number">2.5.15</span> Esercizi computazionali</h3>
 <ol start="16" type="1">
 <li>
 <p>Scrivi una funzione R che:</p>
@@ -2111,7 +2013,7 @@ Importante
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Soluzioni">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2120,10 +2022,10 @@ Importante
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<section id="soluzioni-esercizi-sulla-coerenza" class="level3" data-number="2.6.10"><h3 data-number="2.6.10" class="anchored" data-anchor-id="soluzioni-esercizi-sulla-coerenza">
-<span class="header-section-number">2.6.10</span> Soluzioni esercizi sulla coerenza</h3>
+<section id="soluzioni-esercizi-sulla-coerenza" class="level3" data-number="2.5.16"><h3 data-number="2.5.16" class="anchored" data-anchor-id="soluzioni-esercizi-sulla-coerenza">
+<span class="header-section-number">2.5.16</span> Soluzioni esercizi sulla coerenza</h3>
 <ol type="1">
 <li><ol type="a">
 <li>
@@ -2137,8 +2039,8 @@ Importante
 </ol></li>
 <li><p>Per l’assioma del complemento: <span class="math inline">\(P(A) + P(A^c) = 1\)</span>. Ma <span class="math inline">\(0.7 + 0.4 = 1.1 \neq 1\)</span>. Incoerente. Correzione: deve essere <span class="math inline">\(P(A^c) = 0.3\)</span>.</p></li>
 <li><p>Per eventi disgiunti: <span class="math inline">\(P(A \cup B) = P(A) + P(B) = 0.6 + 0.3 = 0.9\)</span>. Il valore 0.8 è incoerente (troppo basso).</p></li>
-</ol></section><section id="soluzioni-vincoli-di-fréchet" class="level3" data-number="2.6.11"><h3 data-number="2.6.11" class="anchored" data-anchor-id="soluzioni-vincoli-di-fréchet">
-<span class="header-section-number">2.6.11</span> Soluzioni vincoli di Fréchet</h3>
+</ol></section><section id="soluzioni-vincoli-di-fréchet" class="level3" data-number="2.5.17"><h3 data-number="2.5.17" class="anchored" data-anchor-id="soluzioni-vincoli-di-fréchet">
+<span class="header-section-number">2.5.17</span> Soluzioni vincoli di Fréchet</h3>
 <ol start="4" type="1">
 <li><ol type="a">
 <li><p>Lower: <span class="math inline">\(\max(0, 0.4 + 0.7 - 1) = 0.1\)</span>; Upper: <span class="math inline">\(\min(0.4, 0.7) = 0.4\)</span><br>
@@ -2161,10 +2063,11 @@ Intervallo plausibile: <span class="math inline">\([0, 0.30]\)</span></p></li>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div></li>
-</ol></section><section id="soluzioni-tabelle-congiunte" class="level3" data-number="2.6.12"><h3 data-number="2.6.12" class="anchored" data-anchor-id="soluzioni-tabelle-congiunte">
-<span class="header-section-number">2.6.12</span> Soluzioni tabelle congiunte</h3>
+</ol></section><section id="soluzioni-tabelle-congiunte" class="level3" data-number="2.5.18"><h3 data-number="2.5.18" class="anchored" data-anchor-id="soluzioni-tabelle-congiunte">
+<span class="header-section-number">2.5.18</span> Soluzioni tabelle congiunte</h3>
 <ol start="7" type="1">
-<li>Tabella completata:
+<li>
+<p>Tabella completata:</p>
 <ul>
 <li><span class="math inline">\(P(A \cap B^c) = 0.40 - 0.25 = 0.15\)</span></li>
 <li>
@@ -2216,8 +2119,8 @@ Intervallo plausibile: <span class="math inline">\([0, 0.30]\)</span></p></li>
 <span><span class="co"># a) P(C | +) = 0.045 / 0.08 = 0.5625</span></span>
 <span><span class="co"># b) P(C | -) = 0.005 / 0.92 ≈ 0.0054</span></span>
 <span><span class="co"># c) Specificità = P(- | C^c) = 0.915 / 0.95 ≈ 0.963</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div></li>
-</ol></section><section id="soluzioni-esercizi-applicati" class="level3" data-number="2.6.13"><h3 data-number="2.6.13" class="anchored" data-anchor-id="soluzioni-esercizi-applicati">
-<span class="header-section-number">2.6.13</span> Soluzioni esercizi applicati</h3>
+</ol></section><section id="soluzioni-esercizi-applicati" class="level3" data-number="2.5.19"><h3 data-number="2.5.19" class="anchored" data-anchor-id="soluzioni-esercizi-applicati">
+<span class="header-section-number">2.5.19</span> Soluzioni esercizi applicati</h3>
 <ol start="10" type="1">
 <li><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">P_D</span> <span class="op">&lt;-</span> <span class="fl">0.55</span></span>
 <span><span class="va">P_P</span> <span class="op">&lt;-</span> <span class="fl">0.30</span></span>
@@ -2235,97 +2138,103 @@ Intervallo plausibile: <span class="math inline">\([0, 0.30]\)</span></p></li>
 <span><span class="co">#    P(D ∩ P) = 0.2475 ≠ 0.165 → DIPENDENTI</span></span>
 <span></span>
 <span><span class="co"># d) P(D ∪ P) = 0.55 + 0.30 - 0.2475 = 0.6025</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li>```r # Vedi soluzione 8, adattata con prevalenza 0.25 # a) Tabella costruita con sens=0.80, spec=0.85, prev=0.25 # b) P(A | +) = [0.80 × 0.25] / [0.80 × 0.25 + 0.15 × 0.75] ≈ 0.640 # c) P(A^c | -) = [0.85 × 0.75] / [0.20 × 0.25 + 0.85 × 0.75] ≈ 0.927</li>
-</ol>
-<pre><code>
-12. Somma = 1.05 &gt; 1. Incoerente. Correzione (normalizzazione):
-    - $P(D) = 0.40 / 1.05 ≈ 0.381$
-    - $P(A) = 0.35 / 1.05 ≈ 0.333$
-    - $P(N) = 0.30 / 1.05 ≈ 0.286$
-
-### Soluzioni pensiero critico
-
-13. La tabella congiunta è più fondamentale perché rappresenta lo stato di credenza **completo** sul sistema. Da essa derivano automaticamente (e coerentemente) tutte le marginali e condizionate. Specificare marginali e condizionate separatamente rischia incoerenze (es. $P(A \mid B) P(B) \neq P(B \mid A) P(A)$).
-
-14. Nel continuo si usano **densità di probabilità congiunta** $f(x, y)$. Il principio è identico: la densità congiunta determina tutto (marginali tramite integrazione, condizionate tramite rapporti di densità). La struttura di coerenza è preservata.
-
-15. Non è un problema—riflette informazioni diverse. Con molti dati, la verosimiglianza dominerà e i posterior convergeranno, riducendo l'influenza dei prior diversi. È una caratteristica, non un bug: la soggettività è nelle assunzioni iniziali esplicite.
-
-:::
-
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
-
-::: {.cell layout-align="center"}
-
-```{.r .cell-code}
-sessionInfo()
-#&gt; R version 4.6.0 (2026-04-24)
-#&gt; Platform: aarch64-apple-darwin23
-#&gt; Running under: macOS Tahoe 26.5.1
-#&gt; 
-#&gt; Matrix products: default
-#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib 
-#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
-#&gt; 
-#&gt; locale:
-#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
-#&gt; 
-#&gt; time zone: Europe/Rome
-#&gt; tzcode source: internal
-#&gt; 
-#&gt; attached base packages:
-#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
-#&gt; 
-#&gt; other attached packages:
-#&gt;  [1] viridis_0.6.5         viridisLite_0.4.3     ragg_1.5.2           
-#&gt;  [4] tinytable_0.17.0      withr_3.0.3           systemfonts_1.3.2    
-#&gt;  [7] patchwork_1.3.2       ggdist_3.3.3          tidybayes_3.0.7      
-#&gt; [10] bayesplot_1.15.0      ggplot2_4.0.3         reliabilitydiag_0.2.1
-#&gt; [13] priorsense_1.2.0      posterior_1.7.0       loo_2.10.0           
-#&gt; [16] rstan_2.32.7          StanHeaders_2.32.10   brms_2.23.0          
-#&gt; [19] Rcpp_1.1.1-1.1        sessioninfo_1.2.4     conflicted_1.2.0     
-#&gt; [22] janitor_2.2.1         matrixStats_1.5.0     modelr_0.1.11        
-#&gt; [25] tibble_3.3.1          dplyr_1.2.1           tidyr_1.3.2          
-#&gt; [28] rio_1.3.0             here_1.0.2           
-#&gt; 
-#&gt; loaded via a namespace (and not attached):
-#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         
-#&gt;  [4] S7_0.2.2              fastmap_1.2.0         tensorA_0.36.2.1     
-#&gt;  [7] pacman_0.5.1          digest_0.6.39         timechange_0.4.0     
-#&gt; [10] estimability_2.0.0    lifecycle_1.0.5       magrittr_2.0.5       
-#&gt; [13] compiler_4.6.0        rlang_1.2.0           tools_4.6.0          
-#&gt; [16] yaml_2.3.12           knitr_1.51            labeling_0.4.3       
-#&gt; [19] bridgesampling_1.2-1  htmlwidgets_1.6.4     pkgbuild_1.4.8       
-#&gt; [22] curl_7.1.0            RColorBrewer_1.1-3    abind_1.4-8          
-#&gt; [25] purrr_1.2.2           grid_4.6.0            stats4_4.6.0         
-#&gt; [28] xtable_1.8-8          inline_0.3.21         emmeans_2.0.3        
-#&gt; [31] scales_1.4.0          cli_3.6.6             mvtnorm_1.4-1        
-#&gt; [34] rmarkdown_2.31        generics_0.1.4        otel_0.2.0           
-#&gt; [37] RcppParallel_5.1.11-2 cachem_1.1.0          stringr_1.6.0        
-#&gt; [40] parallel_4.6.0        vctrs_0.7.3           V8_8.2.0             
-#&gt; [43] Matrix_1.7-5          jsonlite_2.0.0        arrayhelpers_1.1-1   
-#&gt; [46] glue_1.8.1            codetools_0.2-20      distributional_0.8.1 
-#&gt; [49] lubridate_1.9.5       stringi_1.8.7         gtable_0.3.6         
-#&gt; [52] QuickJSR_1.10.0       pillar_1.11.1         htmltools_0.5.9      
-#&gt; [55] Brobdingnag_1.2-9     R6_2.6.1              textshaping_1.0.5    
-#&gt; [58] rprojroot_2.1.1       evaluate_1.0.5        lattice_0.22-9       
-#&gt; [61] backports_1.5.1       memoise_2.0.1         broom_1.0.13         
-#&gt; [64] snakecase_0.11.1      rstantools_2.6.0      coda_0.19-4.1        
-#&gt; [67] gridExtra_2.3.1       nlme_3.1-169          checkmate_2.3.4      
-#&gt; [70] xfun_0.59             pkgconfig_2.0.3</code></pre>
-</section>
+<li><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Vedi soluzione 8, adattata con prevalenza 0.25</span></span>
+<span><span class="co"># a) Tabella costruita con sens=0.80, spec=0.85, prev=0.25</span></span>
+<span><span class="co"># b) P(A | +) = [0.80 × 0.25] / [0.80 × 0.25 + 0.15 × 0.75] ≈ 0.640</span></span>
+<span><span class="co"># c) P(A^c | -) = [0.85 × 0.75] / [0.20 × 0.25 + 0.85 × 0.75] ≈ 0.927</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li>
+<p>Somma = 1.05 &gt; 1. Incoerente. Correzione (normalizzazione):</p>
+<ul>
+<li><span class="math inline">\(P(D) = 0.40 / 1.05 ≈ 0.381\)</span></li>
+<li><span class="math inline">\(P(A) = 0.35 / 1.05 ≈ 0.333\)</span></li>
+<li><span class="math inline">\(P(N) = 0.30 / 1.05 ≈ 0.286\)</span></li>
+</ul>
+</li>
+</ol></section><section id="soluzioni-pensiero-critico" class="level3" data-number="2.5.20"><h3 data-number="2.5.20" class="anchored" data-anchor-id="soluzioni-pensiero-critico">
+<span class="header-section-number">2.5.20</span> Soluzioni pensiero critico</h3>
+<ol start="13" type="1">
+<li><p>La tabella congiunta è più fondamentale perché rappresenta lo stato di credenza <strong>completo</strong> sul sistema. Da essa derivano automaticamente (e coerentemente) tutte le marginali e condizionate. Specificare marginali e condizionate separatamente rischia incoerenze (es. <span class="math inline">\(P(A \mid B) P(B) \neq P(B \mid A) P(A)\)</span>).</p></li>
+<li><p>Nel continuo si usano <strong>densità di probabilità congiunta</strong> <span class="math inline">\(f(x, y)\)</span>. Il principio è identico: la densità congiunta determina tutto (marginali tramite integrazione, condizionate tramite rapporti di densità). La struttura di coerenza è preservata.</p></li>
+<li><p>Non è un problema—riflette informazioni diverse. Con molti dati, la verosimiglianza dominerà e i posterior convergeranno, riducendo l’influenza dei prior diversi. È una caratteristica, non un bug: la soggettività è nelle assunzioni iniziali esplicite.</p></li>
+</ol></section>
 </div>
 </div>
 </div>
-<p>:::</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin23</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.5.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] viridis_0.6.5         viridisLite_0.4.3     ragg_1.5.2           </span></span>
+<span><span class="co">#&gt;  [4] tinytable_0.17.0      withr_3.0.3           systemfonts_1.3.2    </span></span>
+<span><span class="co">#&gt;  [7] patchwork_1.3.2       ggdist_3.3.3          tidybayes_3.0.7      </span></span>
+<span><span class="co">#&gt; [10] bayesplot_1.15.0      ggplot2_4.0.3         reliabilitydiag_0.2.1</span></span>
+<span><span class="co">#&gt; [13] priorsense_1.2.0      posterior_1.7.0       loo_2.10.0           </span></span>
+<span><span class="co">#&gt; [16] rstan_2.32.7          StanHeaders_2.32.10   brms_2.23.0          </span></span>
+<span><span class="co">#&gt; [19] Rcpp_1.1.2            sessioninfo_1.2.4     conflicted_1.2.0     </span></span>
+<span><span class="co">#&gt; [22] janitor_2.2.1         matrixStats_1.5.0     modelr_0.1.11        </span></span>
+<span><span class="co">#&gt; [25] tibble_3.3.1          dplyr_1.2.1           tidyr_1.3.2          </span></span>
+<span><span class="co">#&gt; [28] rio_1.3.0             here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
+<span><span class="co">#&gt;  [4] S7_0.2.2              fastmap_1.2.0         tensorA_0.36.2.1     </span></span>
+<span><span class="co">#&gt;  [7] pacman_0.5.1          digest_0.6.39         timechange_0.4.0     </span></span>
+<span><span class="co">#&gt; [10] estimability_2.0.0    lifecycle_1.0.5       magrittr_2.0.5       </span></span>
+<span><span class="co">#&gt; [13] compiler_4.6.1        rlang_1.3.0           tools_4.6.1          </span></span>
+<span><span class="co">#&gt; [16] yaml_2.3.12           knitr_1.51            labeling_0.4.3       </span></span>
+<span><span class="co">#&gt; [19] bridgesampling_1.2-1  htmlwidgets_1.6.4     pkgbuild_1.4.8       </span></span>
+<span><span class="co">#&gt; [22] curl_7.1.0            RColorBrewer_1.1-3    abind_1.4-8          </span></span>
+<span><span class="co">#&gt; [25] purrr_1.2.2           grid_4.6.1            stats4_4.6.1         </span></span>
+<span><span class="co">#&gt; [28] xtable_1.8-8          inline_0.3.21         emmeans_2.0.3        </span></span>
+<span><span class="co">#&gt; [31] scales_1.4.0          cli_3.6.6             mvtnorm_1.4-1        </span></span>
+<span><span class="co">#&gt; [34] rmarkdown_2.31        generics_0.1.4        otel_0.2.0           </span></span>
+<span><span class="co">#&gt; [37] RcppParallel_5.1.11-2 cachem_1.1.0          stringr_1.6.0        </span></span>
+<span><span class="co">#&gt; [40] parallel_4.6.1        vctrs_0.7.3           V8_8.2.0             </span></span>
+<span><span class="co">#&gt; [43] Matrix_1.7-5          jsonlite_2.0.0        arrayhelpers_1.1-1   </span></span>
+<span><span class="co">#&gt; [46] glue_1.8.1            codetools_0.2-20      distributional_0.8.1 </span></span>
+<span><span class="co">#&gt; [49] lubridate_1.9.5       stringi_1.8.7         gtable_0.3.6         </span></span>
+<span><span class="co">#&gt; [52] QuickJSR_1.10.0       pillar_1.11.1         htmltools_0.5.9      </span></span>
+<span><span class="co">#&gt; [55] Brobdingnag_1.2-9     R6_2.6.1              textshaping_1.0.5    </span></span>
+<span><span class="co">#&gt; [58] rprojroot_2.1.1       evaluate_1.0.5        lattice_0.22-9       </span></span>
+<span><span class="co">#&gt; [61] backports_1.5.1       memoise_2.0.1         broom_1.0.13         </span></span>
+<span><span class="co">#&gt; [64] snakecase_0.11.1      rstantools_2.6.0      coda_0.19-4.1        </span></span>
+<span><span class="co">#&gt; [67] gridExtra_2.3.1       nlme_3.1-169          checkmate_2.3.4      </span></span>
+<span><span class="co">#&gt; [70] xfun_0.60             pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
 </section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
-<div id="ref-kahneman1979prospect" class="csl-entry" role="listitem">
-Kahneman, D., &amp; Tversky, A. (1979). Prospect Theory: An Analysis of Decision under Risk. <em>Econometrica</em>, <em>47</em>(2), 263–291. <a href="https://doi.org/10.2307/1914185">https://doi.org/10.2307/1914185</a>
-</div>
-</div>
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
