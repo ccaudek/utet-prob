@@ -1,0 +1,781 @@
+# Dalla verosimiglianza alla posterior: l'aggiornamento bayesiano {#sec-bayesian-updating}
+
+## Introduzione {.unnumbered .unlisted}
+
+Nel @sec-prob-inference-uncertainty abbiamo discusso come un campione possa essere più o meno informativo: i campioni piccoli producono evidenze instabili, mentre i campioni più grandi tendono a fornire stime più precise. È importante distinguere l'incertezza campionaria dalle eventuali distorsioni sistematiche. Nel @sec-prob-likelihood abbiamo poi introdotto la **verosimiglianza**, ovvero la funzione che misura quanto i dati osservati siano compatibili con i possibili valori del parametro.
+
+Resta ora il passaggio propriamente bayesiano: **come usiamo la verosimiglianza per aggiornare una credenza a priori?**
+
+A questa domanda risponde il presente capitolo. La sua funzione non è quella di ripetere le proprietà della media campionaria, della Legge dei Grandi Numeri o del Teorema del Limite Centrale. Quei concetti hanno già preparato il terreno. Qui ci concentriamo invece sulla trasformazione fondamentale dell'inferenza bayesiana:
+
+$$
+\text{prior} \times \text{verosimiglianza} \longrightarrow \text{posterior}.
+$$
+
+L'idea centrale è semplice: prima di osservare i dati, rappresentiamo la nostra incertezza su un parametro tramite una distribuzione *a priori*. I dati producono una funzione di verosimiglianza. Il prodotto tra queste due componenti, opportunamente normalizzato, produce una nuova distribuzione: la distribuzione *a posteriori*.
+
+In questo capitolo:
+
+1. **chiariremo** il ruolo di prior, verosimiglianza, evidenza marginale e posterior;
+2. **studieremo** l'esempio Beta-Binomiale, adatto a proporzioni e prevalenze;
+3. **useremo** l'analisi di sensibilità per valutare quanto le conclusioni dipendano dalla prior;
+4. **esamineremo** il caso Normale-Normale, in cui l'aggiornamento assume la forma di una media pesata dalle precisioni;
+5. **mostreremo** l'aggiornamento sequenziale, in cui la posterior di oggi diventa la prior di domani;
+6. **discuteremo** brevemente cosa la posterior può e non può dirci.
+
+::: {.callout-tip collapse="true"}
+## Prerequisiti
+
+Per seguire questo capitolo è utile aver letto:
+
+- @sec-prob-bayes-theorem -- per il teorema di Bayes;
+- @sec-prob-inference-uncertainty -- per informazione, precisione e incertezza campionaria;
+- @sec-prob-discr-distr -- per Bernoulli, Binomiale e Beta;
+- @sec-prob-cont-distr -- per la distribuzione Normale;
+- @sec-prob-likelihood -- fondamentale per il concetto di verosimiglianza.
+
+Questo capitolo conclude il passaggio dalla probabilità alla logica dell'inferenza bayesiana parametrica.
+:::
+
+::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+```{r}
+if (requireNamespace("here", quietly = TRUE) &&
+    file.exists(here::here("code", "_common.R"))) {
+  source(here::here("code", "_common.R"))
+}
+
+if (exists("apply_visual_theme")) {
+  apply_visual_theme()
+}
+```
+:::
+
+## Perchè serve ancora un capitolo dopo la verosimiglianza? {#sec-why-posterior-after-likelihood}
+
+La verosimiglianza risponde a una domanda precisa:
+
+> Dati i valori osservati, quali valori del parametro rendono questi dati più o meno plausibili?
+
+Questa domanda è essenziale, ma non esaurisce l'inferenza bayesiana. La verosimiglianza, da sola, non costituisce ancora una distribuzione di probabilità sul parametro. Non risponde direttamente alla domanda: "Qual è la probabilità che il parametro sia in un certo intervallo?". Per rispondere a questa domanda, è necessario combinare la verosimiglianza con una distribuzione a priori.
+
+In termini bayesiani, il parametro non è trattato come una quantità casuale perché cambia da un esperimento all'altro, ma perché è **ignoto**. La probabilità rappresenta il nostro stato di informazione su quel parametro.
+
+Prima dei dati:
+
+$$
+\theta \sim p(\theta).
+$$
+
+Dopo i dati:
+
+$$
+\theta \mid y \sim p(\theta \mid y).
+$$
+
+Il compito del presente capitolo è spiegare come si passa dalla prima distribuzione alla seconda.
+
+::: {.callout-note title="Tre ruoli distinti"}
+Nel percorso del manuale, i tre capitoli hanno funzioni diverse:
+
+- il @sec-prob-inference-uncertainty spiega **quanto sono informativi i dati**;
+- il @sec-prob-likelihood spiega **come rappresentiamo l'informazione dei dati**;
+- questo capitolo spiega **come l'informazione dei dati aggiorna le credenze**.
+:::
+
+## La regola di aggiornamento bayesiano {#sec-bayes-update-rule}
+
+### Forma generale
+
+Sia $\theta$ il parametro di interesse e siano $y$ i dati osservati. La regola di Bayes si scrive:
+
+$$
+p(\theta \mid y) =
+\frac{p(y \mid \theta)p(\theta)}{p(y)}.
+$$
+
+I quattro termini hanno ruoli diversi:
+
+- $p(\theta)$ è la **prior**, cioè la distribuzione che rappresenta l'incertezza prima dei dati;
+- $p(y \mid \theta)$ è la **verosimiglianza**, cioè la compatibilità dei dati con ciascun valore del parametro;
+- $p(y)$ è l'**evidenza marginale**, cioè la costante che rende la posterior una vera distribuzione di probabilità;
+- $p(\theta \mid y)$ è la **posterior**, cioè la distribuzione aggiornata dopo aver osservato i dati.
+
+Poichè $p(y)$ non dipende da $\theta$, spesso scriviamo:
+
+$$
+p(\theta \mid y) \propto p(y \mid \theta)p(\theta).
+$$
+
+Questa forma proporzionale è la più importante da ricordare.
+
+::: {.callout-important}
+La posterior non è semplicemente la verosimiglianza. È la verosimiglianza **ponderata** dalla prior e poi normalizzata affinché l'area totale sia uguale a 1.
+:::
+
+### Il ruolo della costante di normalizzazione
+
+Nel caso continuo, l'evidenza marginale è un integrale:
+
+$$
+p(y) = \int p(y \mid \theta)p(\theta)\,d\theta.
+$$
+
+Nel caso discreto, è una somma:
+
+$$
+p(y) = \sum_{\theta} p(y \mid \theta)p(\theta).
+$$
+
+Questo termine ha una funzione tecnica ma fondamentale: trasforma il prodotto $p(y \mid \theta)p(\theta)$ in una distribuzione di probabilità valida. Senza questa normalizzazione, otterremmo una curva proporzionale alla posterior, ma non una distribuzione con area totale pari a 1.
+
+## Esempio Beta-Binomiale: prevalenza di sintomi depressivi {#sec-beta-binomial-update}
+
+### Il problema
+
+Supponiamo di voler stimare la proporzione di studenti universitari con sintomi depressivi clinicamente rilevanti, indicata con il simbolo $\theta$. In uno studio osserviamo:
+
+$$
+y = 72
+\qquad \text{studenti con sintomi su} \qquad
+n = 200.
+$$
+
+La proporzione osservata è:
+
+$$
+\hat{p} = \frac{72}{200} = 0.36.
+$$
+
+Nel capitolo sulla verosimiglianza abbiamo visto che, per dati binari, il modello naturale è:
+
+$$
+Y \mid \theta \sim \text{Binomiale}(n, \theta).
+$$
+
+La verosimiglianza è:
+
+$$
+p(y \mid \theta) = \binom{n}{y}\theta^y(1-\theta)^{n-y}.
+$$
+
+Ora aggiungiamo l'elemento bayesiano: una prior su $\theta$.
+
+### La prior Beta
+
+Per una proporzione, la distribuzione Beta è una scelta naturale per la prior, perché è definita sull'intervallo $[0,1]$:
+
+$$
+\theta \sim \text{Beta}(\alpha, \beta).
+$$
+
+La densità della prior è proporzionale a:
+
+$$
+p(\theta) \propto \theta^{\alpha - 1}(1-\theta)^{\beta - 1}.
+$$
+
+I parametri $\alpha$ e $\beta$ controllano la forma della distribuzione. Una lettura utile, anche se solo intuitiva, è considerare $\alpha$ e $\beta$ come a una sorta di informazione precedente sui successi e gli insuccessi.
+
+Per esempio:
+
+- $\text{Beta}(1,1)$ è uniforme: tutti i valori di $\theta$ sono ugualmente plausibili prima dei dati;
+- $\text{Beta}(2,8)$ assegna più massa a valori bassi della proporzione;
+- $\text{Beta}(8,2)$ assegna più massa a valori alti della proporzione.
+
+### Prior, verosimiglianza e posterior
+
+Se la prior è Beta e la verosimiglianza è Binomiale, la posterior è ancora Beta:
+
+$$
+\theta \mid y \sim \text{Beta}(\alpha + y,\; \beta + n - y).
+$$
+
+Questa è una relazione particolarmente trasparente. I dati aggiornano i parametri della prior aggiungendo:
+
+- $y$ successi al parametro $\alpha$;
+- $n-y$ insuccessi al parametro $\beta$.
+
+::: {.callout-note title="Coniugazione"}
+Quando la prior e la verosimiglianza producono una posterior della stessa famiglia della prior, si parla di **prior coniugato**. Nel caso Beta-Binomiale, la prior Beta è coniugata alla verosimiglianza Binomiale.
+:::
+
+### Esempio numerico
+
+Usiamo una prior debolmente informativa:
+
+$$
+\theta \sim \text{Beta}(2,2).
+$$
+
+Dopo aver osservato $y=72$ studenti con sintomi su $n=200$, la posterior è:
+
+$$
+\theta \mid y \sim \text{Beta}(2+72,\; 2+128)
+= \text{Beta}(74,130).
+$$
+
+```{r}
+#| label: fig-beta-binomial-update
+#| fig-cap: "Aggiornamento Beta-Binomiale: prior, verosimiglianza normalizzata e posterior. La posterior combina l'informazione iniziale con l'evidenza osservata."
+
+alpha_prior <- 2
+beta_prior <- 2
+n <- 200
+y <- 72
+
+alpha_post <- alpha_prior + y
+beta_post <- beta_prior + n - y
+
+theta_grid <- seq(0.001, 0.999, length.out = 1000)
+prior_density <- dbeta(theta_grid, alpha_prior, beta_prior)
+likelihood <- dbinom(y, size = n, prob = theta_grid)
+posterior_density <- dbeta(theta_grid, alpha_post, beta_post)
+
+# La verosimiglianza viene riscalata solo per confronto grafico.
+likelihood_scaled <- likelihood * max(prior_density) / max(likelihood)
+
+plot_data <- data.frame(
+  theta = rep(theta_grid, 3),
+  density = c(prior_density, likelihood_scaled, posterior_density),
+  componente = factor(
+    rep(c("Prior", "Verosimiglianza (riscalata)", "Posterior"),
+        each = length(theta_grid)),
+    levels = c("Prior", "Verosimiglianza (riscalata)", "Posterior")
+  )
+)
+
+ggplot(plot_data, aes(x = theta, y = density,
+                      color = componente, linetype = componente)) +
+  geom_line(linewidth = 1.1) +
+  geom_vline(xintercept = y / n, linetype = "dashed") +
+  labs(
+    x = expression(theta),
+    y = "Densità / scala relativa",
+    color = "",
+    linetype = ""
+  ) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+post_mean <- alpha_post / (alpha_post + beta_post)
+post_ci <- qbeta(c(0.025, 0.975), alpha_post, beta_post)
+
+cat("Prior: Beta(", alpha_prior, ", ", beta_prior, ")\n", sep = "")
+cat("Dati: y =", y, "su n =", n, "\n")
+cat("Posterior: Beta(", alpha_post, ", ", beta_post, ")\n", sep = "")
+cat("Media posterior:", round(post_mean, 3), "\n")
+cat("Intervallo di credibilità 95%: [",
+    round(post_ci[1], 3), ", ", round(post_ci[2], 3), "]\n", sep = "")
+```
+
+### Come interpretare la posterior
+
+La posterior è una distribuzione di probabilità su $\theta$ dopo aver osservato i dati. Possiamo quindi fare affermazioni del tipo:
+
+$$
+P(\theta > 0.40 \mid y).
+$$
+
+Questa è una probabilità bayesiana diretta: condizionatamente al modello, alla prior e ai dati osservati, quantifica quanto sia plausibile che la prevalenza superi il 40%.
+
+```{r}
+prob_greater_40 <- 1 - pbeta(0.40, alpha_post, beta_post)
+cat("P(theta > 0.40 | dati) =", round(prob_greater_40, 3), "\n")
+```
+
+::: {.callout-important}
+Un intervallo di credibilità non ha la stessa interpretazione di un intervallo di confidenza frequentista. Un intervallo di credibilità al 95% contiene il 95% della massa della distribuzione a posteriori, dato il modello, la prior e i dati osservati.
+:::
+
+## Analisi di sensibilità al prior {#sec-prior-sensitivity}
+
+La prior è parte del modello. Per questo motivo è buona pratica chiedersi se le conclusioni cambiano in modo sostanziale quando si scelgono prior ragionevoli ma diverse.
+
+Questa verifica prende il nome di **analisi di sensibilità**.
+
+La domanda non è:
+
+> Quale prior è l'unica corretta?
+
+La domanda è:
+
+> Le conclusioni principali dipendono in modo fragile da una particolare scelta della prior?
+
+### Confronto tra prior diverse
+
+Consideriamo gli stessi dati:
+
+$$
+y = 72, \qquad n = 200.
+$$
+
+Confrontiamo quattro prior:
+
+- $\text{Beta}(1,1)$: uniforme;
+- $\text{Beta}(2,2)$: debolmente centrata;
+- $\text{Beta}(2,8)$: scettica rispetto a prevalenze alte;
+- $\text{Beta}(8,2)$: ottimistica rispetto a prevalenze alte.
+
+```{r}
+#| label: fig-sensitivity-priors
+#| fig-cap: "Analisi di sensibilità: posterior ottenute con prior diverse ma ragionevoli. Le conclusioni sono robuste se le posterior risultano simili rispetto alle domande sostantive."
+
+priors <- data.frame(
+  nome = c("Uniforme Beta(1,1)",
+           "Debole Beta(2,2)",
+           "Scettica Beta(2,8)",
+           "Ottimistica Beta(8,2)"),
+  alpha = c(1, 2, 2, 8),
+  beta = c(1, 2, 8, 2)
+)
+
+posterior_list <- lapply(seq_len(nrow(priors)), function(i) {
+  a_post <- priors$alpha[i] + y
+  b_post <- priors$beta[i] + n - y
+  data.frame(
+    theta = theta_grid,
+    density = dbeta(theta_grid, a_post, b_post),
+    prior = priors$nome[i]
+  )
+})
+
+posterior_data <- do.call(rbind, posterior_list)
+posterior_data$prior <- factor(posterior_data$prior, levels = priors$nome)
+
+ggplot(posterior_data, aes(x = theta, y = density,
+                           color = prior, linetype = prior)) +
+  geom_line(linewidth = 1.1) +
+  geom_vline(xintercept = y / n, linetype = "dashed") +
+  labs(
+    x = expression(theta),
+    y = "Densità a posteriori",
+    color = "Prior",
+    linetype = "Prior"
+  ) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+summary_sensitivity <- data.frame(
+  Prior = priors$nome,
+  Alpha_post = priors$alpha + y,
+  Beta_post = priors$beta + n - y
+)
+
+summary_sensitivity$Media_post <- with(
+  summary_sensitivity,
+  Alpha_post / (Alpha_post + Beta_post)
+)
+summary_sensitivity$CI_2.5 <- qbeta(
+  0.025,
+  summary_sensitivity$Alpha_post,
+  summary_sensitivity$Beta_post
+)
+summary_sensitivity$CI_97.5 <- qbeta(
+  0.975,
+  summary_sensitivity$Alpha_post,
+  summary_sensitivity$Beta_post
+)
+summary_sensitivity$P_theta_gt_0.40 <- 1 - pbeta(
+  0.40,
+  summary_sensitivity$Alpha_post,
+  summary_sensitivity$Beta_post
+)
+
+round(summary_sensitivity[, c("Media_post", "CI_2.5", "CI_97.5", "P_theta_gt_0.40")], 3)
+```
+
+### Come leggere l'analisi di sensibilità
+
+Se prior ragionevoli producono conclusioni molto diverse, i dati non sono sufficienti a risolvere la questione e l'inferenza dipende in modo rilevante dalle assunzioni iniziali. Ciò non è necessariamente un problema, ma è un'informazione importante da comunicare.
+
+Se invece prior ragionevoli producono posterior simili rispetto alla domanda sostantiva, possiamo dire che le conclusioni sono relativamente robuste.
+
+::: {.callout-note}
+L'analisi di sensibilità non serve a nascondere la prior. Al contrario, serve a renderne visibile il ruolo.
+:::
+
+## Il caso Normale-Normale: aggiornare una media {#sec-normal-normal-update}
+
+Il caso Beta-Binomiale è utile per le proporzioni. Un secondo caso fondamentale riguarda la stima di una media.
+
+Supponiamo di voler stimare il punteggio medio $\mu$ di una scala psicologica. Supponiamo che le osservazioni siano approssimativamente normali con varianza nota $\sigma^2$:
+
+$$
+X_i \mid \mu \sim \mathcal{N}(\mu, \sigma^2).
+$$
+
+Poniamo una prior normale sulla media:
+
+$$
+\mu \sim \mathcal{N}(\mu_0, \sigma_0^2).
+$$
+
+In questo caso, la posterior è ancora normale:
+
+$$
+\mu \mid x \sim \mathcal{N}(\mu_{\text{post}}, \sigma^2_{\text{post}}).
+$$
+
+### La media posterior come media pesata
+
+Definiamo le precisioni:
+
+$$
+\tau_0 = \frac{1}{\sigma_0^2},
+\qquad
+\tau_{\text{dati}} = \frac{n}{\sigma^2}.
+$$
+
+La media a posteriori è:
+
+$$
+\mu_{\text{post}} =
+\frac{\tau_0\mu_0 + \tau_{\text{dati}}\bar{x}}
+{\tau_0 + \tau_{\text{dati}}}.
+$$
+
+La precisione a posteriori è:
+
+$$
+\tau_{\text{post}} = \tau_0 + \tau_{\text{dati}}.
+$$
+
+Quindi:
+
+$$
+\sigma^2_{\text{post}} = \frac{1}{\tau_{\text{post}}}.
+$$
+
+::: {.callout-important}
+Nel caso Normale-Normale, l'aggiornamento bayesiano è una media ponderata tra il prior e i dati. I pesi sono le precisioni: la fonte più precisa pesa di più.
+:::
+
+### Esempio numerico
+
+Uno psicologo ha una credenza iniziale secondo cui il punteggio medio di una scala di ansia sia circa 50, con una deviazione standard a priori pari a 10:
+
+$$
+\mu \sim \mathcal{N}(50, 10^2).
+$$
+
+Successivamente, raccoglie dati da $n=30$ studenti. La media osservata è $\bar{x}=56$ e la deviazione standard nota o assunta è $\sigma=15$.
+
+```{r}
+#| label: fig-normal-normal-update
+#| fig-cap: "Aggiornamento Normale-Normale: la posterior è una media pesata tra prior e verosimiglianza, con pesi proporzionali alle precisioni."
+
+mu0 <- 50
+sigma0 <- 10
+n_norm <- 30
+xbar <- 56
+sigma <- 15
+
+tau0 <- 1 / sigma0^2
+tau_data <- n_norm / sigma^2
+tau_post <- tau0 + tau_data
+sigma_post <- sqrt(1 / tau_post)
+mu_post <- (tau0 * mu0 + tau_data * xbar) / tau_post
+
+theta_grid_norm <- seq(25, 80, length.out = 1000)
+prior_norm <- dnorm(theta_grid_norm, mu0, sigma0)
+lik_norm <- dnorm(theta_grid_norm, xbar, sigma / sqrt(n_norm))
+post_norm <- dnorm(theta_grid_norm, mu_post, sigma_post)
+
+lik_norm_scaled <- lik_norm * max(prior_norm) / max(lik_norm)
+
+normal_plot_data <- data.frame(
+  mu = rep(theta_grid_norm, 3),
+  density = c(prior_norm, lik_norm_scaled, post_norm),
+  componente = factor(
+    rep(c("Prior", "Verosimiglianza (riscalata)", "Posterior"),
+        each = length(theta_grid_norm)),
+    levels = c("Prior", "Verosimiglianza (riscalata)", "Posterior")
+  )
+)
+
+ggplot(normal_plot_data, aes(x = mu, y = density,
+                             color = componente, linetype = componente)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    x = expression(mu),
+    y = "Densità / scala relativa",
+    color = "",
+    linetype = ""
+  ) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+cat("Media prior:", mu0, "\n")
+cat("Media dati:", xbar, "\n")
+cat("Media posterior:", round(mu_post, 2), "\n")
+cat("Deviazione standard posterior:", round(sigma_post, 2), "\n")
+cat("Precisione prior:", round(tau0, 4), "\n")
+cat("Precisione dati:", round(tau_data, 4), "\n")
+cat("Precisione posterior:", round(tau_post, 4), "\n")
+```
+
+### Interpretazione
+
+La media a posteriori si colloca tra la media prior e la media campionaria. Se la prior è molto incerta, la posterior si avvicina ai dati. Se i dati sono pochi o rumorosi, la posterior rimane più vicina alla prior.
+
+Questo esempio illustra una proprietà generale dell'approccio bayesiano: l'inferenza non sceglie tra la conoscenza precedente e i dati, ma li combina in modo proporzionale alla loro informatività.
+
+## Aggiornamento sequenziale {#sec-sequential-updating}
+
+Uno dei vantaggi concettuali dell'inferenza bayesiana è che l'aggiornamento può avvenire in modo sequenziale.
+
+Supponiamo di osservare due insiemi di dati indipendenti, $y_1$ e $y_2$. Dopo il primo studio otteniamo:
+
+$$
+p(\theta \mid y_1) \propto p(y_1 \mid \theta)p(\theta).
+$$
+
+Quando arriva il secondo studio, possiamo usare la posterior del primo studio come prior per il secondo:
+
+$$
+p(\theta \mid y_1, y_2)
+\propto p(y_2 \mid \theta)p(\theta \mid y_1).
+$$
+
+Sostituendo la prima equazione nella seconda, otteniamo:
+
+$$
+p(\theta \mid y_1, y_2)
+\propto p(\theta)p(y_1 \mid \theta)p(y_2 \mid \theta).
+$$
+
+Quindi, se gli studi sono indipendenti condizionatamente al parametro, aggiornare in sequenza o aggiornare tutto insieme porta allo stesso risultato.
+
+### Esempio Beta-Binomiale sequenziale
+
+Riprendiamo i dati complessivi $y=72$ su $n=200$, ma immaginiamo che siano arrivati in due fasi:
+
+- primo studio: $y_1 = 18$ su $n_1 = 50$;
+- secondo studio: $y_2 = 54$ su $n_2 = 150$.
+
+```{r}
+alpha0 <- 2
+beta0 <- 2
+
+n1 <- 50
+y1 <- 18
+n2 <- 150
+y2 <- 54
+
+# Aggiornamento sequenziale
+alpha_after_1 <- alpha0 + y1
+beta_after_1 <- beta0 + n1 - y1
+
+alpha_after_2 <- alpha_after_1 + y2
+beta_after_2 <- beta_after_1 + n2 - y2
+
+# Aggiornamento in un solo passo
+alpha_batch <- alpha0 + y1 + y2
+beta_batch <- beta0 + (n1 + n2) - (y1 + y2)
+
+cat("Posterior sequenziale: Beta(", alpha_after_2, ", ", beta_after_2, ")\n", sep = "")
+cat("Posterior in un solo passo: Beta(", alpha_batch, ", ", beta_batch, ")\n", sep = "")
+```
+
+```{r}
+#| label: fig-sequential-updating
+#| fig-cap: "Aggiornamento sequenziale: la posterior dopo il primo studio diventa la prior per il secondo. L'aggiornamento finale coincide con quello ottenuto usando tutti i dati insieme."
+
+seq_plot_data <- data.frame(
+  theta = rep(theta_grid, 4),
+  density = c(
+    dbeta(theta_grid, alpha0, beta0),
+    dbeta(theta_grid, alpha_after_1, beta_after_1),
+    dbeta(theta_grid, alpha_after_2, beta_after_2),
+    dbeta(theta_grid, alpha_batch, beta_batch)
+  ),
+  fase = factor(
+    rep(c("Prior iniziale",
+          "Posterior dopo studio 1",
+          "Posterior sequenziale finale",
+          "Posterior con tutti i dati"),
+        each = length(theta_grid)),
+    levels = c("Prior iniziale",
+               "Posterior dopo studio 1",
+               "Posterior sequenziale finale",
+               "Posterior con tutti i dati")
+  )
+)
+
+ggplot(seq_plot_data, aes(x = theta, y = density,
+                          color = fase, linetype = fase)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    x = expression(theta),
+    y = "Densità",
+    color = "",
+    linetype = ""
+  ) +
+  theme(legend.position = "bottom")
+```
+
+La posterior sequenziale finale e la posterior ottenuta utilizzando tutti i dati insieme coincidono. Questo risultato esprime la **coerenza temporale** dell'aggiornamento bayesiano: ciò che impariamo oggi può diventare la base razionale per imparare domani.
+
+::: {.callout-note title="Collegamento con la combinazione di evidenze"}
+Nel @sec-prob-inference-uncertainty abbiamo discusso l'idea che le evidenze indipendenti possano essere combinate. Qui, la stessa idea si presenta nella sua forma più propriamente bayesiana: le verosimiglianze degli studi indipendenti si moltiplicano e la posterior risultante riassume tutte le informazioni disponibili.
+:::
+
+## Cosa la posterior può e non può dirci {#sec-what-posterior-can-say}
+
+La posterior è uno strumento potente per rappresentare l'incertezza epistemica. Permette di rispondere direttamente a domande come:
+
+- Qual è il valore più plausibile del parametro dopo aver osservato i dati?
+- Quali valori restano credibili?
+- Qual è la probabilità che il parametro superi una soglia clinicamente rilevante?
+- Quanto cambiano le conclusioni se si usa una prior diversa?
+
+Tuttavia, la posterior non elimina i limiti del modello e dei dati.
+
+### Condizionamento sul modello
+
+La posterior è sempre condizionata a un modello:
+
+$$
+p(\theta \mid y, M).
+$$
+
+Ciò significa che le probabilità posteriori sono valide **solo se si considera il modello adottato**. Se il modello è inadeguato, anche la posterior può risultare fuorviante.
+
+### Qualità dei dati
+
+L'aggiornamento bayesiano non corregge automaticamente dati distorti. Se il campione è selezionato in modo errato, se lo strumento misura il costrutto sbagliato o se le risposte sono sistematicamente alterate dalla desiderabilità sociale, la posteriori può diventare molto precisa attorno a un valore errato.
+
+Questo punto è stato discusso nel @sec-prob-inference-uncertainty. Lo richiamiamo qui perché è una condizione essenziale dell'interpretazione bayesiana:
+
+> la posterior quantifica l'incertezza **condizionatamente** ai dati, al modello e alla prior, ma non garantisce da sola la validità scientifica dello studio.
+
+### Prior inappropriate
+
+Una prior estremamente forte e incompatibile con il fenomeno può dominare l'inferenza, soprattutto quando i dati a disposizione sono pochi. Per questo motivo è importante:
+
+- dichiarare la prior;
+- motivarla sostantivamente;
+- valutarne l'impatto tramite un'analisi di sensibilità.
+
+::: {.callout-warning title="Una posterior precisa non basta"}
+Una posterior stretta indica una bassa incertezza condizionata al modello. Tuttavia, non dimostra che il modello sia corretto, che il campione sia rappresentativo o che la misura sia valida.
+:::
+
+## Cosa lasciamo ai capitoli successivi {#sec-advanced-topics-not-here}
+
+Alcuni argomenti sono importanti, ma non sono necessari per il primo incontro con l'aggiornamento bayesiano. Per mantenere il capitolo introduttivo e coerente, non li sviluppiamo qui:
+
+- la score function e l'informazione di Fisher;
+- l'approssimazione di Laplace;
+- il teorema di Bernstein-von Mises;
+- i metodi computazionali come MCMC, HMC e inferenza variazionale;
+- la comparazione di modelli tramite evidenza marginale o fattori di Bayes.
+
+Questi temi saranno ripresi in seguito, quando il lettore avrà acquisito una comprensione operativa di prior, verosimiglianza e posterior.
+
+## Riflessioni conclusive {.unnumbered .unlisted}
+
+Questo capitolo completa il passaggio dalla verosimiglianza all'inferenza bayesiana vera e propria.
+
+La verosimiglianza riassume ciò che i dati dicono sui possibili valori del parametro. La prior riassume ciò che era plausibile prima di osservare quei dati. La posterior combina queste due fonti di informazione in una nuova distribuzione di probabilità.
+
+Nel caso Beta-Binomiale, l'aggiornamento è particolarmente trasparente: i successi e gli insuccessi osservati modificano direttamente i parametri della distribuzione Beta. Nel caso Normale-Normale, la posterior è una media pesata tra prior e dati, con pesi proporzionali alle rispettive precisioni. Nel caso di aggiornamento sequenziale, la posterior ottenuta dopo la prima osservazione diventa la prior per la successiva.
+
+Il messaggio concettuale è unico:
+
+> l'inferenza bayesiana è una procedura coerente per aggiornare le credenze alla luce dell'evidenza.
+
+Tale coerenza non esime però il ricercatore dalla responsabilità scientifica. La posterior deve sempre essere interpretata alla luce del modello, della prior, della qualità dei dati e del disegno della ricerca.
+
+## Punti chiave da ricordare {.unnumbered}
+
+::: {.callout-important}
+
+1. **Regola di Bayes**
+
+   $$
+   p(\theta \mid y) =
+   \frac{p(y \mid \theta)p(\theta)}{p(y)}.
+   $$
+
+2. **Forma proporzionale**
+
+   $$
+   p(\theta \mid y) \propto p(y \mid \theta)p(\theta).
+   $$
+
+3. **Beta-Binomiale**
+
+   Se
+
+   $$
+   \theta \sim \text{Beta}(\alpha,\beta),
+   \qquad
+   Y \mid \theta \sim \text{Binomiale}(n,\theta),
+   $$
+
+   allora
+
+   $$
+   \theta \mid Y=y \sim
+   \text{Beta}(\alpha+y,\beta+n-y).
+   $$
+
+4. **Normale-Normale**
+
+   La media posterior è una media pesata:
+
+   $$
+   \mu_{\text{post}} =
+   \frac{\tau_0\mu_0 + \tau_{\text{dati}}\bar{x}}
+   {\tau_0 + \tau_{\text{dati}}}.
+   $$
+
+   La precisione posterior è la somma delle precisioni:
+
+   $$
+   \tau_{\text{post}} = \tau_0 + \tau_{\text{dati}}.
+   $$
+
+5. **Aggiornamento sequenziale**
+
+   $$
+   p(\theta \mid y_1,y_2)
+   \propto
+   p(y_2 \mid \theta)p(\theta \mid y_1).
+   $$
+
+6. **Analisi di sensibilità**
+
+   Confrontare posterior ottenute con prior diverse aiuta a capire se le conclusioni dipendono fortemente dalle assunzioni iniziali.
+
+7. **Interpretazione condizionata**
+
+   La posterior quantifica l'incertezza dato il modello, la prior e i dati. Non corregge automaticamente bias, errori di misura o modelli inadeguati.
+
+:::
+
+::: {.callout-important title="Esercizi" collapse="true"}
+
+1. Ripetere l'aggiornamento Beta-Binomiale con una prior $\text{Beta}(1,1)$ e confrontare media posterior e intervallo di credibilità con quelli ottenuti usando $\text{Beta}(2,2)$.
+
+2. Calcolare $P(\theta > 0.35 \mid y)$ e $P(\theta > 0.45 \mid y)$ per l'esempio della prevalenza di sintomi depressivi.
+
+3. Nel caso Normale-Normale, modificare la deviazione standard della prior da 10 a 30. Come cambia la posterior? Perchè?
+
+4. Dividere i dati binomiali in tre blocchi e verificare che l'aggiornamento sequenziale produca la stessa posterior dell'aggiornamento in un solo passo.
+
+5. Proporre una prior informativa motivata sostantivamente per un problema psicologico a scelta e discutere come valutarne la sensibilità.
+
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
+:::
+
+## Bibliografia {.unnumbered .unlisted}

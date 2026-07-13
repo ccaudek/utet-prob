@@ -2,323 +2,392 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Un ricercatore sta progettando uno studio sui tempi di reazione in un compito di decisione lessicale. Sa che dovrà modellare questi dati statisticamente, ma si trova di fronte a una scelta: quale distribuzione utilizzare? I tempi di reazione sono sempre positivi, spesso asimmetrici verso destra, e occasionalmente presentano valori estremi. Una distribuzione normale, simmetrica e definita su tutti i numeri reali, sembra inadeguata. Forse una gamma o una log-normale sarebbero più appropriate?
+Uno psicologo sta progettando uno studio sui tempi di reazione in un compito di decisione lessicale. Sa che i tempi di reazione sono sempre positivi, spesso asimmetrici verso destra e talvolta presentano valori estremi. Se usasse una distribuzione normale, assegnerebbe densità anche a tempi negativi, che sono impossibili. Una distribuzione gamma, invece, rispetterebbe il vincolo di positività e permetterebbe l'asimmetria.
 
-In un altro laboratorio, una clinica sta analizzando i dati di uno studio clinico su un nuovo intervento per la depressione. Deve modellare la proporzione di pazienti che raggiungono la remissione. Questa proporzione è necessariamente compresa tra 0 e 1: quale distribuzione può rappresentare adeguatamente l'incertezza di un parametro con questi vincoli?
+In un altro contesto, una ricercatrice clinica vuole ragionare sulla probabilità che un paziente raggiunga la remissione dopo un trattamento. In questo caso, la quantità di interesse è una probabilità, quindi deve essere compresa tra 0 e 1. Una distribuzione beta è progettata proprio per rappresentare l'incertezza su quantità di questo tipo.
 
-Queste domande operative motivano il presente capitolo. Nei capitoli precedenti abbiamo costruito un framework per ragionare in modo coerente in condizioni di incertezza. Ora, però, sorge una questione pratica: **come possiamo rappresentare concretamente le nostre credenze?** Le famiglie parametriche di distribuzioni, come la normale, la binomiale, la beta, la gamma e altre, forniscono un vocabolario matematico per esprimere l'incertezza in forme standardizzate, ciascuna adatta a specifici tipi di variabili e configurazioni di credenze.
+Questi esempi mostrano perché le distribuzioni di probabilità sono necessarie. Una distribuzione non è soltanto una curva da disegnare su un grafico, ma un modo compatto per indicare quali valori sono possibili, quali sono più plausibili, quanta variabilità ci si può aspettare e quali assunzioni si fanno sul fenomeno.
 
+Nei capitoli precedenti abbiamo introdotto le variabili casuali, le funzioni di probabilità e densità, il valore atteso, la varianza, la covarianza e la correlazione. In questo capitolo facciamo un passo ulteriore: introduciamo le **famiglie parametriche di distribuzioni**, ovvero il vocabolario standard con cui costruire modelli probabilistici.
 
-::: {.callout-tip collapse="true"}
-## Prerequisiti
+Lo scopo del capitolo è soprattutto orientativo. Non studieremo ancora nel dettaglio ogni distribuzione: questo sarà il compito dei capitoli successivi. In questo capitolo impareremo a riconoscere il ruolo generale delle distribuzioni, a distinguere le distribuzioni discrete da quelle continue e a scegliere, in modo ragionato, la famiglia di distribuzioni più appropriata per una determinata domanda di ricerca.
 
+::: {.callout-tip collapse="true" title="Prerequisiti"}
 Per seguire questo capitolo è necessario aver letto:
 
-- @sec-prob-random-var
-- @sec-prob-distr
-- @sec-prob-random-var-properties
-- @sec-prob-inference-uncertainty — **fondamentale** per comprendere il duplice ruolo delle distribuzioni (prior e verosimiglianza)
+- @sec-prob-random-var;
+- @sec-prob-distr;
+- @sec-prob-random-var-properties;
+- @sec-prob-cov-cor, almeno per l'idea che le variabili casuali possano variare insieme.
 
-Questo capitolo introduce il **vocabolario delle famiglie parametriche**, che saranno poi studiate in dettaglio nei capitoli successivi.
+Questo capitolo apre la Parte 3 di questo modulo di richiamo. Il suo ruolo è preparare lo studio delle distribuzioni discrete nel @sec-prob-discr-distr e delle distribuzioni continue nel @sec-prob-cont-distr.
 
-Conoscenze matematiche richieste:
+Conoscenze matematiche utili:
 
-- @sec-apx-calculus - per proprietà delle distribuzioni continue
+- @sec-apx-combinatorics, per le distribuzioni discrete basate su conteggi;
+- @sec-apx-calculus, per comprendere le densità continue e l'integrazione.
 :::
 
-## L’incertezza come condizione epistemica
+::: {.callout-caution collapse="true" title="Preparazione del Notebook"}
+```{r}
+here::here("code", "_common.R") |> 
+  source()
+apply_visual_theme()
+```
+:::
 
-### Perché abbiamo bisogno delle distribuzioni
+## Perché servono le distribuzioni {#sec-why-distributions}
 
-Nel ragionamento scientifico ci troviamo costantemente in una condizione di conoscenza incompleta. Non conosciamo con certezza il valore esatto di un parametro di interesse, che si tratti della prevalenza di un disturbo, dell’efficacia di un intervento o della correlazione tra due costrutti psicologici. Questa incertezza non rappresenta un difetto del metodo scientifico, ma una sua caratteristica costitutiva: la scienza avanza attraverso la riduzione progressiva dell’incertezza, non attraverso la sua eliminazione definitiva.
+### Dalle variabili casuali alle famiglie di distribuzioni
 
-L’approccio bayesiano riconosce esplicitamente questa condizione e la pone al centro del ragionamento inferenziale. L’incertezza non viene nascosta dietro stime puntuali o decisioni dicotomiche (ad esempio significativo/non significativo), ma viene rappresentata, quantificata e comunicata mediante distribuzioni di probabilità.
+Una variabile casuale rappresenta una quantità incerta, come una risposta corretta o errata, il numero di sintomi riportati, il tempo di reazione o il punteggio ottenuto su una scala psicometrica. La distribuzione di probabilità specifica come la probabilità o la densità sono assegnate ai valori possibili di quella variabile.
 
-In questa prospettiva, una distribuzione di probabilità non descrive primariamente “come sono distribuiti i dati nel mondo”, bensì “quali valori riteniamo più o meno plausibili, dato il nostro attuale stato di conoscenza”. Questa distinzione è sottile ma cruciale: la distribuzione è uno strumento epistemico, utilizzato per rappresentare credenze razionali, non una proprietà ontologica intrinseca del fenomeno studiato.
+Tuttavia, nella pratica scientifica non costruiamo ogni distribuzione da zero. Utilizziamo famiglie già note, ciascuna con proprietà matematiche e interpretative ben comprese. La distribuzione normale, la binomiale, la Poisson, la beta e la gamma sono esempi di **famiglie parametriche**.
 
-### Dalla credenza puntuale alla credenza distribuita
+Una famiglia parametrica è un insieme di distribuzioni accomunate dalla stessa forma generale, ma differenziate da uno o più **parametri**. Ad esempio:
 
-Immaginiamo di voler esprimere le nostre credenze sulla proporzione di studenti universitari che presentano sintomi di ansia clinicamente rilevanti, indicata con $\theta$. Un approccio ingenuo potrebbe consistere nell’indicare un singolo valore: “Credo che sia il 25%”. Tuttavia, una risposta di questo tipo è epistemicamente inadeguata, poiché non rende conto dell’incertezza che accompagna inevitabilmente tale credenza.
+- la famiglia normale è determinata da una media $\mu$ e da una deviazione standard $\sigma$;
+- la famiglia binomiale è determinata dal numero di prove $n$ e dalla probabilità di successo $p$;
+- la famiglia beta è determinata da due parametri di forma, spesso indicati con $\alpha$ e $\beta$;
+- la famiglia di Poisson è determinata da un tasso medio $\lambda$.
 
-Una rappresentazione più adeguata riconosce che non attribuiamo la stessa plausibilità a tutti i possibili valori di $\theta$. Potremmo ritenere molto plausibili i valori compresi tra 0.20 e 0.30, moderatamente plausibili quelli tra 0.15 e 0.35, e considerare altamente implausibili valori inferiori a 0.05 o superiori a 0.50. Una distribuzione di probabilità su $\theta$ consente di rappresentare in modo esplicito e coerente questa struttura graduata di credenze.
+Specificare una famiglia significa decidere la **forma generale** del modello. Specificare i valori dei parametri significa scegliere una distribuzione particolare all'interno di quella famiglia.
 
-La distribuzione Beta, che incontreremo nei prossimi capitoli, è particolarmente adatta a rappresentare credenze sulle proporzioni. Ad esempio, una distribuzione $\text{Beta}(5, 15)$ esprime la convinzione che il valore di $\theta$ sia probabilmente intorno a 0.25, con un'incertezza maggiore verso i valori più elevati rispetto a quelli più bassi. I parametri della distribuzione, in questo caso 5 e 15, codificano in modo compatto l’intera struttura delle nostre credenze, trasformando un insieme complesso di giudizi qualitativi in un oggetto matematico maneggevole.
+::: {.callout-note title="Parametro della distribuzione e parametro inferenziale"}
+Nei capitoli sulle distribuzioni, un parametro può essere considerato come un dato numerico, ad esempio una distribuzione normale con $\mu = 100$ e $\sigma = 15$. Questo permette di studiare le proprietà della distribuzione.
 
-## Il duplice ruolo delle distribuzioni nell’inferenza bayesiana
+Nell'inferenza bayesiana, invece, molti parametri sono quantità ignote su cui abbiamo incertezza. Ad esempio, la probabilità di remissione $\theta$ può essere il parametro di un modello binomiale, ma anche una quantità su cui vogliamo costruire una distribuzione a priori e, dopo i dati, una distribuzione a posteriori. Questa distinzione sarà centrale nella Parte 4.
+:::
 
-Nell’approccio bayesiano, le distribuzioni di probabilità svolgono due ruoli distinti ma complementari, che corrispondono ai due termini fondamentali del teorema di Bayes. La chiara comprensione di questa dualità è essenziale per cogliere il motivo per cui le famiglie parametriche occupano una posizione centrale nell’inferenza bayesiana.
+### Le distribuzioni come rappresentazioni dell'incertezza
 
-### Distribuzioni come rappresentazione dell’incertezza sui parametri
+Nel ragionamento bayesiano, una distribuzione di probabilità è prima di tutto uno strumento per rappresentare l'incertezza. Può rappresentare l'incertezza relativa a un'osservazione futura, a un parametro sconosciuto o a una quantità derivata da un modello.
 
-Il primo ruolo, più caratteristico e distintivo dell’approccio bayesiano, consiste nel rappresentare formalmente l’incertezza circa i parametri del modello. Prima di osservare i dati, le conoscenze preliminari o le credenze sul parametro vengono codificate in una **distribuzione a priori** (*prior*). Questa può incorporare informazioni provenienti dalla letteratura scientifica, vincoli teorici, esperienza pregressa o, in assenza di informazioni sostanziali, esprimere una marcata incertezza iniziale.
+Consideriamo, ad esempio, la proporzione $\theta$ di studenti universitari con sintomi d'ansia clinicamente rilevanti. Dire "credo che sia il 25%" è una credenza puntuale. Spesso, però, non vogliamo attribuire tutta la nostra credenza a un singolo valore. Potremmo ritenere plausibili valori compresi tra 0.20 e 0.30, meno plausibili valori intorno a 0.10 o 0.45, e quasi impossibili valori superiori a 0.70. Una distribuzione su $\theta$ rende esplicita questa struttura graduata di credenze.
 
-Dopo l’osservazione dei dati, le credenze iniziali vengono aggiornate attraverso il teorema di Bayes, dando vita alla **distribuzione a posteriori**. Questa sintetizza tutto ciò che si è appreso, combinando il prior con l’evidenza empirica contenuta nei dati. La sua forma, ovvero la sua posizione, la sua dispersione, e l’eventuale presenza di asimmetria o multimodalità, comunica in modo completo ciò che abbiamo appreso e quanta incertezza residua permane.
+Questa rappresentazione è più informativa di una stima puntuale, in quanto comunica anche la **dispersione** della nostra incertezza. Due ricercatori possono avere la stessa stima centrale, ad esempio 0.25, ma gradi di incertezza molto diversi: uno potrebbe essere quasi certo che il valore sia vicino a 0.25, mentre l'altro potrebbe considerare plausibile un intervallo molto ampio di valori.
 
-In questo senso, la distribuzione risponde alla domanda: *«Quanto dovrei credere in ciascun possibile valore del parametro?»*.
+### Le distribuzioni come modelli della variabilità
 
-### Distribuzioni come modelli generativi dei dati
+Le distribuzioni servono anche a rappresentare la variabilità dei dati. In psicologia, la variabilità è spesso una componente essenziale del fenomeno: le persone rispondono in modo diverso allo stesso trattamento, lo stesso individuo può cambiare nel tempo e contesti diversi possono influenzare il comportamento osservato.
 
-Il secondo ruolo riguarda la descrizione del processo probabilistico che ha generato i dati, condizionatamente ai parametri. Questo ruolo è formalizzato dalla **funzione di verosimiglianza**.
+Per questo motivo, modellare soltanto la media può non essere sufficiente. Una distribuzione permette di rappresentare non solo il centro dei dati, ma anche la dispersione, l'asimmetria, le code e, quando necessario, la presenza di sottogruppi. In questo senso, la variabilità non è semplicemente rumore, ma informazione.
 
-La verosimiglianza risponde a una domanda diversa: *«Se il parametro avesse un valore specifico, quanto sarebbero plausibili (o probabili) i dati che abbiamo effettivamente osservato?»*.
+Come discusso da @segal2025embracing, molti fenomeni psicologici e psicopatologici sono caratterizzati da un'eterogeneità sostanziale. Le distribuzioni di probabilità forniscono un linguaggio per rendere visibile e modellabile questa eterogeneità.
 
-Quando assumiamo, ad esempio, che i tempi di reazione seguano una distribuzione gamma o che le risposte a un item dicotomico seguano una distribuzione di Bernoulli, stiamo formulando ipotesi sul meccanismo generativo dei dati. Tali ipotesi determinano la forma della funzione di verosimiglianza e influenzano direttamente il modo in cui l’evidenza empirica aggiorna le nostre credenze.
+## Tre domande per scegliere una distribuzione {#sec-three-questions-distributions}
 
-La scelta del modello generativo riflette le nostre ipotesi sostantive sulla natura del fenomeno studiato: i tempi di reazione sono sempre positivi e spesso asimmetrici (suggerendo distribuzioni come la gamma o la log-normale); i conteggi di eventi rari presentano una struttura particolare (suggerendo la distribuzione di Poisson); le proporzioni sono vincolate tra 0 e 1 (suggerendo la distribuzione beta per la *prior* e la binomiale per la verosimiglianza).
+La scelta di una distribuzione non dovrebbe partire dalla domanda "Quale curva assomiglia al mio istogramma?". Questa domanda può essere utile, ma viene dopo. Prima è necessario chiarire che cosa si sta modellando e quali valori sono logicamente possibili.
 
-### L’interazione tra i due ruoli
+### 1. Che tipo di quantità sto modellando?
 
-Il teorema di Bayes rappresenta il ponte matematico che connette questi due ruoli fondamentali:
+La prima distinzione riguarda la natura della quantità:
+
+- un **evento binario**, come risposta corretta/errata o remissione sì/no;
+- un **conteggio**, come numero di sintomi, errori o episodi;
+- una **proporzione** o probabilità, vincolata tra 0 e 1;
+- una **misura continua**, come un tempo di reazione o un punteggio psicometrico;
+- un **tasso**, come il numero medio di eventi per unità di tempo;
+- una **varianza** o una deviazione standard, sempre non negativa.
+
+Questa classificazione restringe subito l'insieme delle distribuzioni plausibili.
+
+### 2. Qual è il supporto della quantità?
+
+Il **supporto** è l'insieme dei valori che una variabile può assumere. Una distribuzione appropriata deve assegnare probabilità solo ai valori compatibili con il fenomeno.
+
+| Quantità da modellare | Supporto | Famiglie candidate | Esempio psicologico |
+|:---|:---|:---|:---|
+| Evento binario | $\{0,1\}$ | Bernoulli | Risposta corretta/errata |
+| Numero di successi su $n$ prove | $\{0,1,\ldots,n\}$ | Binomiale | Item corretti su 20 |
+| Conteggio non limitato superiormente | $\{0,1,2,\ldots\}$ | Poisson | Attacchi di panico in un mese |
+| Proporzione o probabilità | $[0,1]$ | Beta | Tasso di remissione |
+| Misura continua su tutta la retta | $\mathbb{R}$ | Normale, $t$ di Student, Cauchy | Punteggi standardizzati |
+| Quantità positiva continua | $\mathbb{R}^+$ | Esponenziale, Gamma | Tempi di reazione, latenze |
+| Varianza o precisione | $\mathbb{R}^+$ | Gamma, chi-quadrato | Variabilità tra soggetti |
+
+Il supporto è un criterio di esclusione molto forte. Se una quantità non può assumere valori negativi, una distribuzione che assegna densità a valori negativi deve essere utilizzata con estrema cautela o sostituita da una famiglia di distribuzioni più adatta.
+
+### 3. Quale forma mi aspetto?
+
+Dopo aver considerato il supporto, si valuta la forma attesa della distribuzione:
+
+- simmetrica o asimmetrica;
+- concentrata o dispersa;
+- con code leggere o pesanti;
+- con valori estremi frequenti o rari;
+- con un solo picco o con più sottogruppi plausibili.
+
+La forma non è un dettaglio estetico. Esprime ipotesi sostantive sul processo che genera i dati o sulla struttura delle nostre credenze. Ad esempio, l'uso di una distribuzione gamma per i tempi di reazione suggerisce che i tempi siano positivi e asimmetrici, mentre l'uso di una distribuzione normale per un punteggio standardizzato suggerisce una variabilità approssimativamente simmetrica attorno a un centro.
+
+## Famiglie parametriche e interpretazione dei parametri {#sec-parametric-families}
+
+### Posizione, scala e forma
+
+I parametri di una distribuzione possono avere ruoli diversi. Una distinzione utile è quella tra parametri di **posizione**, **scala** e **forma**.
+
+Un parametro di posizione indica dove si concentra la distribuzione. Nella distribuzione normale, il parametro $\mu$ sposta la curva verso sinistra o verso destra. Un parametro di scala controlla la dispersione: nella distribuzione normale, per esempio, $\sigma$ determina quanto la distribuzione è ampia. I parametri di forma, infine, modificano l'asimmetria, le code o la concentrazione: nella distribuzione beta, per esempio, i parametri $\alpha$ e $\beta$ possono produrre distribuzioni simmetriche, asimmetriche, a U o fortemente concentrate.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5
+#| out-width: "100%"
+
+x <- seq(-4, 4, length.out = 400)
+curve_normali <- rbind(
+  data.frame(x = x, density = dnorm(x, mean = 0, sd = 1), modello = "Normale(0, 1)"),
+  data.frame(x = x, density = dnorm(x, mean = 1.5, sd = 1), modello = "Normale(1.5, 1)"),
+  data.frame(x = x, density = dnorm(x, mean = 0, sd = 1.8), modello = "Normale(0, 1.8)")
+)
+
+ggplot(curve_normali, aes(x = x, y = density, linetype = modello)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    title = "Effetto dei parametri in una famiglia parametrica",
+    subtitle = "La media modifica la posizione; la deviazione standard modifica la dispersione",
+    x = "Valore",
+    y = "Densità",
+    linetype = "Distribuzione"
+  )
+```
+
+Lo stesso principio si applica a tutte le famiglie: i parametri non sono simboli arbitrari, ma strumenti per codificare le assunzioni sulla quantità che stiamo modellando.
+
+### Un piccolo lessico operativo
+
+Nel seguito del modulo incontreremo spesso le seguenti parole. Conviene fissarle subito.
+
+**Supporto**: l'insieme dei valori possibili. Una distribuzione Beta ha supporto $[0,1]$, mentre una distribuzione di Poisson ha supporto $\{0,1,2,\ldots\}$.
+
+**Massa di probabilità**: per le variabili discrete, è la probabilità assegnata a ciascun valore specifico, come $P(X = 3)$.
+
+**Densità**: per le variabili continue, è una funzione che permette di calcolare le probabilità su intervalli. Per una variabile continua, la probabilità che assuma un valore esatto è nulla; ciò che ha senso è la probabilità che assuma valori compresi tra $a$ e $b$.
+
+**Funzione di distribuzione cumulativa**: la funzione che restituisce $P(X \leq x)$.
+
+**Quantile**: il valore sotto il quale cade una certa probabilità. Ad esempio, il quantile 0.95 è il valore sotto il quale si trova il 95% della distribuzione.
+
+Questi concetti sono già stati introdotti nei capitoli precedenti, ma diventeranno operativi nei capitoli 11 e 12, in cui useremo anche le funzioni R associate alle principali distribuzioni.
+
+## Il ruolo delle distribuzioni in un modello bayesiano {#sec-distribution-roles-bayes}
+
+Anche se la verosimiglianza e l'aggiornamento bayesiano verranno trattati in modo sistematico nella Parte 4, è utile anticipare il ruolo che le distribuzioni avranno in quel contesto.
+
+Un modello bayesiano semplice può essere schematizzato nel modo seguente:
 
 $$
-\underbrace{p(\theta \mid \text{dati})}_{\text{posteriore}}
-\propto
-\underbrace{p(\text{dati} \mid \theta)}_{\text{verosimiglianza}}
-\times
-\underbrace{p(\theta)}_{\text{prior}}.
+\theta \sim p(\theta),
+\qquad
+Y \mid \theta \sim p(y \mid \theta).
 $$
 
-La distribuzione a posteriori nasce dall’integrazione dinamica tra la conoscenza pregressa sui parametri, formalizzata nel prior, e l’evidenza empirica dei dati, catturata dalla verosimiglianza. Poiché entrambe le componenti dell’inferenza sono espresse attraverso distribuzioni di probabilità, le famiglie parametriche costituiscono strumenti indispensabili per formulare modelli coerenti, interpretabili e aggiornabili nell’inferenza bayesiana.
+La prima riga rappresenta l'incertezza sul parametro $\theta$ prima dell'osservazione dei dati. La seconda riga rappresenta il modello probabilistico dei dati condizionato a un valore del parametro. In questa forma compatta sono già presenti due usi diversi delle distribuzioni.
 
-### Esempio concreto: la distribuzione Beta nel duplice ruolo
+### Distribuzioni per i parametri: prior
 
-Consideriamo uno studio sull'efficacia di un intervento CBT per l'ansia sociale. Il parametro di interesse è $\theta$, ovvero la probabilità di remissione.
+Una distribuzione può rappresentare ciò che sappiamo o ciò che non sappiamo riguardo a un parametro. Per esempio, se $\theta$ rappresenta una probabilità di remissione, una distribuzione beta può esprimere le credenze preliminari su valori compresi tra 0 e 1.
 
-**Come prior**, prima di raccogliere dati, il ricercatore utilizza una $\text{Beta}(3, 7)$ per esprimere la credenza che la remissione sia possibile ma non molto probabile (media a priori = 0.30). Questa scelta riflette la letteratura esistente su interventi simili.
+In questa funzione, la distribuzione risponde alla domanda:
 
-**Come verosimiglianza**: i dati osservati (12 remissioni su 30 pazienti) sono modellati con una distribuzione Binomiale, che descrive il processo generativo: ogni paziente ha una probabilità $\theta$ di remissione, indipendentemente dagli altri.
+> Quali valori del parametro ritengo plausibili prima di osservare questi dati?
 
-**Come posterior**: applicando il teorema di Bayes, si ottiene una distribuzione  $\text{Beta}(3+12, 7+18) = \text{Beta}(15, 25)$, che sintetizza ciò che sappiamo dopo aver osservato i dati. La media a posteriori (0.375) rappresenta un compromesso tra la credenza iniziale (0.30) e la proporzione osservata (0.40).
+### Distribuzioni per i dati: modello generativo
 
-In questo esempio, la distribuzione Beta appare sia come prior che come posterior (appartengono alla stessa famiglia, proprietà detta *coniugazione*), mentre la Binomiale funge da verosimiglianza. Questa è la struttura tipica dell'inferenza bayesiana per le proporzioni.
+Una distribuzione può anche descrivere come potrebbero essere generati i dati, a partire da un determinato valore del parametro. Se osserviamo il numero di remissioni su $n$ pazienti, una distribuzione binomiale può rappresentare il numero di successi attesi per un determinato valore di $\theta$.
 
-## Le famiglie parametriche come vocabolario
+In questa funzione, la distribuzione risponde alla domanda:
 
-### Cosa significa “famiglia parametrica”
+> Se il parametro assumesse questo valore, quali dati mi aspetterei di osservare?
 
-Una *famiglia parametrica* di distribuzioni è un insieme di distribuzioni che condividono la stessa forma funzionale, ma differiscono per i valori di uno o più parametri. La famiglia normale, per esempio, comprende infinite distribuzioni tutte caratterizzate da una forma a campana simmetrica, che si distinguono per la loro posizione (parametro $\mu$) e per la loro dispersione (parametro $\sigma$).
+### Distribuzioni predittive
 
-Specificare una famiglia parametrica equivale quindi a fare un’assunzione sulla *forma* della distribuzione, mentre specificare i valori dei parametri significa selezionare un caso particolare all’interno di quella famiglia. Nell'inferenza bayesiana, di solito si fissa la famiglia sulla base di considerazioni teoriche o sostanziali (ad esempio: "ritengo plausibile una distribuzione normale") e si lascia che siano i dati a informare i valori dei parametri attraverso il processo di aggiornamento bayesiano.
+Infine, una distribuzione può descrivere ciò che ci aspettiamo di osservare in futuro. Nel quadro bayesiano, la previsione tiene conto sia della variabilità dei dati sia dell'incertezza residua sui parametri.
 
-### Il vocabolario delle forme
+Questa terza funzione sarà importante più avanti, ma è utile riconoscerla fin da ora: un modello probabilistico non serve solo a spiegare dati già osservati, ma anche a formulare aspettative controllabili su dati futuri.
 
-Ogni famiglia parametrica possiede caratteristiche distintive che la rendono adatta a rappresentare specifici tipi di variabili. Vediamole con esempi dalla ricerca psicologica.
+::: {.callout-important title="Idea guida"}
+Nel manuale useremo le distribuzioni in tre modi complementari:
 
-**Distribuzioni discrete** — assegnano probabilità a valori distinti e contabili:
+1. per descrivere quantità osservabili;
+2. per rappresentare incertezza sui parametri;
+3. per prevedere osservazioni future.
 
-- **Bernoulli**: modella eventi binari singoli. *Esempio*: la risposta di un paziente a un trattamento (remissione sì/no), la correttezza di una risposta a un item di test, la presenza/assenza di un sintomo.
+La Parte 3 costruisce il vocabolario. La Parte 4 mostrerà come questo vocabolario diventa inferenza.
+:::
 
-- **Binomiale**: descrive il numero di successi in una sequenza di prove. *Esempio*: quanti item corretti su 20 in un test di memoria, quanti pazienti su 50 rispondono a un farmaco, quanti giorni su 14 un paziente riporta umore depresso.
+## Mappa delle principali famiglie {#sec-map-distribution-families}
 
-- **Poisson**: appropriata per conteggi di eventi rari in intervalli definiti. *Esempio*: numero di attacchi di panico in un mese, numero di errori in un compito di attenzione sostenuta, frequenza di comportamenti autolesionistici in una settimana.
+### Distribuzioni discrete
 
-**Distribuzioni continue** — assegnano densità di probabilità a scale numeriche continue:
+Le distribuzioni discrete assegnano probabilità a valori separati e numerabili. Sono naturali quando gli esiti sono categorie, successi, errori o conteggi.
 
-- **Normale (Gaussiana)**: emerge quando un fenomeno è influenzato da molti fattori indipendenti di piccolo effetto. *Esempio*: punteggi QI (costruiti per essere normali), punteggi a scale di personalità ben validate, misure antropometriche.
+| Famiglia | Quantità modellata | Parametri principali | Capitolo |
+|:---|:---|:---|:---|
+| Uniforme discreta | valori discreti equiprobabili | numero di valori possibili | @sec-prob-discr-distr |
+| Bernoulli | singolo evento binario | probabilità $p$ | @sec-prob-discr-distr |
+| Binomiale | numero di successi in $n$ prove | $n$, $p$ | @sec-prob-discr-distr |
+| Poisson | conteggio di eventi in un intervallo | tasso $\lambda$ | @sec-prob-discr-distr |
 
-- **Gamma e Log-normale**: adatte a quantità positive e asimmetriche. *Esempio*: tempi di reazione (sempre positivi, con coda destra), latenze di risposta, durata degli episodi depressivi, tempo alla ricaduta.
+Esempi psicologici tipici sono la risposta corretta a un item, il numero di item superati, il numero di comportamenti osservati in una sessione o il numero di episodi registrati in un periodo.
 
-- **Beta**: definita sull'intervallo [0,1], ideale per proporzioni e probabilità. *Esempio*: probabilità che un paziente risponda a un trattamento, proporzione di varianza spiegata, tasso di accuratezza in un compito.
+### Distribuzioni continue
 
-### Ponte applicativo: come scegliere la distribuzione appropriata
+Le distribuzioni continue assegnano densità su intervalli di valori. Sono naturali per tempi, punteggi, misure fisiologiche, probabilità, tassi e parametri continui.
 
-Nella pratica, la scelta della distribuzione non è un atto astratto ma una **decisione informata**, che può essere affrontata in modo sistematico seguendo una logica a cascata. Le domande chiave sono poche, ma poste nell’ordine giusto.
+| Famiglia | Quantità modellata | Parametri principali | Capitolo |
+|:---|:---|:---|:---|
+| Uniforme continua | valori equiplausibili in un intervallo | estremi $a$, $b$ | @sec-prob-cont-distr |
+| Esponenziale | tempi di attesa | tasso $\lambda$ | @sec-prob-cont-distr |
+| Normale | misure simmetriche su $\mathbb{R}$ | $\mu$, $\sigma$ | @sec-prob-cont-distr |
+| Chi-quadrato | somme di quadrati, varianze | gradi di libertà | @sec-prob-cont-distr |
+| $t$ di Student | quantità continue con code più pesanti | gradi di libertà | @sec-prob-cont-distr |
+| Cauchy | distribuzioni molto robuste e a code pesanti | posizione, scala | @sec-prob-cont-distr |
+| Beta | proporzioni e probabilità | $\alpha$, $\beta$ | @sec-prob-cont-distr |
+| Gamma | tassi, tempi positivi, varianze | forma, tasso o scala | @sec-prob-cont-distr |
 
-#### 1. Qual è il **supporto** della variabile? {.unnumbered .unlisted}
+Questa mappa non deve essere memorizzata come una lista chiusa. Serve piuttosto a sviluppare un'abitudine: prima si guarda alla natura della quantità, poi al supporto, poi alla forma, infine al ruolo che la distribuzione deve svolgere nel modello.
 
-Il primo criterio è sempre il dominio dei valori possibili: una distribuzione che assegna probabilità a valori impossibili è automaticamente esclusa.
+## Esempi di scelta della distribuzione {#sec-choosing-examples}
 
-* Solo 0 e 1 → **Bernoulli**
-* Numero di successi tra 0 e *n* → **Binomiale**
-* Conteggi interi non negativi senza limite superiore → **Poisson**
-* Numeri reali positivi (> 0) → **Gamma**, **Log-normale**
-* Proporzioni comprese tra 0 e 1 → **Beta**
-* Numeri reali su tutta la retta → **Normale**, **t di Student**
+### Remissione clinica: evento binario e probabilità
 
-👉 Questa fase serve soprattutto a **escludere** modelli inadatti.
+Supponiamo di voler studiare se un paziente raggiunge la remissione dopo un intervento psicoterapeutico. Per ogni paziente osserviamo un esito binario: remissione sì/no. La distribuzione naturale per una singola osservazione è la Bernoulli.
 
-#### 2. Qual è la **forma attesa** della distribuzione? {.unnumbered .unlisted}
+Se invece osserviamo $y$ remissioni su $n$ pazienti, la distribuzione naturale per il conteggio dei successi è la binomiale. Se vogliamo poi rappresentare l'incertezza sulla probabilità di remissione $\theta$, una candidata naturale è la distribuzione Beta, perché $\theta$ deve appartenere all'intervallo $[0,1]$.
 
-Una volta ristretto il campo, si considera la forma plausibile dei dati, sulla base di teoria, esperienza o letteratura.
+Qui compaiono tre livelli:
 
-* Simmetrica, campaniforme → **Normale**
-* Asimmetrica a destra (coda lunga verso valori alti) → **Gamma**, **Log-normale**
-* Asimmetrica a sinistra → **Beta** con (\alpha > \beta)
-* Presenza di outlier o code pesanti → **t di Student**
+- osservazione singola: Bernoulli;
+- conteggio aggregato: Binomiale;
+- incertezza sulla probabilità: Beta.
 
-👉 Qui entra in gioco l’**intelligenza sostantiva** del problema, non solo la matematica.
+La relazione tra questi livelli verrà ripresa nei capitoli successivi.
 
-#### 3. Ci sono **informazioni pregresse** da incorporare? {.unnumbered .unlisted}
+### Tempi di reazione: quantità positive e asimmetriche
 
-Se il modello è bayesiano, la distribuzione scelta deve dialogare bene con il *prior*.
+I tempi di reazione non possono essere negativi e spesso presentano una coda lunga verso destra. Per questo motivo, una distribuzione normale potrebbe non essere adeguata, soprattutto in presenza di un'asimmetria marcata. Distribuzioni come la gamma o, in altri contesti, la log-normale rispettano il vincolo di positività e permettono l'asimmetria.
 
-* Se esistono conoscenze precedenti (studi, esperti, dati storici), il *prior* deve poterle rappresentare in modo naturale.
-* Le coppie **coniugate** (prior e posterior della stessa famiglia) non sono obbligatorie, ma:
+La scelta non dipende solo dal grafico dei dati. Dipende anche da ciò che si ritiene plausibile riguardo al processo: un tempo di reazione può essere considerato come una durata positiva influenzata da molteplici componenti cognitive, motorie e attentive.
 
-  * semplificano i calcoli,
-  * rendono l’interpretazione più trasparente,
-  * facilitano il debugging del modello.
+### Conteggi di eventi: frequenze in un intervallo
 
-👉 La scelta della distribuzione non riguarda solo i dati, ma l’intero **ecosistema del modello**.
+Se si conta il numero di attacchi di panico in un mese, il numero di errori in un compito o il numero di comportamenti osservati in una sessione, la variabile assume valori interi non negativi. Una distribuzione naturale è quella di Poisson, soprattutto quando gli eventi sono relativamente rari e l'intervallo di osservazione è definito.
 
-#### Esempio applicativo {.unnumbered .unlisted}
+Tuttavia, se il tasso medio di eventi varia molto da un individuo all'altro, la semplice distribuzione di Poisson può risultare troppo rigida. In seguito vedremo che introdurre incertezza o variabilità nel tasso può produrre modelli più flessibili.
 
-> *“Devo modellare i tempi di reazione in un esperimento di priming.”*
+### Punteggi psicometrici: continui o quasi continui?
 
-1. **Supporto**
-   I tempi di reazione sono numeri reali positivi → la **Normale è esclusa**.
+Molti punteggi psicometrici derivano dalla somma di item discreti, ma sono spesso trattati come quantità continue quando il numero di possibili valori è elevato e la distribuzione è approssimativamente regolare. In questi casi, la normalità può essere una buona approssimazione operativa.
 
-2. **Forma attesa**
-   I tempi di reazione mostrano tipicamente una forte asimmetria a destra → candidati naturali: **Gamma** o **Log-normale**.
+Tuttavia, la normalità non dovrebbe essere assunta automaticamente. Se il punteggio è fortemente asimmetrico, limitato inferiormente o superiormente o presenta accumuli agli estremi, potrebbe essere necessario un modello diverso.
 
-3. **Considerazioni di modellazione**
+::: {.callout-warning title="Un errore comune"}
+Non esiste una distribuzione "giusta" in assoluto. Esistono distribuzioni più o meno coerenti con il supporto della quantità, con la forma attesa, con il processo generativo ipotizzato e con lo scopo dell'analisi.
 
-   * La **Gamma** ha parametri interpretabili (forma e scala).
-   * È compatibile con strutture gerarchiche e coniugazioni utili.
-   * È spesso più stabile numericamente in modelli complessi.
+Una distribuzione è una scelta modellistica: deve essere motivata, controllata e, quando necessario, confrontata con alternative plausibili.
+:::
 
-✅ **Scelta finale**: **Distribuzione Gamma**.
+## Distribuzioni e variabilità nei fenomeni psicologici {#sec-psychological-variability}
 
-### In sintesi {.unnumbered .unlisted}
+La ricerca psicologica si occupa di fenomeni altamente variabili. Le persone possono rispondere in modo diverso allo stesso trattamento, lo stesso costrutto può manifestarsi con configurazioni sintomatiche diverse e le misure possono variare da una sessione all'altra.
 
-Scegliere una distribuzione significa rispondere a tre domande fondamentali:
+Tale variabilità non deve essere considerata solo come un ostacolo. Può indicare eterogeneità clinica, differenze individuali, sensibilità al contesto o sottogruppi teoricamente rilevanti. Rappresentare la variabilità mediante distribuzioni consente di porre domande più ricche:
 
-1. *Quali valori sono possibili?*
-2. *Che forma mi aspetto realisticamente?*
-3. *Che tipo di inferenza voglio costruire (frequentista o bayesiana)?*
+- Quanto sono dispersi i punteggi?
+- Ci sono code pesanti o valori estremi?
+- La media è un riassunto adeguato?
+- Una sola distribuzione è sufficiente o servono sottogruppi?
+- L'incertezza riguarda i dati osservabili, i parametri o entrambi?
 
-Se queste tre risposte sono coerenti tra loro, la distribuzione “giusta” emerge quasi naturalmente.
+In una prospettiva bayesiana, queste domande diventano parte integrante del modello. Non ci limitiamo a stimare un valore centrale, ma specifichiamo una struttura probabilistica che rende esplicita la nostra rappresentazione del fenomeno.
 
-### Parsimonia e flessibilità
+## Verso i capitoli successivi {#sec-towards-specific-distributions}
 
-Le famiglie parametriche realizzano un equilibrio tra *parsimonia* e *flessibilità*. Con un numero ridotto di parametri, tipicamente uno, due o tre, possono rappresentare una vasta gamma di forme distribuzionali. La distribuzione normale richiede soltanto due parametri, $\mu$ e $\sigma$, per essere completamente specificata, mentre la distribuzione beta utilizza due parametri, $\alpha$ e $\beta$, per rappresentare credenze su proporzioni che possono essere simmetriche o asimmetriche, concentrate o disperse.
+Il resto della Parte 3 applicherà queste idee a famiglie specifiche.
 
-Questa parsimonia ha un valore epistemico rilevante: costringe a rendere esplicite le assunzioni fondamentali senza introdurre complessità non giustificate dall’evidenza disponibile. Allo stesso tempo, la varietà delle famiglie parametriche fornisce una flessibilità sufficiente per adattarsi alle caratteristiche dei diversi fenomeni psicologici, rendendo possibile una modellizzazione al tempo stesso semplice e informativa.
+Nel @sec-prob-discr-distr studieremo le distribuzioni discrete: la distribuzione uniforme discreta, la distribuzione di Bernoulli, la distribuzione binomiale e la distribuzione di Poisson. Queste distribuzioni sono fondamentali per eventi binari, conteggi e frequenze.
 
-## Applicazione: la variabilità nei fenomeni psicologici
+Nel @sec-prob-cont-distr studieremo le distribuzioni continue: uniforme continua, esponenziale, normale, chi-quadrato, $t$ di Student, Cauchy, beta e gamma. Queste distribuzioni sono fondamentali per le misure continue, i tempi, le proporzioni, i tassi e i parametri positivi.
 
-### Perché la variabilità richiede un trattamento distribuzionale
-
-Le considerazioni epistemiche sviluppate finora trovano un’applicazione particolarmente rilevante nella ricerca psicologica, dove la variabilità tra individui, nel tempo e tra contesti rappresenta la norma piuttosto che l’eccezione.
-
-Un recente articolo di @segal2025embracing sui disturbi mentali illustra efficacemente questo punto. L’autore osserva che molti limiti nella comprensione dell’eziologia dei disturbi psichiatrici derivano da una sottovalutazione sistematica della variabilità. Storicamente, gran parte della ricerca ha confrontato gruppi di pazienti con gruppi di controllo, identificando le differenze nelle medie come tratti distintivi. Questo approccio, pur avendo prodotto risultati importanti, trascura un aspetto cruciale: i disturbi psichiatrici sono caratterizzati da un’elevata eterogeneità che i semplici confronti tra medie non sono in grado di cogliere.
-
-I numeri rendono evidente la portata del problema. Nel disturbo da stress post-traumatico, ad esempio, esistono oltre 636000 possibili combinazioni di sintomi che soddisfano i criteri diagnostici. Per quanto riguarda la depressione maggiore, le configurazioni sintomatologiche compatibili con la diagnosi superano le 16000, e meno del 50% dei pazienti depressi presenta la stessa configurazione di sintomi.
-
-### Oltre le medie di gruppo
-
-Quando confrontiamo le medie di due gruppi e osserviamo una differenza “statisticamente significativa”, stiamo formulando un’affermazione a livello di popolazione. Tale affermazione può risultare epistemicamente inadeguata se la variabilità all’interno dei gruppi è molto maggiore della differenza tra le medie, se le distribuzioni si sovrappongono in modo sostanziale o se esistono sottogruppi eterogenei mascherati dalla media complessiva.
-
-In questi contesti, la media rischia di diventare un riassunto fuorviante. Rappresentare l'intera distribuzione, includendone la forma, la dispersione e le eventuali caratteristiche come l'asimmetria o la multimodalità, fornisce un quadro molto più fedele del nostro stato di conoscenza.
-
-L’approccio bayesiano, che fa un uso sistematico delle distribuzioni di probabilità, è naturalmente attrezzato per affrontare questa complessità. Non ci si limita a stimare un singolo valore “più probabile”, ma si ottiene una distribuzione a posteriori che quantifica esplicitamente l’incertezza. I modelli gerarchici consentono di stimare simultaneamente parametri di popolazione e parametri individuali, catturando la variabilità tra soggetti. I modelli di miscela, infine, permettono di identificare sottogruppi eterogenei all’interno di campioni apparentemente omogenei.
-
-### La variabilità come informazione
-
-In questa prospettiva, la variabilità non è un “rumore” da eliminare mediante tecniche statistiche, ma un’informazione da modellare e comprendere. Le distribuzioni di probabilità diventano strumenti per rappresentare in modo esplicito tale variabilità: una distribuzione con alta varianza comunica qualcosa di sostanzialmente diverso rispetto a una distribuzione con bassa varianza e, in contesti differenti, entrambe possono essere epistemicamente appropriate.
-
-Come sottolinea @segal2025embracing, solo integrando sistematicamente la variabilità nell’analisi empirica è possibile sviluppare modelli predittivi robusti e interventi sensibili alla diversità individuale. Le famiglie parametriche di distribuzioni forniscono il linguaggio formale necessario per realizzare tale integrazione in modo coerente e rigoroso.
-
-## Verso i capitoli successivi
-
-Nei prossimi capitoli esploreremo sistematicamente le principali famiglie di distribuzioni utilizzate nella ricerca psicologica, mostrando come esse possano essere impiegate per rappresentare l’incertezza in modo coerente e informativo.
-
-Il @sec-prob-discr-distr sarà dedicato alle **distribuzioni discrete**: la distribuzione di Bernoulli per eventi binari singoli, la distribuzione binomiale per il conteggio dei successi in un numero finito di prove e la distribuzione di Poisson per la modellizzazione di eventi rari. Queste distribuzioni sono fondamentali per descrivere risposte categoriali, frequenze e conteggi.
-
-Il @sec-prob-cont-distr affronterà invece le **distribuzioni continue**: la distribuzione normale per fenomeni influenzati da molti fattori indipendenti, la gamma e la log-normale per quantità positive e asimmetriche, la beta per proporzioni e probabilità e la t di Student per le situazioni in cui vi è incertezza sulla varianza.
-
-Per ciascuna famiglia esamineremo la forma della distribuzione e il significato dei parametri, le proprietà matematiche rilevanti, i contesti in cui è appropriato utilizzarla e il suo ruolo nell’inferenza bayesiana, come distribuzione a priori, funzione di verosimiglianza o distribuzione a posteriori.
-
-### Una nota epistemologica
-
-È importante ricordare che nessuna distribuzione è “vera” in senso assoluto. Come osservava George Box: *“tutti i modelli sono sbagliati, ma alcuni sono utili”*. La scelta di una famiglia parametrica rappresenta sempre un compromesso pragmatico: l’obiettivo non è catturare la realtà in ogni suo dettaglio, ma rappresentarne gli aspetti salienti con un adeguato livello di accuratezza e parsimonia.
-
-Nel framework bayesiano, questa consapevolezza è incorporata nel metodo stesso. Modelli alternativi possono essere confrontati mediante il fattore di Bayes, combinati attraverso il *model averaging* e valutati tramite *posterior predictive checks*. In questo modo, anche l’incertezza associata alla scelta del modello diventa esplicita, quantificabile e gestibile all’interno del processo inferenziale.
+Dopo aver costruito questo vocabolario, la Parte 4 mostrerà come utilizzarlo per passare dai dati all'evidenza: prima, si comprenderà quanto un campione sia informativo; poi, si formalizzerà questa informazione con la verosimiglianza; infine, si aggiorneranno le credenze attraverso la distribuzione a posteriori.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Nel framework bayesiano, le distribuzioni di probabilità sono strumenti fondamentali per rappresentare e comunicare l’incertezza. Ogni distribuzione fornisce una risposta formale alla domanda: *«Quanto dovrei credere in ciascun possibile valore?»*, dato il mio attuale stato di conoscenza.
+Le distribuzioni di probabilità sono il linguaggio con cui rappresentiamo in modo esplicito l'incertezza e la variabilità. Ogni distribuzione porta con sé delle assunzioni sui valori possibili, sulla forma attesa, sulla dispersione, sulle code e sul processo che ha generato i dati.
 
-Le famiglie parametriche costituiscono un vocabolario ricco e flessibile per esprimere diversi tipi di credenze. La scelta della famiglia riflette le nostre assunzioni sulla natura del fenomeno studiato, ad esempio sui valori possibili, sulla simmetria o sull'asimmetria della distribuzione, mentre i valori dei parametri codificano il nostro stato di conoscenza specifico. Nell’inferenza bayesiana, questo vocabolario viene utilizzato sia per rappresentare le credenze a priori sui parametri, sia per formulare ipotesi sul processo generativo dei dati attraverso la verosimiglianza.
+Nel quadro bayesiano, questo linguaggio è particolarmente importante, perché le distribuzioni compaiono a più livelli: descrivono i dati osservabili, rappresentano le credenze sui parametri e permettono di formulare previsioni. La scelta di una famiglia parametrica non è quindi un passaggio tecnico secondario, ma una parte sostanziale della costruzione del modello.
 
-L’applicazione alla ricerca psicologica mette in luce l’importanza di questo approccio. La variabilità che caratterizza i fenomeni psicologici, sia tra individui, sia nel tempo, sia tra contesti, richiede strumenti che vadano oltre i semplici confronti tra medie. Le distribuzioni di probabilità permettono di rappresentare l’intera struttura della variabilità, trasformandola da "rumore" da ignorare a informazione da modellare e interpretare.
-
-Nei capitoli successivi, esploreremo progressivamente questo vocabolario, concentrandoci sulle famiglie di distribuzioni che si sono rivelate più utili nella ricerca psicologica. L'obiettivo non è memorizzare formule, ma sviluppare un'intuizione solida sul tipo di distribuzione più appropriato in diverse circostanze e su come utilizzarla per ragionare in modo rigoroso e trasparente in situazioni di incertezza.
+Per gli studenti che si avvicinano a questi temi per la prima volta, l'obiettivo non è memorizzare molte formule. L'obiettivo è sviluppare una domanda guida: *Quale distribuzione è coerente con la quantità che sto modellando e con ciò che so del fenomeno?* I capitoli successivi forniranno gli strumenti matematici e computazionali per rispondere in modo sempre più preciso a questa domanda.
 
 ## Punti chiave da ricordare {.unnumbered}
 
 ::: {.callout-important}
 **Concetti essenziali di questo capitolo:**
 
-1. **Le distribuzioni come linguaggio per l'incertezza**
-   - Non descrivono "come sono i dati" ma "quali valori riteniamo plausibili"
-   - Strumento epistemico per rappresentare credenze razionali
-   - Passaggio da "credenza puntuale" a "credenza distribuita"
+1. **Una distribuzione rappresenta incertezza e variabilità**
+   - Può descrivere osservazioni, parametri o previsioni.
+   - Non è una fotografia perfetta della realtà, ma una scelta modellistica esplicita.
 
-2. **Duplice ruolo nell'inferenza bayesiana**
-   - **Come prior**: rappresentano incertezza sui parametri $p(\theta)$
-   - **Come verosimiglianza**: descrivono il processo generativo $p(D \mid \theta)$
-   - La stessa famiglia può svolgere entrambi i ruoli in contesti diversi
+2. **Una famiglia parametrica è un vocabolario di forme**
+   - La famiglia definisce la forma generale.
+   - I parametri selezionano una distribuzione specifica all'interno della famiglia.
 
-3. **Famiglie parametriche fondamentali**
-   - **Bernoulli e Binomiale**: eventi binari e conteggi di successi
-   - **Beta**: proporzioni e probabilità (coniugata con Binomiale)
-   - **Normale (Gaussiana)**: misure continue con variabilità simmetrica
-   - **Poisson**: conteggi di eventi rari in intervalli fissi
-   - **Gamma**: tempi di attesa e variabili continue positive
+3. **Il supporto è il primo criterio di scelta**
+   - Eventi binari: Bernoulli.
+   - Conteggi di successi: Binomiale.
+   - Conteggi non negativi: Poisson.
+   - Proporzioni: Beta.
+   - Misure continue simmetriche: Normale.
+   - Quantità positive e asimmetriche: Gamma o famiglie simili.
 
-4. **Supporto delle distribuzioni**
-   - **Discreto finito**: Bernoulli, Binomiale (numero fisso di valori)
-   - **Discreto infinito**: Poisson (interi non negativi)
-   - **Continuo limitato**: Beta ([0,1]), Uniforme ([a,b])
-   - **Continuo illimitato**: Normale ($\mathbb{R}$), Gamma ($\mathbb{R}^+$)
+4. **I parametri hanno interpretazioni diverse**
+   - Posizione: dove si concentra la distribuzione.
+   - Scala: quanto è dispersa.
+   - Forma: asimmetria, code, concentrazione.
 
-5. **Parametri e interpretabilità**
-   - **Parametri di posizione**: dove si concentra la distribuzione (media, moda)
-   - **Parametri di scala**: quanto è dispersa (varianza, deviazione standard)
-   - **Parametri di forma**: asimmetria, code pesanti, multimodalità
-   - Scelta parametri = scelta assunzioni esplicite
+5. **Nel modello bayesiano le distribuzioni hanno ruoli diversi**
+   - Prior: incertezza sui parametri.
+   - Modello generativo: distribuzione dei dati condizionata ai parametri.
+   - Predittiva: aspettative su dati futuri.
 
-6. **Coniugazione (anteprima)**
-   - Prior e verosimiglianza "coniugati" → posterior della stessa famiglia del prior
-   - Semplifica enormemente i calcoli (forma chiusa per la posterior)
-   - Esempi: Beta-Binomiale, Normale-Normale, Gamma-Poisson
+6. **La scelta della distribuzione è una scelta scientifica**
+   - Dipende dal supporto, dalla forma, dal processo generativo e dallo scopo dell'analisi.
+   - Deve essere motivata e controllata, non automatica.
 
-7. **Principio di massima entropia**
-   - Scegliere la distribuzione che massimizza l'entropia dati i vincoli noti
-   - Normale: massima entropia dato media e varianza note
-   - Esponenziale: massima entropia data solo la media (per $\mathbb{R}^+$)
-   - Uniforme: massima entropia senza vincoli (massima ignoranza)
+**Domande guida:**
 
-8. **Scelta della distribuzione nella pratica**
-   - Vincoli sul supporto: interi vs reali, limitati vs illimitati
-   - Simmetria vs asimmetria
-   - Code pesanti vs leggere
-   - Informazioni pregresse codificabili
-   - Coniugazione per semplificare calcoli
-
-**Criteri di selezione:**
-
-| Tipo di variabile | Supporto | Famiglia tipica | Esempio psicologico |
-|:---|:---|:---|:---|
-| Binaria (0/1) | {0,1} | Bernoulli | Risposta corretta/errata a un item |
-| Conteggio successi | {0,1,...,n} | Binomiale | Item corretti su 20 in un test |
-| Conteggio eventi rari | {0,1,2,...} | Poisson | Attacchi di panico in un mese |
-| Proporzione/probabilità | [0,1] | Beta | Tasso di remissione, accuratezza |
-| Misura continua simmetrica | $\mathbb{R}$ | Normale | Punteggi QI, scale standardizzate |
-| Tempo di attesa/reazione | $\mathbb{R}^+$ | Gamma, Log-normale | Tempi di reazione, latenze |
-| Varianza/precisione | $\mathbb{R}^+$ | Gamma, Inversa-Gamma | Variabilità tra soggetti |
-
-**Relazioni tra famiglie:**
-
-- Bernoulli è Binomiale con $n=1$
-- Esponenziale è Gamma con shape $\alpha=1$
-- Poisson emerge come limite di Binomiale per $n \to \infty, p \to 0$
-- Normale emerge dal TLC (somma di variabili qualsiasi)
+| Domanda | Perché è importante |
+|:---|:---|
+| Quale quantità sto modellando? | Distingue eventi, conteggi, proporzioni, tempi, punteggi e parametri. |
+| Quali valori sono possibili? | Determina il supporto e permette di escludere distribuzioni inadatte. |
+| Che forma mi aspetto? | Aiuta a scegliere tra famiglie con lo stesso supporto. |
+| Che ruolo ha la distribuzione nel modello? | Chiarisce se serve per dati, parametri o previsioni. |
+| Quali assunzioni sto facendo? | Rende il modello interpretabile e criticabile. |
 
 **Per i prossimi capitoli:**
 
-Nel @sec-prob-discr-distr e @sec-prob-cont-distr studieremo in dettaglio le proprietà matematiche, i momenti, i grafici e le applicazioni psicologiche di ciascuna famiglia parametrica, fornendo gli strumenti operativi per specificare prior informativi e costruire modelli bayesiani interpretabili.
+Nel @sec-prob-discr-distr e nel @sec-prob-cont-distr studieremo le principali famiglie di distribuzioni. L'obiettivo sarà imparare a leggerne la forma, interpretarne i parametri e usarle in modo coerente nella modellizzazione psicologica e bayesiana.
+:::
+
+::: {.callout-note collapse="true" title="Esercizi di autovalutazione"}
+1. Per ciascuna quantità, indica una famiglia distributiva plausibile e motiva la scelta in base al supporto:
+   - risposta corretta/errata a un item;
+   - numero di ricadute in sei mesi;
+   - tempo di reazione;
+   - probabilità di remissione;
+   - punteggio standardizzato a una scala.
+
+2. Spiega perché una distribuzione normale può essere inadatta per tempi di reazione fortemente asimmetrici.
+
+3. Fai un esempio in cui la stessa famiglia distributiva potrebbe essere usata come prior in un modello e come distribuzione dei dati in un altro modello.
+
+4. Scegli un costrutto psicologico che conosci e descrivi quali aspetti della sua variabilità vorresti rappresentare con una distribuzione.
+:::
+
+::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+```{r}
+sessionInfo()
+```
 :::
 
 ## Bibliografia {.unnumbered .unlisted}

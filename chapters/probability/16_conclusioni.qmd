@@ -1,56 +1,170 @@
-# Conclusioni: dal linguaggio della probabilità all'inferenza bayesiana {#sec-conclusioni}
+# Conclusioni: probabilità, evidenza e aggiornamento bayesiano {#sec-conclusioni}
+
+## Perché questo modulo era necessario {.unnumbered .unlisted}
+
+Questo modulo ha costruito le basi concettuali e formali per affrontare l'inferenza bayesiana in psicologia. Il suo obiettivo non era soltanto introdurre alcune distribuzioni di probabilità, ma mostrare perché la probabilità sia il linguaggio naturale per ragionare quando le informazioni sono incomplete, i dati sono variabili e le conclusioni devono rimanere esplicitamente incerte.
+
+La domanda che ha guidato il percorso è stata questa:
+
+> Come possiamo rappresentare ciò che sappiamo, osservare nuovi dati e aggiornare in modo coerente le nostre credenze?
+
+La risposta bayesiana si fonda su un'idea semplice ma profonda: le credenze incerte possono essere rappresentate mediante distribuzioni di probabilità e aggiornate alla luce dei dati attraverso il teorema di Bayes. Questa idea richiede però un vocabolario preciso. Per questo il modulo ha proceduto gradualmente: prima la probabilità, poi le variabili casuali, quindi le distribuzioni, il campionamento, la verosimiglianza e infine l'aggiornamento bayesiano.
+
+::: {.callout-note title="Il filo conduttore del modulo"}
+
+L'intero percorso può essere letto come una progressiva costruzione della formula bayesiana:
+
+$$
+p(\theta \mid y, M) = \frac{p(y \mid \theta, M)\,p(\theta \mid M)}{p(y \mid M)}.
+$$
+
+Qui $\theta$ indica il parametro ignoto, $y$ i dati osservati e $M$ il modello assunto. Il termine $p(\theta \mid y, M)$ non è una proprietà astratta dei dati: è ciò che possiamo dire sul parametro **dato un modello**, **date le nostre assunzioni iniziali** e **dati i risultati osservati**.
+:::
 
 ## Il percorso compiuto {.unnumbered .unlisted}
 
-Questo modulo ha costruito, passo dopo passo, il vocabolario concettuale e gli strumenti formali necessari per ragionare in modo rigoroso in condizioni di incertezza.
+### Probabilità come linguaggio dell'incertezza {.unnumbered .unlisted}
 
-Siamo partiti da una domanda fondamentale: *come possiamo rappresentare e aggiornare le nostre credenze alla luce dell’evidenza?* La risposta bayesiana a questa domanda richiede un linguaggio preciso, ovvero il linguaggio della probabilità, e strumenti matematici per manipolarlo in modo coerente.
+All'inizio del modulo abbiamo introdotto la probabilità come strumento per esprimere gradi di plausibilità in modo coerente. Gli assiomi della probabilità non sono semplici regole tecniche: stabiliscono le condizioni minime perché le nostre credenze non entrino in contraddizione.
 
-Il percorso si è articolato nelle seguenti tappe:
+In una prospettiva bayesiana, assegnare una probabilità significa dichiarare quanto riteniamo plausibile un evento, un valore o un'ipotesi, alla luce delle informazioni disponibili. Questo non elimina l'interpretazione frequentista quando si parla di processi ripetibili; piuttosto, la colloca entro una cornice più ampia, nella quale anche parametri, ipotesi e modelli possono essere oggetto di incertezza.
 
-- **L’interpretazione bayesiana della probabilità** ha stabilito che le probabilità rappresentano gradi di credenza razionale, non frequenze ipotetiche. Gli assiomi di Kolmogorov garantiscono la coerenza interna di queste credenze, evitando contraddizioni logiche.
+### Variabili casuali e distribuzioni {.unnumbered .unlisted}
 
-- **Le variabili casuali e le distribuzioni** hanno fornito il linguaggio per descrivere quantità incerte. Abbiamo imparato a distinguere tra variabili discrete e continue, a caratterizzarle mediante funzioni di massa e densità, e a sintetizzarle attraverso momenti come il valore atteso e la varianza.
+Abbiamo poi introdotto le variabili casuali come modo per rappresentare quantità incerte: risposte corrette o errate, punteggi a un test, tempi di reazione, conteggi di eventi, proporzioni, medie e differenze tra gruppi.
 
-- **La covarianza e la correlazione** hanno esteso questo linguaggio alle situazioni multivariate, permettendoci di descrivere come le incertezze su diverse quantità siano legate tra loro.
+Le distribuzioni di probabilità hanno dato forma a questa incertezza. Attraverso funzioni di massa, funzioni di densità, funzioni di ripartizione, quantili, valore atteso e varianza, abbiamo imparato a descrivere non solo quale valore ci aspettiamo, ma anche quanta variabilità è plausibile attorno a quel valore.
 
-- **Le famiglie parametriche di distribuzioni**, ovvero la distribuzione di Bernoulli, la distribuzione binomiale, la distribuzione di Poisson, la distribuzione normale, la distribuzione beta e la distribuzione gamma, hanno costituito un vocabolario standardizzato per esprimere credenze in forme matematicamente trattabili e clinicamente interpretabili.
+### Distribuzioni discrete e continue come modelli generativi {.unnumbered .unlisted}
 
-- **La verosimiglianza** ha completato il quadro, formalizzando il modo in cui i dati osservati aggiornano le nostre credenze sui parametri. Abbiamo visto come essa si combini con la distribuzione *a priori* per generare la distribuzione *a posteriori*, e come le proprietà fondamentali della media campionaria, come la sua centratura, la precisione crescente con la numerosità e la convergenza, si riflettano direttamente nel comportamento dell’inferenza bayesiana.
+Nei capitoli sulle distribuzioni discrete e continue, le famiglie parametriche non sono state presentate come un elenco di formule da memorizzare, ma come **modelli generativi**. Una distribuzione descrive il modo in cui potremmo osservare i dati se certi parametri avessero determinati valori.
 
-## I tre elementi fondamentali dell'inferenza bayesiana {.unnumbered .unlisted}
+Le distribuzioni discrete hanno fornito modelli per eventi binari, conteggi e frequenze: Bernoulli, binomiale e Poisson. Le distribuzioni continue hanno esteso il linguaggio a punteggi, tempi, effetti, tassi e parametri: normale, beta, gamma, esponenziale, t di Student, chi-quadrato e Cauchy.
 
-Al termine di questo percorso, disponete degli strumenti concettuali per comprendere e impiegare i tre elementi costitutivi dell'inferenza bayesiana:
+Queste distribuzioni svolgono ruoli diversi nel ragionamento bayesiano. Possono descrivere dati osservabili, credenze a priori sui parametri, distribuzioni a posteriori oppure distribuzioni predittive. La stessa famiglia matematica può quindi comparire in punti diversi del modello, con significati inferenziali differenti.
+
+### Dal campione all'evidenza {.unnumbered .unlisted}
+
+Il nuovo capitolo sul passaggio dal campione all'evidenza ha chiarito un punto essenziale: una stima osservata non parla mai da sola. Una proporzione, una media o una differenza tra gruppi sono sempre affette da variabilità campionaria.
+
+Per questo abbiamo introdotto la distribuzione campionaria, l'errore standard, la precisione, la Legge dei Grandi Numeri e il Teorema del Limite Centrale. Questi strumenti spiegano perché campioni più grandi tendano a fornire evidenze più stabili e perché l'informazione contenuta nei dati cresca con la numerosità campionaria.
+
+La lezione più importante, però, è stata anche una lezione di cautela: l'incertezza campionaria non è l'unica forma di incertezza. Bias di selezione, errori di misurazione, strumenti non validi o assunzioni modellistiche inappropriate possono produrre conclusioni molto precise ma sbagliate. In psicologia, questa distinzione è fondamentale.
+
+### Verosimiglianza come ponte tra dati e parametri {.unnumbered .unlisted}
+
+La verosimiglianza ha formalizzato il passaggio decisivo: una volta osservati i dati, non chiediamo più soltanto quali dati sarebbero plausibili sotto un certo parametro; chiediamo quali valori del parametro rendano plausibili i dati che abbiamo effettivamente osservato.
+
+Per questo la verosimiglianza è il ponte tra modello generativo e inferenza. Essa non è una distribuzione di probabilità sui parametri e non ci dice, da sola, quanto sia probabile un valore di $\theta$. Ci dice però come i dati modificano il peso relativo dei diversi valori parametrici.
+
+Questa distinzione è centrale per l'impianto del modulo: la verosimiglianza rappresenta l'informazione portata dai dati, mentre la distribuzione a priori rappresenta l'informazione disponibile prima dei dati. L'inferenza bayesiana nasce dalla loro combinazione.
+
+### Aggiornamento bayesiano {.unnumbered .unlisted}
+
+Il capitolo sull'aggiornamento bayesiano ha ricomposto tutti gli elementi:
 
 $$
-\underbrace{p(\theta \mid \text{dati})}_{\text{a posteriori}} \propto \underbrace{p(\text{dati} \mid \theta)}_{\text{verosimiglianza}} \times \underbrace{p(\theta)}_{\text{a priori}}
+p(\theta \mid y) \propto p(y \mid \theta)\,p(\theta).
 $$
 
-La **distribuzione a priori** formalizza le credenze iniziali sul parametro, prima di osservare i dati. Sapete ora come scegliere famiglie parametriche appropriate (ad esempio, Beta per proporzioni, Gamma per tassi, Normale per quantità non vincolate) e come i loro parametri traducono in forma matematica il vostro stato di conoscenza iniziale.
+La distribuzione a priori esprime ciò che sappiamo, o siamo disposti ad assumere, prima di osservare i dati. La verosimiglianza esprime quanto i dati siano compatibili con ciascun valore del parametro. La distribuzione a posteriori sintetizza l'incertezza aggiornata dopo l'osservazione.
 
-La **verosimiglianza** quantifica quanto ciascun valore possibile del parametro renda plausibili i dati osservati. Comprendete perché questa funzione si concentra attorno a valori particolari, perché diventi più "stretta" (informativa) all'aumentare dei dati, e come la Legge dei Grandi Numeri e il Teorema del Limite Centrale ne descrivano il comportamento asintotico.
+Questa formula non è solo un risultato matematico. È una descrizione del ragionamento scientifico: partiamo da conoscenze precedenti, osserviamo nuove evidenze e rivediamo le nostre conclusioni in modo esplicito, controllabile e coerente.
 
-La **distribuzione a posteriori** sintetizza tutto ciò che sappiamo dopo aver osservato i dati. Sapete interpretarla come distribuzione aggiornata delle credenze, calcolare da essa intervalli di credibilità e comprendere perché ricercatori con conoscenze iniziali differenti convergano verso conclusioni simili quando l'evidenza empirica diventa sufficientemente ricca.
+## Che cosa significa "capire" un'analisi bayesiana {.unnumbered .unlisted}
+
+Dopo questo modulo, comprendere un'analisi bayesiana significa saper riconoscere almeno quattro componenti.
+
+**Primo**, bisogna sapere qual è il modello generativo: quali osservazioni ci aspettiamo di vedere e quali parametri controllano il processo che le produce.
+
+**Secondo**, bisogna capire quali distribuzioni sono usate e con quale ruolo: una distribuzione può descrivere i dati, una prior, una posterior o una previsione futura.
+
+**Terzo**, bisogna distinguere l'informazione proveniente dai dati dall'informazione introdotta dalle assunzioni iniziali. La verosimiglianza e la prior svolgono funzioni diverse, e confonderle porta a interpretazioni sbagliate.
+
+**Quarto**, bisogna interpretare la posterior come rappresentazione dell'incertezza residua. Una posterior stretta indica maggiore precisione, ma non garantisce automaticamente validità scientifica. La qualità dei dati, la plausibilità del modello e la solidità del disegno di ricerca restano condizioni essenziali.
+
+## Una mappa concettuale del modulo {.unnumbered .unlisted}
+
+Il percorso può essere sintetizzato come segue:
+
+1. **Probabilità**: linguaggio coerente per rappresentare l'incertezza.
+2. **Variabili casuali**: quantità incerte descritte probabilisticamente.
+3. **Distribuzioni**: forme matematiche dell'incertezza.
+4. **Modelli generativi**: descrizioni probabilistiche del processo che produce i dati.
+5. **Campionamento**: variabilità inevitabile delle statistiche osservate.
+6. **Precisione**: quantità di informazione contenuta nei dati.
+7. **Verosimiglianza**: compatibilità dei dati osservati con i possibili valori del parametro.
+8. **Prior**: credenze iniziali espresse in forma probabilistica.
+9. **Posterior**: credenze aggiornate dopo l'osservazione dei dati.
+10. **Sensibilità e validità**: controllo della robustezza e dei limiti dell'inferenza.
+
+::: {.callout-important title="L'idea da portare con sé"}
+
+Un'analisi bayesiana non consiste nel sostituire un valore $p$ con una distribuzione a posteriori. Consiste nel costruire un modello probabilistico esplicito che colleghi teoria, dati e incertezza.
+
+La domanda non è soltanto:
+
+> Il risultato è significativo?
+
+ma piuttosto:
+
+> Quali valori del parametro sono plausibili, dati il modello, le assunzioni iniziali e le osservazioni raccolte?
+:::
 
 ## Verso il manuale principale {.unnumbered .unlisted}
 
-Il manuale *Inferenza bayesiana in psicologia: Ragionare con l'incertezza* costruisce su queste fondamenta per affrontare problemi di complessità crescente e di diretta rilevanza per la ricerca psicologica.
+Il manuale principale potrà ora costruire su queste fondamenta. I modelli che incontrerete saranno più articolati, ma la logica resterà la stessa.
 
-**Modelli bayesiani applicati**: I concetti di prior, verosimiglianza e posterior saranno applicati concretamente a modelli di regressione, ANOVA bayesiana, modelli per dati categoriali e analisi di mediazione e moderazione.
+Nei **modelli di regressione bayesiana**, i parametri descriveranno relazioni tra variabili psicologiche: l'associazione tra ansia e prestazione, l'effetto di un trattamento, la relazione tra tratti di personalità e comportamenti osservati.
 
-**Modelli gerarchici**: La struttura dell'aggiornamento bayesiano si estende naturalmente a modelli multilivello, in cui i parametri a livello individuale sono a loro volta descritti da distribuzioni a livello di popolazione. Questo approccio è particolarmente adatto ai dati psicologici, che presentano tipicamente variabilità strutturata tra soggetti, item e contesti di misurazione.
+Nei **modelli per dati categoriali**, le distribuzioni discrete diventeranno strumenti per analizzare risposte corrette o errate, categorie diagnostiche, scelte comportamentali e conteggi di eventi.
 
-**Metodi computazionali**: Quando le soluzioni analitiche non sono disponibili, metodi come Markov Chain Monte Carlo (MCMC) e Hamiltonian Monte Carlo (HMC) consentono di esplorare distribuzioni a posteriori di forma arbitraria. Il linguaggio Stan offrirà lo strumento pratico per implementare questi metodi in modo efficiente e validato.
+Nei **modelli gerarchici**, i parametri individuali saranno collegati a distribuzioni di popolazione. Questa struttura è particolarmente adatta alla psicologia, dove i dati sono spesso organizzati in livelli: prove entro soggetti, soggetti entro gruppi, item entro scale, studi entro meta-analisi.
 
-**Confronto di modelli**: Strumenti come il fattore di Bayes e i criteri di informazione permetteranno di confrontare modelli alternativi, quantificando l'evidenza relativa a favore di diverse ipotesi teoriche, a completamento di un'inferenza basata sulla stima dei parametri.
+Nei **modelli computazionali**, metodi come MCMC e HMC permetteranno di approssimare posterior complesse che non possono essere calcolate in forma chiusa. Anche in questi casi, tuttavia, il principio rimarrà invariato: specificare un modello, combinarlo con i dati e interpretare la distribuzione a posteriori.
+
+Nel **controllo del modello**, le distribuzioni predittive e le analisi di sensibilità serviranno a chiedersi se il modello sia adeguato, se le conclusioni dipendano troppo dalla prior e se i dati simulati dal modello assomiglino ai dati osservati.
 
 ## Un messaggio finale {.unnumbered .unlisted}
 
-La statistica bayesiana non è semplicemente una collezione di tecniche alternative a quelle frequentiste. Essa rappresenta un **modo di pensare all'incertezza** che rispecchia il ragionamento scientifico stesso: partiamo da ciò che già sappiamo, raccogliamo nuova evidenza, e aggiorniamo in modo logicamente coerente le nostre credenze.
+La statistica bayesiana non è semplicemente una collezione di tecniche alternative. È un modo disciplinato di ragionare con l'incertezza.
 
-I concetti sviluppati in questo modulo, ovvero la probabilità come grado di credenza, le distribuzioni come rappresentazione dell'incertezza, la verosimiglianza come ponte tra dati e parametri, non sono prerequisiti da archiviare. Essi costituiscono il **fondamento concettuale** su cui poggia ogni analisi bayesiana, dalla più elementare alla più sofisticata.
+Questa prospettiva è particolarmente utile in psicologia, dove raramente osserviamo direttamente i costrutti che ci interessano. Misuriamo risposte, tempi, scelte, punteggi, sintomi e comportamenti; da questi dati cerchiamo di inferire processi cognitivi, emotivi, clinici e sociali. Il passaggio dai dati ai costrutti richiede sempre un modello e comporta sempre incertezza.
 
-Quando, nel manuale principale, incontrerete una distribuzione a posteriori complessa o un modello gerarchico articolato, la logica sottostante rimarrà invariata: prior × verosimiglianza → posterior. La complessità risiederà nella specificazione del modello e nella sua struttura, non nel principio fondamentale che lo governa.
+L'approccio bayesiano rende questa incertezza esplicita. Non promette certezze automatiche, non elimina i problemi di misura e non sostituisce il giudizio teorico. Offre però una struttura coerente per integrare conoscenze precedenti, nuove evidenze e assunzioni modellistiche.
 
-Con questi strumenti concettuali, siete ora pronti per affrontare l’inferenza bayesiana applicata ai problemi concreti della ricerca psicologica.
+Il punto di arrivo di questo modulo è quindi anche il punto di partenza del lavoro successivo: imparare a costruire, valutare e interpretare modelli bayesiani applicati ai problemi concreti della ricerca psicologica.
 
+## Punti chiave da ricordare {.unnumbered .unlisted}
+
+::: {.callout-important}
+
+1. **La probabilità è il linguaggio dell'incertezza.** In una prospettiva bayesiana, consente di rappresentare gradi di plausibilità in modo coerente.
+
+2. **Le distribuzioni sono modelli dell'incertezza.** Possono descrivere dati osservabili, parametri ignoti, credenze a priori, distribuzioni a posteriori o previsioni future.
+
+3. **I dati sono generati da un modello.** Prima di inferire un parametro, dobbiamo specificare come quel parametro rende plausibili determinate osservazioni.
+
+4. **La variabilità campionaria limita ciò che possiamo concludere.** Errore standard, precisione, Legge dei Grandi Numeri e Teorema del Limite Centrale spiegano come l'informazione cresce con i dati.
+
+5. **La verosimiglianza non è una posterior.** Essa misura la compatibilità dei dati con i valori parametrici, ma deve essere combinata con una prior per produrre una distribuzione a posteriori.
+
+6. **La posterior è l'oggetto centrale dell'inferenza bayesiana.** Essa rappresenta ciò che sappiamo sul parametro dopo aver osservato i dati, dato il modello assunto.
+
+7. **Precisione non significa validità.** Un risultato può essere molto preciso e tuttavia distorto, se il campionamento, la misura o il modello sono inadeguati.
+
+8. **Ogni analisi bayesiana è condizionata alle assunzioni del modello.** Per questo sono essenziali controllo del modello, analisi di sensibilità e trasparenza sulle scelte effettuate.
+
+**Formula guida del modulo:**
+
+$$
+p(\theta \mid y) \propto p(y \mid \theta)\,p(\theta).
+$$
+
+**Interpretazione:**
+
+> credenze aggiornate = evidenza fornita dai dati × credenze iniziali.
+
+:::
+
+## Bibliografia {.unnumbered .unlisted}
