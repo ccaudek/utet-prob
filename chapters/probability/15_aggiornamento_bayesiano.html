@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
-
-<title>Appendice C — Sommatorie – Probabilità per la psicologia</title>
+<title>15&nbsp; Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano – Probabilità per la psicologia</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,28 +21,42 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
-
+</style>
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -54,8 +65,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/appendix/a13_sets.html" rel="next">
-<link href="../../chapters/appendix/a11_numbers.html" rel="prev">
+<link href="../../chapters/probability/16_conclusioni.html" rel="next">
+<link href="../../chapters/probability/14_likelihood.html" rel="prev">
 <link href="../../style/gauss.png" rel="icon" type="image/png">
 <script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -73,7 +84,9 @@ div.csl-indent {
 <link href="../../site_libs/bootstrap/bootstrap-353ec92dc31bcb37568820202c74e1ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-ca56530e1a7dc3e4b2cbddadeb71310c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-353ec92dc31bcb37568820202c74e1ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": true,
   "collapse-after": 3,
@@ -99,18 +112,13 @@ div.csl-indent {
     "search-submit-button-title": "Inviare",
     "search-label": "Ricerca"
   }
-}</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script>
-
-<script type="text/plain" cookie-consent="tracking">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
-</script>
-
-<script type="text/javascript" charset="UTF-8">
+</script><script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"headline",
@@ -125,14 +133,9 @@ cookieconsent.run({
 "language":"it"
   });
 });
-</script> 
-  
-<style>html{ scroll-behavior: smooth; }</style>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -158,16 +161,21 @@ window.Quarto = {
   typesetMath
 };
 </script>
-
-<meta property="og:title" content="Appendice C — Sommatorie – Probabilità per la psicologia">
+<meta property="og:title" content="15&nbsp; Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano – Probabilità per la psicologia">
 <meta property="og:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
+<meta property="og:image" content="https://ccaudek.github.io/utet-prob/chapters/probability/15_aggiornamento_bayesiano_files/figure-html/fig-beta-binomial-update-1.png">
 <meta property="og:site_name" content="Probabilità per la psicologia">
-<meta name="twitter:title" content="Appendice C — Sommatorie – Probabilità per la psicologia">
+<meta property="og:image:height" content="1297">
+<meta property="og:image:width" content="2100">
+<meta name="twitter:title" content="15&nbsp; Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano – Probabilità per la psicologia">
 <meta name="twitter:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
-<meta name="twitter:card" content="summary">
-<link rel="canonical" href="https://ccaudek.github.io/utet-prob/chapters/appendix/a12_sum_notation.html">
-<meta name="citation_title" content="[Appendice C — Sommatorie]{#sec-apx-sums .quarto-section-identifier}">
-<meta name="citation_fulltext_html_url" content="https://ccaudek.github.io/utet-prob/chapters/appendix/a12_sum_notation.html">
+<meta name="twitter:image" content="https://ccaudek.github.io/utet-prob/chapters/probability/15_aggiornamento_bayesiano_files/figure-html/fig-beta-binomial-update-1.png">
+<meta name="twitter:image-height" content="1297">
+<meta name="twitter:image-width" content="2100">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://ccaudek.github.io/utet-prob/chapters/probability/15_aggiornamento_bayesiano.html">
+<meta name="citation_title" content="[[15]{.chapter-number}&nbsp; [Dalla verosimiglianza alla posterior: l&amp;amp;#039;aggiornamento bayesiano]{.chapter-title}]{#sec-bayesian-updating .quarto-section-identifier}">
+<meta name="citation_fulltext_html_url" content="https://ccaudek.github.io/utet-prob/chapters/probability/15_aggiornamento_bayesiano.html">
 <meta name="citation_language" content="it">
 <meta name="citation_reference" content="citation_title=The history of statistics;,citation_author=Stephen Stigler;,citation_publication_date=1986;,citation_cover_date=1986;,citation_year=1986;">
 <meta name="citation_reference" content="citation_title=Prospect theory: An analysis of decision under risk;,citation_author=Daniel Kahneman;,citation_author=Amos Tversky;,citation_publication_date=1979;,citation_cover_date=1979;,citation_year=1979;,citation_issue=2;,citation_doi=10.2307/1914185;,citation_volume=47;,citation_journal_title=Econometrica;,citation_publisher=JSTOR;">
@@ -702,7 +710,6 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=The grammar of graphics;,citation_author=Leland Wilkinson;,citation_author=Graham Wills;,citation_publication_date=2005;,citation_cover_date=2005;,citation_year=2005;">
 <meta name="citation_reference" content="citation_title=The invention of nature: Alexander von Humboldt’s new world;,citation_author=Andrea Wulf;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_isbn=978-0-385-35066-2 978-0-345-80629-1;">
 </head>
-
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -877,26 +884,20 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/appendix/a02_math_symbols.html">Appendici</a></li><li class="breadcrumb-item"><a href="../../chapters/appendix/a12_sum_notation.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Sommatorie</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/13_from_sample_to_evidence.html">PARTE 4: Verso l’inferenza</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/15_aggiornamento_bayesiano.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -913,7 +914,7 @@ window.Quarto = {
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Modulo di richiamo per l’inferenza bayesiana in psicologia</span></a>
@@ -927,8 +928,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/01_intro_prob_bayesian.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione bayesiana della probabilità</span></span></a>
@@ -959,7 +960,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -968,8 +969,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
@@ -994,7 +995,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
@@ -1003,8 +1004,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/10_intro_distributions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
@@ -1023,17 +1024,17 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">PARTE 4: Verso l’inferenza</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Attiva/disattiva sezione">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_from_sample_to_evidence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Dal campione all’evidenza: informazione, precisione e incertezza</span></span></a>
@@ -1047,7 +1048,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/15_aggiornamento_bayesiano.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/probability/15_aggiornamento_bayesiano.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano</span></span></a>
   </div>
 </li>
@@ -1058,17 +1059,17 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Appendici</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Attiva/disattiva sezione">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Attiva/disattiva sezione">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/appendix/a02_math_symbols.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Simbologia di base</span></span></a>
@@ -1082,7 +1083,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/appendix/a12_sum_notation.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/appendix/a12_sum_notation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Sommatorie</span></span></a>
   </div>
 </li>
@@ -1105,30 +1106,29 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title">Sommario</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-  <li><a href="#manipolazione-di-somme" id="toc-manipolazione-di-somme" class="nav-link active" data-scroll-target="#manipolazione-di-somme"><span class="header-section-number">C.1</span> Manipolazione di somme</a></li>
-  <li><a href="#doppia-sommatoria" id="toc-doppia-sommatoria" class="nav-link" data-scroll-target="#doppia-sommatoria"><span class="header-section-number">C.2</span> Doppia sommatoria</a></li>
-  <li><a href="#bibliografia" id="toc-bibliografia" class="nav-link" data-scroll-target="#bibliografia">Bibliografia</a></li>
-  </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/appendix/a12_sum_notation.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
+<li><a href="#sec-why-posterior-after-likelihood" id="toc-sec-why-posterior-after-likelihood" class="nav-link active" data-scroll-target="#sec-why-posterior-after-likelihood"><span class="header-section-number">15.1</span> Perchè serve ancora un capitolo dopo la verosimiglianza?</a></li>
+  <li><a href="#sec-bayes-update-rule" id="toc-sec-bayes-update-rule" class="nav-link" data-scroll-target="#sec-bayes-update-rule"><span class="header-section-number">15.2</span> La regola di aggiornamento bayesiano</a></li>
+  <li><a href="#sec-beta-binomial-update" id="toc-sec-beta-binomial-update" class="nav-link" data-scroll-target="#sec-beta-binomial-update"><span class="header-section-number">15.3</span> Esempio Beta-Binomiale: prevalenza di sintomi depressivi</a></li>
+  <li><a href="#sec-prior-sensitivity" id="toc-sec-prior-sensitivity" class="nav-link" data-scroll-target="#sec-prior-sensitivity"><span class="header-section-number">15.4</span> Analisi di sensibilità al prior</a></li>
+  <li><a href="#sec-normal-normal-update" id="toc-sec-normal-normal-update" class="nav-link" data-scroll-target="#sec-normal-normal-update"><span class="header-section-number">15.5</span> Il caso Normale-Normale: aggiornare una media</a></li>
+  <li><a href="#sec-sequential-updating" id="toc-sec-sequential-updating" class="nav-link" data-scroll-target="#sec-sequential-updating"><span class="header-section-number">15.6</span> Aggiornamento sequenziale</a></li>
+  <li><a href="#sec-what-posterior-can-say" id="toc-sec-what-posterior-can-say" class="nav-link" data-scroll-target="#sec-what-posterior-can-say"><span class="header-section-number">15.7</span> Cosa la posterior può e non può dirci</a></li>
+  <li><a href="#sec-advanced-topics-not-here" id="toc-sec-advanced-topics-not-here" class="nav-link" data-scroll-target="#sec-advanced-topics-not-here"><span class="header-section-number">15.8</span> Cosa lasciamo ai capitoli successivi</a></li>
+  <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
+  </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/15_aggiornamento_bayesiano.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/appendix/a02_math_symbols.html">Appendici</a></li><li class="breadcrumb-item"><a href="../../chapters/appendix/a12_sum_notation.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Sommatorie</span></a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title"><span id="sec-apx-sums" class="quarto-section-identifier">Appendice C — Sommatorie</span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/13_from_sample_to_evidence.html">PARTE 4: Verso l’inferenza</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/15_aggiornamento_bayesiano.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-bayesian-updating" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano</span></span></h1>
 </div>
 
 
@@ -1142,129 +1142,931 @@ window.Quarto = {
   
 
 
-</header>
-
-
-<p>Le somme sono uno strumento fondamentale in molti contesti matematici e statistici, e per gestirle in modo efficace è essenziale disporre di una notazione chiara e precisa. Consideriamo, ad esempio, la somma dei primi <span class="math inline">\(n\)</span> numeri interi, che può essere espressa come <span class="math inline">\(1 + 2 + \dots + (n-1) + n\)</span>, dove i puntini di sospensione (<span class="math inline">\(\dots\)</span>) indicano che la sequenza deve essere completata seguendo il pattern definito dai termini precedenti e successivi. Tuttavia, una notazione come <span class="math inline">\(1 + 7 + \dots + 73.6\)</span> risulterebbe ambigua senza ulteriori specifiche. In generale, ci troveremo di fronte a somme della forma</p>
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>Nel <a href="#sec-prob-inference-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-inference-uncertainty</span></a> abbiamo discusso come un campione possa essere più o meno informativo: i campioni piccoli producono evidenze instabili, mentre i campioni più grandi tendono a fornire stime più precise. È importante distinguere l’incertezza campionaria dalle eventuali distorsioni sistematiche. Nel <a href="#sec-prob-likelihood" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-likelihood</span></a> abbiamo poi introdotto la <strong>verosimiglianza</strong>, ovvero la funzione che misura quanto i dati osservati siano compatibili con i possibili valori del parametro.</p>
+<p>Resta ora il passaggio propriamente bayesiano: <strong>come usiamo la verosimiglianza per aggiornare una credenza a priori?</strong></p>
+<p>A questa domanda risponde il presente capitolo. La sua funzione non è quella di ripetere le proprietà della media campionaria, della Legge dei Grandi Numeri o del Teorema del Limite Centrale. Quei concetti hanno già preparato il terreno. Qui ci concentriamo invece sulla trasformazione fondamentale dell’inferenza bayesiana:</p>
 <p><span class="math display">\[
-x_1 + x_2 + \dots + x_n,
+\text{prior} \times \text{verosimiglianza} \longrightarrow \text{posterior}.
 \]</span></p>
-<p>dove <span class="math inline">\(x_n\)</span> rappresenta un numero definito altrove. Sebbene questa notazione con i puntini di sospensione sia utile in alcuni contesti, può risultare poco chiara in altri. Per questo motivo, si preferisce utilizzare la notazione di sommatoria:</p>
-<p><span class="math display">\[
-\sum_{i=1}^n x_i,
-\]</span></p>
-<p>che si legge “sommatoria per <span class="math inline">\(i\)</span> che va da <span class="math inline">\(1\)</span> a <span class="math inline">\(n\)</span> di <span class="math inline">\(x_i\)</span>”. Il simbolo <span class="math inline">\(\sum\)</span> (la lettera sigma maiuscola dell’alfabeto greco) rappresenta l’operazione di somma, <span class="math inline">\(x_i\)</span> è il generico addendo, mentre <span class="math inline">\(1\)</span> e <span class="math inline">\(n\)</span> sono gli <em>estremi della sommatoria</em>, che definiscono l’intervallo di variazione dell’indice <span class="math inline">\(i\)</span>. Solitamente, l’estremo inferiore è <span class="math inline">\(1\)</span>, ma potrebbe essere qualsiasi altro numero <span class="math inline">\(m &lt; n\)</span>. Pertanto, possiamo scrivere:</p>
-<p><span class="math display">\[
-\sum_{i=1}^n x_i = x_1 + x_2 + \dots + x_n.
-\]</span></p>
-<p>Ad esempio, se i valori di <span class="math inline">\(x\)</span> sono <span class="math inline">\(\{3, 11, 4, 7\}\)</span>, avremo:</p>
-<p><span class="math display">\[
-\sum_{i=1}^4 x_i = 3 + 11 + 4 + 7 = 25,
-\]</span></p>
-<p>dove <span class="math inline">\(x_1 = 3\)</span>, <span class="math inline">\(x_2 = 11\)</span>, e così via. La quantità <span class="math inline">\(x_i\)</span> è detta <em>argomento</em> della sommatoria, mentre la variabile <span class="math inline">\(i\)</span>, che assume valori interi successivi, è chiamata <em>indice</em> della sommatoria.</p>
-<p>La notazione di sommatoria può anche essere espressa nella forma:</p>
-<p><span class="math display">\[
-\sum_{P(i)} x_i,
-\]</span></p>
-<p>dove <span class="math inline">\(P(i)\)</span> è una proposizione logica riguardante <span class="math inline">\(i\)</span> che può essere vera o falsa. Quando è evidente che si vogliono sommare tutte le <span class="math inline">\(n\)</span> osservazioni, la notazione può essere semplificata in <span class="math inline">\(\sum_{i} x_i\)</span> o addirittura <span class="math inline">\(\sum x_i\)</span>. L’indice <span class="math inline">\(i\)</span> può essere sostituito da altre lettere, come <span class="math inline">\(k, j, l, \dots\)</span>, a seconda del contesto.</p>
-<section id="manipolazione-di-somme" class="level2" data-number="C.1">
-<h2 data-number="C.1" class="anchored" data-anchor-id="manipolazione-di-somme"><span class="header-section-number">C.1</span> Manipolazione di somme</h2>
-<p>Per semplificare i calcoli che coinvolgono le sommatorie, è utile conoscere alcune proprietà fondamentali.</p>
-<section id="proprietà-1-somma-di-una-costante" class="level3" data-number="C.1.1">
-<h3 data-number="C.1.1" class="anchored" data-anchor-id="proprietà-1-somma-di-una-costante"><span class="header-section-number">C.1.1</span> Proprietà 1 (Somma di una costante)</h3>
-<p>La sommatoria di <span class="math inline">\(n\)</span> valori tutti uguali a una costante <span class="math inline">\(a\)</span> è pari a <span class="math inline">\(n\)</span> volte la costante stessa:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} a = \underbrace{a + a + \dots + a}_{n \text{ volte}} = n a.
-\]</span></p>
-</section>
-<section id="proprietà-2-proprietà-distributiva" class="level3" data-number="C.1.2">
-<h3 data-number="C.1.2" class="anchored" data-anchor-id="proprietà-2-proprietà-distributiva"><span class="header-section-number">C.1.2</span> Proprietà 2 (Proprietà distributiva)</h3>
-<p>Se l’argomento della sommatoria contiene una costante, è possibile fattorizzarla. Ad esempio:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} a x_i = a x_1 + a x_2 + \dots + a x_n = a (x_1 + x_2 + \dots + x_n) = a \sum_{i=1}^{n} x_i.
-\]</span></p>
-</section>
-<section id="proprietà-3-proprietà-associativa" class="level3" data-number="C.1.3">
-<h3 data-number="C.1.3" class="anchored" data-anchor-id="proprietà-3-proprietà-associativa"><span class="header-section-number">C.1.3</span> Proprietà 3 (Proprietà associativa)</h3>
-<p>Se l’argomento della sommatoria è una somma, possiamo separare i termini:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} (a + x_i) = (a + x_1) + (a + x_2) + \dots + (a + x_n) = n a + \sum_{i=1}^{n} x_i.
-\]</span></p>
-<p>In generale, possiamo scrivere:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} (x_i + y_i) = \sum_{i=1}^{n} x_i + \sum_{i=1}^{n} y_i.
-\]</span></p>
-</section>
-<section id="proprietà-4-operazioni-algebriche" class="level3" data-number="C.1.4">
-<h3 data-number="C.1.4" class="anchored" data-anchor-id="proprietà-4-operazioni-algebriche"><span class="header-section-number">C.1.4</span> Proprietà 4 (Operazioni algebriche)</h3>
-<p>Se è necessario eseguire un’operazione algebrica (come l’elevamento a potenza o il logaritmo) sull’argomento della sommatoria, questa operazione deve essere eseguita prima della somma. Ad esempio:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} x_i^2 = x_1^2 + x_2^2 + \dots + x_n^2 \neq \left( \sum_{i=1}^{n} x_i \right)^2.
-\]</span></p>
-</section>
-<section id="proprietà-5-prodotto-di-termini" class="level3" data-number="C.1.5">
-<h3 data-number="C.1.5" class="anchored" data-anchor-id="proprietà-5-prodotto-di-termini"><span class="header-section-number">C.1.5</span> Proprietà 5 (Prodotto di termini)</h3>
-<p>Nel caso di un prodotto tra termini, il prodotto deve essere eseguito prima della somma:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} x_i y_i = x_1 y_1 + x_2 y_2 + \dots + x_n y_n.
-\]</span></p>
-<p>Infatti, <span class="math inline">\(a_1 b_1 + a_2 b_2 \neq (a_1 + a_2)(b_1 + b_2)\)</span>.</p>
-</section>
-</section>
-<section id="doppia-sommatoria" class="level2" data-number="C.2">
-<h2 data-number="C.2" class="anchored" data-anchor-id="doppia-sommatoria"><span class="header-section-number">C.2</span> Doppia sommatoria</h2>
-<p>In alcuni contesti, si incontrano espressioni con una doppia sommatoria e un doppio indice:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} \sum_{j=1}^{m} x_{ij}.
-\]</span></p>
-<p>Questa notazione implica che, per ogni valore dell’indice esterno <span class="math inline">\(i\)</span> (da <span class="math inline">\(1\)</span> a <span class="math inline">\(n\)</span>), si deve sviluppare la sommatoria interna per <span class="math inline">\(j\)</span> (da <span class="math inline">\(1\)</span> a <span class="math inline">\(m\)</span>). Ad esempio:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{3} \sum_{j=4}^{6} x_{ij} = (x_{1,4} + x_{1,5} + x_{1,6}) + (x_{2,4} + x_{2,5} + x_{2,6}) + (x_{3,4} + x_{3,5} + x_{3,6}).
-\]</span></p>
-<p>Un caso particolare interessante è la doppia sommatoria del prodotto di due variabili:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} \sum_{j=1}^{n} x_i y_j.
-\]</span></p>
-<p>In questo caso, poiché <span class="math inline">\(x_i\)</span> non dipende dall’indice <span class="math inline">\(j\)</span>, possiamo estrarre <span class="math inline">\(x_i\)</span> dalla sommatoria interna:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} \left( x_i \sum_{j=1}^{n} y_j \right).
-\]</span></p>
-<p>Allo stesso modo, la sommatoria interna <span class="math inline">\(\sum_{j=1}^{n} y_j\)</span> non dipende da <span class="math inline">\(i\)</span>, quindi può essere estratta dalla sommatoria esterna:</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n} \sum_{j=1}^{n} x_i y_j = \left( \sum_{i=1}^{n} x_i \right) \left( \sum_{j=1}^{n} y_j \right).
-\]</span></p>
-<section id="esempio-pratico" class="level3" data-number="C.2.1">
-<h3 data-number="C.2.1" class="anchored" data-anchor-id="esempio-pratico"><span class="header-section-number">C.2.1</span> Esempio pratico</h3>
-<p>Consideriamo i vettori <span class="math inline">\(x = \{2, 3, 1\}\)</span> e <span class="math inline">\(y = \{1, 4, 9\}\)</span>. Calcoliamo la doppia sommatoria:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\sum_{i=1}^3 \sum_{j=1}^3 x_i y_j &amp;= x_1 y_1 + x_1 y_2 + x_1 y_3 + x_2 y_1 + x_2 y_2 + x_2 y_3 + x_3 y_1 + x_3 y_2 + x_3 y_3 \\
-&amp;= 2 \times (1 + 4 + 9) + 3 \times (1 + 4 + 9) + 1 \times (1 + 4 + 9) \\
-&amp;= 2 \times 14 + 3 \times 14 + 1 \times 14 = 84.
-\end{aligned}
-\]</span></p>
-<p>D’altra parte, il prodotto delle due sommatorie è:</p>
-<p><span class="math display">\[
-\left( \sum_{i=1}^3 x_i \right) \left( \sum_{j=1}^3 y_j \right) = (2 + 3 + 1) \times (1 + 4 + 9) = 6 \times 14 = 84.
-\]</span></p>
-<p>I due risultati coincidono, confermando la validità della proprietà.</p>
-<p>Per ulteriori approfondimenti, si consiglia la consultazione del testo <em>Concrete Mathematics: A Foundation for Computer Science</em> <span class="citation" data-cites="graham_concrete_1994">(<a href="#ref-graham_concrete_1994" role="doc-biblioref">Graham et al., 1994</a>)</span>.</p>
-<p>Esercizi pratici sono disponibili sulla seguente <a href="https://math.libretexts.org/Courses/Cosumnes_River_College/Math_370%3A_Precalculus/07%3A_Sequences_and_the_Binomial_Theorem/7.02%3A_Summation_Notation/7.2E%3A_Exercises">pagina web</a>.</p>
-</section>
-</section>
-<section id="bibliografia" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="bibliografia">Bibliografia</h2>
-
-
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
-<div id="ref-graham_concrete_1994" class="csl-entry" role="listitem">
-Graham, R. L., Knuth, D. E., &amp; Patashnik, O. (1994). <em>Concrete Mathematics: A Foundation for Computer Science</em> (2nd ed.). Addison-Wesley.
+<p>L’idea centrale è semplice: prima di osservare i dati, rappresentiamo la nostra incertezza su un parametro tramite una distribuzione <em>a priori</em>. I dati producono una funzione di verosimiglianza. Il prodotto tra queste due componenti, opportunamente normalizzato, produce una nuova distribuzione: la distribuzione <em>a posteriori</em>.</p>
+<p>In questo capitolo:</p>
+<ol type="1">
+<li>
+<strong>chiariremo</strong> il ruolo di prior, verosimiglianza, evidenza marginale e posterior;</li>
+<li>
+<strong>studieremo</strong> l’esempio Beta-Binomiale, adatto a proporzioni e prevalenze;</li>
+<li>
+<strong>useremo</strong> l’analisi di sensibilità per valutare quanto le conclusioni dipendano dalla prior;</li>
+<li>
+<strong>esamineremo</strong> il caso Normale-Normale, in cui l’aggiornamento assume la forma di una media pesata dalle precisioni;</li>
+<li>
+<strong>mostreremo</strong> l’aggiornamento sequenziale, in cui la posterior di oggi diventa la prior di domani;</li>
+<li>
+<strong>discuteremo</strong> brevemente cosa la posterior può e non può dirci.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Consiglio</span>Prerequisiti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Per seguire questo capitolo è utile aver letto:</p>
+<ul>
+<li>
+<a href="#sec-prob-bayes-theorem" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-bayes-theorem</span></a> – per il teorema di Bayes;</li>
+<li>
+<a href="#sec-prob-inference-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-inference-uncertainty</span></a> – per informazione, precisione e incertezza campionaria;</li>
+<li>
+<a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a> – per Bernoulli, Binomiale e Beta;</li>
+<li>
+<a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a> – per la distribuzione Normale;</li>
+<li>
+<a href="#sec-prob-likelihood" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-likelihood</span></a> – fondamentale per il concetto di verosimiglianza.</li>
+</ul>
+<p>Questo capitolo conclude il passaggio dalla probabilità alla logica dell’inferenza bayesiana parametrica.</p>
 </div>
 </div>
-</section>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"here"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html">exists</a></span><span class="op">(</span><span class="st">"apply_visual_theme"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="sec-why-posterior-after-likelihood" class="level2" data-number="15.1"><h2 data-number="15.1" class="anchored" data-anchor-id="sec-why-posterior-after-likelihood">
+<span class="header-section-number">15.1</span> Perchè serve ancora un capitolo dopo la verosimiglianza?</h2>
+<p>La verosimiglianza risponde a una domanda precisa:</p>
+<blockquote class="blockquote">
+<p>Dati i valori osservati, quali valori del parametro rendono questi dati più o meno plausibili?</p>
+</blockquote>
+<p>Questa domanda è essenziale, ma non esaurisce l’inferenza bayesiana. La verosimiglianza, da sola, non costituisce ancora una distribuzione di probabilità sul parametro. Non risponde direttamente alla domanda: “Qual è la probabilità che il parametro sia in un certo intervallo?”. Per rispondere a questa domanda, è necessario combinare la verosimiglianza con una distribuzione a priori.</p>
+<p>In termini bayesiani, il parametro non è trattato come una quantità casuale perché cambia da un esperimento all’altro, ma perché è <strong>ignoto</strong>. La probabilità rappresenta il nostro stato di informazione su quel parametro.</p>
+<p>Prima dei dati:</p>
+<p><span class="math display">\[
+\theta \sim p(\theta).
+\]</span></p>
+<p>Dopo i dati:</p>
+<p><span class="math display">\[
+\theta \mid y \sim p(\theta \mid y).
+\]</span></p>
+<p>Il compito del presente capitolo è spiegare come si passa dalla prima distribuzione alla seconda.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Tre ruoli distinti">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Tre ruoli distinti
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nel percorso del manuale, i tre capitoli hanno funzioni diverse:</p>
+<ul>
+<li>il <a href="#sec-prob-inference-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-inference-uncertainty</span></a> spiega <strong>quanto sono informativi i dati</strong>;</li>
+<li>il <a href="#sec-prob-likelihood" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-likelihood</span></a> spiega <strong>come rappresentiamo l’informazione dei dati</strong>;</li>
+<li>questo capitolo spiega <strong>come l’informazione dei dati aggiorna le credenze</strong>.</li>
+</ul>
+</div>
+</div>
+</section><section id="sec-bayes-update-rule" class="level2" data-number="15.2"><h2 data-number="15.2" class="anchored" data-anchor-id="sec-bayes-update-rule">
+<span class="header-section-number">15.2</span> La regola di aggiornamento bayesiano</h2>
+<section id="forma-generale" class="level3" data-number="15.2.1"><h3 data-number="15.2.1" class="anchored" data-anchor-id="forma-generale">
+<span class="header-section-number">15.2.1</span> Forma generale</h3>
+<p>Sia <span class="math inline">\(\theta\)</span> il parametro di interesse e siano <span class="math inline">\(y\)</span> i dati osservati. La regola di Bayes si scrive:</p>
+<p><span class="math display">\[
+p(\theta \mid y) =
+\frac{p(y \mid \theta)p(\theta)}{p(y)}.
+\]</span></p>
+<p>I quattro termini hanno ruoli diversi:</p>
+<ul>
+<li>
+<span class="math inline">\(p(\theta)\)</span> è la <strong>prior</strong>, cioè la distribuzione che rappresenta l’incertezza prima dei dati;</li>
+<li>
+<span class="math inline">\(p(y \mid \theta)\)</span> è la <strong>verosimiglianza</strong>, cioè la compatibilità dei dati con ciascun valore del parametro;</li>
+<li>
+<span class="math inline">\(p(y)\)</span> è l’<strong>evidenza marginale</strong>, cioè la costante che rende la posterior una vera distribuzione di probabilità;</li>
+<li>
+<span class="math inline">\(p(\theta \mid y)\)</span> è la <strong>posterior</strong>, cioè la distribuzione aggiornata dopo aver osservato i dati.</li>
+</ul>
+<p>Poichè <span class="math inline">\(p(y)\)</span> non dipende da <span class="math inline">\(\theta\)</span>, spesso scriviamo:</p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto p(y \mid \theta)p(\theta).
+\]</span></p>
+<p>Questa forma proporzionale è la più importante da ricordare.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La posterior non è semplicemente la verosimiglianza. È la verosimiglianza <strong>ponderata</strong> dalla prior e poi normalizzata affinché l’area totale sia uguale a 1.</p>
+</div>
+</div>
+</section><section id="il-ruolo-della-costante-di-normalizzazione" class="level3" data-number="15.2.2"><h3 data-number="15.2.2" class="anchored" data-anchor-id="il-ruolo-della-costante-di-normalizzazione">
+<span class="header-section-number">15.2.2</span> Il ruolo della costante di normalizzazione</h3>
+<p>Nel caso continuo, l’evidenza marginale è un integrale:</p>
+<p><span class="math display">\[
+p(y) = \int p(y \mid \theta)p(\theta)\,d\theta.
+\]</span></p>
+<p>Nel caso discreto, è una somma:</p>
+<p><span class="math display">\[
+p(y) = \sum_{\theta} p(y \mid \theta)p(\theta).
+\]</span></p>
+<p>Questo termine ha una funzione tecnica ma fondamentale: trasforma il prodotto <span class="math inline">\(p(y \mid \theta)p(\theta)\)</span> in una distribuzione di probabilità valida. Senza questa normalizzazione, otterremmo una curva proporzionale alla posterior, ma non una distribuzione con area totale pari a 1.</p>
+</section></section><section id="sec-beta-binomial-update" class="level2" data-number="15.3"><h2 data-number="15.3" class="anchored" data-anchor-id="sec-beta-binomial-update">
+<span class="header-section-number">15.3</span> Esempio Beta-Binomiale: prevalenza di sintomi depressivi</h2>
+<section id="il-problema" class="level3" data-number="15.3.1"><h3 data-number="15.3.1" class="anchored" data-anchor-id="il-problema">
+<span class="header-section-number">15.3.1</span> Il problema</h3>
+<p>Supponiamo di voler stimare la proporzione di studenti universitari con sintomi depressivi clinicamente rilevanti, indicata con il simbolo <span class="math inline">\(\theta\)</span>. In uno studio osserviamo:</p>
+<p><span class="math display">\[
+y = 72
+\qquad \text{studenti con sintomi su} \qquad
+n = 200.
+\]</span></p>
+<p>La proporzione osservata è:</p>
+<p><span class="math display">\[
+\hat{p} = \frac{72}{200} = 0.36.
+\]</span></p>
+<p>Nel capitolo sulla verosimiglianza abbiamo visto che, per dati binari, il modello naturale è:</p>
+<p><span class="math display">\[
+Y \mid \theta \sim \text{Binomiale}(n, \theta).
+\]</span></p>
+<p>La verosimiglianza è:</p>
+<p><span class="math display">\[
+p(y \mid \theta) = \binom{n}{y}\theta^y(1-\theta)^{n-y}.
+\]</span></p>
+<p>Ora aggiungiamo l’elemento bayesiano: una prior su <span class="math inline">\(\theta\)</span>.</p>
+</section><section id="la-prior-beta" class="level3" data-number="15.3.2"><h3 data-number="15.3.2" class="anchored" data-anchor-id="la-prior-beta">
+<span class="header-section-number">15.3.2</span> La prior Beta</h3>
+<p>Per una proporzione, la distribuzione Beta è una scelta naturale per la prior, perché è definita sull’intervallo <span class="math inline">\([0,1]\)</span>:</p>
+<p><span class="math display">\[
+\theta \sim \text{Beta}(\alpha, \beta).
+\]</span></p>
+<p>La densità della prior è proporzionale a:</p>
+<p><span class="math display">\[
+p(\theta) \propto \theta^{\alpha - 1}(1-\theta)^{\beta - 1}.
+\]</span></p>
+<p>I parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> controllano la forma della distribuzione. Una lettura utile, anche se solo intuitiva, è considerare <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> come a una sorta di informazione precedente sui successi e gli insuccessi.</p>
+<p>Per esempio:</p>
+<ul>
+<li>
+<span class="math inline">\(\text{Beta}(1,1)\)</span> è uniforme: tutti i valori di <span class="math inline">\(\theta\)</span> sono ugualmente plausibili prima dei dati;</li>
+<li>
+<span class="math inline">\(\text{Beta}(2,8)\)</span> assegna più massa a valori bassi della proporzione;</li>
+<li>
+<span class="math inline">\(\text{Beta}(8,2)\)</span> assegna più massa a valori alti della proporzione.</li>
+</ul></section><section id="prior-verosimiglianza-e-posterior" class="level3" data-number="15.3.3"><h3 data-number="15.3.3" class="anchored" data-anchor-id="prior-verosimiglianza-e-posterior">
+<span class="header-section-number">15.3.3</span> Prior, verosimiglianza e posterior</h3>
+<p>Se la prior è Beta e la verosimiglianza è Binomiale, la posterior è ancora Beta:</p>
+<p><span class="math display">\[
+\theta \mid y \sim \text{Beta}(\alpha + y,\; \beta + n - y).
+\]</span></p>
+<p>Questa è una relazione particolarmente trasparente. I dati aggiornano i parametri della prior aggiungendo:</p>
+<ul>
+<li>
+<span class="math inline">\(y\)</span> successi al parametro <span class="math inline">\(\alpha\)</span>;</li>
+<li>
+<span class="math inline">\(n-y\)</span> insuccessi al parametro <span class="math inline">\(\beta\)</span>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Coniugazione">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Coniugazione
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando la prior e la verosimiglianza producono una posterior della stessa famiglia della prior, si parla di <strong>prior coniugato</strong>. Nel caso Beta-Binomiale, la prior Beta è coniugata alla verosimiglianza Binomiale.</p>
+</div>
+</div>
+</section><section id="esempio-numerico" class="level3" data-number="15.3.4"><h3 data-number="15.3.4" class="anchored" data-anchor-id="esempio-numerico">
+<span class="header-section-number">15.3.4</span> Esempio numerico</h3>
+<p>Usiamo una prior debolmente informativa:</p>
+<p><span class="math display">\[
+\theta \sim \text{Beta}(2,2).
+\]</span></p>
+<p>Dopo aver osservato <span class="math inline">\(y=72\)</span> studenti con sintomi su <span class="math inline">\(n=200\)</span>, la posterior è:</p>
+<p><span class="math display">\[
+\theta \mid y \sim \text{Beta}(2+72,\; 2+128)
+= \text{Beta}(74,130).
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">alpha_prior</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">beta_prior</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">72</span></span>
+<span></span>
+<span><span class="va">alpha_post</span> <span class="op">&lt;-</span> <span class="va">alpha_prior</span> <span class="op">+</span> <span class="va">y</span></span>
+<span><span class="va">beta_post</span> <span class="op">&lt;-</span> <span class="va">beta_prior</span> <span class="op">+</span> <span class="va">n</span> <span class="op">-</span> <span class="va">y</span></span>
+<span></span>
+<span><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.999</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">prior_density</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">alpha_prior</span>, <span class="va">beta_prior</span><span class="op">)</span></span>
+<span><span class="va">likelihood</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">y</span>, size <span class="op">=</span> <span class="va">n</span>, prob <span class="op">=</span> <span class="va">theta_grid</span><span class="op">)</span></span>
+<span><span class="va">posterior_density</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">alpha_post</span>, <span class="va">beta_post</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># La verosimiglianza viene riscalata solo per confronto grafico.</span></span>
+<span><span class="va">likelihood_scaled</span> <span class="op">&lt;-</span> <span class="va">likelihood</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">prior_density</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">likelihood</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">prior_density</span>, <span class="va">likelihood_scaled</span>, <span class="va">posterior_density</span><span class="op">)</span>,</span>
+<span>  componente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior"</span>, <span class="st">"Verosimiglianza (riscalata)"</span>, <span class="st">"Posterior"</span><span class="op">)</span>,</span>
+<span>        each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">theta_grid</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior"</span>, <span class="st">"Verosimiglianza (riscalata)"</span>, <span class="st">"Posterior"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">plot_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>,</span>
+<span>                      color <span class="op">=</span> <span class="va">componente</span>, linetype <span class="op">=</span> <span class="va">componente</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">y</span> <span class="op">/</span> <span class="va">n</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità / scala relativa"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">""</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-beta-binomial-update" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-beta-binomial-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="15_aggiornamento_bayesiano_files/figure-html/fig-beta-binomial-update-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;15.1: Aggiornamento Beta-Binomiale: prior, verosimiglianza normalizzata e posterior. La posterior combina l’informazione iniziale con l’evidenza osservata."><img src="15_aggiornamento_bayesiano_files/figure-html/fig-beta-binomial-update-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-beta-binomial-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.1: Aggiornamento Beta-Binomiale: prior, verosimiglianza normalizzata e posterior. La posterior combina l’informazione iniziale con l’evidenza osservata.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">post_mean</span> <span class="op">&lt;-</span> <span class="va">alpha_post</span> <span class="op">/</span> <span class="op">(</span><span class="va">alpha_post</span> <span class="op">+</span> <span class="va">beta_post</span><span class="op">)</span></span>
+<span><span class="va">post_ci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>, <span class="va">alpha_post</span>, <span class="va">beta_post</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Prior: Beta("</span>, <span class="va">alpha_prior</span>, <span class="st">", "</span>, <span class="va">beta_prior</span>, <span class="st">")\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Prior: Beta(2, 2)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Dati: y ="</span>, <span class="va">y</span>, <span class="st">"su n ="</span>, <span class="va">n</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Dati: y = 72 su n = 200</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Posterior: Beta("</span>, <span class="va">alpha_post</span>, <span class="st">", "</span>, <span class="va">beta_post</span>, <span class="st">")\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Posterior: Beta(74, 130)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">post_mean</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media posterior: 0.363</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Intervallo di credibilità 95%: ["</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">post_ci</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">", "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">post_ci</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"]\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Intervallo di credibilità 95%: [0.298, 0.43]</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="come-interpretare-la-posterior" class="level3" data-number="15.3.5"><h3 data-number="15.3.5" class="anchored" data-anchor-id="come-interpretare-la-posterior">
+<span class="header-section-number">15.3.5</span> Come interpretare la posterior</h3>
+<p>La posterior è una distribuzione di probabilità su <span class="math inline">\(\theta\)</span> dopo aver osservato i dati. Possiamo quindi fare affermazioni del tipo:</p>
+<p><span class="math display">\[
+P(\theta &gt; 0.40 \mid y).
+\]</span></p>
+<p>Questa è una probabilità bayesiana diretta: condizionatamente al modello, alla prior e ai dati osservati, quantifica quanto sia plausibile che la prevalenza superi il 40%.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prob_greater_40</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">pbeta</a></span><span class="op">(</span><span class="fl">0.40</span>, <span class="va">alpha_post</span>, <span class="va">beta_post</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"P(theta &gt; 0.40 | dati) ="</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">prob_greater_40</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; P(theta &gt; 0.40 | dati) = 0.135</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un intervallo di credibilità non ha la stessa interpretazione di un intervallo di confidenza frequentista. Un intervallo di credibilità al 95% contiene il 95% della massa della distribuzione a posteriori, dato il modello, la prior e i dati osservati.</p>
+</div>
+</div>
+</section></section><section id="sec-prior-sensitivity" class="level2" data-number="15.4"><h2 data-number="15.4" class="anchored" data-anchor-id="sec-prior-sensitivity">
+<span class="header-section-number">15.4</span> Analisi di sensibilità al prior</h2>
+<p>La prior è parte del modello. Per questo motivo è buona pratica chiedersi se le conclusioni cambiano in modo sostanziale quando si scelgono prior ragionevoli ma diverse.</p>
+<p>Questa verifica prende il nome di <strong>analisi di sensibilità</strong>.</p>
+<p>La domanda non è:</p>
+<blockquote class="blockquote">
+<p>Quale prior è l’unica corretta?</p>
+</blockquote>
+<p>La domanda è:</p>
+<blockquote class="blockquote">
+<p>Le conclusioni principali dipendono in modo fragile da una particolare scelta della prior?</p>
+</blockquote>
+<section id="confronto-tra-prior-diverse" class="level3" data-number="15.4.1"><h3 data-number="15.4.1" class="anchored" data-anchor-id="confronto-tra-prior-diverse">
+<span class="header-section-number">15.4.1</span> Confronto tra prior diverse</h3>
+<p>Consideriamo gli stessi dati:</p>
+<p><span class="math display">\[
+y = 72, \qquad n = 200.
+\]</span></p>
+<p>Confrontiamo quattro prior:</p>
+<ul>
+<li>
+<span class="math inline">\(\text{Beta}(1,1)\)</span>: uniforme;</li>
+<li>
+<span class="math inline">\(\text{Beta}(2,2)\)</span>: debolmente centrata;</li>
+<li>
+<span class="math inline">\(\text{Beta}(2,8)\)</span>: scettica rispetto a prevalenze alte;</li>
+<li>
+<span class="math inline">\(\text{Beta}(8,2)\)</span>: ottimistica rispetto a prevalenze alte.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">priors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  nome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Uniforme Beta(1,1)"</span>,</span>
+<span>           <span class="st">"Debole Beta(2,2)"</span>,</span>
+<span>           <span class="st">"Scettica Beta(2,8)"</span>,</span>
+<span>           <span class="st">"Ottimistica Beta(8,2)"</span><span class="op">)</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">8</span><span class="op">)</span>,</span>
+<span>  beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">8</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">posterior_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">priors</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">a_post</span> <span class="op">&lt;-</span> <span class="va">priors</span><span class="op">$</span><span class="va">alpha</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">+</span> <span class="va">y</span></span>
+<span>  <span class="va">b_post</span> <span class="op">&lt;-</span> <span class="va">priors</span><span class="op">$</span><span class="va">beta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">+</span> <span class="va">n</span> <span class="op">-</span> <span class="va">y</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>    theta <span class="op">=</span> <span class="va">theta_grid</span>,</span>
+<span>    density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">a_post</span>, <span class="va">b_post</span><span class="op">)</span>,</span>
+<span>    prior <span class="op">=</span> <span class="va">priors</span><span class="op">$</span><span class="va">nome</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">posterior_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">posterior_list</span><span class="op">)</span></span>
+<span><span class="va">posterior_data</span><span class="op">$</span><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">posterior_data</span><span class="op">$</span><span class="va">prior</span>, levels <span class="op">=</span> <span class="va">priors</span><span class="op">$</span><span class="va">nome</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">posterior_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>,</span>
+<span>                           color <span class="op">=</span> <span class="va">prior</span>, linetype <span class="op">=</span> <span class="va">prior</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">y</span> <span class="op">/</span> <span class="va">n</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità a posteriori"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"Prior"</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">"Prior"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-sensitivity-priors" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-sensitivity-priors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="15_aggiornamento_bayesiano_files/figure-html/fig-sensitivity-priors-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;15.2: Analisi di sensibilità: posterior ottenute con prior diverse ma ragionevoli. Le conclusioni sono robuste se le posterior risultano simili rispetto alle domande sostantive."><img src="15_aggiornamento_bayesiano_files/figure-html/fig-sensitivity-priors-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sensitivity-priors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.2: Analisi di sensibilità: posterior ottenute con prior diverse ma ragionevoli. Le conclusioni sono robuste se le posterior risultano simili rispetto alle domande sostantive.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">summary_sensitivity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Prior <span class="op">=</span> <span class="va">priors</span><span class="op">$</span><span class="va">nome</span>,</span>
+<span>  Alpha_post <span class="op">=</span> <span class="va">priors</span><span class="op">$</span><span class="va">alpha</span> <span class="op">+</span> <span class="va">y</span>,</span>
+<span>  Beta_post <span class="op">=</span> <span class="va">priors</span><span class="op">$</span><span class="va">beta</span> <span class="op">+</span> <span class="va">n</span> <span class="op">-</span> <span class="va">y</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Media_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span></span>
+<span>  <span class="va">summary_sensitivity</span>,</span>
+<span>  <span class="va">Alpha_post</span> <span class="op">/</span> <span class="op">(</span><span class="va">Alpha_post</span> <span class="op">+</span> <span class="va">Beta_post</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">CI_2.5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0.025</span>,</span>
+<span>  <span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Alpha_post</span>,</span>
+<span>  <span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Beta_post</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">CI_97.5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">qbeta</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0.975</span>,</span>
+<span>  <span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Alpha_post</span>,</span>
+<span>  <span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Beta_post</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">P_theta_gt_0.40</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">pbeta</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0.40</span>,</span>
+<span>  <span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Alpha_post</span>,</span>
+<span>  <span class="va">summary_sensitivity</span><span class="op">$</span><span class="va">Beta_post</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">summary_sensitivity</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Media_post"</span>, <span class="st">"CI_2.5"</span>, <span class="st">"CI_97.5"</span>, <span class="st">"P_theta_gt_0.40"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Media_post"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["CI_2.5"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["CI_97.5"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["P_theta_gt_0.40"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.361","2":"0.297","3":"0.429","4":"0.127"},{"1":"0.363","2":"0.298","3":"0.430","4":"0.135"},{"1":"0.352","2":"0.289","3":"0.418","4":"0.076"},{"1":"0.381","2":"0.317","3":"0.447","4":"0.282"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section><section id="come-leggere-lanalisi-di-sensibilità" class="level3" data-number="15.4.2"><h3 data-number="15.4.2" class="anchored" data-anchor-id="come-leggere-lanalisi-di-sensibilità">
+<span class="header-section-number">15.4.2</span> Come leggere l’analisi di sensibilità</h3>
+<p>Se prior ragionevoli producono conclusioni molto diverse, i dati non sono sufficienti a risolvere la questione e l’inferenza dipende in modo rilevante dalle assunzioni iniziali. Ciò non è necessariamente un problema, ma è un’informazione importante da comunicare.</p>
+<p>Se invece prior ragionevoli producono posterior simili rispetto alla domanda sostantiva, possiamo dire che le conclusioni sono relativamente robuste.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>L’analisi di sensibilità non serve a nascondere la prior. Al contrario, serve a renderne visibile il ruolo.</p>
+</div>
+</div>
+</section></section><section id="sec-normal-normal-update" class="level2" data-number="15.5"><h2 data-number="15.5" class="anchored" data-anchor-id="sec-normal-normal-update">
+<span class="header-section-number">15.5</span> Il caso Normale-Normale: aggiornare una media</h2>
+<p>Il caso Beta-Binomiale è utile per le proporzioni. Un secondo caso fondamentale riguarda la stima di una media.</p>
+<p>Supponiamo di voler stimare il punteggio medio <span class="math inline">\(\mu\)</span> di una scala psicologica. Supponiamo che le osservazioni siano approssimativamente normali con varianza nota <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[
+X_i \mid \mu \sim \mathcal{N}(\mu, \sigma^2).
+\]</span></p>
+<p>Poniamo una prior normale sulla media:</p>
+<p><span class="math display">\[
+\mu \sim \mathcal{N}(\mu_0, \sigma_0^2).
+\]</span></p>
+<p>In questo caso, la posterior è ancora normale:</p>
+<p><span class="math display">\[
+\mu \mid x \sim \mathcal{N}(\mu_{\text{post}}, \sigma^2_{\text{post}}).
+\]</span></p>
+<section id="la-media-posterior-come-media-pesata" class="level3" data-number="15.5.1"><h3 data-number="15.5.1" class="anchored" data-anchor-id="la-media-posterior-come-media-pesata">
+<span class="header-section-number">15.5.1</span> La media posterior come media pesata</h3>
+<p>Definiamo le precisioni:</p>
+<p><span class="math display">\[
+\tau_0 = \frac{1}{\sigma_0^2},
+\qquad
+\tau_{\text{dati}} = \frac{n}{\sigma^2}.
+\]</span></p>
+<p>La media a posteriori è:</p>
+<p><span class="math display">\[
+\mu_{\text{post}} =
+\frac{\tau_0\mu_0 + \tau_{\text{dati}}\bar{x}}
+{\tau_0 + \tau_{\text{dati}}}.
+\]</span></p>
+<p>La precisione a posteriori è:</p>
+<p><span class="math display">\[
+\tau_{\text{post}} = \tau_0 + \tau_{\text{dati}}.
+\]</span></p>
+<p>Quindi:</p>
+<p><span class="math display">\[
+\sigma^2_{\text{post}} = \frac{1}{\tau_{\text{post}}}.
+\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nel caso Normale-Normale, l’aggiornamento bayesiano è una media ponderata tra il prior e i dati. I pesi sono le precisioni: la fonte più precisa pesa di più.</p>
+</div>
+</div>
+</section><section id="esempio-numerico-1" class="level3" data-number="15.5.2"><h3 data-number="15.5.2" class="anchored" data-anchor-id="esempio-numerico-1">
+<span class="header-section-number">15.5.2</span> Esempio numerico</h3>
+<p>Uno psicologo ha una credenza iniziale secondo cui il punteggio medio di una scala di ansia sia circa 50, con una deviazione standard a priori pari a 10:</p>
+<p><span class="math display">\[
+\mu \sim \mathcal{N}(50, 10^2).
+\]</span></p>
+<p>Successivamente, raccoglie dati da <span class="math inline">\(n=30\)</span> studenti. La media osservata è <span class="math inline">\(\bar{x}=56\)</span> e la deviazione standard nota o assunta è <span class="math inline">\(\sigma=15\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mu0</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
+<span><span class="va">sigma0</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">n_norm</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
+<span><span class="va">xbar</span> <span class="op">&lt;-</span> <span class="fl">56</span></span>
+<span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">15</span></span>
+<span></span>
+<span><span class="va">tau0</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">sigma0</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="va">tau_data</span> <span class="op">&lt;-</span> <span class="va">n_norm</span> <span class="op">/</span> <span class="va">sigma</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="va">tau_post</span> <span class="op">&lt;-</span> <span class="va">tau0</span> <span class="op">+</span> <span class="va">tau_data</span></span>
+<span><span class="va">sigma_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="va">tau_post</span><span class="op">)</span></span>
+<span><span class="va">mu_post</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">tau0</span> <span class="op">*</span> <span class="va">mu0</span> <span class="op">+</span> <span class="va">tau_data</span> <span class="op">*</span> <span class="va">xbar</span><span class="op">)</span> <span class="op">/</span> <span class="va">tau_post</span></span>
+<span></span>
+<span><span class="va">theta_grid_norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">80</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">prior_norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">theta_grid_norm</span>, <span class="va">mu0</span>, <span class="va">sigma0</span><span class="op">)</span></span>
+<span><span class="va">lik_norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">theta_grid_norm</span>, <span class="va">xbar</span>, <span class="va">sigma</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_norm</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">post_norm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">theta_grid_norm</span>, <span class="va">mu_post</span>, <span class="va">sigma_post</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lik_norm_scaled</span> <span class="op">&lt;-</span> <span class="va">lik_norm</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">prior_norm</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">lik_norm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">normal_plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">theta_grid_norm</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">prior_norm</span>, <span class="va">lik_norm_scaled</span>, <span class="va">post_norm</span><span class="op">)</span>,</span>
+<span>  componente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior"</span>, <span class="st">"Verosimiglianza (riscalata)"</span>, <span class="st">"Posterior"</span><span class="op">)</span>,</span>
+<span>        each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">theta_grid_norm</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior"</span>, <span class="st">"Verosimiglianza (riscalata)"</span>, <span class="st">"Posterior"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">normal_plot_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">mu</span>, y <span class="op">=</span> <span class="va">density</span>,</span>
+<span>                             color <span class="op">=</span> <span class="va">componente</span>, linetype <span class="op">=</span> <span class="va">componente</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità / scala relativa"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">""</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-normal-normal-update" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-normal-normal-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="15_aggiornamento_bayesiano_files/figure-html/fig-normal-normal-update-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;15.3: Aggiornamento Normale-Normale: la posterior è una media pesata tra prior e verosimiglianza, con pesi proporzionali alle precisioni."><img src="15_aggiornamento_bayesiano_files/figure-html/fig-normal-normal-update-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal-normal-update-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.3: Aggiornamento Normale-Normale: la posterior è una media pesata tra prior e verosimiglianza, con pesi proporzionali alle precisioni.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media prior:"</span>, <span class="va">mu0</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media prior: 50</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media dati:"</span>, <span class="va">xbar</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media dati: 56</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Media posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">mu_post</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Media posterior: 55.6</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Deviazione standard posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">sigma_post</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Deviazione standard posterior: 2.64</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Precisione prior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">tau0</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Precisione prior: 0.01</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Precisione dati:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">tau_data</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Precisione dati: 0.133</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Precisione posterior:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">tau_post</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Precisione posterior: 0.143</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="interpretazione" class="level3" data-number="15.5.3"><h3 data-number="15.5.3" class="anchored" data-anchor-id="interpretazione">
+<span class="header-section-number">15.5.3</span> Interpretazione</h3>
+<p>La media a posteriori si colloca tra la media prior e la media campionaria. Se la prior è molto incerta, la posterior si avvicina ai dati. Se i dati sono pochi o rumorosi, la posterior rimane più vicina alla prior.</p>
+<p>Questo esempio illustra una proprietà generale dell’approccio bayesiano: l’inferenza non sceglie tra la conoscenza precedente e i dati, ma li combina in modo proporzionale alla loro informatività.</p>
+</section></section><section id="sec-sequential-updating" class="level2" data-number="15.6"><h2 data-number="15.6" class="anchored" data-anchor-id="sec-sequential-updating">
+<span class="header-section-number">15.6</span> Aggiornamento sequenziale</h2>
+<p>Uno dei vantaggi concettuali dell’inferenza bayesiana è che l’aggiornamento può avvenire in modo sequenziale.</p>
+<p>Supponiamo di osservare due insiemi di dati indipendenti, <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_2\)</span>. Dopo il primo studio otteniamo:</p>
+<p><span class="math display">\[
+p(\theta \mid y_1) \propto p(y_1 \mid \theta)p(\theta).
+\]</span></p>
+<p>Quando arriva il secondo studio, possiamo usare la posterior del primo studio come prior per il secondo:</p>
+<p><span class="math display">\[
+p(\theta \mid y_1, y_2)
+\propto p(y_2 \mid \theta)p(\theta \mid y_1).
+\]</span></p>
+<p>Sostituendo la prima equazione nella seconda, otteniamo:</p>
+<p><span class="math display">\[
+p(\theta \mid y_1, y_2)
+\propto p(\theta)p(y_1 \mid \theta)p(y_2 \mid \theta).
+\]</span></p>
+<p>Quindi, se gli studi sono indipendenti condizionatamente al parametro, aggiornare in sequenza o aggiornare tutto insieme porta allo stesso risultato.</p>
+<section id="esempio-beta-binomiale-sequenziale" class="level3" data-number="15.6.1"><h3 data-number="15.6.1" class="anchored" data-anchor-id="esempio-beta-binomiale-sequenziale">
+<span class="header-section-number">15.6.1</span> Esempio Beta-Binomiale sequenziale</h3>
+<p>Riprendiamo i dati complessivi <span class="math inline">\(y=72\)</span> su <span class="math inline">\(n=200\)</span>, ma immaginiamo che siano arrivati in due fasi:</p>
+<ul>
+<li>primo studio: <span class="math inline">\(y_1 = 18\)</span> su <span class="math inline">\(n_1 = 50\)</span>;</li>
+<li>secondo studio: <span class="math inline">\(y_2 = 54\)</span> su <span class="math inline">\(n_2 = 150\)</span>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">alpha0</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">beta0</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span></span>
+<span><span class="va">n1</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fl">18</span></span>
+<span><span class="va">n2</span> <span class="op">&lt;-</span> <span class="fl">150</span></span>
+<span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fl">54</span></span>
+<span></span>
+<span><span class="co"># Aggiornamento sequenziale</span></span>
+<span><span class="va">alpha_after_1</span> <span class="op">&lt;-</span> <span class="va">alpha0</span> <span class="op">+</span> <span class="va">y1</span></span>
+<span><span class="va">beta_after_1</span> <span class="op">&lt;-</span> <span class="va">beta0</span> <span class="op">+</span> <span class="va">n1</span> <span class="op">-</span> <span class="va">y1</span></span>
+<span></span>
+<span><span class="va">alpha_after_2</span> <span class="op">&lt;-</span> <span class="va">alpha_after_1</span> <span class="op">+</span> <span class="va">y2</span></span>
+<span><span class="va">beta_after_2</span> <span class="op">&lt;-</span> <span class="va">beta_after_1</span> <span class="op">+</span> <span class="va">n2</span> <span class="op">-</span> <span class="va">y2</span></span>
+<span></span>
+<span><span class="co"># Aggiornamento in un solo passo</span></span>
+<span><span class="va">alpha_batch</span> <span class="op">&lt;-</span> <span class="va">alpha0</span> <span class="op">+</span> <span class="va">y1</span> <span class="op">+</span> <span class="va">y2</span></span>
+<span><span class="va">beta_batch</span> <span class="op">&lt;-</span> <span class="va">beta0</span> <span class="op">+</span> <span class="op">(</span><span class="va">n1</span> <span class="op">+</span> <span class="va">n2</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span><span class="va">y1</span> <span class="op">+</span> <span class="va">y2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Posterior sequenziale: Beta("</span>, <span class="va">alpha_after_2</span>, <span class="st">", "</span>, <span class="va">beta_after_2</span>, <span class="st">")\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Posterior sequenziale: Beta(74, 130)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Posterior in un solo passo: Beta("</span>, <span class="va">alpha_batch</span>, <span class="st">", "</span>, <span class="va">beta_batch</span>, <span class="st">")\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Posterior in un solo passo: Beta(74, 130)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">seq_plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">alpha0</span>, <span class="va">beta0</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">alpha_after_1</span>, <span class="va">beta_after_1</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">alpha_after_2</span>, <span class="va">beta_after_2</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">theta_grid</span>, <span class="va">alpha_batch</span>, <span class="va">beta_batch</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  fase <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior iniziale"</span>,</span>
+<span>          <span class="st">"Posterior dopo studio 1"</span>,</span>
+<span>          <span class="st">"Posterior sequenziale finale"</span>,</span>
+<span>          <span class="st">"Posterior con tutti i dati"</span><span class="op">)</span>,</span>
+<span>        each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">theta_grid</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Prior iniziale"</span>,</span>
+<span>               <span class="st">"Posterior dopo studio 1"</span>,</span>
+<span>               <span class="st">"Posterior sequenziale finale"</span>,</span>
+<span>               <span class="st">"Posterior con tutti i dati"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">seq_plot_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">theta</span>, y <span class="op">=</span> <span class="va">density</span>,</span>
+<span>                          color <span class="op">=</span> <span class="va">fase</span>, linetype <span class="op">=</span> <span class="va">fase</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">""</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-sequential-updating" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-sequential-updating-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="15_aggiornamento_bayesiano_files/figure-html/fig-sequential-updating-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;15.4: Aggiornamento sequenziale: la posterior dopo il primo studio diventa la prior per il secondo. L’aggiornamento finale coincide con quello ottenuto usando tutti i dati insieme."><img src="15_aggiornamento_bayesiano_files/figure-html/fig-sequential-updating-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-updating-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.4: Aggiornamento sequenziale: la posterior dopo il primo studio diventa la prior per il secondo. L’aggiornamento finale coincide con quello ottenuto usando tutti i dati insieme.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>La posterior sequenziale finale e la posterior ottenuta utilizzando tutti i dati insieme coincidono. Questo risultato esprime la <strong>coerenza temporale</strong> dell’aggiornamento bayesiano: ciò che impariamo oggi può diventare la base razionale per imparare domani.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Collegamento con la combinazione di evidenze">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Collegamento con la combinazione di evidenze
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nel <a href="#sec-prob-inference-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-inference-uncertainty</span></a> abbiamo discusso l’idea che le evidenze indipendenti possano essere combinate. Qui, la stessa idea si presenta nella sua forma più propriamente bayesiana: le verosimiglianze degli studi indipendenti si moltiplicano e la posterior risultante riassume tutte le informazioni disponibili.</p>
+</div>
+</div>
+</section></section><section id="sec-what-posterior-can-say" class="level2" data-number="15.7"><h2 data-number="15.7" class="anchored" data-anchor-id="sec-what-posterior-can-say">
+<span class="header-section-number">15.7</span> Cosa la posterior può e non può dirci</h2>
+<p>La posterior è uno strumento potente per rappresentare l’incertezza epistemica. Permette di rispondere direttamente a domande come:</p>
+<ul>
+<li>Qual è il valore più plausibile del parametro dopo aver osservato i dati?</li>
+<li>Quali valori restano credibili?</li>
+<li>Qual è la probabilità che il parametro superi una soglia clinicamente rilevante?</li>
+<li>Quanto cambiano le conclusioni se si usa una prior diversa?</li>
+</ul>
+<p>Tuttavia, la posterior non elimina i limiti del modello e dei dati.</p>
+<section id="condizionamento-sul-modello" class="level3" data-number="15.7.1"><h3 data-number="15.7.1" class="anchored" data-anchor-id="condizionamento-sul-modello">
+<span class="header-section-number">15.7.1</span> Condizionamento sul modello</h3>
+<p>La posterior è sempre condizionata a un modello:</p>
+<p><span class="math display">\[
+p(\theta \mid y, M).
+\]</span></p>
+<p>Ciò significa che le probabilità posteriori sono valide <strong>solo se si considera il modello adottato</strong>. Se il modello è inadeguato, anche la posterior può risultare fuorviante.</p>
+</section><section id="qualità-dei-dati" class="level3" data-number="15.7.2"><h3 data-number="15.7.2" class="anchored" data-anchor-id="qualità-dei-dati">
+<span class="header-section-number">15.7.2</span> Qualità dei dati</h3>
+<p>L’aggiornamento bayesiano non corregge automaticamente dati distorti. Se il campione è selezionato in modo errato, se lo strumento misura il costrutto sbagliato o se le risposte sono sistematicamente alterate dalla desiderabilità sociale, la posteriori può diventare molto precisa attorno a un valore errato.</p>
+<p>Questo punto è stato discusso nel <a href="#sec-prob-inference-uncertainty" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-inference-uncertainty</span></a>. Lo richiamiamo qui perché è una condizione essenziale dell’interpretazione bayesiana:</p>
+<blockquote class="blockquote">
+<p>la posterior quantifica l’incertezza <strong>condizionatamente</strong> ai dati, al modello e alla prior, ma non garantisce da sola la validità scientifica dello studio.</p>
+</blockquote>
+</section><section id="prior-inappropriate" class="level3" data-number="15.7.3"><h3 data-number="15.7.3" class="anchored" data-anchor-id="prior-inappropriate">
+<span class="header-section-number">15.7.3</span> Prior inappropriate</h3>
+<p>Una prior estremamente forte e incompatibile con il fenomeno può dominare l’inferenza, soprattutto quando i dati a disposizione sono pochi. Per questo motivo è importante:</p>
+<ul>
+<li>dichiarare la prior;</li>
+<li>motivarla sostantivamente;</li>
+<li>valutarne l’impatto tramite un’analisi di sensibilità.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Una posterior precisa non basta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avviso</span>Una posterior precisa non basta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una posterior stretta indica una bassa incertezza condizionata al modello. Tuttavia, non dimostra che il modello sia corretto, che il campione sia rappresentativo o che la misura sia valida.</p>
+</div>
+</div>
+</section></section><section id="sec-advanced-topics-not-here" class="level2" data-number="15.8"><h2 data-number="15.8" class="anchored" data-anchor-id="sec-advanced-topics-not-here">
+<span class="header-section-number">15.8</span> Cosa lasciamo ai capitoli successivi</h2>
+<p>Alcuni argomenti sono importanti, ma non sono necessari per il primo incontro con l’aggiornamento bayesiano. Per mantenere il capitolo introduttivo e coerente, non li sviluppiamo qui:</p>
+<ul>
+<li>la score function e l’informazione di Fisher;</li>
+<li>l’approssimazione di Laplace;</li>
+<li>il teorema di Bernstein-von Mises;</li>
+<li>i metodi computazionali come MCMC, HMC e inferenza variazionale;</li>
+<li>la comparazione di modelli tramite evidenza marginale o fattori di Bayes.</li>
+</ul>
+<p>Questi temi saranno ripresi in seguito, quando il lettore avrà acquisito una comprensione operativa di prior, verosimiglianza e posterior.</p>
+</section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+<p>Questo capitolo completa il passaggio dalla verosimiglianza all’inferenza bayesiana vera e propria.</p>
+<p>La verosimiglianza riassume ciò che i dati dicono sui possibili valori del parametro. La prior riassume ciò che era plausibile prima di osservare quei dati. La posterior combina queste due fonti di informazione in una nuova distribuzione di probabilità.</p>
+<p>Nel caso Beta-Binomiale, l’aggiornamento è particolarmente trasparente: i successi e gli insuccessi osservati modificano direttamente i parametri della distribuzione Beta. Nel caso Normale-Normale, la posterior è una media pesata tra prior e dati, con pesi proporzionali alle rispettive precisioni. Nel caso di aggiornamento sequenziale, la posterior ottenuta dopo la prima osservazione diventa la prior per la successiva.</p>
+<p>Il messaggio concettuale è unico:</p>
+<blockquote class="blockquote">
+<p>l’inferenza bayesiana è una procedura coerente per aggiornare le credenze alla luce dell’evidenza.</p>
+</blockquote>
+<p>Tale coerenza non esime però il ricercatore dalla responsabilità scientifica. La posterior deve sempre essere interpretata alla luce del modello, della prior, della qualità dei dati e del disegno della ricerca.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>
+<p><strong>Regola di Bayes</strong></p>
+<p><span class="math display">\[
+p(\theta \mid y) =
+\frac{p(y \mid \theta)p(\theta)}{p(y)}.
+\]</span></p>
+</li>
+<li>
+<p><strong>Forma proporzionale</strong></p>
+<p><span class="math display">\[
+p(\theta \mid y) \propto p(y \mid \theta)p(\theta).
+\]</span></p>
+</li>
+<li>
+<p><strong>Beta-Binomiale</strong></p>
+<p>Se</p>
+<p><span class="math display">\[
+\theta \sim \text{Beta}(\alpha,\beta),
+\qquad
+Y \mid \theta \sim \text{Binomiale}(n,\theta),
+\]</span></p>
+<p>allora</p>
+<p><span class="math display">\[
+\theta \mid Y=y \sim
+\text{Beta}(\alpha+y,\beta+n-y).
+\]</span></p>
+</li>
+<li>
+<p><strong>Normale-Normale</strong></p>
+<p>La media posterior è una media pesata:</p>
+<p><span class="math display">\[
+\mu_{\text{post}} =
+\frac{\tau_0\mu_0 + \tau_{\text{dati}}\bar{x}}
+{\tau_0 + \tau_{\text{dati}}}.
+\]</span></p>
+<p>La precisione posterior è la somma delle precisioni:</p>
+<p><span class="math display">\[
+\tau_{\text{post}} = \tau_0 + \tau_{\text{dati}}.
+\]</span></p>
+</li>
+<li>
+<p><strong>Aggiornamento sequenziale</strong></p>
+<p><span class="math display">\[
+p(\theta \mid y_1,y_2)
+\propto
+p(y_2 \mid \theta)p(\theta \mid y_1).
+\]</span></p>
+</li>
+<li>
+<p><strong>Analisi di sensibilità</strong></p>
+<p>Confrontare posterior ottenute con prior diverse aiuta a capire se le conclusioni dipendono fortemente dalle assunzioni iniziali.</p>
+</li>
+<li>
+<p><strong>Interpretazione condizionata</strong></p>
+<p>La posterior quantifica l’incertezza dato il modello, la prior e i dati. Non corregge automaticamente bias, errori di misura o modelli inadeguati.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Esercizi">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Esercizi
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Ripetere l’aggiornamento Beta-Binomiale con una prior <span class="math inline">\(\text{Beta}(1,1)\)</span> e confrontare media posterior e intervallo di credibilità con quelli ottenuti usando <span class="math inline">\(\text{Beta}(2,2)\)</span>.</p></li>
+<li><p>Calcolare <span class="math inline">\(P(\theta &gt; 0.35 \mid y)\)</span> e <span class="math inline">\(P(\theta &gt; 0.45 \mid y)\)</span> per l’esempio della prevalenza di sintomi depressivi.</p></li>
+<li><p>Nel caso Normale-Normale, modificare la deviazione standard della prior da 10 a 30. Come cambia la posterior? Perchè?</p></li>
+<li><p>Dividere i dati binomiali in tre blocchi e verificare che l’aggiornamento sequenziale produca la stessa posterior dell’aggiornamento in un solo passo.</p></li>
+<li><p>Proporre una prior informativa motivata sostantivamente per un problema psicologico a scelta e discutere come valutarne la sensibilità.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin23</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.5.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.2            tinytable_0.17.0      withr_3.0.3          </span></span>
+<span><span class="co">#&gt;  [4] systemfonts_1.3.2     patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.3        </span></span>
+<span><span class="co">#&gt; [10] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.7.0      </span></span>
+<span><span class="co">#&gt; [13] loo_2.10.0            rstan_2.32.7          StanHeaders_2.32.10  </span></span>
+<span><span class="co">#&gt; [16] brms_2.23.0           Rcpp_1.1.2            sessioninfo_1.2.4    </span></span>
+<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
+<span><span class="co">#&gt; [22] modelr_0.1.11         tibble_3.3.1          dplyr_1.2.1          </span></span>
+<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.3.0             here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
+<span><span class="co">#&gt;  [4] S7_0.2.2              fastmap_1.2.0         tensorA_0.36.2.1     </span></span>
+<span><span class="co">#&gt;  [7] digest_0.6.39         timechange_0.4.0      estimability_2.0.0   </span></span>
+<span><span class="co">#&gt; [10] lifecycle_1.0.5       magrittr_2.0.5        compiler_4.6.1       </span></span>
+<span><span class="co">#&gt; [13] rlang_1.3.0           tools_4.6.1           yaml_2.3.12          </span></span>
+<span><span class="co">#&gt; [16] knitr_1.51            labeling_0.4.3        bridgesampling_1.2-1 </span></span>
+<span><span class="co">#&gt; [19] htmlwidgets_1.6.4     pkgbuild_1.4.8        curl_7.1.0           </span></span>
+<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           purrr_1.2.2          </span></span>
+<span><span class="co">#&gt; [25] grid_4.6.1            stats4_4.6.1          xtable_1.8-8         </span></span>
+<span><span class="co">#&gt; [28] inline_0.3.21         emmeans_2.0.3         scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [31] cli_3.6.6             mvtnorm_1.4-1         rmarkdown_2.31       </span></span>
+<span><span class="co">#&gt; [34] generics_0.1.4        otel_0.2.0            RcppParallel_5.1.11-2</span></span>
+<span><span class="co">#&gt; [37] cachem_1.1.0          stringr_1.6.0         parallel_4.6.1       </span></span>
+<span><span class="co">#&gt; [40] vctrs_0.7.3           V8_8.2.0              Matrix_1.7-5         </span></span>
+<span><span class="co">#&gt; [43] jsonlite_2.0.0        arrayhelpers_1.1-1    glue_1.8.1           </span></span>
+<span><span class="co">#&gt; [46] codetools_0.2-20      distributional_0.8.1  lubridate_1.9.5      </span></span>
+<span><span class="co">#&gt; [49] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.10.0      </span></span>
+<span><span class="co">#&gt; [52] pillar_1.11.1         htmltools_0.5.9       Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [55] R6_2.6.1              textshaping_1.0.5     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [58] evaluate_1.0.5        lattice_0.22-9        backports_1.5.1      </span></span>
+<span><span class="co">#&gt; [61] memoise_2.0.1         broom_1.0.13          snakecase_0.11.1     </span></span>
+<span><span class="co">#&gt; [64] rstantools_2.6.0      coda_0.19-4.1         gridExtra_2.3.1      </span></span>
+<span><span class="co">#&gt; [67] nlme_3.1-169          checkmate_2.3.4       xfun_0.60            </span></span>
+<span><span class="co">#&gt; [70] pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1683,35 +2485,61 @@ Graham, R. L., Knuth, D. E., &amp; Patashnik, O. (1994). <em>Concrete Mathematic
       }
     }
   });
-  </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../chapters/appendix/a11_numbers.html" class="pagination-link" aria-label="Numeri e intervalli">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Numeri e intervalli</span></span>
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../../chapters/probability/14_likelihood.html" class="pagination-link" aria-label="La verosimiglianza">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">La verosimiglianza</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/appendix/a13_sets.html" class="pagination-link" aria-label="Insiemi">
-        <span class="nav-page-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Insiemi</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/probability/16_conclusioni.html" class="pagination-link" aria-label="Conclusioni: probabilità, evidenza e aggiornamento bayesiano">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Conclusioni: probabilità, evidenza e aggiornamento bayesiano</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Metodi bayesiani in psicologia</em>.</p>
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/appendix/a12_sum_notation.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Preferenze cookie</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/15_aggiornamento_bayesiano.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Preferenze cookie</a></div></div>
     <div class="nav-footer-right">
 <p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
   </div>
-</footer>
-
-
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
-
 <title>10&nbsp; Introduzione alle distribuzioni di probabilità – Probabilità per la psicologia</title>
 <style>
 /* Default styles provided by pandoc.
@@ -23,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -45,7 +77,6 @@ div.csl-right-inline {
 div.csl-indent {
   margin-left: 2em;
 }</style>
-
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -73,7 +104,9 @@ div.csl-indent {
 <link href="../../site_libs/bootstrap/bootstrap-353ec92dc31bcb37568820202c74e1ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-ca56530e1a7dc3e4b2cbddadeb71310c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-353ec92dc31bcb37568820202c74e1ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": true,
   "collapse-after": 3,
@@ -99,18 +132,13 @@ div.csl-indent {
     "search-submit-button-title": "Inviare",
     "search-label": "Ricerca"
   }
-}</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script>
-
-<script type="text/plain" cookie-consent="tracking">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
-</script>
-
-<script type="text/javascript" charset="UTF-8">
+</script><script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"headline",
@@ -125,14 +153,9 @@ cookieconsent.run({
 "language":"it"
   });
 });
-</script> 
-  
-<style>html{ scroll-behavior: smooth; }</style>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -158,13 +181,18 @@ window.Quarto = {
   typesetMath
 };
 </script>
-
 <meta property="og:title" content="10&nbsp; Introduzione alle distribuzioni di probabilità – Probabilità per la psicologia">
 <meta property="og:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
+<meta property="og:image" content="https://ccaudek.github.io/utet-prob/chapters/probability/10_intro_distributions_files/figure-html/unnamed-chunk-2-1.png">
 <meta property="og:site_name" content="Probabilità per la psicologia">
+<meta property="og:image:height" content="1483">
+<meta property="og:image:width" content="2400">
 <meta name="twitter:title" content="10&nbsp; Introduzione alle distribuzioni di probabilità – Probabilità per la psicologia">
 <meta name="twitter:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Metodi bayesiani in psicologia.">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ccaudek.github.io/utet-prob/chapters/probability/10_intro_distributions_files/figure-html/unnamed-chunk-2-1.png">
+<meta name="twitter:image-height" content="1483">
+<meta name="twitter:image-width" content="2400">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://ccaudek.github.io/utet-prob/chapters/probability/10_intro_distributions.html">
 <meta name="citation_title" content="[[10]{.chapter-number}&nbsp; [Introduzione alle distribuzioni di probabilità]{.chapter-title}]{#sec-prob-intro-distr .quarto-section-identifier}">
 <meta name="citation_fulltext_html_url" content="https://ccaudek.github.io/utet-prob/chapters/probability/10_intro_distributions.html">
@@ -702,7 +730,6 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=The grammar of graphics;,citation_author=Leland Wilkinson;,citation_author=Graham Wills;,citation_publication_date=2005;,citation_cover_date=2005;,citation_year=2005;">
 <meta name="citation_reference" content="citation_title=The invention of nature: Alexander von Humboldt’s new world;,citation_author=Andrea Wulf;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_isbn=978-0-385-35066-2 978-0-345-80629-1;">
 </head>
-
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -877,9 +904,7 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -890,13 +915,9 @@ window.Quarto = {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -913,7 +934,7 @@ window.Quarto = {
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Modulo di richiamo per l’inferenza bayesiana in psicologia</span></a>
@@ -927,8 +948,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/01_intro_prob_bayesian.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione bayesiana della probabilità</span></span></a>
@@ -959,7 +980,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -968,8 +989,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
@@ -994,7 +1015,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
@@ -1003,8 +1024,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/10_intro_distributions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
@@ -1023,7 +1044,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -1032,8 +1053,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/13_from_sample_to_evidence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Dal campione all’evidenza: informazione, precisione e incertezza</span></span></a>
@@ -1047,18 +1068,18 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/probability/15_properties_likelihood.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proprietà della verosimiglianza e aggiornamento bayesiano</span></span></a>
+  <a href="../../chapters/probability/15_aggiornamento_bayesiano.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: l’aggiornamento bayesiano</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/16_conclusioni.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Conclusioni: dal linguaggio della probabilità all’inferenza bayesiana</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Conclusioni: probabilità, evidenza e aggiornamento bayesiano</span></span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -1067,8 +1088,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/appendix/a02_math_symbols.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Simbologia di base</span></span></a>
@@ -1105,32 +1126,28 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title">Sommario</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-  <li><a href="#lincertezza-come-condizione-epistemica" id="toc-lincertezza-come-condizione-epistemica" class="nav-link active" data-scroll-target="#lincertezza-come-condizione-epistemica"><span class="header-section-number">10.1</span> L’incertezza come condizione epistemica</a></li>
-  <li><a href="#il-duplice-ruolo-delle-distribuzioni-nellinferenza-bayesiana" id="toc-il-duplice-ruolo-delle-distribuzioni-nellinferenza-bayesiana" class="nav-link" data-scroll-target="#il-duplice-ruolo-delle-distribuzioni-nellinferenza-bayesiana"><span class="header-section-number">10.2</span> Il duplice ruolo delle distribuzioni nell’inferenza bayesiana</a></li>
-  <li><a href="#le-famiglie-parametriche-come-vocabolario" id="toc-le-famiglie-parametriche-come-vocabolario" class="nav-link" data-scroll-target="#le-famiglie-parametriche-come-vocabolario"><span class="header-section-number">10.3</span> Le famiglie parametriche come vocabolario</a></li>
-  <li><a href="#applicazione-la-variabilità-nei-fenomeni-psicologici" id="toc-applicazione-la-variabilità-nei-fenomeni-psicologici" class="nav-link" data-scroll-target="#applicazione-la-variabilità-nei-fenomeni-psicologici"><span class="header-section-number">10.4</span> Applicazione: la variabilità nei fenomeni psicologici</a></li>
-  <li><a href="#verso-i-capitoli-successivi" id="toc-verso-i-capitoli-successivi" class="nav-link" data-scroll-target="#verso-i-capitoli-successivi"><span class="header-section-number">10.5</span> Verso i capitoli successivi</a></li>
+<li><a href="#sec-why-distributions" id="toc-sec-why-distributions" class="nav-link active" data-scroll-target="#sec-why-distributions"><span class="header-section-number">10.1</span> Perché servono le distribuzioni</a></li>
+  <li><a href="#sec-three-questions-distributions" id="toc-sec-three-questions-distributions" class="nav-link" data-scroll-target="#sec-three-questions-distributions"><span class="header-section-number">10.2</span> Tre domande per scegliere una distribuzione</a></li>
+  <li><a href="#sec-parametric-families" id="toc-sec-parametric-families" class="nav-link" data-scroll-target="#sec-parametric-families"><span class="header-section-number">10.3</span> Famiglie parametriche e interpretazione dei parametri</a></li>
+  <li><a href="#sec-distribution-roles-bayes" id="toc-sec-distribution-roles-bayes" class="nav-link" data-scroll-target="#sec-distribution-roles-bayes"><span class="header-section-number">10.4</span> Il ruolo delle distribuzioni in un modello bayesiano</a></li>
+  <li><a href="#sec-map-distribution-families" id="toc-sec-map-distribution-families" class="nav-link" data-scroll-target="#sec-map-distribution-families"><span class="header-section-number">10.5</span> Mappa delle principali famiglie</a></li>
+  <li><a href="#sec-choosing-examples" id="toc-sec-choosing-examples" class="nav-link" data-scroll-target="#sec-choosing-examples"><span class="header-section-number">10.6</span> Esempi di scelta della distribuzione</a></li>
+  <li><a href="#sec-psychological-variability" id="toc-sec-psychological-variability" class="nav-link" data-scroll-target="#sec-psychological-variability"><span class="header-section-number">10.7</span> Distribuzioni e variabilità nei fenomeni psicologici</a></li>
+  <li><a href="#sec-towards-specific-distributions" id="toc-sec-towards-specific-distributions" class="nav-link" data-scroll-target="#sec-towards-specific-distributions"><span class="header-section-number">10.8</span> Verso i capitoli successivi</a></li>
   <li><a href="#punti-chiave-da-ricordare" id="toc-punti-chiave-da-ricordare" class="nav-link" data-scroll-target="#punti-chiave-da-ricordare">Punti chiave da ricordare</a></li>
-  </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/10_intro_distributions.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
+  </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/10_intro_distributions.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/10_intro_distributions.html">PARTE 3: Distribuzioni specifiche</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/10_intro_distributions.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></a></li></ol></nav>
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/probability/10_intro_distributions.html">PARTE 3: Distribuzioni specifiche</a></li><li class="breadcrumb-item"><a href="../../chapters/probability/10_intro_distributions.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title"><span id="sec-prob-intro-distr" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></h1>
 </div>
 
@@ -1145,15 +1162,13 @@ window.Quarto = {
   
 
 
-</header>
-
-
-<section id="introduzione" class="level2 unnumbered unlisted">
-<h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Un ricercatore sta progettando uno studio sui tempi di reazione in un compito di decisione lessicale. Sa che dovrà modellare questi dati statisticamente, ma si trova di fronte a una scelta: quale distribuzione utilizzare? I tempi di reazione sono sempre positivi, spesso asimmetrici verso destra, e occasionalmente presentano valori estremi. Una distribuzione normale, simmetrica e definita su tutti i numeri reali, sembra inadeguata. Forse una gamma o una log-normale sarebbero più appropriate?</p>
-<p>In un altro laboratorio, una clinica sta analizzando i dati di uno studio clinico su un nuovo intervento per la depressione. Deve modellare la proporzione di pazienti che raggiungono la remissione. Questa proporzione è necessariamente compresa tra 0 e 1: quale distribuzione può rappresentare adeguatamente l’incertezza di un parametro con questi vincoli?</p>
-<p>Queste domande operative motivano il presente capitolo. Nei capitoli precedenti abbiamo costruito un framework per ragionare in modo coerente in condizioni di incertezza. Ora, però, sorge una questione pratica: <strong>come possiamo rappresentare concretamente le nostre credenze?</strong> Le famiglie parametriche di distribuzioni, come la normale, la binomiale, la beta, la gamma e altre, forniscono un vocabolario matematico per esprimere l’incertezza in forme standardizzate, ciascuna adatta a specifici tipi di variabili e configurazioni di credenze.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+</header><section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
+<p>Uno psicologo sta progettando uno studio sui tempi di reazione in un compito di decisione lessicale. Sa che i tempi di reazione sono sempre positivi, spesso asimmetrici verso destra e talvolta presentano valori estremi. Se usasse una distribuzione normale, assegnerebbe densità anche a tempi negativi, che sono impossibili. Una distribuzione gamma, invece, rispetterebbe il vincolo di positività e permetterebbe l’asimmetria.</p>
+<p>In un altro contesto, una ricercatrice clinica vuole ragionare sulla probabilità che un paziente raggiunga la remissione dopo un trattamento. In questo caso, la quantità di interesse è una probabilità, quindi deve essere compresa tra 0 e 1. Una distribuzione beta è progettata proprio per rappresentare l’incertezza su quantità di questo tipo.</p>
+<p>Questi esempi mostrano perché le distribuzioni di probabilità sono necessarie. Una distribuzione non è soltanto una curva da disegnare su un grafico, ma un modo compatto per indicare quali valori sono possibili, quali sono più plausibili, quanta variabilità ci si può aspettare e quali assunzioni si fanno sul fenomeno.</p>
+<p>Nei capitoli precedenti abbiamo introdotto le variabili casuali, le funzioni di probabilità e densità, il valore atteso, la varianza, la covarianza e la correlazione. In questo capitolo facciamo un passo ulteriore: introduciamo le <strong>famiglie parametriche di distribuzioni</strong>, ovvero il vocabolario standard con cui costruire modelli probabilistici.</p>
+<p>Lo scopo del capitolo è soprattutto orientativo. Non studieremo ancora nel dettaglio ogni distribuzione: questo sarà il compito dei capitoli successivi. In questo capitolo impareremo a riconoscere il ruolo generale delle distribuzioni, a distinguere le distribuzioni discrete da quelle continue e a scegliere, in modo ragionato, la famiglia di distribuzioni più appropriata per una determinata domanda di ricerca.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Prerequisiti">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1167,211 +1182,447 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p>Per seguire questo capitolo è necessario aver letto:</p>
 <ul>
-<li><a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a></li>
-<li><a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a></li>
-<li><a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a></li>
-<li><a href="13_from_sample_to_evidence.html" class="quarto-xref"><span>Capitolo 13</span></a> — <strong>fondamentale</strong> per comprendere il duplice ruolo delle distribuzioni (prior e verosimiglianza)</li>
+<li>
+<a href="#sec-prob-random-var" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-random-var</span></a>;</li>
+<li>
+<a href="#sec-prob-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-distr</span></a>;</li>
+<li>
+<a href="#sec-prob-random-var-properties" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-random-var-properties</span></a>;</li>
+<li>
+<a href="#sec-prob-cov-cor" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cov-cor</span></a>, almeno per l’idea che le variabili casuali possano variare insieme.</li>
 </ul>
-<p>Questo capitolo introduce il <strong>vocabolario delle famiglie parametriche</strong>, che saranno poi studiate in dettaglio nei capitoli successivi.</p>
-<p>Conoscenze matematiche richieste:</p>
+<p>Questo capitolo apre la Parte 3 di questo modulo di richiamo. Il suo ruolo è preparare lo studio delle distribuzioni discrete nel <a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a> e delle distribuzioni continue nel <a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a>.</p>
+<p>Conoscenze matematiche utili:</p>
 <ul>
-<li><a href="../appendix/a15_calculus.html" class="quarto-xref"><span>Appendice F</span></a> - per proprietà delle distribuzioni continue</li>
+<li>
+<a href="#sec-apx-combinatorics" class="quarto-xref"><span class="quarto-unresolved-ref">sec-apx-combinatorics</span></a>, per le distribuzioni discrete basate su conteggi;</li>
+<li>
+<a href="#sec-apx-calculus" class="quarto-xref"><span class="quarto-unresolved-ref">sec-apx-calculus</span></a>, per comprendere le densità continue e l’integrazione.</li>
 </ul>
 </div>
 </div>
 </div>
-</section>
-<section id="lincertezza-come-condizione-epistemica" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="lincertezza-come-condizione-epistemica"><span class="header-section-number">10.1</span> L’incertezza come condizione epistemica</h2>
-<section id="perché-abbiamo-bisogno-delle-distribuzioni" class="level3" data-number="10.1.1">
-<h3 data-number="10.1.1" class="anchored" data-anchor-id="perché-abbiamo-bisogno-delle-distribuzioni"><span class="header-section-number">10.1.1</span> Perché abbiamo bisogno delle distribuzioni</h3>
-<p>Nel ragionamento scientifico ci troviamo costantemente in una condizione di conoscenza incompleta. Non conosciamo con certezza il valore esatto di un parametro di interesse, che si tratti della prevalenza di un disturbo, dell’efficacia di un intervento o della correlazione tra due costrutti psicologici. Questa incertezza non rappresenta un difetto del metodo scientifico, ma una sua caratteristica costitutiva: la scienza avanza attraverso la riduzione progressiva dell’incertezza, non attraverso la sua eliminazione definitiva.</p>
-<p>L’approccio bayesiano riconosce esplicitamente questa condizione e la pone al centro del ragionamento inferenziale. L’incertezza non viene nascosta dietro stime puntuali o decisioni dicotomiche (ad esempio significativo/non significativo), ma viene rappresentata, quantificata e comunicata mediante distribuzioni di probabilità.</p>
-<p>In questa prospettiva, una distribuzione di probabilità non descrive primariamente “come sono distribuiti i dati nel mondo”, bensì “quali valori riteniamo più o meno plausibili, dato il nostro attuale stato di conoscenza”. Questa distinzione è sottile ma cruciale: la distribuzione è uno strumento epistemico, utilizzato per rappresentare credenze razionali, non una proprietà ontologica intrinseca del fenomeno studiato.</p>
-</section>
-<section id="dalla-credenza-puntuale-alla-credenza-distribuita" class="level3" data-number="10.1.2">
-<h3 data-number="10.1.2" class="anchored" data-anchor-id="dalla-credenza-puntuale-alla-credenza-distribuita"><span class="header-section-number">10.1.2</span> Dalla credenza puntuale alla credenza distribuita</h3>
-<p>Immaginiamo di voler esprimere le nostre credenze sulla proporzione di studenti universitari che presentano sintomi di ansia clinicamente rilevanti, indicata con <span class="math inline">\(\theta\)</span>. Un approccio ingenuo potrebbe consistere nell’indicare un singolo valore: “Credo che sia il 25%”. Tuttavia, una risposta di questo tipo è epistemicamente inadeguata, poiché non rende conto dell’incertezza che accompagna inevitabilmente tale credenza.</p>
-<p>Una rappresentazione più adeguata riconosce che non attribuiamo la stessa plausibilità a tutti i possibili valori di <span class="math inline">\(\theta\)</span>. Potremmo ritenere molto plausibili i valori compresi tra 0.20 e 0.30, moderatamente plausibili quelli tra 0.15 e 0.35, e considerare altamente implausibili valori inferiori a 0.05 o superiori a 0.50. Una distribuzione di probabilità su <span class="math inline">\(\theta\)</span> consente di rappresentare in modo esplicito e coerente questa struttura graduata di credenze.</p>
-<p>La distribuzione Beta, che incontreremo nei prossimi capitoli, è particolarmente adatta a rappresentare credenze sulle proporzioni. Ad esempio, una distribuzione <span class="math inline">\(\text{Beta}(5, 15)\)</span> esprime la convinzione che il valore di <span class="math inline">\(\theta\)</span> sia probabilmente intorno a 0.25, con un’incertezza maggiore verso i valori più elevati rispetto a quelli più bassi. I parametri della distribuzione, in questo caso 5 e 15, codificano in modo compatto l’intera struttura delle nostre credenze, trasformando un insieme complesso di giudizi qualitativi in un oggetto matematico maneggevole.</p>
-</section>
-</section>
-<section id="il-duplice-ruolo-delle-distribuzioni-nellinferenza-bayesiana" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="il-duplice-ruolo-delle-distribuzioni-nellinferenza-bayesiana"><span class="header-section-number">10.2</span> Il duplice ruolo delle distribuzioni nell’inferenza bayesiana</h2>
-<p>Nell’approccio bayesiano, le distribuzioni di probabilità svolgono due ruoli distinti ma complementari, che corrispondono ai due termini fondamentali del teorema di Bayes. La chiara comprensione di questa dualità è essenziale per cogliere il motivo per cui le famiglie parametriche occupano una posizione centrale nell’inferenza bayesiana.</p>
-<section id="distribuzioni-come-rappresentazione-dellincertezza-sui-parametri" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="distribuzioni-come-rappresentazione-dellincertezza-sui-parametri"><span class="header-section-number">10.2.1</span> Distribuzioni come rappresentazione dell’incertezza sui parametri</h3>
-<p>Il primo ruolo, più caratteristico e distintivo dell’approccio bayesiano, consiste nel rappresentare formalmente l’incertezza circa i parametri del modello. Prima di osservare i dati, le conoscenze preliminari o le credenze sul parametro vengono codificate in una <strong>distribuzione a priori</strong> (<em>prior</em>). Questa può incorporare informazioni provenienti dalla letteratura scientifica, vincoli teorici, esperienza pregressa o, in assenza di informazioni sostanziali, esprimere una marcata incertezza iniziale.</p>
-<p>Dopo l’osservazione dei dati, le credenze iniziali vengono aggiornate attraverso il teorema di Bayes, dando vita alla <strong>distribuzione a posteriori</strong>. Questa sintetizza tutto ciò che si è appreso, combinando il prior con l’evidenza empirica contenuta nei dati. La sua forma, ovvero la sua posizione, la sua dispersione, e l’eventuale presenza di asimmetria o multimodalità, comunica in modo completo ciò che abbiamo appreso e quanta incertezza residua permane.</p>
-<p>In questo senso, la distribuzione risponde alla domanda: <em>«Quanto dovrei credere in ciascun possibile valore del parametro?»</em>.</p>
-</section>
-<section id="distribuzioni-come-modelli-generativi-dei-dati" class="level3" data-number="10.2.2">
-<h3 data-number="10.2.2" class="anchored" data-anchor-id="distribuzioni-come-modelli-generativi-dei-dati"><span class="header-section-number">10.2.2</span> Distribuzioni come modelli generativi dei dati</h3>
-<p>Il secondo ruolo riguarda la descrizione del processo probabilistico che ha generato i dati, condizionatamente ai parametri. Questo ruolo è formalizzato dalla <strong>funzione di verosimiglianza</strong>.</p>
-<p>La verosimiglianza risponde a una domanda diversa: <em>«Se il parametro avesse un valore specifico, quanto sarebbero plausibili (o probabili) i dati che abbiamo effettivamente osservato?»</em>.</p>
-<p>Quando assumiamo, ad esempio, che i tempi di reazione seguano una distribuzione gamma o che le risposte a un item dicotomico seguano una distribuzione di Bernoulli, stiamo formulando ipotesi sul meccanismo generativo dei dati. Tali ipotesi determinano la forma della funzione di verosimiglianza e influenzano direttamente il modo in cui l’evidenza empirica aggiorna le nostre credenze.</p>
-<p>La scelta del modello generativo riflette le nostre ipotesi sostantive sulla natura del fenomeno studiato: i tempi di reazione sono sempre positivi e spesso asimmetrici (suggerendo distribuzioni come la gamma o la log-normale); i conteggi di eventi rari presentano una struttura particolare (suggerendo la distribuzione di Poisson); le proporzioni sono vincolate tra 0 e 1 (suggerendo la distribuzione beta per la <em>prior</em> e la binomiale per la verosimiglianza).</p>
-</section>
-<section id="linterazione-tra-i-due-ruoli" class="level3" data-number="10.2.3">
-<h3 data-number="10.2.3" class="anchored" data-anchor-id="linterazione-tra-i-due-ruoli"><span class="header-section-number">10.2.3</span> L’interazione tra i due ruoli</h3>
-<p>Il teorema di Bayes rappresenta il ponte matematico che connette questi due ruoli fondamentali:</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Preparazione del Notebook">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Attenzione</span>Preparazione del Notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">apply_visual_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="sec-why-distributions" class="level2" data-number="10.1"><h2 data-number="10.1" class="anchored" data-anchor-id="sec-why-distributions">
+<span class="header-section-number">10.1</span> Perché servono le distribuzioni</h2>
+<section id="dalle-variabili-casuali-alle-famiglie-di-distribuzioni" class="level3" data-number="10.1.1"><h3 data-number="10.1.1" class="anchored" data-anchor-id="dalle-variabili-casuali-alle-famiglie-di-distribuzioni">
+<span class="header-section-number">10.1.1</span> Dalle variabili casuali alle famiglie di distribuzioni</h3>
+<p>Una variabile casuale rappresenta una quantità incerta, come una risposta corretta o errata, il numero di sintomi riportati, il tempo di reazione o il punteggio ottenuto su una scala psicometrica. La distribuzione di probabilità specifica come la probabilità o la densità sono assegnate ai valori possibili di quella variabile.</p>
+<p>Tuttavia, nella pratica scientifica non costruiamo ogni distribuzione da zero. Utilizziamo famiglie già note, ciascuna con proprietà matematiche e interpretative ben comprese. La distribuzione normale, la binomiale, la Poisson, la beta e la gamma sono esempi di <strong>famiglie parametriche</strong>.</p>
+<p>Una famiglia parametrica è un insieme di distribuzioni accomunate dalla stessa forma generale, ma differenziate da uno o più <strong>parametri</strong>. Ad esempio:</p>
+<ul>
+<li>la famiglia normale è determinata da una media <span class="math inline">\(\mu\)</span> e da una deviazione standard <span class="math inline">\(\sigma\)</span>;</li>
+<li>la famiglia binomiale è determinata dal numero di prove <span class="math inline">\(n\)</span> e dalla probabilità di successo <span class="math inline">\(p\)</span>;</li>
+<li>la famiglia beta è determinata da due parametri di forma, spesso indicati con <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>;</li>
+<li>la famiglia di Poisson è determinata da un tasso medio <span class="math inline">\(\lambda\)</span>.</li>
+</ul>
+<p>Specificare una famiglia significa decidere la <strong>forma generale</strong> del modello. Specificare i valori dei parametri significa scegliere una distribuzione particolare all’interno di quella famiglia.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Parametro della distribuzione e parametro inferenziale">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Parametro della distribuzione e parametro inferenziale
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nei capitoli sulle distribuzioni, un parametro può essere considerato come un dato numerico, ad esempio una distribuzione normale con <span class="math inline">\(\mu = 100\)</span> e <span class="math inline">\(\sigma = 15\)</span>. Questo permette di studiare le proprietà della distribuzione.</p>
+<p>Nell’inferenza bayesiana, invece, molti parametri sono quantità ignote su cui abbiamo incertezza. Ad esempio, la probabilità di remissione <span class="math inline">\(\theta\)</span> può essere il parametro di un modello binomiale, ma anche una quantità su cui vogliamo costruire una distribuzione a priori e, dopo i dati, una distribuzione a posteriori. Questa distinzione sarà centrale nella Parte 4.</p>
+</div>
+</div>
+</section><section id="le-distribuzioni-come-rappresentazioni-dellincertezza" class="level3" data-number="10.1.2"><h3 data-number="10.1.2" class="anchored" data-anchor-id="le-distribuzioni-come-rappresentazioni-dellincertezza">
+<span class="header-section-number">10.1.2</span> Le distribuzioni come rappresentazioni dell’incertezza</h3>
+<p>Nel ragionamento bayesiano, una distribuzione di probabilità è prima di tutto uno strumento per rappresentare l’incertezza. Può rappresentare l’incertezza relativa a un’osservazione futura, a un parametro sconosciuto o a una quantità derivata da un modello.</p>
+<p>Consideriamo, ad esempio, la proporzione <span class="math inline">\(\theta\)</span> di studenti universitari con sintomi d’ansia clinicamente rilevanti. Dire “credo che sia il 25%” è una credenza puntuale. Spesso, però, non vogliamo attribuire tutta la nostra credenza a un singolo valore. Potremmo ritenere plausibili valori compresi tra 0.20 e 0.30, meno plausibili valori intorno a 0.10 o 0.45, e quasi impossibili valori superiori a 0.70. Una distribuzione su <span class="math inline">\(\theta\)</span> rende esplicita questa struttura graduata di credenze.</p>
+<p>Questa rappresentazione è più informativa di una stima puntuale, in quanto comunica anche la <strong>dispersione</strong> della nostra incertezza. Due ricercatori possono avere la stessa stima centrale, ad esempio 0.25, ma gradi di incertezza molto diversi: uno potrebbe essere quasi certo che il valore sia vicino a 0.25, mentre l’altro potrebbe considerare plausibile un intervallo molto ampio di valori.</p>
+</section><section id="le-distribuzioni-come-modelli-della-variabilità" class="level3" data-number="10.1.3"><h3 data-number="10.1.3" class="anchored" data-anchor-id="le-distribuzioni-come-modelli-della-variabilità">
+<span class="header-section-number">10.1.3</span> Le distribuzioni come modelli della variabilità</h3>
+<p>Le distribuzioni servono anche a rappresentare la variabilità dei dati. In psicologia, la variabilità è spesso una componente essenziale del fenomeno: le persone rispondono in modo diverso allo stesso trattamento, lo stesso individuo può cambiare nel tempo e contesti diversi possono influenzare il comportamento osservato.</p>
+<p>Per questo motivo, modellare soltanto la media può non essere sufficiente. Una distribuzione permette di rappresentare non solo il centro dei dati, ma anche la dispersione, l’asimmetria, le code e, quando necessario, la presenza di sottogruppi. In questo senso, la variabilità non è semplicemente rumore, ma informazione.</p>
+<p>Come discusso da <span class="citation" data-cites="segal2025embracing">Segal et al. (<a href="#ref-segal2025embracing" role="doc-biblioref">2025</a>)</span>, molti fenomeni psicologici e psicopatologici sono caratterizzati da un’eterogeneità sostanziale. Le distribuzioni di probabilità forniscono un linguaggio per rendere visibile e modellabile questa eterogeneità.</p>
+</section></section><section id="sec-three-questions-distributions" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="sec-three-questions-distributions">
+<span class="header-section-number">10.2</span> Tre domande per scegliere una distribuzione</h2>
+<p>La scelta di una distribuzione non dovrebbe partire dalla domanda “Quale curva assomiglia al mio istogramma?”. Questa domanda può essere utile, ma viene dopo. Prima è necessario chiarire che cosa si sta modellando e quali valori sono logicamente possibili.</p>
+<section id="che-tipo-di-quantità-sto-modellando" class="level3" data-number="10.2.1"><h3 data-number="10.2.1" class="anchored" data-anchor-id="che-tipo-di-quantità-sto-modellando">
+<span class="header-section-number">10.2.1</span> 1. Che tipo di quantità sto modellando?</h3>
+<p>La prima distinzione riguarda la natura della quantità:</p>
+<ul>
+<li>un <strong>evento binario</strong>, come risposta corretta/errata o remissione sì/no;</li>
+<li>un <strong>conteggio</strong>, come numero di sintomi, errori o episodi;</li>
+<li>una <strong>proporzione</strong> o probabilità, vincolata tra 0 e 1;</li>
+<li>una <strong>misura continua</strong>, come un tempo di reazione o un punteggio psicometrico;</li>
+<li>un <strong>tasso</strong>, come il numero medio di eventi per unità di tempo;</li>
+<li>una <strong>varianza</strong> o una deviazione standard, sempre non negativa.</li>
+</ul>
+<p>Questa classificazione restringe subito l’insieme delle distribuzioni plausibili.</p>
+</section><section id="qual-è-il-supporto-della-quantità" class="level3" data-number="10.2.2"><h3 data-number="10.2.2" class="anchored" data-anchor-id="qual-è-il-supporto-della-quantità">
+<span class="header-section-number">10.2.2</span> 2. Qual è il supporto della quantità?</h3>
+<p>Il <strong>supporto</strong> è l’insieme dei valori che una variabile può assumere. Una distribuzione appropriata deve assegnare probabilità solo ai valori compatibili con il fenomeno.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Quantità da modellare</th>
+<th style="text-align: left;">Supporto</th>
+<th style="text-align: left;">Famiglie candidate</th>
+<th style="text-align: left;">Esempio psicologico</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Evento binario</td>
+<td style="text-align: left;"><span class="math inline">\(\{0,1\}\)</span></td>
+<td style="text-align: left;">Bernoulli</td>
+<td style="text-align: left;">Risposta corretta/errata</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Numero di successi su <span class="math inline">\(n\)</span> prove</td>
+<td style="text-align: left;"><span class="math inline">\(\{0,1,\ldots,n\}\)</span></td>
+<td style="text-align: left;">Binomiale</td>
+<td style="text-align: left;">Item corretti su 20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Conteggio non limitato superiormente</td>
+<td style="text-align: left;"><span class="math inline">\(\{0,1,2,\ldots\}\)</span></td>
+<td style="text-align: left;">Poisson</td>
+<td style="text-align: left;">Attacchi di panico in un mese</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Proporzione o probabilità</td>
+<td style="text-align: left;"><span class="math inline">\([0,1]\)</span></td>
+<td style="text-align: left;">Beta</td>
+<td style="text-align: left;">Tasso di remissione</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Misura continua su tutta la retta</td>
+<td style="text-align: left;"><span class="math inline">\(\mathbb{R}\)</span></td>
+<td style="text-align: left;">Normale, <span class="math inline">\(t\)</span> di Student, Cauchy</td>
+<td style="text-align: left;">Punteggi standardizzati</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quantità positiva continua</td>
+<td style="text-align: left;"><span class="math inline">\(\mathbb{R}^+\)</span></td>
+<td style="text-align: left;">Esponenziale, Gamma</td>
+<td style="text-align: left;">Tempi di reazione, latenze</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Varianza o precisione</td>
+<td style="text-align: left;"><span class="math inline">\(\mathbb{R}^+\)</span></td>
+<td style="text-align: left;">Gamma, chi-quadrato</td>
+<td style="text-align: left;">Variabilità tra soggetti</td>
+</tr>
+</tbody>
+</table>
+<p>Il supporto è un criterio di esclusione molto forte. Se una quantità non può assumere valori negativi, una distribuzione che assegna densità a valori negativi deve essere utilizzata con estrema cautela o sostituita da una famiglia di distribuzioni più adatta.</p>
+</section><section id="quale-forma-mi-aspetto" class="level3" data-number="10.2.3"><h3 data-number="10.2.3" class="anchored" data-anchor-id="quale-forma-mi-aspetto">
+<span class="header-section-number">10.2.3</span> 3. Quale forma mi aspetto?</h3>
+<p>Dopo aver considerato il supporto, si valuta la forma attesa della distribuzione:</p>
+<ul>
+<li>simmetrica o asimmetrica;</li>
+<li>concentrata o dispersa;</li>
+<li>con code leggere o pesanti;</li>
+<li>con valori estremi frequenti o rari;</li>
+<li>con un solo picco o con più sottogruppi plausibili.</li>
+</ul>
+<p>La forma non è un dettaglio estetico. Esprime ipotesi sostantive sul processo che genera i dati o sulla struttura delle nostre credenze. Ad esempio, l’uso di una distribuzione gamma per i tempi di reazione suggerisce che i tempi siano positivi e asimmetrici, mentre l’uso di una distribuzione normale per un punteggio standardizzato suggerisce una variabilità approssimativamente simmetrica attorno a un centro.</p>
+</section></section><section id="sec-parametric-families" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="sec-parametric-families">
+<span class="header-section-number">10.3</span> Famiglie parametriche e interpretazione dei parametri</h2>
+<section id="posizione-scala-e-forma" class="level3" data-number="10.3.1"><h3 data-number="10.3.1" class="anchored" data-anchor-id="posizione-scala-e-forma">
+<span class="header-section-number">10.3.1</span> Posizione, scala e forma</h3>
+<p>I parametri di una distribuzione possono avere ruoli diversi. Una distinzione utile è quella tra parametri di <strong>posizione</strong>, <strong>scala</strong> e <strong>forma</strong>.</p>
+<p>Un parametro di posizione indica dove si concentra la distribuzione. Nella distribuzione normale, il parametro <span class="math inline">\(\mu\)</span> sposta la curva verso sinistra o verso destra. Un parametro di scala controlla la dispersione: nella distribuzione normale, per esempio, <span class="math inline">\(\sigma\)</span> determina quanto la distribuzione è ampia. I parametri di forma, infine, modificano l’asimmetria, le code o la concentrazione: nella distribuzione beta, per esempio, i parametri <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> possono produrre distribuzioni simmetriche, asimmetriche, a U o fortemente concentrate.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, length.out <span class="op">=</span> <span class="fl">400</span><span class="op">)</span></span>
+<span><span class="va">curve_normali</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, modello <span class="op">=</span> <span class="st">"Normale(0, 1)"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">1.5</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, modello <span class="op">=</span> <span class="st">"Normale(1.5, 1)"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1.8</span><span class="op">)</span>, modello <span class="op">=</span> <span class="st">"Normale(0, 1.8)"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">curve_normali</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">density</span>, linetype <span class="op">=</span> <span class="va">modello</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Effetto dei parametri in una famiglia parametrica"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"La media modifica la posizione; la deviazione standard modifica la dispersione"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Valore"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">"Distribuzione"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="10_intro_distributions_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="10_intro_distributions_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lo stesso principio si applica a tutte le famiglie: i parametri non sono simboli arbitrari, ma strumenti per codificare le assunzioni sulla quantità che stiamo modellando.</p>
+</section><section id="un-piccolo-lessico-operativo" class="level3" data-number="10.3.2"><h3 data-number="10.3.2" class="anchored" data-anchor-id="un-piccolo-lessico-operativo">
+<span class="header-section-number">10.3.2</span> Un piccolo lessico operativo</h3>
+<p>Nel seguito del modulo incontreremo spesso le seguenti parole. Conviene fissarle subito.</p>
+<p><strong>Supporto</strong>: l’insieme dei valori possibili. Una distribuzione Beta ha supporto <span class="math inline">\([0,1]\)</span>, mentre una distribuzione di Poisson ha supporto <span class="math inline">\(\{0,1,2,\ldots\}\)</span>.</p>
+<p><strong>Massa di probabilità</strong>: per le variabili discrete, è la probabilità assegnata a ciascun valore specifico, come <span class="math inline">\(P(X = 3)\)</span>.</p>
+<p><strong>Densità</strong>: per le variabili continue, è una funzione che permette di calcolare le probabilità su intervalli. Per una variabile continua, la probabilità che assuma un valore esatto è nulla; ciò che ha senso è la probabilità che assuma valori compresi tra <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span>.</p>
+<p><strong>Funzione di distribuzione cumulativa</strong>: la funzione che restituisce <span class="math inline">\(P(X \leq x)\)</span>.</p>
+<p><strong>Quantile</strong>: il valore sotto il quale cade una certa probabilità. Ad esempio, il quantile 0.95 è il valore sotto il quale si trova il 95% della distribuzione.</p>
+<p>Questi concetti sono già stati introdotti nei capitoli precedenti, ma diventeranno operativi nei capitoli 11 e 12, in cui useremo anche le funzioni R associate alle principali distribuzioni.</p>
+</section></section><section id="sec-distribution-roles-bayes" class="level2" data-number="10.4"><h2 data-number="10.4" class="anchored" data-anchor-id="sec-distribution-roles-bayes">
+<span class="header-section-number">10.4</span> Il ruolo delle distribuzioni in un modello bayesiano</h2>
+<p>Anche se la verosimiglianza e l’aggiornamento bayesiano verranno trattati in modo sistematico nella Parte 4, è utile anticipare il ruolo che le distribuzioni avranno in quel contesto.</p>
+<p>Un modello bayesiano semplice può essere schematizzato nel modo seguente:</p>
 <p><span class="math display">\[
-\underbrace{p(\theta \mid \text{dati})}_{\text{posteriore}}
-\propto
-\underbrace{p(\text{dati} \mid \theta)}_{\text{verosimiglianza}}
-\times
-\underbrace{p(\theta)}_{\text{prior}}.
+\theta \sim p(\theta),
+\qquad
+Y \mid \theta \sim p(y \mid \theta).
 \]</span></p>
-<p>La distribuzione a posteriori nasce dall’integrazione dinamica tra la conoscenza pregressa sui parametri, formalizzata nel prior, e l’evidenza empirica dei dati, catturata dalla verosimiglianza. Poiché entrambe le componenti dell’inferenza sono espresse attraverso distribuzioni di probabilità, le famiglie parametriche costituiscono strumenti indispensabili per formulare modelli coerenti, interpretabili e aggiornabili nell’inferenza bayesiana.</p>
-</section>
-<section id="esempio-concreto-la-distribuzione-beta-nel-duplice-ruolo" class="level3" data-number="10.2.4">
-<h3 data-number="10.2.4" class="anchored" data-anchor-id="esempio-concreto-la-distribuzione-beta-nel-duplice-ruolo"><span class="header-section-number">10.2.4</span> Esempio concreto: la distribuzione Beta nel duplice ruolo</h3>
-<p>Consideriamo uno studio sull’efficacia di un intervento CBT per l’ansia sociale. Il parametro di interesse è <span class="math inline">\(\theta\)</span>, ovvero la probabilità di remissione.</p>
-<p><strong>Come prior</strong>, prima di raccogliere dati, il ricercatore utilizza una <span class="math inline">\(\text{Beta}(3, 7)\)</span> per esprimere la credenza che la remissione sia possibile ma non molto probabile (media a priori = 0.30). Questa scelta riflette la letteratura esistente su interventi simili.</p>
-<p><strong>Come verosimiglianza</strong>: i dati osservati (12 remissioni su 30 pazienti) sono modellati con una distribuzione Binomiale, che descrive il processo generativo: ogni paziente ha una probabilità <span class="math inline">\(\theta\)</span> di remissione, indipendentemente dagli altri.</p>
-<p><strong>Come posterior</strong>: applicando il teorema di Bayes, si ottiene una distribuzione <span class="math inline">\(\text{Beta}(3+12, 7+18) = \text{Beta}(15, 25)\)</span>, che sintetizza ciò che sappiamo dopo aver osservato i dati. La media a posteriori (0.375) rappresenta un compromesso tra la credenza iniziale (0.30) e la proporzione osservata (0.40).</p>
-<p>In questo esempio, la distribuzione Beta appare sia come prior che come posterior (appartengono alla stessa famiglia, proprietà detta <em>coniugazione</em>), mentre la Binomiale funge da verosimiglianza. Questa è la struttura tipica dell’inferenza bayesiana per le proporzioni.</p>
-</section>
-</section>
-<section id="le-famiglie-parametriche-come-vocabolario" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="le-famiglie-parametriche-come-vocabolario"><span class="header-section-number">10.3</span> Le famiglie parametriche come vocabolario</h2>
-<section id="cosa-significa-famiglia-parametrica" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="cosa-significa-famiglia-parametrica"><span class="header-section-number">10.3.1</span> Cosa significa “famiglia parametrica”</h3>
-<p>Una <em>famiglia parametrica</em> di distribuzioni è un insieme di distribuzioni che condividono la stessa forma funzionale, ma differiscono per i valori di uno o più parametri. La famiglia normale, per esempio, comprende infinite distribuzioni tutte caratterizzate da una forma a campana simmetrica, che si distinguono per la loro posizione (parametro <span class="math inline">\(\mu\)</span>) e per la loro dispersione (parametro <span class="math inline">\(\sigma\)</span>).</p>
-<p>Specificare una famiglia parametrica equivale quindi a fare un’assunzione sulla <em>forma</em> della distribuzione, mentre specificare i valori dei parametri significa selezionare un caso particolare all’interno di quella famiglia. Nell’inferenza bayesiana, di solito si fissa la famiglia sulla base di considerazioni teoriche o sostanziali (ad esempio: “ritengo plausibile una distribuzione normale”) e si lascia che siano i dati a informare i valori dei parametri attraverso il processo di aggiornamento bayesiano.</p>
-</section>
-<section id="il-vocabolario-delle-forme" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="il-vocabolario-delle-forme"><span class="header-section-number">10.3.2</span> Il vocabolario delle forme</h3>
-<p>Ogni famiglia parametrica possiede caratteristiche distintive che la rendono adatta a rappresentare specifici tipi di variabili. Vediamole con esempi dalla ricerca psicologica.</p>
-<p><strong>Distribuzioni discrete</strong> — assegnano probabilità a valori distinti e contabili:</p>
-<ul>
-<li><p><strong>Bernoulli</strong>: modella eventi binari singoli. <em>Esempio</em>: la risposta di un paziente a un trattamento (remissione sì/no), la correttezza di una risposta a un item di test, la presenza/assenza di un sintomo.</p></li>
-<li><p><strong>Binomiale</strong>: descrive il numero di successi in una sequenza di prove. <em>Esempio</em>: quanti item corretti su 20 in un test di memoria, quanti pazienti su 50 rispondono a un farmaco, quanti giorni su 14 un paziente riporta umore depresso.</p></li>
-<li><p><strong>Poisson</strong>: appropriata per conteggi di eventi rari in intervalli definiti. <em>Esempio</em>: numero di attacchi di panico in un mese, numero di errori in un compito di attenzione sostenuta, frequenza di comportamenti autolesionistici in una settimana.</p></li>
-</ul>
-<p><strong>Distribuzioni continue</strong> — assegnano densità di probabilità a scale numeriche continue:</p>
-<ul>
-<li><p><strong>Normale (Gaussiana)</strong>: emerge quando un fenomeno è influenzato da molti fattori indipendenti di piccolo effetto. <em>Esempio</em>: punteggi QI (costruiti per essere normali), punteggi a scale di personalità ben validate, misure antropometriche.</p></li>
-<li><p><strong>Gamma e Log-normale</strong>: adatte a quantità positive e asimmetriche. <em>Esempio</em>: tempi di reazione (sempre positivi, con coda destra), latenze di risposta, durata degli episodi depressivi, tempo alla ricaduta.</p></li>
-<li><p><strong>Beta</strong>: definita sull’intervallo [0,1], ideale per proporzioni e probabilità. <em>Esempio</em>: probabilità che un paziente risponda a un trattamento, proporzione di varianza spiegata, tasso di accuratezza in un compito.</p></li>
-</ul>
-</section>
-<section id="ponte-applicativo-come-scegliere-la-distribuzione-appropriata" class="level3" data-number="10.3.3">
-<h3 data-number="10.3.3" class="anchored" data-anchor-id="ponte-applicativo-come-scegliere-la-distribuzione-appropriata"><span class="header-section-number">10.3.3</span> Ponte applicativo: come scegliere la distribuzione appropriata</h3>
-<p>Nella pratica, la scelta della distribuzione non è un atto astratto ma una <strong>decisione informata</strong>, che può essere affrontata in modo sistematico seguendo una logica a cascata. Le domande chiave sono poche, ma poste nell’ordine giusto.</p>
-<section id="qual-è-il-supporto-della-variabile" class="level4 unnumbered unlisted">
-<h4 class="unnumbered unlisted anchored" data-anchor-id="qual-è-il-supporto-della-variabile">1. Qual è il <strong>supporto</strong> della variabile?</h4>
-<p>Il primo criterio è sempre il dominio dei valori possibili: una distribuzione che assegna probabilità a valori impossibili è automaticamente esclusa.</p>
-<ul>
-<li>Solo 0 e 1 → <strong>Bernoulli</strong></li>
-<li>Numero di successi tra 0 e <em>n</em> → <strong>Binomiale</strong></li>
-<li>Conteggi interi non negativi senza limite superiore → <strong>Poisson</strong></li>
-<li>Numeri reali positivi (&gt; 0) → <strong>Gamma</strong>, <strong>Log-normale</strong></li>
-<li>Proporzioni comprese tra 0 e 1 → <strong>Beta</strong></li>
-<li>Numeri reali su tutta la retta → <strong>Normale</strong>, <strong>t di Student</strong></li>
-</ul>
-<p>👉 Questa fase serve soprattutto a <strong>escludere</strong> modelli inadatti.</p>
-</section>
-<section id="qual-è-la-forma-attesa-della-distribuzione" class="level4 unnumbered unlisted">
-<h4 class="unnumbered unlisted anchored" data-anchor-id="qual-è-la-forma-attesa-della-distribuzione">2. Qual è la <strong>forma attesa</strong> della distribuzione?</h4>
-<p>Una volta ristretto il campo, si considera la forma plausibile dei dati, sulla base di teoria, esperienza o letteratura.</p>
-<ul>
-<li>Simmetrica, campaniforme → <strong>Normale</strong></li>
-<li>Asimmetrica a destra (coda lunga verso valori alti) → <strong>Gamma</strong>, <strong>Log-normale</strong></li>
-<li>Asimmetrica a sinistra → <strong>Beta</strong> con (&gt; )</li>
-<li>Presenza di outlier o code pesanti → <strong>t di Student</strong></li>
-</ul>
-<p>👉 Qui entra in gioco l’<strong>intelligenza sostantiva</strong> del problema, non solo la matematica.</p>
-</section>
-<section id="ci-sono-informazioni-pregresse-da-incorporare" class="level4 unnumbered unlisted">
-<h4 class="unnumbered unlisted anchored" data-anchor-id="ci-sono-informazioni-pregresse-da-incorporare">3. Ci sono <strong>informazioni pregresse</strong> da incorporare?</h4>
-<p>Se il modello è bayesiano, la distribuzione scelta deve dialogare bene con il <em>prior</em>.</p>
-<ul>
-<li><p>Se esistono conoscenze precedenti (studi, esperti, dati storici), il <em>prior</em> deve poterle rappresentare in modo naturale.</p></li>
-<li><p>Le coppie <strong>coniugate</strong> (prior e posterior della stessa famiglia) non sono obbligatorie, ma:</p>
-<ul>
-<li>semplificano i calcoli,</li>
-<li>rendono l’interpretazione più trasparente,</li>
-<li>facilitano il debugging del modello.</li>
-</ul></li>
-</ul>
-<p>👉 La scelta della distribuzione non riguarda solo i dati, ma l’intero <strong>ecosistema del modello</strong>.</p>
-</section>
-<section id="esempio-applicativo" class="level4 unnumbered unlisted">
-<h4 class="unnumbered unlisted anchored" data-anchor-id="esempio-applicativo">Esempio applicativo</h4>
+<p>La prima riga rappresenta l’incertezza sul parametro <span class="math inline">\(\theta\)</span> prima dell’osservazione dei dati. La seconda riga rappresenta il modello probabilistico dei dati condizionato a un valore del parametro. In questa forma compatta sono già presenti due usi diversi delle distribuzioni.</p>
+<section id="distribuzioni-per-i-parametri-prior" class="level3" data-number="10.4.1"><h3 data-number="10.4.1" class="anchored" data-anchor-id="distribuzioni-per-i-parametri-prior">
+<span class="header-section-number">10.4.1</span> Distribuzioni per i parametri: prior</h3>
+<p>Una distribuzione può rappresentare ciò che sappiamo o ciò che non sappiamo riguardo a un parametro. Per esempio, se <span class="math inline">\(\theta\)</span> rappresenta una probabilità di remissione, una distribuzione beta può esprimere le credenze preliminari su valori compresi tra 0 e 1.</p>
+<p>In questa funzione, la distribuzione risponde alla domanda:</p>
 <blockquote class="blockquote">
-<p><em>“Devo modellare i tempi di reazione in un esperimento di priming.”</em></p>
+<p>Quali valori del parametro ritengo plausibili prima di osservare questi dati?</p>
 </blockquote>
+</section><section id="distribuzioni-per-i-dati-modello-generativo" class="level3" data-number="10.4.2"><h3 data-number="10.4.2" class="anchored" data-anchor-id="distribuzioni-per-i-dati-modello-generativo">
+<span class="header-section-number">10.4.2</span> Distribuzioni per i dati: modello generativo</h3>
+<p>Una distribuzione può anche descrivere come potrebbero essere generati i dati, a partire da un determinato valore del parametro. Se osserviamo il numero di remissioni su <span class="math inline">\(n\)</span> pazienti, una distribuzione binomiale può rappresentare il numero di successi attesi per un determinato valore di <span class="math inline">\(\theta\)</span>.</p>
+<p>In questa funzione, la distribuzione risponde alla domanda:</p>
+<blockquote class="blockquote">
+<p>Se il parametro assumesse questo valore, quali dati mi aspetterei di osservare?</p>
+</blockquote>
+</section><section id="distribuzioni-predittive" class="level3" data-number="10.4.3"><h3 data-number="10.4.3" class="anchored" data-anchor-id="distribuzioni-predittive">
+<span class="header-section-number">10.4.3</span> Distribuzioni predittive</h3>
+<p>Infine, una distribuzione può descrivere ciò che ci aspettiamo di osservare in futuro. Nel quadro bayesiano, la previsione tiene conto sia della variabilità dei dati sia dell’incertezza residua sui parametri.</p>
+<p>Questa terza funzione sarà importante più avanti, ma è utile riconoscerla fin da ora: un modello probabilistico non serve solo a spiegare dati già osservati, ma anche a formulare aspettative controllabili su dati futuri.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Idea guida">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Idea guida
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nel manuale useremo le distribuzioni in tre modi complementari:</p>
 <ol type="1">
-<li><p><strong>Supporto</strong> I tempi di reazione sono numeri reali positivi → la <strong>Normale è esclusa</strong>.</p></li>
-<li><p><strong>Forma attesa</strong> I tempi di reazione mostrano tipicamente una forte asimmetria a destra → candidati naturali: <strong>Gamma</strong> o <strong>Log-normale</strong>.</p></li>
-<li><p><strong>Considerazioni di modellazione</strong></p>
+<li>per descrivere quantità osservabili;</li>
+<li>per rappresentare incertezza sui parametri;</li>
+<li>per prevedere osservazioni future.</li>
+</ol>
+<p>La Parte 3 costruisce il vocabolario. La Parte 4 mostrerà come questo vocabolario diventa inferenza.</p>
+</div>
+</div>
+</section></section><section id="sec-map-distribution-families" class="level2" data-number="10.5"><h2 data-number="10.5" class="anchored" data-anchor-id="sec-map-distribution-families">
+<span class="header-section-number">10.5</span> Mappa delle principali famiglie</h2>
+<section id="distribuzioni-discrete" class="level3" data-number="10.5.1"><h3 data-number="10.5.1" class="anchored" data-anchor-id="distribuzioni-discrete">
+<span class="header-section-number">10.5.1</span> Distribuzioni discrete</h3>
+<p>Le distribuzioni discrete assegnano probabilità a valori separati e numerabili. Sono naturali quando gli esiti sono categorie, successi, errori o conteggi.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Famiglia</th>
+<th style="text-align: left;">Quantità modellata</th>
+<th style="text-align: left;">Parametri principali</th>
+<th style="text-align: left;">Capitolo</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Uniforme discreta</td>
+<td style="text-align: left;">valori discreti equiprobabili</td>
+<td style="text-align: left;">numero di valori possibili</td>
+<td style="text-align: left;"><a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bernoulli</td>
+<td style="text-align: left;">singolo evento binario</td>
+<td style="text-align: left;">probabilità <span class="math inline">\(p\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Binomiale</td>
+<td style="text-align: left;">numero di successi in <span class="math inline">\(n\)</span> prove</td>
+<td style="text-align: left;">
+<span class="math inline">\(n\)</span>, <span class="math inline">\(p\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Poisson</td>
+<td style="text-align: left;">conteggio di eventi in un intervallo</td>
+<td style="text-align: left;">tasso <span class="math inline">\(\lambda\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a></td>
+</tr>
+</tbody>
+</table>
+<p>Esempi psicologici tipici sono la risposta corretta a un item, il numero di item superati, il numero di comportamenti osservati in una sessione o il numero di episodi registrati in un periodo.</p>
+</section><section id="distribuzioni-continue" class="level3" data-number="10.5.2"><h3 data-number="10.5.2" class="anchored" data-anchor-id="distribuzioni-continue">
+<span class="header-section-number">10.5.2</span> Distribuzioni continue</h3>
+<p>Le distribuzioni continue assegnano densità su intervalli di valori. Sono naturali per tempi, punteggi, misure fisiologiche, probabilità, tassi e parametri continui.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Famiglia</th>
+<th style="text-align: left;">Quantità modellata</th>
+<th style="text-align: left;">Parametri principali</th>
+<th style="text-align: left;">Capitolo</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Uniforme continua</td>
+<td style="text-align: left;">valori equiplausibili in un intervallo</td>
+<td style="text-align: left;">estremi <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Esponenziale</td>
+<td style="text-align: left;">tempi di attesa</td>
+<td style="text-align: left;">tasso <span class="math inline">\(\lambda\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Normale</td>
+<td style="text-align: left;">misure simmetriche su <span class="math inline">\(\mathbb{R}\)</span>
+</td>
+<td style="text-align: left;">
+<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chi-quadrato</td>
+<td style="text-align: left;">somme di quadrati, varianze</td>
+<td style="text-align: left;">gradi di libertà</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">
+<span class="math inline">\(t\)</span> di Student</td>
+<td style="text-align: left;">quantità continue con code più pesanti</td>
+<td style="text-align: left;">gradi di libertà</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cauchy</td>
+<td style="text-align: left;">distribuzioni molto robuste e a code pesanti</td>
+<td style="text-align: left;">posizione, scala</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beta</td>
+<td style="text-align: left;">proporzioni e probabilità</td>
+<td style="text-align: left;">
+<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>
+</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: left;">tassi, tempi positivi, varianze</td>
+<td style="text-align: left;">forma, tasso o scala</td>
+<td style="text-align: left;"><a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a></td>
+</tr>
+</tbody>
+</table>
+<p>Questa mappa non deve essere memorizzata come una lista chiusa. Serve piuttosto a sviluppare un’abitudine: prima si guarda alla natura della quantità, poi al supporto, poi alla forma, infine al ruolo che la distribuzione deve svolgere nel modello.</p>
+</section></section><section id="sec-choosing-examples" class="level2" data-number="10.6"><h2 data-number="10.6" class="anchored" data-anchor-id="sec-choosing-examples">
+<span class="header-section-number">10.6</span> Esempi di scelta della distribuzione</h2>
+<section id="remissione-clinica-evento-binario-e-probabilità" class="level3" data-number="10.6.1"><h3 data-number="10.6.1" class="anchored" data-anchor-id="remissione-clinica-evento-binario-e-probabilità">
+<span class="header-section-number">10.6.1</span> Remissione clinica: evento binario e probabilità</h3>
+<p>Supponiamo di voler studiare se un paziente raggiunge la remissione dopo un intervento psicoterapeutico. Per ogni paziente osserviamo un esito binario: remissione sì/no. La distribuzione naturale per una singola osservazione è la Bernoulli.</p>
+<p>Se invece osserviamo <span class="math inline">\(y\)</span> remissioni su <span class="math inline">\(n\)</span> pazienti, la distribuzione naturale per il conteggio dei successi è la binomiale. Se vogliamo poi rappresentare l’incertezza sulla probabilità di remissione <span class="math inline">\(\theta\)</span>, una candidata naturale è la distribuzione Beta, perché <span class="math inline">\(\theta\)</span> deve appartenere all’intervallo <span class="math inline">\([0,1]\)</span>.</p>
+<p>Qui compaiono tre livelli:</p>
 <ul>
-<li>La <strong>Gamma</strong> ha parametri interpretabili (forma e scala).</li>
-<li>È compatibile con strutture gerarchiche e coniugazioni utili.</li>
-<li>È spesso più stabile numericamente in modelli complessi.</li>
-</ul></li>
-</ol>
-<p>✅ <strong>Scelta finale</strong>: <strong>Distribuzione Gamma</strong>.</p>
-</section>
-</section>
-<section id="in-sintesi" class="level3 unnumbered unlisted">
-<h3 class="unnumbered unlisted anchored" data-anchor-id="in-sintesi">In sintesi</h3>
-<p>Scegliere una distribuzione significa rispondere a tre domande fondamentali:</p>
-<ol type="1">
-<li><em>Quali valori sono possibili?</em></li>
-<li><em>Che forma mi aspetto realisticamente?</em></li>
-<li><em>Che tipo di inferenza voglio costruire (frequentista o bayesiana)?</em></li>
-</ol>
-<p>Se queste tre risposte sono coerenti tra loro, la distribuzione “giusta” emerge quasi naturalmente.</p>
-</section>
-<section id="parsimonia-e-flessibilità" class="level3" data-number="10.3.4">
-<h3 data-number="10.3.4" class="anchored" data-anchor-id="parsimonia-e-flessibilità"><span class="header-section-number">10.3.4</span> Parsimonia e flessibilità</h3>
-<p>Le famiglie parametriche realizzano un equilibrio tra <em>parsimonia</em> e <em>flessibilità</em>. Con un numero ridotto di parametri, tipicamente uno, due o tre, possono rappresentare una vasta gamma di forme distribuzionali. La distribuzione normale richiede soltanto due parametri, <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\sigma\)</span>, per essere completamente specificata, mentre la distribuzione beta utilizza due parametri, <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>, per rappresentare credenze su proporzioni che possono essere simmetriche o asimmetriche, concentrate o disperse.</p>
-<p>Questa parsimonia ha un valore epistemico rilevante: costringe a rendere esplicite le assunzioni fondamentali senza introdurre complessità non giustificate dall’evidenza disponibile. Allo stesso tempo, la varietà delle famiglie parametriche fornisce una flessibilità sufficiente per adattarsi alle caratteristiche dei diversi fenomeni psicologici, rendendo possibile una modellizzazione al tempo stesso semplice e informativa.</p>
-</section>
-</section>
-<section id="applicazione-la-variabilità-nei-fenomeni-psicologici" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="applicazione-la-variabilità-nei-fenomeni-psicologici"><span class="header-section-number">10.4</span> Applicazione: la variabilità nei fenomeni psicologici</h2>
-<section id="perché-la-variabilità-richiede-un-trattamento-distribuzionale" class="level3" data-number="10.4.1">
-<h3 data-number="10.4.1" class="anchored" data-anchor-id="perché-la-variabilità-richiede-un-trattamento-distribuzionale"><span class="header-section-number">10.4.1</span> Perché la variabilità richiede un trattamento distribuzionale</h3>
-<p>Le considerazioni epistemiche sviluppate finora trovano un’applicazione particolarmente rilevante nella ricerca psicologica, dove la variabilità tra individui, nel tempo e tra contesti rappresenta la norma piuttosto che l’eccezione.</p>
-<p>Un recente articolo di <span class="citation" data-cites="segal2025embracing">Segal et al. (<a href="#ref-segal2025embracing" role="doc-biblioref">2025</a>)</span> sui disturbi mentali illustra efficacemente questo punto. L’autore osserva che molti limiti nella comprensione dell’eziologia dei disturbi psichiatrici derivano da una sottovalutazione sistematica della variabilità. Storicamente, gran parte della ricerca ha confrontato gruppi di pazienti con gruppi di controllo, identificando le differenze nelle medie come tratti distintivi. Questo approccio, pur avendo prodotto risultati importanti, trascura un aspetto cruciale: i disturbi psichiatrici sono caratterizzati da un’elevata eterogeneità che i semplici confronti tra medie non sono in grado di cogliere.</p>
-<p>I numeri rendono evidente la portata del problema. Nel disturbo da stress post-traumatico, ad esempio, esistono oltre 636000 possibili combinazioni di sintomi che soddisfano i criteri diagnostici. Per quanto riguarda la depressione maggiore, le configurazioni sintomatologiche compatibili con la diagnosi superano le 16000, e meno del 50% dei pazienti depressi presenta la stessa configurazione di sintomi.</p>
-</section>
-<section id="oltre-le-medie-di-gruppo" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="oltre-le-medie-di-gruppo"><span class="header-section-number">10.4.2</span> Oltre le medie di gruppo</h3>
-<p>Quando confrontiamo le medie di due gruppi e osserviamo una differenza “statisticamente significativa”, stiamo formulando un’affermazione a livello di popolazione. Tale affermazione può risultare epistemicamente inadeguata se la variabilità all’interno dei gruppi è molto maggiore della differenza tra le medie, se le distribuzioni si sovrappongono in modo sostanziale o se esistono sottogruppi eterogenei mascherati dalla media complessiva.</p>
-<p>In questi contesti, la media rischia di diventare un riassunto fuorviante. Rappresentare l’intera distribuzione, includendone la forma, la dispersione e le eventuali caratteristiche come l’asimmetria o la multimodalità, fornisce un quadro molto più fedele del nostro stato di conoscenza.</p>
-<p>L’approccio bayesiano, che fa un uso sistematico delle distribuzioni di probabilità, è naturalmente attrezzato per affrontare questa complessità. Non ci si limita a stimare un singolo valore “più probabile”, ma si ottiene una distribuzione a posteriori che quantifica esplicitamente l’incertezza. I modelli gerarchici consentono di stimare simultaneamente parametri di popolazione e parametri individuali, catturando la variabilità tra soggetti. I modelli di miscela, infine, permettono di identificare sottogruppi eterogenei all’interno di campioni apparentemente omogenei.</p>
-</section>
-<section id="la-variabilità-come-informazione" class="level3" data-number="10.4.3">
-<h3 data-number="10.4.3" class="anchored" data-anchor-id="la-variabilità-come-informazione"><span class="header-section-number">10.4.3</span> La variabilità come informazione</h3>
-<p>In questa prospettiva, la variabilità non è un “rumore” da eliminare mediante tecniche statistiche, ma un’informazione da modellare e comprendere. Le distribuzioni di probabilità diventano strumenti per rappresentare in modo esplicito tale variabilità: una distribuzione con alta varianza comunica qualcosa di sostanzialmente diverso rispetto a una distribuzione con bassa varianza e, in contesti differenti, entrambe possono essere epistemicamente appropriate.</p>
-<p>Come sottolinea <span class="citation" data-cites="segal2025embracing">Segal et al. (<a href="#ref-segal2025embracing" role="doc-biblioref">2025</a>)</span>, solo integrando sistematicamente la variabilità nell’analisi empirica è possibile sviluppare modelli predittivi robusti e interventi sensibili alla diversità individuale. Le famiglie parametriche di distribuzioni forniscono il linguaggio formale necessario per realizzare tale integrazione in modo coerente e rigoroso.</p>
-</section>
-</section>
-<section id="verso-i-capitoli-successivi" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="verso-i-capitoli-successivi"><span class="header-section-number">10.5</span> Verso i capitoli successivi</h2>
-<p>Nei prossimi capitoli esploreremo sistematicamente le principali famiglie di distribuzioni utilizzate nella ricerca psicologica, mostrando come esse possano essere impiegate per rappresentare l’incertezza in modo coerente e informativo.</p>
-<p>Il <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> sarà dedicato alle <strong>distribuzioni discrete</strong>: la distribuzione di Bernoulli per eventi binari singoli, la distribuzione binomiale per il conteggio dei successi in un numero finito di prove e la distribuzione di Poisson per la modellizzazione di eventi rari. Queste distribuzioni sono fondamentali per descrivere risposte categoriali, frequenze e conteggi.</p>
-<p>Il <a href="12_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a> affronterà invece le <strong>distribuzioni continue</strong>: la distribuzione normale per fenomeni influenzati da molti fattori indipendenti, la gamma e la log-normale per quantità positive e asimmetriche, la beta per proporzioni e probabilità e la t di Student per le situazioni in cui vi è incertezza sulla varianza.</p>
-<p>Per ciascuna famiglia esamineremo la forma della distribuzione e il significato dei parametri, le proprietà matematiche rilevanti, i contesti in cui è appropriato utilizzarla e il suo ruolo nell’inferenza bayesiana, come distribuzione a priori, funzione di verosimiglianza o distribuzione a posteriori.</p>
-<section id="una-nota-epistemologica" class="level3" data-number="10.5.1">
-<h3 data-number="10.5.1" class="anchored" data-anchor-id="una-nota-epistemologica"><span class="header-section-number">10.5.1</span> Una nota epistemologica</h3>
-<p>È importante ricordare che nessuna distribuzione è “vera” in senso assoluto. Come osservava George Box: <em>“tutti i modelli sono sbagliati, ma alcuni sono utili”</em>. La scelta di una famiglia parametrica rappresenta sempre un compromesso pragmatico: l’obiettivo non è catturare la realtà in ogni suo dettaglio, ma rappresentarne gli aspetti salienti con un adeguato livello di accuratezza e parsimonia.</p>
-<p>Nel framework bayesiano, questa consapevolezza è incorporata nel metodo stesso. Modelli alternativi possono essere confrontati mediante il fattore di Bayes, combinati attraverso il <em>model averaging</em> e valutati tramite <em>posterior predictive checks</em>. In questo modo, anche l’incertezza associata alla scelta del modello diventa esplicita, quantificabile e gestibile all’interno del processo inferenziale.</p>
-</section>
-</section>
-<section id="riflessioni-conclusive" class="level2 unnumbered unlisted">
-<h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
-<p>Nel framework bayesiano, le distribuzioni di probabilità sono strumenti fondamentali per rappresentare e comunicare l’incertezza. Ogni distribuzione fornisce una risposta formale alla domanda: <em>«Quanto dovrei credere in ciascun possibile valore?»</em>, dato il mio attuale stato di conoscenza.</p>
-<p>Le famiglie parametriche costituiscono un vocabolario ricco e flessibile per esprimere diversi tipi di credenze. La scelta della famiglia riflette le nostre assunzioni sulla natura del fenomeno studiato, ad esempio sui valori possibili, sulla simmetria o sull’asimmetria della distribuzione, mentre i valori dei parametri codificano il nostro stato di conoscenza specifico. Nell’inferenza bayesiana, questo vocabolario viene utilizzato sia per rappresentare le credenze a priori sui parametri, sia per formulare ipotesi sul processo generativo dei dati attraverso la verosimiglianza.</p>
-<p>L’applicazione alla ricerca psicologica mette in luce l’importanza di questo approccio. La variabilità che caratterizza i fenomeni psicologici, sia tra individui, sia nel tempo, sia tra contesti, richiede strumenti che vadano oltre i semplici confronti tra medie. Le distribuzioni di probabilità permettono di rappresentare l’intera struttura della variabilità, trasformandola da “rumore” da ignorare a informazione da modellare e interpretare.</p>
-<p>Nei capitoli successivi, esploreremo progressivamente questo vocabolario, concentrandoci sulle famiglie di distribuzioni che si sono rivelate più utili nella ricerca psicologica. L’obiettivo non è memorizzare formule, ma sviluppare un’intuizione solida sul tipo di distribuzione più appropriato in diverse circostanze e su come utilizzarla per ragionare in modo rigoroso e trasparente in situazioni di incertezza.</p>
-</section>
-<section id="punti-chiave-da-ricordare" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
+<li>osservazione singola: Bernoulli;</li>
+<li>conteggio aggregato: Binomiale;</li>
+<li>incertezza sulla probabilità: Beta.</li>
+</ul>
+<p>La relazione tra questi livelli verrà ripresa nei capitoli successivi.</p>
+</section><section id="tempi-di-reazione-quantità-positive-e-asimmetriche" class="level3" data-number="10.6.2"><h3 data-number="10.6.2" class="anchored" data-anchor-id="tempi-di-reazione-quantità-positive-e-asimmetriche">
+<span class="header-section-number">10.6.2</span> Tempi di reazione: quantità positive e asimmetriche</h3>
+<p>I tempi di reazione non possono essere negativi e spesso presentano una coda lunga verso destra. Per questo motivo, una distribuzione normale potrebbe non essere adeguata, soprattutto in presenza di un’asimmetria marcata. Distribuzioni come la gamma o, in altri contesti, la log-normale rispettano il vincolo di positività e permettono l’asimmetria.</p>
+<p>La scelta non dipende solo dal grafico dei dati. Dipende anche da ciò che si ritiene plausibile riguardo al processo: un tempo di reazione può essere considerato come una durata positiva influenzata da molteplici componenti cognitive, motorie e attentive.</p>
+</section><section id="conteggi-di-eventi-frequenze-in-un-intervallo" class="level3" data-number="10.6.3"><h3 data-number="10.6.3" class="anchored" data-anchor-id="conteggi-di-eventi-frequenze-in-un-intervallo">
+<span class="header-section-number">10.6.3</span> Conteggi di eventi: frequenze in un intervallo</h3>
+<p>Se si conta il numero di attacchi di panico in un mese, il numero di errori in un compito o il numero di comportamenti osservati in una sessione, la variabile assume valori interi non negativi. Una distribuzione naturale è quella di Poisson, soprattutto quando gli eventi sono relativamente rari e l’intervallo di osservazione è definito.</p>
+<p>Tuttavia, se il tasso medio di eventi varia molto da un individuo all’altro, la semplice distribuzione di Poisson può risultare troppo rigida. In seguito vedremo che introdurre incertezza o variabilità nel tasso può produrre modelli più flessibili.</p>
+</section><section id="punteggi-psicometrici-continui-o-quasi-continui" class="level3" data-number="10.6.4"><h3 data-number="10.6.4" class="anchored" data-anchor-id="punteggi-psicometrici-continui-o-quasi-continui">
+<span class="header-section-number">10.6.4</span> Punteggi psicometrici: continui o quasi continui?</h3>
+<p>Molti punteggi psicometrici derivano dalla somma di item discreti, ma sono spesso trattati come quantità continue quando il numero di possibili valori è elevato e la distribuzione è approssimativamente regolare. In questi casi, la normalità può essere una buona approssimazione operativa.</p>
+<p>Tuttavia, la normalità non dovrebbe essere assunta automaticamente. Se il punteggio è fortemente asimmetrico, limitato inferiormente o superiormente o presenta accumuli agli estremi, potrebbe essere necessario un modello diverso.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Un errore comune">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Avviso</span>Un errore comune
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Non esiste una distribuzione “giusta” in assoluto. Esistono distribuzioni più o meno coerenti con il supporto della quantità, con la forma attesa, con il processo generativo ipotizzato e con lo scopo dell’analisi.</p>
+<p>Una distribuzione è una scelta modellistica: deve essere motivata, controllata e, quando necessario, confrontata con alternative plausibili.</p>
+</div>
+</div>
+</section></section><section id="sec-psychological-variability" class="level2" data-number="10.7"><h2 data-number="10.7" class="anchored" data-anchor-id="sec-psychological-variability">
+<span class="header-section-number">10.7</span> Distribuzioni e variabilità nei fenomeni psicologici</h2>
+<p>La ricerca psicologica si occupa di fenomeni altamente variabili. Le persone possono rispondere in modo diverso allo stesso trattamento, lo stesso costrutto può manifestarsi con configurazioni sintomatiche diverse e le misure possono variare da una sessione all’altra.</p>
+<p>Tale variabilità non deve essere considerata solo come un ostacolo. Può indicare eterogeneità clinica, differenze individuali, sensibilità al contesto o sottogruppi teoricamente rilevanti. Rappresentare la variabilità mediante distribuzioni consente di porre domande più ricche:</p>
+<ul>
+<li>Quanto sono dispersi i punteggi?</li>
+<li>Ci sono code pesanti o valori estremi?</li>
+<li>La media è un riassunto adeguato?</li>
+<li>Una sola distribuzione è sufficiente o servono sottogruppi?</li>
+<li>L’incertezza riguarda i dati osservabili, i parametri o entrambi?</li>
+</ul>
+<p>In una prospettiva bayesiana, queste domande diventano parte integrante del modello. Non ci limitiamo a stimare un valore centrale, ma specifichiamo una struttura probabilistica che rende esplicita la nostra rappresentazione del fenomeno.</p>
+</section><section id="sec-towards-specific-distributions" class="level2" data-number="10.8"><h2 data-number="10.8" class="anchored" data-anchor-id="sec-towards-specific-distributions">
+<span class="header-section-number">10.8</span> Verso i capitoli successivi</h2>
+<p>Il resto della Parte 3 applicherà queste idee a famiglie specifiche.</p>
+<p>Nel <a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a> studieremo le distribuzioni discrete: la distribuzione uniforme discreta, la distribuzione di Bernoulli, la distribuzione binomiale e la distribuzione di Poisson. Queste distribuzioni sono fondamentali per eventi binari, conteggi e frequenze.</p>
+<p>Nel <a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a> studieremo le distribuzioni continue: uniforme continua, esponenziale, normale, chi-quadrato, <span class="math inline">\(t\)</span> di Student, Cauchy, beta e gamma. Queste distribuzioni sono fondamentali per le misure continue, i tempi, le proporzioni, i tassi e i parametri positivi.</p>
+<p>Dopo aver costruito questo vocabolario, la Parte 4 mostrerà come utilizzarlo per passare dai dati all’evidenza: prima, si comprenderà quanto un campione sia informativo; poi, si formalizzerà questa informazione con la verosimiglianza; infine, si aggiorneranno le credenze attraverso la distribuzione a posteriori.</p>
+</section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
+<p>Le distribuzioni di probabilità sono il linguaggio con cui rappresentiamo in modo esplicito l’incertezza e la variabilità. Ogni distribuzione porta con sé delle assunzioni sui valori possibili, sulla forma attesa, sulla dispersione, sulle code e sul processo che ha generato i dati.</p>
+<p>Nel quadro bayesiano, questo linguaggio è particolarmente importante, perché le distribuzioni compaiono a più livelli: descrivono i dati osservabili, rappresentano le credenze sui parametri e permettono di formulare previsioni. La scelta di una famiglia parametrica non è quindi un passaggio tecnico secondario, ma una parte sostanziale della costruzione del modello.</p>
+<p>Per gli studenti che si avvicinano a questi temi per la prima volta, l’obiettivo non è memorizzare molte formule. L’obiettivo è sviluppare una domanda guida: <em>Quale distribuzione è coerente con la quantità che sto modellando e con ciò che so del fenomeno?</em> I capitoli successivi forniranno gli strumenti matematici e computazionali per rispondere in modo sempre più preciso a questa domanda.</p>
+</section><section id="punti-chiave-da-ricordare" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="punti-chiave-da-ricordare">Punti chiave da ricordare</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1384,137 +1635,194 @@ Importante
 <div class="callout-body-container callout-body">
 <p><strong>Concetti essenziali di questo capitolo:</strong></p>
 <ol type="1">
-<li><strong>Le distribuzioni come linguaggio per l’incertezza</strong>
+<li>
+<strong>Una distribuzione rappresenta incertezza e variabilità</strong>
 <ul>
-<li>Non descrivono “come sono i dati” ma “quali valori riteniamo plausibili”</li>
-<li>Strumento epistemico per rappresentare credenze razionali</li>
-<li>Passaggio da “credenza puntuale” a “credenza distribuita”</li>
-</ul></li>
-<li><strong>Duplice ruolo nell’inferenza bayesiana</strong>
+<li>Può descrivere osservazioni, parametri o previsioni.</li>
+<li>Non è una fotografia perfetta della realtà, ma una scelta modellistica esplicita.</li>
+</ul>
+</li>
+<li>
+<strong>Una famiglia parametrica è un vocabolario di forme</strong>
 <ul>
-<li><strong>Come prior</strong>: rappresentano incertezza sui parametri <span class="math inline">\(p(\theta)\)</span></li>
-<li><strong>Come verosimiglianza</strong>: descrivono il processo generativo <span class="math inline">\(p(D \mid \theta)\)</span></li>
-<li>La stessa famiglia può svolgere entrambi i ruoli in contesti diversi</li>
-</ul></li>
-<li><strong>Famiglie parametriche fondamentali</strong>
+<li>La famiglia definisce la forma generale.</li>
+<li>I parametri selezionano una distribuzione specifica all’interno della famiglia.</li>
+</ul>
+</li>
+<li>
+<strong>Il supporto è il primo criterio di scelta</strong>
 <ul>
-<li><strong>Bernoulli e Binomiale</strong>: eventi binari e conteggi di successi</li>
-<li><strong>Beta</strong>: proporzioni e probabilità (coniugata con Binomiale)</li>
-<li><strong>Normale (Gaussiana)</strong>: misure continue con variabilità simmetrica</li>
-<li><strong>Poisson</strong>: conteggi di eventi rari in intervalli fissi</li>
-<li><strong>Gamma</strong>: tempi di attesa e variabili continue positive</li>
-</ul></li>
-<li><strong>Supporto delle distribuzioni</strong>
+<li>Eventi binari: Bernoulli.</li>
+<li>Conteggi di successi: Binomiale.</li>
+<li>Conteggi non negativi: Poisson.</li>
+<li>Proporzioni: Beta.</li>
+<li>Misure continue simmetriche: Normale.</li>
+<li>Quantità positive e asimmetriche: Gamma o famiglie simili.</li>
+</ul>
+</li>
+<li>
+<strong>I parametri hanno interpretazioni diverse</strong>
 <ul>
-<li><strong>Discreto finito</strong>: Bernoulli, Binomiale (numero fisso di valori)</li>
-<li><strong>Discreto infinito</strong>: Poisson (interi non negativi)</li>
-<li><strong>Continuo limitato</strong>: Beta ([0,1]), Uniforme ([a,b])</li>
-<li><strong>Continuo illimitato</strong>: Normale (<span class="math inline">\(\mathbb{R}\)</span>), Gamma (<span class="math inline">\(\mathbb{R}^+\)</span>)</li>
-</ul></li>
-<li><strong>Parametri e interpretabilità</strong>
+<li>Posizione: dove si concentra la distribuzione.</li>
+<li>Scala: quanto è dispersa.</li>
+<li>Forma: asimmetria, code, concentrazione.</li>
+</ul>
+</li>
+<li>
+<strong>Nel modello bayesiano le distribuzioni hanno ruoli diversi</strong>
 <ul>
-<li><strong>Parametri di posizione</strong>: dove si concentra la distribuzione (media, moda)</li>
-<li><strong>Parametri di scala</strong>: quanto è dispersa (varianza, deviazione standard)</li>
-<li><strong>Parametri di forma</strong>: asimmetria, code pesanti, multimodalità</li>
-<li>Scelta parametri = scelta assunzioni esplicite</li>
-</ul></li>
-<li><strong>Coniugazione (anteprima)</strong>
+<li>Prior: incertezza sui parametri.</li>
+<li>Modello generativo: distribuzione dei dati condizionata ai parametri.</li>
+<li>Predittiva: aspettative su dati futuri.</li>
+</ul>
+</li>
+<li>
+<strong>La scelta della distribuzione è una scelta scientifica</strong>
 <ul>
-<li>Prior e verosimiglianza “coniugati” → posterior della stessa famiglia del prior</li>
-<li>Semplifica enormemente i calcoli (forma chiusa per la posterior)</li>
-<li>Esempi: Beta-Binomiale, Normale-Normale, Gamma-Poisson</li>
-</ul></li>
-<li><strong>Principio di massima entropia</strong>
-<ul>
-<li>Scegliere la distribuzione che massimizza l’entropia dati i vincoli noti</li>
-<li>Normale: massima entropia dato media e varianza note</li>
-<li>Esponenziale: massima entropia data solo la media (per <span class="math inline">\(\mathbb{R}^+\)</span>)</li>
-<li>Uniforme: massima entropia senza vincoli (massima ignoranza)</li>
-</ul></li>
-<li><strong>Scelta della distribuzione nella pratica</strong>
-<ul>
-<li>Vincoli sul supporto: interi vs reali, limitati vs illimitati</li>
-<li>Simmetria vs asimmetria</li>
-<li>Code pesanti vs leggere</li>
-<li>Informazioni pregresse codificabili</li>
-<li>Coniugazione per semplificare calcoli</li>
-</ul></li>
+<li>Dipende dal supporto, dalla forma, dal processo generativo e dallo scopo dell’analisi.</li>
+<li>Deve essere motivata e controllata, non automatica.</li>
+</ul>
+</li>
 </ol>
-<p><strong>Criteri di selezione:</strong></p>
+<p><strong>Domande guida:</strong></p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Tipo di variabile</th>
-<th style="text-align: left;">Supporto</th>
-<th style="text-align: left;">Famiglia tipica</th>
-<th style="text-align: left;">Esempio psicologico</th>
-</tr>
-</thead>
+<thead><tr class="header">
+<th style="text-align: left;">Domanda</th>
+<th style="text-align: left;">Perché è importante</th>
+</tr></thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Binaria (0/1)</td>
-<td style="text-align: left;">{0,1}</td>
-<td style="text-align: left;">Bernoulli</td>
-<td style="text-align: left;">Risposta corretta/errata a un item</td>
+<td style="text-align: left;">Quale quantità sto modellando?</td>
+<td style="text-align: left;">Distingue eventi, conteggi, proporzioni, tempi, punteggi e parametri.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Conteggio successi</td>
-<td style="text-align: left;">{0,1,…,n}</td>
-<td style="text-align: left;">Binomiale</td>
-<td style="text-align: left;">Item corretti su 20 in un test</td>
+<td style="text-align: left;">Quali valori sono possibili?</td>
+<td style="text-align: left;">Determina il supporto e permette di escludere distribuzioni inadatte.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Conteggio eventi rari</td>
-<td style="text-align: left;">{0,1,2,…}</td>
-<td style="text-align: left;">Poisson</td>
-<td style="text-align: left;">Attacchi di panico in un mese</td>
+<td style="text-align: left;">Che forma mi aspetto?</td>
+<td style="text-align: left;">Aiuta a scegliere tra famiglie con lo stesso supporto.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Proporzione/probabilità</td>
-<td style="text-align: left;">[0,1]</td>
-<td style="text-align: left;">Beta</td>
-<td style="text-align: left;">Tasso di remissione, accuratezza</td>
+<td style="text-align: left;">Che ruolo ha la distribuzione nel modello?</td>
+<td style="text-align: left;">Chiarisce se serve per dati, parametri o previsioni.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Misura continua simmetrica</td>
-<td style="text-align: left;"><span class="math inline">\(\mathbb{R}\)</span></td>
-<td style="text-align: left;">Normale</td>
-<td style="text-align: left;">Punteggi QI, scale standardizzate</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Tempo di attesa/reazione</td>
-<td style="text-align: left;"><span class="math inline">\(\mathbb{R}^+\)</span></td>
-<td style="text-align: left;">Gamma, Log-normale</td>
-<td style="text-align: left;">Tempi di reazione, latenze</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Varianza/precisione</td>
-<td style="text-align: left;"><span class="math inline">\(\mathbb{R}^+\)</span></td>
-<td style="text-align: left;">Gamma, Inversa-Gamma</td>
-<td style="text-align: left;">Variabilità tra soggetti</td>
+<td style="text-align: left;">Quali assunzioni sto facendo?</td>
+<td style="text-align: left;">Rende il modello interpretabile e criticabile.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Relazioni tra famiglie:</strong></p>
-<ul>
-<li>Bernoulli è Binomiale con <span class="math inline">\(n=1\)</span></li>
-<li>Esponenziale è Gamma con shape <span class="math inline">\(\alpha=1\)</span></li>
-<li>Poisson emerge come limite di Binomiale per <span class="math inline">\(n \to \infty, p \to 0\)</span></li>
-<li>Normale emerge dal TLC (somma di variabili qualsiasi)</li>
-</ul>
 <p><strong>Per i prossimi capitoli:</strong></p>
-<p>Nel <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> e <a href="12_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a> studieremo in dettaglio le proprietà matematiche, i momenti, i grafici e le applicazioni psicologiche di ciascuna famiglia parametrica, fornendo gli strumenti operativi per specificare prior informativi e costruire modelli bayesiani interpretabili.</p>
+<p>Nel <a href="#sec-prob-discr-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-discr-distr</span></a> e nel <a href="#sec-prob-cont-distr" class="quarto-xref"><span class="quarto-unresolved-ref">sec-prob-cont-distr</span></a> studieremo le principali famiglie di distribuzioni. L’obiettivo sarà imparare a leggerne la forma, interpretarne i parametri e usarle in modo coerente nella modellizzazione psicologica e bayesiana.</p>
 </div>
 </div>
-</section>
-<section id="bibliografia" class="level2 unnumbered unlisted">
-<h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Esercizi di autovalutazione">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Esercizi di autovalutazione
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>
+<p>Per ciascuna quantità, indica una famiglia distributiva plausibile e motiva la scelta in base al supporto:</p>
+<ul>
+<li>risposta corretta/errata a un item;</li>
+<li>numero di ricadute in sei mesi;</li>
+<li>tempo di reazione;</li>
+<li>probabilità di remissione;</li>
+<li>punteggio standardizzato a una scala.</li>
+</ul>
+</li>
+<li><p>Spiega perché una distribuzione normale può essere inadatta per tempi di reazione fortemente asimmetrici.</p></li>
+<li><p>Fai un esempio in cui la stessa famiglia distributiva potrebbe essere usata come prior in un modello e come distribuzione dei dati in un altro modello.</p></li>
+<li><p>Scegli un costrutto psicologico che conosci e descrivi quali aspetti della sua variabilità vorresti rappresentare con una distribuzione.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Informazioni sull'ambiente di sviluppo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Informazioni sull’ambiente di sviluppo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
+<span><span class="co">#&gt; Platform: aarch64-apple-darwin23</span></span>
+<span><span class="co">#&gt; Running under: macOS Tahoe 26.5.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib </span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
+<span><span class="co">#&gt; tzcode source: internal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.2            tinytable_0.17.0      withr_3.0.3          </span></span>
+<span><span class="co">#&gt;  [4] systemfonts_1.3.2     patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.3        </span></span>
+<span><span class="co">#&gt; [10] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.7.0      </span></span>
+<span><span class="co">#&gt; [13] loo_2.10.0            rstan_2.32.7          StanHeaders_2.32.10  </span></span>
+<span><span class="co">#&gt; [16] brms_2.23.0           Rcpp_1.1.2            sessioninfo_1.2.4    </span></span>
+<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
+<span><span class="co">#&gt; [22] modelr_0.1.11         tibble_3.3.1          dplyr_1.2.1          </span></span>
+<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.3.0             here_1.0.2           </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
+<span><span class="co">#&gt;  [4] S7_0.2.2              fastmap_1.2.0         tensorA_0.36.2.1     </span></span>
+<span><span class="co">#&gt;  [7] digest_0.6.39         timechange_0.4.0      estimability_2.0.0   </span></span>
+<span><span class="co">#&gt; [10] lifecycle_1.0.5       magrittr_2.0.5        compiler_4.6.1       </span></span>
+<span><span class="co">#&gt; [13] rlang_1.3.0           tools_4.6.1           yaml_2.3.12          </span></span>
+<span><span class="co">#&gt; [16] knitr_1.51            labeling_0.4.3        bridgesampling_1.2-1 </span></span>
+<span><span class="co">#&gt; [19] htmlwidgets_1.6.4     pkgbuild_1.4.8        curl_7.1.0           </span></span>
+<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           purrr_1.2.2          </span></span>
+<span><span class="co">#&gt; [25] grid_4.6.1            stats4_4.6.1          xtable_1.8-8         </span></span>
+<span><span class="co">#&gt; [28] inline_0.3.21         emmeans_2.0.3         scales_1.4.0         </span></span>
+<span><span class="co">#&gt; [31] cli_3.6.6             mvtnorm_1.4-1         rmarkdown_2.31       </span></span>
+<span><span class="co">#&gt; [34] generics_0.1.4        otel_0.2.0            RcppParallel_5.1.11-2</span></span>
+<span><span class="co">#&gt; [37] cachem_1.1.0          stringr_1.6.0         parallel_4.6.1       </span></span>
+<span><span class="co">#&gt; [40] vctrs_0.7.3           V8_8.2.0              Matrix_1.7-5         </span></span>
+<span><span class="co">#&gt; [43] jsonlite_2.0.0        arrayhelpers_1.1-1    glue_1.8.1           </span></span>
+<span><span class="co">#&gt; [46] codetools_0.2-20      distributional_0.8.1  lubridate_1.9.5      </span></span>
+<span><span class="co">#&gt; [49] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.10.0      </span></span>
+<span><span class="co">#&gt; [52] pillar_1.11.1         htmltools_0.5.9       Brobdingnag_1.2-9    </span></span>
+<span><span class="co">#&gt; [55] R6_2.6.1              textshaping_1.0.5     rprojroot_2.1.1      </span></span>
+<span><span class="co">#&gt; [58] evaluate_1.0.5        lattice_0.22-9        backports_1.5.1      </span></span>
+<span><span class="co">#&gt; [61] memoise_2.0.1         broom_1.0.13          snakecase_0.11.1     </span></span>
+<span><span class="co">#&gt; [64] rstantools_2.6.0      coda_0.19-4.1         gridExtra_2.3.1      </span></span>
+<span><span class="co">#&gt; [67] nlme_3.1-169          checkmate_2.3.4       xfun_0.60            </span></span>
+<span><span class="co">#&gt; [70] pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="bibliografia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="bibliografia">Bibliografia</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
@@ -1522,10 +1830,7 @@ Importante
 Segal, A., Tiego, J., Parkes, L., Holmes, A. J., Marquand, A. F., &amp; Fornito, A. (2025). Embracing variability in the search for biological mechanisms of psychiatric illness. <em>Trends in Cognitive Sciences</em>, <em>29</em>(1), 85–99.
 </div>
 </div>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1944,9 +2249,7 @@ Segal, A., Tiego, J., Parkes, L., Holmes, A. J., Marquand, A. F., &amp; Fornito,
       }
     }
   });
-  </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../../chapters/probability/09_cov_cor.html" class="pagination-link" aria-label="Covarianza e correlazione">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Covarianza e correlazione</span></span>
       </a>          
@@ -1958,8 +2261,7 @@ Segal, A., Tiego, J., Parkes, L., Holmes, A. J., Marquand, A. F., &amp; Fornito,
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Metodi bayesiani in psicologia</em>.</p>
 </div>   
@@ -1970,9 +2272,38 @@ Segal, A., Tiego, J., Parkes, L., Holmes, A. J., Marquand, A. F., &amp; Fornito,
 <p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
   </div>
-</footer>
-
-
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
