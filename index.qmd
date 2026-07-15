@@ -64,7 +64,7 @@ df <- tibble::tibble(
   )
 )
 
-# Creazione della tabella con formattazione condizionale
+# Creazione della tabella con stile dark auto-contenuto
 df %>%
   gt() %>%
   fmt_markdown(columns = c(Parte, Capitoli, Riferimento)) %>%
@@ -90,36 +90,85 @@ df %>%
     align = "left",
     columns = c(Parte, Capitoli, Riferimento)
   ) %>%
-  # Stile per le righe
   tab_style(
-    style = cell_text(whitespace = "normal"),
+    style = cell_text(
+      whitespace = "normal",
+      color = "#e6edf3"
+    ),
     locations = cells_body(columns = everything())
   ) %>%
-  # Bordi e spaziatura
-  tab_options(
-    table.font.size = px(14),
-    data_row.padding = px(12),
-    table_body.hlines.style = "none",
-    table_body.vlines.style = "none",
-    column_labels.border.top.width = px(2),
-    column_labels.border.top.color = "#2c3e50",
-    column_labels.border.bottom.width = px(2),
-    column_labels.border.bottom.color = "#2c3e50",
-    table.border.top.color = "transparent",
-    table.border.bottom.color = "transparent"
-  ) %>%
-  # Colori alternati per le righe (opzionale)
-  tab_style(
-    style = cell_fill(color = "#f8f9fa"),
-    locations = cells_body(rows = seq(1, nrow(df), 2))
-  ) %>%
-  # Evidenzia l'intestazione
   tab_style(
     style = list(
-      cell_text(weight = "bold", color = "#2c3e50"),
-      cell_fill(color = "#e9ecef")
+      cell_fill(color = "#161b22"),
+      cell_text(color = "#e6edf3")
+    ),
+    locations = cells_body(rows = seq(1, nrow(df), 2))
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "#1f2630"),
+      cell_text(color = "#e6edf3")
+    ),
+    locations = cells_body(rows = seq(2, nrow(df), 2))
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold", color = "#f0f6fc"),
+      cell_fill(color = "#222b36")
     ),
     locations = cells_column_labels()
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    table.font.color = "#e6edf3",
+    table.background.color = "#0d1117",
+    data_row.padding = px(12),
+
+    table_body.hlines.style = "solid",
+    table_body.hlines.color = "#3a4350",
+    table_body.hlines.width = px(1),
+    table_body.vlines.style = "solid",
+    table_body.vlines.color = "#3a4350",
+    table_body.vlines.width = px(1),
+
+    column_labels.border.top.width = px(2),
+    column_labels.border.top.color = "#3a4350",
+    column_labels.border.bottom.width = px(2),
+    column_labels.border.bottom.color = "#3a4350",
+
+    table.border.top.color = "#3a4350",
+    table.border.bottom.color = "#3a4350"
+  ) %>%
+  opt_css(
+    css = "
+    .gt_table {
+      background-color: #0d1117 !important;
+      color: #e6edf3 !important;
+    }
+
+    .gt_table td,
+    .gt_table th {
+      color: #e6edf3 !important;
+      border-color: #3a4350 !important;
+    }
+
+    .gt_table .gt_col_heading {
+      background-color: #222b36 !important;
+      color: #f0f6fc !important;
+    }
+
+    .gt_table small {
+      color: #b7c0cc !important;
+    }
+
+    .gt_table a {
+      color: #8ab4f8 !important;
+    }
+
+    .gt_table strong {
+      color: #f0f6fc !important;
+    }
+    "
   )
 ```
 
