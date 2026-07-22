@@ -2,11 +2,11 @@
 
 ## Introduzione {.unnumbered .unlisted}
 
-Immaginiamo uno scenario ricorrente nella pratica clinica. Una psicologa vuole valutare l'efficacia di un intervento cognitivo-comportamentale per l'ansia sociale. Somministra la *Liebowitz Social Anxiety Scale* (LSAS) a 50 pazienti, rilevando le misure prima e dopo 12 sedute.
+Si consideri uno scenario ricorrente nella pratica clinica in cui il clinico intende valutare l'efficacia di un intervento per il disturbo d'ansia sociale. A tale scopo, somministra la *Liebowitz Social Anxiety Scale* (LSAS) a un campione di 50 pazienti, rilevando le misurazioni prima e dopo un ciclo di 12 sedute.
 
-La domanda clinica non si riduce a "l'intervento funziona sì o no?". La questione è più sostanziale: qual è l'entità attesa del miglioramento? Quale distribuzione di probabilità caratterizza gli effetti possibili? Con quale misura di incertezza dobbiamo accompagnare le nostre stime?
+Il quesito metodologico non si esaurisce in una semplice dicotomia, ovvero nel capire se l'intervento funzioni o meno, ma verte sulla stima dell'entità attesa del miglioramento, sulla distribuzione di probabilità che caratterizza i potenziali effetti e sulla misura di incertezza da associare a tali stime.
 
-Per rispondere a queste domande, è necessario compiere un salto concettuale: non si tratta più di assegnare probabilità a eventi discreti, ma a quantità numeriche continue. È questo il ruolo delle **variabili casuali**, che fungono da ponte tra la teoria della probabilità e i modelli statistici dell'inferenza bayesiana.
+Per rispondere a questi quesiti, è necessario compiere un salto concettuale e passare dallo studio di eventi discreti a quello di grandezze continue. È in questo ambito che si colloca la nozione di *variabile casuale* che funge da ponte teorico tra il calcolo delle probabilità e i modelli statistici dell'approccio bayesiano.
 
 In questo capitolo:
 
@@ -50,21 +50,21 @@ apply_visual_theme()
 
 ## Dalla probabilità degli eventi ai valori numerici {#sec-from-events-to-numbers}
 
-Nel framework bayesiano sviluppato nei capitoli precedenti, abbiamo assegnato probabilità a **eventi**, ovvero proposizioni sul mondo. Quando un clinico afferma $P(\text{Depressione maggiore}) = 0.3$, sta quantificando la propria credenza in una proposizione binaria.
+Nel framework bayesiano sviluppato nei capitoli precedenti, abbiamo assegnato probabilità a *eventi*, ovvero proposizioni sul mondo. Quando un clinico afferma $P(\text{Depressione maggiore}) = 0.3$, sta quantificando la propria credenza in una proposizione binaria.
 
-Questa struttura è potente per molte domande, ma risulta insufficiente quando l'oggetto dell'incertezza non è un evento sì/no, bensì un **valore numerico**. Consideriamo alcune domande tipiche:
+Questa struttura è potente per molte domande, ma risulta insufficiente quando l'oggetto dell'incertezza non è un evento sì/no, bensì un *valore numerico*. Consideriamo alcune domande tipiche:
 
 - *Quale sarà il punteggio di questo paziente al BDI-II tra sei mesi?*
 - *Quanto tempo impiegherà un partecipante in un compito di decisione lessicale?*
 - *Quanti sintomi depressivi riporterà il paziente nella prossima settimana?*
 
-In tutti questi casi, l'incertezza non riguarda il verificarsi di un evento, ma l'ampiezza, la durata o l'intensità di un fenomeno. Per modellare questo tipo di incertezza, dobbiamo passare dagli eventi alle **variabili casuali**.
+In tutti questi casi, l'incertezza non riguarda il verificarsi di un evento, ma l'ampiezza, la durata o l'intensità di un fenomeno. Per modellare questo tipo di incertezza, dobbiamo passare dagli eventi alle *variabili casuali*.
 
 ### L'idea fondamentale
 
-Il passaggio concettuale consiste nel riconoscere che molti esperimenti producono naturalmente risultati numerici. Un test psicometrico restituisce un punteggio, una misurazione fisiologica produce un valore continuo, un compito cognitivo genera un tempo di reazione. Anche quando gli esiti originari non sono numerici, è sempre possibile **codificarli** come tali, assegnando 1 al successo e 0 al fallimento o utilizzando codifiche ordinali per le categorie diagnostiche.
+Il passaggio concettuale consiste nel riconoscere che molti esperimenti producono naturalmente risultati numerici. Un test psicometrico restituisce un punteggio, una misurazione fisiologica produce un valore continuo, un compito cognitivo genera un tempo di reazione. Anche quando gli esiti originari non sono numerici, è sempre possibile *codificarli* come tali, assegnando 1 al successo e 0 al fallimento o utilizzando codifiche ordinali per le categorie diagnostiche.
 
-La traduzione sistematica degli esiti in numeri è realizzata tramite una **variabile casuale**. La "casualità" non risiede nella funzione, che è perfettamente deterministica, ma nell'incertezza relativa all'esito che si verificherà nello spazio campionario.
+La traduzione sistematica degli esiti in numeri è realizzata tramite una *variabile casuale*. La "casualità" non risiede nella funzione, che è perfettamente deterministica, ma nell'incertezza relativa all'esito che si verificherà nello spazio campionario.
 
 ## Definizione formale di variabile casuale {#sec-random-variable-definition}
 
@@ -80,8 +80,6 @@ che associa a ogni esito $\omega \in \Omega$ un unico numero reale $X(\omega)$.
 :::
 
 La variabile casuale traduce ciascuna possibilità in un numero, rendendo possibile l'applicazione dell'analisi matematica allo studio dell'incertezza.
-
-Il termine "casuale" è in parte fuorviante: la funzione $X$ non è affatto aleatoria, ma completamente deterministica. L'incertezza deriva esclusivamente dal fatto che non sappiamo quale elemento di $\Omega$ si realizzerà.
 
 Per convenzione, le variabili casuali sono indicate con lettere maiuscole ($X$, $Y$, $Z$), mentre i valori numerici che possono assumere sono indicati con lettere minuscole ($x$, $y$, $z$). Questa distinzione permette di scrivere espressioni come $P(X = x)$ o $P(X \leq x)$.
 
@@ -121,7 +119,7 @@ Senza il concetto di variabile casuale, non sarebbe possibile formulare domande 
 
 ## Variabili casuali discrete {#sec-discrete-random-variables}
 
-Una variabile casuale è detta **discreta** quando l'insieme dei valori possibili è finito o numerabile.
+Una variabile casuale è detta *discreta* quando l'insieme dei valori possibili è finito o numerabile.
 
 ::: {#def-discrete-rv}
 ### Variabile casuale discreta
@@ -203,7 +201,7 @@ $$
 
 ### Connessione con il percorso bayesiano
 
-La PMF che abbiamo appena costruito è la **funzione di verosimiglianza** del modello binomiale. Quando osserviamo $k$ successi su $n$ prove e vogliamo stimare $\theta$, la verosimiglianza è:
+La PMF che abbiamo appena costruito è la *funzione di verosimiglianza* del modello binomiale. Quando osserviamo $k$ successi su $n$ prove e vogliamo stimare $\theta$, la verosimiglianza è:
 
 $$
 L(\theta \mid k) = \binom{n}{k} \theta^k (1-\theta)^{n-k}.
@@ -213,7 +211,7 @@ Comprendere la PMF significa comprendere una delle due componenti essenziali del
 
 ## Variabili casuali continue {#sec-continuous-random-variables}
 
-Molte grandezze psicologiche non possono essere rappresentate da variabili discrete. Tempi di reazione, livelli di cortisolo, punteggi su scale psicometriche trattati come misure continue — tutte possono assumere, almeno in linea di principio, **qualsiasi valore** in un intervallo continuo.
+Molte grandezze psicologiche non possono essere rappresentate da variabili discrete. Tempi di reazione, livelli di cortisolo, punteggi su scale psicometriche trattati come misure continue — tutte possono assumere, almeno in linea di principio, *qualsiasi valore* in un intervallo continuo.
 
 ::: {#def-continuous-rv}
 ### Variabile casuale continua
@@ -225,7 +223,7 @@ P(a \leq X \leq b) = \int_a^b f_X(x)\,dx.
 $$
 :::
 
-La probabilità non è più assegnata a singoli valori, ma a **intervalli** della retta reale.
+La probabilità non è più assegnata a singoli valori, ma a *intervalli* della retta reale.
 
 ### Esempi in psicologia
 
@@ -237,7 +235,7 @@ La probabilità non è più assegnata a singoli valori, ma a **intervalli** dell
 
 ## Funzione di densità di probabilità {#sec-pdf}
 
-La funzione di densità di probabilità svolge per le variabili continue un ruolo analogo a quello della PMF per le variabili discrete, ma con una differenza cruciale: $f_X(x)$ **non rappresenta** la probabilità che la variabile assuma esattamente il valore $x$.
+La funzione di densità di probabilità svolge per le variabili continue un ruolo analogo a quello della PMF per le variabili discrete, ma con una differenza cruciale: $f_X(x)$ *non rappresenta* la probabilità che la variabile assuma esattamente il valore $x$.
 
 Infatti, per una variabile casuale continua:
 
@@ -245,11 +243,11 @@ $$
 P(X = x_0) = \int_{x_0}^{x_0} f_X(x)\,dx = 0.
 $$
 
-La probabilità non è concentrata nei punti, ma **distribuita sugli intervalli**.
+La probabilità non è concentrata nei punti, ma *distribuita sugli intervalli*.
 
 ### Come interpretare la densità
 
-La densità $f_X(x)$ misura la **concentrazione della probabilità**. Valori elevati di $f_X(x)$ indicano le regioni in cui la variabile è più probabile, nel senso che gli intervalli di piccole dimensioni attorno a quei punti hanno una probabilità relativamente maggiore.
+La densità $f_X(x)$ misura la *concentrazione della probabilità*. Valori elevati di $f_X(x)$ indicano le regioni in cui la variabile è più probabile, nel senso che gli intervalli di piccole dimensioni attorno a quei punti hanno una probabilità relativamente maggiore.
 
 Un'analogia: se la probabilità fosse acqua e la retta reale un contenitore, la densità indicherebbe l'altezza dell'acqua. La quantità totale è sempre 1, ma può essere distribuita in modo più o meno concentrato.
 
@@ -262,7 +260,7 @@ Una funzione $f_X(x)$ è una valida densità se e solo se:
 2. **Normalizzazione**: $\int_{-\infty}^{+\infty} f_X(x)\,dx = 1$.
 :::
 
-È importante notare che $f_X(x)$ può superare 1: ciò non viola alcun principio, poiché $f_X(x)$ non è una probabilità. Solo l'**integrale** della densità restituisce una probabilità.
+È importante notare che $f_X(x)$ può superare 1: ciò non viola alcun principio, poiché $f_X(x)$ non è una probabilità. Solo l'*integrale* della densità restituisce una probabilità.
 
 ### Ponte applicativo: la PDF nella valutazione clinica
 
@@ -274,7 +272,7 @@ Quando un clinico afferma che "i punteggi del BDI-II nella popolazione generale 
 
 ::: {.callout-note collapse="true" title="Esempio: tempo di reazione in un compito cognitivo"}
 
-Consideriamo una variabile $T$ che rappresenta il tempo di reazione (in ms). I tempi di reazione sono spesso modellati con distribuzioni asimmetriche positive, come la **log-normale**.
+Consideriamo una variabile $T$ che rappresenta il tempo di reazione (in ms). I tempi di reazione sono spesso modellati con distribuzioni asimmetriche positive, come la *log-normale*.
 
 Supponiamo $\ln(T) \sim N(5.7, 0.3^2)$. La PDF è:
 
@@ -313,7 +311,7 @@ cat("P(300 ≤ T ≤ 400):", round(prob_300_400, 3), "\n")
 
 ## Funzione di distribuzione cumulativa {#sec-cdf}
 
-Esiste una descrizione che vale **sia per le variabili discrete che per quelle continue**: la **funzione di distribuzione cumulativa**.
+Esiste una descrizione che vale *sia per le variabili discrete che per quelle continue*: la *funzione di distribuzione cumulativa*.
 
 ::: {#def-cdf}
 ### Funzione di distribuzione cumulativa (CDF)
@@ -351,7 +349,7 @@ La CDF è lo strumento naturale per calcolare la proporzione di individui che ca
 
 ### Connessione con il percorso bayesiano
 
-La CDF è lo strumento fondamentale per calcolare gli **intervalli di credibilità**. Se il parametro $\theta$ ha distribuzione a posteriori $p(\theta \mid \text{dati})$:
+La CDF è lo strumento fondamentale per calcolare gli *intervalli di credibilità*. Se il parametro $\theta$ ha distribuzione a posteriori $p(\theta \mid \text{dati})$:
 
 - il **quantile** $q_\alpha$ tale che $F_\theta(q_\alpha) = \alpha$;
 - l'**intervallo di credibilità al 95%** è $[q_{0.025}, q_{0.975}]$;
@@ -359,7 +357,7 @@ La CDF è lo strumento fondamentale per calcolare gli **intervalli di credibilit
 
 ## Variabili casuali multiple {#sec-multiple-random-variables}
 
-In molti contesti è necessario modellare **più fenomeni aleatori simultaneamente**. Nello studio della comorbilità, ad esempio, è necessario rappresentare congiuntamente ansia e depressione.
+In molti contesti è necessario modellare *più fenomeni aleatori simultaneamente*. Nello studio della comorbilità, ad esempio, è necessario rappresentare congiuntamente ansia e depressione.
 
 ### Distribuzione congiunta
 
@@ -397,13 +395,13 @@ Nell'esempio: $p_X(\text{ansia alta}) = 0.02 + 0.08 + 0.20 = 0.30$.
 
 ### Indipendenza stocastica
 
-Le variabili $X$ e $Y$ sono **indipendenti** se:
+Le variabili $X$ e $Y$ sono *indipendenti* se:
 
 $$
 p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y) \quad \text{per ogni } (x,y).
 $$
 
-Nell'esempio, ansia e depressione **non** sono indipendenti: $0.20 \neq 0.30 \times 0.32 = 0.096$. Le due condizioni tendono a co-occorrere più di quanto ci si aspetterebbe per caso.
+Nell'esempio, ansia e depressione *non* sono indipendenti: $0.20 \neq 0.30 \times 0.32 = 0.096$. Le due condizioni tendono a co-occorrere più di quanto ci si aspetterebbe per caso.
 
 ### Ponte applicativo
 
@@ -411,18 +409,18 @@ Nella pratica clinica, le relazioni tra ansia e depressione, tra sintomi e funzi
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Il concetto di **variabile casuale** rappresenta il ponte fondamentale tra la teoria della probabilità e l'analisi quantitativa dei fenomeni psicologici. Ogni risultato, che si tratti di un punteggio, di un tempo o di un conteggio, può essere tradotto in un oggetto matematico sul quale è possibile applicare gli strumenti del calcolo delle probabilità.
+Il concetto di *variabile casuale* rappresenta il ponte fondamentale tra la teoria della probabilità e l'analisi quantitativa dei fenomeni psicologici. Ogni risultato, che si tratti di un punteggio, di un tempo o di un conteggio, può essere tradotto in un oggetto matematico sul quale è possibile applicare gli strumenti del calcolo delle probabilità.
 
-Le due principali classi di variabili casuali, **discrete** e **continue**, richiedono formalizzazioni tecniche differenti (somme vs integrali), ma si basano sullo stesso principio: descrivere la distribuzione della credenza nello spazio dei possibili valori.
+Le due principali classi di variabili casuali, *discrete* e *continue*, richiedono formalizzazioni tecniche differenti (somme vs integrali), ma si basano sullo stesso principio: descrivere la distribuzione della credenza nello spazio dei possibili valori.
 
-Per chi si avvicina all'inferenza bayesiana, questi concetti costituiscono il **vocabolario necessario** per:
+Per chi si avvicina all'inferenza bayesiana, questi concetti costituiscono il *vocabolario necessario* per:
 
 - specificare le distribuzioni a priori sui parametri;
 - comprendere la funzione di verosimiglianza;
 - interpretare le distribuzioni a posteriori e gli intervalli di credibilità;
 - formulare domande probabilistiche sui fenomeni psicologici.
 
-Nei capitoli successivi studieremo le **famiglie parametriche di distribuzioni**, come la distribuzione Beta, la distribuzione Normale, la distribuzione Binomiale, la distribuzione di Poisson e altre, che costituiscono i mattoni elementari della modellazione bayesiana.
+Nei capitoli successivi studieremo le *famiglie parametriche di distribuzioni*, come la distribuzione Beta, la distribuzione Normale, la distribuzione Binomiale, la distribuzione di Poisson e altre, che costituiscono i mattoni elementari della modellazione bayesiana.
 
 ## Punti chiave da ricordare {.unnumbered}
 
