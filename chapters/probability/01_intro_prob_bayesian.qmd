@@ -1,58 +1,76 @@
 # Interpretazione bayesiana della probabilità {#sec-prob-interpretation}
 
+::: {.callout-note title="In sintesi"}
+
+**Da sapere**  La probabilità bayesiana rappresenta un grado di credenza razionale relativo alle informazioni disponibili. La coerenza impone vincoli alle valutazioni probabilistiche e l’aggiornamento bayesiano descrive come modificarle quando arrivano nuovi dati.
+
+**Da saper fare**  Distinguere l’interpretazione bayesiana da quella frequentista; riconoscere il ruolo dello stato informativo; spiegare il significato della coerenza; individuare *prior*, verosimiglianza e *posterior* in un semplice problema di aggiornamento.
+
+:::
+
 ## Introduzione {.unnumbered .unlisted}
 
-In questo capitolo adotteremo una **prospettiva bayesiana** sulla probabilità. Secondo questo approccio, la probabilità non è una proprietà intrinseca degli eventi, né una mera frequenza osservata, bensì un **grado di credenza razionale** che un agente assegna sulla base delle informazioni disponibili.
+In questo capitolo adotteremo una **prospettiva bayesiana** sulla probabilità. Secondo questo approccio, la probabilità non è una proprietà intrinseca degli eventi, né una mera frequenza osservata, bensì un **grado di credenza razionale** che un agente assegna a un’affermazione sulla base delle informazioni disponibili.
 
-Questa visione, sviluppata da pensatori quali Thomas Bayes, Pierre‑Simon Laplace e Bruno de Finetti, fornisce una cornice concettuale particolarmente adatta alle scienze psicologiche, in cui spesso si è chiamati a ragionare in condizioni di informazione parziale, rumore sistematico e variabilità individuale strutturale.
+Questa visione, sviluppata da pensatori quali Thomas Bayes, Pierre-Simon Laplace e Bruno de Finetti, fornisce una cornice concettuale particolarmente adatta alle scienze psicologiche, nelle quali si è spesso chiamati a ragionare in condizioni di informazione parziale, errore di misura e variabilità individuale.
 
-Dal punto di vista bayesiano, gli assiomi della probabilità non descrivono proprietà oggettive dei fenomeni aleatori, ma costituiscono vincoli di coerenza logica per un sistema di credenze razionali. Essi specificano come le nostre valutazioni dell'incertezza devono relazionarsi tra loro per evitare contraddizioni. La violazione di questi vincoli renderebbe l’assegnazione di probabilità internamente incoerente, esponendo il soggetto a valutazioni paradossali e a scelte decisionali sistematicamente svantaggiose.
+Dal punto di vista bayesiano, gli assiomi della probabilità non descrivono proprietà oggettive dei fenomeni aleatori, ma costituiscono vincoli di coerenza logica per un sistema di credenze razionali. Essi specificano come le nostre valutazioni dell’incertezza devono relazionarsi tra loro per evitare contraddizioni. La violazione di questi vincoli renderebbe l’assegnazione di probabilità internamente incoerente, esponendo il soggetto a valutazioni paradossali e a scelte decisionali sistematicamente svantaggiose.
 
-Nel corso del modulo ricorreremo spesso a simulazioni al computer. Il loro scopo non è definire astrattamente "che cos'è" la probabilità, ma illustrare come un sistema di credenze coerente si comporta a contatto con i dati empirici, mostrando così perché l'approccio bayesiano sia uno strumento potente per il ragionamento scientifico in psicologia.
+Nel corso del modulo ricorreremo spesso a simulazioni al computer. Il loro scopo non è definire astrattamente che cosa sia la probabilità, ma illustrare come un sistema di credenze coerente si comporti a contatto con i dati empirici. Le simulazioni renderanno quindi visibili le conseguenze operative dei modelli probabilistici.
 
-## Perché la probabilità bayesiana in psicologia? {.unnumbered .unlisted}
+## Perché la probabilità bayesiana in psicologia?
 
 L’approccio bayesiano offre un quadro epistemologico e statistico particolarmente adatto alla ricerca psicologica, grazie a tre proprietà distintive rispetto al paradigma frequentista.
 
 **Integrazione di informazioni complementari.**  
-Molti studi, specie in ambito clinico e sperimentale, si basano su campioni di dimensioni ridotte (*n* tra 20 e 50), nei quali l’informazione empirica è intrinsecamente limitata. L’inferenza bayesiana compensa tale limite incorporando formalmente le conoscenze pregresse attraverso la distribuzione a priori, sfruttando in modo coerente l’intero spettro informativo disponibile.
+Molti studi, specie in ambito clinico e sperimentale, si basano su campioni di dimensioni ridotte (*n* tra 20 e 50), nei quali l’informazione empirica è limitata. L’inferenza bayesiana può integrare formalmente le conoscenze pregresse attraverso la distribuzione a priori, combinandole in modo esplicito con l’informazione fornita dai dati.
 
 **Formalizzazione della conoscenza cumulativa.**  
 La ricerca psicologica non procede mai da un vuoto teorico, ma si innesta su teorie consolidate e risultati precedenti. L’approccio bayesiano traduce questa dimensione cumulativa in termini matematici, rendendo esplicito e verificabile l’aggiornamento delle credenze alla luce di nuovi dati, un processo che nei metodi tradizionali rimane spesso implicito.
 
 **Interpretabilità diretta dei risultati.**  
-L’inferenza bayesiana esprime le conclusioni nel linguaggio naturale della probabilità, ad esempio: "La probabilità che l’effetto sia compreso tra 0.2 e 0.8 è del 95%". Questa formulazione supera le note ambiguità degli intervalli di confidenza frequentisti, facilita la comunicazione scientifica e agevola la traduzione dei risultati in decisioni cliniche, indicazioni pratiche e sviluppo teorico. In tal senso, l’approccio bayesiano si rivela non solo metodologicamente robusto, ma anche epistemicamente trasparente.
+L’inferenza bayesiana consente di esprimere conclusioni nel linguaggio della probabilità, per esempio: «Dato il modello e i dati osservati, la probabilità che l’effetto sia compreso tra 0.2 e 0.8 è del 95%». Questa formulazione evita le note ambiguità degli intervalli di confidenza frequentisti, facilita la comunicazione scientifica e agevola la traduzione dei risultati in decisioni cliniche, indicazioni pratiche e sviluppo teorico.
 
 ::: {.callout-note collapse="true" title="Esempio concreto"}
 
-**Scenario**: uno psicologo clinico intende valutare l'efficacia di un nuovo protocollo per l'ansia attraverso uno studio pilota condotto su un campione ristretto ($n$ = 15).
+**Scenario.** Uno psicologo clinico intende valutare l’efficacia di un nuovo protocollo per l’ansia attraverso uno studio pilota condotto su un campione ristretto ($n = 15$).
 
-**Approccio tradizionale**: "La numerosità campionaria è insufficiente per garantire una potenza statistica adeguata. Non è possibile trarre conclusioni significative; l'unica soluzione è ampliare drasticamente il campione."
+**Approccio tradizionale.** «La numerosità campionaria è insufficiente per garantire una potenza statistica adeguata. Non è possibile trarre conclusioni affidabili senza ampliare il campione».
 
-**Approccio bayesiano**: "Posso integrare le evidenze della letteratura preesistente definendo un *prior* informativo, per poi aggiornarlo con i dati raccolti sui 15 pazienti. Ne deriverà una distribuzione a posteriori capace di quantificare con rigore sia l'effetto stimato sia l'incertezza residua, offrendo una base razionale per la decisione clinica anche in presenza di dati limitati."
+**Approccio bayesiano.** «Posso integrare le evidenze della letteratura preesistente definendo un *prior* informativo, per poi aggiornarlo con i dati raccolti sui 15 pazienti. Ne deriverà una distribuzione a posteriori che quantifica sia l’effetto stimato sia l’incertezza residua, offrendo una base esplicita per la decisione clinica anche in presenza di dati limitati».
 
 :::
 
-::: {.callout-tip collapse="true"}
-## Prerequisiti
+::: {.callout-tip title="Prerequisiti"}
 
-Questo è il capitolo introduttivo del modulo. Non sono richiesti prerequisiti specifici oltre alle conoscenze di algebra elementare e statistica descrittiva indicate nell'introduzione generale.
+Questo è il capitolo introduttivo del modulo. Non sono richiesti prerequisiti specifici oltre a conoscenze elementari di algebra e statistica descrittiva.
 
-Per consultazioni opzionali:
+Come risorse opzionali possono essere consultate @sec-apx-math-symbols e @sec-apx-numbers.
 
-- @sec-apx-math-symbols 
-- @sec-apx-numbers
 :::
 
-::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il capitolo sviluppa il percorso seguente:
+
+1. distingue l’incertezza epistemica da quella ontologica;
+2. introduce il decisore coerente e il soggettivismo di de Finetti;
+3. definisce la probabilità come grado di credenza razionale;
+4. collega la coerenza agli assiomi della probabilità;
+5. confronta le interpretazioni bayesiana e frequentista;
+6. chiarisce il ruolo illustrativo delle simulazioni;
+7. anticipa la logica dell’aggiornamento bayesiano e le sue applicazioni in psicologia.
+
+::: {.callout-note title="Preparazione del notebook"}
 
 ```{r}
 #| output: false
-here::here("code", "_common.R") |> 
+here::here("code", "_common.R") |>
   source()
-# Riapplica il tema per sicurezza
+
 apply_visual_theme()
 ```
+
 :::
 
 ## Casualità e incertezza: due prospettive a confronto
@@ -147,9 +165,9 @@ Questo esempio mostra che il rispetto degli assiomi probabilistici non è un det
 
 ### Gli assiomi di Kolmogorov
 
-Ramsey e de Finetti hanno dimostrato che per evitare perdite certe è necessario rispettare specifici vincoli di coerenza. Questi vincoli sono formalizzati negli **assiomi della probabilità** (introdotti da Kolmogorov): essi impongono che i gradi di credenza siano non negativi, che l'insieme di tutte le possibilità abbia probabilità 1 e che la probabilità di eventi mutuamente esclusivi sia additiva. La loro formulazione esatta e le loro conseguenze saranno esaminate in dettaglio nel capitolo successivo (@sec-prob-axioms-coherence). Per ora, è sufficiente sapere che questi assiomi non sono mere convenzioni matematiche: esprimono le condizioni minime per un sistema di credenze internamente coerente.
+Ramsey e de Finetti hanno dimostrato che per evitare perdite certe è necessario rispettare specifici vincoli di coerenza. Questi vincoli sono formalizzati negli **assiomi della probabilità** (introdotti da Kolmogorov): essi impongono che i gradi di credenza siano non negativi, che lo spazio di tutte le possibilità abbia probabilità 1 e che la probabilità di eventi mutuamente esclusivi sia additiva. La loro formulazione esatta e le loro conseguenze saranno esaminate in dettaglio nel capitolo successivo (@sec-prob-axioms-coherence). Per ora, è sufficiente sapere che questi assiomi non sono mere convenzioni matematiche: esprimono le condizioni minime per un sistema di credenze internamente coerente.
 
-### 4.4 Implicazioni per la psicologia
+### Implicazioni per la psicologia
 
 L'argomento della scommessa olandese attribuisce alle regole della probabilità un significato pragmatico: non descrivono solo relazioni formali tra eventi, ma stabiliscono i vincoli che un sistema di credenze deve rispettare per guidare scelte razionali in condizioni di incertezza.
 
@@ -162,7 +180,7 @@ Una trattazione più formale dell'argomento del *Dutch Book*, insieme al *Princi
 
 ## Le origini storiche
 
-Le radici dell'approccio bayesiano affondano nel Settecento, quando Thomas Bayes (1701–1761) formulò il teorema che porta il suo nome, mostrando come le credenze sulle cause possano essere aggiornate a partire dagli effetti osservati. Pierre-Simon Laplace (1749–1827) sviluppò e applicò queste idee a una vasta ampia gamma di problemi scientifici, definendo la probabilità come "buon senso ridotto a calcolo". Nel Novecento, Bruno de Finetti (1906–1985) ha fornito una rigorosa fondazione soggettivista, sostenendo che la probabilità "non esiste" come proprietà del mondo, ma è uno strumento per quantificare l'incertezza individuale. Harold Jeffreys (1891–1989), con il suo Theory of Probability (1939), elaborò invece un approccio "oggettivo" basato su prior non informativi, dimostrando l'efficacia pratica dell'inferenza bayesiana nell'analisi dei dati scientifici. Dopo un periodo di eclissi dovuto al predominio del frequentismo, l'approccio bayesiano ha conosciuto una rinascita a partire dagli anni Novanta, resa possibile dallo sviluppo di metodi computazionali come i metodi Monte Carlo via catena di Markov (MCMC) e dalla loro crescente diffusione in ambito psicologico e nelle scienze cognitive [@gelman1995bayesian; @McElreath_rethinking; @doing_bayesian_data_an; @Johnson2022bayesrules].
+Le radici dell'approccio bayesiano affondano nel Settecento, quando Thomas Bayes (1701–1761) formulò il teorema che porta il suo nome, mostrando come le credenze sulle cause possano essere aggiornate a partire dagli effetti osservati. Pierre-Simon Laplace (1749–1827) sviluppò e applicò queste idee a un’ampia gamma di problemi scientifici, definendo la probabilità come "buon senso ridotto a calcolo". Nel Novecento, Bruno de Finetti (1906–1985) ha fornito una rigorosa fondazione soggettivista, sostenendo che la probabilità "non esiste" come proprietà del mondo, ma è uno strumento per quantificare l'incertezza individuale. Harold Jeffreys (1891–1989), con il suo *Theory of Probability* (1939), elaborò invece un approccio "oggettivo" basato su prior non informativi, dimostrando l'efficacia pratica dell'inferenza bayesiana nell'analisi dei dati scientifici. Dopo un periodo di eclissi dovuto al predominio del frequentismo, l'approccio bayesiano ha conosciuto una rinascita a partire dagli anni Novanta, resa possibile dallo sviluppo di metodi computazionali come i metodi Monte Carlo basati su catene di Markov (MCMC) e dalla loro crescente diffusione in ambito psicologico e nelle scienze cognitive [@gelman1995bayesian; @McElreath_rethinking; @doing_bayesian_data_an; @Johnson2022bayesrules].
 
 ## Il ruolo delle simulazioni: illustrazione, non definizione
 
@@ -170,13 +188,13 @@ Una differenza fondamentale tra l'approccio bayesiano e quello frequentista rigu
 
 ### La prospettiva frequentista
 
-Secondo il frequentismo, la probabilità di un evento è definita come il limite della sua frequenza relativa in una sequenza ideale infinita di prove identiche:
+Secondo il frequentismo, la probabilità di un evento è definita come il limite della sua frequenza relativa nel limite di una sequenza ideale di prove di prove identiche:
 
 $$
 P(A) = \lim_{n \to \infty} \frac{\text{frequenza di occorrenza di } A}{n}.
 $$
 
-La probabilità è quindi una **proprietà oggettiva** del fenomeno, indipendente dall'osservatore e stimabile tramite esperimenti ripetuti. In questa cornice, la probabilità coincide concettualmente con il comportamento a lungo termine delle frequenze osservate.
+In questa interpretazione, la probabilità è una **proprietà oggettiva** del fenomeno, indipendente dall'osservatore e stimabile tramite esperimenti ripetuti. In questa cornice, la probabilità coincide concettualmente con il comportamento a lungo termine delle frequenze osservate.
 
 Tuttavia, l’approccio frequentista presenta due difficoltà principali quando viene applicato a contesti concreti.
 
@@ -205,6 +223,8 @@ Le simulazioni permettono di illustrare concetti quali la convergenza statistica
 ### Esempio: lancio di moneta rivisitato
 
 ```{r}
+#| label: fig-convergenza-frequenza
+#| fig-cap: "Convergenza della frequenza cumulativa di Testa verso il valore assunto nel modello di simulazione."
 set.seed(42)
 
 # Assegno credenza P(Testa) = 0.5 per simmetria epistemica
@@ -226,18 +246,17 @@ df <- data.frame(
 ggplot(df, aes(x = lancio, y = freq)) +
   geom_line(alpha = 0.7) +
   geom_hline(yintercept = p_testa_credenza, 
-             linetype = "dashed", color = "red", size = 1) +
-  scale_fill_qualitative() +
+             linetype = "dashed", color = "red", linewidth = 0.8) +
   labs(
     title = "Frequenza cumulativa converge alla credenza",
     subtitle = "La credenza P(Testa)=0.5 predice la convergenza osservata",
     x = "Numero di lanci",
     y = "Frequenza cumulativa di Teste"
   ) +
-  ylim(0.3, 0.7)
+  coord_cartesian(ylim = c(0.3, 0.7))
 ```
 
-L'interpretazione bayesiana di questa simulazione evidenzia che l'assegnazione di $P(\text{Testa}) = 0.5$ deriva da un principio di simmetria epistemica, in assenza di informazioni che privilegino un esito rispetto all'altro. La simulazione verifica la coerenza di questa credenza con il comportamento empirico atteso. È importante notare che la probabilità 0.5 non è definita dalla convergenza empirica, ma rappresenta un'assegnazione a priori che la legge dei grandi numeri successivamente conferma.
+La @fig-convergenza-frequenza evidenzia che l'assegnazione di $P(\text{Testa}) = 0.5$ deriva da un principio di simmetria epistemica, in assenza di informazioni che privilegino un esito rispetto all'altro. La simulazione verifica la coerenza di questa credenza con il comportamento empirico atteso. È importante notare che la probabilità 0.5 non è definita dalla convergenza empirica, ma rappresenta un’assegnazione iniziale le cui conseguenze di lungo periodo sono descritte dalla legge dei grandi numeri.
 
 ## Introduzione all'aggiornamento bayesiano
 
@@ -289,7 +308,7 @@ La teoria bayesiana della probabilità si rivela particolarmente adatta allo stu
 
 In ambito diagnostico, il framework bayesiano consente di integrare sistematicamente fonti informative eterogenee — anamnesi, osservazione comportamentale, test psicometrici — aggiornando le credenze del clinico a ogni nuova evidenza. Un contributo particolarmente rilevante è la possibilità di incorporare esplicitamente la prevalenza dei disturbi, riducendo il rischio di errori dovuti alla negligenza dei tassi di base.
 
-Nello studio dei processi cognitivi, un influente filone di ricerca propone che molti aspetti del funzionamento mentale possano essere descritti come approssimazioni di un ragionamento bayesiano ideale (Griffiths et al., 2024). La percezione, ad esempio, può essere modellata come integrazione tra aspettative pregresse e informazioni sensoriali — spiegando fenomeni come le illusioni percettive — mentre l'apprendimento e molti bias cognitivi trovano una loro interpretazione naturale come aggiornamenti imperfetti o scostamenti dall'ottimalità bayesiana.
+Nello studio dei processi cognitivi, un influente filone di ricerca propone che molti aspetti del funzionamento mentale possano essere descritti come approssimazioni di un ragionamento bayesiano ideale [@griffiths2024bayesian]. La percezione, ad esempio, può essere modellata come integrazione tra aspettative pregresse e informazioni sensoriali — spiegando fenomeni come le illusioni percettive — mentre l'apprendimento e molti bias cognitivi trovano una loro interpretazione naturale come aggiornamenti imperfetti o scostamenti dall'ottimalità bayesiana.
 
 Sul piano metodologico, l'inferenza bayesiana offre vantaggi concreti nell'analisi dei dati psicologici: incorporazione formalizzata delle conoscenze pregresse, quantificazione diretta dell'evidenza a favore di ipotesi specifiche, gestione naturale di campioni ridotti e propagazione coerente dell'incertezza attraverso modelli statistici complessi.
 
@@ -297,7 +316,7 @@ In ambito terapeutico, infine, l'approccio consente di aggiornare sequenzialment
 
 ### Un quadro epistemologico coerente
 
-Diversamente dal frequentismo — che definisce la probabilità come frequenza relativa in una sequenza ideale infinita di prove ripetute e considera i parametri come quantità fisse ma ignote — l'approccio bayesiano interpreta la probabilità come grado di credenza razionale, tratta i parametri come variabili aleatorie che rappresentano l'incertezza dell'osservatore e consente di formulare affermazioni del tipo: "La probabilità che l'effetto del trattamento sia positivo è pari a 0.85".
+Diversamente dal frequentismo — che definisce la probabilità come limite della frequenza relativa in una sequenza ideale di prove ripetute e considera i parametri come quantità fisse ma ignote — l'approccio bayesiano interpreta la probabilità come grado di credenza razionale, rappresenta mediante distribuzioni di probabilità l’incertezza dell’osservatore sui parametri e consente di formulare affermazioni del tipo: "La probabilità che l'effetto del trattamento sia positivo è pari a 0.85".
 
 Ne deriva un'interpretazione diretta degli intervalli di stima: un intervallo di credibilità al 95% esprime, dati i risultati osservati e il modello adottato, che esiste una probabilità del 95% che il parametro cada al suo interno. Un vantaggio operativo non trascurabile per chi deve prendere decisioni cliniche o di policy.
 
@@ -311,34 +330,45 @@ Abbiamo visto che gli assiomi della probabilità non sono mere convenzioni forma
 
 Questo cambiamento di prospettiva ha implicazioni concrete per la ricerca psicologica. L'approccio bayesiano rende esplicite le assunzioni iniziali attraverso la scelta del prior, formalizza l'apprendimento dai dati con il teorema di Bayes e fornisce strumenti per gestire la complessità dei modelli statistici senza rinunciare alla trasparenza. Non elimina l'incertezza — che nella psicologia è una **condizione strutturale**, non un'eccezione — ma fornisce un linguaggio per quantificarla, comunicarla e integrarla nelle decisioni.
 
-Nei prossimi capitoli trasformeremo queste idee in strumenti operativi. Scopriremo come costruire un modello bayesiano, come scegliere i *prior* e come interpretare i risultati. Inoltre, vedremo che concetti come l'equiprobabilità, spesso considerati oggettivi, riflettono in realtà simmetrie nel nostro stato informativo. L'obiettivo non è eliminare l'incertezza — compito impossibile, nella psicologia — ma imparare a ragionare con essa, trasformandola da ostacolo in risorsa.
+Nei prossimi capitoli trasformeremo queste idee in strumenti operativi. Scopriremo come costruire un modello bayesiano, come scegliere i *prior* e come interpretare i risultati. Inoltre, vedremo che concetti come l'equiprobabilità, spesso considerati oggettivi, riflettono in realtà simmetrie nel nostro stato informativo. L'obiettivo non è eliminare l'incertezza — un compito impossibile in psicologia — ma imparare a ragionare con essa, trasformandola da ostacolo in risorsa.
 
-## Punti chiave da ricordare {.unnumbered}
+## Esercizi {.unnumbered .unlisted}
 
-::: {.callout-important}
+1. Spiega con parole tue la differenza tra incertezza epistemica e incertezza ontologica. Fornisci un esempio psicologico per ciascuna.
+2. Perché l’interpretazione frequentista risulta meno immediata quando si considera un evento singolo, come la prognosi di un paziente?
+3. Un decisore assegna probabilità 0.7 a *Testa* e 0.6 a *Croce*. Mostra perché queste valutazioni non sono coerenti e costruisci una coppia di scommesse che produca una perdita certa.
+4. In un problema diagnostico, identifica il ruolo della prevalenza, della sensibilità e del tasso di falsi positivi nell’aggiornamento bayesiano.
+5. Modifica la simulazione del lancio di moneta ponendo $P(\text{Testa}) = 0.65$. Descrivi ciò che accade alla frequenza cumulativa all’aumentare del numero di lanci.
+6. Spiega perché una simulazione può illustrare le conseguenze di un modello probabilistico, ma non costituisce una definizione della probabilità.
 
-**Concetti essenziali di questo capitolo:**
+::: {.callout-tip title="Soluzioni" collapse="true"}
 
-1. **Interpretazione soggettivista della probabilità**
-   - La probabilità misura il grado di credenza razionale di un agente riguardo a un evento incerto
-   - È personale ma non arbitraria: deve rispettare regole di coerenza
+1. L’incertezza epistemica dipende da conoscenze incomplete ed è potenzialmente riducibile; per esempio, una stima clinica basata su pochi dati anamnestici. L’incertezza ontologica riguarda la variabilità attribuita al fenomeno; per esempio, risposte comportamentali differenti anche in condizioni sperimentali simili. Nel quadro adottato nel capitolo, entrambe vengono rappresentate mediante probabilità.
+2. La definizione frequentista richiede un riferimento a una classe di prove ripetibili. Per un caso singolo la scelta della classe di riferimento non è sempre univoca e una frequenza di gruppo non determina direttamente l’esito del singolo individuo.
+3. Le probabilità sommano a 1.3 e violano il vincolo di additività. Se il decisore paga £0.70 per una scommessa che restituisce £1 in caso di Testa e £0.60 per una scommessa che restituisce £1 in caso di Croce, paga complessivamente £1.30 ma riceve al massimo £1: perde certamente £0.30.
+4. La prevalenza fornisce la probabilità a priori della condizione. La sensibilità descrive la probabilità di un risultato positivo quando la condizione è presente; il tasso di falsi positivi descrive la probabilità di un positivo quando la condizione è assente. Il teorema di Bayes combina queste quantità per ottenere la probabilità a posteriori.
+5. La frequenza cumulativa oscilla maggiormente nei primi lanci e tende poi a stabilizzarsi intorno a 0.65. La simulazione rende visibile una conseguenza del modello assunto, non dimostra che 0.65 sia il valore corretto per una moneta reale.
+6. La simulazione presuppone già un modello e un valore probabilistico usato per generare i dati. Può quindi mostrare le conseguenze di quell’assegnazione, ma non può fondare la definizione che ha utilizzato come punto di partenza.
 
-2. **Differenza con l'approccio frequentista**
-   - Frequentista: probabilità come limite di frequenze relative (ripetibilità)
-   - Bayesiano: probabilità come quantificazione dell'incertezza epistemica
-
-3. **Applicabilità universale**
-   - L'approccio bayesiano si applica a eventi non ripetibili (es. probabilità che piova domani, che un'ipotesi scientifica sia vera)
-
-**Per il prossimo capitolo:**
-
-Nel @sec-prob-axioms-coherence vedremo come le regole di coerenza delle credenze si formalizzano negli assiomi della probabilità, garantendo che i nostri gradi di credenza siano internamente consistenti.
 :::
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+::: {.callout-note title="Punti chiave" collapse="true"}
+
+- La probabilità bayesiana rappresenta un grado di credenza razionale relativo a uno stato informativo.
+- La soggettività delle valutazioni non implica arbitrarietà: le probabilità devono rispettare vincoli di coerenza.
+- L’argomento della scommessa olandese mostra le conseguenze operative di credenze incoerenti.
+- Le simulazioni illustrano le conseguenze di un modello probabilistico, ma non definiscono la probabilità.
+- L’aggiornamento bayesiano combina probabilità a priori, verosimiglianza ed evidenza per ottenere una probabilità a posteriori.
+- Nel @sec-prob-axioms-coherence le regole di coerenza verranno formalizzate mediante gli assiomi della probabilità.
+
+:::
+
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
+
 ```{r}
 sessionInfo()
 ```
+
 :::
 
 ## Bibliografia {.unnumbered .unlisted}

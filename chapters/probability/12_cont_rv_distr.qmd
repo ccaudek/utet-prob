@@ -1,61 +1,63 @@
 # Distribuzioni di variabili casuali continue {#sec-prob-cont-distr}
 
-## Introduzione {.unnumbered .unlisted}
+::: {.callout-note title="In sintesi"}
+**Da sapere**  Comprendere che, nel caso continuo, le probabilità sono aree sotto una densità; riconoscere supporto, forma e parametri delle principali distribuzioni continue; distinguere il ruolo di una distribuzione come modello dei dati, prior, componente della verosimiglianza o distribuzione predittiva.
 
-Nel @sec-prob-discr-distr abbiamo considerato variabili con valori numerabili: risposte corrette/errate, numero di successi, conteggi. Qui passiamo alle **variabili casuali continue**, che si muovono su una scala numerica: punteggi psicometrici, tempi di risposta, durate, tassi, proporzioni, effetti medi e differenze fra gruppi.
-
-La differenza chiave è che nel continuo la probabilità non si assegna ai singoli valori, ma agli  **intervalli**. Per $X$ è continua, 
-
-$$
-P(X = x) = 0,
-$$
-ha senso, invece,
-
-$$
-P(a \leq X \leq b).
-$$
-data dall'**area sotto la curva di densità** tra $a$ e $b$.
-
-Restiamo qui in un'ottica bayesiana, ma senza svolgere ancora l'inferenza completa. Come nel capitolo precedente, l'obiettivo è riconoscere le principali famiglie di modelli generativi continui e il loro ruolo nel ragionamento probabilistico.
-
-Una distribuzione continua può svolgere almeno tre ruoli:  
-
-1. - modello dei dati osservabili: per esempio, normale per gli errori di misura, gamma per i tempi positivi e asimmetrici;  
-2. - prior per parametri continui: per esempio, beta per una probabilità, gamma per un tasso, normale per un effetto;  
-3. - componente di verosimiglianza: quando, dopo l'osservazione, lo stesso modello serve a individuare quali valori del parametro rendano i dati più plausibili.  
-
-In questo capitolo ci concentreremo soprattutto sui primi due; il terzo sarà formalizzato nel @sec-prob-likelihood, dopo il capitolo-ponte @sec-prob-inference-uncertainty.
-
-In questo capitolo:
-
-1. **chiariremo** il significato di densita, supporto e probabilita come area;
-2. **richiameremo** le funzioni R per lavorare con distribuzioni continue;
-3. **studieremo** le distribuzioni uniforme, normale, esponenziale e gamma;
-4. **introdurremo** la distribuzione beta come modello naturale per probabilita e proporzioni;
-5. **discuteremo** le distribuzioni chi-quadrato, $t$ di Student e Cauchy come distribuzioni derivate o robuste;
-6. **collegheremo** ogni distribuzione al suo ruolo nel percorso bayesiano complessivo.
-
-::: {.callout-tip collapse="true"}
-## Prerequisiti
-
-Per seguire questo capitolo e utile aver letto:
-
-- @sec-prob-random-var;
-- @sec-prob-distr;
-- @sec-prob-random-var-properties;
-- @sec-prob-intro-distr;
-- @sec-prob-discr-distr.
-
-Il richiamo più importante è il concetto di **funzione di densita**: nel caso continuo, la probabilità di un intervallo è un'area sotto la curva.
+**Da saper fare**  Scegliere una famiglia compatibile con i valori possibili e con la forma attesa; interpretare i parametri di uniforme, normale, esponenziale, gamma, beta, chi-quadrato, $t$ e Cauchy; spiegare che cosa restituiscono le funzioni `d`, `p`, `q` e `r` di R; leggere probabilità, quantili e simulazioni senza confondere densità e probabilità puntuale.
 :::
 
-::: {.callout-caution collapse="true" title="Preparazione del Notebook"}
+## Introduzione {.unnumbered .unlisted}
 
+Nel @sec-prob-discr-distr abbiamo studiato variabili con valori finiti o numerabili, come risposte corrette o errate, numeri di successi e conteggi di eventi. In questo capitolo passiamo alle **variabili casuali continue**, usate per rappresentare quantità collocate su una scala numerica, come tempi, durate, effetti, tassi e proporzioni.
+
+La differenza fondamentale è che, per una variabile continua $X$, la probabilità di un singolo valore è nulla:
+
+$$
+P(X=x)=0.
+$$
+
+Le probabilità riguardano invece intervalli e sono rappresentate da aree sotto una curva di densità. Dire che un valore puntuale ha probabilità zero non significa che sia impossibile: significa che, in un continuum, la probabilità si distribuisce su insiemi di valori.
+
+La prospettiva resta bayesiana, ma non svolgeremo ancora un'inferenza completa. Impareremo a riconoscere alcune importanti famiglie continue, le assunzioni che incorporano e i diversi ruoli che possono avere nel modello. Nel @sec-prob-inference-uncertainty useremo questo vocabolario per comprendere quanta informazione contiene un campione; nel @sec-prob-likelihood vedremo come il modello dei dati venga letto come funzione dei parametri dopo avere osservato i dati.
+
+## Perché le distribuzioni continue sono importanti in psicologia?
+
+Molte quantità psicologiche vengono trattate mediante modelli continui: tempi di risposta, durate, punteggi standardizzati, differenze tra condizioni, effetti di regressione e parametri latenti. Anche quando lo strumento registra valori con precisione finita, un modello continuo può essere un'idealizzazione utile se rappresenta adeguatamente la scala e la variabilità del fenomeno.
+
+La scelta della distribuzione rende esplicite domande sostanziali: la quantità può essere negativa? È limitata tra 0 e 1? È simmetrica o asimmetrica? I valori estremi devono essere molto rari oppure relativamente plausibili? Queste caratteristiche non sono dettagli tecnici: determinano quali dati il modello considera compatibili con il processo studiato.
+
+::: {.callout-note title="Quattro ruoli possibili"}
+Una distribuzione continua può essere impiegata come:
+
+1. **modello dei dati osservabili**, ad esempio una gamma per durate positive e asimmetriche;
+2. **prior su un parametro**, ad esempio una beta su una probabilità o una normale su un effetto;
+3. **componente della verosimiglianza**, quando i dati sono fissati e l'espressione viene considerata come funzione dei parametri;
+4. **distribuzione predittiva**, quando si rappresentano i possibili valori di osservazioni future integrando l'incertezza sui parametri.
+
+Il ruolo deve essere dichiarato: la stessa famiglia può comparire in punti diversi del modello con significati differenti.
+:::
+
+::: {.callout-tip title="Prerequisiti"}
+Per seguire il capitolo è utile avere letto @sec-prob-random-var, @sec-prob-distr, @sec-prob-random-var-properties, @sec-prob-intro-distr e @sec-prob-discr-distr. Per la notazione matematica, consulta @sec-apx-math-symbols. Per richiami su integrali, derivate e funzioni, consulta le appendici matematiche disponibili nel Companion.
+:::
+
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il capitolo procede in sette passaggi:
+
+1. chiarisce il significato di densità, supporto e probabilità come area;
+2. richiama le funzioni di R per densità, probabilità cumulate, quantili e simulazioni;
+3. presenta le distribuzioni uniforme e normale;
+4. introduce esponenziale e gamma per quantità positive;
+5. presenta la beta per probabilità e proporzioni;
+6. collega chi-quadrato, $t$ di Student e Cauchy alle distribuzioni a code più o meno pesanti;
+7. propone criteri per scegliere una famiglia continua coerente con il problema.
+
+::: {.callout-note title="Preparazione del notebook"}
 ```{r}
+#| output: false
 here::here("code", "_common.R") |>
   source()
-
-# Riapplica il tema per sicurezza, se definito nel progetto.
 apply_visual_theme()
 ```
 :::
@@ -64,7 +66,7 @@ apply_visual_theme()
 
 Una distribuzione continua descrive una variabile casuale che può assumere valori in un intervallo della retta reale. La distribuzione è rappresentata da una **funzione di densità** $f(x)$.
 
-La densità deve soddisfare due condizioni:
+Una funzione di densità deve soddisfare due condizioni:
 
 $$
 f(x) \geq 0,
@@ -72,13 +74,13 @@ f(x) \geq 0,
 \int_{-\infty}^{+\infty} f(x)\,dx = 1.
 $$
 
-La probabilità che $X$ cada in un intervallo $[a,b]$ è:
+La probabilità che $X$ cada in un intervallo $[a,b]$ è data dall'area sotto la densità:
 
 $$
 P(a \leq X \leq b) = \int_a^b f(x)\,dx.
 $$
 
-::: {.callout-important title="Densita non significa probabilita puntuale"}
+::: {.callout-important title="Densità non significa probabilità puntuale"}
 Per una variabile continua, il valore $f(x)$ non è una probabilità. Può anche essere maggiore di 1. La probabilità è sempre un'area sotto la curva, cioè l'integrale della densità su un intervallo.
 
 Questa distinzione sarà importante nel capitolo sulla verosimiglianza: una densità può essere usata per confrontare valori del parametro, ma non deve essere confusa con una probabilità assegnata a un singolo punto.
@@ -90,15 +92,15 @@ Il **supporto** è l'insieme dei valori che una variabile può assumere. Alcuni 
 
 | Distribuzione | Supporto | Uso tipico |
 |---|---:|---|
-| Uniforme$(a,b)$ | $[a,b]$ | parametro limitato a un intervallo |
+| Uniforme$(a,b)$ | $[a,b]$ | quantità limitata a un intervallo |
 | Normale$(\mu,\sigma^2)$ | $\mathbb{R}$ | misure simmetriche, errori additivi, effetti |
-| Esponenziale$(\lambda)$ | $(0,\infty)$ | tempi di attesa con tasso costante |
-| Gamma$(\alpha,\beta)$ | $(0,\infty)$ | tempi, tassi, precisioni |
-| Beta$(\alpha,\beta)$ | $(0,1)$ | probabilita e proporzioni |
-| $t_\nu$ | $\mathbb{R}$ | effetti continui con code pesanti |
-| Cauchy$(x_0,s)$ | $\mathbb{R}$ | prior robuste molto deboli |
+| Esponenziale$(\lambda)$ | $[0,\infty)$ | tempi di attesa con tasso costante |
+| Gamma$(\alpha,\beta)$ | $(0,\infty)$ | durate e parametri positivi |
+| Beta$(\alpha,\beta)$ | $(0,1)$ | probabilità e proporzioni senza valori esatti 0 o 1 |
+| $t_\nu$ | $\mathbb{R}$ | dati o parametri simmetrici con code più pesanti |
+| Cauchy$(x_0,s)$ | $\mathbb{R}$ | prior a code molto pesanti, con scala da giustificare |
 
-La prima domanda pratica, quando scegliamo una distribuzione, è quindi: **Quali valori sono possibili per la variabile o per il parametro?**
+La prima domanda pratica, quando scegliamo una distribuzione, è quindi: **quali valori sono possibili per la variabile o per il parametro?** Il supporto permette di escludere famiglie incompatibili, ma non identifica da solo il modello appropriato.
 
 ## Le funzioni R per le distribuzioni continue {#sec-r-continuous-functions}
 
@@ -106,8 +108,8 @@ R usa la stessa convenzione vista per le distribuzioni discrete. Ogni famiglia h
 
 | Prefisso | Significato | Esempio con la normale |
 |---|---|---|
-| `d` | densita | `dnorm(x, mean, sd)` |
-| `p` | probabilita cumulata | `pnorm(x, mean, sd)` |
+| `d` | densità | `dnorm(x, mean, sd)` |
+| `p` | probabilità cumulata | `pnorm(x, mean, sd)` |
 | `q` | quantile | `qnorm(p, mean, sd)` |
 | `r` | generazione casuale | `rnorm(n, mean, sd)` |
 
@@ -121,14 +123,14 @@ $$
 mu <- 100
 sigma <- 15
 
-# Densita nel punto 100: non e una probabilita puntuale.
+# Densità nel punto 100: non è una probabilità puntuale.
 densita_100 <- dnorm(100, mean = mu, sd = sigma)
 
-# Probabilita di osservare un punteggio tra 85 e 115.
+# Probabilità di osservare un punteggio tra 85 e 115.
 prob_85_115 <- pnorm(115, mean = mu, sd = sigma) -
   pnorm(85, mean = mu, sd = sigma)
 
-# Quantile che lascia sotto di se il 95% della distribuzione.
+# Quantile che lascia sotto di sé il 95% della distribuzione.
 q_95 <- qnorm(0.95, mean = mu, sd = sigma)
 
 # Cinque valori simulati.
@@ -171,9 +173,9 @@ $$
 
 ### Interpretazione
 
-La distribuzione uniforme rappresenta una forma di **indifferenza locale**: dato un intervallo, nessun sottointervallo di uguale lunghezza è ritenuto più plausibile di un altro.
+La distribuzione uniforme rappresenta una scelta di **simmetria rispetto alla scala adottata**: all'interno di un intervallo, sottointervalli della stessa lunghezza ricevono la stessa probabilità.
 
-Ad esempio, se prima di osservare dati riteniamo plausibile che una probabilità possa assumere qualunque valore tra 0 e 1, possiamo usare
+Ad esempio, se decidiamo di trattare allo stesso modo intervalli della stessa ampiezza sulla scala di una probabilità, possiamo usare
 
 $$
 \theta \sim \mathrm{Uniforme}(0,1).
@@ -181,13 +183,13 @@ $$
 
 Questa scelta coincide con una distribuzione $\mathrm{Beta}(1,1)$.
 
-::: {.callout-warning title="La prior uniforme non e sempre neutrale"}
+::: {.callout-warning title="La prior uniforme non è sempre neutrale"}
 Una prior uniforme può sembrare non informativa, ma non è automaticamente neutrale. La sua forma dipende dalla scala scelta. Una prior uniforme su $\theta$ non corrisponde a una prior uniforme su una trasformazione non lineare, come $\log(\theta)$ o $\theta^2$.
 
-Inoltre, una distribuzione uniforme su un intervallo finito esclude a priori tutti i valori fuori da quell'intervallo. Questa puo essere una scelta ragionevole solo se il vincolo è davvero parte del problema.
+Inoltre, una distribuzione uniforme su un intervallo finito esclude a priori tutti i valori fuori da quell'intervallo. Questa può essere una scelta ragionevole solo se il vincolo è davvero parte del problema.
 :::
 
-### Probabilita come lunghezza relativa
+### Probabilità come lunghezza relativa
 
 Per $X \sim \mathrm{Uniforme}(a,b)$,
 
@@ -205,6 +207,8 @@ prob
 ```
 
 ```{r}
+#| label: fig-uniforme-continua
+#| fig-cap: "Distribuzione uniforme su [0, 360] con evidenziato l'intervallo tra 150 e 250 gradi."
 x <- seq(0, 360, length.out = 500)
 df_unif <- data.frame(
   x = x,
@@ -222,9 +226,11 @@ ggplot(df_unif, aes(x = x, y = densita)) +
     title = "Distribuzione uniforme continua",
     subtitle = "Area evidenziata: P(150 <= X <= 250)",
     x = "Valore",
-    y = "Densita"
+    y = "Densità"
   )
 ```
+
+La @fig-uniforme-continua mostra che la probabilità dell'intervallo evidenziato dipende dalla sua lunghezza relativa, non dall'altezza della densità in un singolo punto.
 
 ## Distribuzione normale {#sec-cont-normal}
 
@@ -257,15 +263,17 @@ $$
 ### Interpretazione dei parametri
 
 - $\mu$ è il centro della distribuzione: valori maggiori di $\mu$ spostano la curva verso destra, valori minori verso sinistra.
-- $\sigma$ è la scala della variabilita: valori maggiori producono curve piu larghe e meno concentrate.
+- $\sigma$ è la scala della variabilità: valori maggiori producono curve più larghe e meno concentrate.
 
 In psicologia, la normale è spesso un modello utile per punteggi standardizzati, errori di misura, effetti continui e medie campionarie. Va però usata come **approssimazione**, non come descrizione automatica di qualunque fenomeno psicologico.
 
-::: {.callout-note title="Perche la normale e cosi importante?"}
+::: {.callout-note title="Perché la normale è così importante?"}
 La normale compare spesso per due ragioni diverse:
 
-1. può essere un modello ragionevole per dati continui generati dalla somma di molte piccole influenze indipendenti;
-2. nel @sec-prob-inference-uncertainty vedremo che, sotto condizioni generali, la media campionaria tende ad avere una distribuzione approssimativamente normale.
+1. può essere un modello ragionevole per alcune misure continue approssimativamente simmetriche;
+2. nel @sec-prob-inference-uncertainty vedremo che, sotto opportune condizioni, distribuzioni di somme o medie standardizzate possono avvicinarsi alla normale.
+
+Il secondo punto riguarda la distribuzione campionaria di una statistica e non implica che i dati individuali siano necessariamente normali.
 
 La seconda ragione è legata al Teorema del Limite Centrale e sarà discussa nel capitolo successivo.
 :::
@@ -279,6 +287,8 @@ Per una distribuzione normale:
 - circa il 99.7% entro $\mu \pm 3\sigma$.
 
 ```{r}
+#| label: fig-normale-centrale
+#| fig-cap: "Distribuzione normale N(100, 15^2) con evidenziato l'intervallo centrale che contiene circa il 95% della probabilità."
 mu <- 100
 sigma <- 15
 
@@ -301,11 +311,13 @@ ggplot(df_norm, aes(x = x, y = densita)) +
     title = "Distribuzione normale e intervallo centrale al 95%",
     subtitle = "Esempio: N(100, 15^2)",
     x = "Valore",
-    y = "Densita"
+    y = "Densità"
   )
 ```
 
-### Quando la normale non e appropriata
+Nella @fig-normale-centrale l'area evidenziata è circa 0,95. Le linee tratteggiate delimitano un intervallo della distribuzione teorica, non un intervallo di credibilità per un parametro.
+
+### Quando la normale non è appropriata
 
 La normale ha supporto su tutta la retta reale. Questo può essere problematico per variabili che sono vincolate:
 
@@ -346,7 +358,7 @@ Il parametro $\lambda$ è un **tasso**: eventi attesi per unità di tempo. Il su
 
 ### Assenza di memoria
 
-La caratteristica distintiva della distribuzione esponenziale è la proprieta di **assenza di memoria**:
+La caratteristica distintiva della distribuzione esponenziale è la proprietà di **assenza di memoria**:
 
 $$
 P(T > s+t \mid T > s) = P(T > t).
@@ -361,14 +373,16 @@ Supponiamo che il tempo medio di attesa per un evento sia 4 giorni. Allora $\lam
 ```{r}
 lambda <- 0.25
 
-# Probabilita di attendere al massimo 1.5 giorni.
+# Probabilità di attendere al massimo 1,5 giorni.
 pexp(1.5, rate = lambda)
 
-# Probabilita di attendere tra 1 e 6 giorni.
+# Probabilità di attendere tra 1 e 6 giorni.
 pexp(6, rate = lambda) - pexp(1, rate = lambda)
 ```
 
 ```{r}
+#| label: fig-esponenziale-area
+#| fig-cap: "Distribuzione esponenziale con tasso 0,25 e probabilità associata all'intervallo tra 1 e 6 giorni."
 x <- seq(0, 20, length.out = 500)
 df_exp <- data.frame(
   x = x,
@@ -383,9 +397,11 @@ ggplot(df_exp, aes(x = x, y = densita)) +
     title = "Distribuzione esponenziale",
     subtitle = "Area evidenziata: P(1 <= T <= 6)",
     x = "Tempo di attesa",
-    y = "Densita"
+    y = "Densità"
   )
 ```
+
+La @fig-esponenziale-area rende visibile che la probabilità di attendere tra 1 e 6 giorni è l'area compresa tra i due limiti.
 
 ::: {.callout-note title="Applicazioni psicologiche"}
 L'esponenziale può essere utile per modellare le durate o i tempi tra gli eventi quando il rischio istantaneo è approssimativamente costante, ad esempio il tempo necessario per distrarsi, l'intervallo tra i comportamenti osservabili o il tempo necessario perché si verifichi un evento in un compito sperimentale.
@@ -397,7 +413,7 @@ Per i tempi di reazione, tuttavia, l'esponenziale è spesso troppo semplice: dis
 
 ### Definizione
 
-La distribuzione gamma è una famiglia flessibile per le variabili positive. Può essere utilizzata per modellare tempi, durate, quantità strettamente positive, tassi e precisioni.
+La distribuzione gamma è una famiglia flessibile per le variabili positive. Può essere utilizzata per modellare tempi, durate e altre quantità strettamente positive. Può inoltre rappresentare l'incertezza su alcuni parametri positivi, come tassi o precisioni, quando tale scelta è sostantivamente giustificata.
 
 In R useremo la parametrizzazione **shape-rate**.
 
@@ -423,7 +439,7 @@ $$
 $$
 :::
 
-Il parametro $\alpha$ controlla la forma della distribuzione, mentre il parametro $\beta$ controlla il tasso di decadimento. In R si usa `dgamma(x, shape = alpha, rate = beta)`.
+Il parametro $\alpha$ contribuisce a determinare la forma, mentre $\beta$ è un parametro di tasso: a parità di $\alpha$, valori maggiori di $\beta$ concentrano la distribuzione verso valori più piccoli. In R si usa `dgamma(x, shape = alpha, rate = beta)`.
 
 ::: {.callout-warning title="Rate e scale"}
 Spesso, la gamma è parametrizzata anche con un parametro di scala $\theta = 1/\beta$. In R, l'argomento `rate` usa $\beta$, mentre l'argomento `scale` usa $1/\beta$. Prima di utilizzare R è necessario verificare la parametrizzazione.
@@ -437,17 +453,17 @@ $$
 \mathrm{Exp}(\lambda) = \mathrm{Gamma}(1,\lambda).
 $$
 
-In un processo a tasso costante, la gamma esprime il tempo necessario ad accumulare più eventi. Se $\alpha$ è intero, la gamma con parametro di forma $\alpha$ descrive l'attesa fino al verificarsi di $\alpha$ eventi.
+In un processo a tasso costante, la gamma esprime il tempo necessario ad accumulare più eventi. Se $\alpha$ è un intero positivo e il processo soddisfa le assunzioni richieste, la gamma descrive l'attesa fino al verificarsi di $\alpha$ eventi.
 
 ### Ruolo bayesiano
 
 Nel percorso bayesiano, la gamma è importante per parametri positivi:
 
 - come prior per un tasso $\lambda > 0$;
-- come prior per una precisione $\tau = 1/\sigma^2$;
+- come possibile prior per una precisione $\tau = 1/\sigma^2$;
 - come modello per durate positive e asimmetriche.
 
-La distribuzione gamma è la coniugata naturale del tasso \(\lambda\) della Poisson. Se nel capitolo precedente abbiamo scritto
+La distribuzione gamma è una prior coniugata per il tasso \(\lambda\) di un modello di Poisson. Se nel capitolo precedente abbiamo scritto
 
 $$
 Y_i \mid \lambda \sim \mathrm{Poisson}(\lambda),
@@ -458,6 +474,8 @@ allora una prior gamma su $\lambda$ genera una posterior ancora gamma. Tornerà 
 ### Flessibilità della forma
 
 ```{r}
+#| label: fig-gamma-forme
+#| fig-cap: "Esempi di distribuzioni gamma nella parametrizzazione shape-rate."
 x <- seq(0, 10, length.out = 500)
 params_gamma <- data.frame(
   alpha = c(1, 2, 4, 9),
@@ -479,10 +497,12 @@ ggplot(df_gamma, aes(x = x, y = densita, color = distribuzione)) +
   labs(
     title = "Flessibilita della distribuzione gamma",
     x = "x",
-    y = "Densita",
+    y = "Densità",
     color = "Distribuzione"
   )
 ```
+
+La @fig-gamma-forme mostra che la famiglia gamma può assumere forme molto diverse. I parametri non vanno quindi interpretati separatamente dalla parametrizzazione e dalla scala del fenomeno.
 
 ::: {.callout-tip collapse="true" title="Anticipazione: aggiornamento Gamma-Poisson"}
 Se $\lambda \sim \mathrm{Gamma}(\alpha_0,\beta_0)$ e osserviamo conteggi Poisson indipendenti $y_1,\ldots,y_n$, allora
@@ -499,7 +519,7 @@ Questa formula non è ancora il tema centrale del capitolo, ma serve solo a most
 
 ### Definizione
 
-La distribuzione beta è definita sull'intervallo $(0,1)$. Per questo motivo, è la scelta naturale per rappresentare l'incertezza su probabilità, proporzioni e parametri vincolati tra 0 e 1.
+La distribuzione beta è definita sull'intervallo $(0,1)$. È quindi una famiglia particolarmente utile per rappresentare l'incertezza su probabilità e proporzioni che non assumono esattamente i valori 0 o 1.
 
 ::: {#def-beta}
 Una variabile casuale $\theta$ segue una distribuzione beta con parametri $\alpha > 0$ e $\beta > 0$ se
@@ -530,11 +550,11 @@ $$
 
 La beta è particolarmente intuitiva in un contesto bayesiano. I parametri possono essere letti come una forma di informazione preliminare:
 
-- $\alpha$ è collegato alla quantità di evidenza a favore dell'evento;
-- $\beta$ è collegato alla quantità di evidenza contro l'evento;
-- $\alpha + \beta$ rappresenta la forza complessiva della distribuzione.
+- il rapporto $\alpha/(\alpha+\beta)$ determina la media;
+- la somma $\alpha+\beta$ agisce come parametro di concentrazione quando la media è mantenuta fissa;
+- valori inferiori, uguali o superiori a 1 producono forme molto diverse, comprese densità a U, uniformi o unimodali.
 
-Una distribuzione $\mathrm{Beta}(1,1)$ è uniforme su $(0,1)$. Una $\mathrm{Beta}(20,10)$ concentra la massa attorno a valori più alti, come se l'informazione preliminare suggerisse più successi che insuccessi.
+Una distribuzione $\mathrm{Beta}(1,1)$ è uniforme su $(0,1)$. Una $\mathrm{Beta}(20,10)$ ha media $2/3$ ed è relativamente concentrata attorno a valori elevati. L'interpretazione in termini di informazione preliminare dipende dal modello e dalla convenzione adottata.
 
 ::: {.callout-note title="Pseudo-osservazioni: una convenzione utile"}
 Spesso, si interpreta $\alpha-1$ come il numero di pseudo-successi e $\beta-1$ come il numero di pseudo-insuccessi. In altri contesti, invece, si usano $\alpha$ e $\beta$ come conteggi effettivi. L'importante è non confondere la metafora con una regola universale: la distribuzione beta rappresenta una distribuzione di credenze, non necessariamente un vero campione precedente.
@@ -556,11 +576,13 @@ $$
 \theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y).
 $$
 
-Nel capitolo 13 useremo proprio questo tipo di modello per collegare la proporzione campionaria, l'errore standard e l'informazione nei dati.
+Nei capitoli successivi useremo questo modello per collegare la proporzione campionaria, l'incertezza sul parametro e l'informazione fornita dai dati.
 
 ### Forme possibili
 
 ```{r}
+#| label: fig-beta-forme
+#| fig-cap: "Forme diverse della distribuzione beta al variare dei parametri di forma."
 x <- seq(0.001, 0.999, length.out = 500)
 params_beta <- data.frame(
   alpha = c(0.5, 1, 2, 2, 5, 20),
@@ -581,12 +603,14 @@ ggplot(df_beta, aes(x = x, y = densita, color = distribuzione)) +
   geom_line(linewidth = 1) +
   labs(
     title = "Flessibilita della distribuzione beta",
-    subtitle = "La beta puo rappresentare ignoranza, preferenze moderate o credenze concentrate",
+    subtitle = "La beta può assumere forme diffuse, uniformi o concentrate",
     x = expression(theta),
-    y = "Densita",
+    y = "Densità",
     color = "Distribuzione"
   )
 ```
+
+La @fig-beta-forme mostra che la beta non è necessariamente unimodale: può essere a U, uniforme, simmetrica o asimmetrica. Parlare genericamente di prior "non informativa" senza specificarne la forma è quindi fuorviante.
 
 ## Distribuzione chi-quadrato {#sec-cont-chisq}
 
@@ -630,6 +654,8 @@ nella parametrizzazione shape-rate.
 La chi-quadrato è importante perché compare nella teoria della varianza campionaria e, indirettamente, nei modelli normali con varianza sconosciuta. Nelle formulazioni bayesiane moderne si lavora spesso con distribuzioni gamma o inverse-gamma per varianze e precisioni, ma la chi-quadrato rimane un ponte concettuale utile.
 
 ```{r}
+#| label: fig-chi-quadrato
+#| fig-cap: "Distribuzioni chi-quadrato con diversi gradi di libertà."
 x <- seq(0, 40, length.out = 500)
 df_chisq <- data.frame(
   x = rep(x, 4),
@@ -642,12 +668,14 @@ ggplot(df_chisq, aes(x = x, y = densita, color = df)) +
   geom_line(linewidth = 1) +
   labs(
     title = "Distribuzione chi-quadrato",
-    subtitle = "All'aumentare dei gradi di liberta la distribuzione diventa meno asimmetrica",
+    subtitle = "All'aumentare dei gradi di libertà la distribuzione diventa meno asimmetrica",
     x = "x",
-    y = "Densita",
-    color = "Gradi di liberta"
+    y = "Densità",
+    color = "Gradi di libertà"
   )
 ```
+
+La @fig-chi-quadrato mostra che, con pochi gradi di libertà, la distribuzione è fortemente asimmetrica; aumentando i gradi di libertà, la massa si sposta verso destra e la forma diventa relativamente meno asimmetrica.
 
 ## Distribuzione t di Student {#sec-cont-student-t}
 
@@ -667,20 +695,22 @@ Il parametro $\nu$ rappresenta i gradi di libertà.
 
 ### Interpretazione
 
-La $t$ assomiglia alla normale, ma ha **code più pesanti**, soprattutto quando $\nu$ e piccolo. Ciò significa che assegna maggiore plausibilità a valori lontani dal centro.
+La $t$ assomiglia alla normale, ma ha **code più pesanti**, soprattutto quando $\nu$ è piccolo. Ciò significa che assegna maggiore plausibilità a valori lontani dal centro.
 
-Quando $\nu$ aumenta, la $t$ tende alla distribuzione normale standard.
+Quando $\nu$ aumenta, la $t$ tende alla distribuzione normale standard. Per $\nu>1$ la media esiste ed è 0 nella forma standard; per $\nu>2$ la varianza è finita.
 
 ### Ruolo bayesiano
 
 La $t$ è utile in due modi:
 
-1. come modello o distribuzione predittiva quando la scala è incerta;
-2. come prior debolmente informativa e robusta per parametri continui.
+1. come modello dei dati o distribuzione predittiva quando si vogliono rappresentare code più pesanti della normale;
+2. come prior a code pesanti per parametri continui, scegliendo posizione, scala e gradi di libertà in modo coerente con il problema.
 
-Nel lavoro applicato, l'uso di una distribuzione $t$ al posto di una normale può ridurre la sensibilità del modello ai valori estremi.
+Come modello dei dati, una $t$ può ridurre l'influenza relativa delle osservazioni estreme rispetto a una normale. Come prior, invece, le code pesanti non garantiscono da sole robustezza o stabilità computazionale.
 
 ```{r}
+#| label: fig-student-t
+#| fig-cap: "Confronto tra la normale standard e distribuzioni t con diversi gradi di libertà."
 x <- seq(-5, 5, length.out = 500)
 df_t <- data.frame(
   x = rep(x, 4),
@@ -692,12 +722,14 @@ ggplot(df_t, aes(x = x, y = densita, color = distribuzione)) +
   geom_line(linewidth = 1) +
   labs(
     title = "Confronto tra normale e t di Student",
-    subtitle = "Con pochi gradi di liberta, la t ha code piu pesanti",
+    subtitle = "Con pochi gradi di libertà, la t ha code più pesanti",
     x = "x",
-    y = "Densita",
+    y = "Densità",
     color = "Distribuzione"
   )
 ```
+
+Nella @fig-student-t le differenze più importanti emergono nelle code: a parità di centro, valori estremi sono più plausibili sotto una $t$ con pochi gradi di libertà che sotto una normale.
 
 ## Distribuzione di Cauchy {#sec-cont-cauchy}
 
@@ -721,13 +753,15 @@ La distribuzione di Cauchy ha code molto pesanti e non possiede media e varianza
 
 ### Ruolo bayesiano
 
-La distribuzione di Cauchy è spesso utilizzata come prior robusta e debolmente informativa per i parametri di posizione o i coefficienti di regressione. La sua versione troncata ai valori positivi, detta *half-Cauchy*, è usata come prior per i parametri di scala, ad esempio le deviazioni standard nei modelli gerarchici.
+La distribuzione di Cauchy è talvolta utilizzata come prior a code molto pesanti per parametri di posizione o coefficienti di regressione. Il suo carattere più o meno informativo dipende dalla scala scelta e dalla scala del parametro. La sua versione limitata ai valori positivi, detta *half-Cauchy*, può essere usata come prior per parametri di scala, ad esempio deviazioni standard nei modelli gerarchici; anche in questo caso la scala va motivata e controllata.
 
 ::: {.callout-warning title="Code pesanti non significa assenza di assunzioni"}
 Una prior Cauchy lascia molto spazio ai valori estremi. Questo può essere utile per la robustezza, ma può anche rendere l'inferenza instabile se i dati sono pochi o il modello è debole. Una prior robusta non sostituisce il ragionamento sostanziale sulla scala plausibile degli effetti.
 :::
 
 ```{r}
+#| label: fig-cauchy-code
+#| fig-cap: "Confronto tra normale, t con tre gradi di libertà e Cauchy standard."
 x <- seq(-10, 10, length.out = 800)
 df_cauchy <- data.frame(
   x = rep(x, 3),
@@ -739,12 +773,14 @@ ggplot(df_cauchy, aes(x = x, y = densita, color = distribuzione)) +
   geom_line(linewidth = 1) +
   labs(
     title = "Normale, t e Cauchy",
-    subtitle = "La Cauchy assegna molta piu massa alle code",
+    subtitle = "La Cauchy assegna molta più massa alle code",
     x = "x",
-    y = "Densita",
+    y = "Densità",
     color = "Distribuzione"
   )
 ```
+
+La @fig-cauchy-code mostra quanto lentamente decrescano le code della Cauchy. Questa proprietà può proteggere da restrizioni troppo forti, ma può anche assegnare plausibilità sostanziale a valori irrealistici se la scala non è scelta con cura.
 
 ## Come scegliere una distribuzione continua? {#sec-cont-distribution-choice}
 
@@ -754,7 +790,7 @@ La scelta di una distribuzione non dovrebbe basarsi sulla convenienza matematica
 
 - Se la quantità può assumere qualsiasi valore reale, le candidate sono la normale, la $t$ o la Cauchy.
 - Se è positiva, si considerano l'esponenziale, la gamma o la log-normale.
-- Se è vincolata tra 0 e 1, la beta è spesso la scelta naturale.
+- Se è strettamente compresa tra 0 e 1, la beta è una candidata; valori esatti 0 o 1 richiedono un trattamento o un modello differente.
 - Se invece è un conteggio, non siamo nel caso continuo: si torna alla Poisson, alla binomiale o ad altre distribuzioni discrete.
 
 ### 2. Che forma ci aspettiamo?
@@ -762,16 +798,16 @@ La scelta di una distribuzione non dovrebbe basarsi sulla convenienza matematica
 - Simmetria attorno a un centro: normale o $t$.
 - Asimmetria positiva: gamma o log-normale.
 - Probabilità/proporzioni vincolate: beta.
-- Code molto pesanti: $t$ con pochi gradi di libertà.
+- Code più pesanti della normale: $t$ con gradi di libertà contenuti; la Cauchy rappresenta un caso estremo.
 
 ### 3. Che ruolo ha la distribuzione?
 
 La stessa famiglia può avere ruoli diversi, ad esempio:
 
 - la normale può essere un modello per dati continui o una prior per un effetto;
-- la beta è spesso una prior per una probabilità, ma può anche modellare dati continui proporzionali;
+- la beta è spesso una prior per una probabilità, ma può anche modellare dati continui proporzionali strettamente compresi tra 0 e 1;
 - la gamma può modellare tempi positivi oppure essere una prior per un tasso;
-- la $t$ può essere un modello robusto per dati o una prior robusta per parametri.
+- la $t$ può essere un modello a code pesanti per dati oppure una prior a code pesanti per parametri.
 
 ::: {.callout-important title="Modello generativo prima dell'inferenza"}
 Prima di chiedersi come aggiornare una credenza, occorre chiarire quale modello collega il parametro ai dati osservabili. Questo capitolo fornisce il vocabolario delle distribuzioni continue; il @sec-prob-inference-uncertainty mostrerà come un campione generato da questi modelli risulti più o meno informativo.
@@ -779,102 +815,94 @@ Prima di chiedersi come aggiornare una credenza, occorre chiarire quale modello 
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Le distribuzioni continue completano il vocabolario avviato con quelle discrete, consentendo di descrivere dati e parametri che si collocano su scale continue: punteggi, durate, tassi, probabilità, effetti e grandezze positive.
+Le distribuzioni continue completano il vocabolario avviato con quelle discrete. Consentono di rappresentare dati e parametri su scale continue, ma ogni famiglia incorpora assunzioni sul supporto, sulla simmetria, sull'asimmetria e sulla frequenza attesa dei valori estremi.
 
-La prospettiva bayesiana aiuta a mantenere distinti i ruoli:
+La scelta non può quindi essere ridotta a un'associazione meccanica tra tipo di variabile e nome della distribuzione. Il supporto elimina le famiglie incompatibili; la forma attesa, il processo generativo e il ruolo della distribuzione permettono di distinguere tra le candidate rimaste. Una normale, una gamma e una $t$ possono tutte essere matematicamente ammissibili in un certo problema, ma esprimono ipotesi differenti.
 
-- una distribuzione può descrivere **dati osservabili condizionatamente a un parametro**;
-- una distribuzione può rappresentare **incertezza epistemica su un parametro**;
-- una volta osservati i dati, lo stesso modello può diventare una **funzione di verosimiglianza**.
+In prospettiva bayesiana è inoltre essenziale distinguere il **modello dei dati** dalla **distribuzione sui parametri**. La binomiale può descrivere un numero di successi, mentre la beta rappresenta l'incertezza sulla probabilità che li genera. Analogamente, una normale può descrivere osservazioni continue oppure rappresentare una prior su un effetto: la formula può essere simile, ma il significato dipende dalla posizione occupata nel modello.
 
-Questa distinzione previene una confusione comune: la beta, ad esempio, non è di solito un modello per una sequenza di risposte corrette/errate, bensì una distribuzione su una probabilità. La binomiale descrive i conteggi osservati; la beta, l'incertezza sul parametro che li genera.
+Nel @sec-prob-inference-uncertainty useremo queste idee per comprendere come la variabilità campionaria, la numerosità e l'errore standard influenzino la quantità di informazione fornita dai dati.
 
-Nel prossimo capitolo useremo questo vocabolario per affrontare una nuova domanda: **quanto è informativo un campione?** Vedremo che media campionaria, errore standard, precisione, Legge dei Grandi Numeri e Teorema del Limite Centrale spiegano perché i dati possono stabilizzare o modificare le nostre credenze.
+## Esercizi {.unnumbered .unlisted}
 
-## Punti chiave da ricordare {.unnumbered}
+1. Perché, in una distribuzione continua, il valore della densità $f(x)$ non può essere interpretato come $P(X=x)$?
 
-::: {.callout-important}
+2. Un tempo di risposta è sempre positivo e presenta una lunga coda destra. Perché una gamma può essere una candidata più plausibile di una normale? Il supporto basta da solo a scegliere definitivamente la gamma?
 
-1. **Nel caso continuo, le probabilita sono aree**
-   - Per una variabile continua, in genere $P(X=x)=0$.
-   - La densita $f(x)$ non e una probabilita puntuale.
-   - $P(a \leq X \leq b)=\int_a^b f(x)\,dx$.
+3. Per $X\sim\mathcal{N}(100,15^2)$, che cosa restituiscono rispettivamente `dnorm(100, 100, 15)` e `pnorm(115, 100, 15) - pnorm(85, 100, 15)`?
 
-2. **Il supporto guida la scelta del modello**
-   - $\mathbb{R}$: normale, $t$, Cauchy.
-   - $(0,\infty)$: esponenziale, gamma.
-   - $(0,1)$: beta.
+4. Una prior uniforme su $\theta\in(0,1)$ assegna la stessa probabilità a intervalli della stessa ampiezza sulla scala di $\theta$. Perché questo non significa che sia neutrale rispetto a qualunque trasformazione di $\theta$?
 
-3. **La normale e centrale, ma non universale**
-   - Utile per errori additivi, punteggi standardizzati, effetti continui.
-   - Non adatta automaticamente a tempi, conteggi, proporzioni o scale ordinali.
+5. La distribuzione esponenziale ha la proprietà di assenza di memoria. Che cosa significa questa proprietà e perché può essere poco plausibile per molti fenomeni psicologici?
 
-4. **La gamma e utile per quantita positive**
-   - Include l'esponenziale come caso particolare.
-   - E naturale per tassi, durate, precisioni e processi positivi.
+6. Se $X\sim\mathrm{Gamma}(6,2)$ nella parametrizzazione shape-rate, qual è il valore atteso? Che cosa accadrebbe al valore atteso se il parametro di tasso diventasse 4 mantenendo invariata la forma?
 
-5. **La beta rappresenta incertezza su probabilita**
-   - Supporto $(0,1)$.
-   - Coniugata con Bernoulli e binomiale.
-   - Essenziale per inferenza bayesiana su proporzioni.
+7. Confronta $\mathrm{Beta}(2,2)$ e $\mathrm{Beta}(20,20)$. Hanno la stessa media? Quale delle due esprime maggiore concentrazione attorno a tale media?
 
-6. **Le distribuzioni a code pesanti aumentano la robustezza**
-   - La $t$ e piu robusta della normale.
-   - La Cauchy e ancora piu permissiva nelle code.
-   - Robustezza non significa assenza di assunzioni.
+8. Perché una distribuzione $t$ con pochi gradi di libertà può ridurre l'influenza relativa dei valori estremi rispetto a una normale? Perché non è corretto concludere che qualunque prior $t$ o Cauchy sia automaticamente appropriata?
 
-7. **Le distribuzioni sono strumenti modellistici**
-   - Non sono fotografie della realta.
-   - Sono modi espliciti per rappresentare assunzioni su dati, parametri e incertezza.
+::: {.callout-tip title="Soluzioni" collapse="true"}
+1. Nel continuo, la probabilità è assegnata ad aree su intervalli. Un singolo punto ha area nulla e quindi probabilità zero. La densità descrive invece quanta massa è concentrata localmente e può anche assumere valori superiori a 1.
 
-**Formule da ricordare**
+2. La gamma ammette soltanto valori positivi e può rappresentare asimmetria a destra, mentre la normale assegna massa anche a valori negativi ed è simmetrica. Il supporto elimina modelli incompatibili, ma non basta: occorre confrontare anche forma, code e processo generativo con i dati.
 
-Normale:
+3. `dnorm(100, 100, 15)` restituisce la densità nel punto 100, non la probabilità di osservare esattamente 100. La differenza tra le due `pnorm()` restituisce la probabilità che $X$ cada tra 85 e 115.
+
+4. L'uniformità dipende dalla scala. Una trasformazione non lineare modifica la lunghezza relativa degli intervalli e induce una distribuzione non uniforme sulla nuova scala. La prior incorpora quindi una scelta di parametrizzazione.
+
+5. Significa che, condizionatamente al fatto che l'evento non sia ancora avvenuto, l'attesa futura ha la stessa distribuzione che aveva all'inizio. È poco plausibile quando il rischio cambia con il tempo, per esempio per apprendimento, fatica, recupero o accumulo di esposizione.
+
+6. Il valore atteso è $\alpha/\beta=6/2=3$. Se il tasso diventasse 4, il valore atteso sarebbe $6/4=1{,}5$: a parità di forma, un tasso maggiore concentra la distribuzione verso valori più piccoli.
+
+7. Entrambe hanno media $1/2$. La $\mathrm{Beta}(20,20)$ è molto più concentrata attorno a $0{,}5$ perché la somma dei parametri è maggiore a media fissata.
+
+8. Le code più pesanti assegnano maggiore plausibilità a osservazioni lontane dal centro, evitando che esse debbano essere spiegate mediante grandi spostamenti dei parametri centrali. Tuttavia, adeguatezza, robustezza e stabilità dipendono anche da scala, gradi di libertà, ruolo della distribuzione e quantità di dati.
+:::
+
+::: {.callout-note title="Punti chiave" collapse="true"}
+- Per una variabile continua, la probabilità di un singolo punto è zero; le probabilità sono aree su intervalli.
+- La densità non è una probabilità puntuale e può essere maggiore di 1.
+- Il supporto esclude famiglie incompatibili, ma non determina da solo il modello.
+- Le funzioni `d`, `p`, `q` e `r` di R restituiscono rispettivamente densità, probabilità cumulata, quantile e simulazioni.
+- L'uniforme tratta simmetricamente intervalli della stessa lunghezza sulla scala scelta; non è neutrale rispetto a trasformazioni non lineari.
+- La normale è utile per quantità approssimativamente simmetriche, ma non è un modello universale.
+- L'esponenziale rappresenta attese con tasso costante e assenza di memoria; la gamma offre forme più flessibili per quantità positive.
+- La beta rappresenta distribuzioni su valori in $(0,1)$; media e concentrazione dipendono congiuntamente da $\alpha$ e $\beta$.
+- La chi-quadrato deriva da somme di quadrati di normali standard ed è collegata alla gamma.
+- La $t$ e la Cauchy hanno code più pesanti della normale; il loro uso richiede comunque una scelta motivata di scala e, per la $t$, dei gradi di libertà.
+- Una stessa famiglia può descrivere dati, parametri o predizioni. Il significato dipende dal ruolo occupato nel modello.
+
+**Formule essenziali**
 
 $$
-X \sim \mathcal{N}(\mu,\sigma^2),
+P(a\leq X\leq b)=\int_a^b f(x)\,dx.
+$$
+
+$$
+X\sim\mathcal{N}(\mu,\sigma^2),
 \qquad
 \mathbb{E}(X)=\mu,
 \qquad
 \mathbb{V}(X)=\sigma^2.
 $$
 
-Gamma, parametrizzazione shape-rate:
-
 $$
-X \sim \mathrm{Gamma}(\alpha,\beta),
+X\sim\mathrm{Gamma}(\alpha,\beta),
 \qquad
 \mathbb{E}(X)=\frac{\alpha}{\beta},
 \qquad
 \mathbb{V}(X)=\frac{\alpha}{\beta^2}.
 $$
 
-Beta:
-
 $$
-\theta \sim \mathrm{Beta}(\alpha,\beta),
+\theta\sim\mathrm{Beta}(\alpha,\beta),
 \qquad
 \mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}.
 $$
-
-Esponenziale:
-
-$$
-T \sim \mathrm{Exp}(\lambda),
-\qquad
-\mathbb{E}(T)=\frac{1}{\lambda}.
-$$
-
-**Per il prossimo capitolo**
-
-Nel @sec-prob-inference-uncertainty useremo le distribuzioni appena studiate per capire come un campione produce evidenza: perché le medie campionarie fluttuano, in che modo l'errore standard misura la precisione e in che senso i campioni più grandi rendono l'evidenza più stabile.
 :::
 
-::: {.callout-note collapse="true" title="Informazioni sull'ambiente di sviluppo"}
-
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
 ```{r}
 sessionInfo()
 ```
 :::
-
-## Bibliografia {.unnumbered .unlisted}

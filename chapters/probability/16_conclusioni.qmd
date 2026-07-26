@@ -1,170 +1,286 @@
-# Conclusioni: probabilità, evidenza e aggiornamento bayesiano {#sec-conclusioni}
+# Conclusioni: dalla probabilità all'inferenza bayesiana {#sec-conclusioni}
 
-## Perché questo modulo era necessario {.unnumbered .unlisted}
+::: {.callout-note title="In sintesi"}
+**Da sapere**  Il percorso ha costruito un unico filo logico: rappresentare l'incertezza con distribuzioni di probabilità, descrivere come i dati possono essere generati, misurare l'informazione fornita dai dati mediante la verosimiglianza e aggiornare le credenze con la regola di Bayes.
 
-Questo modulo ha costruito le basi concettuali e formali per affrontare l'inferenza bayesiana in psicologia. Il suo obiettivo non era soltanto introdurre alcune distribuzioni di probabilità, ma mostrare perché la probabilità sia il linguaggio naturale per ragionare quando le informazioni sono incomplete, i dati sono variabili e le conclusioni devono rimanere esplicitamente incerte.
-
-La domanda che ha guidato il percorso è stata questa:
-
-> Come possiamo rappresentare ciò che sappiamo, osservare nuovi dati e aggiornare in modo coerente le nostre credenze?
-
-La risposta bayesiana si fonda su un'idea semplice ma profonda: le credenze incerte possono essere rappresentate mediante distribuzioni di probabilità e aggiornate alla luce dei dati attraverso il teorema di Bayes. Questa idea richiede però un vocabolario preciso. Per questo il modulo ha proceduto gradualmente: prima la probabilità, poi le variabili casuali, quindi le distribuzioni, il campionamento, la verosimiglianza e infine l'aggiornamento bayesiano.
-
-::: {.callout-note title="Il filo conduttore del modulo"}
-
-L'intero percorso può essere letto come una progressiva costruzione della formula bayesiana:
-
-$$
-p(\theta \mid y, M) = \frac{p(y \mid \theta, M)\,p(\theta \mid M)}{p(y \mid M)}.
-$$
-
-Qui $\theta$ indica il parametro ignoto, $y$ i dati osservati e $M$ il modello assunto. Il termine $p(\theta \mid y, M)$ non è una proprietà astratta dei dati: è ciò che possiamo dire sul parametro **dato un modello**, **date le nostre assunzioni iniziali** e **dati i risultati osservati**.
+**Da saper fare**  Riconoscere il ruolo di variabili, distribuzioni, parametri, prior, verosimiglianza e posterior; spiegare che cosa cambia dopo l'osservazione dei dati; distinguere precisione inferenziale e validità scientifica.
 :::
 
-## Il percorso compiuto {.unnumbered .unlisted}
+## Introduzione {.unnumbered .unlisted}
 
-### Probabilità come linguaggio dell'incertezza {.unnumbered .unlisted}
-
-All'inizio del modulo abbiamo introdotto la probabilità come strumento per esprimere gradi di plausibilità in modo coerente. Gli assiomi della probabilità non sono semplici regole tecniche: stabiliscono le condizioni minime perché le nostre credenze non entrino in contraddizione.
-
-In una prospettiva bayesiana, assegnare una probabilità significa dichiarare quanto riteniamo plausibile un evento, un valore o un'ipotesi, alla luce delle informazioni disponibili. Questo non elimina l'interpretazione frequentista quando si parla di processi ripetibili; piuttosto, la colloca entro una cornice più ampia, nella quale anche parametri, ipotesi e modelli possono essere oggetto di incertezza.
-
-### Variabili casuali e distribuzioni {.unnumbered .unlisted}
-
-Abbiamo poi introdotto le variabili casuali come modo per rappresentare quantità incerte: risposte corrette o errate, punteggi a un test, tempi di reazione, conteggi di eventi, proporzioni, medie e differenze tra gruppi.
-
-Le distribuzioni di probabilità hanno dato forma a questa incertezza. Attraverso funzioni di massa, funzioni di densità, funzioni di ripartizione, quantili, valore atteso e varianza, abbiamo imparato a descrivere non solo quale valore ci aspettiamo, ma anche quanta variabilità è plausibile attorno a quel valore.
-
-### Distribuzioni discrete e continue come modelli generativi {.unnumbered .unlisted}
-
-Nei capitoli sulle distribuzioni discrete e continue, le famiglie parametriche non sono state presentate come un elenco di formule da memorizzare, ma come **modelli generativi**. Una distribuzione descrive il modo in cui potremmo osservare i dati se certi parametri avessero determinati valori.
-
-Le distribuzioni discrete hanno fornito modelli per eventi binari, conteggi e frequenze: Bernoulli, binomiale e Poisson. Le distribuzioni continue hanno esteso il linguaggio a punteggi, tempi, effetti, tassi e parametri: normale, beta, gamma, esponenziale, t di Student, chi-quadrato e Cauchy.
-
-Queste distribuzioni svolgono ruoli diversi nel ragionamento bayesiano. Possono descrivere dati osservabili, credenze a priori sui parametri, distribuzioni a posteriori oppure distribuzioni predittive. La stessa famiglia matematica può quindi comparire in punti diversi del modello, con significati inferenziali differenti.
-
-### Dal campione all'evidenza {.unnumbered .unlisted}
-
-Il nuovo capitolo sul passaggio dal campione all'evidenza ha chiarito un punto essenziale: una stima osservata non parla mai da sola. Una proporzione, una media o una differenza tra gruppi sono sempre affette da variabilità campionaria.
-
-Per questo abbiamo introdotto la distribuzione campionaria, l'errore standard, la precisione, la Legge dei Grandi Numeri e il Teorema del Limite Centrale. Questi strumenti spiegano perché campioni più grandi tendano a fornire evidenze più stabili e perché l'informazione contenuta nei dati cresca con la numerosità campionaria.
-
-La lezione più importante, però, è stata anche una lezione di cautela: l'incertezza campionaria non è l'unica forma di incertezza. Bias di selezione, errori di misurazione, strumenti non validi o assunzioni modellistiche inappropriate possono produrre conclusioni molto precise ma sbagliate. In psicologia, questa distinzione è fondamentale.
-
-### Verosimiglianza come ponte tra dati e parametri {.unnumbered .unlisted}
-
-La verosimiglianza ha formalizzato il passaggio decisivo: una volta osservati i dati, non chiediamo più soltanto quali dati sarebbero plausibili sotto un certo parametro; chiediamo quali valori del parametro rendano plausibili i dati che abbiamo effettivamente osservato.
-
-Per questo la verosimiglianza è il ponte tra modello generativo e inferenza. Essa non è una distribuzione di probabilità sui parametri e non ci dice, da sola, quanto sia probabile un valore di $\theta$. Ci dice però come i dati modificano il peso relativo dei diversi valori parametrici.
-
-Questa distinzione è centrale per l'impianto del modulo: la verosimiglianza rappresenta l'informazione portata dai dati, mentre la distribuzione a priori rappresenta l'informazione disponibile prima dei dati. L'inferenza bayesiana nasce dalla loro combinazione.
-
-### Aggiornamento bayesiano {.unnumbered .unlisted}
-
-Il capitolo sull'aggiornamento bayesiano ha ricomposto tutti gli elementi:
+Nel @sec-bayesian-updating abbiamo visto il passaggio che ricompone l'intero percorso:
 
 $$
-p(\theta \mid y) \propto p(y \mid \theta)\,p(\theta).
+p(\theta\mid y)
+\propto
+p(y\mid\theta)p(\theta).
 $$
 
-La distribuzione a priori esprime ciò che sappiamo, o siamo disposti ad assumere, prima di osservare i dati. La verosimiglianza esprime quanto i dati siano compatibili con ciascun valore del parametro. La distribuzione a posteriori sintetizza l'incertezza aggiornata dopo l'osservazione.
+La formula è compatta, ma per comprenderla servono tutti i concetti introdotti nei capitoli precedenti. Occorre sapere che cosa rappresenta una probabilità, come una variabile casuale traduce un fenomeno in una quantità osservabile, quale ruolo svolge una distribuzione, perché un campione contiene informazione limitata e che cosa misura la verosimiglianza.
 
-Questa formula non è solo un risultato matematico. È una descrizione del ragionamento scientifico: partiamo da conoscenze precedenti, osserviamo nuove evidenze e rivediamo le nostre conclusioni in modo esplicito, controllabile e coerente.
+Questo capitolo non aggiunge una nuova tecnica. Chiude il percorso mettendo in relazione le idee già apprese e chiarendo che cosa dovrebbe saper riconoscere il lettore prima di passare ai modelli bayesiani sviluppati nel Companion e nel manuale.
 
-## Che cosa significa "capire" un'analisi bayesiana {.unnumbered .unlisted}
+## Perché concludere con una mappa del ragionamento?
 
-Dopo questo modulo, comprendere un'analisi bayesiana significa saper riconoscere almeno quattro componenti.
+Quando i concetti probabilistici vengono studiati separatamente, è facile considerarli come una raccolta di formule: regole della probabilità, distribuzioni, medie, varianze, correlazioni e funzioni di verosimiglianza. Nell'inferenza bayesiana, però, questi elementi appartengono a un'unica costruzione.
 
-**Primo**, bisogna sapere qual è il modello generativo: quali osservazioni ci aspettiamo di vedere e quali parametri controllano il processo che le produce.
+La domanda generale è:
 
-**Secondo**, bisogna capire quali distribuzioni sono usate e con quale ruolo: una distribuzione può descrivere i dati, una prior, una posterior o una previsione futura.
+> Come possiamo passare da osservazioni variabili a conclusioni esplicite e controllabili su quantità che non conosciamo direttamente?
 
-**Terzo**, bisogna distinguere l'informazione proveniente dai dati dall'informazione introdotta dalle assunzioni iniziali. La verosimiglianza e la prior svolgono funzioni diverse, e confonderle porta a interpretazioni sbagliate.
+La risposta richiede una sequenza di scelte: definire ciò che osserviamo, specificare un modello probabilistico, descrivere l'incertezza iniziale, confrontare il modello con i dati e aggiornare i pesi assegnati ai valori possibili del parametro.
 
-**Quarto**, bisogna interpretare la posterior come rappresentazione dell'incertezza residua. Una posterior stretta indica maggiore precisione, ma non garantisce automaticamente validità scientifica. La qualità dei dati, la plausibilità del modello e la solidità del disegno di ricerca restano condizioni essenziali.
-
-## Una mappa concettuale del modulo {.unnumbered .unlisted}
-
-Il percorso può essere sintetizzato come segue:
-
-1. **Probabilità**: linguaggio coerente per rappresentare l'incertezza.
-2. **Variabili casuali**: quantità incerte descritte probabilisticamente.
-3. **Distribuzioni**: forme matematiche dell'incertezza.
-4. **Modelli generativi**: descrizioni probabilistiche del processo che produce i dati.
-5. **Campionamento**: variabilità inevitabile delle statistiche osservate.
-6. **Precisione**: quantità di informazione contenuta nei dati.
-7. **Verosimiglianza**: compatibilità dei dati osservati con i possibili valori del parametro.
-8. **Prior**: credenze iniziali espresse in forma probabilistica.
-9. **Posterior**: credenze aggiornate dopo l'osservazione dei dati.
-10. **Sensibilità e validità**: controllo della robustezza e dei limiti dell'inferenza.
-
-::: {.callout-important title="L'idea da portare con sé"}
-
-Un'analisi bayesiana non consiste nel sostituire un valore $p$ con una distribuzione a posteriori. Consiste nel costruire un modello probabilistico esplicito che colleghi teoria, dati e incertezza.
-
-La domanda non è soltanto:
-
-> Il risultato è significativo?
-
-ma piuttosto:
-
-> Quali valori del parametro sono plausibili, dati il modello, le assunzioni iniziali e le osservazioni raccolte?
+::: {.callout-important title="Il filo conduttore"}
+L'inferenza bayesiana non comincia dalla formula di Bayes. Comincia dalla costruzione di un modello che colleghi un fenomeno psicologico, le osservazioni disponibili e le quantità ignote sulle quali vogliamo apprendere.
 :::
 
-## Verso il manuale principale {.unnumbered .unlisted}
+::: {.callout-tip title="Prerequisiti"}
+Questo capitolo richiama l'intero percorso. Sono particolarmente importanti:
 
-Il manuale principale potrà ora costruire su queste fondamenta. I modelli che incontrerete saranno più articolati, ma la logica resterà la stessa.
-
-Nei **modelli di regressione bayesiana**, i parametri descriveranno relazioni tra variabili psicologiche: l'associazione tra ansia e prestazione, l'effetto di un trattamento, la relazione tra tratti di personalità e comportamenti osservati.
-
-Nei **modelli per dati categoriali**, le distribuzioni discrete diventeranno strumenti per analizzare risposte corrette o errate, categorie diagnostiche, scelte comportamentali e conteggi di eventi.
-
-Nei **modelli gerarchici**, i parametri individuali saranno collegati a distribuzioni di popolazione. Questa struttura è particolarmente adatta alla psicologia, dove i dati sono spesso organizzati in livelli: prove entro soggetti, soggetti entro gruppi, item entro scale, studi entro meta-analisi.
-
-Nei **modelli computazionali**, metodi come MCMC e HMC permetteranno di approssimare posterior complesse che non possono essere calcolate in forma chiusa. Anche in questi casi, tuttavia, il principio rimarrà invariato: specificare un modello, combinarlo con i dati e interpretare la distribuzione a posteriori.
-
-Nel **controllo del modello**, le distribuzioni predittive e le analisi di sensibilità serviranno a chiedersi se il modello sia adeguato, se le conclusioni dipendano troppo dalla prior e se i dati simulati dal modello assomiglino ai dati osservati.
-
-## Un messaggio finale {.unnumbered .unlisted}
-
-La statistica bayesiana non è semplicemente una collezione di tecniche alternative. È un modo disciplinato di ragionare con l'incertezza.
-
-Questa prospettiva è particolarmente utile in psicologia, dove raramente osserviamo direttamente i costrutti che ci interessano. Misuriamo risposte, tempi, scelte, punteggi, sintomi e comportamenti; da questi dati cerchiamo di inferire processi cognitivi, emotivi, clinici e sociali. Il passaggio dai dati ai costrutti richiede sempre un modello e comporta sempre incertezza.
-
-L'approccio bayesiano rende questa incertezza esplicita. Non promette certezze automatiche, non elimina i problemi di misura e non sostituisce il giudizio teorico. Offre però una struttura coerente per integrare conoscenze precedenti, nuove evidenze e assunzioni modellistiche.
-
-Il punto di arrivo di questo modulo è quindi anche il punto di partenza del lavoro successivo: imparare a costruire, valutare e interpretare modelli bayesiani applicati ai problemi concreti della ricerca psicologica.
-
-## Punti chiave da ricordare {.unnumbered .unlisted}
-
-::: {.callout-important}
-
-1. **La probabilità è il linguaggio dell'incertezza.** In una prospettiva bayesiana, consente di rappresentare gradi di plausibilità in modo coerente.
-
-2. **Le distribuzioni sono modelli dell'incertezza.** Possono descrivere dati osservabili, parametri ignoti, credenze a priori, distribuzioni a posteriori o previsioni future.
-
-3. **I dati sono generati da un modello.** Prima di inferire un parametro, dobbiamo specificare come quel parametro rende plausibili determinate osservazioni.
-
-4. **La variabilità campionaria limita ciò che possiamo concludere.** Errore standard, precisione, Legge dei Grandi Numeri e Teorema del Limite Centrale spiegano come l'informazione cresce con i dati.
-
-5. **La verosimiglianza non è una posterior.** Essa misura la compatibilità dei dati con i valori parametrici, ma deve essere combinata con una prior per produrre una distribuzione a posteriori.
-
-6. **La posterior è l'oggetto centrale dell'inferenza bayesiana.** Essa rappresenta ciò che sappiamo sul parametro dopo aver osservato i dati, dato il modello assunto.
-
-7. **Precisione non significa validità.** Un risultato può essere molto preciso e tuttavia distorto, se il campionamento, la misura o il modello sono inadeguati.
-
-8. **Ogni analisi bayesiana è condizionata alle assunzioni del modello.** Per questo sono essenziali controllo del modello, analisi di sensibilità e trasparenza sulle scelte effettuate.
-
-**Formula guida del modulo:**
-
-$$
-p(\theta \mid y) \propto p(y \mid \theta)\,p(\theta).
-$$
-
-**Interpretazione:**
-
-> credenze aggiornate = evidenza fornita dai dati × credenze iniziali.
-
+- @sec-prob-inference-uncertainty, per distinguere dati osservati, variabilità campionaria e precisione;
+- @sec-prob-likelihood, per comprendere quale informazione i dati forniscono sui valori del parametro;
+- @sec-bayesian-updating, per il passaggio da prior e verosimiglianza alla posterior.
 :::
 
-## Bibliografia {.unnumbered .unlisted}
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il capitolo compie cinque passaggi:
+
+1. ricostruisce il filo logico che va dal fenomeno al modello;
+2. organizza i concetti del sito in una mappa essenziale;
+3. propone alcune domande per leggere un'analisi bayesiana;
+4. ricorda i limiti che una posterior, da sola, non può risolvere;
+5. indica dove prosegue l'apprendimento nel Companion e nel manuale.
+
+::: {.callout-note title="Preparazione del notebook"}
+Questo capitolo non introduce nuovi calcoli. Il blocco seguente mantiene comunque la stessa configurazione degli altri capitoli del sito.
+
+```{r}
+#| output: false
+if (requireNamespace("here", quietly = TRUE) &&
+    file.exists(here::here("code", "_common.R"))) {
+  source(here::here("code", "_common.R"))
+}
+
+if (exists("apply_visual_theme")) {
+  apply_visual_theme()
+}
+```
+:::
+
+## Dal fenomeno al modello probabilistico {#sec-conclusions-model-path}
+
+Un'analisi probabilistica nasce da un problema sostantivo, non da una distribuzione scelta in astratto. In psicologia, potremmo voler comprendere la probabilità di una risposta corretta, la frequenza di un comportamento, il tempo necessario per completare un compito o la relazione tra due caratteristiche individuali.
+
+Il passaggio dal fenomeno all'inferenza può essere organizzato in sette domande.
+
+### 1. Che cosa osserviamo?
+
+Una **variabile casuale** rappresenta numericamente un esito incerto. La sua definizione stabilisce quali osservazioni sono possibili e quale informazione viene conservata dalla codifica.
+
+### 2. Quali valori può assumere?
+
+Il **supporto** distingue, per esempio, un esito binario, un conteggio, una proporzione o una misura continua. Il supporto esclude le famiglie incompatibili, ma non determina da solo quale modello sia appropriato.
+
+### 3. Come potrebbero essere generati i dati?
+
+Una distribuzione per i dati specifica quali osservazioni sono plausibili sotto determinati valori dei parametri. Questa è la componente generativa del modello:
+
+$$
+y \sim p(y\mid\theta).
+$$
+
+Il parametro $\theta$ controlla qualche proprietà rilevante del processo: una probabilità, una media, una variabilità, un tasso o una relazione tra variabili.
+
+### 4. Che cosa sappiamo prima dei nuovi dati?
+
+La prior $p(\theta)$ rappresenta l'incertezza iniziale sul parametro. Non è una dichiarazione assoluta e indipendente dal contesto: dipende dalle informazioni disponibili, dalla scala del parametro e dalle assunzioni che siamo disposti a formulare.
+
+### 5. Che cosa dicono i dati sui valori del parametro?
+
+Una volta osservato $y$, la verosimiglianza $p(y\mid\theta)$ viene letta come funzione di $\theta$. Essa confronta i valori del parametro in base a quanto rendono compatibili i dati osservati.
+
+### 6. Come cambiano i pesi assegnati alle possibilità?
+
+L'aggiornamento bayesiano combina prior e verosimiglianza:
+
+$$
+p(\theta\mid y)
+=
+\frac{p(y\mid\theta)p(\theta)}{p(y)}.
+$$
+
+La posterior $p(\theta\mid y)$ rappresenta l'incertezza aggiornata, condizionatamente al modello, alla prior e ai dati.
+
+### 7. Il modello è adeguato allo scopo?
+
+Una posterior non conclude il lavoro. Occorre ancora chiedersi se il modello riproduca gli aspetti importanti dei dati, se le conclusioni siano sensibili alle scelte iniziali e se il disegno di ricerca permetta l'interpretazione sostantiva proposta. Questi passaggi sono sviluppati nel Companion.
+
+## La mappa essenziale del percorso {#sec-conclusions-concept-map}
+
+I capitoli del sito possono essere letti come quattro blocchi collegati.
+
+### Coerenza probabilistica
+
+- In @sec-prob-interpretation la probabilità è stata introdotta come rappresentazione dell'incertezza.
+- In @sec-prob-axioms-coherence gli assiomi hanno definito le condizioni minime di coerenza.
+- In @sec-equiprobability-combinatorics, @sec-prob-conditional-prob e @sec-prob-bayes-theorem sono state sviluppate le regole che permettono di combinare e aggiornare probabilità.
+
+L'idea centrale è che le probabilità non sono numeri isolati: devono rispettare relazioni coerenti tra eventi e informazioni disponibili.
+
+### Quantità incerte e distribuzioni
+
+- In @sec-prob-random-var le variabili casuali hanno collegato gli esiti a quantità numeriche.
+- In @sec-prob-distr sono state distinte massa, densità e funzione di ripartizione.
+- In @sec-prob-random-var-properties e @sec-prob-cov-cor sono state introdotte proprietà come valore atteso, varianza, covarianza e correlazione.
+- In @sec-prob-intro-distr, @sec-prob-discr-distr e @sec-prob-cont-distr sono state esaminate alcune famiglie di distribuzioni e i loro possibili ruoli.
+
+L'idea centrale è che una distribuzione non è soltanto una forma grafica: è una descrizione delle possibilità e dei pesi loro assegnati.
+
+### Informazione dei dati
+
+- In @sec-prob-inference-uncertainty è stato chiarito perché una statistica campionaria varia da un campione all'altro.
+- In @sec-prob-likelihood i dati osservati sono stati usati per confrontare i valori possibili del parametro.
+
+L'idea centrale è che i dati forniscono informazione relativa, la cui forza dipende dalla quantità e dalla qualità delle osservazioni e dalla forma del modello.
+
+### Aggiornamento
+
+- In @sec-bayesian-updating prior e verosimiglianza sono state combinate per ottenere la posterior.
+
+L'idea centrale è che apprendere significa modificare i pesi assegnati alle possibilità, non cancellare l'incertezza.
+
+::: {.callout-note title="Una formula, tre significati"}
+Nell'espressione
+
+$$
+p(\theta\mid y)\propto p(y\mid\theta)p(\theta),
+$$
+
+- $p(\theta)$ descrive l'incertezza **prima** dei nuovi dati;
+- $p(y\mid\theta)$ descrive l'informazione fornita **dai dati**;
+- $p(\theta\mid y)$ descrive l'incertezza **dopo** l'aggiornamento.
+
+Confondere questi tre ruoli significa perdere il significato dell'inferenza bayesiana.
+:::
+
+## Come leggere un'analisi bayesiana {#sec-conclusions-reading-analysis}
+
+Comprendere un'analisi bayesiana non significa soltanto saper leggere una media posteriore o un intervallo di credibilità. Prima di interpretare i risultati, è utile formulare alcune domande.
+
+### Qual è la domanda scientifica?
+
+Il parametro deve avere un significato collegato al problema psicologico. Una stima numerica è utile solo se sappiamo quale proprietà del fenomeno rappresenta.
+
+### Qual è il modello dei dati?
+
+Occorre identificare quali osservazioni sono possibili, quale distribuzione è stata scelta e quali assunzioni vengono formulate, per esempio indipendenza condizionata, forma della distribuzione o costanza dei parametri.
+
+### Qual è il ruolo della prior?
+
+Bisogna capire quali valori favorisce o penalizza, quanto è concentrata e se la sua scelta è plausibile sulla scala adottata.
+
+### Che cosa ha appreso il modello dai dati?
+
+Il confronto tra prior e posterior mostra quali pesi sono cambiati. La posterior può spostarsi, concentrarsi o conservare una forte incertezza. Nessuno di questi esiti deve essere interpretato senza considerare la verosimiglianza e la quantità di informazione disponibile.
+
+### Quale incertezza rimane?
+
+Una posterior rappresenta un insieme di valori plausibili, non soltanto un'unica stima. La sua concentrazione va interpretata condizionatamente alle assunzioni del modello.
+
+### Le conclusioni sono adeguate ai dati e al disegno?
+
+L'inferenza statistica non trasforma automaticamente un'associazione in un effetto causale, non corregge misure poco valide e non rende rappresentativo un campione distorto.
+
+## Precisione, validità e trasparenza {#sec-conclusions-limits}
+
+Uno dei messaggi più importanti del percorso è la distinzione tra **precisione** e **validità**.
+
+Una posterior molto concentrata indica che, all'interno del modello, alcuni valori hanno ricevuto molto più peso di altri. Non dimostra però che:
+
+- il campione rappresenti la popolazione di interesse;
+- la misura rappresenti correttamente il costrutto psicologico;
+- la distribuzione scelta descriva adeguatamente i dati;
+- l'interpretazione causale sia giustificata;
+- la prior e le altre assunzioni siano irrilevanti.
+
+::: {.callout-warning title="Un risultato preciso può essere precisamente sbagliato"}
+Aumentare il numero di osservazioni riduce alcune forme di incertezza, ma non elimina automaticamente bias sistematici, errori di misurazione o inadeguatezze del modello.
+:::
+
+L'approccio bayesiano rende esplicite molte scelte che in altri approcci possono restare implicite. Questa trasparenza è un vantaggio soltanto se prior, modello, dati e limiti vengono documentati e sottoposti a controllo critico.
+
+## Dove prosegue il percorso {#sec-conclusions-next}
+
+Questo sito ha fornito il linguaggio probabilistico necessario per seguire l'inferenza bayesiana senza trasformarsi in un secondo manuale operativo.
+
+Nel [Companion](https://ccaudek.github.io/utet-companion/) il percorso prosegue con:
+
+- costruzione e simulazione di modelli generativi;
+- approssimazione della posterior e famiglie coniugate;
+- interpretazione e comunicazione delle distribuzioni posteriori;
+- controlli predittivi e analisi di sensibilità;
+- modelli di regressione, modelli gerarchici e metodi computazionali;
+- codice R e Stan riproducibile.
+
+Il manuale mantiene invece il centro sul significato psicologico e inferenziale dei modelli. La divisione del lavoro è intenzionale:
+
+> questo sito fornisce il linguaggio della probabilità; il manuale sviluppa il ragionamento; il Companion mostra i modelli in azione.
+
+## Riflessioni conclusive {.unnumbered .unlisted}
+
+La probabilità non elimina l'incertezza: permette di rappresentarla e di ragionare senza nasconderla. Le variabili casuali definiscono ciò che può essere osservato; le distribuzioni descrivono come i possibili valori ricevono peso; la verosimiglianza misura come i dati modificano il confronto tra i parametri; la regola di Bayes combina questa informazione con ciò che era plausibile prima dell'osservazione.
+
+Il punto di arrivo del sito non è quindi una formula da applicare meccanicamente. È una disposizione a formulare domande esplicite:
+
+- che cosa sto modellando?
+- quali assunzioni sto introducendo?
+- quale informazione proviene dai dati?
+- quale incertezza rimane?
+- quali conclusioni sono realmente sostenute dal disegno di ricerca?
+
+Queste domande accompagneranno tutti i modelli successivi, dai casi elementari alle analisi gerarchiche e computazionali. Cambieranno le distribuzioni e gli algoritmi, ma non la logica fondamentale: costruire un modello, confrontarlo con i dati, aggiornare l'incertezza e controllare criticamente ciò che abbiamo appreso.
+
+## Esercizi {.unnumbered .unlisted}
+
+1. Perché la formula di Bayes, da sola, non basta a definire un'analisi scientificamente utile?
+2. Qual è la differenza tra il supporto di una variabile e la distribuzione scelta per modellarla?
+3. Che cosa distingue la distribuzione dei dati dalla prior sul parametro?
+4. Quale informazione fornisce la verosimiglianza e quale informazione non fornisce?
+5. In che senso la posterior rappresenta un aggiornamento dei pesi assegnati ai valori del parametro?
+6. Perché una posterior più concentrata non implica necessariamente una conclusione più valida?
+7. Quali domande dovresti porre prima di interpretare un intervallo di credibilità?
+8. Qual è la differenza tra aggiornare l'incertezza sui parametri e controllare l'adeguatezza del modello?
+
+::: {.callout-tip title="Soluzioni" collapse="true"}
+1. Perché occorre specificare che cosa rappresentano dati e parametri, come i dati sono generati, quale prior viene adottata e se il modello è adeguato alla domanda scientifica.
+2. Il supporto indica quali valori sono possibili; la distribuzione assegna pesi probabilistici a quei valori. Più distribuzioni possono condividere lo stesso supporto.
+3. La distribuzione dei dati descrive le osservazioni possibili condizionatamente ai parametri; la prior descrive l'incertezza sui parametri prima dei nuovi dati.
+4. La verosimiglianza confronta quanto i dati osservati siano compatibili con i valori del parametro. Non assegna, da sola, probabilità posteriori ai parametri.
+5. La verosimiglianza moltiplica i pesi iniziali della prior e la normalizzazione trasforma i prodotti in una nuova distribuzione di probabilità.
+6. Perché la concentrazione è valutata all'interno delle assunzioni adottate. Campionamento distorto, misure inadeguate o un modello mal specificato possono produrre conclusioni precise ma fuorvianti.
+7. Quale parametro rappresenta, quale modello è stato usato, quale prior è stata scelta, quali dati sono stati osservati e quali assunzioni condizionano l'intervallo.
+8. L'aggiornamento produce una posterior sui parametri assumendo valido il modello specificato. Il controllo di adeguatezza valuta invece se quel modello riesce a rappresentare gli aspetti dei dati rilevanti per la domanda scientifica.
+:::
+
+::: {.callout-note title="Punti chiave" collapse="true"}
+- La probabilità è un linguaggio coerente per rappresentare l'incertezza.
+- Una variabile casuale collega gli esiti possibili a una rappresentazione numerica.
+- Una distribuzione assegna pesi ai valori possibili e può svolgere ruoli differenti nel modello.
+- Il modello dei dati descrive come le osservazioni dipendono dai parametri.
+- La prior rappresenta l'incertezza sui parametri prima dei nuovi dati.
+- La verosimiglianza rappresenta l'informazione relativa fornita dai dati osservati.
+- La posterior combina prior e verosimiglianza:
+  $$
+  p(\theta\mid y)\propto p(y\mid\theta)p(\theta).
+  $$
+- La posterior resta condizionata al modello, alla prior e ai dati.
+- Precisione inferenziale e validità scientifica non sono la stessa cosa.
+- Il Companion sviluppa il workflow operativo e i modelli applicati.
+:::
+
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
+```{r}
+sessionInfo()
+```
+:::

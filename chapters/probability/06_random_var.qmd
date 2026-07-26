@@ -1,51 +1,66 @@
 # Variabili casuali {#sec-prob-random-var}
 
-## Introduzione {.unnumbered .unlisted}
+::: {.callout-note title="In sintesi"}
 
-Si consideri uno scenario ricorrente nella pratica clinica in cui il clinico intende valutare l'efficacia di un intervento per il disturbo d'ansia sociale. A tale scopo, somministra la *Liebowitz Social Anxiety Scale* (LSAS) a un campione di 50 pazienti, rilevando le misurazioni prima e dopo un ciclo di 12 sedute.
+**Da sapere**  Una variabile casuale associa un valore numerico a ciascun possibile esito. Le variabili discrete sono descritte da funzioni di massa di probabilità, quelle continue da densità; la funzione di distribuzione cumulativa vale in entrambi i casi. Le distribuzioni congiunte permettono inoltre di rappresentare più quantità incerte simultaneamente.
 
-Il quesito metodologico non si esaurisce in una semplice dicotomia, ovvero nel capire se l'intervento funzioni o meno, ma verte sulla stima dell'entità attesa del miglioramento, sulla distribuzione di probabilità che caratterizza i potenziali effetti e sulla misura di incertezza da associare a tali stime.
+**Da saper fare**  Distinguere una variabile casuale dal valore che assume; riconoscere se una variabile è discreta o continua; interpretare PMF, PDF e CDF; spiegare perché una densità non è una probabilità; leggere probabilità marginali e valutare il significato dell'indipendenza tra variabili.
 
-Per rispondere a questi quesiti, è necessario compiere un salto concettuale e passare dallo studio di eventi discreti a quello di grandezze continue. È in questo ambito che si colloca la nozione di *variabile casuale* che funge da ponte teorico tra il calcolo delle probabilità e i modelli statistici dell'approccio bayesiano.
-
-In questo capitolo:
-
-1. **Definiremo** formalmente la variabile casuale come funzione dallo spazio campionario ai numeri reali.
-2. **Distingueremo** tra variabili casuali discrete e continue.
-3. **Introdurremo** la funzione di massa di probabilità (PMF) per variabili discrete.
-4. **Introdurremo** la funzione di densità di probabilità (PDF) per variabili continue.
-5. **Presenteremo** la funzione di distribuzione cumulativa (CDF) come rappresentazione unificata.
-6. **Estenderemo** il quadro a variabili casuali multiple e alla nozione di indipendenza.
-
-::: {.callout-tip collapse="true"}
-## Prerequisiti
-
-Per seguire questo capitolo è necessario aver letto:
-
-- @sec-prob-interpretation
-- @sec-prob-axioms-coherence
-- @sec-equiprobability-combinatorics
-- @sec-prob-conditional-prob 
-- @sec-prob-bayes-theorem
-
-Conoscenze matematiche richieste:
-
-- @sec-apx-calculus — per comprendere le PDF e le variabili continue.
-- @sec-apx-sums - per marginalizzazione di variabili discrete.
-
-Competenze pratiche:
-
-- Familiarità con R e operazioni vettoriali di base.
 :::
 
-::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+## Introduzione {.unnumbered .unlisted}
+
+Si consideri uno scenario ricorrente nella pratica clinica: un clinico intende valutare l'efficacia di un intervento per il disturbo d'ansia sociale e somministra la *Liebowitz Social Anxiety Scale* (LSAS) a 50 pazienti prima e dopo un ciclo di 12 sedute.
+
+La domanda non si esaurisce nel decidere se l'intervento «funzioni» oppure no. Interessa anche descrivere quanto possano variare i punteggi, quale miglioramento sia plausibile e quanta incertezza rimanga sulle quantità stimate.
+
+Per affrontare domande di questo tipo è necessario passare dalla probabilità di eventi alla probabilità associata a valori numerici. La nozione di **variabile casuale** realizza questo passaggio e costituisce un ponte tra il calcolo delle probabilità e i modelli statistici bayesiani.
+
+## Perché le variabili casuali sono importanti in psicologia?
+
+Molti risultati psicologici sono espressi mediante numeri: punteggi, conteggi di comportamenti, tempi di reazione, misure fisiologiche, differenze pre-post e parametri di un modello. Il numero osservato varia da persona a persona o da una ripetizione all'altra, e questa variabilità deve essere rappresentata esplicitamente.
+
+Le variabili casuali permettono di:
+
+- collegare gli esiti possibili di uno studio ai valori che saranno analizzati;
+- descrivere quali valori siano più o meno plausibili;
+- distinguere probabilità associate a singoli valori da probabilità associate a intervalli;
+- definire prior, verosimiglianze e distribuzioni a posteriori;
+- formulare domande come «qual è la probabilità che il miglioramento superi una soglia clinicamente rilevante?».
+
+La funzione che assegna i numeri è deterministica; l'incertezza riguarda quale esito si realizzerà e, di conseguenza, quale valore verrà osservato.
+
+::: {.callout-tip title="Prerequisiti"}
+
+Per seguire questo capitolo è necessario aver letto @sec-prob-interpretation, @sec-prob-axioms-coherence, @sec-equiprobability-combinatorics, @sec-prob-conditional-prob e @sec-prob-bayes-theorem.
+
+Per la notazione matematica può essere utile consultare @sec-apx-math-symbols. Per un richiamo a integrali, derivate e sommatorie, consulta le appendici matematiche fornite nel [Companion](https://ccaudek.github.io/utet-companion/).
+
+Gli esempi in R servono a visualizzare i concetti e non richiedono competenze di programmazione avanzate.
+
+:::
+
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il percorso che seguiremo è questo:
+
+1. definiremo la variabile casuale come funzione dagli esiti ai numeri reali;
+2. distingueremo variabili casuali discrete e continue;
+3. introdurremo la funzione di massa di probabilità per le variabili discrete;
+4. introdurremo la funzione di densità per le variabili continue;
+5. useremo la funzione di distribuzione cumulativa come rappresentazione comune;
+6. estenderemo il quadro alle distribuzioni congiunte, alle marginali e all'indipendenza.
+
+::: {.callout-note title="Preparazione del notebook"}
+
 ```{r}
 #| output: false
-here::here("code", "_common.R") |> 
+here::here("code", "_common.R") |>
   source()
-# Riapplica il tema per sicurezza
+
 apply_visual_theme()
 ```
+
 :::
 
 ## Dalla probabilità degli eventi ai valori numerici {#sec-from-events-to-numbers}
@@ -62,16 +77,16 @@ In tutti questi casi, l'incertezza non riguarda il verificarsi di un evento, ma 
 
 ### L'idea fondamentale
 
-Il passaggio concettuale consiste nel riconoscere che molti esperimenti producono naturalmente risultati numerici. Un test psicometrico restituisce un punteggio, una misurazione fisiologica produce un valore continuo, un compito cognitivo genera un tempo di reazione. Anche quando gli esiti originari non sono numerici, è sempre possibile *codificarli* come tali, assegnando 1 al successo e 0 al fallimento o utilizzando codifiche ordinali per le categorie diagnostiche.
+Il passaggio concettuale consiste nel riconoscere che molti esperimenti producono naturalmente risultati numerici. Un test psicometrico restituisce un punteggio, una misurazione fisiologica produce un valore continuo, un compito cognitivo genera un tempo di reazione. Anche quando gli esiti originari non sono numerici, è possibile *codificarli* mediante numeri, per esempio assegnando 1 al successo e 0 al fallimento. La codifica, tuttavia, non crea automaticamente una scala quantitativa: attribuire 0, 1 e 2 a tre categorie permette di distinguerle, ma non implica che le distanze tra le categorie abbiano un significato metrico.
 
-La traduzione sistematica degli esiti in numeri è realizzata tramite una *variabile casuale*. La "casualità" non risiede nella funzione, che è perfettamente deterministica, ma nell'incertezza relativa all'esito che si verificherà nello spazio campionario.
+La traduzione sistematica degli esiti in numeri è realizzata tramite una *variabile casuale*. La "casualità" non risiede nella funzione, che è deterministica, ma nell'incertezza relativa all'esito che si verificherà nello spazio campionario.
 
 ## Definizione formale di variabile casuale {#sec-random-variable-definition}
 
 ::: {#def-random-variable}
 ### Variabile casuale
 
-Sia $\Omega$ uno spazio campionario. Una *variabile casuale* è una funzione
+Per gli scopi introduttivi di questo manuale, sia $\Omega$ uno spazio campionario. Una *variabile casuale* è una funzione
 
 $$
 X : \Omega \longrightarrow \mathbb{R}
@@ -135,7 +150,7 @@ Una variabile casuale $X$ è *discreta* se esiste un insieme finito o numerabile
 - **Categorie diagnostiche codificate**: 0 = assente, 1 = lieve, 2 = moderato, 3 = grave.
 - **Numero di criteri soddisfatti** in una valutazione diagnostica.
 
-La caratteristica distintiva delle variabili discrete è che tra due valori consecutivi **non esistono valori intermedi**.
+La caratteristica distintiva è che l'insieme dei valori possibili è finito o numerabile. Nei comuni esempi di conteggio, valori non appartenenti a questo insieme — per esempio 2.5 risposte corrette — non sono esiti possibili della variabile.
 
 ## Funzione di massa di probabilità {#sec-pmf}
 
@@ -201,22 +216,22 @@ $$
 
 ### Connessione con il percorso bayesiano
 
-La PMF che abbiamo appena costruito è la *funzione di verosimiglianza* del modello binomiale. Quando osserviamo $k$ successi su $n$ prove e vogliamo stimare $\theta$, la verosimiglianza è:
+La stessa espressione matematica può essere letta in due modi diversi. Come PMF, descrive la probabilità dei possibili valori di $X$ quando $\theta$ è fissato. Dopo aver osservato $k$ successi su $n$ prove, se consideriamo l'espressione come funzione di $\theta$, otteniamo la *verosimiglianza*:
 
 $$
 L(\theta \mid k) = \binom{n}{k} \theta^k (1-\theta)^{n-k}.
 $$
 
-Comprendere la PMF significa comprendere una delle due componenti essenziali dell'inferenza bayesiana.
+La formula è la stessa, ma cambia la domanda: la PMF varia rispetto ai dati possibili; la verosimiglianza confronta valori possibili del parametro alla luce dei dati osservati.
 
 ## Variabili casuali continue {#sec-continuous-random-variables}
 
-Molte grandezze psicologiche non possono essere rappresentate da variabili discrete. Tempi di reazione, livelli di cortisolo, punteggi su scale psicometriche trattati come misure continue — tutte possono assumere, almeno in linea di principio, *qualsiasi valore* in un intervallo continuo.
+Molte grandezze psicologiche sono modellate come continue. Tempi di reazione, livelli di cortisolo e alcuni punteggi o costrutti rappresentati su una scala continua possono assumere, almeno nel modello, qualsiasi valore entro un intervallo. Questa è un'idealizzazione utile: gli strumenti di misura hanno sempre una precisione finita.
 
 ::: {#def-continuous-rv}
 ### Variabile casuale continua
 
-Una variabile casuale $X$ è *continua* se esiste una funzione non negativa $f_X : \mathbb{R} \to [0, +\infty)$, detta *funzione di densità di probabilità* (PDF), tale che per ogni intervallo $[a,b]$:
+In questo manuale chiamiamo *continua* una variabile casuale $X$ che ammette una funzione non negativa $f_X : \mathbb{R} \to [0, +\infty)$, detta *funzione di densità di probabilità* (PDF), tale che per ogni intervallo $[a,b]$:
 
 $$
 P(a \leq X \leq b) = \int_a^b f_X(x)\,dx.
@@ -229,8 +244,8 @@ La probabilità non è più assegnata a singoli valori, ma a *intervalli* della 
 
 - **Tempi di reazione**: latenza in compiti cognitivi, tipicamente in millisecondi.
 - **Misure fisiologiche**: livelli di cortisolo, frequenza cardiaca, conduttanza cutanea.
-- **Punteggi standardizzati**: z-score, T-score, percentili.
-- **Variabili latenti**: costrutti come intelligenza, ansia di tratto, apertura mentale.
+- **Punteggi standardizzati modellati come continui**: per esempio z-score e T-score.
+- **Variabili latenti continue**: per esempio un tratto di ansia o un'abilità rappresentati da un modello psicometrico. Altri modelli possono invece usare variabili latenti discrete.
 - **Effetti stimati**: dimensioni dell'effetto, coefficienti di regressione.
 
 ## Funzione di densità di probabilità {#sec-pdf}
@@ -247,7 +262,7 @@ La probabilità non è concentrata nei punti, ma *distribuita sugli intervalli*.
 
 ### Come interpretare la densità
 
-La densità $f_X(x)$ misura la *concentrazione della probabilità*. Valori elevati di $f_X(x)$ indicano le regioni in cui la variabile è più probabile, nel senso che gli intervalli di piccole dimensioni attorno a quei punti hanno una probabilità relativamente maggiore.
+La densità $f_X(x)$ misura la *concentrazione della probabilità*. Valori elevati indicano regioni nelle quali intervalli della stessa piccola ampiezza raccolgono più probabilità. Non è corretto confrontare probabilità puntuali, perché per una variabile continua ogni singolo punto ha probabilità zero.
 
 Un'analogia: se la probabilità fosse acqua e la retta reale un contenitore, la densità indicherebbe l'altezza dell'acqua. La quantità totale è sempre 1, ma può essere distribuita in modo più o meno concentrato.
 
@@ -260,15 +275,17 @@ Una funzione $f_X(x)$ è una valida densità se e solo se:
 2. **Normalizzazione**: $\int_{-\infty}^{+\infty} f_X(x)\,dx = 1$.
 :::
 
-È importante notare che $f_X(x)$ può superare 1: ciò non viola alcun principio, poiché $f_X(x)$ non è una probabilità. Solo l'*integrale* della densità restituisce una probabilità.
+È importante notare che $f_X(x)$ può superare 1: ciò non viola alcun principio, poiché $f_X(x)$ non è una probabilità. Solo l'*area* ottenuta integrando la densità su un intervallo restituisce una probabilità. Analogamente, $P(X=x)=0$ non significa che il valore $x$ sia logicamente impossibile: significa che un singolo punto non possiede area.
 
 ### Ponte applicativo: la PDF nella valutazione clinica
 
-Quando un clinico afferma che "i punteggi del BDI-II nella popolazione generale seguono approssimativamente una distribuzione normale con media 10 e deviazione standard 8", sta specificando una PDF. Da questa distribuzione è possibile calcolare:
+Quando, a scopo modellistico, una misura psicologica viene descritta mediante una distribuzione continua con determinati parametri, si sta specificando una PDF. Da tale modello è possibile calcolare, per esempio:
 
-- la probabilità che un individuo abbia un punteggio superiore a 20;
-- l'intervallo entro cui cade il 95% centrale della popolazione;
-- la probabilità di osservare un punteggio estremo.
+- la probabilità che una misura superi una soglia;
+- l'intervallo che contiene una determinata quota della distribuzione;
+- la probabilità di osservare valori in una regione estrema.
+
+La scelta della famiglia distributiva e dei parametri deve essere giustificata dai dati e dal contesto; non è una proprietà automatica dello strumento di misura.
 
 ::: {.callout-note collapse="true" title="Esempio: tempo di reazione in un compito cognitivo"}
 
@@ -281,6 +298,9 @@ f_T(t) = \frac{1}{t \sigma \sqrt{2\pi}} \exp\left(-\frac{(\ln(t) - \mu)^2}{2\sig
 $$
 
 ```{r}
+#| label: fig-lognormal-reaction-times
+#| fig-cap: "Densità log-normale usata a scopo illustrativo per rappresentare tempi di reazione positivi e asimmetrici."
+
 mu <- 5.7
 sigma <- 0.3
 
@@ -299,7 +319,7 @@ ggplot(df_rt, aes(x = t, y = densita)) +
   )
 ```
 
-La probabilità che il tempo di reazione cada tra 300 e 400 ms è l'area sotto la curva in quell'intervallo:
+La @fig-lognormal-reaction-times mostra la densità scelta nell'esempio. La probabilità che il tempo di reazione cada tra 300 e 400 ms è l'area sotto la curva in quell'intervallo:
 
 ```{r}
 prob_300_400 <- plnorm(400, meanlog = mu, sdlog = sigma) - 
@@ -324,7 +344,7 @@ $$
 definita da $F_X(x) = P(X \leq x)$.
 :::
 
-Dal punto di vista epistemico, $F_X(x)$ rappresenta il grado di credenza che il valore di $X$ non superi la soglia $x$.
+In un'interpretazione epistemica della probabilità, $F_X(x)$ rappresenta il grado di credenza che il valore di $X$ non superi la soglia $x$. Più in generale, è la probabilità cumulata fino a $x$.
 
 ### Relazione con PMF e PDF
 
@@ -341,11 +361,13 @@ Dal punto di vista epistemico, $F_X(x)$ rappresenta il grado di credenza che il 
 
 ### Ponte applicativo: uso della CDF per i cut-off clinici
 
-La CDF è lo strumento naturale per calcolare la proporzione di individui che cadono sotto una certa soglia. Se il punteggio $X$ al PHQ-9 nella popolazione clinica segue una certa distribuzione:
+La CDF è lo strumento naturale per calcolare la probabilità di cadere sotto una certa soglia. Se $X$ rappresenta un punteggio psicologico e il modello assegna una distribuzione a $X$:
 
-- $F_X(9)$ = probabilità di punteggio ≤ 9 (depressione minima);
-- $1 - F_X(19)$ = probabilità di depressione grave;
-- $F_X(14) - F_X(9)$ = probabilità di depressione moderata.
+- $F_X(9)$ è la probabilità di osservare un punteggio non superiore a 9;
+- $1-F_X(19)$ è la probabilità di osservare un punteggio superiore a 19;
+- $F_X(14)-F_X(9)$ è la probabilità di osservare un punteggio maggiore di 9 e non superiore a 14.
+
+L'eventuale significato clinico delle soglie dipende dallo strumento, dalla popolazione e dallo scopo della valutazione.
 
 ### Connessione con il percorso bayesiano
 
@@ -391,9 +413,9 @@ $$
 p_X(x) = \sum_y p_{X,Y}(x,y), \qquad p_Y(y) = \sum_x p_{X,Y}(x,y).
 $$
 
-Nell'esempio: $p_X(\text{ansia alta}) = 0.02 + 0.08 + 0.20 = 0.30$.
+Nell'esempio: $p_X(\text{ansia alta}) = 0.02 + 0.08 + 0.20 = 0.30$. Per variabili continue, l'operazione analoga usa un integrale al posto della somma.
 
-### Indipendenza stocastica
+### Indipendenza probabilistica
 
 Le variabili $X$ e $Y$ sono *indipendenti* se:
 
@@ -401,7 +423,7 @@ $$
 p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y) \quad \text{per ogni } (x,y).
 $$
 
-Nell'esempio, ansia e depressione *non* sono indipendenti: $0.20 \neq 0.30 \times 0.32 = 0.096$. Le due condizioni tendono a co-occorrere più di quanto ci si aspetterebbe per caso.
+Nell'esempio, ansia e depressione *non* sono indipendenti: $0.20 \neq 0.30 \times 0.32 = 0.096$. La combinazione «ansia alta e depressione alta» riceve quindi più probabilità di quella prevista sotto un modello di indipendenza.
 
 ### Ponte applicativo
 
@@ -422,61 +444,65 @@ Per chi si avvicina all'inferenza bayesiana, questi concetti costituiscono il *v
 
 Nei capitoli successivi studieremo le *famiglie parametriche di distribuzioni*, come la distribuzione Beta, la distribuzione Normale, la distribuzione Binomiale, la distribuzione di Poisson e altre, che costituiscono i mattoni elementari della modellazione bayesiana.
 
-## Punti chiave da ricordare {.unnumbered}
+## Esercizi {.unnumbered .unlisted}
 
-::: {.callout-important}
+1. In uno studio, $X$ associa a ogni partecipante il numero di risposte corrette in un test. Qual è la differenza tra la variabile casuale $X$ e il valore osservato $X=7$?
 
-1. **Variabile casuale come funzione**
-   - $X: \Omega \to \mathbb{R}$ associa a ogni esito un valore numerico.
-   - La funzione è deterministica; l'incertezza riguarda quale esito si realizzerà.
-   - Permette di passare da eventi qualitativi a quantità analizzabili.
+2. Le categorie «assenza», «lieve» e «grave» vengono codificate con 0, 1 e 2. Che cosa consente questa codifica e che cosa non permette di concludere sulle distanze tra le categorie?
 
-2. **Discrete vs Continue**
-   - Discrete: valori numerabili (punteggi, conteggi).
-   - Continue: valori in intervalli (tempi, misure fisiologiche).
-   - Strumenti diversi: somme vs integrali.
+3. Classifica come discrete o continue, nel modello adottato, le seguenti variabili: numero di errori, tempo di reazione, punteggio su una scala Likert da 1 a 5, livello di cortisolo.
 
-3. **PMF per variabili discrete**
-   - $p_X(x) = P(X = x)$ è una probabilità.
-   - $\sum_x p_X(x) = 1$.
+4. Una PMF assegna probabilità 0.05, 0.15, 0.30, 0.35 e 0.15 agli esiti 0, 1, 2, 3 e 4. Che cosa significa $P(X\geq 2)=0.80$?
 
-4. **PDF per variabili continue**
-   - $f_X(x)$ è una densità, non una probabilità.
-   - $P(a \leq X \leq b) = \int_a^b f_X(x) \, dx$.
-   - $P(X = x) = 0$ per ogni $x$.
+5. Per una variabile continua, una densità in un punto vale 1.4. Perché questo valore non viola gli assiomi della probabilità? E perché $P(X=x)=0$ non rende $x$ impossibile?
 
-5. **CDF come rappresentazione unificata**
-   - $F_X(x) = P(X \leq x)$ funziona per entrambi i tipi.
-   - Fondamentale per quantili e intervalli di credibilità.
+6. Supponi che $F_X(14)=0.72$ e $F_X(9)=0.40$. Interpreta $F_X(14)$ e la differenza $F_X(14)-F_X(9)$.
 
-6. **Variabili multiple**
-   - La distribuzione congiunta descrive l'incertezza su combinazioni.
-   - Marginalizzazione: eliminare una variabile sommando/integrando.
-   - Indipendenza: $p_{X,Y}(x,y) = p_X(x) \cdot p_Y(y)$.
+7. Nella tabella congiunta del capitolo, la probabilità marginale di ansia alta è 0.30. Spiega perché per ottenerla si sommano tutte le celle della riga «ansia alta».
 
-**Formule essenziali:**
+8. Per due variabili, $P(X=x,Y=y)$ è diverso da $P(X=x)P(Y=y)$. Che cosa indica questa disuguaglianza? Che cosa non permette, da sola, di concludere sul rapporto causale tra le variabili?
 
-$$
-\text{PMF: } p_X(x) = P(X = x), \quad \sum_x p_X(x) = 1
-$$
+::: {.callout-tip title="Soluzioni" collapse="true"}
 
-$$
-\text{PDF: } P(a \leq X \leq b) = \int_a^b f_X(x) \, dx, \quad \int_{-\infty}^{+\infty} f_X(x) \, dx = 1
-$$
+1. $X$ è la regola che associa un numero a ogni possibile esito; $X=7$ è uno specifico evento o valore osservato della variabile.
 
-$$
-\text{CDF: } F_X(x) = P(X \leq x)
-$$
+2. La codifica permette di rappresentare e distinguere le categorie mediante numeri. Non implica che la distanza tra 0 e 1 sia psicologicamente uguale alla distanza tra 1 e 2, né che i numeri possano essere trattati automaticamente come misure quantitative.
 
-$$
-\text{Marginale: } p_X(x) = \sum_y p_{X,Y}(x,y)
-$$
+3. Numero di errori: discreta. Tempo di reazione: modellato come continuo. Scala Likert da 1 a 5: discreta. Livello di cortisolo: modellato come continuo, pur essendo misurato con precisione finita.
+
+4. Significa che, secondo la distribuzione specificata, la probabilità di osservare un esito pari a 2, 3 oppure 4 è 0.80. Il valore deriva dalla somma delle masse assegnate a questi tre esiti.
+
+5. Una densità non è una probabilità puntuale: le probabilità sono aree sotto la curva e devono essere comprese tra 0 e 1. Un singolo punto ha area nulla, ma può comunque essere un possibile valore della variabile.
+
+6. $F_X(14)=0.72$ significa che la probabilità di osservare un valore non superiore a 14 è 0.72. La differenza $0.72-0.40=0.32$ è la probabilità che il valore sia maggiore di 9 e non superiore a 14.
+
+7. La marginale ignora quale livello assuma l'altra variabile. Per includere tutti i modi in cui può verificarsi «ansia alta», si sommano le probabilità con depressione bassa, media e alta.
+
+8. Indica che, per quella coppia di valori, la distribuzione congiunta non si fattorizza come previsto dall'indipendenza. Mostra dipendenza probabilistica, ma non stabilisce da sola che una variabile causi l'altra.
 
 :::
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+::: {.callout-note title="Punti chiave" collapse="true"}
+
+- Una variabile casuale è una funzione $X:\Omega\to\mathbb{R}$; l'incertezza riguarda il valore che verrà osservato.
+- Una codifica numerica non rende automaticamente quantitativa una variabile categoriale.
+- Per una variabile discreta:
+  $$p_X(x)=P(X=x), \qquad \sum_x p_X(x)=1.$$
+- Per una variabile continua descritta da una densità:
+  $$P(a\leq X\leq b)=\int_a^b f_X(x)\,dx.$$
+- La densità può superare 1; è l'area su un intervallo a rappresentare una probabilità.
+- La CDF vale per variabili discrete e continue:
+  $$F_X(x)=P(X\leq x).$$
+- Una marginale si ottiene eliminando le altre variabili mediante somme o integrali.
+- L'indipendenza richiede che la distribuzione congiunta si fattorizzi nel prodotto delle marginali; non equivale a un'affermazione causale.
+- In un modello bayesiano, prior e posterior sui parametri sono distribuzioni di variabili casuali.
+
+:::
+
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
+
 ```{r}
 sessionInfo()
 ```
-:::
 
+:::

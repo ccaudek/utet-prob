@@ -1,64 +1,62 @@
 # Distribuzioni di variabili casuali discrete {#sec-prob-discr-distr}
 
+::: {.callout-note title="In sintesi"}
+**Da sapere**  Comprendere come una funzione di massa assegna probabilità ai valori di una variabile discreta; distinguere uniforme discreta, Bernoulli, binomiale e Poisson; riconoscere le assunzioni che collegano ciascuna famiglia al processo generativo.
+
+**Da saper fare**  Scegliere una famiglia discreta coerente con il tipo di dato e il disegno; interpretare supporto, parametri, media e varianza; spiegare che cosa indicano le funzioni `d`, `p`, `q` e `r` di R; riconoscere quando indipendenza, probabilità costante o equidispersione sono poco plausibili.
+:::
+
 ## Introduzione {.unnumbered .unlisted}
 
-Nel capitolo precedente abbiamo introdotto l'idea generale di **distribuzione di probabilita**: un modo formale per assegnare una probabilita ai valori possibili di una variabile casuale. In questo capitolo ci concentriamo sulle **distribuzioni discrete**, ovvero sulle distribuzioni che descrivono variabili con valori numerabili, come le risposte corrette o errate, i sintomi presenti o assenti, il numero di successi o il numero di eventi osservati in un intervallo.
+Nel capitolo precedente abbiamo introdotto l'idea generale di **distribuzione di probabilità**: un modo formale per assegnare probabilità ai valori possibili di una variabile casuale. In questo capitolo ci concentriamo sulle **distribuzioni discrete**, che descrivono variabili con un insieme finito o numerabile di valori, come una risposta corretta o errata, il numero di successi o il numero di eventi osservati in un intervallo.
 
-Per gli studenti di psicologia, queste distribuzioni sono particolarmente importanti perché molti dati psicologici nascono in forma discreta: un item può essere corretto o errato, un sintomo può essere presente o assente, un partecipante può scegliere una tra più alternative e un comportamento può verificarsi un certo numero di volte.
+La prospettiva adottata è bayesiana, ma lo scopo non è ancora svolgere un'inferenza completa. L'obiettivo è imparare a riconoscere alcune importanti **famiglie di modelli generativi discreti** e le assunzioni che esse incorporano. Nel @sec-prob-inference-uncertainty useremo questi modelli per comprendere quanta informazione può contenere un campione; nel capitolo sulla verosimiglianza vedremo come, dopo avere osservato i dati, gli stessi modelli possano essere letti come funzioni dei parametri.
 
-La prospettiva adottata è bayesiana, ma lo scopo di questo capitolo non è ancora quello di svolgere l'inferenza completa. Il nostro obiettivo è più preliminare: imparare a riconoscere le principali **famiglie di modelli generativi discreti**. Una distribuzione discreta risponde alla domanda:
+## Perché le distribuzioni discrete sono importanti in psicologia?
 
-> Se un certo modello fosse appropriato, quali dati ci aspetteremmo di osservare?
+Molti dati psicologici nascono in forma discreta: un item può essere corretto o errato, un sintomo può essere presente o assente, un partecipante può scegliere una tra più alternative e un comportamento può verificarsi un certo numero di volte. Riconoscere questa struttura permette di usare modelli che rispettano i valori realmente possibili e che rendono esplicite le ipotesi sul processo di osservazione.
 
-Questa domanda prepara i capitoli successivi. Nel @sec-prob-inference-uncertainty useremo questi modelli per capire quanta informazione può contenere un campione; nel capitolo sulla verosimiglianza vedremo come, una volta osservati i dati, gli stessi modelli permettano di confrontare valori diversi dei parametri.
+Una distribuzione discreta risponde anzitutto a una domanda generativa:
+
+> Se questo modello e questi valori dei parametri fossero appropriati, quali dati potremmo osservare e con quali probabilità?
 
 ::: {.callout-note title="Ruolo bayesiano delle distribuzioni discrete"}
-Nel percorso bayesiano, le distribuzioni discrete svolgono tre ruoli distinti:
+Nel percorso bayesiano, le distribuzioni discrete possono svolgere tre ruoli distinti:
 
-1. **Modelli per i dati osservabili**: ad esempio, una risposta corretta/errata puo essere modellata con una Bernoulli.
-2. **Componenti della verosimiglianza**: una volta osservati i dati, la stessa distribuzione diventa una funzione dei parametri.
-3. **Distribuzioni predittive**: quando integriamo l'incertezza sui parametri, otteniamo probabilita per dati futuri.
+1. **Modelli per i dati osservabili**: ad esempio, una risposta corretta o errata può essere modellata con una Bernoulli.
+2. **Componenti della verosimiglianza**: dopo avere osservato i dati, la stessa espressione viene considerata come funzione dei parametri.
+3. **Distribuzioni predittive**: integrando l'incertezza sui parametri, si ottengono probabilità per dati futuri.
 
-In questo capitolo ci concentriamo soprattutto sul primo ruolo, con alcuni brevi richiami agli altri due.
+In questo capitolo ci concentriamo soprattutto sul primo ruolo, introducendo gli altri due soltanto quando aiutano a comprendere il significato del modello.
 :::
 
-In questo capitolo:
-
-1. **distingueremo** il **supporto** di una variabile discreta dalla sua funzione di massa;
-2. **introdurremo** le funzioni R standard per lavorare con le distribuzioni;
-3. **studieremo** la distribuzione uniforme discreta;
-4. **studieremo** le distribuzioni di Bernoulli e binomiale;
-5. **studieremo** la distribuzione di Poisson per dati di conteggio;
-6. **discuteremo** brevemente cosa fare quando le assunzioni dei modelli discreti sono troppo rigide.
-
-::: {.callout-tip collapse="true"}
-## Prerequisiti
-
-Per seguire questo capitolo e utile aver letto:
-
-- @sec-prob-random-var;
-- @sec-prob-distr;
-- @sec-prob-random-var-properties;
-- @sec-prob-intro-distr.
-
-Il richiamo più importante è quello alle variabili casuali discrete e alla funzione di massa di probabilita.
+::: {.callout-tip title="Prerequisiti"}
+Per seguire il capitolo è utile avere letto @sec-prob-random-var, @sec-prob-distr, @sec-prob-random-var-properties e @sec-prob-intro-distr. Il coefficiente binomiale è stato introdotto in @sec-equiprobability-combinatorics. Per la notazione matematica, consulta @sec-apx-math-symbols.
 :::
 
-::: {.callout-caution collapse="true" title="Preparazione del Notebook"}
+## Panoramica del capitolo {.unnumbered .unlisted}
 
+Il capitolo procede in sei passaggi:
+
+1. distingue supporto e funzione di massa di una variabile discreta;
+2. introduce le funzioni standard di R per probabilità, probabilità cumulate, quantili e simulazioni;
+3. presenta la distribuzione uniforme discreta;
+4. collega Bernoulli e binomiale ai dati binari e ai conteggi di successi;
+5. presenta la distribuzione di Poisson per alcuni processi di conteggio;
+6. mostra perché sovradispersione, eterogeneità e dipendenza possono richiedere modelli più flessibili.
+
+::: {.callout-note title="Preparazione del notebook"}
 ```{r}
+#| output: false
 here::here("code", "_common.R") |>
   source()
-
-suppressPackageStartupMessages({
-  library(ggplot2)
-})
+apply_visual_theme()
 ```
 :::
 
 ## Che cosa descrive una distribuzione discreta? {#sec-discrete-distribution-meaning}
 
-Una distribuzione discreta associa probabilità a valori separati e numerabili. Se $X$ e una variabile casuale discreta, la sua distribuzione e descritta dalla **funzione di massa di probabilità**:
+Una distribuzione discreta associa probabilità a valori separati e numerabili. Se $X$ è una variabile casuale discreta, la sua distribuzione è descritta dalla **funzione di massa di probabilità**:
 
 $$
 p_X(x) = P(X = x).
@@ -80,7 +78,7 @@ Il **supporto** della distribuzione è l'insieme dei valori che la variabile pu�
 Quando scriviamo
 
 $$
-Y \mid \theta \sim p(y \mid \theta),
+Y \mid \theta \sim p(\cdot \mid \theta),
 $$
 non stiamo dicendo che $\theta$ sia noto con certezza. Stiamo dicendo: **Se il parametro assumesse un certo valore, quale distribuzione avrebbero i dati?**
 
@@ -93,9 +91,9 @@ R utilizza una convenzione molto comoda per lavorare con le distribuzioni di pro
 
 | Prefisso | Significato | Esempio con la binomiale |
 |---|---|---|
-| `d` | funzione di massa o densita | `dbinom(k, size, prob)` |
+| `d` | funzione di massa o densità | `dbinom(k, size, prob)` |
 | `p` | funzione di ripartizione | `pbinom(k, size, prob)` |
-| `q` | quantile | `qbinom(q, size, prob)` |
+| `q` | quantile | `qbinom(p, size, prob)` |
 | `r` | generazione casuale | `rbinom(n, size, prob)` |
 
 Esempio: consideriamo $Y \sim \mathrm{Binomiale}(10, 0.60)$.
@@ -107,7 +105,7 @@ p_esatto <- dbinom(7, size = 10, prob = 0.60)
 # Probabilità di osservare al massimo 7 successi
 p_cumulato <- pbinom(7, size = 10, prob = 0.60)
 
-# Soglia che lascia sotto di se circa il 95% della distribuzione
+# Più piccolo valore che porta la probabilità cumulata almeno al 95%
 q_95 <- qbinom(0.95, size = 10, prob = 0.60)
 
 # Cinque campioni simulati dalla distribuzione
@@ -119,7 +117,7 @@ q_95
 simulazioni
 ```
 
-Nel linguaggio dell'inferenza, le funzioni `d` sono particolarmente importanti perché valutano la probabilità dei dati in relazione a valori specifici dei parametri. Le funzioni `r`, invece, sono utili per simulare i dati del modello e, quindi, per verificare se il modello produce osservazioni plausibili.
+Per una distribuzione discreta, le funzioni `d` restituiscono la massa di probabilità associata a un valore; per una distribuzione continua restituiscono invece una densità. Quando i dati sono stati osservati e l'espressione viene considerata come funzione dei parametri, questi valori contribuiscono alla verosimiglianza. Le funzioni `r` generano simulazioni dal modello e permettono di esaminare quali osservazioni il modello tende a produrre; da sole, però, non dimostrano che il modello sia adeguato ai dati reali.
 
 ## Distribuzione uniforme discreta {#sec-discrete-uniform}
 
@@ -143,7 +141,7 @@ $$
 $$
 :::
 
-La distribuzione uniforme discreta rappresenta una situazione di **simmetria informativa**: all'interno del modello, non abbiamo ragioni per preferire un esito rispetto agli altri.
+La distribuzione uniforme discreta rappresenta una scelta di **simmetria**: all'interno del modello, gli esiti vengono trattati nello stesso modo. Questa assegnazione deve essere giustificata dal meccanismo di selezione o dalle assunzioni informative; non deriva dal solo fatto che gli esiti possano essere elencati.
 
 ### Esempio: assegnazione casuale a condizioni sperimentali
 
@@ -154,6 +152,8 @@ G \sim \mathrm{Uniforme\ discreta}(1,4).
 $$
 
 ```{r}
+#| label: fig-uniforme-discreta
+#| fig-cap: "Frequenze relative simulate in 400 assegnazioni indipendenti a quattro condizioni equiprobabili."
 set.seed(42)
 N <- 4
 n_partecipanti <- 400
@@ -167,20 +167,22 @@ ggplot(df_uniforme, aes(x = condizione)) +
   scale_y_continuous(labels = scales::percent_format()) +
   labs(
     title = "Assegnazione casuale a quattro condizioni",
-    subtitle = "La linea tratteggiata indica la probabilita teorica 1/4",
+    subtitle = "La linea tratteggiata indica la probabilità teorica 1/4",
     x = "Condizione sperimentale",
     y = "Frequenza relativa"
   )
 ```
 
+La @fig-uniforme-discreta mostra che le frequenze osservate oscillano intorno a $1/4$: l'equiprobabilità riguarda il modello, non l'uguaglianza esatta delle frequenze in un campione finito. Inoltre, questa simulazione usa assegnazioni indipendenti; un disegno a gruppi perfettamente bilanciati richiederebbe un diverso meccanismo di randomizzazione.
+
 ::: {.callout-note title="Interpretazione bayesiana"}
-Una distribuzione uniforme su un insieme finito puo anche rappresentare una prior simmetrica su ipotesi o modelli alternativi:
+Una distribuzione uniforme su un insieme finito può anche rappresentare una prior simmetrica su ipotesi o modelli alternativi:
 
 $$
 P(M_1)=P(M_2)=\cdots=P(M_K)=\frac{1}{K}.
 $$
 
-Questa scelta non significa che i modelli siano tutti ugualmente validi, ma che prima di analizzare i dati non introduciamo alcuna preferenza tra di essi.
+Questa scelta non dimostra che i modelli siano ugualmente validi. Esprime soltanto pesi iniziali uguali, adottati perché la modellizzazione non distingue le alternative prima dei dati.
 :::
 
 ## Distribuzione di Bernoulli {#sec-bernoulli-distribution}
@@ -217,6 +219,8 @@ X \mid p = 0.70 \sim \mathrm{Bernoulli}(0.70).
 $$
 
 ```{r}
+#| label: fig-bernoulli
+#| fig-cap: "Funzione di massa di una Bernoulli con probabilità dell'esito 1 pari a 0,70."
 p <- 0.70
 bern_df <- data.frame(
   esito = factor(c(0, 1), labels = c("Errata", "Corretta")),
@@ -228,11 +232,13 @@ ggplot(bern_df, aes(x = esito, y = probabilita)) +
   scale_y_continuous(labels = scales::percent_format()) +
   labs(
     title = "Distribuzione di Bernoulli",
-    subtitle = "Probabilita di risposta corretta p = 0.70",
+    subtitle = "Probabilità di risposta corretta p = 0.70",
     x = "Esito",
-    y = "Probabilita"
+    y = "Probabilità"
   )
 ```
+
+La @fig-bernoulli rappresenta le due sole probabilità ammesse dal modello: $P(X=1)=p$ e $P(X=0)=1-p$.
 
 ```{r}
 set.seed(123)
@@ -241,20 +247,20 @@ risposte
 mean(risposte)
 ```
 
-Anche se il parametro usato nella simulazione è $p = 0.70$, in un campione piccolo la proporzione osservata può discostarsi sensibilmente da 0.70. Questo è il punto che verrà ripreso nel @sec-prob-inference-uncertainty: i dati osservati sono informativi, ma sono anche soggetti a variabilità campionaria.
+Anche se il parametro usato nella simulazione è $p = 0.70$, in un campione piccolo la proporzione osservata può discostarsi sensibilmente da 0.70. Questo aspetto verrà ripreso nel @sec-prob-inference-uncertainty: i dati osservati sono informativi, ma sono anche soggetti a variabilità campionaria.
 
 ### Bernoulli come modello generativo
 
-Per una sequenza di risposte binarie $X_1,\ldots,X_n$, spesso assumiamo:
+Per una sequenza di risposte binarie $X_1,\ldots,X_n$, il modello binomiale richiede spesso l'ipotesi:
 
 $$
-X_i \mid p \sim \mathrm{Bernoulli}(p),
+X_i \mid p \overset{\mathrm{iid}}{\sim} \mathrm{Bernoulli}(p),
 \qquad i=1,\ldots,n.
 $$
 
-Questa notazione indica che ogni osservazione è generata dallo stesso meccanismo probabilistico. L'assunzione è semplice, ma forte: implica che le osservazioni siano indipendenti e che la probabilità di ottenere un esito 1 sia la stessa per tutte le osservazioni.
+La sigla *iid* indica che, condizionatamente a $p$, le osservazioni sono indipendenti e condividono la stessa distribuzione. L'assunzione è semplice ma forte: la probabilità dell'esito codificato come 1 deve essere la stessa per tutte le osservazioni e una risposta non deve modificare direttamente le altre.
 
-::: {.callout-warning title="Quando la Bernoulli e troppo semplice"}
+::: {.callout-warning title="Quando la Bernoulli è troppo semplice"}
 Nei dati psicologici reali, l'assunzione di un unico valore di $p$ può essere irrealistica. Ad esempio, gli item diversi possono avere difficoltà diverse, i partecipanti possono avere abilità diverse, e le risposte successive possono non essere indipendenti.
 
 La distribuzione di Bernoulli rimane comunque il punto di partenza: i modelli più ricchi spesso nascono proprio dal rilassamento di una o più delle sue assunzioni.
@@ -282,7 +288,7 @@ $$
 Y \mid p \sim \mathrm{Binomiale}(n,p).
 $$
 
-### Perche compare il coefficiente binomiale?
+### Perché compare il coefficiente binomiale?
 
 Se osserviamo esattamente $k$ successi e $n-k$ insuccessi, la probabilità di una sequenza specifica è:
 
@@ -331,6 +337,8 @@ Y \mid p=0.75 \sim \mathrm{Binomiale}(20,0.75).
 $$
 
 ```{r}
+#| label: fig-binomiale-test
+#| fig-cap: "Distribuzione binomiale del numero di risposte corrette su 20 prove con probabilità costante pari a 0,75."
 n_item <- 20
 p_corretto <- 0.75
 k <- 0:n_item
@@ -347,9 +355,11 @@ ggplot(binom_df, aes(x = k, y = probabilita)) +
     title = "Distribuzione binomiale",
     subtitle = "Numero di risposte corrette su 20 item, p = 0.75",
     x = "Risposte corrette",
-    y = "Probabilita"
+    y = "Probabilità"
   )
 ```
+
+La @fig-binomiale-test assegna probabilità al numero totale di risposte corrette, non all'ordine in cui esse compaiono.
 
 ```{r}
 media_teorica <- n_item * p_corretto
@@ -378,6 +388,8 @@ $$
 Questa relazione sarà centrale nel @sec-prob-inference-uncertainty: mostra perché campioni più grandi producono proporzioni più stabili.
 
 ```{r}
+#| label: fig-proporzione-campionaria
+#| fig-cap: "Distribuzioni simulate della proporzione campionaria per diverse numerosità, con probabilità generatrice pari a 0,40."
 set.seed(42)
 n_values <- c(10, 50, 200)
 p_vero <- 0.40
@@ -395,21 +407,23 @@ ggplot(sim_df, aes(x = phat)) +
   facet_wrap(~ n, ncol = 1) +
   labs(
     title = "Distribuzione simulata della proporzione campionaria",
-    subtitle = "La variabilita diminuisce al crescere di n",
+    subtitle = "La variabilità diminuisce al crescere di n",
     x = "Proporzione osservata",
     y = "Frequenza"
   )
 ```
 
+La @fig-proporzione-campionaria illustra il significato di $\mathbb{V}(\hat p)=p(1-p)/n$: aumentando $n$, le proporzioni simulate si concentrano maggiormente intorno a $p$.
+
 ### Ruolo bayesiano: la binomiale come verosimiglianza
 
-Se osserviamo $y$ successi su $n$ prove, la distribuzione binomiale può essere riletta come funzione di $p$:
+Se osserviamo $y$ successi su $n$ prove, la massa binomiale può essere riletta come funzione di $p$:
 
 $$
 L(p \mid y,n) \propto p^y(1-p)^{n-y}.
 $$
 
-Questa espressione non è ancora una distribuzione a posteriori. È la **verosimiglianza**: descrive quanto i dati osservati siano compatibili con ciascun valore possibile di $p$.
+Il coefficiente $\binom{n}{y}$ è omesso nella proporzionalità perché non dipende da $p$. Questa espressione non è ancora una distribuzione a posteriori: è la **verosimiglianza**, che confronta quanto valori diversi di $p$ rendano compatibile il risultato osservato, mantenendo fissi $y$ e $n$.
 
 ::: {.callout-note title="Anticipazione: prior Beta e aggiornamento"}
 Nei capitoli successivi introdurremo la distribuzione Beta, una distribuzione continua su $[0,1]$ molto utile per rappresentare l'incertezza su una probabilità $p$.
@@ -419,7 +433,7 @@ Se
 $$
 p \sim \mathrm{Beta}(\alpha,\beta)
 $$
-e osserviamo $y$ successi su $n$ prove, allora la posterior è:
+e osserviamo $y$ successi su $n$ prove, allora la distribuzione a posteriori è:
 
 $$
 p \mid y,n \sim \mathrm{Beta}(\alpha+y,\beta+n-y).
@@ -432,13 +446,12 @@ Per ora non è necessario padroneggiare questa formula. È sufficiente riconosce
 
 ### Quando usarla
 
-La distribuzione di Poisson descrive il numero di eventi in un intervallo di tempo, spazio o esposizione. È valida quando:
+La distribuzione di Poisson è un possibile modello per il numero di eventi osservati in un intervallo di tempo, spazio o esposizione. La sua giustificazione richiede assunzioni idealizzate, tra cui:
 
-- gli eventi sono conteggiabili;
-- l'intervallo di osservazione è ben definito;
-- il tasso medio di occorrenza è pressoché costante;
-- gli eventi sono tra loro approssimativamente indipendenti;
-- la coincidenza di due eventi è improbabile, specie per intervalli brevi.
+- gli eventi sono conteggiabili e l'intervallo di osservazione è ben definito;
+- il tasso medio è stabile nell'intervallo considerato;
+- gli eventi in intervalli disgiunti sono approssimativamente indipendenti;
+- in intervalli molto brevi, la probabilità di più eventi contemporanei è trascurabile rispetto a quella di un singolo evento.
 
 In psicologia, esempi comuni sono:
 
@@ -459,16 +472,18 @@ P(Y=y)=\frac{\lambda^y e^{-\lambda}}{y!},
 \quad y=0,1,2,\ldots.
 $$
 
-La sua proprieta caratteristica è:
+La sua proprietà caratteristica è:
 
 $$
 \mathbb{E}(Y)=\mathbb{V}(Y)=\lambda.
 $$
 :::
 
-Il parametro $\lambda$ rappresenta il numero medio atteso di eventi nell'intervallo considerato. Se $\lambda=2.5$, ci aspettiamo in media 2.5 eventi per intervallo, ma il numero osservato potra essere 0, 1, 2, 3, e così via.
+Il parametro $\lambda$ rappresenta il numero medio atteso di eventi nell'intervallo considerato. Se $\lambda=2.5$, ci aspettiamo in media 2.5 eventi per intervallo, ma il numero osservato potrà essere 0, 1, 2, 3, e così via.
 
 ```{r}
+#| label: fig-poisson
+#| fig-cap: "Funzione di massa di una distribuzione di Poisson con tasso medio pari a 2,5 eventi per intervallo."
 lambda <- 2.5
 y <- 0:12
 pois_df <- data.frame(
@@ -483,9 +498,11 @@ ggplot(pois_df, aes(x = y, y = probabilita)) +
     title = "Distribuzione di Poisson",
     subtitle = "Conteggi attesi con lambda = 2.5",
     x = "Numero di eventi",
-    y = "Probabilita"
+    y = "Probabilità"
   )
 ```
+
+La @fig-poisson mostra una distribuzione asimmetrica su conteggi interi non negativi; il parametro $\lambda$ ne determina sia la media sia la varianza.
 
 ### Esempio clinico
 
@@ -511,11 +528,11 @@ cat("Media osservata:", round(mean(attacchi), 2), "\n")
 cat("Varianza osservata:", round(var(attacchi), 2), "\n")
 ```
 
-Con pochi mesi di osservazione, media e varianza empiriche possono differire. Tuttavia, se la Poisson è un modello adeguato, su campioni grandi ci aspettiamo che media e varianza siano simili.
+Con pochi mesi di osservazione, media e varianza empiriche possono differire sensibilmente. Con molte osservazioni indipendenti generate da una Poisson, entrambe tendono verso $\lambda$. La somiglianza tra media e varianza è però soltanto una conseguenza necessaria del modello, non una prova sufficiente della sua adeguatezza.
 
 ### Tassi ed esposizione
 
-Spesso gli intervalli di osservazione non hanno la stessa durata. In questo caso non e sufficiente confrontare i conteggi grezzi: ma bisogna tenere conto dell'**esposizione**.
+Spesso gli intervalli di osservazione non hanno la stessa durata. In questo caso non è sufficiente confrontare i conteggi grezzi: bisogna tenere conto dell'**esposizione**.
 
 Se $t_i$ è la durata dell'osservazione per l'unità $i$, possiamo scrivere:
 
@@ -530,7 +547,7 @@ Osservare 4 comportamenti problema in 2 ore non ha lo stesso significato di osse
 
 ### Ruolo bayesiano: prior Gamma per un tasso
 
-Nel framework bayesiano, $\lambda$ è una quantità incerta. Una scelta frequente per rappresentare credenze su un tasso positivo e la distribuzione Gamma, che verrà introdotta nel capitolo sulle distribuzioni continue.
+Nel framework bayesiano, $\lambda$ è una quantità incerta. Una scelta frequente per rappresentare l'incertezza su un tasso positivo è la distribuzione Gamma, che verrà introdotta nel capitolo sulle distribuzioni continue.
 
 Se
 
@@ -545,21 +562,21 @@ $$
 \mathrm{Gamma}\left(\alpha + \sum_{i=1}^n y_i,\; \beta+n\right),
 $$
 
-nella parametrizzazione in cui $\beta$ e il tasso della Gamma.
+nella parametrizzazione in cui $\beta$ è il parametro di tasso della Gamma.
 
-Per ora, il punto fondamentale è il seguente: la distribuzione di Poisson fornisce il modello dei conteggi, mentre la distribuzione di Gamma rappresenta l'incertezza sul tasso che genera tali conteggi.
+Per ora, il punto fondamentale è il seguente: la distribuzione di Poisson fornisce il modello dei conteggi, mentre la distribuzione Gamma rappresenta l'incertezza sul tasso che genera tali conteggi.
 
 ## Quando i modelli discreti semplici non bastano {#sec-discrete-model-checks}
 
 Le distribuzioni introdotte finora sono utili perché semplici e interpretabili. Proprio per questo, però, incorporano assunzioni forti.
 
-### Binomiale: indipendenza e probabilita costante
+### Binomiale: indipendenza e probabilità costante
 
 La distribuzione binomiale presuppone che tutte le prove abbiano la stessa probabilità $p$ e siano indipendenti. Questa assunzione può essere problematica quando:
 
 - gli item hanno difficoltà diverse;
-- i partecipanti sono molto differsi tra loro;
-- le prove successive sono influenzate dall'apprendimento, dala fatica o dalla memoria;
+- i partecipanti sono molto diversi tra loro;
+- le prove successive sono influenzate dall'apprendimento, dalla fatica o dalla memoria;
 - i dati provengono da gruppi o contesti differenti.
 
 In questi casi, la variabilità osservata può essere maggiore di quella prevista dalla distribuzione binomiale. In questo caso si parla di **sovradispersione**.
@@ -572,7 +589,7 @@ $$
 \mathbb{E}(Y)=\mathbb{V}(Y)=\lambda.
 $$
 
-Nei dati psicologici, questa proprietà è spesso violata. Se la varianza è molto maggiore della media, una distribuzione di Poisson semplice può sottostimare l'incertezza.
+Nei dati psicologici, questa proprietà è spesso violata. Se la varianza è molto maggiore della media, una Poisson semplice può sottostimare la dispersione. Anche quando media e varianza sono simili, tuttavia, restano da controllare altre caratteristiche, come eccesso di zeri, dipendenza temporale ed eterogeneità tra individui.
 
 ```{r}
 # Piccolo controllo descrittivo per dati di conteggio
@@ -585,22 +602,24 @@ cat("Varianza:", round(var_attacchi, 2), "\n")
 cat("Varianza / media:", round(rapporto_dispersione, 2), "\n")
 ```
 
-::: {.callout-warning title="Il modello non e il fenomeno"}
+::: {.callout-warning title="Il modello non è il fenomeno"}
 Una distribuzione discreta è una rappresentazione semplificata del processo che potrebbe aver generato i dati. Non basta scegliere una distribuzione perché il dominio sembra corretto: bisogna chiedersi se le assunzioni del modello siano plausibili per il disegno di ricerca e per il fenomeno psicologico studiato.
 :::
 
 ### Anticipazione: distribuzioni predittive e sovradispersione
 
-Quando introduciamo l'incertezza sui parametri, le distribuzioni predittive diventano più disperse rispetto ai modelli condizionali semplici.
+Quando il modello assegna una distribuzione a $p$, per rappresentare incertezza epistemica o eterogeneità tra unità, la distribuzione predittiva può risultare più dispersa della binomiale con $p$ fissato alla stessa media.
 
 Ad esempio, se $Y \mid p \sim \mathrm{Binomiale}(n,p)$ ma $p$ non è noto e viene modellato con una distribuzione Beta, la distribuzione predittiva di $Y$ diventa una **beta-binomiale**. Questa distribuzione tiene conto sia della variabilità campionaria sia dell'incertezza sul parametro $p$.
 
-Non è necessario approfondire ora i dettagli matematici: la beta-binomiale sarà più chiara dopo aver studiato la distribuzione beta nel capitolo sulle distribuzioni continue.
+Non è necessario approfondire ora i dettagli matematici: la beta-binomiale sarà più chiara dopo aver studiato la distribuzione Beta nel capitolo sulle distribuzioni continue.
 
 ::: {.callout-note collapse="true" title="Anteprima opzionale: beta-binomiale senza pacchetti esterni"}
 La funzione seguente calcola la massa di probabilità beta-binomiale usando solo le funzioni base di R.
 
 ```{r}
+#| label: fig-beta-binomiale
+#| fig-cap: "Confronto tra una binomiale con probabilità fissata a 0,30 e una beta-binomiale che integra una distribuzione di possibili valori di tale probabilità."
 dbetabinom_base <- function(k, size, alpha, beta) {
   exp(lchoose(size, k) + lbeta(k + alpha, size - k + beta) - lbeta(alpha, beta))
 }
@@ -630,81 +649,84 @@ ggplot(confronto, aes(x = k, y = probabilita, fill = modello)) +
     title = "Binomiale e beta-binomiale",
     subtitle = "La beta-binomiale incorpora incertezza sul parametro p",
     x = "Numero di successi",
-    y = "Probabilita",
+    y = "Probabilità",
     fill = "Modello"
   )
 ```
 
-Il modello predittivo è più disperso perché non si basa su un unico valore di $p$, ma integra diversi valori possibili, ponderati dalla distribuzione Beta.
+Nella @fig-beta-binomiale le due distribuzioni hanno la stessa media, ma la beta-binomiale assegna maggiore probabilità ai conteggi lontani dal centro. La maggiore dispersione deriva dall'integrazione su valori diversi di $p$; non è prodotta dalla sola variabilità binomiale.
+
 :::
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Le distribuzioni discrete introdotte in questo capitolo costituiscono il primo vocabolario dei modelli probabilistici per i dati psicologici. La distribuzione uniforme discreta rappresenta scelte simmetriche tra alternative finite, la distribuzione di Bernoulli modella un singolo esito binario, la distribuzione binomiale modella il numero di successi in un insieme di prove e la distribuzione di Poisson modella il conteggio degli eventi in un intervallo.
+Le distribuzioni discrete introdotte in questo capitolo costituiscono un primo vocabolario per modellare dati psicologici. L'uniforme discreta rappresenta una simmetria tra alternative finite; la Bernoulli descrive un singolo esito binario; la binomiale descrive il numero di successi in un numero fissato di prove; la Poisson è un possibile modello per conteggi prodotti da un tasso stabile.
 
-In prospettiva bayesiana, questi modelli non sono semplici formule per calcolare probabilità. Sono, piuttosto, dei modi per esplicitare le assunzioni sul processo di generazione dei dati. Una volta osservati i dati, le stesse distribuzioni potranno essere lette come verosimiglianze, ovvero come funzioni che indicano quali valori dei parametri rendono più o meno plausibili le osservazioni.
+In prospettiva bayesiana, queste distribuzioni non sono soltanto formule per calcolare probabilità. Esplicitano assunzioni sul processo generativo. Dopo avere osservato i dati, le stesse espressioni possono essere considerate come verosimiglianze; integrando l'incertezza sui parametri, contribuiscono invece alle distribuzioni predittive.
 
-Il passo successivo sarà lo studio delle distribuzioni continue. Queste distribuzioni saranno importanti sia per modellare variabili osservabili continue, sia per rappresentare l'incertezza sui parametri dei modelli discreti: la distribuzione Beta per probabilità come $p$, la distribuzione Gamma per i tassi come $\lambda$, la distribuzione Normale per le medie e le differenze.
+La scelta di una famiglia non dipende quindi soltanto dal supporto. Occorre chiedersi se indipendenza, probabilità costante, tasso stabile ed equidispersione siano plausibili. Quando queste condizioni falliscono, la soluzione non consiste nel forzare i dati entro il modello più semplice, ma nel costruire una rappresentazione più adeguata dell'eterogeneità e della dipendenza.
 
-### Guida rapida: quale distribuzione usare? {.unnumbered .unlisted}
+### Guida rapida: quale distribuzione usare?
 
 | Distribuzione | Supporto | Domanda modellata | Esempio psicologico | Parametro principale |
 |---|---|---|---|---|
-| Uniforme discreta | $\{1,\ldots,N\}$ | Quale alternativa viene scelta, se tutte sono simmetriche? | Assegnazione casuale a condizioni | $N$ |
+| Uniforme discreta | $\{1,\ldots,N\}$ | Quale alternativa viene selezionata se il modello le tratta simmetricamente? | Assegnazione casuale indipendente a condizioni | $N$ |
 | Bernoulli | $\{0,1\}$ | L'evento si verifica oppure no? | Risposta corretta a un item | $p$ |
-| Binomiale | $\{0,\ldots,n\}$ | Quanti successi su $n$ prove? | Numero di item corretti | $n,p$ |
-| Poisson | $\{0,1,2,\ldots\}$ | Quanti eventi in un intervallo? | Attacchi di panico in un mese | $\lambda$ |
+| Binomiale | $\{0,\ldots,n\}$ | Quanti successi si osservano in $n$ prove *iid*? | Numero di item corretti sotto probabilità costante | $n,p$ |
+| Poisson | $\{0,1,2,\ldots\}$ | Quanti eventi si osservano in un intervallo con tasso stabile? | Numero di episodi riportati in un periodo | $\lambda$ |
 
-## Punti chiave da ricordare {.unnumbered}
+## Esercizi {.unnumbered .unlisted}
 
-::: {.callout-important}
+1. Una variabile registra la presenza o l'assenza di un comportamento. Qual è il suo supporto e quale famiglia semplice può descrivere una singola osservazione?
 
-1. **Una distribuzione discreta assegna probabilita a valori numerabili.**
-   La somma delle probabilita su tutti i valori possibili deve essere uguale a 1.
+2. Qual è la differenza tra modellare ogni risposta a un test con una Bernoulli e modellare il numero totale di risposte corrette con una binomiale?
 
-2. **La Bernoulli modella un singolo esito binario.**
+3. Per una binomiale, che cosa restituiscono rispettivamente `dbinom(7, ...)` e `pbinom(7, ...)`?
 
-   $$
-   P(X=x)=p^x(1-p)^{1-x}, \quad x\in\{0,1\}.
-   $$
+4. In una distribuzione uniforme discreta su quattro condizioni, ciascuna condizione ha probabilità $1/4$. Perché in 40 assegnazioni non è necessario osservare esattamente 10 persone per condizione?
 
-3. **La binomiale modella il numero di successi in $n$ prove Bernoulli indipendenti.**
+5. Un test contiene item con difficoltà molto diverse. Quale assunzione del modello binomiale diventa poco plausibile?
 
-   $$
-   P(Y=k)=\binom{n}{k}p^k(1-p)^{n-k}.
-   $$
+6. In un modello di Poisson, che cosa significa affermare che $\lambda=2{,}5$ eventi al mese? Come cambia il numero atteso di eventi se l'osservazione dura due mesi?
 
-4. **La Poisson modella conteggi di eventi in un intervallo.**
+7. Un insieme di conteggi ha media e varianza molto simili. Questo dimostra che una Poisson è il modello corretto? Spiega.
 
-   $$
-   P(Y=y)=\frac{\lambda^y e^{-\lambda}}{y!}.
-   $$
+8. Una beta-binomiale è più dispersa di una binomiale con la stessa probabilità media. Quale fonte aggiuntiva di variabilità rappresenta?
 
-5. **Ogni distribuzione contiene assunzioni.**
-   Bernoulli e binomiale assumono probabilita costante e indipendenza; la Poisson assume tasso costante ed equidispersione.
+::: {.callout-tip title="Soluzioni" collapse="true"}
+1. Il supporto è $\{0,1\}$, dopo avere scelto una codifica per assenza e presenza. Una singola osservazione può essere descritta da una Bernoulli con parametro $p$, probabilità dell'esito codificato come 1.
 
-6. **Nel percorso bayesiano, il modello dei dati e condizionale al parametro.**
-   Scrivere $Y \mid \theta \sim p(y\mid\theta)$ non significa che $\theta$ sia noto; significa che stiamo specificando cosa ci aspetteremmo di osservare per ciascun valore possibile di $\theta$.
+2. La Bernoulli descrive una singola risposta binaria. La binomiale descrive il numero totale di successi in $n$ prove, assumendo che le prove siano condizionatamente indipendenti e condividano la stessa probabilità $p$.
 
-**Per il prossimo capitolo:** nel @sec-prob-cont-distr studieremo le distribuzioni continue, fondamentali per rappresentare parametri incerti come probabilita, tassi, medie e varianze.
+3. `dbinom(7, ...)` restituisce la probabilità di osservare esattamente 7 successi. `pbinom(7, ...)` restituisce la probabilità cumulata di osservarne al massimo 7.
+
+4. L'equiprobabilità riguarda il meccanismo generativo, non le frequenze esatte in un campione finito. Le frequenze osservate oscillano casualmente intorno ai valori attesi. Un'assegnazione perfettamente bilanciata richiederebbe un vincolo aggiuntivo nel disegno.
+
+5. Diventa poco plausibile l'ipotesi di una probabilità di successo costante per tutte le prove. Item di diversa difficoltà possono richiedere probabilità differenti o un modello che rappresenti esplicitamente tali differenze.
+
+6. Il numero medio atteso è 2,5 eventi per mese. Se il tasso resta stabile e l'esposizione raddoppia, il numero atteso in due mesi è $2{,}5\times2=5$.
+
+7. No. L'equidispersione è una conseguenza necessaria della Poisson, ma non è sufficiente a identificarla. Occorre controllare anche forma della distribuzione, zeri, dipendenza, stabilità del tasso ed eterogeneità.
+
+8. Rappresenta l'incertezza o l'eterogeneità nella probabilità $p$. La predizione integra più valori possibili di $p$, invece di assumere un unico valore fissato per tutte le unità.
 :::
 
-## Esercizi {.unnumbered}
-
-::: {.callout-important title="Esercizi di base" collapse="true"}
-
-1. Scegli un esempio psicologico per ciascuna distribuzione: Bernoulli, binomiale e Poisson.
-2. Per ogni esempio, identifica il supporto della variabile casuale.
-3. Simula 1000 osservazioni da ciascun modello e confronta media e varianza empiriche con quelle teoriche.
-4. Spiega quali assunzioni sarebbero necessarie per usare una binomiale in un test di 20 item.
-5. Trova un caso in cui una Poisson potrebbe essere inadeguata perche la varianza e maggiore della media.
+::: {.callout-note title="Punti chiave" collapse="true"}
+- Una distribuzione discreta assegna probabilità a valori finiti o numerabili; la somma delle masse è uguale a 1.
+- Il supporto descrive i valori ammessi, ma non basta da solo a scegliere una famiglia.
+- Le funzioni `d`, `p`, `q` e `r` di R restituiscono rispettivamente massa o densità, probabilità cumulata, quantile e simulazioni.
+- L'uniforme discreta tratta simmetricamente le alternative; questa simmetria è un'assunzione da giustificare.
+- La Bernoulli descrive un singolo esito binario con probabilità $p$.
+- La binomiale descrive un conteggio di successi quando le prove sono *iid* Bernoulli condizionatamente a $p$.
+- La varianza della proporzione campionaria è $p(1-p)/n$: campioni più grandi producono proporzioni più concentrate.
+- La Poisson è un possibile modello per conteggi con tasso stabile ed equidispersione; media e varianza simili non ne dimostrano da sole l'adeguatezza.
+- Esposizioni diverse richiedono di modellare il numero atteso come tasso per esposizione.
+- Sovradispersione, eccesso di zeri, eterogeneità o dipendenza possono richiedere modelli più flessibili.
+- Nel quadro bayesiano, la stessa famiglia può contribuire al modello dei dati, alla verosimiglianza o alla distribuzione predittiva.
 :::
 
-::: {.callout-caution collapse="true" title="Informazioni sull'ambiente di sviluppo"}
-
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
 ```{r}
 sessionInfo()
 ```
 :::
-
-## Bibliografia {.unnumbered .unlisted}

@@ -1,5 +1,13 @@
 # Probabilità condizionata come aggiornamento {#sec-prob-conditional-prob}
 
+::: {.callout-note title="In sintesi"}
+
+**Da sapere**  La probabilità condizionata descrive come cambia una valutazione probabilistica quando restringiamo l'attenzione alle situazioni compatibili con una nuova informazione. L'indipendenza è il caso in cui il condizionamento non modifica la probabilità; il teorema del prodotto e la legge della probabilità totale permettono di costruire probabilità congiunte e marginali. Il paradosso di Simpson mostra perché l'aggregazione può nascondere differenze rilevanti tra sottogruppi.
+
+**Da saper fare**  Interpretare $P(A \mid B)$; distinguere probabilità dirette e inverse; riconoscere indipendenza e disgiunzione; spiegare il significato del teorema del prodotto e della legge della probabilità totale; comprendere perché una relazione aggregata può differire da quelle osservate nei sottogruppi.
+
+:::
+
 ## Introduzione {.unnumbered .unlisted}
 
 Immaginate di essere uno psicologo clinico che ha appena ricevuto l'esito positivo di un test diagnostico per un paziente. Prima della somministrazione, avevate formulato una stima della probabilità di depressione. Ora il referto è sul tavolo. Cosa è cambiato?
@@ -8,54 +16,60 @@ Immaginate di essere uno psicologo clinico che ha appena ricevuto l'esito positi
 
 Questo processo dinamico di revisione razionale delle credenze alla luce dell'evidenza empirica costituisce l'essenza stessa del pensiero bayesiano. Lo strumento formale che lo incarna è la **probabilità condizionata**, il ponte matematico che collega le conoscenze precedenti a quelle successive all'osservazione.
 
-In questo capitolo esploreremo la probabilità condizionata da diverse angolazioni:
+## Perché la probabilità condizionata è importante in psicologia?
 
-- come **meccanismo di aggiornamento** epistemico;
-- come **fondamento dell'indipendenza**;
-- come **strumento per costruire modelli complessi**;
-- come **protezione dagli errori** di aggregazione.
+In psicologia quasi ogni valutazione dipende dal contesto informativo. La probabilità che una persona presenti un disturbo cambia quando osserviamo un risultato diagnostico; la probabilità di ricordare uno stimolo cambia quando conosciamo le condizioni di apprendimento; la probabilità di una risposta corretta cambia quando consideriamo abilità, difficoltà dell'item e informazioni precedenti.
 
-Questi concetti preparano direttamente il terreno per il teorema di Bayes che, nel prossimo capitolo, emergerà come la regola per "invertire" le probabilità condizionate.
+La probabilità condizionata permette di rappresentare formalmente questi cambiamenti. È utile per:
 
-::: {.callout-tip collapse="true"}
-## Prerequisiti
+- descrivere l'**aggiornamento** prodotto da nuove informazioni;
+- distinguere la probabilità di un dato sotto un'ipotesi dalla probabilità dell'ipotesi dopo aver osservato il dato;
+- formulare e valutare assunzioni di **indipendenza**;
+- combinare scenari alternativi mediante la **legge della probabilità totale**;
+- evitare conclusioni fuorvianti quando i dati aggregati nascondono sottogruppi differenti.
 
-Per seguire questo capitolo è necessario aver letto:
+Questi concetti preparano il terreno per il teorema di Bayes, che nel prossimo capitolo permetterà di collegare probabilità condizionate orientate in direzioni opposte.
 
-- @sec-prob-interpretation
-- @sec-prob-axioms-coherence
-- @sec-equiprobability-combinatorics
+::: {.callout-tip title="Prerequisiti"}
 
-Conoscenze matematiche richieste:
+Per seguire questo capitolo è necessario aver letto @sec-prob-interpretation, @sec-prob-axioms-coherence e @sec-equiprobability-combinatorics.
 
-- @sec-apx-sets - per operazioni su eventi (intersezione, unione);
-- @sec-apx-sums - per la legge della probabilità totale.
+Per la notazione matematica può essere utile consultare @sec-apx-math-symbols. Per un richiamo alle operazioni tra insiemi ed eventi e alla notazione delle sommatorie, consulta le appendici dedicate fornite nel Companion.
 
-Competenze pratiche:
+È sufficiente saper leggere una tabella congiunta $2\times2$. Gli esempi in R servono a visualizzare i concetti e non richiedono competenze di programmazione avanzate.
 
-- Familiarità con tabelle congiunte e rappresentazioni 2×2;
-- Nozioni base di R per eseguire le simulazioni presentate.
 :::
 
-::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il percorso che seguiremo è questo:
+
+1. definiremo la **probabilità condizionata** come restrizione e rinormalizzazione;
+2. esamineremo le sue proprietà e un esempio di test diagnostico;
+3. introdurremo l'**indipendenza stocastica** e la distingueremo dalla disgiunzione;
+4. useremo il **teorema del prodotto** per scomporre probabilità congiunte;
+5. applicheremo la **legge della probabilità totale** a popolazioni eterogenee;
+6. analizzeremo il **paradosso di Simpson** come avvertimento contro aggregazioni non motivate.
+
+::: {.callout-note title="Preparazione del notebook"}
+
 ```{r}
 #| output: false
-here::here("code", "_common.R") |> 
+here::here("code", "_common.R") |>
   source()
 
-# Load packages
-if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(patchwork, ggforce)
-# Riapplica il tema per sicurezza
+library(ggplot2)
+
 apply_visual_theme()
 ```
+
 :::
 
 ## Definizione e interpretazione epistemica {#sec-conditional-definition}
 
 Partiamo da una credenza iniziale in un evento $A$. Poi apprendiamo che si è verificato un altro evento $B$. Come dovrebbe cambiare la nostra credenza in $A$?
 
-La risposta intuitiva è che dovremmo considerare solo le situazioni in cui $B$ è vero e vedere quanto spesso $A$ è vero *in quelle situazioni*. La formula seguente traduce esattamente questa intuizione in linguaggio matematico.
+La risposta intuitiva è che dobbiamo considerare soltanto le situazioni in cui $B$ è vero e valutare quale quota della probabilità attribuita a $B$ appartenga anche ad $A$. La formula seguente traduce questa idea in linguaggio matematico.
 
 ::: {#def-conditional-probability}
 ### Probabilità condizionata
@@ -66,7 +80,7 @@ $$
 P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
 $$ {#eq-prob-cond-def}
 
-**Interpretazione epistemica**: $P(A \mid B)$ quantifica il nostro grado di credenza in $A$ dopo aver appreso che $B$ è vero, tenendo conto del fatto che ora lo spazio delle possibilità si è ristretto a quelle compatibili con $B$.
+**Interpretazione epistemica**: $P(A \mid B)$ quantifica il grado di credenza in $A$ quando assumiamo o apprendiamo che $B$ è vero. In altri contesti la stessa quantità descrive la probabilità di $A$ nella sottopopolazione definita da $B$.
 :::
 
 ### Il meccanismo dell'aggiornamento
@@ -87,8 +101,10 @@ Pensate alla distribuzione di probabilità congiunta come a una fotografia. La p
 - i dettagli della regione riempiono ora tutto lo schermo (rinormalizzazione);
 - i rapporti tra gli elementi *all'interno* della regione rimangono invariati.
 
-```{r, echo=FALSE}
-# Visualizzazione grafica dell'aggiornamento
+```{r}
+#| label: fig-condizionamento-zoom
+#| fig-cap: "Il condizionamento restringe lo spazio a B e rinormalizza le probabilità al suo interno."
+#| echo: false
 P_A  <- 0.6
 P_B  <- 0.5
 P_AB <- 0.35
@@ -118,13 +134,13 @@ ggplot(df, aes(x = "", y = Valore, fill = Parte)) +
         legend.position = "bottom")
 ```
 
-### Ogni probabilità è sempre condizionata
+La @fig-condizionamento-zoom rappresenta il nuovo spazio probabilistico dopo il condizionamento su $B$.
 
-C'è un punto filosofico importante da cogliere: dal punto di vista bayesiano, **ogni probabilità è sempre condizionata**, anche quando non lo scriviamo esplicitamente.
+### Ogni probabilità dipende da uno sfondo informativo
 
-Quando diciamo "$P(A) = 0.3$", in realtà intendiamo "$P(A \mid \mathcal{I}) = 0.3$", dove $\mathcal{I}$ rappresenta tutto ciò che sappiamo: dati precedenti, teoria, contesto e assunzioni. Non esistono probabilità assolute e prive di contesto.
+Dal punto di vista bayesiano, ogni assegnazione di probabilità dipende da uno **sfondo informativo**, anche quando non lo scriviamo esplicitamente.
 
-Ciò significa che la notazione $P(A)$ è un'abbreviazione comoda, non una descrizione di una proprietà intrinseca del mondo.
+Quando diciamo "$P(A) = 0.3$", in realtà intendiamo "$P(A \mid \mathcal{I}) = 0.3$", dove $\mathcal{I}$ rappresenta tutto ciò che sappiamo: dati precedenti, teoria, contesto e assunzioni. La notazione $P(A)$ è quindi un'abbreviazione comoda: il valore assegnato può cambiare quando cambiano dati, assunzioni o informazioni di contesto.
 
 ## Proprietà della probabilità condizionata {#sec-conditional-properties}
 
@@ -137,18 +153,18 @@ Fissato un evento $B$ con $P(B) > 0$, la funzione $P(\cdot \mid B)$ soddisfa:
 
 1. **Non-negatività**: $P(A \mid B) \geq 0$ per ogni evento $A$.
 
-2. **Normalizzazione**: $P(B \mid B) = 1$ (certezza di $B$ dato $B$).
+2. **Normalizzazione**: $P(\Omega \mid B)=1$; inoltre $P(B \mid B)=1$.
 
-3. **Additività**: se $A_1, A_2$ sono disgiunti,
+3. **Additività**: se $A_1$ e $A_2$ sono disgiunti,
    $$P(A_1 \cup A_2 \mid B) = P(A_1 \mid B) + P(A_2 \mid B).$$
 
-4. **Complemento**: $P(A^c \mid B) = 1 - P(A \mid B).$
+4. **Complemento**: $P(A^c \mid B) = 1 - P(A \mid B)$.
 
-5. **Regola della catena**: 
+5. **Regola della catena**: quando le probabilità condizionanti sono definite,
    $$P(A \cap B \mid C) = P(A \mid B \cap C) \cdot P(B \mid C).$$
 :::
 
-**Interpretazione epistemica**: queste proprietà ci dicono che il ragionamento in condizioni di informazione parziale segue le stesse regole del ragionamento in condizioni di informazione completa. Non esistono "leggi speciali" per il condizionamento.
+**Interpretazione epistemica**: una volta fissata l'informazione $B$, le credenze sugli eventi rimanenti devono continuare a rispettare gli assiomi della probabilità. Il condizionamento modifica lo spazio rilevante, non le regole di coerenza.
 
 ::: {.callout-note collapse="true" title="Esempio clinico: test di screening per la depressione"}
 
@@ -188,17 +204,19 @@ P_D_given_Tneg <- P_D_and_Tneg / P_Tneg
 
 $$P(D \mid T^+) = `r round(P_D_given_Tpos, 2)`$$
 
-Un test positivo indica depressione solo nel 42% dei casi — nonostante l'85% di sensibilità. La ragione è la bassa prevalenza: il 92% della popolazione non è depresso, e anche un tasso di falsi positivi del 10% produce molti falsi positivi in termini assoluti.
+Condizionatamente ai valori assunti, dopo un risultato positivo la probabilità di depressione è circa il 43%, non l'85%. La sensibilità è $P(T^+ \mid D)$, mentre la domanda clinica riguarda $P(D \mid T^+)$. La bassa prevalenza fa sì che anche un tasso di falsi positivi del 10% produca numerosi risultati positivi tra le persone non depresse.
 
 **Valore predittivo negativo**:
 
 $$P(D^c \mid T^-) = 1 - P(D \mid T^-) = `r round(1 - P_D_given_Tneg, 3)`$$
 
-Un test negativo è molto più informativo: riduce la probabilità di depressione a circa l'1%.
+Dopo un test negativo, la probabilità di depressione scende a circa l'1,4%; equivalentemente, la probabilità di non depressione è circa il 98,6%.
 
 **Visualizzazione dell'aggiornamento**
 
 ```{r}
+#| label: fig-aggiornamento-test-depressione
+#| fig-cap: "Probabilità di depressione prima del test e dopo un risultato positivo o negativo."
 #| echo: false
 df_update <- data.frame(
   Momento = factor(c("Prior", "Dopo T+", "Dopo T-"),
@@ -217,10 +235,10 @@ ggplot(df_update, aes(x = Momento, y = P_Depressione, fill = Momento)) +
     y = "P(Depressione)",
     x = ""
   ) +
-  ylim(0, 0.5)
+  coord_cartesian(ylim = c(0, 0.5))
 ```
 
-**La lezione epistemica**: lo stesso test può essere molto informativo in un contesto ad alta prevalenza e quasi inutile in uno a bassa prevalenza. L'informazione fornita da un test dipende non solo dalle sue caratteristiche intrinseche, ma anche dal *contesto* in cui viene applicato.
+La @fig-aggiornamento-test-depressione mostra che lo stesso risultato può modificare la probabilità in direzioni e misure diverse. **La lezione epistemica** è che l'informazione fornita da un test dipende sia da sensibilità e specificità sia dalla prevalenza del disturbo nel contesto in cui il test viene applicato.
 :::
 
 ## Indipendenza stocastica {#sec-independence}
@@ -232,33 +250,38 @@ La risposta è sì, e definisce il concetto di **indipendenza stocastica**.
 ::: {#def-independence}
 ### Indipendenza (definizione epistemica)
 
-Due eventi $A$ e $B$ sono detti **indipendenti** (notazione: $A \perp B$) se l'informazione che uno dei due si è verificato non modifica la credenza relativa all'altro:
+Due eventi $A$ e $B$ sono detti **indipendenti** (notazione: $A \perp B$) se
 
 $$
-P(A \mid B) = P(A),
+P(A \cap B)=P(A)P(B).
 $$
-e, in modo equivalente,
+
+Quando $P(A)>0$ e $P(B)>0$, questa condizione equivale a
 
 $$
-P(B \mid A) = P(B).
+P(A \mid B)=P(A)
+\qquad\text{e}\qquad
+P(B \mid A)=P(B).
 $$
+
+In termini informativi, conoscere il verificarsi di uno dei due eventi non modifica la probabilità assegnata all'altro.
 :::
 
-### L'indipendenza è epistemica, non causale
+### Indipendenza probabilistica e causalità
 
-È importante chiarire subito un potenziale fraintendimento. L'indipendenza stocastica è un concetto **epistemico**, non causale. Affermare che $A$ e $B$ sono indipendenti non significa che non esistano relazioni causali tra loro, ma che, **date le informazioni in nostro possesso**, sapere che uno si è verificato non fornisce alcuna informazione sull'altro.
+L'indipendenza è una proprietà della distribuzione di probabilità adottata. Da sola non afferma né esclude una relazione causale. Due eventi possono risultare associati perché uno influenza l'altro, perché condividono una causa comune o perché il campionamento introduce una dipendenza; viceversa, una relazione causale può non produrre un'associazione marginale facilmente visibile.
 
-Un esempio classico è il lancio di due monete equilibrate. Sapere che la prima è uscita testa non modifica la credenza che la seconda uscirà testa. Ma questo non è un fatto "della natura" — è una conseguenza del nostro stato informativo: sappiamo che i lanci sono fisicamente indipendenti e che non esistono informazioni nascoste che li colleghino. Se sospettassimo che una delle monete sia truccata, l'indipendenza verrebbe meno, perché l'esito della prima lancerebbe un'ombra sull'affidabilità della seconda.
+Consideriamo due lanci della stessa moneta. Se la probabilità di testa è nota e i lanci sono modellati come indipendenti, conoscere il primo risultato non cambia la probabilità del secondo. Se invece la propensione della moneta a produrre testa è incerta e comune ai due lanci, il primo risultato può informare sulla propensione e quindi modificare la previsione del secondo. L'indipendenza dipende dunque dalle variabili considerate e dalle informazioni incluse nel modello.
 
-### La fattorizzazione come conseguenza
+### La fattorizzazione e la forma condizionata
 
-Dalla definizione segue immediatamente una proprietà algebrica fondamentale:
+La definizione mediante il prodotto delle marginali è particolarmente generale, perché rimane valida anche quando uno degli eventi ha probabilità zero:
 
 $$
 P(A \cap B) = P(A) \cdot P(B).
 $$ {#eq-independence-factorization}
 
-Questa relazione è spesso presentata nei manuali come *definizione* di indipendenza, ma è più illuminante considerarla come una *conseguenza* della definizione epistemica. La fattorizzazione ci dice che la probabilità congiunta si "scompone" nel prodotto delle marginali: non c'è nulla nella distribuzione congiunta che non sia già catturato dalle marginali separate. L'informazione non scorre tra i due eventi.
+Quando le probabilità marginali sono positive, dividendo entrambi i membri per $P(B)$ o per $P(A)$ otteniamo le forme condizionate $P(A\mid B)=P(A)$ e $P(B\mid A)=P(B)$. La fattorizzazione e l'interpretazione informativa esprimono quindi la stessa idea: la distribuzione congiunta non contiene un'associazione tra i due eventi.
 
 ::: {.callout-warning title="Un errore comune: confondere disgiunzione e indipendenza"}
 
@@ -270,9 +293,9 @@ $$P(A \cap B) = 0, \quad\text{mentre}\quad P(A) \cdot P(B) > 0.$$
 
 La fattorizzazione fallisce clamorosamente.
 
-**Interpretazione epistemica**: eventi disgiunti sono *massimamente dipendenti*. Se so che si è verificato $A$, so con certezza che $B$ non si è verificato. Non esiste informazione più forte di questa. L'indipendenza, al contrario, è l'assenza totale di informazione reciproca.
+**Interpretazione epistemica**: eventi disgiunti con probabilità positiva sono fortemente informativi l'uno rispetto all'altro. Se so che si è verificato $A$, so con certezza che $B$ non si è verificato. L'indipendenza, al contrario, richiede che questa informazione non modifichi la probabilità dell'altro evento.
 
-**Esempio clinico**: consideriamo due diagnosi mutualmente esclusive, come "Disturbo Bipolare" e "Schizofrenia". Sapere che un paziente ha ricevuto la prima diagnosi fornisce un'informazione decisiva sulla seconda (non può averla, almeno in questo quadro nosologico). I due eventi sono quindi **profondamente dipendenti**, non indipendenti.
+**Esempio**: per un singolo risultato di un test, gli eventi «esito positivo» ed «esito negativo» sono disgiunti. Sapere che il risultato è positivo implica che non è negativo. Sono quindi dipendenti, non indipendenti.
 :::
 
 ### Un esempio: il test diagnostico
@@ -282,26 +305,29 @@ Torniamo al test diagnostico per la depressione discusso nella sezione precedent
 Verifichiamolo numericamente:
 
 ```{r}
-# Parametri noti (dalla sezione precedente)
+# Parametri del modello diagnostico
 P_D <- 0.08
-P_Tpos <- 0.216   # calcolato in precedenza
-P_D_and_Tpos <- 0.068
+sens <- 0.85
+spec <- 0.90
 
-# Se fossero indipendenti
+P_Tpos <- sens * P_D + (1 - spec) * (1 - P_D)
+P_D_and_Tpos <- sens * P_D
+
+# Valore atteso sotto indipendenza
 P_D_indep <- P_D * P_Tpos
 
 cat("P(D) × P(T+) =", round(P_D_indep, 4), "\n")
-cat("P(D ∩ T+) osservato =", round(P_D_and_Tpos, 4), "\n")
+cat("P(D ∩ T+) nel modello =", round(P_D_and_Tpos, 4), "\n")
 cat("Differenza:", round(P_D_and_Tpos - P_D_indep, 4), "\n")
 ```
 
-La differenza è sostanziale: $P(D \cap T^+) = 0.068$, mentre il prodotto delle marginali è $0.08 \times 0.216 \approx 0.017$. Il test e la depressione sono quindi **dipendenti** — proprio come ci aspettiamo da uno strumento diagnostico utile.
+La differenza è sostanziale: $P(D \cap T^+) = 0.068$, mentre il prodotto delle marginali è $0.08 \times 0.16 = 0.0128$. Il test e la depressione sono quindi **dipendenti** — proprio come ci aspettiamo da uno strumento diagnostico utile.
 
 ### Il test di indipendenza nella pratica
 
-Quando disponiamo di una tabella di probabilità congiunta, possiamo verificare l'indipendenza con un semplice confronto: calcoliamo la probabilità congiunta osservata $P(A \cap B)$ e la confrontiamo con il prodotto delle marginali $P(A) \cdot P(B)$. Se coincidono (o sono molto vicine, nel caso di stime empiriche), gli eventi sono indipendenti. In caso contrario, c'è informazione reciproca.
+Quando disponiamo di una distribuzione congiunta, possiamo verificare l'indipendenza confrontando $P(A \cap B)$ con $P(A)P(B)$. Per probabilità teoriche l'uguaglianza deve essere esatta. Nei dati empirici, invece, le proporzioni campionarie differiscono quasi sempre per variabilità casuale: per valutare se un modello di indipendenza è adeguato occorre tenere conto dell'incertezza di stima.
 
-Nella pratica psicologica, tuttavia, è importante ricordare che l'indipendenza è spesso un'**assunzione**, non un dato di fatto. Quando costruiamo modelli statistici, assumiamo indipendenza tra osservazioni, tra item di un test o tra errori di misurazione. Tali assunzioni vanno giustificate teoricamente e verificate empiricamente, perché la loro violazione può portare a stime distorte e a conclusioni errate. L'indipendenza è uno strumento potente, ma va maneggiato con la consapevolezza che, nei fenomeni psicologici, la dipendenza è spesso la regola, non l'eccezione.
+Nella pratica psicologica, tuttavia, è importante ricordare che l'indipendenza è spesso un'**assunzione**, non un dato di fatto. Quando costruiamo modelli statistici, possiamo assumere indipendenza tra osservazioni oppure indipendenza condizionale tra item o errori, date le variabili incluse nel modello. Tali assunzioni vanno giustificate teoricamente e verificate empiricamente, perché la loro violazione può portare a stime distorte e a conclusioni errate. L'indipendenza è uno strumento potente, ma va maneggiato con la consapevolezza che, nei fenomeni psicologici, la dipendenza è spesso la regola, non l'eccezione.
 
 ## Teorema del prodotto (regola della catena) {#sec-product-rule}
 
@@ -310,13 +336,13 @@ Il **teorema del prodotto** ci permette di costruire probabilità congiunte a pa
 ::: {#thm-product-rule}
 ### Teorema del prodotto
 
-Per due eventi $A$ e $B$ con $P(B) > 0$:
+Per due eventi $A$ e $B$ con $P(B)>0$:
 
 $$
 P(A \cap B) = P(A \mid B) \cdot P(B).
 $$
 
-Per simmetria:
+Se anche $P(A)>0$, possiamo scrivere in modo equivalente:
 
 $$
 P(A \cap B) = P(B \mid A) \cdot P(A).
@@ -346,7 +372,7 @@ P(A_1 \cap A_2 \cap \cdots \cap A_n)
 \end{aligned}
 $$
 
-Ogni fattore condiziona su tutto ciò che "viene prima". È il modo in cui funziona l'aggiornamento sequenziale delle credenze.
+Ogni fattore condiziona sugli eventi collocati prima nella scomposizione. La regola non impone un ordine temporale o causale: la stessa probabilità congiunta può essere fattorizzata secondo ordini diversi, purché le condizionate siano definite.
 
 ## Legge della probabilità totale {#sec-total-probability}
 
@@ -375,10 +401,10 @@ La formula racchiude un principio di ragionamento universale: **la probabilità 
 
 In contesti reali, i pazienti provengono spesso da sottopopolazioni con rischi di base molto diversi. Immaginiamo un test per la depressione somministrato a due gruppi:
 
-| Fonte del Paziente | Proporzione | Prevalenza |
+| Provenienza | Proporzione | Prevalenza |
 |:-------------------|:------------|:-----------|
-| Clinica Specialistica | 30% | 40% |
-| Popolazione Generale | 70% | 5% |
+| Clinica specialistica | 30% | 40% |
+| Popolazione generale | 70% | 5% |
 
 Test: sensibilità = 0.85, specificità = 0.90.
 
@@ -393,7 +419,22 @@ $$
 P(T^+) = 0.40 \times 0.30 + 0.1375 \times 0.70 \approx 0.216
 $$
 
-**Implicazione clinica**: un test positivo in una clinica specialistica (tasso 40%) ha un significato predittivo molto diverso rispetto a un test positivo nella popolazione generale (tasso 13.75%). La prevalenza è parte integrante del risultato.
+Il valore 0.216 è una **media ponderata** dei tassi di positività nei due contesti. Non è la semplice media aritmetica, perché i gruppi hanno dimensioni diverse.
+
+Il significato diagnostico di un risultato positivo cambia anch'esso con il contesto:
+
+$$
+P(D \mid T^+,\text{clinica})=\frac{0.85\times0.40}{0.40}=0.85,
+$$
+
+mentre
+
+$$
+P(D \mid T^+,\text{popolazione})
+=\frac{0.85\times0.05}{0.1375}\approx0.31.
+$$
+
+**Implicazione clinica**: sensibilità e specificità sono le stesse, ma la probabilità di depressione dopo un test positivo è molto diversa perché cambia la prevalenza di base.
 
 ## Paradosso di Simpson {#sec-simpsons-paradox}
 
@@ -451,6 +492,8 @@ In **nessun sottogruppo** il trattamento risulta superiore.
 Nell'analisi aggregata, il trattamento appare **nettamente migliore**!
 
 ```{r}
+#| label: fig-paradosso-simpson-cliniche
+#| fig-cap: "Un confronto aggregato può avere direzione diversa dai confronti effettuati entro ciascuna clinica."
 #| echo: false
 df_simpson <- data.frame(
   Gruppo = rep(c("Clinica A", "Clinica B", "Aggregato"), each = 2),
@@ -480,325 +523,87 @@ ggplot(df_simpson, aes(x = Condizione, y = Proporzione, fill = Condizione)) +
     x = ""
   ) +
   theme(legend.position = "none") +
-  ylim(0, 1)
+  coord_cartesian(ylim = c(0, 1))
 ```
 
 ### Cosa sta succedendo?
 
 La chiave è la **distribuzione diseguale dei casi**:
 
-- la clinica B (casi gravi, bassa guarigione) contribuisce di più al gruppo *trattato*;
-- la clinica A (casi lievi, alta guarigione) contribuisce di più al gruppo *di controllo*.
+- la clinica A, con probabilità di guarigione più alta, contribuisce soprattutto al gruppo *trattato*;
+- la clinica B, con probabilità di guarigione più bassa, contribuisce soprattutto al gruppo *di controllo*.
 
-La variabile *gravità* agisce da **confondente**: influenza sia la probabilità di ricevere il trattamento sia l'esito. L'aggregazione ignora questa struttura.
+La clinica, che in questo esempio rappresenta anche la gravità dei casi, è associata sia alla distribuzione del trattamento sia alla probabilità di guarigione. L'aggregazione ignora questa struttura e confronta gruppi con composizione molto diversa.
 
 ### La lezione epistemica
 
-L'errore consiste nel rispondere alla **domanda sbagliata**. Non stiamo stimando $P(\text{Guarigione} \mid \text{Trattamento})$, ma una combinazione implicita di probabilità condizionate diverse. La domanda corretta è:
+La @fig-paradosso-simpson-cliniche mostra che il confronto marginale e i confronti condizionati rispondono a domande diverse:
 
 $$
-P(\text{Guarigione} \mid \text{Trattamento}, \text{Gravità}).
+P(\text{Guarigione} \mid \text{Trattamento})
 $$
 
-**Quando è legittimo aggregare?** Solo quando:
+confronta i due gruppi così come sono composti, mentre
 
-1. non esistono confondenti rilevanti;
-2. i confondenti sono distribuiti uniformemente;
-3. l'obiettivo è esplicitamente marginale (e non condizionato).
+$$
+P(\text{Guarigione} \mid \text{Trattamento},\text{Clinica})
+$$
+
+confronta trattamento e controllo entro contesti più omogenei. Il paradosso non stabilisce che l'analisi condizionata sia sempre quella corretta: la scelta dipende dalla domanda scientifica e dal ruolo causale delle variabili. Mostra però che un risultato aggregato non deve essere interpretato senza esaminare la composizione dei gruppi.
 
 :::
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Siamo partiti da una domanda apparentemente semplice — come cambiano le nostre credenze quando apprendiamo qualcosa di nuovo? — e abbiamo scoperto che la risposta richiede un intero apparato concettuale.
+La probabilità condizionata formalizza un'idea fondamentale: una valutazione probabilistica dipende dalle informazioni che consideriamo. Condizionare su $B$ significa restringere l'attenzione alle situazioni compatibili con $B$ e rinormalizzare le probabilità al loro interno.
 
-### Cosa abbiamo imparato
+L'indipendenza descrive il caso in cui questa restrizione non cambia la probabilità di un altro evento. È un'assunzione forte e dipende dal modello informativo adottato; non coincide con la disgiunzione e non determina, da sola, l'esistenza o l'assenza di relazioni causali.
 
-La **probabilità condizionata** è il meccanismo fondamentale attraverso cui l'informazione si trasforma in conoscenza. Ogni volta che aggiorniamo le nostre credenze, stiamo implicitamente applicando le regole che abbiamo studiato.
+Il teorema del prodotto permette di scomporre una probabilità congiunta in una sequenza di probabilità condizionate. La legge della probabilità totale compie il passaggio complementare: combina scenari alternativi per ottenere una probabilità marginale. Il paradosso di Simpson mostra infine che le probabilità marginali e quelle condizionate possono raccontare storie differenti quando i gruppi hanno composizioni diverse.
 
-L'**indipendenza** rappresenta il caso limite in cui l'informazione non fluisce. Riconoscere quando questa condizione è soddisfatta è cruciale per costruire modelli corretti.
-
-Il **teorema del prodotto** ci ha mostrato come costruire credenze complesse a partire da componenti più semplici, scomponendo la probabilità congiunta in una sequenza di aggiornamenti.
-
-La **legge della probabilità totale** ci ha insegnato a ragionare su scenari alternativi combinando le probabilità di ciascuno di essi in una media ponderata.
-
-Il **paradosso di Simpson** ci ha messo in guardia sui pericoli dell'aggregazione incauta, mostrando come conclusioni apparentemente solide possano essere ribaltate quando si svela la struttura nascosta dei dati.
-
-### Verso il teorema di Bayes
-
-Tutti questi strumenti preparano il terreno per il passo successivo. Abbiamo visto come calcolare $P(A \mid B)$, ovvero la probabilità di $A$ sapendo che si verifica $B$. Spesso, però, la domanda che ci interessa è l'inversa: abbiamo osservato un effetto e vogliamo risalire alla causa.
-
-Nel prossimo capitolo, il **teorema di Bayes** emergerà come la regola per questa "inversione": passeremo da $P(\text{Dati} \mid \text{Ipotesi})$ a $P(\text{Ipotesi} \mid \text{Dati})$, il cuore dell'inferenza scientifica.
-
-## Punti chiave da ricordare {.unnumbered .unlisted}
-
-::: {.callout-important}
-
-1. **Probabilità condizionata come aggiornamento epistemico**
-   - $P(A \mid B)$ quantifica la credenza in $A$ dopo aver appreso $B$.
-   - Meccanismo: riduzione dello spazio + rinormalizzazione.
-   - Ogni probabilità è sempre condizionata a uno sfondo informativo: $P(A) = P(A \mid \mathcal{I})$.
-
-2. **Indipendenza come assenza di informazione**
-   - $A \perp B \iff P(A \mid B) = P(A)$.
-   - Equivalentemente: $P(A \cap B) = P(A) \cdot P(B)$.
-   - Eventi disgiunti NON sono indipendenti (hanno informazione reciproca massima).
-
-3. **Teorema del prodotto**
-   - $P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)$.
-   - Generalizzazione: regola della catena per sequenze di eventi.
-
-4. **Legge della probabilità totale**
-   - $P(A) = \sum_{i} P(A \mid B_i) P(B_i)$ per partizione $\{B_i\}$.
-   - Fondamentale per ragionare su scenari alternativi.
-
-5. **Paradosso di Simpson**
-   - Trend aggregati possono invertirsi rispetto a trend stratificati.
-   - Avvertimento: condiziona sui confondenti!
-
-**Formule da ricordare:**
-
-$$
-P(A \mid B) = \frac{P(A \cap B)}{P(B)}
-$$
-
-$$
-P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)
-$$
-
-$$
-P(A) = \sum_{i=1}^{n} P(A \mid B_i) P(B_i)
-$$
-
-**Per il prossimo capitolo:**
-
-Nel @sec-prob-bayes-theorem vedremo come il teorema di Bayes permetta di **invertire** le probabilità condizionate, passando da $P(\text{Dati} \mid \text{Ipotesi})$ a $P(\text{Ipotesi} \mid \text{Dati})$.
-
-:::
-
+Nel @sec-prob-bayes-theorem useremo questi strumenti per collegare $P(\text{Dati}\mid\text{Ipotesi})$ a $P(\text{Ipotesi}\mid\text{Dati})$.
 
 ## Esercizi {.unnumbered .unlisted}
 
-::: {.callout-important title="Problemi" collapse="true"}
+1. In una tabella congiunta, $P(A\cap B)=0.20$ e $P(B)=0.50$. Calcola $P(A\mid B)$ e spiega con parole tue che cosa rappresenta il risultato.
+2. Un test ha sensibilità 0.85. Uno studente afferma: «Se il test è positivo, la probabilità che la persona abbia il disturbo è 0.85». Spiega perché l'affermazione non è giustificata dalle sole informazioni disponibili.
+3. Due eventi soddisfano $P(A)=0.40$, $P(B)=0.50$ e $P(A\cap B)=0.20$. Sono indipendenti? Qual è il significato informativo della risposta?
+4. Perché due eventi disgiunti con probabilità positiva non possono essere indipendenti? Rispondi senza limitarti a citare la formula.
+5. La formula $P(A\cap B)=P(A\mid B)P(B)$ contiene una probabilità condizionata e una probabilità marginale. Descrivi il significato dei due fattori in un processo sequenziale.
+6. Una popolazione è composta per il 30% da un gruppo in cui $P(A)=0.40$ e per il 70% da un gruppo in cui $P(A)=0.10$. Calcola la probabilità complessiva di $A$ e spiega perché si tratta di una media ponderata.
+7. In ciascuna di due cliniche un trattamento non è migliore del controllo, ma nei dati aggregati sembra molto più efficace. Quale informazione controlleresti prima di concludere che il trattamento funziona?
+8. Spiega la differenza tra le domande $P(\text{test positivo}\mid\text{disturbo})$ e $P(\text{disturbo}\mid\text{test positivo})$. Quale delle due corrisponde alla sensibilità e quale interessa maggiormente dopo aver osservato un risultato positivo?
 
-### Esercizi concettuali {.unnumbered .unlisted}
+::: {.callout-tip title="Soluzioni" collapse="true"}
 
-1. Spiega perché "ogni probabilità è condizionata" da una prospettiva bayesiana. Cosa significa $P(A)$ implicitamente?
-
-2. La formula $P(A \mid B) = P(A \cap B) / P(B)$ può sembrare circolare. Spiega perché non lo è, e in quale ordine concettuale pensiamo queste quantità.
-
-3. Quando due eventi sono disgiunti, possono essere indipendenti? Perché o perché no?
-
-4. Il teorema del prodotto dice $P(A \cap B) = P(A \mid B) P(B)$. Questo è simmetrico? Cioè, posso scrivere $P(A \cap B) = P(B \mid A) P(A)$? Cosa implica questa simmetria?
-
-5. Il paradosso di Simpson dimostra che l'aggregazione è sempre sbagliata? Quando è legittimo aggregare dati?
-
-### Esercizi su probabilità condizionata {.unnumbered .unlisted}
-
-6. Data una tabella congiunta:
-   |       | $B$  | $B^c$ |
-   |-------|------|-------|
-   | $A$   | 0.20 | 0.30  |
-   | $A^c$ | 0.15 | 0.35  |
-   
-   Calcola:
-   a. $P(A \mid B)$
-   b. $P(B \mid A)$
-   c. $P(A \mid B^c)$
-   d. Gli eventi sono indipendenti?
-
-7. $P(A) = 0.6$, $P(B) = 0.5$, $P(A \mid B) = 0.7$. Calcola:
-   a. $P(A \cap B)$
-   b. $P(B \mid A)$
-   c. $P(A \cup B)$
-
-8. Test diagnostico: $P(M) = 0.01$, sens = 0.95, spec = 0.98.
-   a. Costruisci tabella congiunta
-   b. Calcola VPP e VPN
-   c. Quanto deve essere alta la sensibilità per avere VPP > 0.9?
-
-### Esercizi sull'indipendenza {.unnumbered .unlisted}
-
-9. Un dado viene lanciato. Siano:
-   - $A$ = "Esce numero pari"
-   - $B$ = "Esce numero ≤ 3"
-   
-   a. $A$ e $B$ sono indipendenti?
-   b. Calcola $P(A \mid B)$ e confronta con $P(A)$
-
-10. Due monete equilibrate vengono lanciate. Siano:
-    - $A$ = "Prima moneta è testa"
-    - $B$ = "Almeno una testa"
-    
-    a. Costruisci tabella congiunta
-    b. Calcola $P(A \mid B)$
-    c. $A$ e $B$ sono indipendenti?
-
-11. In una popolazione, $P(\text{Depressione}) = 0.15$ e $P(\text{Insonnia}) = 0.25$. Se fossero indipendenti, quanto sarebbe $P(\text{Depressione} \cap \text{Insonnia})$? È plausibile l'indipendenza?
-
-### Esercizi sul teorema del prodotto {.unnumbered .unlisted}
-
-12. $P(A) = 0.5$, $P(B \mid A) = 0.6$, $P(C \mid A \cap B) = 0.7$. Calcola $P(A \cap B \cap C)$.
-
-13. Tre test sequenziali per ansia, ciascuno con sens = 0.80 (indipendenti dato stato). $P(\text{Ansia}) = 0.20$. Calcola $P(\text{Ansia} \cap T_1^+ \cap T_2^+ \cap T_3^+)$.
-
-14. Usa la regola del prodotto per dimostrare che se $A$ e $B$ sono indipendenti, allora $A$ e $B^c$ sono indipendenti.
-
-### Esercizi sulla probabilità totale {.unnumbered .unlisted}
-
-15. Una clinica riceve pazienti da due fonti:
-    - 60% da medico di base (prevalenza depressione = 10%)
-    - 40% da pronto soccorso (prevalenza depressione = 30%)
-    
-    Qual è la prevalenza complessiva nella clinica?
-
-16. Un questionario ha due versioni (A e B), distribuite casualmente (50% ciascuna). La versione A è più facile:
-    - $P(\text{punteggio} > 20 \mid \text{Versione A}) = 0.7$
-    - $P(\text{punteggio} > 20 \mid \text{Versione B}) = 0.4$
-    
-    Qual è $P(\text{punteggio} > 20)$ complessivamente?
-
-17. Dimostra che $P(A) = P(A \mid B) P(B) + P(A \mid B^c) P(B^c)$ usando la legge della probabilità totale con partizione $\{B, B^c\}$.
-
-### Esercizi sul Paradosso di Simpson {.unnumbered .unlisted}
-
-18. Considera questi dati su un farmaco antidepressivo:
-    
-    **Pazienti giovani** (N=200):
-    - Farmaco: 70/100 migliorati (70%)
-    - Placebo: 50/100 migliorati (50%)
-    
-    **Pazienti anziani** (N=200):
-    - Farmaco: 60/100 migliorati (60%)
-    - Placebo: 40/100 migliorati (40%)
-    
-    a. In ciascun gruppo, il farmaco è migliore?
-    b. Calcola le proporzioni aggregate (tutti i pazienti insieme)
-    c. Costruisci uno scenario dove l'aggregato inverte la tendenza
-
-19. Spiega in termini epistemici perché il paradosso di Simpson non è veramente un "paradosso" ma un avvertimento sull'importanza di condizionare correttamente.
-
-### Esercizi applicati {.unnumbered .unlisted}
-
-20. **Test per disturbo d'ansia sociale**: 
-    - Prevalenza in popolazione universitaria: 5%
-    - Sensibilità: 85%
-    - Specificità: 92%
-    
-    a. Costruisci tabella congiunta completa
-    b. Uno studente risulta positivo. Qual è la probabilità che abbia davvero il disturbo?
-    c. Quale prevalenza minima serve per avere VPP > 0.5?
-
-21. **Comorbidità PTSD e Depressione**:
-    - In un campione clinico: $P(\text{PTSD}) = 0.30$, $P(\text{Depressione}) = 0.45$
-    - Osservi che $P(\text{Depressione} \mid \text{PTSD}) = 0.70$
-    
-    a. Calcola $P(\text{PTSD} \cap \text{Depressione})$
-    b. Calcola $P(\text{PTSD} \mid \text{Depressione})$
-    c. Sono indipendenti? Commenta il risultato clinicamente
-
-22. **Due test per ADHD in un bambino**:
-    - Prior: $P(\text{ADHD}) = 0.08$ (popolazione generale)
-    - Test comportamentale: positivo (sens=0.80, spec=0.90)
-    - Test cognitivo: positivo (sens=0.75, spec=0.85)
-    - Assumendo indipendenza condizionale:
-    
-    a. Calcola $P(\text{ADHD} \mid T_1^+)$ dopo primo test
-    b. Calcola $P(\text{ADHD} \mid T_1^+, T_2^+)$ dopo entrambi i test
-    c. Visualizza l'aggiornamento sequenziale delle credenze
-
-### Esercizi computazionali {.unnumbered .unlisted}
-
-23. Scrivi una funzione R che:
-    - Input: tabella congiunta 2×2
-    - Output: tutte le probabilità condizionate possibili e test di indipendenza
-
-24. Simula il paradosso di Simpson:
-    - Genera dati per due gruppi con trend positivo in ciascuno
-    - Aggrega i dati mostrando inversione del trend
-    - Visualizza con ggplot
-
-25. Crea una visualizzazione interattiva (o animazione) che mostra come $P(A \mid B)$ varia al variare della "forza" dell'associazione tra $A$ e $B$ (da indipendenza a dipendenza totale).
+1. $P(A\mid B)=0.20/0.50=0.40$. Tra tutta la probabilità assegnata alle situazioni in cui $B$ è vero, il 40% appartiene anche ad $A$.
+2. La sensibilità è $P(T^+\mid D)$, non $P(D\mid T^+)$. Per calcolare la seconda probabilità servono anche la prevalenza del disturbo e il tasso di falsi positivi, o informazioni equivalenti.
+3. Sì, perché $P(A)P(B)=0.40\times0.50=0.20=P(A\cap B)$. Nel modello adottato, conoscere il verificarsi di uno dei due eventi non modifica la probabilità dell'altro.
+4. Se sappiamo che si è verificato $A$, la disgiunzione implica che $B$ non può essersi verificato. L'informazione su $A$ modifica quindi completamente la probabilità di $B$, che diventa zero.
+5. $P(B)$ rappresenta la probabilità di raggiungere lo scenario $B$; $P(A\mid B)$ rappresenta la probabilità che si verifichi anche $A$ una volta che ci troviamo in quello scenario. Il prodotto fornisce la probabilità che entrambi si verifichino.
+6. $P(A)=0.40\times0.30+0.10\times0.70=0.19$. I due valori vengono pesati in base alla proporzione dei gruppi; il gruppo più numeroso contribuisce maggiormente al risultato complessivo.
+7. Controllerei come sono distribuiti trattamento e controllo tra le cliniche e se le cliniche differiscono per gravità, prognosi o altre caratteristiche legate all'esito. Una composizione diseguale può produrre un confronto aggregato fuorviante.
+8. $P(T^+\mid D)$ è la probabilità di un test positivo tra le persone con il disturbo ed è la sensibilità. $P(D\mid T^+)$ è la probabilità del disturbo dopo un risultato positivo ed è la quantità più direttamente rilevante per interpretare quel risultato.
 
 :::
 
-::: {.callout-tip title="Soluzioni selezionate" collapse="true"}
+::: {.callout-note title="Punti chiave" collapse="true"}
 
-### Soluzioni degli esercizi concettuali {.unnumbered .unlisted}
-
-1. Da prospettiva bayesiana, ogni probabilità riflette uno stato di informazione. Scrivere $P(A)$ è abbreviazione per $P(A \mid \mathcal{I})$ dove $\mathcal{I}$ è "tutto ciò che sappiamo". Non esistono probabilità "incondizionate"—solo probabilità condizionate allo sfondo informativo corrente.
-
-2. Non è circolare perché concettualmente partiamo dalla **tabella congiunta** $P(A \cap B)$ (rappresentazione completa del nostro stato di credenza), poi **deriviamo** le condizionate come rapporti. La formula ci dice *come calcolare* condizionate da congiunte, non *come definire* le congiunte.
-
-3. No (a meno che uno abbia probabilità zero). Eventi disgiunti hanno informazione reciproca **massima**: sapere che uno è vero implica certezza che l'altro è falso. Indipendenza richiede *assenza* di informazione.
-
-4. Sì, è simmetrico: $P(A \cap B) = P(A \mid B) P(B) = P(B \mid A) P(A)$. Questa simmetria è il cuore del teorema di Bayes! Mostra che la congiunta può essere costruita in due modi equivalenti.
-
-5. No, l'aggregazione è legittima quando non c'è confondente rilevante, o quando la confondente è distribuita uniformemente. Il paradosso avverte: *esplicita le tue assunzioni di omogeneità prima di aggregare*.
-
-### Soluzioni degli esercizi sulla probabilità condizionata {.unnumbered .unlisted}
-
-6. a. $P(A \mid B) = 0.20 / (0.20 + 0.15) = 0.571$
-   b. $P(B \mid A) = 0.20 / (0.20 + 0.30) = 0.400$
-   c. $P(A \mid B^c) = 0.30 / (0.30 + 0.35) = 0.462$
-   d. Test: $P(A) = 0.50$, $P(B) = 0.35$, $P(A) P(B) = 0.175 \neq P(A \cap B) = 0.20$. NON indipendenti.
-
-7. a. $P(A \cap B) = P(A \mid B) P(B) = 0.7 \times 0.5 = 0.35$
-   b. $P(B \mid A) = P(A \cap B) / P(A) = 0.35 / 0.6 \approx 0.583$
-   c. $P(A \cup B) = 0.6 + 0.5 - 0.35 = 0.75$
-
-8. a. Tabella: $P(M \cap T^+) = 0.0095$, $P(M \cap T^-) = 0.0005$, etc.
-   b. VPP = $0.0095 / (0.0095 + 0.0198) \approx 0.324$; VPN $\approx 0.9995$
-   c. Per VPP > 0.9: serve sens $\approx 0.998$ (quasi perfetta con prevalenza così bassa!)
-
-### Soluzioni degli esercizi sull'indipendenza {.unnumbered .unlisted}
-
-9. a. $P(A) = 1/2$, $P(B) = 1/2$, $P(A \cap B) = P(\{2\}) = 1/6$
-      $P(A) P(B) = 1/4 \neq 1/6$. NON indipendenti.
-   b. $P(A \mid B) = (1/6) / (1/2) = 1/3 \neq 1/2 = P(A)$
-
-10. Spazio: {TT, TC, CT, CC}, equiprobabili.
-    a. Tabella con $A$ = {TT, TC}, $B$ = {TT, TC, CT}
-    b. $P(A \mid B) = P(\{TT, TC\}) / P(B) = (1/2) / (3/4) = 2/3$
-    c. $P(A) = 1/2 \neq 2/3 = P(A \mid B)$. NON indipendenti.
-
-11. Se indipendenti: $P(D \cap I) = 0.15 \times 0.25 = 0.0375$. Ma clinicamente sappiamo che depressione e insonnia sono altamente correlate, quindi l'indipendenza è **implausibile**.
-
-### Soluzioni degli esercizi sul teorema del prodotto {.unnumbered .unlisted}
-
-12. $P(A \cap B \cap C) = P(C \mid A \cap B) \cdot P(B \mid A) \cdot P(A) = 0.7 \times 0.6 \times 0.5 = 0.21$
-
-13. $P(\text{Ansia} \cap \text{tutti +}) = 0.80^3 \times 0.20 = 0.512 \times 0.20 = 0.1024$
-
-14. Dimostrazione:
-    ```
-    P(A ∩ B^c) = P(A) - P(A ∩ B)    [additività]
-               = P(A) - P(A)P(B)     [indipendenza A,B]
-               = P(A)(1 - P(B))
-               = P(A)P(B^c)          [quindi A ⊥ B^c]
-    ```
-
-### Soluzioni degli esercizi sulla probabilità totale {.unnumbered .unlisted}
-
-15. $P(D) = 0.10 \times 0.60 + 0.30 \times 0.40 = 0.06 + 0.12 = 0.18$ (18%)
-
-16. $P(>20) = 0.7 \times 0.5 + 0.4 \times 0.5 = 0.35 + 0.20 = 0.55$
-
-### Soluzioni degli esercizi sulle applicazioni psicologiche {.unnumbered .unlisted}
-
-20. a. $P(A \cap T^+) = 0.85 \times 0.05 = 0.0425$, etc.
-    b. VPP = $0.0425 / (0.0425 + 0.076) = 0.359$ (solo 36%!)
-    c. Per VPP > 0.5, serve prev $\geq 0.10$ (10%)
-
-21. a. $P(P \cap D) = P(D \mid P) \times P(P) = 0.70 \times 0.30 = 0.21$
-    b. $P(P \mid D) = 0.21 / 0.45 \approx 0.467$
-    c. Se indipendenti: $P(P) P(D) = 0.30 \times 0.45 = 0.135 \neq 0.21$. DIPENDENTI (comorbidità alta, clinicamente attesa)
+- Per $P(B)>0$, $P(A\mid B)=P(A\cap B)/P(B)$.
+- Condizionare significa restringere l'attenzione alle situazioni compatibili con $B$ e rinormalizzare.
+- $P(A\mid B)$ e $P(B\mid A)$ rispondono a domande diverse e in generale non coincidono.
+- Due eventi sono indipendenti quando $P(A\cap B)=P(A)P(B)$.
+- Eventi disgiunti con probabilità positiva sono dipendenti, perché il verificarsi dell'uno esclude l'altro.
+- Il teorema del prodotto costruisce probabilità congiunte mediante probabilità condizionate.
+- La legge della probabilità totale combina scenari alternativi attraverso una media ponderata.
+- Un confronto aggregato può differire dai confronti entro i sottogruppi; la scelta tra quantità marginali e condizionate dipende dalla domanda scientifica.
 
 :::
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
+
 ```{r}
 sessionInfo()
 ```
-:::
 
+:::

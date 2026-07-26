@@ -1,49 +1,66 @@
 # La verosimiglianza {#sec-prob-likelihood}
 
-## Introduzione {.unnumbered .unlisted}
+::: {.callout-note title="In sintesi"}
+**Da sapere**  Comprendere che la verosimiglianza legge il modello dei dati nella direzione inversa: i dati osservati restano fissi e si confrontano valori diversi del parametro. Distinguere verosimiglianza, probabilità dei dati e distribuzione a posteriori; riconoscere il significato della forma, del massimo e della concentrazione di una curva di verosimiglianza.
 
-Nel capitolo precedente abbiamo studiato il campione come fonte di evidenza. Abbiamo visto che una proporzione osservata, una media campionaria o un'altra statistica non sono informative di per sé: diventano informative solo in relazione di un modello probabilistico che collega i dati osservabili ai parametri sconosciuti.
-
-Ora facciamo il passo successivo. Supponiamo, per esempio, di osservare che in uno studio pilota il 36% dei pazienti trattati raggiunge la remissione completa: possiamo chiederci quali valori dell'efficacia reale del trattamento rendono più plausibile un risultato di questo tipo. Un'efficacia del 20% è compatibile con i dati? E una del 40%? E una del 60%?
-
-La **funzione di verosimiglianza** serve proprio a questo: trasforma i dati osservati in una mappa di compatibilità per i valori possibili del parametro. La funzione di verosimiglianza non assegna ancora probabilità ai parametri, questo compito spetta alla distribuzione a posteriori, ma ci dice quanto i dati siano plausibili sotto ciascun valore del parametro.
-
-La domanda guida del capitolo è quindi:
-
-> Avendo osservato questi dati, quali valori del parametro li rendono più o meno plausibili?
-
-In questo capitolo:
-
-1. **distingueremo** chiaramente probabilità predittiva e verosimiglianza;
-2. **definiremo** formalmente la funzione di verosimiglianza;
-3. **mostreremo** perché la verosimiglianza non è una distribuzione di probabilità sui parametri;
-4. **useremo** il modello Bernoulli--binomiale per costruire e interpretare una verosimiglianza;
-5. **introdurremo** la log-verosimiglianza come strumento computazionale e concettuale;
-6. **discuteremo** la verosimiglianza congiunta per osservazioni multiple e per studi indipendenti;
-7. **esamineremo** il caso gaussiano, collegandolo alla precisione discussa nel capitolo precedente;
-8. **chiariremo** il ruolo, utile ma limitato, della massima verosimiglianza;
-9. **chiuderemo** collegando la verosimiglianza all'aggiornamento bayesiano del capitolo successivo.
-
-::: {.callout-tip collapse="true"}
-## Prerequisiti
-
-Per seguire questo capitolo è utile aver letto:
-
-- @sec-prob-bayes-theorem — per la struttura generale dell'aggiornamento bayesiano;
-- @sec-prob-inference-uncertainty — per il ruolo dell'evidenza, dell'errore standard e della precisione;
-- @sec-prob-intro-distr — per il linguaggio delle distribuzioni parametriche;
-- @sec-prob-discr-distr — per Bernoulli e Binomiale;
-- @sec-prob-cont-distr — per la distribuzione Normale.
-
-Questo capitolo formalizza il collegamento tra dati e parametri: la verosimiglianza è il modo in cui i dati entrano nel teorema di Bayes.
+**Da saper fare**  Spiegare intuitivamente che cosa significa che un valore del parametro rende i dati più plausibili di un altro; interpretare un rapporto di verosimiglianza senza trasformarlo in una probabilità del parametro; descrivere perché nell'aggiornamento bayesiano la prior viene moltiplicata per la verosimiglianza e poi normalizzata.
 :::
 
-::: {.callout-caution collapse=true title="Preparazione del Notebook"}
-```{r}
-here::here("code", "_common.R") |> 
-  source()
+## Introduzione {.unnumbered .unlisted}
 
-# Riapplica il tema per sicurezza
+In uno studio pilota, 72 pazienti su 200 raggiungono la remissione dopo un trattamento. La proporzione osservata è 0.36, ma il numero 0.36 non ci dice ancora, da solo, quale sia l'efficacia reale del trattamento. Per interpretarlo dobbiamo immaginare diversi valori possibili del parametro e domandarci che cosa avremmo potuto osservare sotto ciascuno di essi.
+
+Se l'efficacia reale fosse 0.20, osservare 72 remissioni sarebbe relativamente inatteso. Se fosse 0.36, il risultato sarebbe molto più naturale. Se fosse 0.60, sarebbe di nuovo difficile osservare una proporzione tanto bassa. La **verosimiglianza** organizza questo confronto: per ogni valore possibile del parametro, misura quanto bene quel valore riesce a rendere plausibili i dati che abbiamo effettivamente osservato.
+
+La domanda non è ancora «qual è la probabilità che il parametro valga 0.36?». Questa è una domanda a posteriori e richiede anche una prior. La domanda della verosimiglianza è più elementare:
+
+> Se il parametro avesse un certo valore, quanto sarebbero plausibili proprio i dati osservati?
+
+## Perché la verosimiglianza è il motore dell'aggiornamento bayesiano?
+
+Prima di raccogliere i dati, la prior assegna peso ai diversi valori del parametro. Dopo avere osservato i dati, quei pesi devono cambiare: i valori che rendevano i dati relativamente plausibili conservano o aumentano il loro peso; quelli che rendevano i dati difficili da osservare ne perdono.
+
+La verosimiglianza è il meccanismo che realizza questa selezione. In forma schematica:
+
+$$
+\underbrace{p(\theta)}_{\text{peso prima dei dati}}
+\times
+\underbrace{L(\theta;y)}_{\text{compatibilità con i dati}}
+\quad\longrightarrow\quad
+\underbrace{p(\theta\mid y)}_{\text{peso dopo i dati}}.
+$$
+
+La normalizzazione finale trasforma i prodotti in una distribuzione che integra o somma a 1. Senza la verosimiglianza, i dati non potrebbero modificare la prior; senza la prior, la verosimiglianza non sarebbe ancora una distribuzione di probabilità sul parametro.
+
+::: {.callout-important title="L'intuizione da conservare"}
+La prior dice **quali valori consideravamo plausibili prima**. La verosimiglianza dice **quanto ciascun valore riesce a rendere plausibili i dati osservati**. La posterior combina entrambe le informazioni.
+:::
+
+::: {.callout-tip title="Prerequisiti"}
+Per seguire il capitolo è utile avere letto @sec-prob-bayes-theorem, @sec-prob-inference-uncertainty, @sec-prob-intro-distr, @sec-prob-discr-distr e @sec-prob-cont-distr. Per la notazione matematica, consulta @sec-apx-math-symbols.
+
+Per richiami su prodotti, logaritmi, derivate e integrali, consulta le appendici matematiche disponibili nel Companion.
+:::
+
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il capitolo procede in nove passaggi:
+
+1. distingue la direzione predittiva dalla direzione inferenziale;
+2. definisce la verosimiglianza fissando i dati e facendo variare il parametro;
+3. chiarisce perché la verosimiglianza non è una posterior;
+4. interpreta forma, massimo, larghezza e rapporti di una curva di verosimiglianza;
+5. costruisce la verosimiglianza Bernoulli--binomiale;
+6. introduce la log-verosimiglianza e l'accumulo dell'evidenza;
+7. presenta la verosimiglianza gaussiana e il ruolo della precisione;
+8. discute con prudenza massima verosimiglianza e rapporti di verosimiglianza;
+9. mostra intuitivamente come prior e verosimiglianza producano la posterior.
+
+::: {.callout-note title="Preparazione del notebook"}
+```{r}
+#| output: false
+here::here("code", "_common.R") |>
+  source()
 apply_visual_theme()
 ```
 :::
@@ -52,252 +69,241 @@ apply_visual_theme()
 
 ### La direzione predittiva
 
-Un modello probabilistico specifica come potrebbero essere generati i dati se il valore del parametro fosse noto. Nel caso di osservazioni binarie, possiamo scrivere:
+Un modello probabilistico descrive quali dati potremmo osservare se il parametro fosse noto. Nel caso di risposte binarie possiamo scrivere:
 
 $$
-Y_i \mid \theta \sim \text{Bernoulli}(\theta), \qquad i = 1, \ldots, n.
+Y_i \mid \theta \overset{\mathrm{iid}}{\sim} \operatorname{Bernoulli}(\theta),
+\qquad i=1,\ldots,n.
 $$
 
-Se $\theta = 0.36$, il modello dice che ogni osservazione ha probabilità 0.36 di essere un successo. Questa è la direzione **predittiva** del modello:
+Se $\theta=0.36$, ogni osservazione ha probabilità 0.36 di essere un successo, sotto le ipotesi di indipendenza condizionata e probabilità comune. La direzione è:
 
 $$
-\theta \quad \longrightarrow \quad \text{dati possibili}.
+\theta \quad\longrightarrow\quad \text{dati possibili}.
 $$
 
-In questa direzione, il parametro è fissato e i dati sono incerti. Possiamo quindi calcolare probabilità del tipo:
+In questa lettura, $\theta$ è fissato e sono i dati a variare. La quantità
 
 $$
-p(y \mid \theta).
+p(y\mid\theta)
 $$
 
-Questa quantità risponde alla domanda:
+risponde alla domanda:
 
-> Se il parametro avesse valore $\theta$, quali dati potremmo osservare e con quale probabilità?
+> Se il parametro valesse $\theta$, con quale probabilità o densità potremmo osservare $y$?
 
 ### La direzione inferenziale
 
-Nella ricerca empirica, però, di solito ci troviamo nella situazione opposta: i dati sono già stati osservati, mentre il parametro è ignoto. Se osserviamo $y = 72$ remissioni su $n = 200$ pazienti, la domanda non è più “quali dati potremmo osservare?”, ma:
-
-> Quali valori di $\theta$ rendono plausibile osservare 72 remissioni su 200 pazienti?
-
-Questa è la direzione **inferenziale**:
+Nella ricerca empirica la situazione è rovesciata: i dati sono già stati osservati e il parametro è ignoto. Se registriamo 72 remissioni su 200 pazienti, fissiamo quel risultato e confrontiamo valori diversi di $\theta$:
 
 $$
-\text{dati osservati} \quad \longrightarrow \quad \text{valori plausibili del parametro}.
+\text{dati osservati} \quad\longrightarrow\quad \text{confronto tra valori del parametro}.
 $$
 
-La verosimiglianza nasce da questo cambio di prospettiva.
+La formula matematica rimane $p(y\mid\theta)$, ma cambia il ruolo degli argomenti. Come probabilità o densità, facciamo variare $y$ tenendo fisso $\theta$. Come verosimiglianza, teniamo fisso $y$ e facciamo variare $\theta$.
+
+### Un esempio minimo
+
+Supponiamo di osservare 7 successi su 10 prove. Consideriamo, per il momento, soltanto tre valori possibili di $\theta$:
+
+| Valore ipotizzato | Probabilità di osservare esattamente 7 successi |
+|---:|---:|
+| $\theta=0.30$ | 0.009 |
+| $\theta=0.50$ | 0.117 |
+| $\theta=0.70$ | 0.267 |
+
+Il risultato osservato è quindi molto più compatibile con $\theta=0.70$ che con $\theta=0.30$. Questo confronto non dice ancora che $\theta=0.70$ abbia probabilità 0.70, né che sia certamente il valore vero. Dice soltanto che, tra i valori considerati e sotto il modello binomiale, 7 successi su 10 sarebbero più facili da osservare se $\theta$ fosse vicino a 0.70.
 
 ::: {.callout-note title="Idea chiave"}
-La funzione matematica $p(y \mid \theta)$ è la stessa, ma cambia ciò che consideriamo fisso e ciò che consideriamo variabile. Come probabilità, varia $y$ e $\theta$ è fissato. Come verosimiglianza, $y$ è fissato e varia $\theta$.
+La verosimiglianza non inverte automaticamente la probabilità condizionata. Legge la stessa funzione $p(y\mid\theta)$ con i dati fissati e confronta quanto bene valori diversi di $\theta$ rendono plausibile ciò che è stato osservato.
 :::
 
-## Definizione di funzione di verosimiglianza {#sec-likelihood-definition}
+## Definizione della funzione di verosimiglianza {#sec-likelihood-definition}
 
-::: {#def-likelihood}
-## Funzione di verosimiglianza
+::: {.callout-note title="Definizione formale"}
+Sia $Y$ una variabile casuale, o un vettore di variabili casuali, la cui distribuzione dipende da un parametro ignoto $\theta\in\Theta$. Indichiamo con $f(y\mid\theta)$ la funzione di massa, nel caso discreto, o la funzione di densità, nel caso continuo.
 
-Sia $Y$ una variabile casuale, o un vettore di variabili casuali, la cui distribuzione dipende da un parametro ignoto $\theta \in \Theta$. Indichiamo con $f(y \mid \theta)$ la funzione di massa di probabilità, nel caso discreto, o la funzione di densità, nel caso continuo.
-
-Una volta osservati i dati $y_{obs}$, la **funzione di verosimiglianza** è:
+Dopo avere osservato $y_{\mathrm{obs}}$, la **funzione di verosimiglianza** è la stessa espressione considerata come funzione di $\theta$:
 
 $$
-L(\theta; y_{obs}) = f(y_{obs} \mid \theta), \qquad \theta \in \Theta.
+L(\theta;y_{\mathrm{obs}})=f(y_{\mathrm{obs}}\mid\theta),
+\qquad \theta\in\Theta.
 $$
 
-Nella verosimiglianza:
-
-- $y_{obs}$ è fissato: rappresenta ciò che abbiamo osservato;
-- $\theta$ varia: rappresenta i valori parametrici che vogliamo confrontare.
+I dati $y_{\mathrm{obs}}$ sono fissi; il parametro $\theta$ varia.
 :::
 
-La verosimiglianza misura quanto i dati osservati siano compatibili con ciascun valore del parametro. Valori di $\theta$ che assegnano maggiore probabilità o densità ai dati osservati hanno verosimiglianza maggiore.
-
-Questa frase richiede attenzione: **la verosimiglianza non è la probabilità che $\theta$ sia vero**. Essa dice invece quanto sarebbero plausibili i dati se $\theta$ avesse un certo valore.
+Valori di $\theta$ con verosimiglianza maggiore rendono i dati osservati relativamente più plausibili, sotto il modello adottato. La parola **relativamente** è essenziale: la verosimiglianza confronta valori del parametro, ma non assegna loro direttamente probabilità.
 
 ### Probabilità e verosimiglianza a confronto
 
-| Aspetto | Probabilità / densità | Verosimiglianza |
+| Aspetto | Probabilità o densità | Verosimiglianza |
 |---|---|---|
-| Espressione | $f(y \mid \theta)$ | $L(\theta; y_{obs}) = f(y_{obs} \mid \theta)$ |
-| Quantità fissata | $\theta$ | $y_{obs}$ |
+| Espressione | $f(y\mid\theta)$ | $L(\theta;y_{\mathrm{obs}})=f(y_{\mathrm{obs}}\mid\theta)$ |
+| Quantità fissata | $\theta$ | $y_{\mathrm{obs}}$ |
 | Quantità variabile | $y$ | $\theta$ |
-| Domanda | Quali dati posso osservare se conosco $\theta$? | Quali valori di $\theta$ rendono plausibili i dati osservati? |
-| Uso principale | Predizione | Inferenza |
-| Normalizzazione | Somma/integra a 1 rispetto a $y$ | In generale non somma/integra a 1 rispetto a $\theta$ |
+| Domanda | Quali dati sono attesi se conosco $\theta$? | Quali valori di $\theta$ rendono plausibili i dati osservati? |
+| Normalizzazione | Somma o integra a 1 rispetto a $y$ | Non è richiesta rispetto a $\theta$ |
+| Esito | Distribuzione dei dati | Funzione di confronto tra valori parametrici |
 
 ### Perché non è una distribuzione sui parametri
 
-La verosimiglianza è una funzione di $\theta$, ma non è automaticamente una distribuzione di probabilità su $\theta$. In generale:
+La verosimiglianza è una funzione di $\theta$, ma in generale non è normalizzata rispetto a $\theta$:
 
 $$
-\int_\Theta L(\theta; y_{obs})\,d\theta \neq 1.
+\int_{\Theta}L(\theta;y_{\mathrm{obs}})\,d\theta \neq 1.
 $$
 
-Nel caso discreto, analogamente:
+Anche quando l'integrale è finito e la curva potrebbe essere riscalata per avere area 1, questa operazione da sola non costituisce un aggiornamento neutrale. Equivarrebbe a introdurre una specifica scelta di misura o, in molti casi semplici, una prior uniforme sulla parametrizzazione usata. Una trasformazione del parametro potrebbe cambiare il risultato.
+
+Nell'inferenza bayesiana la distribuzione sul parametro nasce invece da un passaggio esplicito:
 
 $$
-\sum_{\theta \in \Theta} L(\theta; y_{obs}) \neq 1.
+p(\theta\mid y_{\mathrm{obs}})
+=
+\frac{L(\theta;y_{\mathrm{obs}})p(\theta)}
+{\int_{\Theta}L(\theta';y_{\mathrm{obs}})p(\theta')\,d\theta'}.
 $$
-
-Questo è un punto essenziale per la prospettiva bayesiana. Per ottenere una distribuzione sui parametri occorre combinare la verosimiglianza con una distribuzione a priori e poi normalizzare:
-
-$$
-p(\theta \mid y_{obs})
-= \frac{L(\theta; y_{obs})p(\theta)}{\int L(\theta'; y_{obs})p(\theta')\,d\theta'}.
-$$
-
-Il capitolo successivo sarà dedicato proprio a questo passaggio.
 
 ::: {.callout-important title="Da ricordare"}
-La verosimiglianza è il contributo dei dati all'aggiornamento bayesiano. Non è ancora una credenza aggiornata: diventa parte della distribuzione a posteriori solo quando viene combinata con la prior.
+La verosimiglianza è il contributo dei dati all'aggiornamento. La posterior è il risultato della combinazione tra prior e verosimiglianza, seguita dalla normalizzazione.
 :::
 
 ## Scala arbitraria e verosimiglianza relativa {#sec-relative-likelihood}
 
-La scala assoluta della verosimiglianza spesso non è importante. Per confrontare valori diversi dello stesso parametro, ciò che conta sono i **rapporti** tra verosimiglianze.
-
-Se due funzioni differiscono solo per una costante positiva che non dipende da $\theta$,
+Per definizione, la verosimiglianza è uguale alla massa o densità dei dati osservati:
 
 $$
-L_1(\theta) = c L_2(\theta), \qquad c > 0,
+L(\theta;y)=f(y\mid\theta).
 $$
 
-allora forniscono la stessa informazione sui valori relativi di $\theta$. Infatti:
+Quando confrontiamo valori di $\theta$ all'interno dello stesso modello, possiamo però eliminare i fattori positivi che non dipendono da $\theta$. Se
+
+$$
+L_1(\theta)=cL_2(\theta), \qquad c>0,
+$$
+
+allora i rapporti tra valori parametrici restano invariati:
 
 $$
 \frac{L_1(\theta_a)}{L_1(\theta_b)}
-= \frac{cL_2(\theta_a)}{cL_2(\theta_b)}
-= \frac{L_2(\theta_a)}{L_2(\theta_b)}.
+=
+\frac{L_2(\theta_a)}{L_2(\theta_b)}.
 $$
 
-Per questo motivo, quando lavoriamo con la verosimiglianza scriviamo spesso:
+Per questo si scrive spesso
 
 $$
-L(\theta; y) \propto f(y \mid \theta),
+L(\theta;y)\propto g(\theta;y),
 $$
 
-intendendo che abbiamo eliminato costanti che non dipendono da $\theta$.
+dopo avere rimosso costanti che non cambiano al variare di $\theta$.
 
 ### La verosimiglianza relativa
 
-Per rendere più interpretabile una curva di verosimiglianza, possiamo dividerla per il suo valore massimo:
+Una curva può essere resa più leggibile dividendo ogni valore per il massimo:
 
 $$
-R(\theta) = \frac{L(\theta)}{\max_{\theta'} L(\theta')}.
+R(\theta)=\frac{L(\theta)}{\max_{\theta'}L(\theta')}.
 $$
 
-La funzione $R(\theta)$ prende valori tra 0 e 1. Il valore 1 corrisponde al parametro più supportato dai dati, mentre valori più bassi indicano supporto relativo minore.
+La verosimiglianza relativa varia tra 0 e 1. Il valore 1 identifica il punto che rende i dati più plausibili tra quelli considerati. Se $R(\theta)=0.5$, il dataset osservato ha, in quel punto, una verosimiglianza pari alla metà del massimo.
 
-::: {.callout-note title="Interpretazione prudente"}
-Dire che $R(\theta)=0.5$ non significa che $\theta$ abbia probabilità 50%. Significa che quel valore rende i dati plausibili la metà rispetto al valore che massimizza la verosimiglianza.
+::: {.callout-warning title="Non è una probabilità del parametro"}
+$R(\theta)=0.5$ non significa che $\theta$ abbia probabilità 50%, né che vi sia una probabilità del 50% che sia vero. È soltanto un confronto con il valore che massimizza la verosimiglianza.
 :::
 
 ## Verosimiglianza Bernoulli--binomiale {#sec-binomial-likelihood}
 
 ### Dati individuali Bernoulliani
 
-Supponiamo di osservare $n$ risposte binarie:
+Supponiamo di osservare $n$ esiti binari:
 
 $$
-y_i =
+y_i=
 \begin{cases}
-1 & \text{se il paziente raggiunge la remissione}, \\
+1 & \text{se il paziente raggiunge la remissione},\\
 0 & \text{altrimenti}.
 \end{cases}
 $$
 
-Assumiamo:
+Assumiamo che, condizionatamente a $\theta$, gli esiti siano indipendenti e condividano la stessa probabilità:
 
 $$
-Y_i \mid \theta \sim \text{Bernoulli}(\theta),
+Y_i\mid\theta\overset{\mathrm{iid}}{\sim}\operatorname{Bernoulli}(\theta).
 $$
 
-dove $\theta$ è la probabilità di remissione.
-
-Per una singola osservazione, la probabilità del dato osservato è:
+Per una singola osservazione:
 
 $$
-p(y_i \mid \theta) = \theta^{y_i}(1-\theta)^{1-y_i}.
+p(y_i\mid\theta)=\theta^{y_i}(1-\theta)^{1-y_i}.
 $$
 
-Se le osservazioni sono indipendenti, la verosimiglianza congiunta è:
+Per l'intera sequenza osservata:
 
 $$
-L(\theta; y_1, \ldots, y_n)
-= \prod_{i=1}^{n} \theta^{y_i}(1-\theta)^{1-y_i}.
+L(\theta;y_1,\ldots,y_n)
+=
+\prod_{i=1}^{n}\theta^{y_i}(1-\theta)^{1-y_i}.
 $$
 
-Raccogliendo i termini, otteniamo:
+Se $y=\sum_i y_i$ è il numero totale di successi, raccogliendo i termini otteniamo:
 
 $$
-L(\theta; y_1, \ldots, y_n)
-= \theta^{\sum_i y_i}(1-\theta)^{n-\sum_i y_i}.
+L(\theta;y_1,\ldots,y_n)
+=
+\theta^y(1-\theta)^{n-y}.
 $$
 
-Se indichiamo con
-
-$$
-y = \sum_{i=1}^{n} y_i
-$$
-
-il numero totale di successi, allora:
-
-$$
-L(\theta; y, n) \propto \theta^y(1-\theta)^{n-y}.
-$$
-
-Questo risultato mostra che, nel modello Bernoulli indipendente, l'ordine delle osservazioni non aggiunge informazione su $\theta$: conta il numero totale di successi.
+Sotto questo modello, l'ordine degli esiti non modifica la forma della verosimiglianza per $\theta$: contano il numero di successi e il numero di insuccessi.
 
 ### La forma binomiale
 
-Se osserviamo direttamente il numero totale di successi $Y=y$ su $n$ prove, allora:
+Se il dato osservato è direttamente il conteggio $Y=y$ su $n$ prove, allora
 
 $$
-Y \mid \theta \sim \text{Binomiale}(n, \theta),
+Y\mid\theta\sim\operatorname{Binomiale}(n,\theta)
 $$
 
-e quindi:
+e
 
 $$
-p(y \mid \theta) = {n \choose y}\theta^y(1-\theta)^{n-y}.
+L(\theta;y,n)
+=
+{n\choose y}\theta^y(1-\theta)^{n-y}.
 $$
 
-Vista come funzione di $\theta$, questa diventa:
+Il coefficiente ${n\choose y}$ conta quante sequenze producono lo stesso numero di successi. Cambia la probabilità del conteggio rispetto alla probabilità di una singola sequenza, ma non cambia il confronto tra valori di $\theta$, perché non dipende da $\theta$:
 
 $$
-L(\theta; y,n) = {n \choose y}\theta^y(1-\theta)^{n-y}.
+L(\theta;y,n)\propto\theta^y(1-\theta)^{n-y}.
 $$
 
-Il coefficiente combinatorio ${n \choose y}$ non dipende da $\theta$, quindi per confrontare valori di $\theta$ possiamo usare la forma proporzionale:
+::: {.callout-note title="Che cosa raccontano successi e insuccessi?"}
+Il fattore $\theta^y$ favorisce valori più alti di $\theta$ quando osserviamo molti successi; il fattore $(1-\theta)^{n-y}$ favorisce valori più bassi quando osserviamo molti insuccessi. La curva nasce dal bilanciamento tra queste due componenti.
+:::
 
-$$
-L(\theta; y,n) \propto \theta^y(1-\theta)^{n-y}.
-$$
-
-::: {.callout-note title="Una costante può essere ignorata?"}
-Se l'obiettivo è confrontare valori diversi dello stesso parametro nello stesso modello, le costanti che non dipendono da $\theta$ possono essere ignorate. Se invece si confrontano modelli diversi tramite probabilità marginali, le costanti devono essere gestite con maggiore attenzione.
+::: {.callout-warning title="Quando non basta il modello binomiale"}
+La forma binomiale presuppone indipendenza condizionata e una probabilità comune. Dipendenza tra pazienti, differenze individuali sistematiche o variazioni tra centri clinici richiedono modelli più ricchi.
 :::
 
 ## Un esempio psicologico: remissione in uno studio pilota {#sec-likelihood-remission-example}
 
-Riprendiamo l'esempio del trattamento clinico. Supponiamo di osservare $y=72$ remissioni su $n=200$ pazienti. La proporzione campionaria è:
+Supponiamo di osservare $y=72$ remissioni su $n=200$ pazienti. La proporzione campionaria è:
 
 $$
-\hat{\theta} = \frac{72}{200} = 0.36.
+\hat{\theta}=\frac{72}{200}=0.36.
 $$
 
 La verosimiglianza binomiale è:
 
 $$
-L(\theta; y=72,n=200) \propto \theta^{72}(1-\theta)^{128}.
+L(\theta;y=72,n=200)\propto\theta^{72}(1-\theta)^{128}.
 $$
-
-Questa funzione assegna il supporto massimo a $\theta=0.36$, ma non esclude in modo assoluto valori vicini, come 0.34 o 0.39. Li rende solo meno supportati in base alla loro capacità di rendere plausibile il dato osservato.
 
 ```{r}
 #| label: fig-likelihood-remission
-#| fig-cap: "Verosimiglianza relativa per 72 remissioni su 200 pazienti. Il massimo coincide con la proporzione osservata."
+#| fig-cap: "Verosimiglianza relativa per 72 remissioni su 200 pazienti. Il massimo si trova in corrispondenza della proporzione osservata."
 
 n <- 200
 y <- 72
@@ -319,20 +325,25 @@ ggplot(df_lik, aes(x = theta, y = relative_likelihood)) +
   )
 ```
 
-La curva è centrata sul valore osservato, ma la sua larghezza comunica quanto il campione sia informativo. Una curva larga indica che molti valori di $\theta$ restano compatibili con i dati; una curva stretta indica che i dati discriminano più nettamente tra valori alternativi.
+La curva in @fig-likelihood-remission raggiunge il massimo in $\theta=0.36$. Valori vicini, come 0.34 o 0.39, rendono comunque i dati abbastanza plausibili; valori molto lontani producono una verosimiglianza relativa più bassa.
+
+::: {.callout-note title="Come leggere una curva di verosimiglianza"}
+- **Posizione del massimo:** indica il valore che rende i dati osservati più plausibili tra quelli considerati.
+- **Larghezza:** indica quanto bene i dati discriminano tra valori vicini; una curva larga discrimina poco, una curva stretta discrimina di più.
+- **Forma:** può essere simmetrica oppure asimmetrica, a seconda del modello e dei dati.
+- **Altezza assoluta:** non va letta come probabilità del parametro; sono soprattutto i rapporti tra altezze a essere informativi.
+:::
 
 ### Stessa proporzione, diversa quantità di informazione
 
-Per collegare la verosimiglianza al capitolo precedente, confrontiamo due studi con la stessa proporzione osservata, ma con dimensioni campionarie diverse:
+Confrontiamo due studi con la stessa proporzione osservata:
 
-- studio piccolo: 9 remissioni su 25 pazienti, $\hat{\theta}=0.36$;
-- studio grande: 72 remissioni su 200 pazienti, $\hat{\theta}=0.36$.
-
-La proporzione osservata è identica, ma la quantità di informazione non lo è.
+- 9 remissioni su 25 pazienti, $\hat\theta=0.36$;
+- 72 remissioni su 200 pazienti, $\hat\theta=0.36$.
 
 ```{r}
 #| label: fig-likelihood-same-proportion
-#| fig-cap: "Due studi con la stessa proporzione osservata ma diversa dimensione campionaria. Il campione più grande produce una verosimiglianza più concentrata."
+#| fig-cap: "Stessa proporzione osservata, ma diversa numerosità. Il campione più grande produce una verosimiglianza più concentrata."
 
 theta_grid <- seq(0.001, 0.999, length.out = 1000)
 
@@ -362,60 +373,58 @@ ggplot(df_compare, aes(x = theta, y = relative_likelihood, linetype = studio)) +
   )
 ```
 
-Il massimo è lo stesso, perché la proporzione osservata è la stessa. Tuttavia, la curva basata su 200 pazienti è molto più stretta: i dati sono più informativi. Questo è il corrispettivo, sulla scala della verosimiglianza, dell'idea di precisione discussa nel capitolo precedente.
+In @fig-likelihood-same-proportion il massimo coincide, perché la proporzione è la stessa. La curva basata su 200 pazienti è però molto più stretta: il campione grande esclude più nettamente valori lontani da 0.36. La numerosità non cambia necessariamente il punto preferito dai dati, ma cambia quanto decisamente i dati lo distinguono dalle alternative.
 
-::: {.callout-important title="Collegamento con l'errore standard"}
-Nel capitolo precedente abbiamo visto che l'errore standard della proporzione decresce come $1/\sqrt{n}$. Qui vediamo la stessa idea da un'altra prospettiva: al crescere di $n$, la verosimiglianza tende a concentrarsi attorno ai valori del parametro più compatibili con i dati.
+::: {.callout-important title="Collegamento con la precisione"}
+Nel capitolo precedente abbiamo visto che l'errore standard della proporzione diminuisce all'aumentare di $n$. La maggiore concentrazione della verosimiglianza esprime la stessa idea dal punto di vista del confronto tra valori parametrici.
 :::
 
 ## Log-verosimiglianza {#sec-log-likelihood}
 
 ### Perché usare il logaritmo
 
-Con molti dati, la verosimiglianza è spesso il prodotto di molte probabilità o densità. Poiché molte di queste quantità sono minori di 1, il prodotto può diventare estremamente piccolo. Dal punto di vista computazionale, questo può causare *underflow numerico*: il computer rappresenta il prodotto come zero anche quando matematicamente non lo è.
-
-Per evitare questo problema si lavora con la **log-verosimiglianza**:
+Con molte osservazioni, la verosimiglianza è il prodotto di numerose probabilità o densità spesso minori di 1. Il prodotto può diventare così piccolo da essere rappresentato dal computer come zero. Per evitare questo problema si usa la **log-verosimiglianza**:
 
 $$
-\ell(\theta; y) = \log L(\theta; y).
+\ell(\theta;y)=\log L(\theta;y).
 $$
 
-Nel caso di osservazioni indipendenti:
+Se le osservazioni sono indipendenti condizionatamente a $\theta$:
 
 $$
-L(\theta; y_1, \ldots, y_n) = \prod_{i=1}^{n} f(y_i \mid \theta),
+L(\theta;y_1,\ldots,y_n)=\prod_{i=1}^{n}f(y_i\mid\theta),
 $$
 
-quindi:
+allora
 
 $$
-\ell(\theta; y_1, \ldots, y_n)
-= \sum_{i=1}^{n} \log f(y_i \mid \theta).
+\ell(\theta;y_1,\ldots,y_n)
+=
+\sum_{i=1}^{n}\log f(y_i\mid\theta).
 $$
 
-Il logaritmo trasforma prodotti in somme, che sono più stabili numericamente e più semplici da analizzare.
+Il logaritmo trasforma quindi i prodotti in somme. L'idea inferenziale non cambia: cambia soltanto la scala di rappresentazione.
 
-### Massimi equivalenti
+### Lo stesso massimo su una scala diversa
 
-Il logaritmo naturale è una funzione monotona crescente. Di conseguenza, il valore di $\theta$ che massimizza $L(\theta)$ massimizza anche $\ell(\theta)$:
+Poiché il logaritmo è strettamente crescente:
 
 $$
-\arg\max_\theta L(\theta) = \arg\max_\theta \ell(\theta).
+\arg\max_\theta L(\theta;y)
+=
+\arg\max_\theta \ell(\theta;y).
 $$
 
-Quindi lavorare con la log-verosimiglianza non cambia il contenuto inferenziale della funzione: cambia solo la scala su cui la rappresentiamo.
+La log-verosimiglianza conserva l'ordine dei valori: se un parametro ha verosimiglianza maggiore di un altro, ha anche log-verosimiglianza maggiore.
 
-::: {.callout-caution collapse="true" title="Esempio pratico: underflow e log-verosimiglianza"}
+::: {.callout-note collapse="true" title="Esempio computazionale: evitare l'underflow"}
 ```{r}
 set.seed(42)
 n <- 2000
 theta <- 0.35
 dati <- rbinom(n, size = 1, prob = theta)
 
-# Prodotto diretto delle probabilità: può collassare numericamente a zero
 lik_diretta <- prod(dbinom(dati, size = 1, prob = theta))
-
-# Somma dei log: stabile
 log_lik <- sum(dbinom(dati, size = 1, prob = theta, log = TRUE))
 
 cat("Verosimiglianza diretta:", lik_diretta, "\n")
@@ -425,49 +434,41 @@ cat("Log-verosimiglianza:", log_lik, "\n")
 
 ### Log-verosimiglianza binomiale
 
-Per il modello binomiale:
+Trascurando la costante che non dipende da $\theta$:
 
 $$
-L(\theta; y,n) \propto \theta^y(1-\theta)^{n-y}.
+\ell(\theta;y,n)
+=
+y\log\theta+(n-y)\log(1-\theta).
 $$
 
-La log-verosimiglianza, trascurando la costante che non dipende da $\theta$, è:
-
-$$
-\ell(\theta; y,n)
-= y\log\theta + (n-y)\log(1-\theta).
-$$
-
-Questa forma rende evidente come il dato osservato contribuisca all'evidenza:
-
-- i successi aumentano il supporto per valori alti di $\theta$;
-- gli insuccessi aumentano il supporto per valori bassi di $\theta$;
-- il bilanciamento tra successi e insuccessi determina il punto di massimo;
-- la dimensione del campione determina quanto la curva sia concentrata.
+Questa forma rende visibile l'accumulo dell'evidenza: ogni successo aggiunge un termine $\log\theta$ e ogni insuccesso aggiunge un termine $\log(1-\theta)$. Il punto di equilibrio determina il massimo; il numero complessivo di osservazioni determina la curvatura e quindi la capacità di discriminare tra valori vicini.
 
 ## Verosimiglianza congiunta e accumulo dell'evidenza {#sec-joint-likelihood}
 
-### Osservazioni indipendenti
+### Osservazioni condizionatamente indipendenti
 
-Se i dati sono indipendenti condizionatamente a $\theta$, la verosimiglianza congiunta è il prodotto delle verosimiglianze individuali:
+Se le osservazioni sono indipendenti una volta fissato $\theta$, la verosimiglianza congiunta è il prodotto dei contributi individuali:
 
 $$
-L(\theta; y_1, \ldots, y_n)
-= \prod_{i=1}^{n} f(y_i \mid \theta).
+L(\theta;y_1,\ldots,y_n)
+=
+\prod_{i=1}^{n}f(y_i\mid\theta).
 $$
 
 Sulla scala logaritmica:
 
 $$
-\ell(\theta; y_1, \ldots, y_n)
-= \sum_{i=1}^{n}\log f(y_i \mid \theta).
+\ell(\theta;y_1,\ldots,y_n)
+=
+\sum_{i=1}^{n}\log f(y_i\mid\theta).
 $$
 
-Questa formula esprime in modo molto semplice l'accumulo dell'evidenza: ogni osservazione aggiunge un contributo alla log-verosimiglianza complessiva.
+Ogni nuova osservazione modifica quindi il profilo complessivo della verosimiglianza. Non «vota» semplicemente per un valore: aggiunge informazione secondo ciò che il modello prevede per tutti i valori del parametro.
 
-### Combinare studi indipendenti
+### Combinare studi sotto un parametro comune
 
-La stessa idea vale quando combiniamo studi indipendenti. Supponiamo che quattro studi misurino lo stesso parametro $\theta$, per esempio la probabilità di successo di un intervento:
+Supponiamo che quattro studi misurino la stessa probabilità di successo $\theta$:
 
 | Studio | Successi | Totale |
 |---:|---:|---:|
@@ -476,20 +477,22 @@ La stessa idea vale quando combiniamo studi indipendenti. Supponiamo che quattro
 | 3 | 29 | 40 |
 | 4 | 29 | 36 |
 
-Se assumiamo che tutti gli studi condividano lo stesso valore di $\theta$ e siano indipendenti, la log-verosimiglianza complessiva è:
+Se gli studi sono indipendenti condizionatamente a un unico valore comune di $\theta$, la log-verosimiglianza complessiva è:
 
 $$
 \ell(\theta)
-= \sum_{j=1}^{4}\left[y_j\log\theta + (n_j-y_j)\log(1-\theta)\right].
+=
+\sum_{j=1}^{4}
+\left[y_j\log\theta+(n_j-y_j)\log(1-\theta)\right].
 $$
 
 ```{r}
 #| label: fig-joint-likelihood-studies
-#| fig-cap: "Log-verosimiglianza congiunta ottenuta combinando quattro studi indipendenti."
+#| fig-cap: "Verosimiglianza relativa congiunta ottenuta combinando quattro studi sotto l'ipotesi di un parametro comune."
 
 studi <- data.frame(
   successi = c(23, 20, 29, 29),
-  prove    = c(30, 28, 40, 36)
+  prove = c(30, 28, 40, 36)
 )
 
 log_lik_congiunta <- function(theta) {
@@ -498,53 +501,54 @@ log_lik_congiunta <- function(theta) {
 }
 
 theta_seq <- seq(0.5, 0.9, length.out = 400)
-log_lik_vals <- sapply(theta_seq, log_lik_congiunta)
+log_lik_vals <- vapply(theta_seq, log_lik_congiunta, numeric(1))
 rel_lik_vals <- exp(log_lik_vals - max(log_lik_vals))
 
 ggplot(data.frame(theta = theta_seq, rel_lik = rel_lik_vals),
        aes(x = theta, y = rel_lik)) +
   geom_line(linewidth = 1.2) +
-  geom_vline(xintercept = sum(studi$successi) / sum(studi$prove),
-             linetype = "dashed") +
+  geom_vline(
+    xintercept = sum(studi$successi) / sum(studi$prove),
+    linetype = "dashed"
+  ) +
   labs(
     x = expression(theta),
     y = "Verosimiglianza relativa"
   )
 ```
 
-La curva risultante riassume l'evidenza complessiva. Non abbiamo fatto una media semplice delle proporzioni: abbiamo combinato le verosimiglianze, cioè l'informazione che ciascuno studio fornisce su $\theta$.
+La curva in @fig-joint-likelihood-studies riassume l'evidenza sotto un modello a effetto comune. Non abbiamo fatto una media non ponderata delle quattro proporzioni: abbiamo usato la probabilità congiunta dei dati sotto ciascun valore di $\theta$.
 
-::: {.callout-note title="Connessione con la meta-analisi"}
-Nel capitolo precedente abbiamo introdotto l'idea che evidenze indipendenti si combinano sommando le precisioni. La verosimiglianza fornisce la formulazione generale di questa idea: nel caso indipendente, le verosimiglianze si moltiplicano e le log-verosimiglianze si sommano.
+::: {.callout-warning title="Il parametro comune è un'ipotesi"}
+Se l'efficacia varia tra studi, popolazioni o contesti, moltiplicare le verosimiglianze sotto un unico $\theta$ può essere fuorviante. In quel caso serve un modello gerarchico che rappresenti esplicitamente l'eterogeneità.
 :::
 
 ## Verosimiglianza gaussiana {#sec-normal-likelihood}
 
-La distribuzione Normale è particolarmente importante perché permette di collegare in modo chiaro verosimiglianza, media campionaria, errore standard e precisione.
-
-Supponiamo di osservare misure continue, per esempio punteggi a una scala psicologica, tempi di reazione o indici psicofisiologici. Assumiamo che:
+Supponiamo di osservare misure continue e di adottare il modello:
 
 $$
-Y_i \mid \mu \sim \mathcal{N}(\mu, \sigma^2),
+Y_i\mid\mu\overset{\mathrm{iid}}{\sim}\mathcal{N}(\mu,\sigma^2),
 $$
 
-dove la media $\mu$ è ignota e la deviazione standard $\sigma$ è nota.
+dove $\mu$ è ignota e $\sigma$ è nota. L'ipotesi di normalità è parte del modello e deve essere valutata rispetto al fenomeno e ai dati.
 
 ### Una singola osservazione
 
-Se osserviamo un solo valore $y$, la verosimiglianza per $\mu$ è:
+Se osserviamo $y$, la verosimiglianza per $\mu$ è:
 
 $$
-L(\mu; y)
-= \frac{1}{\sigma\sqrt{2\pi}}
+L(\mu;y)
+=
+\frac{1}{\sigma\sqrt{2\pi}}
 \exp\left[-\frac{(y-\mu)^2}{2\sigma^2}\right].
 $$
 
-Come funzione di $\mu$, questa curva è centrata sul dato osservato $y$. I valori di $\mu$ vicini a $y$ rendono il dato più plausibile; quelli lontani lo rendono meno plausibile.
+Nel caso continuo questa espressione è una densità valutata nel dato osservato, non la probabilità del singolo punto. Come funzione di $\mu$, è massima in $\mu=y$ e diminuisce allontanandosi dal dato.
 
 ```{r}
 #| label: fig-normal-likelihood-single
-#| fig-cap: "Verosimiglianza gaussiana per una singola osservazione."
+#| fig-cap: "Verosimiglianza gaussiana relativa per la media, data una singola osservazione."
 
 y_obs <- 114
 sigma <- 15
@@ -562,15 +566,16 @@ ggplot(data.frame(mu = mu_grid, rel_lik = rel_lik),
   )
 ```
 
-Una singola osservazione fornisce informazione, ma la curva è ancora ampia. Molti valori di $\mu$ restano compatibili con il dato.
+La curva in @fig-normal-likelihood-single è ampia: una sola osservazione non distingue nettamente tra molti valori possibili di $\mu$.
 
 ### Un campione gaussiano
 
-Con un campione indipendente $y_1,\ldots,y_n$, la verosimiglianza congiunta è:
+Con $n$ osservazioni indipendenti:
 
 $$
-L(\mu; y_1,\ldots,y_n)
-= \prod_{i=1}^{n}
+L(\mu;y_1,\ldots,y_n)
+=
+\prod_{i=1}^{n}
 \frac{1}{\sigma\sqrt{2\pi}}
 \exp\left[-\frac{(y_i-\mu)^2}{2\sigma^2}\right].
 $$
@@ -579,50 +584,37 @@ La log-verosimiglianza è:
 
 $$
 \ell(\mu)
-= -\frac{n}{2}\log(2\pi\sigma^2)
-- \frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i-\mu)^2.
+=
+-\frac{n}{2}\log(2\pi\sigma^2)
+-\frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i-\mu)^2.
 $$
 
-L'unico termine che dipende da $\mu$ è la somma dei quadrati degli scarti. La verosimiglianza è massima quando questa somma è minima, cioè quando:
+La verosimiglianza è massima quando la somma degli scarti quadratici è minima, cioè in $\mu=\bar y$. Inoltre:
 
 $$
-\mu = \bar{y}.
-$$
-
-Più importante ancora, la forma della verosimiglianza può essere riscritta come:
-
-$$
-L(\mu; y_1,\ldots,y_n)
+L(\mu;y_1,\ldots,y_n)
 \propto
-\exp\left[-\frac{n}{2\sigma^2}(\mu-\bar{y})^2\right].
+\exp\left[-\frac{n}{2\sigma^2}(\mu-\bar y)^2\right].
 $$
 
-Questa è la forma di una curva normale in $\mu$, centrata su $\bar{y}$ e con varianza:
+Questa espressione ha la stessa forma di un nucleo normale centrato su $\bar y$, con scala $\sigma/\sqrt n$. La curvatura, o precisione dei dati rispetto a $\mu$, è:
 
 $$
-\frac{\sigma^2}{n}.
+\tau_{\mathrm{dati}}=\frac{n}{\sigma^2}.
 $$
-
-Dunque, la precisione della verosimiglianza per $\mu$ è:
-
-$$
-\tau_{\text{dati}} = \frac{n}{\sigma^2}.
-$$
-
-Questo è lo stesso risultato visto nel capitolo precedente dal punto di vista dell'errore standard della media campionaria.
 
 ```{r}
 #| label: fig-normal-likelihood-sample
-#| fig-cap: "Verosimiglianza gaussiana relativa per la media di un campione."
+#| fig-cap: "Verosimiglianza gaussiana relativa per la media di un campione, assumendo nota la deviazione standard."
 
 y <- c(26, 35, 30, 25, 44, 30, 33, 43, 22, 43, 24, 19, 39, 31, 25,
        28, 35, 30, 26, 31, 41, 36, 26, 35, 33, 28, 27, 34, 27, 22)
 sigma <- 6.5
 mu_grid <- seq(25, 40, length.out = 500)
 
-log_lik <- sapply(mu_grid, function(mu) {
+log_lik <- vapply(mu_grid, function(mu) {
   sum(dnorm(y, mean = mu, sd = sigma, log = TRUE))
-})
+}, numeric(1))
 
 rel_lik <- exp(log_lik - max(log_lik))
 
@@ -636,98 +628,84 @@ ggplot(data.frame(mu = mu_grid, rel_lik = rel_lik),
   )
 ```
 
-::: {.callout-important title="Risultato centrale"}
-Nel modello gaussiano con varianza nota, la verosimiglianza per la media ha precisione $n/\sigma^2$. Questo spiega perché, nell'aggiornamento bayesiano normale--normale, la posterior può essere vista come una media pesata tra prior e dati, con pesi proporzionali alle rispettive precisioni.
+La curva in @fig-normal-likelihood-sample è centrata sulla media campionaria e più concentrata di quella prodotta da una singola osservazione.
+
+::: {.callout-important title="Ponte verso l'aggiornamento normale--normale"}
+Nel modello gaussiano con $\sigma$ nota, la verosimiglianza per $\mu$ ha una forma normale con precisione $n/\sigma^2$. Nel successivo aggiornamento bayesiano, questa precisione si combina con la precisione della prior: dati più numerosi o meno variabili esercitano un peso maggiore.
 :::
 
 ## Il ruolo della massima verosimiglianza {#sec-mle-role}
 
-La verosimiglianza può essere usata per ottenere una stima puntuale: il valore del parametro che massimizza la funzione.
+Il valore che massimizza la funzione di verosimiglianza è la **stima di massima verosimiglianza** (*maximum likelihood estimate*, MLE):
 
 $$
-\hat{\theta}_{\text{MLE}}
-= \arg\max_{\theta} L(\theta; y).
+\hat\theta_{\mathrm{MLE}}
+=
+\arg\max_\theta L(\theta;y).
 $$
 
-Questa è la **stima di massima verosimiglianza** (*maximum likelihood estimate*, MLE). Nel modello binomiale:
+Nel modello binomiale:
 
 $$
-\hat{\theta}_{\text{MLE}} = \frac{y}{n}.
+\hat\theta_{\mathrm{MLE}}=\frac{y}{n},
 $$
 
-Nel modello gaussiano con varianza nota:
+mentre nel modello gaussiano con varianza nota:
 
 $$
-\hat{\mu}_{\text{MLE}} = \bar{y}.
+\hat\mu_{\mathrm{MLE}}=\bar y.
 $$
 
-### Perché parlarne in un manuale bayesiano?
+La MLE è utile per localizzare il massimo della curva, ma riassume la verosimiglianza con un solo punto. Due studi possono avere la stessa MLE e curve di larghezza molto diversa, come mostrato in @fig-likelihood-same-proportion.
 
-La MLE è un concetto frequentista, ma è utile anche qui per tre ragioni:
+### MLE, MAP e posterior
 
-1. identifica il punto in cui la verosimiglianza raggiunge il massimo;
-2. aiuta a leggere graficamente le curve di verosimiglianza;
-3. fornisce un confronto con la moda della posterior bayesiana.
+Nell'inferenza bayesiana interessa l'intera distribuzione a posteriori. La sua moda è la stima MAP (*maximum a posteriori*). Se la prior è uniforme nella parametrizzazione considerata e non intervengono particolarità ai bordi, MLE e MAP possono coincidere; con una prior non uniforme, in generale differiscono.
 
-Tuttavia, la MLE non è l'obiettivo dell'inferenza bayesiana. Dal punto di vista bayesiano, l'intera forma della verosimiglianza è più importante del solo punto di massimo.
-
-::: {.callout-note title="MLE, MAP e posterior"}
-Se la prior è uniforme sullo spazio dei parametri, la moda della distribuzione a posteriori coincide spesso con la MLE. Con prior informative, invece, la moda a posteriori (*maximum a posteriori*, MAP) può essere diversa dalla MLE, perché incorpora anche le credenze a priori.
+::: {.callout-note title="Perché non fermarsi al massimo?"}
+Il massimo dice quale valore rende i dati più plausibili. Non dice quanto siano compatibili i valori vicini, quanto sia concentrata l'evidenza, né come le informazioni pregresse modifichino il risultato.
 :::
 
 ::: {.callout-note collapse="true" title="Derivazione opzionale: MLE binomiale"}
 Per il modello binomiale, trascurando costanti che non dipendono da $\theta$:
 
 $$
-\ell(\theta) = y\log\theta + (n-y)\log(1-\theta).
+\ell(\theta)=y\log\theta+(n-y)\log(1-\theta).
 $$
 
 Derivando:
 
 $$
 \frac{d\ell}{d\theta}
-= \frac{y}{\theta} - \frac{n-y}{1-\theta}.
+=
+\frac{y}{\theta}-\frac{n-y}{1-\theta}.
 $$
 
-Ponendo la derivata uguale a zero:
+Ponendo la derivata uguale a zero si ottiene:
 
 $$
-\frac{y}{\theta} = \frac{n-y}{1-\theta}.
-$$
-
-Da cui:
-
-$$
-y(1-\theta) = (n-y)\theta,
-$$
-
-$$
-y = n\theta,
-$$
-
-e quindi:
-
-$$
-\hat{\theta}_{\text{MLE}} = \frac{y}{n}.
+\hat\theta_{\mathrm{MLE}}=\frac{y}{n}.
 $$
 :::
 
 ## Confrontare valori parametrici con rapporti di verosimiglianza {#sec-likelihood-ratios}
 
-Poiché la scala assoluta della verosimiglianza è arbitraria, spesso è più utile confrontare due valori parametrici tramite il loro rapporto:
+Per confrontare due valori del parametro usiamo il **rapporto di verosimiglianza**:
 
 $$
-\frac{L(\theta_1; y)}{L(\theta_0; y)}.
+\operatorname{LR}_{10}
+=
+\frac{L(\theta_1;y)}{L(\theta_0;y)}.
 $$
 
-Se il rapporto è 5, i dati osservati sono 5 volte più plausibili sotto $\theta_1$ che sotto $\theta_0$. Se il rapporto è 1, i due valori spiegano i dati altrettanto bene. Se è inferiore a 1, i dati supportano maggiormente $\theta_0$.
+Se il rapporto vale 5, il dataset osservato è cinque volte più plausibile sotto $\theta_1$ che sotto $\theta_0$. Se vale 1, i due valori rendono i dati ugualmente plausibili. Se è minore di 1, il dato favorisce relativamente $\theta_0$.
 
-### Esempio: moneta equilibrata o sbilanciata
+### Esempio: 7 successi su 10 prove
 
-Supponiamo di osservare 7 successi su 10 prove. Confrontiamo:
+Confrontiamo:
 
-- $\theta_0 = 0.50$;
-- $\theta_1 = 0.70$.
+- $\theta_0=0.50$;
+- $\theta_1=0.70$.
 
 ```{r}
 #| label: likelihood-ratio-example
@@ -743,11 +721,11 @@ cat("L(theta = 0.70):", round(L_1, 4), "\n")
 cat("Rapporto L(0.70) / L(0.50):", round(LR, 2), "\n")
 ```
 
-I dati sono più plausibili sotto $\theta=0.70$ che sotto $\theta=0.50$, ma questo rapporto non è una probabilità posteriore. Per trasformarlo in un aggiornamento di credenze servono anche le probabilità a priori dei valori o dei modelli considerati.
+Il rapporto è circa 2.28: i dati osservati sono circa 2.28 volte più plausibili sotto $\theta=0.70$ che sotto $\theta=0.50$. Questa affermazione riguarda i dati condizionatamente ai due valori, non la probabilità che uno dei due valori sia vero.
 
 ```{r}
 #| label: fig-likelihood-ratio
-#| fig-cap: "Rapporto di verosimiglianza tra due valori parametrici."
+#| fig-cap: "Due valori parametrici letti sulla stessa curva di verosimiglianza relativa per 7 successi su 10 prove."
 
 theta_seq <- seq(0.001, 0.999, length.out = 500)
 lik_vals <- dbinom(y, size = n, prob = theta_seq)
@@ -758,175 +736,124 @@ point_df <- data.frame(
   rel_lik = c(
     dbinom(y, size = n, prob = 0.50),
     dbinom(y, size = n, prob = 0.70)
-  ) / max(lik_vals),
-  ipotesi = c("theta = 0.50", "theta = 0.70")
+  ) / max(lik_vals)
 )
 
 ggplot(data.frame(theta = theta_seq, rel_lik = rel_lik),
        aes(x = theta, y = rel_lik)) +
   geom_line(linewidth = 1.2) +
   geom_point(data = point_df, aes(x = theta, y = rel_lik), size = 3) +
-  geom_segment(data = point_df,
-               aes(x = theta, xend = theta, y = 0, yend = rel_lik),
-               linetype = "dashed") +
+  geom_segment(
+    data = point_df,
+    aes(x = theta, xend = theta, y = 0, yend = rel_lik),
+    linetype = "dashed"
+  ) +
   labs(
     x = expression(theta),
     y = "Verosimiglianza relativa"
   )
 ```
 
-::: {.callout-note collapse="true" title="Connessione con il fattore di Bayes"}
-Nel confronto tra due ipotesi puntuali, se assegniamo uguali probabilità a priori alle due ipotesi, il rapporto di verosimiglianza coincide con il rapporto delle probabilità posteriori. Nei problemi più generali, il confronto bayesiano tra modelli richiede la probabilità marginale dei dati e conduce al fattore di Bayes.
+@fig-likelihood-ratio mostra che il rapporto confronta due altezze della stessa curva.
+
+::: {.callout-note title="Il confine del rapporto di verosimiglianza"}
+Il rapporto di verosimiglianza confronta quanto gli stessi dati siano compatibili con due valori del parametro. Non assegna ancora probabilità a quei valori. Per passare da questo confronto relativo a una distribuzione di probabilità sul parametro occorre introdurre una prior e applicare la regola di aggiornamento bayesiano, come vedremo nel @sec-bayesian-updating.
 :::
 
 ## Errori comuni nell'interpretazione della verosimiglianza {#sec-likelihood-misinterpretations}
 
 ### Errore 1: scambiarla per la probabilità del parametro
 
-La verosimiglianza non dice:
+La verosimiglianza è $p(y\mid\theta)$ letta come funzione di $\theta$; non è $p(\theta\mid y)$. Per ottenere la posterior occorrono prior e normalizzazione.
 
-$$
-P(\theta \mid y).
-$$
+### Errore 2: interpretare l'area come probabilità
 
-Dice invece:
+L'area sotto una curva di verosimiglianza non ha automaticamente significato probabilistico. Anche una curva riscalata ad area 1 non diventa, per questo solo fatto, una posterior neutrale.
 
-$$
-p(y \mid \theta)
-$$
+### Errore 3: dimenticare le assunzioni del modello
 
-vista come funzione di $\theta$. La probabilità del parametro, nella prospettiva bayesiana, è la posterior e richiede anche la prior.
+Una verosimiglianza binomiale assume prove condizionatamente indipendenti e una probabilità comune; una verosimiglianza gaussiana assume la forma normale specificata. Una curva molto concentrata può essere fuorviante se il modello, il campionamento o la misura sono inadeguati.
 
-### Errore 2: interpretare l'area sotto la curva come probabilità
+### Errore 4: fermarsi alla MLE
 
-Una curva di verosimiglianza può assomigliare a una distribuzione, ma l'area sotto la curva non ha automaticamente interpretazione probabilistica. Prima bisogna moltiplicare per una prior e normalizzare.
+La MLE individua il massimo, ma non rappresenta l'intera incertezza e non incorpora la prior. Una conclusione bayesiana riguarda la posterior, non soltanto il punto che massimizza la verosimiglianza.
 
-### Errore 3: dimenticare il modello
+### Errore 5: confondere confronto relativo e bontà assoluta
 
-La verosimiglianza dipende dal modello scelto. Scrivere una verosimiglianza binomiale significa assumere prove indipendenti, stessa probabilità di successo per tutte le osservazioni e corretta definizione di successo e insuccesso.
+Un valore può avere verosimiglianza maggiore di un altro e tuttavia entrambi possono appartenere a un modello che descrive male i dati. La verosimiglianza confronta valori **all'interno del modello specificato**; i controlli predittivi servono a valutare se il modello riesce a generare caratteristiche realistiche dei dati.
 
-Se queste assunzioni sono sbagliate, la verosimiglianza può essere precisa ma fuorviante. Questo riprende il tema del capitolo precedente: la precisione statistica non garantisce accuratezza scientifica.
-
-### Errore 4: trattare la MLE come conclusione bayesiana
-
-La MLE è il valore che massimizza la verosimiglianza. Non incorpora credenze pregresse, incertezza completa o distribuzioni a posteriori. Può essere utile, ma non sostituisce l'aggiornamento bayesiano.
-
-::: {.callout-warning title="Sintesi"}
-La verosimiglianza è indispensabile, ma non basta. Nell'inferenza bayesiana completa, essa deve essere combinata con la prior e normalizzata per ottenere la posterior.
+::: {.callout-warning title="Da evitare"}
+Non leggere la curva come una distribuzione di probabilità sul parametro, non interpretare il massimo come certezza e non separare mai la verosimiglianza dalle assunzioni che l'hanno prodotta.
 :::
 
-## Verso l'aggiornamento bayesiano {#sec-likelihood-to-posterior}
+## Dove termina la verosimiglianza {#sec-likelihood-to-posterior}
 
-A questo punto abbiamo tre elementi:
+La verosimiglianza riassume ciò che i dati dicono **relativamente** ai valori del parametro, ma non è ancora una distribuzione di probabilità su quei valori. Per ottenere una posterior servono due elementi ulteriori:
 
-1. un parametro ignoto $\theta$;
-2. una prior $p(\theta)$ che rappresenta le credenze prima dei dati;
-3. una verosimiglianza $L(\theta; y)$ che rappresenta il supporto fornito dai dati.
+1. una **prior**, che assegna i pesi iniziali ai valori del parametro;
+2. una **normalizzazione**, che trasforma i pesi aggiornati in una distribuzione di probabilità valida.
 
-Il teorema di Bayes combina questi elementi:
-
-$$
-p(\theta \mid y)
-= \frac{L(\theta; y)p(\theta)}{\int L(\theta'; y)p(\theta')\,d\theta'}.
-$$
-
-In forma proporzionale:
+Il passaggio può essere anticipato nella forma compatta
 
 $$
-p(\theta \mid y) \propto L(\theta; y)p(\theta).
+p(\theta\mid y) \propto L(\theta;y)p(\theta),
 $$
 
-Questa formula esprime il ruolo della verosimiglianza nell'inferenza bayesiana: essa **ribilancia** la prior, aumentando il peso dei valori parametrici che rendono plausibili i dati e riducendo il peso di quelli incompatibili con l'evidenza osservata.
-
-Il prossimo capitolo approfondirà questo passaggio, mostrando come prior e verosimiglianza si combinano in casi concreti e perché, con molti dati, la posterior tende spesso a concentrarsi attorno ai valori meglio supportati dall'evidenza.
+ma il suo significato viene sviluppato nel @sec-bayesian-updating. Qui è sufficiente trattenere il confine concettuale: **la verosimiglianza fornisce l'informazione dei dati; l'aggiornamento bayesiano la combina con l'informazione a priori**.
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-La verosimiglianza formalizza il passaggio dal dato osservato all'evidenza inferenziale. Essa risponde alla domanda: dato ciò che abbiamo osservato, quali valori del parametro rendono quei dati più o meno plausibili?
+La verosimiglianza è il ponte tra modello generativo e aggiornamento. Il modello parte da un valore del parametro e descrive i dati che potrebbero essere osservati. Dopo la raccolta, la verosimiglianza mantiene fissi i dati e confronta quanto bene valori diversi del parametro riescano a renderli plausibili.
 
-Il punto più importante è il cambio di prospettiva. Nel modello generativo usiamo $p(y \mid \theta)$ per descrivere i dati possibili assumendo un parametro. Nella verosimiglianza fissiamo invece i dati osservati e leggiamo la stessa quantità come funzione del parametro. Questo cambio permette di confrontare valori alternativi di $\theta$ sulla base della loro compatibilità con l'evidenza.
+Una curva di verosimiglianza comunica più del suo massimo. La posizione indica quali valori sono maggiormente compatibili con i dati; la larghezza mostra quanto nettamente i dati discriminano tra alternative; i rapporti confrontano il sostegno relativo. Nessuna di queste informazioni è ancora una probabilità del parametro.
 
-Abbiamo visto che la verosimiglianza può essere costruita per dati binomiali, per campioni indipendenti, per studi multipli e per dati gaussiani. In tutti i casi, essa rende visibile quanta informazione i dati portano: curve larghe indicano evidenza debole o imprecisa; curve strette indicano evidenza più discriminante.
+La verosimiglianza, da sola, non conclude l'inferenza bayesiana. Indica come i dati discriminano tra valori alternativi, ma non assegna ancora probabilità a tali valori. Il capitolo successivo introdurrà il passaggio ulteriore: combinare questa informazione con una prior e normalizzare i pesi ottenuti.
 
-Dal punto di vista bayesiano, però, la verosimiglianza non è il punto di arrivo. Non assegna probabilità ai parametri e non incorpora conoscenze pregresse. Il suo ruolo è quello di collegare dati e credenze: nel teorema di Bayes, la prior viene trasformata dalla verosimiglianza e normalizzata nella posterior.
+## Esercizi {.unnumbered .unlisted}
 
-## Punti chiave da ricordare {.unnumbered}
+1. In $p(y\mid\theta)$, che cosa resta fisso e che cosa varia quando la stessa espressione viene letta come verosimiglianza?
+2. Perché una verosimiglianza elevata in $\theta=0.70$ non significa che $P(\theta=0.70\mid y)=0.70$?
+3. Una curva ha il massimo in $\theta=0.40$. In $\theta=0.30$ la verosimiglianza relativa è 0.50. Come va interpretato questo valore?
+4. Due studi osservano la stessa proporzione di successi, ma uno ha 20 partecipanti e l'altro 500. Quale differenza ti aspetti tra le due curve di verosimiglianza?
+5. Perché l'area sotto una curva di verosimiglianza non può essere interpretata automaticamente come probabilità del parametro?
+6. In quali condizioni le verosimiglianze di più osservazioni o studi possono essere moltiplicate?
+7. Nel modello normale con $\sigma$ nota, che cosa significa dire che la precisione dei dati per $\mu$ è $n/\sigma^2$?
+8. Quali due elementi mancano alla verosimiglianza per ottenere una distribuzione a posteriori sul parametro?
 
-::: {.callout-important}
-
-1. **Cambio di prospettiva**
-   - Probabilità: $y$ varia, $\theta$ è fissato.
-   - Verosimiglianza: $y$ è fissato, $\theta$ varia.
-
-2. **Definizione**
-   - $L(\theta; y_{obs}) = f(y_{obs}\mid\theta)$.
-   - Misura la compatibilità dei dati osservati con ciascun valore del parametro.
-
-3. **Non è una distribuzione sui parametri**
-   - In generale non integra o somma a 1 rispetto a $\theta$.
-   - Non va interpretata come $p(\theta \mid y)$.
-
-4. **Scala relativa**
-   - Costanti che non dipendono da $\theta$ possono spesso essere ignorate.
-   - I rapporti di verosimiglianza sono più interpretabili dei valori assoluti.
-
-5. **Dati indipendenti**
-   - Le verosimiglianze si moltiplicano.
-   - Le log-verosimiglianze si sommano.
-
-6. **Modello binomiale**
-   - $L(\theta; y,n) \propto \theta^y(1-\theta)^{n-y}$.
-   - Il massimo è in $\hat{\theta}=y/n$.
-   - Campioni più grandi producono curve più concentrate.
-
-7. **Modello gaussiano**
-   - Con varianza nota, la verosimiglianza per $\mu$ è centrata su $\bar{y}$.
-   - La sua varianza è $\sigma^2/n$.
-   - La precisione dei dati è $n/\sigma^2$.
-
-8. **Ruolo bayesiano**
-   - La verosimiglianza è il contributo dei dati.
-   - La posterior nasce da prior $\times$ verosimiglianza, seguita da normalizzazione.
-
-**Formule essenziali:**
-
-$$
-L(\theta; y_{obs}) = f(y_{obs}\mid\theta).
-$$
-
-$$
-L(\theta; y_1,\ldots,y_n)
-= \prod_{i=1}^{n} f(y_i\mid\theta),
-\qquad
-\ell(\theta)=\sum_{i=1}^{n}\log f(y_i\mid\theta).
-$$
-
-$$
-L(\theta; y,n) \propto \theta^y(1-\theta)^{n-y}
-\qquad \text{(binomiale)}.
-$$
-
-$$
-L(\mu; y_1,\ldots,y_n)
-\propto
-\exp\left[-\frac{n}{2\sigma^2}(\mu-\bar{y})^2\right]
-\qquad \text{(normale con }\sigma\text{ nota)}.
-$$
-
-$$
-p(\theta\mid y) \propto L(\theta; y)p(\theta).
-$$
-
-**Per il prossimo capitolo:**
-
-Nel @sec-likelihood-properties studieremo come la verosimiglianza si combina con distribuzioni a priori specifiche, come cambia la posterior al variare della forza dei dati e perché prior e dati possono essere interpretati in termini di informazione e precisione.
-
+::: {.callout-tip title="Soluzioni" collapse="true"}
+1. I dati osservati $y$ restano fissi; varia il valore del parametro $\theta$ che viene confrontato con gli altri valori possibili.
+2. La verosimiglianza misura quanto i dati siano plausibili sotto quel valore. Una probabilità a posteriori richiede anche la prior e la normalizzazione.
+3. Il dataset osservato ha, in $\theta=0.30$, una verosimiglianza pari alla metà di quella raggiunta nel punto di massimo. Non significa che $\theta=0.30$ abbia probabilità 50%.
+4. Entrambe avranno il massimo vicino alla stessa proporzione, ma la curva dello studio con 500 partecipanti sarà normalmente più stretta e discriminerà meglio tra valori vicini.
+5. La verosimiglianza non è costruita per sommare o integrare a 1 rispetto al parametro. Per ottenere una distribuzione sul parametro deve essere combinata con una prior e normalizzata.
+6. Quando il modello assume indipendenza condizionata dato il parametro e, nel caso di più studi, quando è appropriato rappresentarli con il parametro o la struttura comune specificata.
+7. Significa che l'informazione cresce con la numerosità e diminuisce con la variabilità: più osservazioni o una deviazione standard più piccola producono una curva più concentrata per $\mu$.
+8. Occorrono una prior, che assegni i pesi iniziali ai valori del parametro, e una normalizzazione, che trasformi i prodotti tra prior e verosimiglianza in una distribuzione di probabilità valida.
 :::
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+::: {.callout-note title="Punti chiave" collapse="true"}
+- La probabilità predittiva e la verosimiglianza usano la stessa espressione $f(y\mid\theta)$, ma fissano argomenti diversi.
+- La verosimiglianza confronta valori parametrici; non assegna loro direttamente probabilità.
+- Il massimo indica il valore che rende i dati più plausibili, mentre la larghezza indica quanto i dati discriminano tra alternative.
+- Le costanti che non dipendono dal parametro possono essere eliminate nei confronti interni allo stesso modello.
+- Per osservazioni condizionatamente indipendenti, le verosimiglianze si moltiplicano e le log-verosimiglianze si sommano.
+- Nel modello binomiale:
+  $$
+  L(\theta;y,n)\propto\theta^y(1-\theta)^{n-y}.
+  $$
+- Nel modello normale con $\sigma$ nota:
+  $$
+  L(\mu;y_1,\ldots,y_n)
+  \propto
+  \exp\left[-\frac{n}{2\sigma^2}(\mu-\bar y)^2\right].
+  $$
+- Il rapporto di verosimiglianza confronta il sostegno relativo dei dati a due valori o ipotesi specificati.
+- Per ottenere una posterior, la verosimiglianza deve essere combinata con una prior e normalizzata; questo passaggio è sviluppato nel capitolo successivo.
+- Una verosimiglianza precisa può essere fuorviante se il modello o il disegno sono inadeguati.
+:::
+
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
 ```{r}
 sessionInfo()
 ```
 :::
-
-## Bibliografia {.unnumbered .unlisted}

@@ -1,50 +1,69 @@
-
 # Il teorema di Bayes {#sec-prob-bayes-theorem}
+
+::: {.callout-note title="In sintesi"}
+
+**Da sapere**  Il teorema di Bayes collega la probabilità dei dati sotto un'ipotesi alla probabilità dell'ipotesi dopo aver osservato i dati. L'aggiornamento combina una distribuzione a priori con la verosimiglianza e produce una distribuzione a posteriori. La forma in *odds* rende esplicito il contributo del rapporto di verosimiglianza, mentre la fallacia del tasso base mostra perché la prevalenza non può essere ignorata.
+
+**Da saper fare**  Distinguere $P(E \mid H)$ da $P(H \mid E)$; interpretare prior, verosimiglianza, evidenza e posterior; spiegare il significato di un rapporto di verosimiglianza; comprendere come il tasso base influenzi il valore predittivo di un test; leggere un aggiornamento Beta-Binomiale e un intervallo di credibilità.
+
+:::
 
 ## Introduzione {.unnumbered .unlisted}
 
-Il **teorema di Bayes** rappresenta il punto di arrivo naturale del percorso concettuale sviluppato nei capitoli precedenti. Dopo aver interpretato la probabilità come *grado di credenza razionale* (@sec-prob-interpretation), chiarito il ruolo degli assiomi come vincoli di coerenza (@sec-prob-axioms-coherence), riconosciuto l'equiprobabilità come caso particolare di simmetria epistemica (@sec-equiprobability-combinatorics) e identificato la probabilità condizionata come meccanismo generale di aggiornamento delle credenze (@sec-prob-conditional-prob), il teorema di Bayes emerge come la **formalizzazione matematica dell'apprendimento dall'esperienza**.
+Il **teorema di Bayes** rappresenta il punto di arrivo naturale del percorso concettuale sviluppato nei capitoli precedenti. Dopo aver interpretato la probabilità come *grado di credenza razionale* (@sec-prob-interpretation), chiarito il ruolo degli assiomi come vincoli di coerenza (@sec-prob-axioms-coherence), riconosciuto l'equiprobabilità come caso particolare di simmetria epistemica (@sec-equiprobability-combinatorics) e identificato la probabilità condizionata come meccanismo generale di aggiornamento delle credenze (@sec-prob-conditional-prob), il teorema di Bayes emerge come la formalizzazione matematica dell'apprendimento dall'esperienza.
 
-In questo capitolo:
+Il punto centrale non è imparare una formula isolata, ma comprendere una trasformazione: partiamo da ciò che ritenevamo plausibile prima dei dati, valutiamo quanto i dati siano compatibili con le ipotesi considerate e otteniamo una credenza aggiornata.
 
-1. **Deriveremo** il teorema dalla simmetria della probabilità congiunta, mostrando che non è una nuova assunzione ma una conseguenza inevitabile di ciò che abbiamo già stabilito.
+## Perché il teorema di Bayes è importante in psicologia?
 
-2. **Interpreteremo** ciascuna componente (prior, verosimiglianza, evidenza, posterior) dal punto di vista epistemico.
+In psicologia osserviamo quasi sempre indicatori indiretti: risposte a item, punteggi, tempi di reazione, sintomi, comportamenti o differenze tra gruppi. Ciò che interessa, però, è spesso una caratteristica non osservata direttamente, come un tratto, un processo cognitivo, una condizione clinica o un effetto sperimentale.
 
-3. **Esploreremo** la forma in odds, particolarmente utile per applicazioni diagnostiche.
+Il teorema di Bayes permette di collegare questi due livelli. È utile per:
 
-4. **Applicheremo** il teorema a scenari clinici e di ricerca, mostrando sia il suo potere sia le insidie del ragionamento probabilistico.
+- distinguere la probabilità di osservare un dato sotto un'ipotesi dalla probabilità dell'ipotesi dopo il dato;
+- integrare informazioni precedenti e nuove evidenze;
+- interpretare correttamente risultati di test e procedure di screening;
+- rappresentare l'incertezza residua dopo l'osservazione;
+- aggiornare le conclusioni in modo sequenziale quando arrivano nuove informazioni.
 
-5. **Estenderemo** l'aggiornamento bayesiano al caso di parametri continui, introducendo il modello Beta-Binomiale.
+Questa struttura costituisce la base dell'inferenza bayesiana applicata: i modelli più complessi cambieranno forma matematica, ma conserveranno la stessa logica di aggiornamento.
 
-::: {.callout-tip collapse="true"}
-## Prerequisiti
+::: {.callout-tip title="Prerequisiti"}
 
-Per seguire questo capitolo è necessario aver letto:
+Per seguire questo capitolo è necessario aver letto @sec-prob-interpretation, @sec-prob-axioms-coherence, @sec-equiprobability-combinatorics e, soprattutto, @sec-prob-conditional-prob.
 
-- @sec-prob-interpretation
-- @sec-prob-axioms-coherence
-- @sec-equiprobability-combinatorics
-- @sec-prob-conditional-prob — **fondamentale**
+Per la notazione matematica può essere utile consultare @sec-apx-math-symbols. Per un richiamo alle operazioni tra insiemi ed eventi e alla notazione delle sommatorie, consulta le appendici dedicate fornite nel Companion.
 
-Conoscenze matematiche richieste:
+Gli esempi in R servono a visualizzare i concetti e non richiedono competenze di programmazione avanzate.
 
-- @sec-apx-sets - per operazioni su eventi;
-- @sec-apx-sums - per legge della probabilità totale.
+Lettura complementare consigliata: Chivers, T. (2024), *Everything is Predictable: How Bayesian Statistics Explain Our World* [@chivers2024everything].
 
-Letture complementari consigliate:
-
-- Chivers, T. (2024). *Everything is Predictable: How Bayesian Statistics Explain Our World* [@chivers2024everything], per una prospettiva divulgativa sul ragionamento bayesiano.
 :::
 
-::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il percorso che seguiremo è questo:
+
+1. distingueremo la direzione predittiva da quella inferenziale;
+2. deriveremo il teorema di Bayes dalla probabilità congiunta;
+3. interpreteremo prior, verosimiglianza, evidenza e posterior;
+4. introdurremo la forma estesa e la forma in *odds*;
+5. analizzeremo la fallacia del tasso base e alcune applicazioni psicologiche;
+6. estenderemo l'aggiornamento a un parametro continuo mediante il modello Beta-Binomiale.
+
+::: {.callout-note title="Preparazione del notebook"}
+
 ```{r}
 #| output: false
-here::here("code", "_common.R") |> 
+here::here("code", "_common.R") |>
   source()
-# Riapplica il tema per sicurezza
+
+library(dplyr)
+library(ggplot2)
+
 apply_visual_theme()
 ```
+
 :::
 
 ## Il problema fondamentale della conoscenza {#sec-inverse-problem}
@@ -128,13 +147,13 @@ Ciascun termine del teorema di Bayes ha un'interpretazione precisa in termini di
 
 Rappresenta il grado di credenza nell'ipotesi $A$ *prima* di osservare l'evidenza $B$: studi precedenti, esperienza clinica, prevalenze epidemiologiche, intuizioni teoriche.
 
-Il prior non è un'invenzione arbitraria. È l'esplicitazione di conoscenze che *comunque* influenzano il nostro ragionamento.
+Il prior rende esplicite le informazioni e le assunzioni disponibili prima dei dati. La sua scelta deve essere motivata e, quando può influenzare sensibilmente il risultato, sottoposta ad analisi di sensibilità.
 
 **La verosimiglianza: $P(B \mid A)$**
 
 Quantifica quanto l'evidenza osservata sia *compatibile* con l'ipotesi. Se $A$ fosse vera, quanto sarebbe plausibile osservare $B$?
 
-In diagnostica, corrisponde alla sensibilità; in statistica, alla funzione di verosimiglianza.
+In un esempio diagnostico con esito positivo, può coincidere con la sensibilità. Nei modelli statistici, la verosimiglianza descrive come la probabilità dei dati varia al variare dell'ipotesi o del parametro.
 
 **L'evidenza marginale: $P(B)$**
 
@@ -153,7 +172,7 @@ $$
 P(A \mid B) \propto P(B \mid A) \cdot P(A).
 $$
 
-Il denominatore $P(B)$ serve solo a normalizzare. Ciò che determina la forma del posterior è il prodotto verosimiglianza × prior.
+Il denominatore $P(B)$ normalizza il prodotto tra verosimiglianza e prior, garantendo che le probabilità a posteriori sommino a 1. Quando confrontiamo valori alternativi della stessa ipotesi o dello stesso parametro, la forma relativa del posterior è determinata dal prodotto tra verosimiglianza e prior.
 
 ## Forma estesa con legge della probabilità totale {#sec-bayes-expanded}
 
@@ -276,16 +295,18 @@ $$
 = \frac{1 - \text{Sensibilità}}{\text{Specificità}}.
 $$
 
-Un test ideale ha $\text{LR}^+$ elevato e $\text{LR}^-$ piccolo.
+Un test informativo tende ad avere $\text{LR}^+$ maggiore di 1 e $\text{LR}^-$ minore di 1; quanto più questi valori si allontanano da 1, tanto più il risultato modifica gli *odds* iniziali.
 
 ::: {.callout-tip title="Interpretazione pratica dei rapporti di verosimiglianza"}
 
+Le soglie seguenti sono indicazioni orientative: il significato pratico di un aggiornamento dipende anche dal prior, dalle conseguenze decisionali e dal contesto applicativo.
+
 | $\text{LR}^+$ | $\text{LR}^-$ | Impatto diagnostico |
 |---------------|---------------|---------------------|
-| > 10 | < 0.1 | Forte, spesso conclusivo |
-| 5-10 | 0.1-0.2 | Moderato |
-| 2-5 | 0.2-0.5 | Debole |
-| 1-2 | 0.5-1 | Trascurabile |
+| > 10 | < 0.1 | Cambiamento generalmente ampio degli *odds* |
+| 5-10 | 0.1-0.2 | Cambiamento moderato o ampio |
+| 2-5 | 0.2-0.5 | Cambiamento limitato o moderato |
+| 1-2 | 0.5-1 | Cambiamento piccolo |
 :::
 
 ::: {.callout-note collapse="true" title="Esempio: aggiornamento diagnostico passo per passo"}
@@ -317,7 +338,7 @@ data.frame(
 )
 ```
 
-Il test è più utile per *escludere* la condizione che per *confermarla*.
+In questo esempio un risultato positivo produce un aggiornamento marcato, mentre un risultato negativo riduce ulteriormente una probabilità iniziale già bassa. L'utilità pratica dipende quindi sia dai rapporti di verosimiglianza sia dalla probabilità pre-test e dalla decisione da prendere.
 :::
 
 ## La fallacia del tasso base {#sec-base-rate-fallacy}
@@ -346,7 +367,7 @@ cat("Prevalenza:", prevalenza * 100, "%\n")
 cat("Valore predittivo positivo:", round(VPP * 100, 1), "%\n")
 ```
 
-Il valore predittivo positivo è solo del 9%! Nonostante l'eccellente accuratezza, la maggior parte dei positivi è falsa.
+Il valore predittivo positivo è circa il 9%. Nonostante sensibilità e specificità elevate, in questa popolazione la maggior parte dei risultati positivi è costituita da falsi positivi.
 
 ### Perché succede?
 
@@ -391,16 +412,18 @@ ggplot(df_baseRate, aes(x = Prevalenza, y = VPP)) +
     title = "L'effetto del tasso base sul significato di un test positivo",
     subtitle = paste0("Test: sensibilità ", sens*100, "%, specificità ", spec*100, "%"),
     x = "Prevalenza del disturbo",
-    y = "Valore Predittivo Positivo"
+    y = "Valore predittivo positivo"
   )
 ```
+
+La @fig-base-rate mostra che il valore predittivo positivo cresce con la prevalenza, anche quando sensibilità e specificità restano invariate.
 
 ### La lezione per la pratica
 
 Il grafico illustra un principio fondamentale: **lo stesso test può avere significati diversi in contesti diversi**.
 
-- In medicina generale (prevalenza ~8%): un test positivo indica solo ~43% di probabilità.
-- In un ambulatorio specialistico (prevalenza ~30%): lo stesso test positivo indica ~78% di probabilità.
+- In un contesto con prevalenza dell'8%, il valore predittivo positivo è circa il 43%.
+- In un contesto con prevalenza del 30%, lo stesso test raggiunge un valore predittivo positivo di circa il 78%.
 
 La differenza non sta nel test, ma nel contesto. Il teorema di Bayes ci obbliga a considerare esplicitamente questo contesto.
 
@@ -410,7 +433,7 @@ Il teorema di Bayes non è solo uno strumento di calcolo, ma un modo di *pensare
 
 ::: {.callout-note collapse="true" title="Esempio: diagnostica sequenziale nell'ADHD"}
 
-Valutazione di un bambino per possibile ADHD utilizzando due strumenti complementari.
+Consideriamo un esempio puramente illustrativo di valutazione di un bambino per possibile ADHD mediante due strumenti. I valori numerici non descrivono strumenti specifici. Per moltiplicare direttamente i due rapporti di verosimiglianza assumiamo che i risultati siano condizionatamente indipendenti dato lo stato ADHD e dato lo stato non-ADHD.
 
 ```{r}
 # Parametri iniziali
@@ -449,12 +472,13 @@ df_seq <- data.frame(
 )
 
 ggplot(df_seq, aes(x = Fase, y = Probabilità)) +
-  geom_col(fill = "#4E79A7", alpha = 0.8, width = 0.6) +
+  geom_col(alpha = 0.8, width = 0.6) +
   geom_text(aes(label = sprintf("%.1f%%", Probabilità * 100)), 
             vjust = -0.5, size = 4.5) +
   geom_line(aes(group = 1), linewidth = 1, alpha = 0.6) +
   geom_point(size = 3) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 0.75)) +
+  scale_y_continuous(labels = scales::percent) +
+  coord_cartesian(ylim = c(0, 0.75)) +
   labs(
     title = "Aggiornamento bayesiano sequenziale",
     subtitle = paste0("LR+ T1 = ", round(LR_pos_T1, 1), 
@@ -463,11 +487,13 @@ ggplot(df_seq, aes(x = Fase, y = Probabilità)) +
   )
 ```
 
+La @fig-sequential-adhd visualizza l'aggiornamento prodotto dai due risultati positivi nell'esempio.
+
 **Principi illustrati**:
 
-1. L'evidenza si accumula: dal 5% al 64% dopo due test positivi.
-2. I rapporti di verosimiglianza si moltiplicano.
-3. Il prior conta: la stessa evidenza produrrebbe conclusioni diverse con un prior diverso.
+1. Nell'esempio, l'evidenza porta la probabilità dal 5% a circa il 64% dopo due risultati positivi.
+2. I rapporti di verosimiglianza si moltiplicano soltanto sotto l'assunzione di indipendenza condizionata.
+3. Il prior conta: la stessa evidenza produrrebbe conclusioni diverse con una probabilità iniziale diversa.
 :::
 
 ## Come interpretare il risultato di un test psicologico {#sec-interpreting-test-results}
@@ -476,7 +502,7 @@ Abbiamo discusso il teorema di Bayes attraverso esempi diagnostici. Ma cosa sign
 
 ### Lo scenario
 
-Immaginate di aver somministrato il Beck Depression Inventory (BDI-II) a un paziente. Il punteggio è 22, che supera il cut-off clinico. Cosa potete concludere?
+Immaginate di aver somministrato un test di screening per la depressione e di avere osservato un risultato superiore alla soglia stabilita. Cosa potete concludere?
 
 La risposta *non* è: "Il paziente è depresso." E nemmeno: "C'è il 90% di probabilità che il paziente sia depresso."
 
@@ -488,11 +514,11 @@ Confondere $P(T^+ \mid D)$ con $P(D \mid T^+)$. La sensibilità ci dice quanto �
 
 **1. La probabilità pre-test (il prior)**
 
-Prima del test, avevate già informazioni sul paziente. Se il paziente si presenta con sintomi di depressione da tre mesi, la probabilità pre-test era già alta (60-70%). Se il test è uno screening di routine, la probabilità pre-test era bassa (5-10%).
+Prima del test, avevate già informazioni sul paziente. La probabilità pre-test può essere più alta in una valutazione clinica motivata da sintomi persistenti e più bassa in uno screening non selettivo. Il valore appropriato deve derivare dal contesto, dalle informazioni disponibili e da dati pertinenti, non da una percentuale scelta automaticamente.
 
 **2. L'evidenza fornita dal test (la verosimiglianza)**
 
-Il test positivo modifica la credenza iniziale. Un test con alta sensibilità e specificità fornisce un'evidenza forte.
+Il risultato modifica la credenza iniziale. La forza dell'evidenza dipende dal rapporto di verosimiglianza associato all'esito osservato, non da sensibilità o specificità considerate isolatamente.
 
 **3. La probabilità post-test (il posterior)**
 
@@ -500,7 +526,7 @@ Il test positivo modifica la credenza iniziale. Un test con alta sensibilità e 
 
 ### Esempio numerico
 
-Supponiamo che il BDI-II abbia sensibilità 0.85 e specificità 0.80.
+Per illustrare il calcolo, supponiamo che un test ipotetico abbia sensibilità 0.85 e specificità 0.80. Questi valori sono scelti a scopo didattico e non devono essere interpretati come proprietà di uno strumento reale.
 
 ```{r}
 sens <- 0.85
@@ -526,11 +552,11 @@ cat("Screening aziendale: da", prior_screening*100, "% a",
     round(post_screening*100, 1), "%\n")
 ```
 
-Lo stesso test positivo porta a conclusioni diverse: 88% di probabilità per il paziente sintomatico, solo 27% per il dipendente in screening.
+Con i valori illustrativi scelti, lo stesso risultato positivo porta a posterior diversi: circa 88% nello scenario con prior 0.65 e circa 27% nello scenario con prior 0.08.
 
 ### Il messaggio per la pratica
 
-**Un test non vi dice se il paziente ha una determinata condizione. Vi dice quanto dovreste aggiornare la vostra credenza, sulla base della vostra valutazione iniziale.** Questa distinzione ha conseguenze profonde per la qualità del ragionamento clinico.
+**Un test, isolatamente, non stabilisce se una persona abbia una determinata condizione. Fornisce evidenza che deve essere integrata con la probabilità pre-test e con le altre informazioni disponibili.** Questa distinzione ha conseguenze profonde per la qualità del ragionamento clinico.
 
 ## Aggiornamento bayesiano con distribuzioni continue {#sec-bayes-continuous}
 
@@ -550,7 +576,7 @@ Quando $\theta \in [0,1]$ e i dati sono binari, la distribuzione **Beta** offre 
 
 ### Esempio: valutazione di uno studente
 
-Consideriamo un test a scelta multipla con 4 opzioni. Prior: $\text{Beta}(1,3)$, che riflette l'ipotesi di risposta casuale (media = 0.25). Osserviamo 12 risposte corrette su 30.
+Consideriamo un test a scelta multipla con quattro opzioni. Usiamo, a scopo illustrativo, il prior $\text{Beta}(1,3)$, che ha media 0.25 ma rimane ampio e attribuisce plausibilità anche a valori lontani da 0.25. Non rappresenta quindi una convinzione forte che la prestazione sia esattamente casuale. Osserviamo 12 risposte corrette su 30.
 
 ```{r}
 #| label: fig-beta-update
@@ -592,7 +618,9 @@ ggplot(df_beta, aes(x = theta, y = Densità, color = Componente, linetype = Comp
   )
 ```
 
-Il posterior è un *compromesso* tra prior e dati. La media a posteriori si colloca tra il prior (0.25) e i dati (0.40).
+La @fig-beta-update confronta prior, verosimiglianza riscalata e posterior. La riscalatura della verosimiglianza serve soltanto alla visualizzazione e non ne modifica il ruolo nell'aggiornamento.
+
+Il posterior combina prior e dati. In questo esempio la media a posteriori è $13/(13+21) \approx 0.38$: si colloca tra la media del prior (0.25) e la proporzione osservata (0.40), più vicina ai dati perché il campione apporta più informazione del prior scelto.
 
 ### Intervalli di credibilità
 
@@ -614,7 +642,7 @@ ggplot(df_post, aes(x = theta, y = densità)) +
   geom_vline(xintercept = c(ci_lower, ci_upper), linetype = "dashed") +
   geom_vline(xintercept = alpha_post/(alpha_post + beta_post), linewidth = 1) +
   annotate("text", x = (ci_lower + ci_upper)/2, y = max(posterior_dens) * 0.4,
-           label = paste0("IC 95%\n[", round(ci_lower, 2), ", ", round(ci_upper, 2), "]")) +
+           label = paste0("CrI 95%\n[", round(ci_lower, 2), ", ", round(ci_upper, 2), "]")) +
   labs(
     title = "Quantificazione dell'incertezza su θ",
     x = expression(theta),
@@ -622,86 +650,86 @@ ggplot(df_post, aes(x = theta, y = densità)) +
   )
 ```
 
+La @fig-credible-interval evidenzia la regione che contiene il 95% della probabilità a posteriori.
+
 ::: {.callout-important title="Interpretazione degli intervalli di credibilità"}
 
-**Intervallo di credibilità bayesiano (95%)**: "C'è una probabilità del 95% che il vero valore del parametro sia compreso tra 0.23 e 0.55, date le nostre informazioni."
+**Intervallo di credibilità bayesiano (95%)**: dato il modello, il prior e i dati osservati, la probabilità a posteriori che $\theta$ sia compreso approssimativamente tra 0.23 e 0.55 è 0.95.
 
-**Intervallo di confidenza frequentista (95%)**: "Se ripetessimo questo esperimento infinite volte, il 95% degli intervalli conterrebbe il vero parametro."
+**Intervallo di confidenza frequentista (95%)**: in una sequenza ideale di campioni generati nelle condizioni previste dal modello, il 95% degli intervalli costruiti con la stessa procedura conterrebbe il valore del parametro.
 
-La prima interpretazione è diretta e intuitiva; la seconda riguarda le proprietà della procedura.
+Le due affermazioni rispondono a domande diverse: la prima riguarda la distribuzione a posteriori del parametro nel modello bayesiano; la seconda riguarda la copertura a lungo termine della procedura frequentista.
 :::
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Siamo arrivati al termine del percorso che ha costruito le fondamenta del ragionamento bayesiano. Il teorema di Bayes non è stato presentato come una formula da memorizzare, ma come l'espressione matematica di un principio epistemologico profondo: **l'apprendimento razionale dall'esperienza**.
+Il teorema di Bayes formalizza un passaggio centrale del ragionamento scientifico: aggiornare ciò che riteniamo plausibile quando osserviamo nuove informazioni. La formula non trasforma automaticamente i dati in conoscenza; rende invece espliciti gli elementi da cui dipende l'inferenza: ipotesi considerate, credenze iniziali, modello dei dati ed evidenza osservata.
 
-### Cosa abbiamo compreso
+Abbiamo visto che $P(E \mid H)$ e $P(H \mid E)$ rispondono a domande diverse. Il teorema di Bayes collega queste due direzioni mediante il prior e la probabilità marginale dell'evidenza. La forma in *odds* mostra lo stesso processo come moltiplicazione per un rapporto di verosimiglianza, mentre gli esempi diagnostici chiariscono perché un risultato non possa essere interpretato senza il tasso base.
 
-La derivazione del teorema dalla simmetria della probabilità congiunta ha mostrato che l'aggiornamento bayesiano non è una scelta metodologica arbitraria. È una *necessità logica* per chiunque accetti i vincoli di coerenza della teoria della probabilità.
+L'estensione Beta-Binomiale introduce infine un'idea che accompagnerà i capitoli successivi: quando l'oggetto dell'inferenza è un parametro continuo, il risultato non è un singolo numero, ma una distribuzione a posteriori che descrive valori più o meno plausibili e l'incertezza che rimane dopo i dati.
 
-L'interpretazione epistemica dei componenti ha rivelato una struttura del ragionamento che è al tempo stesso rigorosa e intuitiva.
+Nel @sec-prob-random-var introdurremo le **variabili casuali**, necessarie per rappresentare in modo sistematico quantità numeriche incerte.
 
-Le applicazioni diagnostiche hanno illustrato sia il potere del teorema sia i pericoli dell'intuizione non guidata. La fallacia del tasso base è una delle scoperte più robuste della psicologia del giudizio.
+## Esercizi {.unnumbered .unlisted}
 
-### Il messaggio fondamentale
+1. Un test ha sensibilità 0.90. Spiega perché questa informazione, da sola, non permette di concludere che una persona con risultato positivo abbia il 90% di probabilità di presentare la condizione.
 
-Se dovessimo condensare tutto in un'unica idea, sarebbe questa: **la razionalità è coerenza, e la coerenza richiede Bayes**.
+2. Nella formula $P(H \mid E) \propto P(E \mid H)P(H)$, quale ruolo svolgono il prior e la verosimiglianza? Descrivi il loro significato senza eseguire calcoli.
 
-Questo non significa che l'approccio bayesiano sia l'unico valido. Significa che, una volta accettata l'interpretazione della probabilità come grado di credenza, l'aggiornamento bayesiano segue come conseguenza inevitabile.
+3. Due persone ottengono lo stesso risultato positivo allo stesso test, ma provengono da contesti con prevalenze diverse. Perché le loro probabilità a posteriori possono essere differenti?
 
-### Verso il futuro
+4. Un rapporto di verosimiglianza uguale a 1 che cosa indica? Che effetto produce sugli *odds* iniziali?
 
-Questo capitolo conclude la trattazione dei fondamenti. I concetti stabiliti — prior, verosimiglianza, posterior, aggiornamento sequenziale, quantificazione dell'incertezza — costituiranno la base per tutto ciò che seguirà.
+5. In un aggiornamento sequenziale, la probabilità passa dal 5% al 22% dopo un primo risultato positivo e al 64% dopo un secondo. Come va interpretata questa sequenza? Quale assunzione è necessaria per moltiplicare direttamente i due rapporti di verosimiglianza?
 
-Come scrisse Laplace oltre due secoli fa, il calcolo delle probabilità non è altro che "il buon senso ridotto a calcolo". Il teorema di Bayes è il motore che rende possibile questa riduzione.
+6. Nel modello Beta-Binomiale del capitolo, la media del prior è 0.25, la proporzione osservata è 0.40 e la media del posterior è circa 0.38. Che cosa comunica la posizione della media a posteriori?
 
-## Punti chiave da ricordare {.unnumbered .unlisted}
+7. Interpreta questa affermazione: «Dato il modello, il prior e i dati, la probabilità a posteriori che $\theta$ sia compreso tra 0.23 e 0.55 è 0.95».
 
-::: {.callout-important}
+8. Un risultato positivo aumenta molto la probabilità di una condizione, ma non la porta vicino a 1. È corretto considerare il test “sbagliato”? Motiva la risposta facendo riferimento a prior e forza dell'evidenza.
 
-1. **Il teorema di Bayes come inversione probabilistica**
-   - Deriva dalla simmetria della probabilità congiunta.
-   - Permette di passare da $P(E \mid H)$ a $P(H \mid E)$.
-   - Non è un'assunzione aggiuntiva, ma una conseguenza degli assiomi.
+::: {.callout-tip title="Soluzioni" collapse="true"}
 
-2. **Interpretazione epistemica dei componenti**
-   - **Prior** $P(H)$: credenza prima dei dati.
-   - **Verosimiglianza** $P(E \mid H)$: compatibilità dati-ipotesi.
-   - **Evidenza** $P(E)$: normalizzazione.
-   - **Posterior** $P(H \mid E)$: credenza aggiornata.
+1. La sensibilità è $P(T^+ \mid D)$: descrive la probabilità di un risultato positivo tra le persone che presentano la condizione. La domanda clinica è invece $P(D \mid T^+)$, che dipende anche dalla prevalenza e dal tasso di falsi positivi.
 
-3. **Forma in odds**
-   - Odds posteriori = LR × Odds a priori.
-   - Il rapporto di verosimiglianza quantifica la forza dell'evidenza.
-   - Aggiornamenti sequenziali: i LR si moltiplicano.
+2. Il prior rappresenta ciò che era plausibile prima dell'osservazione; la verosimiglianza misura quanto il dato osservato sia compatibile con ciascuna ipotesi o valore del parametro. Il posterior combina entrambe le informazioni.
 
-4. **La fallacia del tasso base**
-   - Ignorare la prevalenza porta a sovrastimare il VPP.
-   - Lo stesso test ha significati diversi in contesti diversi.
-   - Il teorema di Bayes costringe a considerare il contesto.
+3. Il tasso base entra nel calcolo come prior. A parità di test ed esito, una condizione inizialmente più frequente riceve in genere una probabilità a posteriori maggiore.
 
-5. **Aggiornamento con distribuzioni continue**
-   - Beta-Binomiale: $\text{Beta}(\alpha, \beta) \to \text{Beta}(\alpha+k, \beta+n-k)$.
-   - Intervalli di credibilità: interpretazione probabilistica diretta.
+4. Un rapporto di verosimiglianza pari a 1 indica che l'evidenza è ugualmente compatibile con l'ipotesi e con la sua alternativa. Moltiplicare gli *odds* per 1 non li modifica.
 
-**Formule da ricordare:**
+5. La sequenza rappresenta un accumulo di evidenza: ogni risultato modifica la credenza prodotta dal passaggio precedente. La moltiplicazione diretta richiede che i risultati siano condizionatamente indipendenti dato ciascuno stato considerato.
 
-$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
+6. Il posterior si colloca tra prior e dati, ma più vicino alla proporzione osservata. Ciò indica che entrambi contribuiscono all'aggiornamento e che, nell'esempio, i dati apportano più informazione del prior relativamente debole.
 
-$$\text{Odds}(H \mid E) = \text{LR} \times \text{Odds}(H)$$
+7. L'intervallo contiene il 95% della probabilità della distribuzione a posteriori di $\theta$, condizionatamente al modello, al prior e ai dati utilizzati. Non significa che l'intervallo sia valido indipendentemente da tali assunzioni.
 
-$$\text{LR}^+ = \frac{\text{Sensibilità}}{1 - \text{Specificità}}$$
-
-**Per il prossimo capitolo:**
-
-Nel @sec-prob-random-var inizieremo lo studio delle **variabili casuali**, formalizzando il passaggio da eventi discreti a quantità numeriche.
+8. No. Un test può fornire evidenza favorevole senza rendere la condizione quasi certa. L'esito finale dipende sia dalla forza dell'evidenza, espressa dal rapporto di verosimiglianza, sia dalla probabilità iniziale.
 
 :::
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+::: {.callout-note title="Punti chiave" collapse="true"}
+
+- Il teorema di Bayes deriva dalla definizione di probabilità condizionata:
+  $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}.$$
+- $P(E \mid H)$ e $P(H \mid E)$ non sono intercambiabili.
+- Il prior rappresenta le informazioni precedenti; la verosimiglianza descrive la compatibilità dei dati con l'ipotesi; il posterior è la credenza aggiornata.
+- In forma di *odds*:
+  $$\operatorname{Odds}(H \mid E)=\operatorname{Odds}(H)\times \operatorname{LR}.$$
+- Il significato di un risultato diagnostico dipende dal tasso base.
+- Più evidenze possono essere combinate sequenzialmente, ma la moltiplicazione diretta dei rapporti di verosimiglianza richiede appropriate assunzioni di indipendenza condizionata.
+- Nel modello Beta-Binomiale, prior e dati determinano una distribuzione a posteriori sull'incertezza relativa a $\theta$.
+- Un intervallo di credibilità deve essere interpretato condizionatamente al modello, al prior e ai dati.
+
+:::
+
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
+
 ```{r}
 sessionInfo()
 ```
+
 :::
 
 ## Bibliografia {.unnumbered .unlisted}

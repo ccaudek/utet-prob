@@ -1,50 +1,47 @@
 # Covarianza e correlazione {#sec-prob-cov-cor}
 
-## Introduzione {.unnumbered .unlisted}
+::: {.callout-note title="In sintesi"}
+**Da sapere**  Comprendere covarianza e correlazione come sintesi della dipendenza lineare; distinguere associazione lineare, dipendenza e indipendenza; interpretare il ruolo della matrice di covarianza nelle distribuzioni congiunte e nei modelli bayesiani.
 
-Un ricercatore sta analizzando i dati di uno studio sulla relazione tra ansia e prestazione cognitiva negli studenti universitari. I risultati preliminari mostrano che, in media, livelli più alti di ansia si associano a punteggi più bassi nei test di memoria di lavoro. Ma quanto è robusta questa associazione? È clinicamente o teoricamente rilevante? E come possiamo comunicare questo risultato in modo che sia confrontabile con altri studi?
-
-Queste domande richiedono strumenti che vadano oltre la descrizione di tendenze generali. La **covarianza** quantifica la tendenza di due variabili a variare insieme in modo sistematico, mentre la **correlazione** standardizza tale misura su una scala universale, permettendo confronti trasversali.
-
-Dal punto di vista bayesiano, covarianza e correlazione possono essere interpretate come **riassunti quantitativi della struttura delle nostre credenze**, codificata nella distribuzione congiunta. Quando affermiamo che due variabili sono correlate negativamente con $\rho = -0.40$, stiamo esprimendo una proprietà specifica di come crediamo che queste variabili si comportino congiuntamente.
-
-In questo capitolo:
-
-1. **Estenderemo** il framework delle distribuzioni congiunte al caso continuo.
-2. **Definiremo** la covarianza come misura della co-variazione lineare.
-3. **Introdurremo** la correlazione come versione standardizzata.
-4. **Discuteremo** le proprietà matematiche e il loro significato pratico.
-5. **Chiariremo** la distinzione tra incorrelazione e indipendenza.
-6. **Accenneremo** al ruolo della covarianza nell'inferenza bayesiana.
-
-::: {.callout-tip collapse="true"}
-## Prerequisiti
-
-Per seguire questo capitolo è necessario aver letto:
-
-- @sec-prob-random-var — per il concetto di variabili casuali multiple.
-- @sec-prob-random-var-properties — **fondamentale** per valore atteso e varianza.
-
-Conoscenze matematiche richieste:
-
-- @sec-apx-sums - per calcoli con distribuzioni discrete congiunte.
-- @sec-apx-calculus - per densità congiunte continue.
-
-Competenze pratiche:
-
-- Familiarità con R e visualizzazione di distribuzioni bivariate.
+**Da saper fare**  Determinare il segno di una covarianza; interpretare intensità e direzione di una correlazione senza attribuirle significati causali; riconoscere relazioni non lineari che una correlazione prossima a zero può nascondere.
 :::
 
-::: {.callout-caution collapse=true title="Preparazione del Notebook"}
+## Introduzione {.unnumbered .unlisted}
+
+Un ricercatore analizza la relazione tra ansia e prestazione cognitiva in un gruppo di studenti universitari. I dati suggeriscono che, in media, livelli più elevati di ansia si associano a punteggi più bassi in un compito di memoria di lavoro. Questa osservazione solleva almeno tre domande: in quale direzione varia l'associazione? Quanto è intensa? Un singolo numero è sufficiente a descriverla?
+
+La **covarianza** quantifica la tendenza lineare di due variabili a variare insieme. La **correlazione** standardizza la covarianza rispetto alla dispersione delle due variabili e produce un indice compreso tra -1 e 1. Entrambe sono sintesi della distribuzione congiunta: risultano utili per comunicare la direzione e l'intensità della componente lineare, ma non descrivono ogni forma possibile di dipendenza.
+
+Nel quadro bayesiano, una distribuzione congiunta può rappresentare l'incertezza su più parametri o quantità future. La sua struttura di covarianza indica allora come le incertezze sulle diverse quantità siano collegate, sempre condizionatamente al modello e alle informazioni disponibili.
+
+## Perché covarianza e correlazione sono importanti in psicologia?
+
+Molte domande psicologiche riguardano relazioni tra variabili: ansia e prestazione, sostegno sociale e benessere, punteggi di due sottoscale, parametri di uno stesso modello. Covarianza e correlazione permettono di riassumere la componente lineare di queste relazioni e di confrontare associazioni misurate su scale differenti.
+
+L'interpretazione richiede però cautela. Una correlazione non dimostra una relazione causale, può essere alterata da variabili non considerate e può risultare prossima a zero anche quando esiste una forte dipendenza non lineare. Per questo gli indici numerici devono essere letti insieme alla distribuzione congiunta, alla visualizzazione dei dati e al contesto teorico.
+
+::: {.callout-tip title="Prerequisiti"}
+Per seguire il capitolo è necessario avere letto @sec-prob-random-var, @sec-prob-distr e @sec-prob-random-var-properties. Per la notazione, consulta @sec-apx-math-symbols.
+
+Per un richiamo su somme doppie, integrali e matrici, consulta le appendici matematiche disponibili nel Companion.
+:::
+
+## Panoramica del capitolo {.unnumbered .unlisted}
+
+Il capitolo procede in sei passaggi:
+
+1. estende le distribuzioni congiunte dal caso discreto al caso continuo;
+2. definisce la covarianza come media del prodotto degli scarti dalle rispettive medie;
+3. introduce la correlazione come covarianza standardizzata;
+4. presenta le principali proprietà algebriche della covarianza;
+5. distingue incorrelazione e indipendenza mediante un esempio non lineare;
+6. mostra il ruolo della covarianza nelle distribuzioni a priori e a posteriori.
+
+::: {.callout-note title="Preparazione del notebook"}
 ```{r}
+#| output: false
 here::here("code", "_common.R") |>
   source()
-
-library(MASS)
-library(viridis)
-library(ggExtra)
-
-# Riapplica il tema per sicurezza
 apply_visual_theme()
 ```
 :::
@@ -55,9 +52,9 @@ Nel capitolo sugli assiomi (@sec-prob-axioms-coherence) abbiamo utilizzato tabel
 
 ### Tabelle con più categorie
 
-Consideriamo la relazione tra ansia e prestazione cognitiva. Numerosi studi suggeriscono una relazione negativa tra questi fattori [@eysenck2007anxiety]. Supponiamo di codificare l'ansia in tre livelli (bassa, media, alta) e la prestazione in tre livelli (insufficiente, sufficiente, buona).
+Consideriamo, a scopo didattico, la relazione tra ansia e prestazione cognitiva, per la quale sono state proposte associazioni negative in alcuni contesti [@eysenck2007anxiety]. Supponiamo di classificare l'ansia in tre livelli (bassa, media, alta) e la prestazione in tre livelli (insufficiente, sufficiente, buona).
 
-Una possibile distribuzione congiunta che rappresenta le nostre credenze, informate dalla letteratura:
+La seguente tabella è una distribuzione congiunta ipotetica, costruita per illustrare i calcoli. I numeri non sono stime empiriche:
 
 | | Ansia Bassa | Ansia Media | Ansia Alta | Marginale |
 |---|---|---|---|---|
@@ -66,7 +63,7 @@ Una possibile distribuzione congiunta che rappresenta le nostre credenze, inform
 | **Buona** | 0.10 | 0.10 | 0.05 | 0.25 |
 | **Marginale** | 0.30 | 0.40 | 0.30 | 1.00 |
 
-Ogni cella rappresenta il nostro grado di credenza in una specifica configurazione. I principi di costruzione sono gli stessi visti per le tabelle 2×2: le marginali si ottengono sommando, le condizionate dividendo per la marginale appropriata.
+Ogni cella assegna probabilità a una specifica configurazione. Le marginali si ottengono sommando per righe o colonne; le distribuzioni condizionate si ottengono dividendo le probabilità congiunte per la marginale appropriata. Le categorie sono ordinate, ma una codifica numerica successiva costituisce una scelta modellistica e non trasforma automaticamente le distanze tra categorie in intervalli equivalenti.
 
 ### Il caso continuo: densità congiunte
 
@@ -78,6 +75,8 @@ Una *densità congiunta* $f(x,y)$ assegna a ogni configurazione $(x,y)$ un valor
 1. **Non negatività**: $f(x,y) \geq 0$ per ogni $(x,y)$;
 2. **Normalizzazione**: $\int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y)\,dx\,dy = 1$.
 :::
+
+Il valore $f(x,y)$ è una densità, non la probabilità del singolo punto $(x,y)$. La probabilità di una regione si ottiene integrando la densità su quella regione.
 
 Le densità marginali si ottengono integrando rispetto a una delle variabili:
 
@@ -100,13 +99,16 @@ Le regole si applicano senza modifiche concettuali, sostituendo le somme con gli
 - **Regola di somma (marginalizzazione)**: $f_Y(y) = \int_{-\infty}^{+\infty} f_{X,Y}(x,y)\,dx$.
 - **Regola di prodotto**: $f_{X,Y}(x,y) = f_{Y \mid X}(y \mid x) f_X(x) = f_{X \mid Y}(x \mid y) f_Y(y)$.
 
-Queste relazioni mostrano che conoscere la distribuzione congiunta equivale a conoscere tutte le marginali e condizionate.
+Queste relazioni mostrano che la distribuzione congiunta determina le marginali e, dove i denominatori sono positivi, le distribuzioni condizionate. Marginali e condizionate compatibili possono a loro volta ricostruire la distribuzione congiunta.
 
 ### Visualizzazione di una distribuzione congiunta continua
 
 Modelliamo la relazione ansia-prestazione come una distribuzione continua.
 
-```{r fig.asp=1}
+```{r}
+#| label: fig-joint-anxiety-performance
+#| fig-cap: "Distribuzione congiunta simulata di ansia e prestazione. L'orientamento delle curve di livello rappresenta una correlazione negativa."
+#| fig-asp: 1
 #| echo: false
 # Parametri della distribuzione bivariata normale
 mu <- c(30, 70)
@@ -121,7 +123,7 @@ Sigma <- matrix(
 )
 
 set.seed(123)
-dati <- as.data.frame(mvrnorm(500, mu, Sigma))
+dati <- as.data.frame(MASS::mvrnorm(500, mu, Sigma))
 colnames(dati) <- c("Ansia", "Prestazione")
 
 grafico <- ggplot(dati, aes(x = Ansia, y = Prestazione)) +
@@ -129,7 +131,7 @@ grafico <- ggplot(dati, aes(x = Ansia, y = Prestazione)) +
     aes(fill = after_stat(density)),
     geom = "raster", contour = FALSE
   ) +
-  scale_fill_viridis(
+  scale_fill_viridis_c(
     option = "viridis",
     name = "Densità di\ncredenza"
   ) +
@@ -142,7 +144,7 @@ grafico <- ggplot(dati, aes(x = Ansia, y = Prestazione)) +
     y = "Punteggio Prestazione Cognitiva"
   )
 
-grafico_finale <- ggMarginal(
+grafico_finale <- ggExtra::ggMarginal(
   grafico,
   type = "density",
   fill = "lightblue", 
@@ -152,7 +154,7 @@ grafico_finale <- ggMarginal(
 grafico_finale
 ```
 
-La regione più chiara (bassa ansia, buona prestazione) rappresenta le configurazioni a cui attribuiamo la massima credibilità. L'orientamento ellittico, inclinato verso il basso, riflette la correlazione negativa.
+La @fig-joint-anxiety-performance mostra una distribuzione simulata, non dati osservati. La densità è maggiore vicino al centro della distribuzione; l'orientamento ellittico inclinato verso il basso rappresenta la componente lineare negativa tra ansia e prestazione.
 
 ::: {.callout-important title="Dalla distribuzione congiunta ai riassunti numerici"}
 
@@ -212,11 +214,11 @@ $$
 \text{Cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y].
 $$
 
-Questa espressione confronta il valore atteso del prodotto $XY$ sotto la distribuzione congiunta effettiva con il valore che si otterrebbe se le variabili fossero **indipendenti**. La differenza misura quanto la distribuzione congiunta si discosti dall'indipendenza.
+Questa espressione confronta il valore atteso del prodotto $XY$ con il prodotto dei due valori attesi. Se $X$ e $Y$ sono indipendenti e i momenti necessari esistono, i due termini coincidono. Una differenza non nulla segnala dipendenza lineare; una differenza nulla, invece, non dimostra l'indipendenza, perché possono rimanere dipendenze non lineari.
 
-::: {.callout-note collapse=true title="Esempio: calcolo dalla tabella congiunta"}
+::: {.callout-note collapse="true" title="Esempio: calcolo dalla tabella congiunta"}
 
-Applichiamo i concetti alla tabella ansia-prestazione con codifica numerica: prestazione $X \in \{0,1,2\}$ e ansia $Y \in \{0,1,2\}$.
+Applichiamo i concetti alla tabella ansia-prestazione adottando, solo per l'esempio, la codifica numerica prestazione $X \in \{0,1,2\}$ e ansia $Y \in \{0,1,2\}$. Il risultato dipende da questa codifica e va interpretato come esercizio illustrativo, non come misura empirica su una scala a intervalli dimostrata.
 
 ```{r}
 tab_joint <- matrix(
@@ -250,7 +252,7 @@ Cov_XY <- E_XY - E_X * E_Y
 cat("Cov(X,Y) =", round(Cov_XY, 3), "\n")
 ```
 
-La covarianza negativa riflette la struttura delle nostre credenze: alta ansia si accompagna a bassa prestazione.
+La covarianza negativa riassume la struttura della tabella scelta: alle categorie più elevate di ansia tendono a corrispondere categorie più basse di prestazione.
 :::
 
 ## Correlazione: covarianza standardizzata {#sec-correlation}
@@ -264,7 +266,7 @@ La **correlazione** risolve questo problema standardizzando la covarianza.
 ::: {#def-correlation}
 ### Coefficiente di correlazione
 
-Il *coefficiente di correlazione* (o correlazione di Pearson) tra $X$ e $Y$ è:
+Il *coefficiente di correlazione* di Pearson tra $X$ e $Y$, quando entrambe hanno varianza finita e positiva, è:
 
 $$
 \rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sqrt{\mathbb{V}(X)\,\mathbb{V}(Y)}} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}.
@@ -275,7 +277,7 @@ $$
 
 1. **Limitatezza**: $-1 \leq \rho(X,Y) \leq 1$.
 
-2. **Invarianza rispetto a trasformazioni lineari**: se $a > 0$ e $b > 0$, $\rho(aX + c, bY + d) = \rho(X,Y)$.
+2. **Trasformazioni lineari**: se $a>0$ e $b>0$, $\rho(aX+c,bY+d)=\rho(X,Y)$. Se una sola delle due scale viene moltiplicata per una costante negativa, il segno della correlazione si inverte.
 
 3. **Valori estremi**:
    - $\rho = +1$: relazione lineare perfetta positiva;
@@ -288,9 +290,9 @@ La correlazione si è affermata come linguaggio comune per comunicare l'intensit
 
 1. **Comparabilità**: $\rho = -0.40$ ha lo stesso significato indipendentemente dalle scale specifiche.
 
-2. **Interpretabilità intuitiva**: $\rho^2$ rappresenta la **proporzione di varianza condivisa**. Con $\rho = -0.40$, il 16% della variabilità nella prestazione è associato alla variabilità dell'ansia.
+2. **Collegamento con la regressione lineare semplice**: in una regressione lineare con intercetta e un solo predittore, $\rho^2$ coincide con la proporzione di varianza della variabile risposta descritta dalla relazione lineare con il predittore. Con $\rho=-0.40$, questo valore è 0.16. Non è una percentuale di causalità né una misura generale di tutta la dipendenza.
 
-3. **Sintesi per la meta-analisi**: essendo standardizzata, può essere aggregata tra studi.
+3. **Sintesi tra studi**: la correlazione può essere trasformata, per esempio mediante la trasformazione di Fisher, e combinata in una meta-analisi che tenga conto della precisione e dell'eterogeneità degli studi.
 
 ::: {.callout-note collapse="true" title="Esempio: correlazione ansia-prestazione"}
 
@@ -300,30 +302,27 @@ Var_Y <- sum(val_ansia^2 * marg_ansia) - E_Y^2
 rho_XY <- Cov_XY / sqrt(Var_X * Var_Y)
 
 cat("Correlazione ρ =", round(rho_XY, 3), "\n")
-cat("Varianza condivisa ρ² =", round(rho_XY^2, 3), "\n")
+cat("Coefficiente di determinazione ρ² =", round(rho_XY^2, 3), "\n")
 ```
 
-Il valore $\rho \approx -0.26$ indica una relazione lineare negativa di entità modesta. Circa il 7% della variabilità di una variabile è associato all'altra.
+Il valore $\rho \approx -0.26$ indica una relazione lineare negativa nella tabella codificata. Il quadrato, circa 0.07, coincide con la quota di varianza descritta da una regressione lineare semplice nel contesto corrispondente; non rappresenta una quota causale e non riassume eventuali dipendenze non lineari.
 :::
 
 ### Linee guida interpretative
 
-Le convenzioni di @cohen1988statistical forniscono un punto di riferimento:
+Le soglie proposte da @cohen1988statistical sono talvolta usate come riferimenti descrittivi:
 
-| $|\rho|$ | Interpretazione |
+| $|\rho|$ | Etichetta convenzionale |
 |:---:|:---|
-| $< 0.3$ | Modesta ("small") |
-| $0.3 - 0.5$ | Moderata ("medium") |
-| $\geq 0.5$ | Sostanziale ("large") |
+| circa 0.10 | piccola |
+| circa 0.30 | media |
+| circa 0.50 | grande |
 
-Tuttavia, queste soglie vanno valutate nel **contesto specifico**:
+Queste etichette non sono regole universali. La rilevanza di una correlazione dipende dalla qualità delle misure, dalla variabilità del campione, dal disegno dello studio, dalle conseguenze pratiche e dalla teoria di riferimento. Anche una correlazione numericamente piccola può essere importante in un processo cumulativo o quando riguarda esiti rilevanti; una correlazione elevata può invece derivare da ridondanza degli strumenti, variabili confondenti o artefatti di misurazione.
 
-| Contesto | Correlazione tipica | Interpretazione |
-|----------|:---:|-----------------|
-| Affidabilità test-retest | 0.70 - 0.90 | Necessaria per scale affidabili |
-| Validità convergente | 0.40 - 0.70 | Costrutti simili |
-| Validità discriminante | $< 0.30$ | Costrutti distinti |
-| Predittori comportamentali | 0.20 - 0.40 | Tipico in psicologia sociale |
+::: {.callout-warning title="Correlazione e causalità"}
+Una correlazione descrive un'associazione lineare. Non stabilisce quale variabile produca l'altra e non esclude che entrambe dipendano da una terza variabile. L'interpretazione causale richiede un disegno e assunzioni ulteriori.
+:::
 
 ## Proprietà matematiche della covarianza {#sec-cov-properties}
 
@@ -352,7 +351,7 @@ La proprietà della **varianza di una somma** è cruciale:
 
 ### Ponte applicativo: affidabilità delle scale composite
 
-Questa proprietà spiega perché le scale psicometriche composte da più item sono più affidabili dei singoli item. Quando gli item misurano lo stesso costrutto, sono **positivamente correlati**. Nella varianza del punteggio totale, le covarianze positive si sommano, amplificando la componente di varianza comune (il "segnale") e riducendo l'impatto dell'errore casuale.
+Questa proprietà aiuta a comprendere la varianza di un punteggio composto. Quando gli item covariano positivamente, i termini di covarianza aumentano la varianza del punteggio totale. Ciò può favorire l'affidabilità se la covarianza riflette effettivamente il costrutto comune e gli errori non sono correlati; non basta però osservare covarianze positive per concludere che la scala sia affidabile o unidimensionale. Anche formulazioni simili, effetti di metodo o bias condivisi possono produrre covarianza.
 
 ## Incorrelazione e indipendenza {#sec-uncorrelated-vs-independent}
 
@@ -365,18 +364,19 @@ Due variabili sono *incorrelate* quando la loro covarianza è nulla: $\text{Cov}
 ::: {.callout-important}
 ### Relazione asimmetrica
 
-- **L'indipendenza implica l'incorrelazione**: se $X$ e $Y$ sono indipendenti, $\text{Cov}(X,Y) = 0$.
+- **L'indipendenza implica l'incorrelazione**, purché esistano i momenti necessari: se $X$ e $Y$ sono indipendenti, $\operatorname{Cov}(X,Y)=0$.
 - **L'incorrelazione NON implica l'indipendenza**: $\text{Cov}(X,Y) = 0$ non esclude dipendenze non lineari.
 :::
 
 Questa asimmetria nasce dal fatto che la correlazione cattura esclusivamente la *componente lineare* della relazione.
 
-### Un esempio psicologico: la legge di Yerkes-Dodson
+### Un esempio didattico: una relazione a U rovesciata
 
-La legge di Yerkes-Dodson descrive una relazione a **U rovesciata** tra arousal e prestazione: la prestazione migliora fino a un punto ottimale, poi declina.
+Una relazione a **U rovesciata**, spesso associata in forma semplificata alla legge di Yerkes-Dodson, illustra il limite della correlazione lineare: la prestazione cresce fino a un livello intermedio di arousal e poi diminuisce. La simulazione seguente serve soltanto a mostrare la forma matematica e non descrive una legge universale della prestazione psicologica.
 
 ```{r}
-#| fig-cap: "Legge di Yerkes-Dodson: relazione curvilinea tra arousal e prestazione. La correlazione lineare è quasi nulla nonostante la forte dipendenza."
+#| label: fig-arousal-performance-nonlinear
+#| fig-cap: "Relazione simulata a U rovesciata tra arousal e prestazione. Una forte dipendenza non lineare può accompagnarsi a correlazioni lineari e monotone prossime a zero."
 
 set.seed(42)
 n <- 500
@@ -395,8 +395,8 @@ ggplot(df_yd, aes(x = arousal, y = prestazione)) +
            label = paste0("r = ", round(r_lineare, 3)), 
            size = 4, color = "red") +
   labs(
-    title = "Legge di Yerkes-Dodson: arousal e prestazione",
-    subtitle = "Linea blu: relazione vera (curvilinea) | Linea rossa: regressione lineare",
+    title = "Relazione simulata tra arousal e prestazione",
+    subtitle = "Linea blu: andamento locale | Linea rossa: regressione lineare",
     x = "Livello di arousal",
     y = "Prestazione"
   )
@@ -404,10 +404,10 @@ ggplot(df_yd, aes(x = arousal, y = prestazione)) +
 
 ```{r}
 cat("Correlazione lineare (Pearson): r =", round(r_lineare, 3), "\n")
-cat("Correlazione non lineare (Spearman): ρ =", round(cor(arousal, prestazione, method = "spearman"), 3), "\n")
+cat("Correlazione per ranghi (Spearman): ρs =", round(cor(arousal, prestazione, method = "spearman"), 3), "\n")
 ```
 
-**Interpretazione clinica**: un terapeuta che valutasse solo la correlazione lineare potrebbe concludere erroneamente che "non vi sia alcuna relazione". In realtà, la relazione è forte ma curvilinea: sia livelli troppo bassi che troppo alti di ansia compromettono la prestazione. L'obiettivo non è eliminare l'ansia, ma modularla.
+La @fig-arousal-performance-nonlinear mostra che una correlazione di Pearson prossima a zero non equivale ad assenza di dipendenza. Anche la correlazione di Spearman può risultare prossima a zero, perché misura associazioni monotone e non qualunque forma non lineare. La forma della nuvola di punti e un modello coerente con la teoria sono quindi indispensabili.
 
 ## Covarianza nell'inferenza bayesiana {#sec-covariance-in-bayes}
 
@@ -418,11 +418,13 @@ Nell'inferenza bayesiana, la covarianza diventa parte integrante della rappresen
 Prima di osservare i dati, possiamo specificare una distribuzione a priori che includa una struttura di covarianza, riflettendo assunzioni teoriche sulle relazioni tra i parametri.
 
 ```{r}
+#| label: fig-correlated-prior
+#| fig-cap: "Campioni da una distribuzione a priori bivariata con correlazione positiva tra i due parametri."
 mu_prior <- c(0, 0)
 Sigma_prior <- matrix(c(1, 0.7, 0.7, 1), nrow = 2)
 
 set.seed(123)
-samples_prior <- mvrnorm(1000, mu_prior, Sigma_prior)
+samples_prior <- MASS::mvrnorm(1000, mu_prior, Sigma_prior)
 
 ggplot(as.data.frame(samples_prior), aes(x = V1, y = V2)) +
   geom_point(alpha = 0.4) +
@@ -434,7 +436,7 @@ ggplot(as.data.frame(samples_prior), aes(x = V1, y = V2)) +
   )
 ```
 
-Specificare una correlazione positiva nella prior equivale ad affermare che valori elevati di un parametro tendono ad accompagnarsi a valori elevati dell'altro.
+La @fig-correlated-prior visualizza le conseguenze della prior scelta. Specificare una correlazione positiva significa assegnare maggiore plausibilità congiunta alle configurazioni in cui i due parametri si discostano dalle rispettive medie nella stessa direzione. La matrice di covarianza deve inoltre essere matematicamente valida, in particolare simmetrica e semidefinita positiva.
 
 ### Covarianza a posteriori
 
@@ -452,71 +454,78 @@ Questa informazione è essenziale per:
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-La covarianza e la correlazione sono strumenti fondamentali per quantificare la relazione lineare tra due variabili. Emergono naturalmente dalla distribuzione congiunta e ne forniscono una sintesi numerica utile, ma inevitabilmente parziale.
+Covarianza e correlazione sintetizzano la componente lineare di una distribuzione congiunta. La covarianza conserva le unità di misura e mostra se gli scarti dalle rispettive medie tendono ad avere lo stesso segno o segno opposto. La correlazione divide questa quantità per le deviazioni standard e consente confronti su una scala compresa tra -1 e 1.
 
-Per lo psicologo clinico e il ricercatore, questi concetti hanno utilità pratica immediata:
+Questa sintesi è utile ma incompleta. Una correlazione prossima a zero non esclude una dipendenza non lineare; una correlazione elevata non dimostra causalità; il suo valore può dipendere dalla variabilità del campione, dalla qualità delle misure e dalla presenza di valori anomali. Visualizzazione, teoria e disegno dello studio restano quindi necessari per attribuire significato all'indice numerico.
 
-- **validazione degli strumenti**: correlazioni misurano validità convergente e discriminante;
-- **studio delle differenze individuali**: quantificano associazioni tra tratti e comportamenti;
-- **pratica clinica**: informano sulle aspettative di comorbidità;
-- **modellazione statistica**: la matrice di covarianza è il cuore di regressione, analisi fattoriale e modelli a equazioni strutturali.
+Nel quadro bayesiano, la matrice di covarianza descrive anche come l'incertezza su più parametri o previsioni sia strutturata congiuntamente. Ignorare queste relazioni può distorcere gli intervalli congiunti e la propagazione dell'incertezza nelle previsioni. Nel capitolo successivo useremo le distribuzioni di probabilità per passare dalla descrizione della variabilità al ragionamento inferenziale.
 
-Un avvertimento cruciale: covarianza e correlazione catturano **soltanto la componente lineare** della relazione. L'esempio di Yerkes-Dodson mostra come associazioni psicologicamente significative possano rimanere nascoste. Per un'analisi solida, l'esplorazione numerica deve sempre essere affiancata da un'attenta **visualizzazione dei dati**.
+## Esercizi {.unnumbered .unlisted}
 
-## Punti chiave da ricordare {.unnumbered}
+1. In una distribuzione congiunta, valori elevati di $X$ tendono ad accompagnarsi a valori bassi di $Y$. Quale segno ci aspettiamo per la covarianza? Che cosa indica quel segno?
 
-::: {.callout-important}
+2. Due studi misurano la stessa associazione usando scale con unità diverse. Perché le covarianze non sono direttamente confrontabili, mentre le correlazioni lo sono più facilmente?
 
-1. **Dalle tabelle discrete alle densità congiunte**
-   - $f(x,y)$ è la densità congiunta per variabili continue.
-   - Regole di somma e prodotto: somme sostituite da integrali.
-   - La distribuzione congiunta contiene tutta l'informazione.
+3. Una correlazione vale $-0.40$. Che cosa descrivono il segno e il valore assoluto? Quale conclusione causale non è consentita?
 
-2. **Covarianza come misura della co-variazione lineare**
-   - $\text{Cov}(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)]$.
-   - Positiva: valori alti insieme, bassi insieme.
-   - Negativa: valori alti con bassi.
-   - Nulla: assenza di relazione lineare.
+4. In una regressione lineare semplice, una correlazione di $0.50$ produce $\rho^2=0.25$. Come va interpretato questo valore? Perché non significa che una variabile causi il 25% dell'altra?
 
-3. **Formula computazionale**
-   - $\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$.
+5. Due variabili hanno covarianza zero. Possiamo concludere che siano indipendenti? Descrivi una forma di relazione che potrebbe sfuggire alla covarianza.
 
-4. **Correlazione come standardizzazione**
-   - $\rho(X,Y) = \text{Cov}(X,Y)/(\sigma_X \sigma_Y)$.
-   - Sempre $-1 \leq \rho \leq 1$.
-   - Permette confronti tra scale diverse.
+6. Una scala contiene item positivamente correlati. È sufficiente per affermare che la scala sia affidabile e misuri un solo costrutto? Spiega quali cautele sono necessarie.
 
-5. **Incorrelazione ≠ indipendenza**
-   - Indipendenza $\Rightarrow$ incorrelazione.
-   - Incorrelazione $\not\Rightarrow$ indipendenza.
-   - Esempio: legge di Yerkes-Dodson.
+7. Una nuvola di punti segue chiaramente una forma a U rovesciata, ma la correlazione di Pearson è quasi zero. Come va interpretato questo risultato? Perché anche Spearman può essere prossimo a zero?
 
-6. **Varianza della somma**
-   - $\text{Var}(X+Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)$.
-   - Spiega perché le scale composite sono più affidabili.
+8. In una distribuzione a posteriori bivariata, intercetta e pendenza hanno covarianza negativa. Che cosa significa per l'incertezza congiunta sui due parametri?
 
-**Formule da ricordare:**
+::: {.callout-tip title="Soluzioni" collapse="true"}
+1. Ci aspettiamo una covarianza negativa. Gli scarti positivi di una variabile tendono ad accompagnarsi a scarti negativi dell'altra, e viceversa.
 
-$$
-\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
-$$
+2. La covarianza cambia quando cambiano le unità e le scale delle variabili. La correlazione divide per le deviazioni standard e rimuove le unità, purché le trasformazioni siano lineari; una trasformazione con segno negativo può invertirne il segno.
 
-$$
-\rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
-$$
+3. Il segno negativo indica una relazione lineare inversa; il valore assoluto 0.40 ne riassume l'intensità lineare. Non permette di concludere che una variabile causi l'altra.
 
-$$
-\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y)
-$$
+4. Nel contesto della regressione lineare semplice con intercetta, 0.25 è la quota di varianza della risposta descritta dalla relazione lineare con il predittore. Non è una percentuale di causalità e non comprende necessariamente forme non lineari di dipendenza.
 
-**Per il prossimo capitolo:**
+5. No. La covarianza zero esclude soltanto una tendenza lineare media. Una relazione a U, a U rovesciata o un'altra dipendenza simmetrica non lineare può avere covarianza nulla.
 
-Nel @sec-prob-inference-uncertainty passeremo all'**inferenza statistica**, presentando la distribuzione campionaria, l'errore standard e il teorema del limite centrale. Questi concetti rappresentano il ponte tra la probabilità e l'inferenza bayesiana.
+6. No. Le covarianze positive possono riflettere un costrutto comune, ma anche formulazioni ridondanti, effetti di metodo o errori correlati. L'affidabilità e la struttura dimensionale richiedono ulteriori analisi e assunzioni.
 
+7. Il valore prossimo a zero indica assenza di una componente lineare netta, non assenza di relazione. Spearman misura monotonicità: in una curva che prima cresce e poi decresce, le due tendenze possono compensarsi anche nei ranghi.
+
+8. Significa che, nella distribuzione a posteriori, valori dell'intercetta superiori alla propria media tendono ad accompagnarsi a valori della pendenza inferiori alla propria media. Le stime non devono quindi essere interpretate come incertezze separate e indipendenti.
 :::
 
-::: {.callout-note collapse=true title="Informazioni sull'ambiente di sviluppo"}
+::: {.callout-note title="Punti chiave" collapse="true"}
+- La covarianza misura la co-variazione lineare:
+  $$
+  \operatorname{Cov}(X,Y)
+  =\mathbb{E}[(X-\mu_X)(Y-\mu_Y)]
+  =\mathbb{E}[XY]-\mathbb{E}[X]\mathbb{E}[Y].
+  $$
+- Il segno indica la direzione della relazione lineare; il valore numerico dipende dalle unità di misura.
+- La correlazione di Pearson standardizza la covarianza:
+  $$
+  \rho(X,Y)=\frac{\operatorname{Cov}(X,Y)}{\sigma_X\sigma_Y},
+  \qquad -1\leq\rho\leq1.
+  $$
+- In una regressione lineare semplice con intercetta, $\rho^2$ coincide con la quota di varianza descritta dalla relazione lineare; non misura causalità.
+- In generale,
+  $$
+  \operatorname{Var}(X+Y)
+  =\operatorname{Var}(X)+\operatorname{Var}(Y)
+  +2\operatorname{Cov}(X,Y).
+  $$
+- Se esistono i momenti necessari, l'indipendenza implica covarianza zero; l'inverso non è vero.
+- Pearson descrive associazioni lineari; Spearman descrive associazioni monotone. Nessuno dei due cattura ogni forma di dipendenza.
+- Una correlazione deve essere interpretata insieme a grafici, qualità delle misure, disegno dello studio e teoria.
+- Nelle distribuzioni bayesiane multivariate, la covarianza descrive la struttura congiunta dell'incertezza sui parametri o sulle previsioni.
+:::
+
+::: {.callout-note title="Ambiente di sviluppo" collapse="true"}
 ```{r}
 sessionInfo()
 ```
 :::
+
+## Bibliografia {.unnumbered .unlisted}
