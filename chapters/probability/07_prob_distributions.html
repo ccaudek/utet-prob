@@ -1049,9 +1049,9 @@ Figura&nbsp;7.4: Due possibili oggetti di una distribuzione: a sinistra, la vari
 <p>La <a href="#fig-freq-vs-bayes" class="quarto-xref">Figura&nbsp;<span>7.4</span></a> visualizza due possibili oggetti della modellazione: una distribuzione per dati osservabili e una distribuzione che rappresenta l’incertezza su un parametro.</p>
 <p>La CDF rimane in entrambi i paradigmi uno strumento per calcolare probabilità cumulative. A cambiare è l’oggetto a cui la distribuzione viene applicata e il significato inferenziale attribuito alla probabilità: frequenza di lungo periodo per processi ripetibili nell’interpretazione frequentista; grado di credenza coerente, condizionato alle informazioni disponibili, nell’interpretazione bayesiana.</p>
 </section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
-<p>La distinzione tra <strong>massa</strong> e <strong>densità</strong> chiarisce due modi diversi di rappresentare l’incertezza. Una PMF può assegnare probabilità positive a valori discreti; una PDF assegna invece densità, e le probabilità si ottengono integrando su intervalli. Per questo, nel caso continuo dotato di densità, un singolo punto ha probabilità zero senza essere per ciò logicamente impossibile.</p>
-<p>La <strong>funzione di distribuzione cumulativa</strong> unifica i due casi. Essa esprime la probabilità che la variabile non superi una soglia e consente di calcolare probabilità di intervalli mediante differenze tra valori cumulativi. La CDF è quindi particolarmente utile quando una domanda psicologica è formulata in termini di soglie, percentili o fasce di valori.</p>
-<p>Infine, la stessa struttura matematica può assumere ruoli diversi. Una distribuzione può descrivere la variabilità dei dati, la distribuzione campionaria di una statistica, l’incertezza bayesiana su un parametro o una previsione per osservazioni future. Nei capitoli successivi useremo media, varianza e altre proprietà per sintetizzare queste distribuzioni senza perdere di vista il loro significato.</p>
+<p>La distinzione tra <strong>massa</strong> e <strong>densità</strong> chiarisce due modi diversi di rappresentare l’incertezza. Una funzione di probabilità a massa finita (PMF) può assegnare probabilità positive a valori discreti, mentre una funzione di densità di probabilità (PDF) assegna densità e le probabilità si ottengono integrando su intervalli. Per questo motivo, nel caso continuo dotato di densità, un singolo punto ha probabilità zero, ma ciò non lo rende logicamente impossibile.</p>
+<p>La <strong>funzione di distribuzione cumulativa</strong> unifica i due casi. Esprime la probabilità che la variabile non superi una soglia e consente di calcolare le probabilità degli intervalli mediante le differenze tra i valori cumulativi. La CDF è quindi particolarmente utile quando una domanda psicologica è formulata in termini di soglie, percentili o fasce di valori.</p>
+<p>Infine, la stessa struttura matematica può assumere ruoli diversi. Una distribuzione può descrivere la variabilità dei dati, la distribuzione campionaria di una statistica, l’incertezza bayesiana su un parametro o una previsione per osservazioni future. Nei capitoli successivi useremo la media, la varianza e altre proprietà per sintetizzare queste distribuzioni, senza perdere di vista il loro significato.</p>
 </section><section id="esercizi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="esercizi">Esercizi</h2>
 <ol type="1">
 <li><p>Una variabile discreta assegna probabilità 0.20, 0.35 e 0.45 ai valori 1, 2 e 3. Quale proprietà rende valida questa PMF? Che cosa significa <span class="math inline">\(P(X=2)=0.35\)</span>?</p></li>
@@ -1166,43 +1166,49 @@ P(a&lt;X\leq b)=F_X(b)-F_X(a).
 <span><span class="co">#&gt; tzcode source: internal</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attached base packages:</span></span>
-<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods  </span></span>
+<span><span class="co">#&gt; [7] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] ragg_1.5.2            tinytable_0.17.0      withr_3.0.3          </span></span>
-<span><span class="co">#&gt;  [4] systemfonts_1.3.2     patchwork_1.3.2       ggdist_3.3.3         </span></span>
-<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0      ggplot2_4.0.3        </span></span>
-<span><span class="co">#&gt; [10] reliabilitydiag_0.2.1 priorsense_1.2.0      posterior_1.7.0      </span></span>
-<span><span class="co">#&gt; [13] loo_2.10.1            rstan_2.32.7          StanHeaders_2.32.10  </span></span>
-<span><span class="co">#&gt; [16] brms_2.23.0           Rcpp_1.1.2            sessioninfo_1.2.4    </span></span>
-<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1         matrixStats_1.5.0    </span></span>
-<span><span class="co">#&gt; [22] modelr_0.1.11         tibble_3.3.1          dplyr_1.2.1          </span></span>
-<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.3.0             here_1.0.2           </span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.2            tinytable_0.17.0     </span></span>
+<span><span class="co">#&gt;  [3] withr_3.0.3           systemfonts_1.3.2    </span></span>
+<span><span class="co">#&gt;  [5] patchwork_1.3.2       ggdist_3.3.3         </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0     </span></span>
+<span><span class="co">#&gt;  [9] ggplot2_4.0.3         reliabilitydiag_0.2.1</span></span>
+<span><span class="co">#&gt; [11] priorsense_1.2.0      posterior_1.7.0      </span></span>
+<span><span class="co">#&gt; [13] loo_2.10.1            rstan_2.32.7         </span></span>
+<span><span class="co">#&gt; [15] StanHeaders_2.32.10   brms_2.23.1          </span></span>
+<span><span class="co">#&gt; [17] Rcpp_1.1.2            sessioninfo_1.2.4    </span></span>
+<span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1        </span></span>
+<span><span class="co">#&gt; [21] matrixStats_1.5.0     modelr_0.1.11        </span></span>
+<span><span class="co">#&gt; [23] tibble_3.3.1          dplyr_1.2.1          </span></span>
+<span><span class="co">#&gt; [25] tidyr_1.3.2           rio_1.3.0            </span></span>
+<span><span class="co">#&gt; [27] here_1.0.2           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] svUnit_1.0.8          tidyselect_1.2.1      farver_2.1.2         </span></span>
-<span><span class="co">#&gt;  [4] S7_0.2.2              fastmap_1.2.0         tensorA_0.36.2.1     </span></span>
-<span><span class="co">#&gt;  [7] digest_0.6.39         timechange_0.4.0      estimability_2.0.0   </span></span>
-<span><span class="co">#&gt; [10] lifecycle_1.0.5       magrittr_2.0.5        compiler_4.6.1       </span></span>
-<span><span class="co">#&gt; [13] rlang_1.3.0           tools_4.6.1           yaml_2.3.12          </span></span>
-<span><span class="co">#&gt; [16] knitr_1.51            labeling_0.4.3        bridgesampling_1.2-1 </span></span>
-<span><span class="co">#&gt; [19] htmlwidgets_1.6.4     pkgbuild_1.4.8        curl_7.1.0           </span></span>
-<span><span class="co">#&gt; [22] RColorBrewer_1.1-3    abind_1.4-8           purrr_1.2.2          </span></span>
-<span><span class="co">#&gt; [25] grid_4.6.1            stats4_4.6.1          xtable_1.8-8         </span></span>
-<span><span class="co">#&gt; [28] inline_0.3.21         emmeans_2.0.4         scales_1.4.0         </span></span>
-<span><span class="co">#&gt; [31] cli_3.6.6             mvtnorm_1.4-2         rmarkdown_2.31       </span></span>
-<span><span class="co">#&gt; [34] generics_0.1.4        otel_0.2.0            RcppParallel_5.1.11-2</span></span>
-<span><span class="co">#&gt; [37] cachem_1.1.0          stringr_1.6.0         parallel_4.6.1       </span></span>
-<span><span class="co">#&gt; [40] vctrs_0.7.3           V8_8.2.0              Matrix_1.7-6         </span></span>
-<span><span class="co">#&gt; [43] jsonlite_2.0.0        arrayhelpers_1.1-2    glue_1.8.1           </span></span>
-<span><span class="co">#&gt; [46] codetools_0.2-20      distributional_0.8.1  lubridate_1.9.5      </span></span>
-<span><span class="co">#&gt; [49] stringi_1.8.7         gtable_0.3.6          QuickJSR_1.10.0      </span></span>
-<span><span class="co">#&gt; [52] pillar_1.11.1         htmltools_0.5.9       Brobdingnag_1.2-9    </span></span>
-<span><span class="co">#&gt; [55] R6_2.6.1              textshaping_1.0.5     rprojroot_2.1.1      </span></span>
-<span><span class="co">#&gt; [58] evaluate_1.0.5        lattice_0.22-9        backports_1.5.1      </span></span>
-<span><span class="co">#&gt; [61] memoise_2.0.1         broom_1.0.13          snakecase_0.11.1     </span></span>
-<span><span class="co">#&gt; [64] rstantools_2.6.0      coda_0.19-4.1         gridExtra_2.3.1      </span></span>
-<span><span class="co">#&gt; [67] nlme_3.1-170          checkmate_2.3.4       xfun_0.60            </span></span>
+<span><span class="co">#&gt;  [1] svUnit_1.0.8         tidyselect_1.2.1     farver_2.1.2        </span></span>
+<span><span class="co">#&gt;  [4] S7_0.2.2             fastmap_1.2.0        tensorA_0.36.2.1    </span></span>
+<span><span class="co">#&gt;  [7] digest_0.6.39        timechange_0.4.0     estimability_2.0.0  </span></span>
+<span><span class="co">#&gt; [10] lifecycle_1.0.5      magrittr_2.0.5       compiler_4.6.1      </span></span>
+<span><span class="co">#&gt; [13] rlang_1.3.0          tools_4.6.1          yaml_2.3.12         </span></span>
+<span><span class="co">#&gt; [16] knitr_1.51           labeling_0.4.3       bridgesampling_1.2-1</span></span>
+<span><span class="co">#&gt; [19] htmlwidgets_1.6.4    pkgbuild_1.4.8       curl_7.1.0          </span></span>
+<span><span class="co">#&gt; [22] RColorBrewer_1.1-3   abind_1.4-8          purrr_1.2.2         </span></span>
+<span><span class="co">#&gt; [25] grid_4.6.1           stats4_4.6.1         xtable_1.8-8        </span></span>
+<span><span class="co">#&gt; [28] inline_0.3.21        emmeans_2.0.4        scales_1.4.0        </span></span>
+<span><span class="co">#&gt; [31] cli_3.6.6            mvtnorm_1.4-2        rmarkdown_2.31      </span></span>
+<span><span class="co">#&gt; [34] generics_0.1.4       otel_0.2.0           RcppParallel_6.2.0  </span></span>
+<span><span class="co">#&gt; [37] cachem_1.1.0         stringr_1.6.0        parallel_4.6.1      </span></span>
+<span><span class="co">#&gt; [40] vctrs_0.7.3          V8_8.2.0             Matrix_1.7-6        </span></span>
+<span><span class="co">#&gt; [43] jsonlite_2.0.0       arrayhelpers_1.1-2   glue_1.8.1          </span></span>
+<span><span class="co">#&gt; [46] codetools_0.2-20     distributional_0.8.1 lubridate_1.9.5     </span></span>
+<span><span class="co">#&gt; [49] stringi_1.8.7        gtable_0.3.6         QuickJSR_1.10.0     </span></span>
+<span><span class="co">#&gt; [52] pillar_1.11.1        htmltools_0.5.9      Brobdingnag_1.2-9   </span></span>
+<span><span class="co">#&gt; [55] R6_2.6.1             textshaping_1.0.5    rprojroot_2.1.1     </span></span>
+<span><span class="co">#&gt; [58] evaluate_1.0.5       lattice_0.22-9       backports_1.5.1     </span></span>
+<span><span class="co">#&gt; [61] memoise_2.0.1        broom_1.0.13         snakecase_0.11.1    </span></span>
+<span><span class="co">#&gt; [64] rstantools_2.7.0     coda_0.19-4.1        gridExtra_2.3.1     </span></span>
+<span><span class="co">#&gt; [67] nlme_3.1-170         checkmate_2.3.4      xfun_0.60           </span></span>
 <span><span class="co">#&gt; [70] pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
