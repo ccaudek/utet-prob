@@ -52,7 +52,7 @@ options(
   pillar.bold = TRUE,
   pillar.subtle = FALSE,
   pillar.width = Inf,
-  width = 80,
+  width = 68,
   scipen = 4,
   digits = 3,
   show.signif.stars = FALSE

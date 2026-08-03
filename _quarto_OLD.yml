@@ -1,0 +1,472 @@
+project:
+  type: book
+  output-dir: docs
+
+lang: it
+
+book:
+  title: "Probabilità per la psicologia"
+  subtitle: "Modulo di richiamo"
+  description: |
+    Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale *Inferenza bayesiana in psicologia: Ragionare con l'incertezza*.
+
+  author:
+    - name: "Corrado Caudek"
+      orcid: "0000-0002-1404-0420"
+
+  date: last-modified
+  date-format: "DD MMMM YYYY"
+  license: "CC BY-NC-ND"
+
+  site-url: https://ccaudek.github.io/utet-prob/
+  repo-url: https://github.com/ccaudek/utet-prob/
+  repo-actions: [source, issue]
+
+  reader-mode: true
+  page-navigation: true
+  back-to-top-navigation: true
+  bread-crumbs: true
+
+  search:
+    location: sidebar
+    type: overlay
+    copy-button: true
+    show-item-context: true
+
+  sidebar:
+    collapse-level: 1
+
+  google-analytics:
+    tracking-id: "G-QT5S3P9D31"
+    anonymize-ip: true
+
+  cookie-consent:
+    type: express
+    style: headline
+    palette: light
+    language: it
+    prefs-text: "Preferenze cookie"
+
+  open-graph: true
+  twitter-card: true
+
+  page-footer:
+    left: |
+      **Probabilità per la psicologia** — Modulo di richiamo del progetto UTET a supporto del manuale *Inferenza bayesiana in psicologia: Ragionare con l'incertezza*.
+    right: |
+      Realizzato con [Quarto](https://quarto.org/).
+
+  chapters:
+    - index.qmd
+
+    - part: "PARTE 1: Fondamenti della probabilità"
+      chapters:
+        - chapters/probability/01_intro_prob_bayesian.qmd
+        - chapters/probability/02_axioms_coherence_bayesian.qmd
+        - chapters/probability/03_equiprobability_combinatorics_bayesian.qmd
+        - chapters/probability/04_conditional_prob_bayesian.qmd
+        - chapters/probability/05_bayes_theorem.qmd
+
+    - part: "PARTE 2: Variabili casuali e distribuzioni"
+      chapters:
+        - chapters/probability/06_random_var.qmd
+        - chapters/probability/07_prob_distributions.qmd
+        - chapters/probability/08_expval_var.qmd
+        - chapters/probability/09_cov_cor.qmd
+
+    - part: "PARTE 3: Distribuzioni specifiche"
+      chapters:
+        - chapters/probability/10_intro_distributions.qmd
+        - chapters/probability/11_discr_rv_distr.qmd
+        - chapters/probability/12_cont_rv_distr.qmd
+
+    - part: "PARTE 4: Verso l'inferenza"
+      chapters:
+        - chapters/probability/13_from_sample_to_evidence.qmd
+        - chapters/probability/14_likelihood.qmd
+        - chapters/probability/15_aggiornamento_bayesiano.qmd
+        - chapters/probability/16_conclusioni.qmd
+
+  appendices:
+    - chapters/appendix/a01_math_symbols.qmd
+
+crossref:
+  appendix-title: "Appendice"
+
+bibliography: references.bib
+csl: apa.csl
+link-citations: true
+
+format:
+  html:
+    highlight-style: arrow
+
+    theme:
+      light:
+        - cosmo
+        - style/custom.scss
+      dark:
+        - darkly
+        - style/custom.scss
+        - style/custom-dark.scss
+
+    respect-user-color-scheme: true
+    canonical-url: true
+
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    toc-title: "Sommario"
+    toc-expand: 2
+    smooth-scroll: true
+    anchor-sections: true
+
+    code-fold: false
+    code-summary: "Mostra/Nascondi codice"
+    code-copy: hover
+    code-link: true
+    code-overflow: wrap
+    code-block-bg: true
+
+    fig-responsive: true
+    fig-align: center
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    lightbox: auto
+    df-print: paged
+
+    footnotes-hover: true
+    citations-hover: true
+    crossrefs-hover: true
+
+    link-external-icon: true
+    link-external-newwindow: true
+    link-external-filter: "^(?:https?:)?//ccaudek\\.github\\.io/utet-prob/"
+
+    html-math-method: 
+      method: mathjax
+      mathjax:
+        config: TeX-AMS_CHTML
+        options:
+          font: "Latin-Modern"
+
+# ============================================================
+# Sezione `format: pdf:` per _quarto.yml
+# ============================================================
+
+pdf:
+documentclass: scrbook
+classoption:
+- a4paper
+- 12pt
+- open=right
+- numbers=noenddot
+
+pdf-engine: lualatex
+
+# ============================================================
+# Tipografia
+# ============================================================
+mainfont: "Palatino"
+sansfont: "Libertinus Sans"
+monofont: "Source Code Pro"
+mathfont: "TeX Gyre Pagella Math"
+
+sansfontoptions:
+  - Scale=MatchLowercase
+monofontoptions:
+  - Scale=MatchLowercase
+
+# Interlinea leggermente ampliata per la lettura prolungata.
+linestretch: 1.05
+
+# ============================================================
+# Struttura del volume
+# ============================================================
+toc: true
+toc-depth: 2
+number-sections: true
+
+# Bibliografia distinta alla fine di ciascun capitolo.
+# Installare una sola volta dalla radice del progetto:
+# quarto add pandoc-ext/section-bibliographies --no-prompt
+filters:
+  - quarto
+  - pandoc-ext/section-bibliographies
+citeproc: false
+reference-section-title: "Riferimenti bibliografici"
+
+# section-bibliographies:
+
+# level: 1
+
+# minlevel: 1
+
+# cleanup-first: true
+
+# ============================================================
+# Collegamenti
+# ============================================================
+colorlinks: true
+linkcolor: MidnightBlue
+citecolor: MidnightBlue
+urlcolor: MidnightBlue
+
+# ============================================================
+# Codice, figure e tabelle
+# ============================================================
+highlight-style: github
+code-overflow: wrap
+fig-align: center
+fig-cap-location: bottom
+tbl-cap-location: top
+
+# ============================================================
+# Geometria della pagina
+# ============================================================
+geometry:
+  - top=25mm
+  - bottom=26mm
+  - inner=31mm
+  - outer=24mm
+  - headsep=8mm
+  - footskip=12mm
+  - heightrounded
+
+include-in-header:
+  text: |
+    % ==========================================================
+    % 1. Microtipografia e impostazione del paragrafo
+    % ==========================================================
+    \usepackage{microtype}
+    \microtypesetup{
+      protrusion=true,
+      expansion=true,
+      tracking=true
+    }
+
+    \emergencystretch=2em
+    \setlength{\parindent}{1.25em}
+    \setlength{\parskip}{0pt plus 0.5pt}
+
+    % L'interlinea è impostata mediante `linestretch: 1.05`
+    % nella configurazione Quarto.
+
+    % ==========================================================
+    % 2. Palette editoriale
+    % ==========================================================
+    \definecolor{BookAccent}{HTML}{243B53}       % blu editoriale sobrio
+    \definecolor{BookAccentLight}{HTML}{C9D4E0}  % numeri di capitolo e filetti chiari
+    \definecolor{BookGrey}{HTML}{5A6572}         % elementi secondari
+
+    % ==========================================================
+    % 3. Testatine e piè di pagina
+    % ==========================================================
+    \usepackage[
+      automark,
+      headsepline=0.4pt
+    ]{scrlayer-scrpage}
+
+    \clearpairofpagestyles
+    \automark[section]{chapter}
+
+    \ihead[]{\headmark}
+    \ohead[]{\pagemark}
+    \cfoot[\pagemark]{}
+
+    \setkomafont{pageheadfoot}{%
+      \footnotesize\sffamily\color{BookGrey}%
+    }
+    \setkomafont{pagenumber}{%
+      \footnotesize\sffamily\bfseries\color{BookAccent}%
+    }
+    \addtokomafont{headsepline}{\color{BookAccentLight}}
+
+    % ==========================================================
+    % 4. Aperture di capitolo
+    %    Numero grande in tinta chiara allineato a destra,
+    %    filetto pieno e titolo ampio.
+    % ==========================================================
+    \RedeclareSectionCommand[
+      beforeskip=1\baselineskip,
+      afterskip=2\baselineskip,
+      tocbeforeskip=1.1\baselineskip
+    ]{chapter}
+
+    \setkomafont{disposition}{%
+      \normalfont\sffamily\bfseries
+    }
+    \setkomafont{chapter}{%
+      \normalfont\sffamily\bfseries\Huge\color{BookAccent}
+    }
+
+    \renewcommand*{\chapterformat}{%
+      {\normalfont\sffamily\bfseries
+       \fontsize{58}{58}\selectfont
+       \color{BookAccentLight}\thechapter}%
+    }
+
+    \renewcommand{\chapterlinesformat}[3]{%
+      \Ifstr{#2}{}{%
+        % Capitoli non numerati:
+        % Prefazione, Introduzione, Conclusioni, ecc.
+        {\raggedright #3\par}\nobreak
+        \vskip 0.5\baselineskip
+        {\color{BookAccent}\rule{\textwidth}{0.9pt}}\par
+      }{%
+        % Capitoli numerati
+        {\raggedleft #2\par}\nobreak
+        \vskip 0.4\baselineskip
+        {\color{BookAccent}\rule{\textwidth}{0.9pt}}\par\nobreak
+        \vskip 1\baselineskip
+        {\raggedright #3\par}%
+      }%
+    }
+
+    % ==========================================================
+    % 5. Gerarchia dei titoli interni
+    % ==========================================================
+    \setkomafont{section}{%
+      \normalfont\sffamily\bfseries\Large\color{BookAccent}
+    }
+    \setkomafont{subsection}{%
+      \normalfont\sffamily\bfseries\large
+    }
+    \setkomafont{subsubsection}{%
+      \normalfont\sffamily\bfseries\normalsize\color{BookGrey}
+    }
+
+    \RedeclareSectionCommands[
+      beforeskip=1.6\baselineskip,
+      afterskip=0.8\baselineskip
+    ]{section}
+
+    \RedeclareSectionCommands[
+      beforeskip=1.3\baselineskip,
+      afterskip=0.6\baselineskip
+    ]{subsection,subsubsection}
+
+    % ==========================================================
+    % 6. Frontespizi di parte
+    % ==========================================================
+    \setkomafont{part}{%
+      \normalfont\sffamily\bfseries\Huge\color{BookAccent}
+    }
+    \setkomafont{partnumber}{%
+      \normalfont\sffamily\mdseries\huge\color{BookGrey}
+    }
+
+    % ==========================================================
+    % 7. Sommario
+    % ==========================================================
+    \setkomafont{partentry}{%
+      \sffamily\bfseries\large\color{BookAccent}
+    }
+    \setkomafont{chapterentry}{%
+      \sffamily\bfseries
+    }
+    \setkomafont{chapterentrypagenumber}{%
+      \sffamily\bfseries
+    }
+
+    % ==========================================================
+    % 8. Didascalie e tabelle
+    % ==========================================================
+    \setkomafont{caption}{\small}
+    \setkomafont{captionlabel}{%
+      \small\sffamily\bfseries\color{BookAccent}
+    }
+    \setcapindent{0pt}
+
+    \usepackage{booktabs}
+    \usepackage{array}
+
+    % ==========================================================
+    % 9. Note a piè di pagina e descrizioni
+    % ==========================================================
+    \setkomafont{footnote}{\small}
+    \deffootnote{1.4em}{1em}{%
+      \textsuperscript{\thefootnotemark}\,
+    }
+
+    \setkomafont{descriptionlabel}{%
+      \sffamily\bfseries
+    }
+
+    % ==========================================================
+    % 10. Spaziatura attorno a figure e tabelle
+    %     Valori calibrati per il corpo a 12 pt.
+    % ==========================================================
+    \setlength{\textfloatsep}{20pt plus 4pt minus 3pt}
+    \setlength{\floatsep}{16pt plus 3pt minus 2pt}
+    \setlength{\intextsep}{16pt plus 3pt minus 2pt}
+
+    % ==========================================================
+    % 11. Elenchi
+    % ==========================================================
+    \usepackage{enumitem}
+
+    \setlist{
+      itemsep=0.25em,
+      topsep=0.5em,
+      parsep=0pt,
+      partopsep=0pt
+    }
+
+    % ==========================================================
+    % 12. Controllo di vedove, orfane e salti di pagina
+    %     Controllo forte, ma non assoluto, per evitare pagine
+    %     eccessivamente vuote o spaziature verticali irregolari.
+    % ==========================================================
+    \clubpenalty=9000
+    \widowpenalty=9000
+    \displaywidowpenalty=10000
+    \brokenpenalty=5000
+
+    % ==========================================================
+    % 13. Codice sorgente e output della console
+    %     Corpo ridotto e ritorno a capo automatico.
+    % ==========================================================
+    \usepackage{fvextra}
+
+    % Codice sorgente con evidenziazione sintattica
+    \RecustomVerbatimEnvironment{Highlighting}{Verbatim}{
+      commandchars=\\\{\},
+      fontsize=\footnotesize,
+      breaklines=true,
+      breakanywhere=true,
+      breakautoindent=true,
+      breaksymbolleft={\tiny\ensuremath{\hookrightarrow}\,}
+    }
+
+    % Output testuale prodotto da R/knitr
+    \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+      fontsize=\footnotesize,
+      breaklines=true,
+      breakanywhere=true,
+      breakautoindent=true,
+      breaksymbolleft={\tiny\ensuremath{\hookrightarrow}\,}
+    }
+
+editor: source
+
+execute:
+  freeze: auto
+  cache: false
+
+  echo: true
+  warning: false
+  message: false
+  error: false
+
+  fig.width: 6.5
+  fig.asp: 0.618
+  fig.retina: 2
+  fig.align: center
+  fig.show: hold
+
+  options:
+    width: 90
+    pillar.width: 90
+    tibble.width: 90
+
