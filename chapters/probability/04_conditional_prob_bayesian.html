@@ -553,7 +553,7 @@ window.Quarto = {
   <li><a href="#sec-conditional-definition" id="toc-sec-conditional-definition" class="nav-link" data-scroll-target="#sec-conditional-definition"><span class="header-section-number">4.2</span> Definizione e interpretazione epistemica</a></li>
   <li><a href="#sec-conditional-properties" id="toc-sec-conditional-properties" class="nav-link" data-scroll-target="#sec-conditional-properties"><span class="header-section-number">4.3</span> Proprietà della probabilità condizionata</a></li>
   <li><a href="#sec-independence" id="toc-sec-independence" class="nav-link" data-scroll-target="#sec-independence"><span class="header-section-number">4.4</span> Indipendenza stocastica</a></li>
-  <li><a href="#sec-product-rule" id="toc-sec-product-rule" class="nav-link" data-scroll-target="#sec-product-rule"><span class="header-section-number">4.5</span> Teorema del prodotto (regola della catena)</a></li>
+  <li><a href="#sec-product-rule" id="toc-sec-product-rule" class="nav-link" data-scroll-target="#sec-product-rule"><span class="header-section-number">4.5</span> Teorema del prodotto e regola della catena</a></li>
   <li><a href="#sec-total-probability" id="toc-sec-total-probability" class="nav-link" data-scroll-target="#sec-total-probability"><span class="header-section-number">4.6</span> Legge della probabilità totale</a></li>
   <li><a href="#sec-simpsons-paradox" id="toc-sec-simpsons-paradox" class="nav-link" data-scroll-target="#sec-simpsons-paradox"><span class="header-section-number">4.7</span> Paradosso di Simpson</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/04_conditional_prob_bayesian.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
@@ -589,21 +589,14 @@ window.Quarto = {
 </div>
 </div>
 <section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Immaginate di essere uno psicologo clinico che ha appena ricevuto l’esito positivo di un test diagnostico per un paziente. Prima della somministrazione, avevate formulato una stima della probabilità di depressione. Ora il referto è sul tavolo. Cosa è cambiato?</p>
-<p><strong>Tutto e niente.</strong> I fatti oggettivi restano immutati: il paziente era depresso, o non lo era, già prima che il test venisse eseguito. Ciò che è radicalmente mutato è il vostro stato di conoscenza. Avete acquisito un’informazione nuova che deve essere incorporata in modo coerente, ristrutturando sistematicamente la valutazione iniziale.</p>
+<p>Immaginate di essere uno psicologo clinico che ha appena ricevuto l’esito positivo di un test diagnostico per un paziente. Prima della somministrazione del test, avevate formulato una stima della probabilità che il paziente soffrisse di depressione. Ora il referto è sul tavolo. Cosa è cambiato?</p>
+<p><strong>Dal punto di vista ontologico, nulla; da quello epistemico, tutto.</strong> I fatti oggettivi non sono cambiati: il paziente era depresso o non lo era già prima che il test venisse eseguito. Ciò che è cambiato radicalmente è il vostro stato di conoscenza. Avete acquisito un’informazione nuova che deve ora essere integrata in modo coerente, ristrutturando sistematicamente la valutazione iniziale.</p>
 <p>Questo processo dinamico di revisione razionale delle credenze alla luce dell’evidenza empirica costituisce l’essenza stessa del pensiero bayesiano. Lo strumento formale che lo incarna è la <strong>probabilità condizionata</strong>, il ponte matematico che collega le conoscenze precedenti a quelle successive all’osservazione.</p>
 </section><section id="perché-la-probabilità-condizionata-è-importante-in-psicologia" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="perché-la-probabilità-condizionata-è-importante-in-psicologia">
 <span class="header-section-number">4.1</span> Perché la probabilità condizionata è importante in psicologia?</h2>
-<p>In psicologia quasi ogni valutazione dipende dal contesto informativo. La probabilità che una persona presenti un disturbo cambia quando osserviamo un risultato diagnostico; la probabilità di ricordare uno stimolo cambia quando conosciamo le condizioni di apprendimento; la probabilità di una risposta corretta cambia quando consideriamo abilità, difficoltà dell’item e informazioni precedenti.</p>
-<p>La probabilità condizionata permette di rappresentare formalmente questi cambiamenti. È utile per:</p>
-<ul>
-<li>descrivere l’<strong>aggiornamento</strong> prodotto da nuove informazioni;</li>
-<li>distinguere la probabilità di un dato sotto un’ipotesi dalla probabilità dell’ipotesi dopo aver osservato il dato;</li>
-<li>formulare e valutare assunzioni di <strong>indipendenza</strong>;</li>
-<li>combinare scenari alternativi mediante la <strong>legge della probabilità totale</strong>;</li>
-<li>evitare conclusioni fuorvianti quando i dati aggregati nascondono sottogruppi differenti.</li>
-</ul>
-<p>Questi concetti preparano il terreno per il teorema di Bayes, che nel prossimo capitolo permetterà di collegare probabilità condizionate orientate in direzioni opposte.</p>
+<p>In psicologia, quasi ogni valutazione dipende strettamente dal contesto informativo che la correda. La probabilità che un individuo presenti un determinato disturbo cambia in base all’esito diagnostico, la probabilità di rievocare uno stimolo varia in funzione delle condizioni di apprendimento e la probabilità di fornire una risposta corretta dipende dall’interazione tra abilità del soggetto, difficoltà dell’item e conoscenze pregresse.</p>
+<p>La probabilità condizionata permette di rappresentare formalmente questi cambiamenti. È utile per descrivere l’<strong>aggiornamento</strong> prodotto da nuove informazioni, per distinguere la probabilità di un dato sotto un’ipotesi dalla probabilità dell’ipotesi dopo aver osservato il dato, per formulare e valutare assunzioni di <strong>indipendenza</strong>, per combinare scenari alternativi mediante la <strong>legge della probabilità totale</strong> e per evitare conclusioni fuorvianti quando i dati aggregati nascondono sottogruppi differenti.</p>
+<p>Questi concetti preparano il terreno per il teorema di Bayes che, nel prossimo capitolo, ci permetterà di collegare probabilità condizionate orientate in direzioni opposte.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Prerequisiti">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -652,28 +645,23 @@ window.Quarto = {
 </section><section id="sec-conditional-definition" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="sec-conditional-definition">
 <span class="header-section-number">4.2</span> Definizione e interpretazione epistemica</h2>
 <p>Partiamo da una credenza iniziale in un evento <span class="math inline">\(A\)</span>. Poi apprendiamo che si è verificato un altro evento <span class="math inline">\(B\)</span>. Come dovrebbe cambiare la nostra credenza in <span class="math inline">\(A\)</span>?</p>
-<p>La risposta intuitiva è che dobbiamo considerare soltanto le situazioni in cui <span class="math inline">\(B\)</span> è vero e valutare quale quota della probabilità attribuita a <span class="math inline">\(B\)</span> appartenga anche ad <span class="math inline">\(A\)</span>. La formula seguente traduce questa idea in linguaggio matematico.</p>
+<p>La risposta intuitiva è che dobbiamo considerare soltanto le situazioni in cui <span class="math inline">\(B\)</span> è vero e valutare quale quota della probabilità attribuita a <span class="math inline">\(B\)</span> appartiene anche ad <span class="math inline">\(A\)</span>. La formula seguente traduce questa idea in linguaggio matematico.</p>
 <div id="def-conditional-probability" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 4.1 (Probabilità condizionata)</strong></span> Se <span class="math inline">\(P(B) &gt; 0\)</span>, la <em>probabilità condizionata</em> di <span class="math inline">\(A\)</span> dato <span class="math inline">\(B\)</span> è definita come:</p>
 <p><span id="eq-prob-cond-def"><span class="math display">\[
 P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
 \tag{4.1}\]</span></span></p>
-<p><strong>Interpretazione epistemica</strong>: <span class="math inline">\(P(A \mid B)\)</span> quantifica il grado di credenza in <span class="math inline">\(A\)</span> quando assumiamo o apprendiamo che <span class="math inline">\(B\)</span> è vero. In altri contesti la stessa quantità descrive la probabilità di <span class="math inline">\(A\)</span> nella sottopopolazione definita da <span class="math inline">\(B\)</span>.</p>
+<p><strong>Interpretazione epistemica</strong>: <span class="math inline">\(P(A \mid B)\)</span> quantifica il grado di credenza in <span class="math inline">\(A\)</span> quando si assume o si apprende che <span class="math inline">\(B\)</span> è vero. In altri contesti la stessa quantità descrive la probabilità di <span class="math inline">\(A\)</span> nella sottopopolazione definita da <span class="math inline">\(B\)</span>.</p>
 </div>
 <section id="il-meccanismo-dellaggiornamento" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="il-meccanismo-dellaggiornamento">
 <span class="header-section-number">4.2.1</span> Il meccanismo dell’aggiornamento</h3>
 <p>Apprendere che <span class="math inline">\(B\)</span> è vero innesca un processo in due fasi:</p>
 <p><strong>1. Riduzione epistemica</strong> — Lo spazio delle possibilità <span class="math inline">\(\Omega\)</span> viene ristretto al solo sottoinsieme <span class="math inline">\(B\)</span>. Tutte le configurazioni in cui <span class="math inline">\(B\)</span> è falso vengono eliminate, non perché siano diventate “impossibili” in senso metafisico, ma perché sono diventate <em>irrilevanti</em> per il nostro ragionamento.</p>
-<p><strong>2. Rinormalizzazione</strong> — Le probabilità delle configurazioni rimanenti (quelle in cui <span class="math inline">\(B\)</span> è vero) vengono riscalate in modo che tornino a sommare a 1. Il fattore di scala è esattamente <span class="math inline">\(1/P(B)\)</span>.</p>
+<p><strong>2. Rinormalizzazione</strong> — Le probabilità delle configurazioni rimanenti (quelle in cui <span class="math inline">\(B\)</span> è vero) vengono riscalate in modo che tornino a sommare a 1, con un fattore di scala pari a <span class="math inline">\(1/P(B)\)</span>.</p>
 <p>Questo procedimento garantisce <strong>coerenza</strong>: se avessimo modellato fin dall’inizio un mondo in cui <span class="math inline">\(B\)</span> è l’unica possibilità, avremmo ottenuto esattamente le stesse probabilità relative.</p>
 </section><section id="unanalogia-lo-zoom-fotografico" class="level3" data-number="4.2.2"><h3 data-number="4.2.2" class="anchored" data-anchor-id="unanalogia-lo-zoom-fotografico">
 <span class="header-section-number">4.2.2</span> Un’analogia: lo zoom fotografico</h3>
-<p>Pensate alla distribuzione di probabilità congiunta come a una fotografia. La probabilità condizionata è come fare uno <em>zoom</em> su una porzione dell’immagine (la regione <span class="math inline">\(B\)</span>):</p>
-<ul>
-<li>perdiamo di vista tutto ciò che sta fuori dalla regione (riduzione);</li>
-<li>i dettagli della regione riempiono ora tutto lo schermo (rinormalizzazione);</li>
-<li>i rapporti tra gli elementi <em>all’interno</em> della regione rimangono invariati.</li>
-</ul>
+<p>Pensate alla distribuzione di probabilità congiunta come a una fotografia. La probabilità condizionata è come fare uno <strong>zoom</strong> su una porzione dell’immagine (la regione <span class="math inline">\(B\)</span>): da un lato si perde di vista tutto ciò che sta fuori dalla regione (riduzione), dall’altro i dettagli della porzione selezionata riempiono ora l’intero schermo (rinormalizzazione), mentre i rapporti tra gli elementi <strong>all’interno</strong> della regione rimangono invariati.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-condizionamento-zoom" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -689,8 +677,8 @@ Figura&nbsp;4.1: Il condizionamento restringe lo spazio a B e rinormalizza le pr
 <p>La <a href="#fig-condizionamento-zoom" class="quarto-xref">Figura&nbsp;<span>4.1</span></a> rappresenta il nuovo spazio probabilistico dopo il condizionamento su <span class="math inline">\(B\)</span>.</p>
 </section><section id="ogni-probabilità-dipende-da-uno-sfondo-informativo" class="level3" data-number="4.2.3"><h3 data-number="4.2.3" class="anchored" data-anchor-id="ogni-probabilità-dipende-da-uno-sfondo-informativo">
 <span class="header-section-number">4.2.3</span> Ogni probabilità dipende da uno sfondo informativo</h3>
-<p>Dal punto di vista bayesiano, ogni assegnazione di probabilità dipende da uno <strong>sfondo informativo</strong>, anche quando non lo scriviamo esplicitamente.</p>
-<p>Quando diciamo “<span class="math inline">\(P(A) = 0.3\)</span>”, in realtà intendiamo “<span class="math inline">\(P(A \mid \mathcal{I}) = 0.3\)</span>”, dove <span class="math inline">\(\mathcal{I}\)</span> rappresenta tutto ciò che sappiamo: dati precedenti, teoria, contesto e assunzioni. La notazione <span class="math inline">\(P(A)\)</span> è quindi un’abbreviazione comoda: il valore assegnato può cambiare quando cambiano dati, assunzioni o informazioni di contesto.</p>
+<p>Dal punto di vista bayesiano, ogni assegnazione di probabilità dipende da uno <strong>sfondo informativo</strong>, anche quando viene esplicitato.</p>
+<p>Quando diciamo “<span class="math inline">\(P(A) = 0.3\)</span>”, in realtà intendiamo “<span class="math inline">\(P(A \mid \mathcal{I}) = 0.3\)</span>”, dove <span class="math inline">\(\mathcal{I}\)</span> rappresenta tutto ciò che sappiamo: dati precedenti, teoria, contesto e assunzioni. La notazione <span class="math inline">\(P(A)\)</span> è quindi un’abbreviazione comoda: il valore assegnato può cambiare quando cambiano i dati, le assunzioni o le informazioni di contesto.</p>
 </section></section><section id="sec-conditional-properties" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="sec-conditional-properties">
 <span class="header-section-number">4.3</span> Proprietà della probabilità condizionata</h2>
 <p>Un risultato importante è che le probabilità condizionate soddisfano tutti gli assiomi della probabilità. In altre parole, <span class="math inline">\(P(\cdot \mid B)\)</span> è essa stessa una funzione di probabilità legittima.</p>
@@ -751,10 +739,10 @@ Figura&nbsp;4.1: Il condizionamento restringe lo spazio a B e rinormalizza le pr
 </div>
 <p><strong>Valore predittivo positivo</strong> (la domanda clinica cruciale):</p>
 <p><span class="math display">\[P(D \mid T^+) = 0.43\]</span></p>
-<p>Condizionatamente ai valori assunti, dopo un risultato positivo la probabilità di depressione è circa il 43%, non l’85%. La sensibilità è <span class="math inline">\(P(T^+ \mid D)\)</span>, mentre la domanda clinica riguarda <span class="math inline">\(P(D \mid T^+)\)</span>. La bassa prevalenza fa sì che anche un tasso di falsi positivi del 10% produca numerosi risultati positivi tra le persone non depresse.</p>
+<p>Condizionatamente ai valori assunti, la probabilità di depressione dopo un risultato positivo è di circa il 43%, non dell’85%. La sensibilità è <span class="math inline">\(P(T^+ \mid D)\)</span>, mentre la domanda clinica riguarda <span class="math inline">\(P(D \mid T^+)\)</span>. La bassa prevalenza fa sì che anche un tasso di falsi positivi del 10% produca un gran numero di risultati positivi tra le persone che non soffrono di depressione.</p>
 <p><strong>Valore predittivo negativo</strong>:</p>
 <p><span class="math display">\[P(D^c \mid T^-) = 1 - P(D \mid T^-) = 0.986\]</span></p>
-<p>Dopo un test negativo, la probabilità di depressione scende a circa l’1,4%; equivalentemente, la probabilità di non depressione è circa il 98,6%.</p>
+<p>Dopo un test negativo, la probabilità di depressione scende a circa l’1.4%, mentre la probabilità di non depressione è di circa il 98.6%.</p>
 <p><strong>Visualizzazione dell’aggiornamento</strong></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -768,14 +756,14 @@ Figura&nbsp;4.2: Probabilità di depressione prima del test e dopo un risultato 
 </div>
 </div>
 </div>
-<p>La <a href="#fig-aggiornamento-test-depressione" class="quarto-xref">Figura&nbsp;<span>4.2</span></a> mostra che lo stesso risultato può modificare la probabilità in direzioni e misure diverse. <strong>La lezione epistemica</strong> è che l’informazione fornita da un test dipende sia da sensibilità e specificità sia dalla prevalenza del disturbo nel contesto in cui il test viene applicato.</p>
+<p>La <a href="#fig-aggiornamento-test-depressione" class="quarto-xref">Figura&nbsp;<span>4.2</span></a> mostra che lo stesso risultato può modificare la probabilità in direzioni e misure diverse. <strong>La lezione epistemica</strong> è che l’informazione fornita da un test dipende sia dalla sensibilità e dalla specificità, sia dalla prevalenza del disturbo nel contesto in cui il test viene applicato.</p>
 </div>
 </div>
 </div>
 </section><section id="sec-independence" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sec-independence">
 <span class="header-section-number">4.4</span> Indipendenza stocastica</h2>
-<p>Abbiamo visto che la probabilità condizionata descrive come l’informazione su un evento modifichi le credenze su un altro. Ma cosa succede quando l’informazione <em>non modifica nulla</em>? Esiste cioè una situazione in cui apprendere che <span class="math inline">\(B\)</span> si è verificato lascia inalterata la nostra credenza in <span class="math inline">\(A\)</span>?</p>
-<p>La risposta è sì, e definisce il concetto di <strong>indipendenza stocastica</strong>.</p>
+<p>Abbiamo visto che la probabilità condizionata descrive l’impatto dell’informazione su un evento sulle credenze riguardo a un altro evento. Ma cosa succede quando l’informazione <em>non modifica nulla</em>? Esiste cioè una situazione in cui apprendere che <span class="math inline">\(B\)</span> si è verificato non modifica la nostra credenza in <span class="math inline">\(A\)</span>?</p>
+<p>La risposta è sì e questo definisce il concetto di <strong>indipendenza stocastica</strong>.</p>
 <div id="def-independence" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 4.2 (Indipendenza (definizione epistemica))</strong></span> Due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono detti <strong>indipendenti</strong> (notazione: <span class="math inline">\(A \perp B\)</span>) se</p>
 <p><span class="math display">\[
@@ -787,19 +775,27 @@ P(A \mid B)=P(A)
 \qquad\text{e}\qquad
 P(B \mid A)=P(B).
 \]</span></p>
-<p>In termini informativi, conoscere il verificarsi di uno dei due eventi non modifica la probabilità assegnata all’altro.</p>
+<p>In termini informativi, la conoscenza di uno dei due eventi non modifica la probabilità assegnata all’altro.</p>
 </div>
 <section id="indipendenza-probabilistica-e-causalità" class="level3" data-number="4.4.1"><h3 data-number="4.4.1" class="anchored" data-anchor-id="indipendenza-probabilistica-e-causalità">
 <span class="header-section-number">4.4.1</span> Indipendenza probabilistica e causalità</h3>
-<p>L’indipendenza è una proprietà della distribuzione di probabilità adottata. Da sola non afferma né esclude una relazione causale. Due eventi possono risultare associati perché uno influenza l’altro, perché condividono una causa comune o perché il campionamento introduce una dipendenza; viceversa, una relazione causale può non produrre un’associazione marginale facilmente visibile.</p>
-<p>Consideriamo due lanci della stessa moneta. Se la probabilità di testa è nota e i lanci sono modellati come indipendenti, conoscere il primo risultato non cambia la probabilità del secondo. Se invece la propensione della moneta a produrre testa è incerta e comune ai due lanci, il primo risultato può informare sulla propensione e quindi modificare la previsione del secondo. L’indipendenza dipende dunque dalle variabili considerate e dalle informazioni incluse nel modello.</p>
+<p>L’indipendenza probabilistica è una proprietà della distribuzione di probabilità che assumiamo per descrivere i dati; di per sé, però, non equivale né all’assenza né alla presenza di un rapporto causale. Due variabili possono risultare correlate perché una influenza l’altra, perché condividono una causa comune o a causa di distorsioni introdotte dal campionamento. Allo stesso modo, una relazione causale può esistere anche senza tradursi in un’associazione marginale immediatamente evidente.</p>
+<p>Per chiarire questo punto, consideriamo due lanci della stessa moneta. Se la probabilità di ottenere “testa” è nota e fissa, i due lanci possono essere considerati indipendenti: il risultato del primo lancio non influisce sulla probabilità del secondo. Se invece tale probabilità è incerta, pur essendo comune a entrambi i lanci, l’esito del primo lancio fornisce informazioni sull’incertezza e può quindi modificare la previsione del secondo lancio. L’indipendenza, pertanto, non è una proprietà intrinseca degli eventi, ma dipende dalle variabili prese in considerazione e dalle informazioni incluse nel modello.</p>
 </section><section id="la-fattorizzazione-e-la-forma-condizionata" class="level3" data-number="4.4.2"><h3 data-number="4.4.2" class="anchored" data-anchor-id="la-fattorizzazione-e-la-forma-condizionata">
 <span class="header-section-number">4.4.2</span> La fattorizzazione e la forma condizionata</h3>
-<p>La definizione mediante il prodotto delle marginali è particolarmente generale, perché rimane valida anche quando uno degli eventi ha probabilità zero:</p>
+<p>Due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> sono indipendenti quando la probabilità che si verifichino entrambi è uguale al prodotto delle loro probabilità:</p>
 <p><span id="eq-independence-factorization"><span class="math display">\[
-P(A \cap B) = P(A) \cdot P(B).
+P(A \cap B) = P(A)\cdot P(B).
 \tag{4.2}\]</span></span></p>
-<p>Quando le probabilità marginali sono positive, dividendo entrambi i membri per <span class="math inline">\(P(B)\)</span> o per <span class="math inline">\(P(A)\)</span> otteniamo le forme condizionate <span class="math inline">\(P(A\mid B)=P(A)\)</span> e <span class="math inline">\(P(B\mid A)=P(B)\)</span>. La fattorizzazione e l’interpretazione informativa esprimono quindi la stessa idea: la distribuzione congiunta non contiene un’associazione tra i due eventi.</p>
+<p>Questa definizione, detta <strong>forma fattorizzata</strong>, è la più generale, perché rimane valida anche quando uno dei due eventi ha probabilità nulla.</p>
+<p>Se invece <span class="math inline">\(P(A)&gt;0\)</span> e <span class="math inline">\(P(B)&gt;0\)</span>, dalla stessa uguaglianza si possono ricavare le forme condizionate:</p>
+<p><span class="math display">\[
+P(A\mid B)=P(A),
+\qquad
+P(B\mid A)=P(B).
+\]</span></p>
+<p>Queste relazioni mostrano che la conoscenza del verificarsi di un evento non modifica la probabilità dell’altro.</p>
+<p>La forma fattorizzata e la forma condizionata esprimono dunque la stessa idea: la distribuzione congiunta non evidenzia alcuna associazione tra <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span>, perché l’informazione su uno dei due eventi non influisce sull’altro.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Un errore comune: confondere disgiunzione e indipendenza">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -809,18 +805,18 @@ P(A \cap B) = P(A) \cdot P(B).
 <span class="screen-reader-only">Avviso</span>Un errore comune: confondere disgiunzione e indipendenza
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Due eventi <strong>disgiunti</strong> (mutualmente esclusivi) <strong>non possono essere indipendenti</strong>, a meno che uno dei due abbia probabilità zero.</p>
-<p><strong>Perché?</strong> Se <span class="math inline">\(A \cap B = \varnothing\)</span> e <span class="math inline">\(P(A) &gt; 0\)</span>, <span class="math inline">\(P(B) &gt; 0\)</span>, allora:</p>
-<p><span class="math display">\[P(A \cap B) = 0, \quad\text{mentre}\quad P(A) \cdot P(B) &gt; 0.\]</span></p>
-<p>La fattorizzazione fallisce clamorosamente.</p>
-<p><strong>Interpretazione epistemica</strong>: eventi disgiunti con probabilità positiva sono fortemente informativi l’uno rispetto all’altro. Se so che si è verificato <span class="math inline">\(A\)</span>, so con certezza che <span class="math inline">\(B\)</span> non si è verificato. L’indipendenza, al contrario, richiede che questa informazione non modifichi la probabilità dell’altro evento.</p>
-<p><strong>Esempio</strong>: per un singolo risultato di un test, gli eventi «esito positivo» ed «esito negativo» sono disgiunti. Sapere che il risultato è positivo implica che non è negativo. Sono quindi dipendenti, non indipendenti.</p>
+<section id="eventi-disgiunti-e-indipendenza" class="level3 callout-body-container callout-body" data-number="4.4.3"><h3 data-number="4.4.3" class="anchored" data-anchor-id="eventi-disgiunti-e-indipendenza">
+<span class="header-section-number">4.4.3</span> Eventi disgiunti e indipendenza</h3>
+<p>Due eventi <strong>disgiunti</strong>, o <strong>mutualmente esclusivi</strong>, non possono verificarsi contemporaneamente. In simboli, <span class="math inline">\(A \cap B=\varnothing.\)</span></p>
+<p>Se entrambi hanno una probabilità positiva, ovvero se <span class="math inline">\(P(A)&gt;0\)</span> e <span class="math inline">\(P(B)&gt;0\)</span>, allora non possono essere indipendenti. Infatti, <span class="math inline">\(P(A\cap B)=0,\)</span> mentre <span class="math inline">\(P(A)\cdot P(B)&gt;0.\)</span> Di conseguenza, la condizione di indipendenza <span class="math inline">\(P(A\cap B)=P(A)\cdot P(B)\)</span> non è soddisfatta.</p>
+<p>L’unica eccezione si verifica quando almeno uno dei due eventi ha probabilità nulla. In questo caso, sia <span class="math inline">\(P(A\cap B)\)</span> sia <span class="math inline">\(P(A)\cdot P(B)\)</span> sono uguali a zero.</p>
+<p>Dal punto di vista informativo, due eventi disgiunti con probabilità positiva sono fortemente dipendenti: sapere che si è verificato <span class="math inline">\(A\)</span> permette di concludere con certezza che <span class="math inline">\(B\)</span> non si è verificato. L’indipendenza richiederebbe invece che l’informazione sul verificarsi di un evento non influenzi la probabilità dell’altro.</p>
+<p><strong>Esempio.</strong> Consideriamo il risultato di un test diagnostico. Gli eventi “il test ha esito positivo” e “il test ha esito negativo” sono disgiunti, perché non possono verificarsi nello stesso momento. Sapere che il risultato è positivo implica che non è negativo. I due eventi sono quindi dipendenti.</p>
+</section>
 </div>
-</div>
-</section><section id="un-esempio-il-test-diagnostico" class="level3" data-number="4.4.3"><h3 data-number="4.4.3" class="anchored" data-anchor-id="un-esempio-il-test-diagnostico">
-<span class="header-section-number">4.4.3</span> Un esempio: il test diagnostico</h3>
-<p>Torniamo al test diagnostico per la depressione discusso nella sezione precedente. Test e stato sono (fortunatamente!) dipendenti: un test che fosse indipendente dallo stato sarebbe clinicamente inutile.</p>
+</section><section id="un-esempio-il-test-diagnostico" class="level3" data-number="4.4.4"><h3 data-number="4.4.4" class="anchored" data-anchor-id="un-esempio-il-test-diagnostico">
+<span class="header-section-number">4.4.4</span> Un esempio: il test diagnostico</h3>
+<p>Torniamo al test diagnostico per la depressione discusso nella sezione precedente. Il test e lo stato sono (fortunatamente!) dipendenti: un test che fosse indipendente dallo stato sarebbe clinicamente inutile.</p>
 <p>Verifichiamolo numericamente:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Parametri del modello diagnostico</span></span>
@@ -841,115 +837,185 @@ P(A \cap B) = P(A) \cdot P(B).
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Differenza:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">P_D_and_Tpos</span> <span class="op">-</span> <span class="va">P_D_indep</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Differenza: 0.0552</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>La differenza è sostanziale: <span class="math inline">\(P(D \cap T^+) = 0.068\)</span>, mentre il prodotto delle marginali è <span class="math inline">\(0.08 \times 0.16 = 0.0128\)</span>. Il test e la depressione sono quindi <strong>dipendenti</strong> — proprio come ci aspettiamo da uno strumento diagnostico utile.</p>
-</section><section id="il-test-di-indipendenza-nella-pratica" class="level3" data-number="4.4.4"><h3 data-number="4.4.4" class="anchored" data-anchor-id="il-test-di-indipendenza-nella-pratica">
-<span class="header-section-number">4.4.4</span> Il test di indipendenza nella pratica</h3>
-<p>Quando disponiamo di una distribuzione congiunta, possiamo verificare l’indipendenza confrontando <span class="math inline">\(P(A \cap B)\)</span> con <span class="math inline">\(P(A)P(B)\)</span>. Per probabilità teoriche l’uguaglianza deve essere esatta. Nei dati empirici, invece, le proporzioni campionarie differiscono quasi sempre per variabilità casuale: per valutare se un modello di indipendenza è adeguato occorre tenere conto dell’incertezza di stima.</p>
-<p>Nella pratica psicologica, tuttavia, è importante ricordare che l’indipendenza è spesso un’<strong>assunzione</strong>, non un dato di fatto. Quando costruiamo modelli statistici, possiamo assumere indipendenza tra osservazioni oppure indipendenza condizionale tra item o errori, date le variabili incluse nel modello. Tali assunzioni vanno giustificate teoricamente e verificate empiricamente, perché la loro violazione può portare a stime distorte e a conclusioni errate. L’indipendenza è uno strumento potente, ma va maneggiato con la consapevolezza che, nei fenomeni psicologici, la dipendenza è spesso la regola, non l’eccezione.</p>
+<p>La differenza è sostanziale: <span class="math inline">\(P(D \cap T^+) = 0.068\)</span>, mentre il prodotto delle marginali è <span class="math inline">\(0.08 \times 0.16 = 0.0128\)</span>. Il test e la depressione sono quindi <strong>dipendenti</strong>, proprio come ci si aspetta da uno strumento diagnostico utile.</p>
+</section><section id="il-test-di-indipendenza-nella-pratica" class="level3" data-number="4.4.5"><h3 data-number="4.4.5" class="anchored" data-anchor-id="il-test-di-indipendenza-nella-pratica">
+<span class="header-section-number">4.4.5</span> Il test di indipendenza nella pratica</h3>
+<p>Quando disponiamo di una distribuzione congiunta, possiamo verificare l’indipendenza confrontando <span class="math inline">\(P(A \cap B)\)</span> con <span class="math inline">\(P(A)P(B)\)</span>. Per le probabilità teoriche l’uguaglianza deve essere esatta. Nei dati empirici, invece, le proporzioni campionarie differiscono quasi sempre a causa della variabilità casuale: per valutare se un modello di indipendenza è adeguato, è necessario tenere conto dell’incertezza di stima.</p>
+<p>Nella pratica psicologica, tuttavia, è importante ricordare che l’indipendenza è spesso un’<strong>assunzione</strong>, non un dato di fatto. Quando costruiamo modelli statistici, possiamo assumere l’indipendenza tra le osservazioni o l’indipendenza condizionale tra gli item o gli errori, a seconda delle variabili incluse nel modello. Tali assunzioni devono essere giustificate dal punto di vista teorico e verificate dal punto di vista empirico, perché la loro violazione può portare a stime distorte e a conclusioni errate. L’indipendenza è uno strumento potente, ma va maneggiato con la consapevolezza che, nei fenomeni psicologici, la dipendenza è spesso la regola, non l’eccezione.</p>
 </section></section><section id="sec-product-rule" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="sec-product-rule">
-<span class="header-section-number">4.5</span> Teorema del prodotto (regola della catena)</h2>
-<p>Il <strong>teorema del prodotto</strong> ci permette di costruire probabilità congiunte a partire da componenti più semplici.</p>
+<span class="header-section-number">4.5</span> Teorema del prodotto e regola della catena</h2>
+<p>Il <strong>teorema del prodotto</strong> permette di esprimere la probabilità congiunta di due o più eventi mediante probabilità marginali e condizionate.</p>
 <div id="thm-product-rule" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 4.2 (Teorema del prodotto)</strong></span> Per due eventi <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> con <span class="math inline">\(P(B)&gt;0\)</span>:</p>
+<p><span class="theorem-title"><strong>Teorema 4.2 (Teorema del prodotto)</strong></span> Siano <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> due eventi. Se <span class="math inline">\(P(B)&gt;0\)</span>, allora</p>
 <p><span class="math display">\[
-P(A \cap B) = P(A \mid B) \cdot P(B).
+P(A \cap B)=P(A\mid B)\,P(B).
 \]</span></p>
-<p>Se anche <span class="math inline">\(P(A)&gt;0\)</span>, possiamo scrivere in modo equivalente:</p>
+<p>Analogamente, se <span class="math inline">\(P(A)&gt;0\)</span>, si può scrivere</p>
 <p><span class="math display">\[
-P(A \cap B) = P(B \mid A) \cdot P(A).
+P(A \cap B)=P(B\mid A)\,P(A).
 \]</span></p>
+<p>Le due espressioni descrivono la stessa probabilità congiunta, ma la scompongono in un ordine diverso.</p>
 </div>
 <section id="interpretazione-sequenziale" class="level3" data-number="4.5.1"><h3 data-number="4.5.1" class="anchored" data-anchor-id="interpretazione-sequenziale">
 <span class="header-section-number">4.5.1</span> Interpretazione sequenziale</h3>
-<p>Il teorema ci dice che la probabilità congiunta può essere pensata come un processo <em>sequenziale</em>:</p>
+<p>La prima fattorizzazione può essere letta come una costruzione in due passaggi:</p>
 <ol type="1">
-<li>valutiamo la probabilità che <span class="math inline">\(B\)</span> sia vero: <span class="math inline">\(P(B)\)</span>;</li>
-<li>valutiamo la probabilità che <span class="math inline">\(A\)</span> sia vero <em>dato che</em> <span class="math inline">\(B\)</span> è vero: <span class="math inline">\(P(A \mid B)\)</span>;</li>
-<li>la probabilità che <em>entrambi</em> siano veri è il prodotto.</li>
+<li>si considera la probabilità che si verifichi <span class="math inline">\(B\)</span>, cioè <span class="math inline">\(P(B)\)</span>;</li>
+<li>una volta assunto che <span class="math inline">\(B\)</span> si sia verificato, si considera la probabilità di <span class="math inline">\(A\)</span>, cioè <span class="math inline">\(P(A\mid B)\)</span>.</li>
 </ol>
-<p>Questa scomposizione riflette un modo naturale di costruire modelli complessi.</p>
-</section><section id="la-regola-della-catena-generalizzazione" class="level3" data-number="4.5.2"><h3 data-number="4.5.2" class="anchored" data-anchor-id="la-regola-della-catena-generalizzazione">
-<span class="header-section-number">4.5.2</span> La regola della catena: generalizzazione</h3>
-<p>Il teorema si estende a sequenze di eventi:</p>
+<p>Il prodotto</p>
 <p><span class="math display">\[
+P(A\mid B)\,P(B)
+\]</span> fornisce quindi la probabilità che <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> si verifichino entrambi.</p>
+<p>Questa interpretazione è detta <strong>sequenziale</strong> perché scompone un evento congiunto in una successione di probabilità condizionate. L’ordine scelto, tuttavia, non deve necessariamente rappresentare una successione temporale o un rapporto causale.</p>
+</section><section id="la-regola-della-catena" class="level3" data-number="4.5.2"><h3 data-number="4.5.2" class="anchored" data-anchor-id="la-regola-della-catena">
+<span class="header-section-number">4.5.2</span> La regola della catena</h3>
+<p>Il teorema del prodotto si estende a un numero arbitrario di eventi. Per <span class="math inline">\(A_1,\ldots,A_n\)</span>, purché tutte le probabilità condizionate coinvolte siano definite, vale</p>
+<p><span id="eq-regola-catena"><span class="math display">\[
 \begin{aligned}
-P(A_1 \cap A_2 \cap \cdots \cap A_n)
-&amp;= P(A_1)\, P(A_2 \mid A_1) \\
-&amp;\quad \cdot P(A_3 \mid A_1 \cap A_2) \cdots \\
-&amp;\quad \cdot P(A_n \mid A_1 \cap \cdots \cap A_{n-1}).
+P(A_1\cap A_2\cap\cdots\cap A_n)
+&amp;= P(A_1) \\
+&amp;\quad \cdot P(A_2\mid A_1) \\
+&amp;\quad \cdot P(A_3\mid A_1\cap A_2) \cdots \\
+&amp;\quad \cdot P(A_n\mid A_1\cap\cdots\cap A_{n-1}).
 \end{aligned}
-\]</span></p>
-<p>Ogni fattore condiziona sugli eventi collocati prima nella scomposizione. La regola non impone un ordine temporale o causale: la stessa probabilità congiunta può essere fattorizzata secondo ordini diversi, purché le condizionate siano definite.</p>
+\tag{4.3}\]</span></span></p>
+<p>Ogni fattore esprime la probabilità di un evento condizionata al verificarsi di tutti gli eventi che lo precedono nella fattorizzazione.</p>
+<p>La regola della catena non impone un ordine unico. La stessa probabilità congiunta può essere scomposta secondo qualunque ordine degli eventi, purché le corrispondenti probabilità condizionate siano definite.</p>
 </section></section><section id="sec-total-probability" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="sec-total-probability">
 <span class="header-section-number">4.6</span> Legge della probabilità totale</h2>
-<p>La <strong>legge della probabilità totale</strong> risponde a una domanda frequente: come calcolare la probabilità di un evento che può verificarsi attraverso <em>scenari alternativi</em>?</p>
+<p>La <strong>legge della probabilità totale</strong> permette di calcolare la probabilità di un evento quando questo può verificarsi attraverso più scenari alternativi.</p>
 <div id="thm-total-probability" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 4.3 (Legge della probabilità totale)</strong></span> Sia <span class="math inline">\(\{B_1, B_2, \ldots, B_n\}\)</span> una <strong>partizione</strong> di <span class="math inline">\(\Omega\)</span> (eventi mutuamente esclusivi e collettivamente esaustivi). Allora:</p>
+<p><span class="theorem-title"><strong>Teorema 4.3 (Legge della probabilità totale)</strong></span> Sia <span class="math inline">\({B_1,B_2,\ldots,B_n}\)</span> una <strong>partizione</strong> dello spazio campionario <span class="math inline">\(\Omega\)</span>: gli eventi <span class="math inline">\(B_i\)</span> sono mutuamente esclusivi e, nel loro insieme, coprono tutti i possibili esiti. Se <span class="math inline">\(P(B_i)&gt;0\)</span> per ogni <span class="math inline">\(i\)</span>, allora</p>
 <p><span class="math display">\[
-P(A) = \sum_{i=1}^{n} P(A \mid B_i) P(B_i).
+P(A)=\sum_{i=1}^{n}P(A\mid B_i)\,P(B_i).
 \]</span></p>
 </div>
-<section id="interpretazione-epistemica" class="level3" data-number="4.6.1"><h3 data-number="4.6.1" class="anchored" data-anchor-id="interpretazione-epistemica">
-<span class="header-section-number">4.6.1</span> Interpretazione epistemica</h3>
-<p>La formula racchiude un principio di ragionamento universale: <strong>la probabilità totale si ottiene considerando tutti i modi alternativi in cui l’evento può verificarsi</strong>.</p>
+<section id="interpretazione" class="level3" data-number="4.6.1"><h3 data-number="4.6.1" class="anchored" data-anchor-id="interpretazione">
+<span class="header-section-number">4.6.1</span> Interpretazione</h3>
+<p>Poiché gli eventi <span class="math inline">\(B_1,\ldots,B_n\)</span> rappresentano scenari alternativi ed esaustivi, l’evento <span class="math inline">\(A\)</span> può essere scomposto nell’unione disgiunta</p>
+<p><span class="math display">\[
+A=(A\cap B_1)\cup(A\cap B_2)\cup\cdots\cup(A\cap B_n).
+\]</span></p>
+<p>Di conseguenza,</p>
+<p><span class="math display">\[
+P(A)=\sum_{i=1}^{n}P(A\cap B_i).
+\]</span></p>
+<p>Applicando il teorema del prodotto a ciascun termine,</p>
+<p><span class="math display">\[
+P(A\cap B_i)=P(A\mid B_i),P(B_i),
+\]</span> si ottiene la legge della probabilità totale.</p>
+<p>Ogni termine della somma combina due elementi:</p>
 <ul>
 <li>
-<span class="math inline">\(P(A \mid B_i)\)</span>: “Se ci troviamo nello scenario <span class="math inline">\(B_i\)</span>, quanto è probabile <span class="math inline">\(A\)</span>?”;</li>
+<span class="math inline">\(P(A\mid B_i)\)</span>: la probabilità di <span class="math inline">\(A\)</span> nello scenario <span class="math inline">\(B_i\)</span>;</li>
 <li>
-<span class="math inline">\(P(B_i)\)</span>: “Qual è la probabilità che ci si trovi proprio nello scenario <span class="math inline">\(B_i\)</span>?”.</li>
+<span class="math inline">\(P(B_i)\)</span>: la probabilità che si presenti proprio quello scenario.</li>
 </ul>
-<p>È il modo matematicamente corretto di “fare un passo indietro” quando la risposta diretta è “Dipende dal contesto”.</p>
-</section><section id="applicazione-trattare-popolazioni-eterogenee" class="level3" data-number="4.6.2"><h3 data-number="4.6.2" class="anchored" data-anchor-id="applicazione-trattare-popolazioni-eterogenee">
-<span class="header-section-number">4.6.2</span> Applicazione: trattare popolazioni eterogenee</h3>
-<p>In contesti reali, i pazienti provengono spesso da sottopopolazioni con rischi di base molto diversi. Immaginiamo un test per la depressione somministrato a due gruppi:</p>
+<p>La probabilità complessiva di <span class="math inline">\(A\)</span> è quindi una <strong>media ponderata</strong> delle probabilità condizionate <span class="math inline">\(P(A\mid B_i)\)</span>, con pesi pari alle probabilità degli scenari.</p>
+</section><section id="applicazione-popolazioni-eterogenee" class="level3" data-number="4.6.2"><h3 data-number="4.6.2" class="anchored" data-anchor-id="applicazione-popolazioni-eterogenee">
+<span class="header-section-number">4.6.2</span> Applicazione: popolazioni eterogenee</h3>
+<p>Nelle applicazioni reali, gli individui possono provenire da sottopopolazioni caratterizzate da rischi di base differenti. Consideriamo, per esempio, un test per la depressione somministrato a due gruppi:</p>
 <table class="caption-top table">
 <thead><tr class="header">
 <th style="text-align: left;">Provenienza</th>
-<th style="text-align: left;">Proporzione</th>
-<th style="text-align: left;">Prevalenza</th>
+<th style="text-align: center;">Proporzione</th>
+<th style="text-align: center;">Prevalenza della depressione</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Clinica specialistica</td>
-<td style="text-align: left;">30%</td>
-<td style="text-align: left;">40%</td>
+<td style="text-align: center;">30%</td>
+<td style="text-align: center;">40%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Popolazione generale</td>
-<td style="text-align: left;">70%</td>
-<td style="text-align: left;">5%</td>
+<td style="text-align: center;">70%</td>
+<td style="text-align: center;">5%</td>
 </tr>
 </tbody>
 </table>
-<p>Test: sensibilità = 0.85, specificità = 0.90.</p>
-<p><strong>Calcolo del tasso di positività in ogni sottogruppo</strong>:</p>
-<ul>
-<li>Clinica specialistica: <span class="math inline">\(0.85 \times 0.40 + 0.10 \times 0.60 = 0.40\)</span>
-</li>
-<li>Popolazione generale: <span class="math inline">\(0.85 \times 0.05 + 0.10 \times 0.95 = 0.1375\)</span>
-</li>
-</ul>
-<p><strong>Tasso complessivo</strong> (legge della probabilità totale):</p>
+<p>Supponiamo che il test abbia:</p>
 <p><span class="math display">\[
-P(T^+) = 0.40 \times 0.30 + 0.1375 \times 0.70 \approx 0.216
+\text{sensibilità}=0.85,
+\qquad
+\text{specificità}=0.90.
 \]</span></p>
-<p>Il valore 0.216 è una <strong>media ponderata</strong> dei tassi di positività nei due contesti. Non è la semplice media aritmetica, perché i gruppi hanno dimensioni diverse.</p>
-<p>Il significato diagnostico di un risultato positivo cambia anch’esso con il contesto:</p>
+<p>La probabilità di un falso positivo è quindi</p>
 <p><span class="math display">\[
-P(D \mid T^+,\text{clinica})=\frac{0.85\times0.40}{0.40}=0.85,
+1-\text{specificità}=0.10.
 \]</span></p>
-<p>mentre</p>
+<p>Indichiamo con <span class="math inline">\(D\)</span> l’evento “presenza di depressione” e con <span class="math inline">\(T^+\)</span> l’evento “test positivo”.</p>
+<section id="tasso-di-positività-nella-clinica-specialistica" class="level4" data-number="4.6.2.1"><h4 data-number="4.6.2.1" class="anchored" data-anchor-id="tasso-di-positività-nella-clinica-specialistica">
+<span class="header-section-number">4.6.2.1</span> Tasso di positività nella clinica specialistica</h4>
+<p>Nella clinica, un risultato positivo può derivare da due casi alternativi:</p>
+<ol type="1">
+<li>il paziente è depresso e il test è positivo;</li>
+<li>il paziente non è depresso e il test produce un falso positivo.</li>
+</ol>
+<p>Pertanto,</p>
 <p><span class="math display">\[
-P(D \mid T^+,\text{popolazione})
-=\frac{0.85\times0.05}{0.1375}\approx0.31.
+\begin{aligned}
+P(T^+\mid \text{clinica})
+&amp;=P(T^+\mid D)\cdot P(D\mid \text{clinica}) \\
+&amp;\quad + P(T^+\mid D^c)\cdot P(D^c\mid \text{clinica}) \\
+&amp;=0.85\cdot0.40+0.10\cdot0.60 \\
+&amp;=0.40.
+\end{aligned}
 \]</span></p>
-<p><strong>Implicazione clinica</strong>: sensibilità e specificità sono le stesse, ma la probabilità di depressione dopo un test positivo è molto diversa perché cambia la prevalenza di base.</p>
+</section><section id="tasso-di-positività-nella-popolazione-generale" class="level4" data-number="4.6.2.2"><h4 data-number="4.6.2.2" class="anchored" data-anchor-id="tasso-di-positività-nella-popolazione-generale">
+<span class="header-section-number">4.6.2.2</span> Tasso di positività nella popolazione generale</h4>
+<p>Analogamente,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(T^+\mid \text{popolazione})
+&amp;=0.85\cdot0.05+0.10\cdot0.95 \\
+&amp;=0.1375.
+\end{aligned}
+\]</span></p>
+</section><section id="tasso-complessivo-di-positività" class="level4" data-number="4.6.2.3"><h4 data-number="4.6.2.3" class="anchored" data-anchor-id="tasso-complessivo-di-positività">
+<span class="header-section-number">4.6.2.3</span> Tasso complessivo di positività</h4>
+<p>Applicando nuovamente la legge della probabilità totale ai due gruppi,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(T^+)
+&amp;=P(T^+\mid \text{clinica})\,P(\text{clinica}) \\
+&amp;\quad +P(T^+\mid \text{popolazione})\,P(\text{popolazione}) \\
+&amp;=0.40\cdot0.30+0.1375\cdot0.70 \\
+&amp;=0.21625\approx0.216.
+\end{aligned}
+\]</span></p>
+<p>Il tasso complessivo di positività è quindi circa il (21.6%).</p>
+<p>Questo valore è una <strong>media ponderata</strong> dei tassi di positività nei due gruppi. Non coincide con la loro media aritmetica, perché i gruppi rappresentano proporzioni diverse della popolazione complessiva.</p>
+</section></section><section id="il-significato-di-un-risultato-positivo" class="level3" data-number="4.6.3"><h3 data-number="4.6.3" class="anchored" data-anchor-id="il-significato-di-un-risultato-positivo">
+<span class="header-section-number">4.6.3</span> Il significato di un risultato positivo</h3>
+<p>La probabilità di depressione dopo un risultato positivo dipende dalla prevalenza nel gruppo di provenienza.</p>
+<p>Nella clinica specialistica,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(D\mid T^+,\text{clinica})
+&amp;=\frac{P(T^+\mid D,\text{clinica})\,P(D\mid\text{clinica})}
+        {P(T^+\mid\text{clinica})} \\
+&amp;=\frac{0.85\cdot0.40}{0.40} \\
+&amp;=0.85.
+\end{aligned}
+\]</span></p>
+<p>Nella popolazione generale,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(D\mid T^+,\text{popolazione})
+&amp;=\frac{0.85\cdot0.05}{0.1375} \\
+&amp;\approx0.31.
+\end{aligned}
+\]</span></p>
+<p>La sensibilità e la specificità del test sono identiche nei due gruppi, ma il significato diagnostico di un risultato positivo cambia notevolmente: nella clinica la probabilità di depressione dopo un test positivo è dell’85%, mentre nella popolazione generale è circa del 31%.</p>
+<p><strong>Implicazione clinica.</strong> L’interpretazione di un risultato diagnostico non dipende soltanto dalle caratteristiche del test, ma anche dalla prevalenza della condizione nella popolazione esaminata.</p>
 </section></section><section id="sec-simpsons-paradox" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="sec-simpsons-paradox">
 <span class="header-section-number">4.7</span> Paradosso di Simpson</h2>
-<p>Il <strong>paradosso di Simpson</strong> è uno degli esempi più istruttivi di come un’aggregazione ingenua possa condurre a conclusioni opposte rispetto a quelle valide a livello disaggregato.</p>
+<p>Il <strong>paradosso di Simpson</strong> mostra come l’aggregazione dei dati possa nascondere, attenuare o persino invertire una relazione osservata all’interno di sottogruppi rilevanti.</p>
 <section id="il-fenomeno" class="level3" data-number="4.7.1"><h3 data-number="4.7.1" class="anchored" data-anchor-id="il-fenomeno">
 <span class="header-section-number">4.7.1</span> Il fenomeno</h3>
-<p>Il paradosso si manifesta quando una relazione statistica osservata tra due variabili <strong>si inverte</strong> una volta che i dati vengono analizzati separatamente all’interno di sottogruppi rilevanti.</p>
+<p>Il paradosso si verifica quando l’associazione tra due variabili cambia direzione passando dall’analisi aggregata all’analisi condizionata per una terza variabile. In altre parole, una relazione che sembra presente nei dati complessivi può scomparire o assumere il segno opposto quando i dati vengono esaminati separatamente in gruppi più omogenei.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Esempio: efficacia di un trattamento per la depressione">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -962,78 +1028,142 @@ P(D \mid T^+,\text{popolazione})
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Due cliniche valutano un trattamento. La clinica A tratta casi lievi, la B casi gravi.</p>
+<p>Due cliniche valutano l’efficacia di un trattamento per la depressione. La clinica A accoglie prevalentemente casi lievi, mentre la clinica B tratta soprattutto casi gravi.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Clinica A (casi lievi)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Clinica A: casi lievi</span></span>
 <span><span class="va">n_A_trattati</span> <span class="op">&lt;-</span> <span class="fl">90</span></span>
 <span><span class="va">n_A_guariti_trattati</span> <span class="op">&lt;-</span> <span class="fl">81</span></span>
 <span><span class="va">n_A_controllo</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">n_A_guariti_controllo</span> <span class="op">&lt;-</span> <span class="fl">9</span></span>
 <span></span>
-<span><span class="co"># Clinica B (casi gravi)</span></span>
+<span><span class="co"># Clinica B: casi gravi</span></span>
 <span><span class="va">n_B_trattati</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">n_B_guariti_trattati</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="va">n_B_controllo</span> <span class="op">&lt;-</span> <span class="fl">90</span></span>
 <span><span class="va">n_B_guariti_controllo</span> <span class="op">&lt;-</span> <span class="fl">27</span></span>
 <span></span>
-<span><span class="co"># Proporzioni per clinica</span></span>
+<span><span class="co"># Proporzioni di guarigione per clinica</span></span>
 <span><span class="va">prop_A_trattati</span> <span class="op">&lt;-</span> <span class="va">n_A_guariti_trattati</span> <span class="op">/</span> <span class="va">n_A_trattati</span></span>
 <span><span class="va">prop_A_controllo</span> <span class="op">&lt;-</span> <span class="va">n_A_guariti_controllo</span> <span class="op">/</span> <span class="va">n_A_controllo</span></span>
 <span><span class="va">prop_B_trattati</span> <span class="op">&lt;-</span> <span class="va">n_B_guariti_trattati</span> <span class="op">/</span> <span class="va">n_B_trattati</span></span>
 <span><span class="va">prop_B_controllo</span> <span class="op">&lt;-</span> <span class="va">n_B_guariti_controllo</span> <span class="op">/</span> <span class="va">n_B_controllo</span></span>
 <span></span>
-<span><span class="co"># Aggregato</span></span>
+<span><span class="co"># Proporzioni aggregate</span></span>
 <span><span class="va">n_tot_trattati</span> <span class="op">&lt;-</span> <span class="va">n_A_trattati</span> <span class="op">+</span> <span class="va">n_B_trattati</span></span>
-<span><span class="va">n_tot_guariti_trattati</span> <span class="op">&lt;-</span> <span class="va">n_A_guariti_trattati</span> <span class="op">+</span> <span class="va">n_B_guariti_trattati</span></span>
-<span><span class="va">n_tot_controllo</span> <span class="op">&lt;-</span> <span class="va">n_A_controllo</span> <span class="op">+</span> <span class="va">n_B_controllo</span></span>
-<span><span class="va">n_tot_guariti_controllo</span> <span class="op">&lt;-</span> <span class="va">n_A_guariti_controllo</span> <span class="op">+</span> <span class="va">n_B_guariti_controllo</span></span>
+<span><span class="va">n_tot_guariti_trattati</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">n_A_guariti_trattati</span> <span class="op">+</span> <span class="va">n_B_guariti_trattati</span></span>
 <span></span>
-<span><span class="va">prop_tot_trattati</span> <span class="op">&lt;-</span> <span class="va">n_tot_guariti_trattati</span> <span class="op">/</span> <span class="va">n_tot_trattati</span></span>
-<span><span class="va">prop_tot_controllo</span> <span class="op">&lt;-</span> <span class="va">n_tot_guariti_controllo</span> <span class="op">/</span> <span class="va">n_tot_controllo</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="va">n_tot_controllo</span> <span class="op">&lt;-</span> <span class="va">n_A_controllo</span> <span class="op">+</span> <span class="va">n_B_controllo</span></span>
+<span><span class="va">n_tot_guariti_controllo</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">n_A_guariti_controllo</span> <span class="op">+</span> <span class="va">n_B_guariti_controllo</span></span>
+<span></span>
+<span><span class="va">prop_tot_trattati</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">n_tot_guariti_trattati</span> <span class="op">/</span> <span class="va">n_tot_trattati</span></span>
+<span></span>
+<span><span class="va">prop_tot_controllo</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">n_tot_guariti_controllo</span> <span class="op">/</span> <span class="va">n_tot_controllo</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>Risultati per sottogruppo</strong>:</p>
+<section id="risultati-nei-singoli-sottogruppi" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="risultati-nei-singoli-sottogruppi">Risultati nei singoli sottogruppi</h3>
+<p>Nella clinica A:</p>
+<p><span class="math display">\[
+P(\text{Guarigione}\mid \text{Trattamento},\text{Clinica A})
+=\frac{81}{90}=0.90,
+\]</span></p>
+<p><span class="math display">\[
+P(\text{Guarigione}\mid \text{Controllo},\text{Clinica A})
+=\frac{9}{10}=0.90.
+\]</span></p>
+<p>Il trattamento non produce alcun miglioramento rispetto al controllo.</p>
+<p>Nella clinica B:</p>
+<p><span class="math display">\[
+P(\text{Guarigione}\mid \text{Trattamento},\text{Clinica B})
+=\frac{2}{10}=0.20,
+\]</span></p>
+<p><span class="math display">\[
+P(\text{Guarigione}\mid \text{Controllo},\text{Clinica B})
+=\frac{27}{90}=0.30.
+\]</span></p>
+<p>In questo caso, il gruppo trattato presenta una proporzione di guarigioni inferiore a quella del gruppo di controllo.</p>
+<p>In sintesi:</p>
 <ul>
-<li>Clinica A: trattati 90%, controllo 90% → nessuna differenza.</li>
-<li>Clinica B: trattati 20%, controllo 30% → trattamento <em>peggiore</em>.</li>
+<li>Clinica A: trattati 90%, controllo 90%;</li>
+<li>Clinica B: trattati 20%, controllo 30%.</li>
 </ul>
-<p>In <strong>nessun sottogruppo</strong> il trattamento risulta superiore.</p>
-<p><strong>Risultato aggregato</strong>:</p>
+<p>In nessuna delle due cliniche il trattamento risulta superiore.</p>
+</section><section id="risultato-aggregato" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="risultato-aggregato">Risultato aggregato</h3>
+<p>Se si ignorano le differenze tra le cliniche e si combinano tutti i dati, si ottiene:</p>
+<p><span class="math display">\[
+P(\text{Guarigione}\mid \text{Trattamento})
+=\frac{81+2}{90+10}
+=\frac{83}{100}
+=0.83,
+\]</span></p>
+<p>mentre</p>
+<p><span class="math display">\[
+P(\text{Guarigione}\mid \text{Controllo})
+=\frac{9+27}{10+90}
+=\frac{36}{100}
+=0.36.
+\]</span></p>
+<p>Pertanto:</p>
 <ul>
-<li>Trattati: 83%.</li>
+<li>Trattati: 83%;</li>
 <li>Controllo: 36%.</li>
 </ul>
-<p>Nell’analisi aggregata, il trattamento appare <strong>nettamente migliore</strong>!</p>
+<p>Nell’analisi aggregata, il trattamento sembra dunque nettamente più efficace, nonostante non risulti migliore in nessuna delle due cliniche.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-paradosso-simpson-cliniche" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-paradosso-simpson-cliniche-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_conditional_prob_bayesian_files/figure-html/fig-paradosso-simpson-cliniche-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;4.3: Un confronto aggregato può avere direzione diversa dai confronti effettuati entro ciascuna clinica."><img src="04_conditional_prob_bayesian_files/figure-html/fig-paradosso-simpson-cliniche-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+<a href="04_conditional_prob_bayesian_files/figure-html/fig-paradosso-simpson-cliniche-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;4.3: Il confronto aggregato può avere una direzione diversa dai confronti effettuati all’interno di ciascuna clinica."><img src="04_conditional_prob_bayesian_files/figure-html/fig-paradosso-simpson-cliniche-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-paradosso-simpson-cliniche-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.3: Un confronto aggregato può avere direzione diversa dai confronti effettuati entro ciascuna clinica.
+Figura&nbsp;4.3: Il confronto aggregato può avere una direzione diversa dai confronti effettuati all’interno di ciascuna clinica.
 </figcaption></figure>
 </div>
 </div>
 </div>
-<section id="cosa-sta-succedendo" class="level3" data-number="4.7.2"><h3 data-number="4.7.2" class="anchored" data-anchor-id="cosa-sta-succedendo">
-<span class="header-section-number">4.7.2</span> Cosa sta succedendo?</h3>
-<p>La chiave è la <strong>distribuzione diseguale dei casi</strong>:</p>
+</section><section id="perché-si-verifica-linversione" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="perché-si-verifica-linversione">Perché si verifica l’inversione?</h3>
+<p>La spiegazione risiede nella diversa composizione dei gruppi.</p>
+<p>La clinica A presenta una probabilità di guarigione elevata, perché tratta soprattutto casi lievi. Inoltre, contribuisce quasi interamente al gruppo trattato:</p>
+<p><span class="math display">\[
+P(\text{Clinica A}\mid \text{Trattamento})
+=\frac{90}{100}=0.90.
+\]</span></p>
+<p>La clinica B presenta invece una probabilità di guarigione più bassa, perché tratta prevalentemente casi gravi. Essa contribuisce quasi interamente al gruppo di controllo:</p>
+<p><span class="math display">\[
+P(\text{Clinica B}\mid \text{Controllo})
+=\frac{90}{100}=0.90.
+\]</span></p>
+<p>Di conseguenza, il confronto aggregato mette a confronto due gruppi con composizioni molto diverse:</p>
 <ul>
-<li>la clinica A, con probabilità di guarigione più alta, contribuisce soprattutto al gruppo <em>trattato</em>;</li>
-<li>la clinica B, con probabilità di guarigione più bassa, contribuisce soprattutto al gruppo <em>di controllo</em>.</li>
+<li>il gruppo trattato è formato soprattutto da casi lievi;</li>
+<li>il gruppo di controllo è formato soprattutto da casi gravi.</li>
 </ul>
-<p>La clinica, che in questo esempio rappresenta anche la gravità dei casi, è associata sia alla distribuzione del trattamento sia alla probabilità di guarigione. L’aggregazione ignora questa struttura e confronta gruppi con composizione molto diversa.</p>
-</section><section id="la-lezione-epistemica" class="level3" data-number="4.7.3"><h3 data-number="4.7.3" class="anchored" data-anchor-id="la-lezione-epistemica">
-<span class="header-section-number">4.7.3</span> La lezione epistemica</h3>
-<p>La <a href="#fig-paradosso-simpson-cliniche" class="quarto-xref">Figura&nbsp;<span>4.3</span></a> mostra che il confronto marginale e i confronti condizionati rispondono a domande diverse:</p>
+<p>La maggiore proporzione di guarigioni nel gruppo trattato dipende quindi dalla diversa gravità iniziale dei pazienti, non necessariamente dall’efficacia del trattamento.</p>
+<p>La variabile <strong>clinica</strong>, che in questo esempio rappresenta anche la gravità dei casi, è associata sia all’assegnazione del trattamento sia alla probabilità di guarigione. Ignorandola, l’analisi aggregata confonde l’effetto del trattamento con le differenze tra le popolazioni esaminate.</p>
+</section><section id="confronti-marginali-e-condizionati" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="confronti-marginali-e-condizionati">Confronti marginali e condizionati</h3>
+<p>La <a href="#fig-paradosso-simpson-cliniche" class="quarto-xref">Figura&nbsp;<span>4.3</span></a> mette in evidenza la distinzione tra due tipi di confronto.</p>
+<p>La probabilità marginale</p>
 <p><span class="math display">\[
-P(\text{Guarigione} \mid \text{Trattamento})
-\]</span></p>
-<p>confronta i due gruppi così come sono composti, mentre</p>
+P(\text{Guarigione}\mid \text{Trattamento})
+\]</span> descrive il tasso di guarigione nel gruppo trattato così come questo è effettivamente composto.</p>
+<p>La probabilità condizionata</p>
 <p><span class="math display">\[
-P(\text{Guarigione} \mid \text{Trattamento},\text{Clinica})
-\]</span></p>
-<p>confronta trattamento e controllo entro contesti più omogenei. Il paradosso non stabilisce che l’analisi condizionata sia sempre quella corretta: la scelta dipende dalla domanda scientifica e dal ruolo causale delle variabili. Mostra però che un risultato aggregato non deve essere interpretato senza esaminare la composizione dei gruppi.</p>
+P(\text{Guarigione}
+\mid \text{Trattamento},\text{Clinica})
+\]</span> confronta invece trattamento e controllo separatamente all’interno di ciascuna clinica, e quindi tra pazienti appartenenti a contesti più omogenei.</p>
+<p>Le due analisi non sono matematicamente contraddittorie: rispondono a domande differenti e utilizzano pesi diversi nella combinazione dei sottogruppi.</p>
+</section><section id="la-lezione-metodologica" class="level3 unnumbered unlisted"><h3 class="unnumbered unlisted anchored" data-anchor-id="la-lezione-metodologica">La lezione metodologica</h3>
+<p>Il paradosso di Simpson non implica che l’analisi condizionata sia sempre preferibile a quella aggregata. La scelta dipende dalla domanda scientifica e dal ruolo svolto dalla variabile di stratificazione.</p>
+<p>In particolare, prima di controllare per una variabile è necessario stabilire se essa rappresenti:</p>
+<ul>
+<li>un fattore confondente;</li>
+<li>un meccanismo intermedio;</li>
+<li>una conseguenza dell’esposizione;</li>
+<li>oppure una semplice caratteristica descrittiva dei gruppi.</li>
+</ul>
+<p>La lezione fondamentale è che una relazione aggregata non dovrebbe essere interpretata senza esaminare come sono composti i gruppi e senza considerare le variabili che influenzano sia l’esposizione sia l’esito.</p>
 </section>
 </div>
 </div>

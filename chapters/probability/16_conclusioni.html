@@ -504,7 +504,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/probability/15_aggiornamento_bayesiano.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: introdurre l’aggiornamento bayesiano</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: una prima idea dell’aggiornamento bayesiano</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -540,12 +540,11 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2"><h2 id="toc-title">Sommario</h2>
    
   <ul class="collapse">
-<li><a href="#perch%C3%A9-concludere-con-una-mappa-del-ragionamento" id="toc-perché-concludere-con-una-mappa-del-ragionamento" class="nav-link active" data-scroll-target="#perch%C3%A9-concludere-con-una-mappa-del-ragionamento"><span class="header-section-number">16.1</span> Perché concludere con una mappa del ragionamento?</a></li>
-  <li><a href="#sec-conclusions-model-path" id="toc-sec-conclusions-model-path" class="nav-link" data-scroll-target="#sec-conclusions-model-path"><span class="header-section-number">16.2</span> Dal fenomeno al modello probabilistico</a></li>
-  <li><a href="#sec-conclusions-concept-map" id="toc-sec-conclusions-concept-map" class="nav-link" data-scroll-target="#sec-conclusions-concept-map"><span class="header-section-number">16.3</span> La mappa essenziale del percorso</a></li>
-  <li><a href="#sec-conclusions-reading-analysis" id="toc-sec-conclusions-reading-analysis" class="nav-link" data-scroll-target="#sec-conclusions-reading-analysis"><span class="header-section-number">16.4</span> Come leggere un’analisi bayesiana</a></li>
-  <li><a href="#sec-conclusions-limits" id="toc-sec-conclusions-limits" class="nav-link" data-scroll-target="#sec-conclusions-limits"><span class="header-section-number">16.5</span> Precisione, validità e trasparenza</a></li>
-  <li><a href="#sec-conclusions-next" id="toc-sec-conclusions-next" class="nav-link" data-scroll-target="#sec-conclusions-next"><span class="header-section-number">16.6</span> Dove prosegue il percorso</a></li>
+<li><a href="#sec-conclusions-model-path" id="toc-sec-conclusions-model-path" class="nav-link active" data-scroll-target="#sec-conclusions-model-path"><span class="header-section-number">16.1</span> Dal fenomeno all’inferenza: un unico percorso</a></li>
+  <li><a href="#sec-conclusions-concept-map" id="toc-sec-conclusions-concept-map" class="nav-link" data-scroll-target="#sec-conclusions-concept-map"><span class="header-section-number">16.2</span> La mappa essenziale del percorso</a></li>
+  <li><a href="#sec-conclusions-reading-analysis" id="toc-sec-conclusions-reading-analysis" class="nav-link" data-scroll-target="#sec-conclusions-reading-analysis"><span class="header-section-number">16.3</span> Come leggere criticamente un’analisi bayesiana</a></li>
+  <li><a href="#sec-conclusions-limits" id="toc-sec-conclusions-limits" class="nav-link" data-scroll-target="#sec-conclusions-limits"><span class="header-section-number">16.4</span> Precisione, validità e trasparenza</a></li>
+  <li><a href="#sec-conclusions-next" id="toc-sec-conclusions-next" class="nav-link" data-scroll-target="#sec-conclusions-next"><span class="header-section-number">16.5</span> Dal modulo introduttivo ai modelli bayesiani</a></li>
   </ul><div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/ccaudek/utet-prob/blob/main/chapters/probability/16_conclusioni.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -578,23 +577,19 @@ window.Quarto = {
 <p><strong>Da saper fare</strong> Riconoscere il ruolo di variabili, distribuzioni, parametri, prior, verosimiglianza e posterior; spiegare che cosa cambia dopo l’osservazione dei dati; distinguere precisione inferenziale e validità scientifica.</p>
 </div>
 </div>
-<section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Nel <a href="15_aggiornamento_bayesiano.html" class="quarto-xref"><span>Capitolo 15</span></a> abbiamo visto il passaggio che ricompone l’intero percorso:</p>
+<p>Nel <a href="15_aggiornamento_bayesiano.html" class="quarto-xref"><span>Capitolo 15</span></a> abbiamo incontrato la formula che ricompone l’intero percorso:</p>
 <p><span class="math display">\[
 p(\theta\mid y)
 \propto
 p(y\mid\theta)p(\theta).
 \]</span></p>
-<p>La formula è compatta, ma per comprenderla servono tutti i concetti introdotti nei capitoli precedenti. Occorre sapere che cosa rappresenta una probabilità, come una variabile casuale traduce un fenomeno in una quantità osservabile, quale ruolo svolge una distribuzione, perché un campione contiene informazione limitata e che cosa misura la verosimiglianza.</p>
-<p>Questo capitolo non aggiunge una nuova tecnica. Chiude il percorso mettendo in relazione le idee già apprese e chiarendo che cosa dovrebbe saper riconoscere il lettore prima di passare ai modelli bayesiani sviluppati nel Companion e nel manuale.</p>
-</section><section id="perché-concludere-con-una-mappa-del-ragionamento" class="level2" data-number="16.1"><h2 data-number="16.1" class="anchored" data-anchor-id="perché-concludere-con-una-mappa-del-ragionamento">
-<span class="header-section-number">16.1</span> Perché concludere con una mappa del ragionamento?</h2>
-<p>Quando i concetti probabilistici vengono studiati separatamente, è facile considerarli come una raccolta di formule: regole della probabilità, distribuzioni, medie, varianze, correlazioni e funzioni di verosimiglianza. Nell’inferenza bayesiana, però, questi elementi appartengono a un’unica costruzione.</p>
-<p>La domanda generale è:</p>
+<p>La sua forma è compatta, ma il suo significato dipende da tutti i concetti introdotti nei capitoli precedenti. Per comprenderla occorre sapere che cosa rappresenta una probabilità, come una variabile casuale traduce un fenomeno in una quantità osservabile, quale ruolo svolge una distribuzione, perché un campione contiene informazione limitata e in che modo la verosimiglianza mette in relazione i dati con i valori possibili di un parametro.</p>
+<p>Questo capitolo non introduce una nuova tecnica. Conclude il modulo ricostruendo il filo che unisce le idee già apprese e chiarendo che cosa il lettore dovrebbe saper riconoscere prima di affrontare i modelli bayesiani sviluppati nel manuale e nel Companion.</p>
+<p>Quando i concetti probabilistici vengono studiati separatamente, è facile considerarli come una raccolta di formule: regole della probabilità, distribuzioni, medie, varianze, correlazioni e funzioni di verosimiglianza. Nell’inferenza bayesiana, invece, questi elementi partecipano a un’unica costruzione. La domanda generale che li collega è:</p>
 <blockquote class="blockquote">
 <p>Come possiamo passare da osservazioni variabili a conclusioni esplicite e controllabili su quantità che non conosciamo direttamente?</p>
 </blockquote>
-<p>La risposta richiede una sequenza di scelte: definire ciò che osserviamo, specificare un modello probabilistico, descrivere l’incertezza iniziale, confrontare il modello con i dati e aggiornare i pesi assegnati ai valori possibili del parametro.</p>
+<p>Per rispondere dobbiamo definire ciò che osserviamo, specificare un modello probabilistico, rappresentare l’incertezza iniziale, confrontare il modello con i dati e aggiornare i pesi assegnati ai valori possibili del parametro.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Il filo conduttore">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -609,14 +604,16 @@ p(y\mid\theta)p(\theta).
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Prerequisiti">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Consiglio</span>Prerequisiti
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Questo capitolo richiama l’intero percorso. Sono particolarmente importanti:</p>
 <ul>
@@ -629,24 +626,18 @@ p(y\mid\theta)p(\theta).
 </ul>
 </div>
 </div>
-</section><section id="panoramica-del-capitolo" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h2>
-<p>Il capitolo compie cinque passaggi:</p>
-<ol type="1">
-<li>ricostruisce il filo logico che va dal fenomeno al modello;</li>
-<li>organizza i concetti del sito in una mappa essenziale;</li>
-<li>propone alcune domande per leggere un’analisi bayesiana;</li>
-<li>ricorda i limiti che una posterior, da sola, non può risolvere;</li>
-<li>indica dove prosegue l’apprendimento nel Companion e nel manuale.</li>
-</ol>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Preparazione del notebook">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Nota</span>Preparazione del notebook
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Questo capitolo non introduce nuovi calcoli. Il blocco seguente mantiene comunque la stessa configurazione degli altri capitoli del sito.</p>
 <div class="cell">
@@ -661,81 +652,42 @@ p(y\mid\theta)p(\theta).
 </div>
 </div>
 </div>
-</section><section id="sec-conclusions-model-path" class="level2" data-number="16.2"><h2 data-number="16.2" class="anchored" data-anchor-id="sec-conclusions-model-path">
-<span class="header-section-number">16.2</span> Dal fenomeno al modello probabilistico</h2>
-<p>Un’analisi probabilistica nasce da un problema sostantivo, non da una distribuzione scelta in astratto. In psicologia, potremmo voler comprendere la probabilità di una risposta corretta, la frequenza di un comportamento, il tempo necessario per completare un compito o la relazione tra due caratteristiche individuali.</p>
-<p>Il passaggio dal fenomeno all’inferenza può essere organizzato in sette domande.</p>
-<section id="che-cosa-osserviamo" class="level3" data-number="16.2.1"><h3 data-number="16.2.1" class="anchored" data-anchor-id="che-cosa-osserviamo">
-<span class="header-section-number">16.2.1</span> 1. Che cosa osserviamo?</h3>
-<p>Una <strong>variabile casuale</strong> rappresenta numericamente un esito incerto. La sua definizione stabilisce quali osservazioni sono possibili e quale informazione viene conservata dalla codifica.</p>
-</section><section id="quali-valori-può-assumere" class="level3" data-number="16.2.2"><h3 data-number="16.2.2" class="anchored" data-anchor-id="quali-valori-può-assumere">
-<span class="header-section-number">16.2.2</span> 2. Quali valori può assumere?</h3>
-<p>Il <strong>supporto</strong> distingue, per esempio, un esito binario, un conteggio, una proporzione o una misura continua. Il supporto esclude le famiglie incompatibili, ma non determina da solo quale modello sia appropriato.</p>
-</section><section id="come-potrebbero-essere-generati-i-dati" class="level3" data-number="16.2.3"><h3 data-number="16.2.3" class="anchored" data-anchor-id="come-potrebbero-essere-generati-i-dati">
-<span class="header-section-number">16.2.3</span> 3. Come potrebbero essere generati i dati?</h3>
-<p>Una distribuzione per i dati specifica quali osservazioni sono plausibili sotto determinati valori dei parametri. Questa è la componente generativa del modello:</p>
+</div>
+<section id="sec-conclusions-model-path" class="level2" data-number="16.1"><h2 data-number="16.1" class="anchored" data-anchor-id="sec-conclusions-model-path">
+<span class="header-section-number">16.1</span> Dal fenomeno all’inferenza: un unico percorso</h2>
+<p>Un’analisi probabilistica nasce da un problema sostantivo, non da una distribuzione scelta in astratto. In psicologia potremmo voler comprendere la probabilità di una risposta corretta, la frequenza di un comportamento, il tempo necessario per completare un compito oppure la relazione tra due caratteristiche individuali. In ogni caso, il passaggio dal fenomeno all’inferenza segue una sequenza di domande collegate.</p>
+<p><strong>Che cosa osserviamo?</strong> Una <strong>variabile casuale</strong> rappresenta numericamente un esito incerto. La sua definizione stabilisce quali osservazioni sono possibili e quale informazione viene conservata dalla codifica.</p>
+<p><strong>Quali valori può assumere?</strong> Il <strong>supporto</strong> permette di distinguere, per esempio, un esito binario, un conteggio, una proporzione o una misura continua. Esclude le famiglie di distribuzioni incompatibili, ma non determina da solo quale modello sia appropriato.</p>
+<p><strong>Come potrebbero essere generati i dati?</strong> Una distribuzione per i dati specifica quali osservazioni sono plausibili sotto determinati valori dei parametri. Questa è la componente generativa del modello:</p>
 <p><span class="math display">\[
 y \sim p(y\mid\theta).
 \]</span></p>
-<p>Il parametro <span class="math inline">\(\theta\)</span> controlla qualche proprietà rilevante del processo: una probabilità, una media, una variabilità, un tasso o una relazione tra variabili.</p>
-</section><section id="che-cosa-sappiamo-prima-dei-nuovi-dati" class="level3" data-number="16.2.4"><h3 data-number="16.2.4" class="anchored" data-anchor-id="che-cosa-sappiamo-prima-dei-nuovi-dati">
-<span class="header-section-number">16.2.4</span> 4. Che cosa sappiamo prima dei nuovi dati?</h3>
-<p>La prior <span class="math inline">\(p(\theta)\)</span> rappresenta l’incertezza iniziale sul parametro. Non è una dichiarazione assoluta e indipendente dal contesto: dipende dalle informazioni disponibili, dalla scala del parametro e dalle assunzioni che siamo disposti a formulare.</p>
-</section><section id="che-cosa-dicono-i-dati-sui-valori-del-parametro" class="level3" data-number="16.2.5"><h3 data-number="16.2.5" class="anchored" data-anchor-id="che-cosa-dicono-i-dati-sui-valori-del-parametro">
-<span class="header-section-number">16.2.5</span> 5. Che cosa dicono i dati sui valori del parametro?</h3>
-<p>Una volta osservato <span class="math inline">\(y\)</span>, la verosimiglianza <span class="math inline">\(p(y\mid\theta)\)</span> viene letta come funzione di <span class="math inline">\(\theta\)</span>. Essa confronta i valori del parametro in base a quanto rendono compatibili i dati osservati.</p>
-</section><section id="come-cambiano-i-pesi-assegnati-alle-possibilità" class="level3" data-number="16.2.6"><h3 data-number="16.2.6" class="anchored" data-anchor-id="come-cambiano-i-pesi-assegnati-alle-possibilità">
-<span class="header-section-number">16.2.6</span> 6. Come cambiano i pesi assegnati alle possibilità?</h3>
-<p>L’aggiornamento bayesiano combina prior e verosimiglianza:</p>
+<p>Il parametro <span class="math inline">\(\theta\)</span> controlla una proprietà rilevante del processo, come una probabilità, una media, una variabilità, un tasso o una relazione tra variabili.</p>
+<p><strong>Che cosa sappiamo prima dei nuovi dati?</strong> La prior <span class="math inline">\(p(\theta)\)</span> rappresenta l’incertezza iniziale sul parametro. Non è una dichiarazione assoluta e indipendente dal contesto: dipende dalle informazioni disponibili, dalla scala del parametro e dalle assunzioni che siamo disposti a formulare.</p>
+<p><strong>Che cosa dicono i dati sui valori del parametro?</strong> Dopo aver osservato <span class="math inline">\(y\)</span>, la quantità <span class="math inline">\(p(y\mid\theta)\)</span> viene letta come funzione di <span class="math inline">\(\theta\)</span>. In questo ruolo è la <strong>verosimiglianza</strong>: confronta i valori del parametro in base a quanto rendono compatibili i dati osservati. I dati non assegnano da soli probabilità ai parametri, ma modificano il loro confronto relativo.</p>
+<p><strong>Come cambiano i pesi assegnati alle possibilità?</strong> L’aggiornamento bayesiano combina prior e verosimiglianza:</p>
 <p><span class="math display">\[
 p(\theta\mid y)
 =
 \frac{p(y\mid\theta)p(\theta)}{p(y)}.
 \]</span></p>
-<p>La posterior <span class="math inline">\(p(\theta\mid y)\)</span> rappresenta l’incertezza aggiornata, condizionatamente al modello, alla prior e ai dati.</p>
-</section><section id="il-modello-è-adeguato-allo-scopo" class="level3" data-number="16.2.7"><h3 data-number="16.2.7" class="anchored" data-anchor-id="il-modello-è-adeguato-allo-scopo">
-<span class="header-section-number">16.2.7</span> 7. Il modello è adeguato allo scopo?</h3>
-<p>Una posterior non conclude il lavoro. Occorre ancora chiedersi se il modello riproduca gli aspetti importanti dei dati, se le conclusioni siano sensibili alle scelte iniziali e se il disegno di ricerca permetta l’interpretazione sostantiva proposta. Questi passaggi sono sviluppati nel Companion.</p>
-</section></section><section id="sec-conclusions-concept-map" class="level2" data-number="16.3"><h2 data-number="16.3" class="anchored" data-anchor-id="sec-conclusions-concept-map">
-<span class="header-section-number">16.3</span> La mappa essenziale del percorso</h2>
-<p>I capitoli del sito possono essere letti come quattro blocchi collegati.</p>
-<section id="coerenza-probabilistica" class="level3" data-number="16.3.1"><h3 data-number="16.3.1" class="anchored" data-anchor-id="coerenza-probabilistica">
-<span class="header-section-number">16.3.1</span> Coerenza probabilistica</h3>
-<ul>
-<li>In <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a> la probabilità è stata introdotta come rappresentazione dell’incertezza.</li>
-<li>In <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> gli assiomi hanno definito le condizioni minime di coerenza.</li>
-<li>In <a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a>, <a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a> e <a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a> sono state sviluppate le regole che permettono di combinare e aggiornare probabilità.</li>
-</ul>
-<p>L’idea centrale è che le probabilità non sono numeri isolati: devono rispettare relazioni coerenti tra eventi e informazioni disponibili.</p>
-</section><section id="quantità-incerte-e-distribuzioni" class="level3" data-number="16.3.2"><h3 data-number="16.3.2" class="anchored" data-anchor-id="quantità-incerte-e-distribuzioni">
-<span class="header-section-number">16.3.2</span> Quantità incerte e distribuzioni</h3>
-<ul>
-<li>In <a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> le variabili casuali hanno collegato gli esiti a quantità numeriche.</li>
-<li>In <a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a> sono state distinte massa, densità e funzione di ripartizione.</li>
-<li>In <a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a> e <a href="09_cov_cor.html" class="quarto-xref"><span>Capitolo 9</span></a> sono state introdotte proprietà come valore atteso, varianza, covarianza e correlazione.</li>
-<li>In <a href="10_intro_distributions.html" class="quarto-xref"><span>Capitolo 10</span></a>, <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> e <a href="12_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a> sono state esaminate alcune famiglie di distribuzioni e i loro possibili ruoli.</li>
-</ul>
-<p>L’idea centrale è che una distribuzione non è soltanto una forma grafica: è una descrizione delle possibilità e dei pesi loro assegnati.</p>
-</section><section id="informazione-dei-dati" class="level3" data-number="16.3.3"><h3 data-number="16.3.3" class="anchored" data-anchor-id="informazione-dei-dati">
-<span class="header-section-number">16.3.3</span> Informazione dei dati</h3>
-<ul>
-<li>In <a href="13_from_sample_to_evidence.html" class="quarto-xref"><span>Capitolo 13</span></a> è stato chiarito perché una statistica campionaria varia da un campione all’altro.</li>
-<li>In <a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> i dati osservati sono stati usati per confrontare i valori possibili del parametro.</li>
-</ul>
-<p>L’idea centrale è che i dati forniscono informazione relativa, la cui forza dipende dalla quantità e dalla qualità delle osservazioni e dalla forma del modello.</p>
-</section><section id="aggiornamento" class="level3" data-number="16.3.4"><h3 data-number="16.3.4" class="anchored" data-anchor-id="aggiornamento">
-<span class="header-section-number">16.3.4</span> Aggiornamento</h3>
-<ul>
-<li>In <a href="15_aggiornamento_bayesiano.html" class="quarto-xref"><span>Capitolo 15</span></a> prior e verosimiglianza sono state combinate per ottenere la posterior.</li>
-</ul>
-<p>L’idea centrale è che apprendere significa modificare i pesi assegnati alle possibilità, non cancellare l’incertezza.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Una formula, tre significati">
+<p>La posterior <span class="math inline">\(p(\theta\mid y)\)</span> descrive l’incertezza aggiornata, condizionatamente al modello, alla prior e ai dati. Apprendere non significa eliminare l’incertezza, ma ridistribuire in modo coerente i pesi assegnati alle possibilità.</p>
+<p><strong>Il modello è adeguato allo scopo?</strong> La posterior non conclude il lavoro. Occorre ancora chiedersi se il modello riproduca gli aspetti importanti dei dati, se le conclusioni siano sensibili alle scelte iniziali e se il disegno di ricerca permetta l’interpretazione sostantiva proposta. Questi passaggi saranno sviluppati nel Companion.</p>
+<p>Questa sequenza mostra perché nessuno dei concetti introdotti nel modulo è isolato. Le variabili definiscono ciò che può essere osservato; le distribuzioni descrivono come tali osservazioni possono variare; i parametri rappresentano aspetti ignoti del processo; prior e verosimiglianza apportano due fonti diverse di informazione; la posterior ne esprime la sintesi aggiornata.</p>
+</section><section id="sec-conclusions-concept-map" class="level2" data-number="16.2"><h2 data-number="16.2" class="anchored" data-anchor-id="sec-conclusions-concept-map">
+<span class="header-section-number">16.2</span> La mappa essenziale del percorso</h2>
+<p>Il modulo può essere riletto come una progressione in quattro movimenti.</p>
+<p>Il primo riguarda la <strong>coerenza probabilistica</strong>. In <a href="01_intro_prob_bayesian.html" class="quarto-xref"><span>Capitolo 1</span></a> la probabilità è stata introdotta come rappresentazione dell’incertezza; in <a href="02_axioms_coherence_bayesian.html" class="quarto-xref"><span>Capitolo 2</span></a> gli assiomi hanno definito le condizioni minime di coerenza; in <a href="03_equiprobability_combinatorics_bayesian.html" class="quarto-xref"><span>Capitolo 3</span></a>, <a href="04_conditional_prob_bayesian.html" class="quarto-xref"><span>Capitolo 4</span></a> e <a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a> sono state sviluppate le regole che permettono di combinare e aggiornare probabilità. L’idea centrale è che le probabilità non sono numeri isolati: devono rispettare relazioni coerenti tra eventi e informazioni disponibili.</p>
+<p>Il secondo movimento riguarda le <strong>quantità incerte e le loro distribuzioni</strong>. In <a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a> le variabili casuali hanno collegato gli esiti a quantità numeriche; in <a href="07_prob_distributions.html" class="quarto-xref"><span>Capitolo 7</span></a> sono state distinte massa, densità e funzione di ripartizione; in <a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a> e <a href="09_cov_cor.html" class="quarto-xref"><span>Capitolo 9</span></a> sono state introdotte proprietà come valore atteso, varianza, covarianza e correlazione; infine, in <a href="10_intro_distributions.html" class="quarto-xref"><span>Capitolo 10</span></a>, <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> e <a href="12_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a> sono state esaminate alcune famiglie di distribuzioni e i loro possibili ruoli. Una distribuzione, dunque, non è soltanto una forma grafica: è una descrizione delle possibilità e dei pesi loro assegnati.</p>
+<p>Il terzo movimento riguarda l’<strong>informazione contenuta nei dati</strong>. In <a href="13_from_sample_to_evidence.html" class="quarto-xref"><span>Capitolo 13</span></a> è stato chiarito perché una statistica campionaria varia da un campione all’altro; in <a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> i dati osservati sono stati usati per confrontare i valori possibili del parametro. L’informazione fornita dai dati è relativa e la sua forza dipende dalla quantità e dalla qualità delle osservazioni, oltre che dalla forma del modello.</p>
+<p>Il quarto movimento è l’<strong>aggiornamento</strong>. In <a href="15_aggiornamento_bayesiano.html" class="quarto-xref"><span>Capitolo 15</span></a> prior e verosimiglianza sono state combinate per ottenere la posterior. Qui le parti precedenti si ricompongono: le possibilità iniziali vengono ripesate alla luce dei dati, ma l’incertezza non scompare e le conclusioni restano condizionate alle assunzioni adottate.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Una formula, tre ruoli">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Una formula, tre significati
+<span class="screen-reader-only">Nota</span>Una formula, tre ruoli
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -754,38 +706,19 @@ p(\theta\mid y)\propto p(y\mid\theta)p(\theta),
 <p>Confondere questi tre ruoli significa perdere il significato dell’inferenza bayesiana.</p>
 </div>
 </div>
-</section></section><section id="sec-conclusions-reading-analysis" class="level2" data-number="16.4"><h2 data-number="16.4" class="anchored" data-anchor-id="sec-conclusions-reading-analysis">
-<span class="header-section-number">16.4</span> Come leggere un’analisi bayesiana</h2>
-<p>Comprendere un’analisi bayesiana non significa soltanto saper leggere una media posteriore o un intervallo di credibilità. Prima di interpretare i risultati, è utile formulare alcune domande.</p>
-<section id="qual-è-la-domanda-scientifica" class="level3" data-number="16.4.1"><h3 data-number="16.4.1" class="anchored" data-anchor-id="qual-è-la-domanda-scientifica">
-<span class="header-section-number">16.4.1</span> Qual è la domanda scientifica?</h3>
-<p>Il parametro deve avere un significato collegato al problema psicologico. Una stima numerica è utile solo se sappiamo quale proprietà del fenomeno rappresenta.</p>
-</section><section id="qual-è-il-modello-dei-dati" class="level3" data-number="16.4.2"><h3 data-number="16.4.2" class="anchored" data-anchor-id="qual-è-il-modello-dei-dati">
-<span class="header-section-number">16.4.2</span> Qual è il modello dei dati?</h3>
-<p>Occorre identificare quali osservazioni sono possibili, quale distribuzione è stata scelta e quali assunzioni vengono formulate, per esempio indipendenza condizionata, forma della distribuzione o costanza dei parametri.</p>
-</section><section id="qual-è-il-ruolo-della-prior" class="level3" data-number="16.4.3"><h3 data-number="16.4.3" class="anchored" data-anchor-id="qual-è-il-ruolo-della-prior">
-<span class="header-section-number">16.4.3</span> Qual è il ruolo della prior?</h3>
-<p>Bisogna capire quali valori favorisce o penalizza, quanto è concentrata e se la sua scelta è plausibile sulla scala adottata.</p>
-</section><section id="che-cosa-ha-appreso-il-modello-dai-dati" class="level3" data-number="16.4.4"><h3 data-number="16.4.4" class="anchored" data-anchor-id="che-cosa-ha-appreso-il-modello-dai-dati">
-<span class="header-section-number">16.4.4</span> Che cosa ha appreso il modello dai dati?</h3>
-<p>Il confronto tra prior e posterior mostra quali pesi sono cambiati. La posterior può spostarsi, concentrarsi o conservare una forte incertezza. Nessuno di questi esiti deve essere interpretato senza considerare la verosimiglianza e la quantità di informazione disponibile.</p>
-</section><section id="quale-incertezza-rimane" class="level3" data-number="16.4.5"><h3 data-number="16.4.5" class="anchored" data-anchor-id="quale-incertezza-rimane">
-<span class="header-section-number">16.4.5</span> Quale incertezza rimane?</h3>
-<p>Una posterior rappresenta un insieme di valori plausibili, non soltanto un’unica stima. La sua concentrazione va interpretata condizionatamente alle assunzioni del modello.</p>
-</section><section id="le-conclusioni-sono-adeguate-ai-dati-e-al-disegno" class="level3" data-number="16.4.6"><h3 data-number="16.4.6" class="anchored" data-anchor-id="le-conclusioni-sono-adeguate-ai-dati-e-al-disegno">
-<span class="header-section-number">16.4.6</span> Le conclusioni sono adeguate ai dati e al disegno?</h3>
-<p>L’inferenza statistica non trasforma automaticamente un’associazione in un effetto causale, non corregge misure poco valide e non rende rappresentativo un campione distorto.</p>
-</section></section><section id="sec-conclusions-limits" class="level2" data-number="16.5"><h2 data-number="16.5" class="anchored" data-anchor-id="sec-conclusions-limits">
-<span class="header-section-number">16.5</span> Precisione, validità e trasparenza</h2>
-<p>Uno dei messaggi più importanti del percorso è la distinzione tra <strong>precisione</strong> e <strong>validità</strong>.</p>
-<p>Una posterior molto concentrata indica che, all’interno del modello, alcuni valori hanno ricevuto molto più peso di altri. Non dimostra però che:</p>
-<ul>
-<li>il campione rappresenti la popolazione di interesse;</li>
-<li>la misura rappresenti correttamente il costrutto psicologico;</li>
-<li>la distribuzione scelta descriva adeguatamente i dati;</li>
-<li>l’interpretazione causale sia giustificata;</li>
-<li>la prior e le altre assunzioni siano irrilevanti.</li>
-</ul>
+</section><section id="sec-conclusions-reading-analysis" class="level2" data-number="16.3"><h2 data-number="16.3" class="anchored" data-anchor-id="sec-conclusions-reading-analysis">
+<span class="header-section-number">16.3</span> Come leggere criticamente un’analisi bayesiana</h2>
+<p>Comprendere un’analisi bayesiana non significa soltanto saper leggere una media posteriore o un intervallo di credibilità. Significa ricostruire il ragionamento che collega la domanda scientifica, il modello, i dati e le conclusioni.</p>
+<p>Il primo passo è chiedersi <strong>quale sia la domanda scientifica</strong>. Il parametro deve avere un significato collegato al problema psicologico: una stima numerica è utile solo se sappiamo quale proprietà del fenomeno rappresenta.</p>
+<p>Occorre poi identificare <strong>il modello dei dati</strong>: quali osservazioni sono possibili, quale distribuzione è stata scelta e quali assunzioni vengono formulate. Tra queste possono rientrare l’indipendenza condizionata, la forma della distribuzione o la costanza dei parametri.</p>
+<p>La lettura deve considerare anche <strong>il ruolo della prior</strong>. È importante capire quali valori favorisce o penalizza, quanto sia concentrata e se la sua scelta sia plausibile sulla scala adottata. La prior non va valutata in astratto, ma in relazione alla domanda, al parametro e alle conoscenze disponibili.</p>
+<p>Il confronto tra prior e posterior mostra poi <strong>che cosa il modello ha appreso dai dati</strong>. La posterior può spostarsi, concentrarsi oppure conservare una forte incertezza. Nessuno di questi esiti può essere interpretato senza considerare la forma della verosimiglianza e la quantità di informazione disponibile.</p>
+<p>Resta quindi da valutare <strong>quale incertezza permanga</strong>. Una posterior rappresenta un insieme di valori plausibili, non soltanto un’unica stima, e la sua concentrazione deve essere letta condizionatamente alle assunzioni del modello.</p>
+<p>Infine, bisogna chiedersi <strong>se le conclusioni siano adeguate ai dati e al disegno di ricerca</strong>. L’inferenza statistica non trasforma automaticamente un’associazione in un effetto causale, non corregge misure poco valide e non rende rappresentativo un campione distorto.</p>
+</section><section id="sec-conclusions-limits" class="level2" data-number="16.4"><h2 data-number="16.4" class="anchored" data-anchor-id="sec-conclusions-limits">
+<span class="header-section-number">16.4</span> Precisione, validità e trasparenza</h2>
+<p>Questa ultima distinzione conduce a uno dei messaggi più importanti del modulo: <strong>precisione inferenziale e validità scientifica non sono la stessa cosa</strong>.</p>
+<p>Una posterior molto concentrata indica che, all’interno del modello, alcuni valori hanno ricevuto molto più peso di altri. Non dimostra però che il campione rappresenti la popolazione di interesse, che la misura rappresenti correttamente il costrutto psicologico, che la distribuzione scelta descriva adeguatamente i dati, che un’interpretazione causale sia giustificata o che la prior e le altre assunzioni siano irrilevanti.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Un risultato preciso può essere precisamente sbagliato">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -799,10 +732,20 @@ p(\theta\mid y)\propto p(y\mid\theta)p(\theta),
 <p>Aumentare il numero di osservazioni riduce alcune forme di incertezza, ma non elimina automaticamente bias sistematici, errori di misurazione o inadeguatezze del modello.</p>
 </div>
 </div>
-<p>L’approccio bayesiano rende esplicite molte scelte che in altri approcci possono restare implicite. Questa trasparenza è un vantaggio soltanto se prior, modello, dati e limiti vengono documentati e sottoposti a controllo critico.</p>
-</section><section id="sec-conclusions-next" class="level2" data-number="16.6"><h2 data-number="16.6" class="anchored" data-anchor-id="sec-conclusions-next">
-<span class="header-section-number">16.6</span> Dove prosegue il percorso</h2>
-<p>Questo sito ha fornito il linguaggio probabilistico necessario per seguire l’inferenza bayesiana senza trasformarsi in un secondo manuale operativo.</p>
+<p>L’approccio bayesiano rende esplicite molte scelte che in altri approcci possono rimanere implicite. Questa trasparenza è un vantaggio solo se prior, modello, dati e limiti vengono documentati e sottoposti a controllo critico. Una buona analisi non si limita quindi a produrre una posterior: rende comprensibile il percorso che ha condotto a quella distribuzione e chiarisce quali conclusioni essa può, e non può, sostenere.</p>
+</section><section id="sec-conclusions-next" class="level2" data-number="16.5"><h2 data-number="16.5" class="anchored" data-anchor-id="sec-conclusions-next">
+<span class="header-section-number">16.5</span> Dal modulo introduttivo ai modelli bayesiani</h2>
+<p>Questo sito ha fornito il linguaggio probabilistico necessario per seguire l’inferenza bayesiana, senza trasformarsi in un secondo manuale operativo. Il suo punto di arrivo non è l’applicazione meccanica di una formula, ma l’acquisizione di un modo di ragionare.</p>
+<p>La probabilità non elimina l’incertezza: permette di rappresentarla e di ragionare in sua presenza. Le variabili casuali definiscono i possibili esiti osservabili; le distribuzioni specificano i pesi assegnati a tali esiti; la verosimiglianza mostra come i dati modificano il confronto tra i valori dei parametri; la regola di Bayes integra questa informazione con ciò che era ritenuto plausibile prima dell’osservazione.</p>
+<p>Da qui in avanti, ogni analisi richiederà di formulare con chiarezza alcune domande:</p>
+<ul>
+<li>che cosa sto modellando?</li>
+<li>quali assunzioni sto introducendo?</li>
+<li>quale informazione proviene dai dati?</li>
+<li>quale incertezza rimane?</li>
+<li>quali conclusioni sono realmente sostenute dal disegno di ricerca?</li>
+</ul>
+<p>Queste domande accompagneranno tutti i modelli successivi, dai casi più semplici alle analisi gerarchiche e computazionali. Cambieranno le distribuzioni, la complessità dei modelli e gli algoritmi, ma non la logica fondamentale: costruire un modello, confrontarlo con i dati, aggiornare l’incertezza e verificare criticamente quanto appreso.</p>
 <p>Nel <a href="https://ccaudek.github.io/utet-companion/">Companion</a> il percorso prosegue con:</p>
 <ul>
 <li>costruzione e simulazione di modelli generativi;</li>
@@ -816,17 +759,6 @@ p(\theta\mid y)\propto p(y\mid\theta)p(\theta),
 <blockquote class="blockquote">
 <p>questo sito fornisce il linguaggio della probabilità; il manuale sviluppa il ragionamento; il Companion mostra i modelli in azione.</p>
 </blockquote>
-</section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
-<p>La probabilità non elimina l’incertezza, ma consente di rappresentarla e di ragionare in sua presenza. Le variabili casuali definiscono i possibili esiti osservabili; le distribuzioni specificano la probabilità associata a ciascun valore; la verosimiglianza quantifica il modo in cui i dati modificano il confronto tra parametri; la regola di Bayes integra queste informazioni con quanto era ritenuto plausibile prima dell’osservazione.</p>
-<p>Il punto di arrivo di questa presentazione introduttiva alla probabilità non è l’applicazione meccanica di una formula, ma l’adozione di un approccio che richiede di formulare domande esplicite:</p>
-<ul>
-<li>che cosa sto modellando?</li>
-<li>quali assunzioni sto introducendo?</li>
-<li>quale informazione proviene dai dati?</li>
-<li>quale incertezza rimane?</li>
-<li>quali conclusioni sono realmente sostenute dal disegno di ricerca?</li>
-</ul>
-<p>Queste domande accompagneranno tutti i modelli successivi, dai casi più semplici alle analisi gerarchiche e computazionali. Cambieranno le distribuzioni e gli algoritmi, ma non la logica fondamentale: costruire un modello, confrontarlo con i dati, aggiornare l’incertezza e verificare criticamente quanto appreso.</p>
 </section><section id="esercizi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="esercizi">Esercizi</h2>
 <ol type="1">
 <li>Perché la formula di Bayes, da sola, non basta a definire un’analisi scientificamente utile?</li>
@@ -876,19 +808,21 @@ p(\theta\mid y)\propto p(y\mid\theta)p(\theta),
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li>La probabilità è un linguaggio coerente per rappresentare l’incertezza.</li>
-<li>Una variabile casuale collega gli esiti possibili a una rappresentazione numerica.</li>
-<li>Una distribuzione assegna pesi ai valori possibili e può svolgere ruoli differenti nel modello.</li>
-<li>Il modello dei dati descrive come le osservazioni dipendono dai parametri.</li>
-<li>La prior rappresenta l’incertezza sui parametri prima dei nuovi dati.</li>
-<li>La verosimiglianza rappresenta l’informazione relativa fornita dai dati osservati.</li>
-<li>La posterior combina prior e verosimiglianza: <span class="math display">\[
+<li><p>La probabilità è un linguaggio coerente per rappresentare l’incertezza.</p></li>
+<li><p>Una variabile casuale collega gli esiti possibili a una rappresentazione numerica.</p></li>
+<li><p>Una distribuzione assegna pesi ai valori possibili e può svolgere ruoli differenti nel modello.</p></li>
+<li><p>Il modello dei dati descrive come le osservazioni dipendono dai parametri.</p></li>
+<li><p>La prior rappresenta l’incertezza sui parametri prima dei nuovi dati.</p></li>
+<li><p>La verosimiglianza rappresenta l’informazione relativa fornita dai dati osservati.</p></li>
+<li>
+<p>La posterior combina prior e verosimiglianza:</p>
+<p><span class="math display">\[
 p(\theta\mid y)\propto p(y\mid\theta)p(\theta).
-\]</span>
+\]</span></p>
 </li>
-<li>La posterior resta condizionata al modello, alla prior e ai dati.</li>
-<li>Precisione inferenziale e validità scientifica non sono la stessa cosa.</li>
-<li>Il Companion sviluppa il workflow operativo e i modelli applicati.</li>
+<li><p>La posterior resta condizionata al modello, alla prior e ai dati.</p></li>
+<li><p>Precisione inferenziale e validità scientifica non sono la stessa cosa.</p></li>
+<li><p>Il Companion sviluppa il workflow operativo e i modelli applicati.</p></li>
 </ul>
 </div>
 </div>
@@ -1391,8 +1325,8 @@ p(\theta\mid y)\propto p(y\mid\theta)p(\theta).
     }
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../../chapters/probability/15_aggiornamento_bayesiano.html" class="pagination-link" aria-label="Dalla verosimiglianza alla posterior: introdurre l'aggiornamento bayesiano">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: introdurre l’aggiornamento bayesiano</span></span>
+      <a href="../../chapters/probability/15_aggiornamento_bayesiano.html" class="pagination-link" aria-label="Dalla verosimiglianza alla posterior: una prima idea dell'aggiornamento bayesiano">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dalla verosimiglianza alla posterior: una prima idea dell’aggiornamento bayesiano</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

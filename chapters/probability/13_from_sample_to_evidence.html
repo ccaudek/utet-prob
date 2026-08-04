@@ -587,58 +587,55 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Da sapere</strong> Comprendere come un modello generativo colleghi parametri ignoti e dati osservabili; distinguere variabilità campionaria, errore standard, incertezza a posteriori e bias; riconoscere il ruolo della Legge dei Grandi Numeri, del Teorema del Limite Centrale e dell’analisi di sensibilità.</p>
-<p><strong>Da saper fare</strong> Interpretare media o proporzione campionaria come riassunti dei dati; spiegare come la numerosità modifica errore standard e precisione; leggere una distribuzione campionaria senza confonderla con una distribuzione a posteriori; valutare perché un risultato preciso può comunque essere sistematicamente errato.</p>
+<p><strong>Da sapere.</strong> Comprendere come un modello generativo colleghi parametri ignoti e dati osservabili; distinguere variabilità campionaria, errore standard, incertezza a posteriori e bias; riconoscere il ruolo della Legge dei Grandi Numeri, del Teorema del Limite Centrale e dell’analisi di sensibilità.</p>
+<p><strong>Da saper fare.</strong> Interpretare una media o una proporzione campionaria come riassunto dei dati; spiegare come la numerosità modifica errore standard e precisione; leggere una distribuzione campionaria senza confonderla con una distribuzione a posteriori; riconoscere perché un risultato molto preciso può essere comunque sistematicamente errato.</p>
 </div>
 </div>
 <section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Uno psicologo clinico sta valutando se adottare un nuovo protocollo per la depressione. In uno studio pilota, il 36% dei pazienti trattati ha raggiunto la remissione completa dei sintomi. Il dato è incoraggiante, ma non basta per decidere: quanto potrebbe cambiare in una replica? Quanto sarebbe compatibile con un tasso generativo del 30%, del 40% o del 50%? Quale parte dell’incertezza dipende dal numero di partecipanti e quale dalla qualità del disegno di ricerca?</p>
-<p>Questo capitolo affronta il passaggio dai dati osservati all’evidenza statistica. Non introdurremo ancora formalmente la funzione di verosimiglianza, che sarà il tema del capitolo successivo. Prepariamo invece il terreno chiarendo che cosa rende un campione più o meno informativo rispetto a una quantità ignota.</p>
-<p>La prospettiva rimane bayesiana: proporzioni, medie, varianze ed effetti sono quantità sulle quali possiamo avere incertezza epistemica. I dati, tuttavia, non diventano evidenza da soli. Sono informativi soltanto all’interno di un modello che specifica quali osservazioni sarebbero più o meno attese per diversi valori del parametro.</p>
+<p>Uno psicologo clinico sta prendendo in considerazione l’adozione di un nuovo protocollo per la depressione. In uno studio pilota, il 36% dei pazienti trattati ha raggiunto la remissione completa dei sintomi. Il dato è incoraggiante, ma da solo non basta per prendere una decisione. Quanto potrebbe cambiare in una replica? Sarebbe compatibile con un tasso generativo del 30%, del 40% o del 50%? Inoltre, quanto dell’incertezza dipende dal numero di partecipanti piuttosto che dalla qualità del disegno e delle misure?</p>
+<p>Queste domande segnano il passaggio dalla semplice descrizione del campione all’evidenza statistica. Un risultato osservato diventa informativo solo quando viene inserito in un modello che specifica quali dati sarebbero più o meno attesi per diversi valori di una quantità sconosciuta.</p>
+<p>In questo capitolo non introdurremo ancora formalmente la funzione di verosimiglianza, che sarà il tema del capitolo successivo. Introdurremo però i concetti necessari per comprenderla: il modello generativo, i riassunti campionari, la distribuzione campionaria, l’errore standard, la precisione, la convergenza e il bias.</p>
+<p>La prospettiva rimane bayesiana. Proporzioni, medie, varianze ed effetti sono quantità sulle quali possiamo avere incertezza epistemica. Tuttavia, i dati non diventano automaticamente evidenza: acquistano un significato inferenziale solo attraverso un modello e in base alle assunzioni che collegano il campione alla popolazione o al costrutto di interesse.</p>
 </section><section id="perché-un-campione-diventa-evidenza" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="perché-un-campione-diventa-evidenza">
 <span class="header-section-number">13.1</span> Perché un campione diventa evidenza?</h2>
-<p>Una proporzione del 36% può avere significati molto diversi. Se deriva da 11 pazienti, può variare sensibilmente da una replica all’altra; se deriva da 10.000 pazienti indipendenti e ben campionati, la variabilità campionaria è molto più piccola. In entrambi i casi, però, un errore di selezione o di misurazione può produrre una conclusione precisa ma distorta.</p>
-<p>Per interpretare un campione occorre quindi separare almeno tre domande:</p>
+<p>La stessa proporzione del 36% può assumere significati molto diversi. Se deriva da 11 pazienti, può cambiare sensibilmente da una replica all’altra, mentre se deriva da 10.000 pazienti indipendenti e ben campionati, la variabilità campionaria è molto più piccola. In entrambi i casi, però, un errore di selezione o di misurazione può produrre una conclusione precisa, ma distorta.</p>
+<p>Per interpretare un campione dobbiamo quindi tenere separate tre domande:</p>
 <ol type="1">
-<li><strong>Quale modello collega il parametro ai dati?</strong></li>
+<li><strong>Quale modello collega il parametro ignoto ai dati osservabili?</strong></li>
 <li><strong>Quanto potrebbe variare il risultato in ipotetiche repliche dello stesso disegno?</strong></li>
-<li><strong>Il disegno e la misura consentono di collegare il campione alla popolazione o al costrutto di interesse?</strong></li>
+<li><strong>Il disegno e la misura permettono davvero di collegare il campione alla popolazione o al costrutto di interesse?</strong></li>
 </ol>
 <p>La distribuzione campionaria e l’errore standard rispondono soprattutto alla seconda domanda. L’inferenza bayesiana combina poi il modello dei dati con la prior per ottenere una distribuzione a posteriori. Nessuno di questi strumenti, da solo, corregge automaticamente bias di selezione, errori di misurazione o modelli inadeguati.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Prerequisiti">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Consiglio</span>Prerequisiti
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Per seguire il capitolo è utile avere letto <a href="05_bayes_theorem.html" class="quarto-xref"><span>Capitolo 5</span></a>, <a href="06_random_var.html" class="quarto-xref"><span>Capitolo 6</span></a>, <a href="08_expval_var.html" class="quarto-xref"><span>Capitolo 8</span></a>, <a href="10_intro_distributions.html" class="quarto-xref"><span>Capitolo 10</span></a>, <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> e <a href="12_cont_rv_distr.html" class="quarto-xref"><span>Capitolo 12</span></a>. Per la notazione matematica, consulta <a href="../appendix/a01_math_symbols.html" class="quarto-xref"><span>Appendice A</span></a>.</p>
 <p>Per richiami su sommatorie, limiti e convergenza, consulta le appendici matematiche disponibili nel Companion.</p>
 </div>
 </div>
+</div>
 </section><section id="panoramica-del-capitolo" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="panoramica-del-capitolo">Panoramica del capitolo</h2>
-<p>Il capitolo procede in sette passaggi:</p>
-<ol type="1">
-<li>collega dati, parametri e modello generativo;</li>
-<li>interpreta media e proporzione campionaria come riassunti dei dati;</li>
-<li>introduce la distribuzione campionaria e l’errore standard;</li>
-<li>distingue errore standard, precisione e informazione;</li>
-<li>presenta Legge dei Grandi Numeri e Teorema del Limite Centrale;</li>
-<li>discute prior, convergenza e analisi di sensibilità;</li>
-<li>separa variabilità campionaria, bias e falsa precisione, preparando la verosimiglianza.</li>
-</ol>
+<p>Il percorso segue il naturale processo di inferenza. Partiremo da un parametro sconosciuto e da un modello che genera dati, per poi vedere come la media e la proporzione riassumono un campione e come cambierebbero in ipotetiche repliche. Su questa base introdurremo la distribuzione campionaria, l’errore standard e la precisione. La Legge dei Grandi Numeri e il Teorema del Limite Centrale chiariranno cosa accade quando il numero di elementi aumenta. Infine, torneremo alla prospettiva bayesiana per discutere il ruolo della prior, l’analisi di sensibilità e il limite fondamentale della sola precisione: un risultato stabile può comunque essere distorto.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Preparazione del notebook">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Nota</span>Preparazione del notebook
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"code"</span>, <span class="st">"_common.R"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -647,11 +644,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</div>
 </section><section id="sec-data-parameters-generative-model" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="sec-data-parameters-generative-model">
 <span class="header-section-number">13.2</span> Dati, parametri e modello generativo</h2>
-<section id="il-problema-inferenziale" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="il-problema-inferenziale">
-<span class="header-section-number">13.2.1</span> Il problema inferenziale</h3>
-<p>Supponiamo di voler stimare la prevalenza <span class="math inline">\(\theta\)</span> di studenti universitari con sintomi depressivi clinicamente rilevanti. Se selezioniamo un campione di <span class="math inline">\(n\)</span> studenti e registriamo per ciascuno la presenza o assenza del sintomo, otteniamo osservazioni binarie:</p>
+<section id="dal-fenomeno-osservato-al-parametro-ignoto" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="dal-fenomeno-osservato-al-parametro-ignoto">
+<span class="header-section-number">13.2.1</span> Dal fenomeno osservato al parametro ignoto</h3>
+<p>Supponiamo di voler stimare la prevalenza <span class="math inline">\(\theta\)</span> di studenti universitari con sintomi depressivi clinicamente rilevanti. Se selezioniamo un campione di <span class="math inline">\(n\)</span> studenti e registriamo per ciascuno la presenza o l’assenza del sintomo, otterremo osservazioni binarie:</p>
 <p><span class="math display">\[
 X_i =
 \begin{cases}
@@ -659,27 +657,28 @@ X_i =
 0 &amp; \text{altrimenti}.
 \end{cases}
 \]</span></p>
-<p>Il parametro <span class="math inline">\(\theta\)</span> rappresenta la proporzione del fenomeno nella popolazione di riferimento. Non lo osserviamo direttamente: possiamo solo raccogliere dati che, sotto opportune assunzioni, sono informativi su di esso.</p>
+<p>Il parametro <span class="math inline">\(\theta\)</span> rappresenta la proporzione del fenomeno nella popolazione di riferimento. Non è possibile osservarlo direttamente. Possiamo soltanto raccogliere dati che, sotto opportune assunzioni, forniscano informazioni su di esso.</p>
+<p>Questa distinzione è il punto di partenza dell’inferenza statistica: da una parte vi è una quantità sconosciuta che vogliamo conoscere; dall’altra, un insieme di osservazioni che dipendono probabilisticamente da tale quantità.</p>
 </section><section id="il-modello-generativo" class="level3" data-number="13.2.2"><h3 data-number="13.2.2" class="anchored" data-anchor-id="il-modello-generativo">
 <span class="header-section-number">13.2.2</span> Il modello generativo</h3>
-<p>Un modello probabilistico semplice assume che, condizionatamente a <span class="math inline">\(\theta\)</span>, le osservazioni siano indipendenti e condividano la stessa probabilità:</p>
+<p>Un modello probabilistico semplice assume che, condizionatamente a <span class="math inline">\(\theta\)</span>, le osservazioni siano indipendenti e abbiano la stessa probabilità:</p>
 <p><span class="math display">\[
 X_i \mid \theta \overset{\mathrm{iid}}{\sim} \operatorname{Bernoulli}(\theta),
 \qquad i = 1, \dots, n.
 \]</span></p>
-<p>Questa notazione va letta nel modo seguente: <strong>se</strong> il valore di <span class="math inline">\(\theta\)</span> fosse noto, potremmo descrivere probabilisticamente i dati che ci aspettiamo di osservare. Ad esempio, se <span class="math inline">\(\theta = 0.30\)</span>, ogni studente avrebbe probabilità 0.30 di presentare il sintomo, e l’esito di uno studente non modificherebbe direttamente quello degli altri dopo avere condizionato su <span class="math inline">\(\theta\)</span>.</p>
-<p>Le ipotesi di indipendenza e probabilità comune sono parti del modello, non proprietà automatiche dei dati. Possono risultare inadeguate, per esempio, quando gli studenti sono raggruppati in classi o atenei oppure quando la probabilità varia tra sottopopolazioni.</p>
-<p>Dal punto di vista bayesiano, prima di osservare il campione possiamo rappresentare la nostra incertezza su <span class="math inline">\(\theta\)</span> con una distribuzione a priori:</p>
+<p>La notazione descrive la direzione generativa del modello: <strong>se</strong> il valore di <span class="math inline">\(\theta\)</span> fosse noto, potremmo stabilire quali dati aspettarci. Se, per esempio, <span class="math inline">\(\theta=0.30\)</span>, ogni studente avrebbe una probabilità dello 0.30 di presentare il sintomo e, una volta condizionati su <span class="math inline">\(\theta\)</span>, gli esiti degli studenti non si influenzerebbero direttamente.</p>
+<p>Le ipotesi di indipendenza e di probabilità comune sono componenti del modello e non proprietà automatiche dei dati. Tali ipotesi possono risultare inadeguate quando, per esempio, gli studenti sono raggruppati in classi o atenei, oppure quando la probabilità del fenomeno varia tra le diverse sottopopolazioni.</p>
+<p>Dal punto di vista bayesiano, prima di osservare il campione possiamo rappresentare la nostra incertezza su <span class="math inline">\(\theta\)</span> mediante una distribuzione a priori:</p>
 <p><span class="math display">\[
 \theta \sim p(\theta).
 \]</span></p>
-<p>Il modello completo ha quindi due componenti:</p>
+<p>Il modello completo comprende quindi due parti:</p>
 <p><span class="math display">\[
 \theta \sim p(\theta),
 \qquad
 X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 \]</span></p>
-<p>La prima rappresenta ciò che sappiamo o assumiamo prima dei dati; la seconda rappresenta il meccanismo che genera le osservazioni, condizionatamente al parametro.</p>
+<p>La prima rappresenta ciò che sappiamo o assumiamo prima dei dati; la seconda descrive il processo che genera le osservazioni, condizionatamente al parametro.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Idea chiave">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -690,7 +689,7 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Nel ragionamento bayesiano, i dati aggiornano le credenze solo attraverso un modello. Non basta osservare una proporzione campionaria: dobbiamo specificare quale processo probabilistico rende quella proporzione più o meno attesa per diversi valori del parametro.</p>
+<p>Nel ragionamento bayesiano, i dati aggiornano le credenze solo attraverso un modello. Non basta osservare una proporzione campionaria: dobbiamo specificare quale processo probabilistico renda quella proporzione più o meno attesa per diversi valori del parametro.</p>
 </div>
 </div>
 </section><section id="il-riassunto-campionario" class="level3" data-number="13.2.3"><h3 data-number="13.2.3" class="anchored" data-anchor-id="il-riassunto-campionario">
@@ -699,38 +698,39 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 <p><span class="math display">\[
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i.
 \]</span></p>
-<p>Se osserviamo <span class="math inline">\(72\)</span> studenti con sintomi su <span class="math inline">\(200\)</span>, allora:</p>
+<p>Se osserviamo 72 studenti con sintomi su 200, otteniamo:</p>
 <p><span class="math display">\[
 \bar{X} = \frac{72}{200} = 0.36.
 \]</span></p>
-<p>La proporzione osservata è una descrizione compatta del campione, ma non è ancora una conclusione inferenziale. Nel modello Bernoulli <em>iid</em>, il numero totale di successi e la proporzione contengono la stessa informazione su <span class="math inline">\(\theta\)</span>. Per interpretarli dobbiamo però chiederci: <strong>quanto avrebbero potuto variare in ipotetiche repliche dello stesso disegno?</strong></p>
+<p>La proporzione osservata fornisce una descrizione compatta del campione, ma non costituisce ancora una conclusione inferenziale. Nel modello Bernoulli <em>iid</em>, il numero totale di successi e la proporzione contengono la stessa informazione su <span class="math inline">\(\theta\)</span>. Per capire quanto questa informazione sia precisa dobbiamo però immaginare che cosa accadrebbe ripetendo lo stesso studio: <strong>quanto potrebbe cambiare <span class="math inline">\(\bar X\)</span> da un campione all’altro?</strong></p>
 </section></section><section id="sec-what-varies-across-samples" class="level2" data-number="13.3"><h2 data-number="13.3" class="anchored" data-anchor-id="sec-what-varies-across-samples">
 <span class="header-section-number">13.3</span> Che cosa varia da un campione all’altro</h2>
-<section id="media-campionaria-e-valore-atteso" class="level3" data-number="13.3.1"><h3 data-number="13.3.1" class="anchored" data-anchor-id="media-campionaria-e-valore-atteso">
-<span class="header-section-number">13.3.1</span> Media campionaria e valore atteso</h3>
-<p>Siano <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> variabili casuali indipendenti e identicamente distribuite, con valore atteso finito <span class="math inline">\(\mathbb{E}(X_i \mid \theta)=\theta\)</span>. La media campionaria è:</p>
+<section id="la-media-campionaria-è-centrata-sul-valore-generativo" class="level3" data-number="13.3.1"><h3 data-number="13.3.1" class="anchored" data-anchor-id="la-media-campionaria-è-centrata-sul-valore-generativo">
+<span class="header-section-number">13.3.1</span> La media campionaria è centrata sul valore generativo</h3>
+<p>Siano <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> variabili casuali indipendenti e identicamente distribuite, con valore atteso finito <span class="math inline">\(\mathbb{E}(X_i\mid\theta)=\theta\)</span>. La media campionaria è:</p>
 <p><span class="math display">\[
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i.
 \]</span></p>
 <p>Per la linearità del valore atteso:</p>
 <p><span class="math display">\[
-\mathbb{E}(\bar{X} \mid \theta) = \theta.
+\mathbb{E}(\bar{X}\mid\theta)=\theta.
 \]</span></p>
-<p><strong>Interpretazione.</strong> Se potessimo ripetere molte volte lo stesso studio, sempre con campioni della stessa dimensione e provenienti dallo stesso processo generativo, la media delle proporzioni osservate sarebbe centrata su <span class="math inline">\(\theta\)</span>. In questo senso, la proporzione campionaria non tende sistematicamente a sovrastimare o sottostimare il parametro, a condizione che il modello sia corretto e che il campionamento non introduca bias.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Dimostrazione">
+<p>Questa uguaglianza descrive il centro della distribuzione delle possibili medie campionarie. Se potessimo ripetere molte volte lo stesso studio, sempre con campioni della stessa dimensione e provenienti dallo stesso processo generativo, la media delle proporzioni osservate sarebbe centrata su <span class="math inline">\(\theta\)</span>.</p>
+<p>In questo senso, la proporzione campionaria non tende sistematicamente a sovrastimare o sottostimare il parametro, a condizione che il modello sia corretto e che il campionamento non introduca bias. L’affermazione riguarda quindi la variabilità attorno al parametro all’interno del modello, non la validità del disegno nel mondo reale.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Dimostrazione del valore atteso">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Dimostrazione
+<span class="screen-reader-only">Nota</span>Dimostrazione del valore atteso
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
-\mathbb{E}(\bar{X} \mid \theta)
+\mathbb{E}(\bar{X}\mid\theta)
 = \mathbb{E}\left(\frac{1}{n}\sum_{i=1}^{n}X_i \mid \theta\right)
 = \frac{1}{n}\sum_{i=1}^{n}\mathbb{E}(X_i \mid \theta)
 = \frac{1}{n}\sum_{i=1}^{n}\theta
@@ -739,13 +739,13 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 </div>
 </div>
 </div>
-</section><section id="variabilità-della-media-campionaria" class="level3" data-number="13.3.2"><h3 data-number="13.3.2" class="anchored" data-anchor-id="variabilità-della-media-campionaria">
-<span class="header-section-number">13.3.2</span> Variabilità della media campionaria</h3>
-<p>Se le osservazioni <span class="math inline">\(X_1, \dots, X_n\)</span> sono indipendenti e hanno la stessa varianza condizionata <span class="math inline">\(\operatorname{Var}(X_i\mid\theta)=\sigma^2\)</span>, allora la varianza della loro media è:</p>
+</section><section id="quanto-oscilla-la-media-campionaria" class="level3" data-number="13.3.2"><h3 data-number="13.3.2" class="anchored" data-anchor-id="quanto-oscilla-la-media-campionaria">
+<span class="header-section-number">13.3.2</span> Quanto oscilla la media campionaria</h3>
+<p>Essere centrata su <span class="math inline">\(\theta\)</span> non significa che ogni media campionaria coincida con <span class="math inline">\(\theta\)</span>. Campioni diversi producono valori diversi. Se le osservazioni <span class="math inline">\(X_1,\dots,X_n\)</span> sono indipendenti e hanno la stessa varianza condizionata <span class="math inline">\(\operatorname{Var}(X_i\mid\theta)=\sigma^2\)</span>, allora:</p>
 <p><span class="math display">\[
 \operatorname{Var}(\bar{X}\mid\theta)=\frac{\sigma^2}{n}.
 \]</span></p>
-<p>La deviazione standard di questa distribuzione campionaria è l’<strong>errore standard</strong>:</p>
+<p>La deviazione standard di questa distribuzione è l’<strong>errore standard</strong>:</p>
 <p><span class="math display">\[
 \operatorname{SE}(\bar{X}\mid\theta)
 =
@@ -753,27 +753,28 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 =
 \frac{\sigma}{\sqrt{n}}.
 \]</span></p>
-<p>L’errore standard diminuisce quindi in proporzione a <span class="math inline">\(1/\sqrt{n}\)</span>: la stabilità cresce con il campione, ma più lentamente di quanto suggerirebbe una relazione lineare.</p>
-<p>L’errore standard misura quanto ci si può attendere che la media campionaria oscilli da un campione all’altro. La sua espressione <span class="math inline">\(\sigma/\sqrt{n}\)</span> evidenzia una proprietà controintuitiva ma cruciale: <strong>l’incertezza non si riduce in proporzione diretta al numero di osservazioni</strong>. Per dimezzare l’errore standard non è sufficiente raddoppiare il campione: occorre <strong>quadruplicarlo</strong>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Dimostrazione">
+<p>L’errore standard descrive l’ampiezza delle oscillazioni della media campionaria in ipotetiche repliche dello stesso disegno. Diminuisce come <span class="math inline">\(1/\sqrt n\)</span>: aumentando il campione, la statistica diventa più stabile, ma il miglioramento è più lento rispetto a una relazione lineare.</p>
+<p>La conseguenza pratica è importante. Per dimezzare l’errore standard, infatti, non basta raddoppiare il campione, ma è necessario <strong>quadruplicarlo</strong>. Un campione più numeroso fornisce informazioni più precise.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Dimostrazione della varianza">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Dimostrazione
+<span class="screen-reader-only">Nota</span>Dimostrazione della varianza
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Per la proprietà di indipendenza delle osservazioni e la linearità della varianza rispetto a costanti moltiplicative:</p>
+<p>Per l’indipendenza delle osservazioni e la proprietà della varianza rispetto alle costanti moltiplicative:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\operatorname{Var}(\bar{X} \mid \theta)
+\operatorname{Var}(\bar{X}\mid\theta)
 &amp;= \operatorname{Var}\left(\frac{1}{n}\sum_{i=1}^{n}X_i \,\middle|\, \theta\right) \\
-&amp;= \frac{1}{n^2}\sum_{i=1}^{n}\operatorname{Var}(X_i \mid \theta) \\
-&amp;= \frac{1}{n^2} \cdot n\sigma^2 = \frac{\sigma^2}{n}.
+&amp;= \frac{1}{n^2}\sum_{i=1}^{n}\operatorname{Var}(X_i\mid\theta) \\
+&amp;= \frac{1}{n^2}\cdot n\sigma^2 \\
+&amp;= \frac{\sigma^2}{n}.
 \end{aligned}
 \]</span></p>
 </div>
@@ -783,19 +784,25 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 <span class="header-section-number">13.3.3</span> Il caso Bernoulliano</h3>
 <p>Per una variabile Bernoulliana:</p>
 <p><span class="math display">\[
-\operatorname{Var}(X_i \mid \theta) = \theta(1-\theta).
+\operatorname{Var}(X_i\mid\theta)=\theta(1-\theta).
 \]</span></p>
-<p>Quindi:</p>
+<p>Di conseguenza:</p>
 <p><span class="math display">\[
-\operatorname{Var}(\bar{X} \mid \theta) = \frac{\theta(1-\theta)}{n},
+\operatorname{Var}(\bar{X}\mid\theta)
+=
+\frac{\theta(1-\theta)}{n},
 \qquad
-\operatorname{SE}(\bar{X}) = \sqrt{\frac{\theta(1-\theta)}{n}}.
+\operatorname{SE}(\bar{X}\mid\theta)
+=
+\sqrt{\frac{\theta(1-\theta)}{n}}.
 \]</span></p>
-<p>Poiché <span class="math inline">\(\theta\)</span> è ignoto, nella pratica si usa spesso una stima sostitutiva, per esempio <span class="math inline">\(\bar{X}\)</span>:</p>
+<p>Poiché <span class="math inline">\(\theta\)</span> è ignoto, nella pratica si usa spesso una stima sostitutiva, per esempio <span class="math inline">\(\bar X\)</span>:</p>
 <p><span class="math display">\[
-\widehat{\operatorname{SE}}(\bar{X}) = \sqrt{\frac{\bar{X}(1-\bar{X})}{n}}.
+\widehat{\operatorname{SE}}(\bar{X})
+=
+\sqrt{\frac{\bar{X}(1-\bar{X})}{n}}.
 \]</span></p>
-<p>Nel caso <span class="math inline">\(\bar{X}=0.36\)</span> e <span class="math inline">\(n=200\)</span>:</p>
+<p>Nel caso <span class="math inline">\(\bar X=0.36\)</span> e <span class="math inline">\(n=200\)</span>:</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p_hat</span> <span class="op">&lt;-</span> <span class="fl">0.36</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
@@ -803,14 +810,15 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 <span><span class="va">se_hat</span></span>
 <span><span class="co">#&gt; [1] 0.0339</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>La stima <em>plug-in</em> dell’errore standard è quindi circa 0.034. Questo valore non è un margine che contiene certamente <span class="math inline">\(\theta\)</span> e non è una deviazione standard a posteriori. Descrive, in modo approssimato e sotto il modello Bernoulli <em>iid</em>, l’ordine delle fluttuazioni della proporzione campionaria in ipotetiche repliche con <span class="math inline">\(n=200\)</span>.</p>
+<p>La stima <em>plug-in</em> dell’errore standard è circa 0.034. Questo numero non è un margine che contiene certamente <span class="math inline">\(\theta\)</span> e non è una deviazione standard a posteriori. Descrive, in modo approssimato e sotto il modello Bernoulli <em>iid</em>, l’ordine delle fluttuazioni della proporzione campionaria in ipotetiche repliche con <span class="math inline">\(n=200\)</span>.</p>
 </section></section><section id="sec-sampling-distribution-evidence" class="level2" data-number="13.4"><h2 data-number="13.4" class="anchored" data-anchor-id="sec-sampling-distribution-evidence">
 <span class="header-section-number">13.4</span> La distribuzione campionaria</h2>
-<section id="che-cosè-una-distribuzione-campionaria" class="level3" data-number="13.4.1"><h3 data-number="13.4.1" class="anchored" data-anchor-id="che-cosè-una-distribuzione-campionaria">
-<span class="header-section-number">13.4.1</span> Che cos’è una distribuzione campionaria</h3>
-<p>Prima di raccogliere i dati, la media campionaria <span class="math inline">\(\bar{X}\)</span> è una variabile casuale: il suo valore è incerto e dipende da quale campione, tra quelli possibili, verrà effettivamente osservato. Se fosse possibile ripetere lo stesso studio un numero molto elevato di volte, otterremmo una sequenza di valori <span class="math inline">\(\bar{X}_1, \bar{X}_2, \dots\)</span>, ciascuno leggermente diverso dall’altro. La <strong>distribuzione campionaria</strong> descrive esattamente questa variabilità: è la distribuzione di tutti i possibili valori che <span class="math inline">\(\bar{X}\)</span> potrebbe assumere in replicate ideali del medesimo disegno di ricerca.</p>
-<p>Questa idea è cruciale per l’inferenza statistica. Se, in studi ripetuti, una statistica tende a fluttuare poco sotto un determinato modello, il suo valore osservato può discriminare più nettamente tra ipotesi parametriche alternative. Se invece la distribuzione campionaria è ampia, molti risultati diversi sarebbero comuni e il campione sarà meno selettivo.</p>
-<p>La distribuzione campionaria non è però una distribuzione a posteriori e non assegna direttamente probabilità ai valori del parametro. Descrive la variabilità di una statistica sotto ipotetiche repliche del processo generativo. Nel capitolo successivo questa descrizione verrà letta, a dati fissati, attraverso la funzione di verosimiglianza.</p>
+<section id="dalla-singola-osservazione-allinsieme-delle-possibili-repliche" class="level3" data-number="13.4.1"><h3 data-number="13.4.1" class="anchored" data-anchor-id="dalla-singola-osservazione-allinsieme-delle-possibili-repliche">
+<span class="header-section-number">13.4.1</span> Dalla singola osservazione all’insieme delle possibili repliche</h3>
+<p>Prima di raccogliere i dati, la media campionaria <span class="math inline">\(\bar X\)</span> è una variabile casuale: il suo valore dipende da quale campione, tra tutti quelli possibili, verrà effettivamente osservato. Se potessimo ripetere lo stesso studio un numero molto elevato di volte, otterremmo una sequenza <span class="math inline">\(\bar X_1,\bar X_2,\dots\)</span>, con valori leggermente diversi.</p>
+<p>La <strong>distribuzione campionaria</strong> è la distribuzione di questi possibili valori. Descrive quindi come una statistica varierebbe in repliche ideali del medesimo disegno di ricerca.</p>
+<p>Questa idea è cruciale per comprendere l’informazione fornita da un campione. Se una statistica tende a fluttuare poco sotto un determinato modello, il suo valore osservato può discriminare più nettamente tra valori parametrici alternativi. Se, invece, la distribuzione campionaria è ampia, molti risultati diversi sarebbero comuni e il dato osservato sarà meno selettivo.</p>
+<p>La distribuzione campionaria non è però una distribuzione a posteriori, in quanto non assegna direttamente probabilità ai valori del parametro. Mantiene il parametro fisso e descrive la variabilità della statistica in ipotetiche repliche. Nel capitolo successivo questa stessa descrizione verrà riletta, a dati fissati, attraverso la funzione di verosimiglianza.</p>
 </section><section id="un-esempio-finito-risposte-a-un-item-likert" class="level3" data-number="13.4.2"><h3 data-number="13.4.2" class="anchored" data-anchor-id="un-esempio-finito-risposte-a-un-item-likert">
 <span class="header-section-number">13.4.2</span> Un esempio finito: risposte a un item Likert</h3>
 <p>Consideriamo una piccola popolazione di quattro partecipanti con risposte numeriche a un item di soddisfazione di vita:</p>
@@ -829,7 +837,7 @@ X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 <span><span class="co">#&gt; Varianza della popolazione: 1.19</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>L’esempio tratta i punteggi come valori numerici con distanze interpretabili. È una scelta didattica e non implica che qualunque singolo item ordinale debba essere analizzato automaticamente come una misura intervallare.</p>
-<p>Per costruire la distribuzione campionaria, consideriamo tutti i campioni ordinati di dimensione <span class="math inline">\(n=2\)</span> <strong>con reinserimento</strong>. Le quattro unità possono essere selezionate a ogni estrazione, quindi esistono <span class="math inline">\(4^2=16\)</span> campioni equiprobabili.</p>
+<p>Per costruire la distribuzione campionaria consideriamo tutti i campioni ordinati di dimensione <span class="math inline">\(n=2\)</span> <strong>con reinserimento</strong>. Le quattro unità possono essere selezionate a ogni estrazione, quindi esistono <span class="math inline">\(4^2=16\)</span> campioni equiprobabili.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">indici</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span></span>
 <span>  prima <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">popolazione</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -949,7 +957,7 @@ Tabella&nbsp;13.1: Tutti i 16 campioni ordinati di dimensione 2 con reinseriment
 </figure>
 </div>
 </div>
-<p>La <a href="#tbl-sampling-distribution-likert" class="quarto-xref">Tabella&nbsp;<span>13.1</span></a> distingue i campioni in base alle unità selezionate: i due partecipanti con risposta 4 restano unità diverse anche se producono lo stesso valore osservato.</p>
+<p>La <a href="#tbl-sampling-distribution-likert" class="quarto-xref">Tabella&nbsp;<span>13.1</span></a> distingue i campioni in base alle unità selezionate: i due partecipanti con risposta 4 rimangono unità diverse, anche se producono lo stesso valore osservato.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dist_medie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">medie_campionarie</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dist_medie</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"media"</span>, <span class="st">"frequenza"</span><span class="op">)</span></span>
@@ -995,13 +1003,7 @@ Figura&nbsp;13.1: Distribuzione campionaria discreta della media per tutti i cam
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Varianza teorica (sigma^2 / n):"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">var_pop</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Varianza teorica (sigma^2 / n): 0.594</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>L’esempio mostra in modo concreto due fatti essenziali:</p>
-<ol type="1">
-<li>
-<strong>Le medie campionarie variano</strong> da un campione all’altro, riflettendo l’incertezza intrinseca del campionamento.</li>
-<li>
-<strong>La distribuzione di queste medie è centrata sulla media della popolazione</strong> e la sua variabilità è minore di quella delle singole osservazioni (la varianza delle medie è la metà della varianza della popolazione, poiché <span class="math inline">\(n = 2\)</span>).</li>
-</ol>
+<p>Questo esempio mette in luce due proprietà fondamentali. Le medie campionarie variano da un campione all’altro, ma la loro distribuzione è centrata sulla media della popolazione. Inoltre, la variabilità delle medie è inferiore a quella delle singole osservazioni: con <span class="math inline">\(n=2\)</span>, la varianza delle medie è pari alla metà della varianza della popolazione.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Dal campione all'evidenza">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1012,30 +1014,34 @@ Figura&nbsp;13.1: Distribuzione campionaria discreta della media per tutti i cam
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La distribuzione campionaria non è una parentesi frequentista estranea alla prospettiva bayesiana. È il modo in cui il modello descrive quali dati potremmo aspettarci prima di osservarli. Proprio questa descrizione renderà possibile, nel capitolo successivo, valutare quali valori del parametro rendono più plausibili i dati osservati.</p>
+<p>La distribuzione campionaria non è una parentesi frequentista estranea alla prospettiva bayesiana. È il modo in cui il modello descrive quali dati potremmo aspettarci prima di osservarli. Questa descrizione permetterà, nel capitolo successivo, di valutare quali valori del parametro rendano più plausibili i dati effettivamente osservati.</p>
 </div>
 </div>
 </section></section><section id="sec-standard-error-precision-information" class="level2" data-number="13.5"><h2 data-number="13.5" class="anchored" data-anchor-id="sec-standard-error-precision-information">
 <span class="header-section-number">13.5</span> Errore standard, precisione e informazione</h2>
-<section id="errore-standard-come-misura-di-incertezza-campionaria" class="level3" data-number="13.5.1"><h3 data-number="13.5.1" class="anchored" data-anchor-id="errore-standard-come-misura-di-incertezza-campionaria">
-<span class="header-section-number">13.5.1</span> Errore standard come misura di incertezza campionaria</h3>
+<section id="che-cosa-ci-dice-lerrore-standard" class="level3" data-number="13.5.1"><h3 data-number="13.5.1" class="anchored" data-anchor-id="che-cosa-ci-dice-lerrore-standard">
+<span class="header-section-number">13.5.1</span> Che cosa ci dice l’errore standard</h3>
 <p>L’errore standard è la deviazione standard della distribuzione campionaria di una statistica. Per la media:</p>
 <p><span class="math display">\[
-\operatorname{SE}(\bar{X}) = \frac{\sigma}{\sqrt{n}}.
+\operatorname{SE}(\bar X)=\frac{\sigma}{\sqrt n}.
 \]</span></p>
-<p>Un errore standard piccolo indica che la media campionaria tende a essere stabile da un campione all’altro. Sotto un modello specificato, il dato tende a discriminare più nettamente tra valori parametrici che prevedono risultati molto diversi da quello osservato.</p>
-<p>Un errore standard grande indica invece che campioni diversi avrebbero potuto produrre risultati molto diversi. In questo caso il dato osservato è meno selettivo: molte ipotesi parametriche rimangono compatibili con l’evidenza.</p>
-</section><section id="precisione-come-inverso-della-varianza" class="level3" data-number="13.5.2"><h3 data-number="13.5.2" class="anchored" data-anchor-id="precisione-come-inverso-della-varianza">
-<span class="header-section-number">13.5.2</span> Precisione come inverso della varianza</h3>
-<p>In alcuni modelli, soprattutto gaussiani, è utile ragionare in termini di <strong>precisione</strong>, definita come l’inverso della varianza:</p>
+<p>Un errore standard piccolo indica che la media campionaria tende a essere stabile da una replica all’altra. Sotto il modello specificato, il dato osservato discrimina più nettamente tra valori parametrici che prevedono risultati molto diversi.</p>
+<p>Un errore standard elevato indica invece che campioni diversi avrebbero potuto produrre risultati molto differenti. In questo caso il dato è meno selettivo e un insieme più ampio di valori parametrici rimane compatibile con ciò che abbiamo osservato.</p>
+</section><section id="la-stessa-idea-espressa-come-precisione" class="level3" data-number="13.5.2"><h3 data-number="13.5.2" class="anchored" data-anchor-id="la-stessa-idea-espressa-come-precisione">
+<span class="header-section-number">13.5.2</span> La stessa idea espressa come precisione</h3>
+<p>In alcuni modelli, soprattutto gaussiani, è utile esprimere la stabilità in termini di <strong>precisione</strong>, definita come l’inverso della varianza:</p>
 <p><span class="math display">\[
-\tau = \frac{1}{\sigma^2}.
+\tau=\frac{1}{\sigma^2}.
 \]</span></p>
 <p>Per la media campionaria:</p>
 <p><span class="math display">\[
-\operatorname{Precisione}(\bar{X}) = \frac{1}{\operatorname{Var}(\bar{X})} = \frac{n}{\sigma^2}.
+\operatorname{Precisione}(\bar X)
+=
+\frac{1}{\operatorname{Var}(\bar X)}
+=
+\frac{n}{\sigma^2}.
 \]</span></p>
-<p>Quindi, nel modello indipendente e omoschedastico considerato, la precisione della media cresce linearmente con <span class="math inline">\(n\)</span>. Questa proprietà non vale automaticamente quando le osservazioni sono dipendenti, hanno qualità diversa oppure condividono fonti comuni di errore.</p>
+<p>Nel modello indipendente e omoschedastico considerato, la precisione della media cresce linearmente con <span class="math inline">\(n\)</span>. La proprietà non vale automaticamente quando le osservazioni sono dipendenti, hanno qualità diversa o condividono fonti comuni di errore.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Regola pratica">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1046,27 +1052,38 @@ Figura&nbsp;13.1: Distribuzione campionaria discreta della media per tutti i cam
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Se l’errore standard è proporzionale a <span class="math inline">\(1/\sqrt{n}\)</span>, allora:</p>
+<p>Se l’errore standard è proporzionale a <span class="math inline">\(1/\sqrt n\)</span>, allora:</p>
 <ul>
-<li>per dimezzare l’errore standard occorre moltiplicare <span class="math inline">\(n\)</span> per 4;</li>
+<li>per dimezzarlo occorre moltiplicare <span class="math inline">\(n\)</span> per 4;</li>
 <li>per ridurlo a un terzo occorre moltiplicare <span class="math inline">\(n\)</span> per 9;</li>
 <li>aumentare molto la precisione richiede spesso campioni molto più grandi di quanto l’intuizione suggerisca.</li>
 </ul>
 </div>
 </div>
-</section><section id="combinare-evidenze-indipendenti" class="level3" data-number="13.5.3"><h3 data-number="13.5.3" class="anchored" data-anchor-id="combinare-evidenze-indipendenti">
-<span class="header-section-number">13.5.3</span> Combinare evidenze indipendenti</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="Approfondimento: combinare evidenze indipendenti">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Approfondimento: combinare evidenze indipendenti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>La precisione fornisce anche un’intuizione utile per la sintesi di più studi. Supponiamo di avere due studi indipendenti sulla stessa quantità:</p>
 <ul>
-<li>Studio A: <span class="math inline">\(\hat{p}_A = 0.42\)</span>, <span class="math inline">\(\operatorname{SE}_A = 0.07\)</span>;</li>
-<li>Studio B: <span class="math inline">\(\hat{p}_B = 0.38\)</span>, <span class="math inline">\(\operatorname{SE}_B = 0.035\)</span>.</li>
+<li>Studio A: <span class="math inline">\(\hat p_A=0.42\)</span>, <span class="math inline">\(\operatorname{SE}_A=0.07\)</span>;</li>
+<li>Studio B: <span class="math inline">\(\hat p_B=0.38\)</span>, <span class="math inline">\(\operatorname{SE}_B=0.035\)</span>.</li>
 </ul>
 <p>Una combinazione approssimata, valida quando le stime sono trattabili come gaussiane, pesa ciascuna stima in base alla sua precisione:</p>
 <p><span class="math display">\[
-\hat{p}_{\text{comb}} =
-\frac{\tau_A \hat{p}_A + \tau_B \hat{p}_B}{\tau_A + \tau_B},
+\hat p_{\text{comb}}
+=
+\frac{\tau_A\hat p_A+\tau_B\hat p_B}{\tau_A+\tau_B},
 \qquad
-\tau_j = \frac{1}{\operatorname{SE}_j^2}.
+\tau_j=\frac{1}{\operatorname{SE}_j^2}.
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p_hat_A</span> <span class="op">&lt;-</span> <span class="fl">0.42</span></span>
@@ -1089,23 +1106,24 @@ Figura&nbsp;13.1: Distribuzione campionaria discreta della media per tutti i cam
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Errore standard combinato:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">se_comb</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Errore standard combinato: 0.0313</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Lo Studio B pesa di più perché il suo errore standard è minore. Questa combinazione è soltanto un’approssimazione: presuppone stime indipendenti, distribuzioni approssimativamente gaussiane sulla scala usata e assenza di eterogeneità rilevante tra gli studi. Non sostituisce un modello meta-analitico quando i contesti o gli effetti possono differire.</p>
-<p>La stessa intuizione tornerà nell’aggiornamento bayesiano normale-normale: in quel caso, sotto le assunzioni del modello, la media a posteriori è una media ponderata dalle precisioni della prior e dei dati.</p>
+<p>Lo Studio B riceve più peso perché il suo errore standard è minore. La combinazione rimane soltanto un’approssimazione: presuppone stime indipendenti, distribuzioni approssimativamente gaussiane sulla scala usata e assenza di eterogeneità rilevante. Non sostituisce un modello meta-analitico quando contesti o effetti possono differire.</p>
+<p>La stessa intuizione tornerà nell’aggiornamento bayesiano normale-normale: sotto le assunzioni del modello, la media a posteriori è una media ponderata dalle precisioni della prior e dei dati.</p>
+</div>
+</div>
+</div>
 </section></section><section id="sec-lln-evidence" class="level2" data-number="13.6"><h2 data-number="13.6" class="anchored" data-anchor-id="sec-lln-evidence">
 <span class="header-section-number">13.6</span> La Legge dei Grandi Numeri</h2>
-<section id="enunciato-intuitivo" class="level3" data-number="13.6.1"><h3 data-number="13.6.1" class="anchored" data-anchor-id="enunciato-intuitivo">
-<span class="header-section-number">13.6.1</span> Enunciato intuitivo</h3>
-<p>La <strong>Legge dei Grandi Numeri</strong> afferma che, all’aumentare del numero di osservazioni, la media campionaria tende ad avvicinarsi al valore atteso della distribuzione generativa:</p>
+<section id="la-stabilizzazione-delle-medie" class="level3" data-number="13.6.1"><h3 data-number="13.6.1" class="anchored" data-anchor-id="la-stabilizzazione-delle-medie">
+<span class="header-section-number">13.6.1</span> La stabilizzazione delle medie</h3>
+<p>La <strong>Legge dei Grandi Numeri</strong> afferma che, aumentando il numero di osservazioni, la media campionaria tende ad avvicinarsi al valore atteso della distribuzione generativa:</p>
 <p><span class="math display">\[
-\bar{X}_n \xrightarrow{P} \mu.
+\bar X_n\xrightarrow{P}\mu.
 \]</span></p>
 <p>Nel caso Bernoulliano, <span class="math inline">\(\mu=\theta\)</span>, quindi:</p>
 <p><span class="math display">\[
-\bar{X}_n \xrightarrow{P} \theta.
+\bar X_n\xrightarrow{P}\theta.
 \]</span></p>
-<p>Il simbolo <span class="math inline">\(\xrightarrow{P}\)</span> indica convergenza in probabilità. Il punto non è che ogni campione grande produca esattamente il valore generativo, ma che, fissata una distanza positiva, la probabilità di superarla tende a zero al crescere di <span class="math inline">\(n\)</span>.</p>
-</section><section id="simulazione-della-convergenza" class="level3" data-number="13.6.2"><h3 data-number="13.6.2" class="anchored" data-anchor-id="simulazione-della-convergenza">
-<span class="header-section-number">13.6.2</span> Simulazione della convergenza</h3>
+<p>Il simbolo <span class="math inline">\(\xrightarrow{P}\)</span> indica convergenza in probabilità. La legge non afferma che ogni grande campione restituisca esattamente il valore generativo. Afferma che, fissata una distanza positiva da quel valore, la probabilità di superarla tende a zero al crescere di <span class="math inline">\(n\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">theta_true</span> <span class="op">&lt;-</span> <span class="fl">0.45</span></span>
@@ -1139,22 +1157,21 @@ Figura&nbsp;13.2: Convergenza della proporzione campionaria al valore generativo
 </div>
 </div>
 </div>
-<p>Nella <a href="#fig-lln-convergence" class="quarto-xref">Figura&nbsp;<span>13.2</span></a>, la proporzione cumulativa oscilla molto nelle prime osservazioni e tende poi a stabilizzarsi vicino al valore generativo. Una singola simulazione illustra il fenomeno, ma la Legge dei Grandi Numeri è un risultato probabilistico su ipotetiche ripetizioni del processo.</p>
-</section><section id="lettura-bayesiana" class="level3" data-number="13.6.3"><h3 data-number="13.6.3" class="anchored" data-anchor-id="lettura-bayesiana">
-<span class="header-section-number">13.6.3</span> Lettura bayesiana</h3>
-<p>Dal punto di vista bayesiano, la Legge dei Grandi Numeri spiega perché l’evidenza empirica diventa progressivamente più vincolante. Se i dati sono generati stabilmente da un modello con parametro <span class="math inline">\(\theta\)</span>, campioni più grandi tenderanno a produrre riassunti campionari vicini a quel valore. Di conseguenza, i valori parametrici incompatibili con quei riassunti riceveranno sempre meno supporto dai dati.</p>
-<p>Questa è l’intuizione alla base di molti risultati di <strong>concentrazione a posteriori</strong>: in problemi regolari, quando il modello è adeguato, il parametro è identificabile e la prior assegna massa alle regioni compatibili con il processo generativo, l’accumularsi dei dati tende a ridurre l’influenza delle differenze iniziali tra prior. Non è però una garanzia universale: modelli mal specificati o parametri non identificabili possono impedire questa convergenza.</p>
+<p>Nella <a href="#fig-lln-convergence" class="quarto-xref">Figura&nbsp;<span>13.2</span></a> la proporzione cumulativa oscilla molto nelle prime osservazioni e tende poi a stabilizzarsi vicino al valore generativo. La singola simulazione illustra il fenomeno; la Legge dei Grandi Numeri è però un risultato probabilistico che riguarda l’insieme delle ipotetiche ripetizioni del processo.</p>
+</section><section id="lettura-bayesiana" class="level3" data-number="13.6.2"><h3 data-number="13.6.2" class="anchored" data-anchor-id="lettura-bayesiana">
+<span class="header-section-number">13.6.2</span> Lettura bayesiana</h3>
+<p>Dal punto di vista bayesiano, la Legge dei Grandi Numeri aiuta a comprendere perché l’evidenza empirica diventi progressivamente più vincolante. Se i dati sono generati stabilmente da un modello con parametro <span class="math inline">\(\theta\)</span>, campioni più grandi tendono a produrre riassunti vicini a quel valore. I valori parametrici incompatibili con tali riassunti ricevono quindi sempre meno supporto dai dati.</p>
+<p>Questo è il principio alla base di molti risultati di <strong>concentrazione a posteriori</strong>. In problemi regolari, quando il modello è adeguato, il parametro è identificabile e la prior assegna massa alle regioni compatibili con il processo generativo, l’accumularsi dei dati tende a ridurre l’influenza delle differenze iniziali tra prior.</p>
+<p>Tuttavia, non si tratta di una garanzia universale. Modelli mal specificati, parametri non identificabili o prior che escludono le regioni rilevanti possono impedire tale convergenza.</p>
 </section></section><section id="sec-clt-evidence" class="level2" data-number="13.7"><h2 data-number="13.7" class="anchored" data-anchor-id="sec-clt-evidence">
 <span class="header-section-number">13.7</span> Il Teorema del Limite Centrale</h2>
-<section id="enunciato-intuitivo-1" class="level3" data-number="13.7.1"><h3 data-number="13.7.1" class="anchored" data-anchor-id="enunciato-intuitivo-1">
-<span class="header-section-number">13.7.1</span> Enunciato intuitivo</h3>
-<p>Il <strong>Teorema del Limite Centrale</strong> afferma che, per osservazioni indipendenti e identicamente distribuite con valore atteso <span class="math inline">\(\mu\)</span> e varianza finita <span class="math inline">\(\sigma^2\)</span>, la distribuzione della media campionaria diventa approssimativamente normale quando <span class="math inline">\(n\)</span> è grande:</p>
+<section id="la-forma-della-distribuzione-campionaria" class="level3" data-number="13.7.1"><h3 data-number="13.7.1" class="anchored" data-anchor-id="la-forma-della-distribuzione-campionaria">
+<span class="header-section-number">13.7.1</span> La forma della distribuzione campionaria</h3>
+<p>La Legge dei Grandi Numeri descrive dove tende la media; il <strong>Teorema del Limite Centrale</strong> descrive invece la forma della sua distribuzione campionaria. Per osservazioni indipendenti e identicamente distribuite con valore atteso <span class="math inline">\(\mu\)</span> e varianza finita <span class="math inline">\(\sigma^2\)</span>, quando <span class="math inline">\(n\)</span> è grande:</p>
 <p><span class="math display">\[
-\bar{X}_n \dot\sim \mathcal{N}\left(\mu, \frac{\sigma^2}{n}\right).
+\bar X_n\dot\sim\mathcal N\left(\mu,\frac{\sigma^2}{n}\right).
 \]</span></p>
-<p>Il risultato è sorprendente perché non richiede che la distribuzione originaria sia normale. È la media campionaria a diventare approssimativamente normale.</p>
-</section><section id="visualizzazione-del-risultato" class="level3" data-number="13.7.2"><h3 data-number="13.7.2" class="anchored" data-anchor-id="visualizzazione-del-risultato">
-<span class="header-section-number">13.7.2</span> Visualizzazione del risultato</h3>
+<p>Il risultato è notevole perché non richiede che la distribuzione originaria sia normale. È la distribuzione della media campionaria a diventare approssimativamente normale.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">popolazione</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">20000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -1210,30 +1227,41 @@ Figura&nbsp;13.4: Distribuzione delle medie campionarie: nonostante la popolazio
 </div>
 </div>
 </div>
-<p>La <a href="#fig-clt-population" class="quarto-xref">Figura&nbsp;<span>13.3</span></a> mostra una distribuzione originaria uniforme, mentre la <a href="#fig-clt-sampling-means" class="quarto-xref">Figura&nbsp;<span>13.4</span></a> mostra la distribuzione di molte medie di campioni con <span class="math inline">\(n=30\)</span>.</p>
-</section><section id="perché-è-importante-per-linferenza" class="level3" data-number="13.7.3"><h3 data-number="13.7.3" class="anchored" data-anchor-id="perché-è-importante-per-linferenza">
-<span class="header-section-number">13.7.3</span> Perché è importante per l’inferenza</h3>
-<p>Il Teorema del Limite Centrale spiega perché la distribuzione campionaria di molte medie o somme diventi approssimativamente gaussiana in campioni sufficientemente grandi. Quanto grande debba essere <span class="math inline">\(n\)</span> dipende però da asimmetria, code e dipendenza delle osservazioni.</p>
-<p>Il risultato non afferma che i dati individuali siano normali, né garantisce da solo che la verosimiglianza o la distribuzione a posteriori siano normali. Fornisce invece una delle ragioni per cui approssimazioni gaussiane risultano spesso utili per statistiche aggregate in problemi regolari.</p>
+<p>La <a href="#fig-clt-population" class="quarto-xref">Figura&nbsp;<span>13.3</span></a> mostra una distribuzione originaria uniforme; la <a href="#fig-clt-sampling-means" class="quarto-xref">Figura&nbsp;<span>13.4</span></a> mostra la distribuzione di molte medie calcolate su campioni con <span class="math inline">\(n=30\)</span>.</p>
+</section><section id="perché-il-risultato-è-utile" class="level3" data-number="13.7.2"><h3 data-number="13.7.2" class="anchored" data-anchor-id="perché-il-risultato-è-utile">
+<span class="header-section-number">13.7.2</span> Perché il risultato è utile</h3>
+<p>Il Teorema del Limite Centrale spiega perché, in campioni sufficientemente grandi, la distribuzione campionaria di molte somme o medie possa essere approssimata da una distribuzione gaussiana. Tuttavia, il numero <span class="math inline">\(n\)</span> deve essere sufficientemente grande e questo dipende dalla forma della distribuzione originaria, in particolare da asimmetria, code e dipendenza tra le osservazioni.</p>
+<p>Il teorema non afferma che i dati individuali siano normali. Non garantisce neppure, da solo, che la verosimiglianza o la distribuzione a posteriori siano gaussiane. Fornisce una delle ragioni per cui le approssimazioni gaussiane sono spesso utili per le statistiche aggregate in problemi regolari.</p>
 </section></section><section id="sec-prior-data-sensitivity" class="level2" data-number="13.8"><h2 data-number="13.8" class="anchored" data-anchor-id="sec-prior-data-sensitivity">
 <span class="header-section-number">13.8</span> Prior, dati e sensibilità</h2>
-<section id="il-ruolo-della-prior-in-questa-fase-del-percorso" class="level3" data-number="13.8.1"><h3 data-number="13.8.1" class="anchored" data-anchor-id="il-ruolo-della-prior-in-questa-fase-del-percorso">
-<span class="header-section-number">13.8.1</span> Il ruolo della prior in questa fase del percorso</h3>
-<p>In questo capitolo non stiamo ancora calcolando posterior in modo sistematico. Tuttavia, è utile ricordare la struttura generale dell’aggiornamento bayesiano:</p>
+<section id="dalla-variabilità-campionaria-allincertezza-sul-parametro" class="level3" data-number="13.8.1"><h3 data-number="13.8.1" class="anchored" data-anchor-id="dalla-variabilità-campionaria-allincertezza-sul-parametro">
+<span class="header-section-number">13.8.1</span> Dalla variabilità campionaria all’incertezza sul parametro</h3>
+<p>Finora abbiamo mantenuto fissato il parametro e abbiamo studiato come potrebbero variare i dati. L’inferenza bayesiana compie il passaggio complementare: una volta osservati i dati, descrive l’incertezza sui possibili valori del parametro.</p>
+<p>La struttura generale dell’aggiornamento è:</p>
 <p><span class="math display">\[
-p(\theta \mid D) \propto p(D \mid \theta) p(\theta).
+p(\theta\mid D)\propto p(D\mid\theta)p(\theta).
 \]</span></p>
-<p>Il termine <span class="math inline">\(p(\theta)\)</span> rappresenta le credenze prima dei dati; il termine <span class="math inline">\(p(D \mid \theta)\)</span> rappresenta quanto i dati sono compatibili con ciascun valore del parametro. Il capitolo successivo sarà dedicato proprio a formalizzare questo secondo termine come <strong>verosimiglianza</strong>.</p>
-<p>Qui ci interessa soprattutto l’intuizione: quando i dati sono pochi o rumorosi, prior diverse possono produrre conclusioni diverse; quando i dati sono molti e informativi, l’influenza della prior tende ad attenuarsi, purché la prior non escluda in anticipo i valori compatibili con i dati.</p>
-</section><section id="convergenza-con-prior-diverse" class="level3" data-number="13.8.2"><h3 data-number="13.8.2" class="anchored" data-anchor-id="convergenza-con-prior-diverse">
-<span class="header-section-number">13.8.2</span> Convergenza con prior diverse</h3>
-<p>Consideriamo tre ricercatori con credenze iniziali diverse sulla prevalenza <span class="math inline">\(\theta\)</span>:</p>
+<p>Il termine <span class="math inline">\(p(\theta)\)</span> rappresenta le credenze prima dei dati; il termine <span class="math inline">\(p(D\mid\theta)\)</span> descrive quanto i dati siano compatibili con ciascun valore del parametro. Nel capitolo successivo questo secondo termine verrà formalizzato come <strong>verosimiglianza</strong>.</p>
+<p>Per ora è sufficiente cogliere la dinamica generale. Quando i dati sono pochi o rumorosi, prior diverse possono produrre conclusioni diverse. Quando i dati sono numerosi e informativi, l’influenza della prior tende spesso ad attenuarsi, purché la prior non escluda in anticipo i valori compatibili con i dati e il modello sia adeguato.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Approfondimento: convergenza con prior diverse">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Approfondimento: convergenza con prior diverse
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideriamo tre ricercatori con credenze iniziali differenti sulla prevalenza <span class="math inline">\(\theta\)</span>:</p>
 <ul>
-<li>Ricercatore A: prior Beta(2, 8), centrata su valori bassi;</li>
-<li>Ricercatore B: prior Beta(8, 2), centrata su valori alti;</li>
-<li>Ricercatore C: prior Beta(1, 1), uniforme.</li>
+<li>Ricercatore A: prior <span class="math inline">\(\operatorname{Beta}(2,8)\)</span>, centrata su valori bassi;</li>
+<li>Ricercatore B: prior <span class="math inline">\(\operatorname{Beta}(8,2)\)</span>, centrata su valori alti;</li>
+<li>Ricercatore C: prior <span class="math inline">\(\operatorname{Beta}(1,1)\)</span>, uniforme.</li>
 </ul>
-<p>Supponiamo che i dati siano generati con <span class="math inline">\(\theta = 0.45\)</span>. Per diversi valori di <span class="math inline">\(n\)</span>, osserviamo come cambiano le posterior Beta-Binomiale.</p>
+<p>Supponiamo che i dati siano generati con <span class="math inline">\(\theta=0.45\)</span>. Per diversi valori di <span class="math inline">\(n\)</span>, osserviamo come cambiano le posterior Beta-Binomiale.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">theta_true</span> <span class="op">&lt;-</span> <span class="fl">0.45</span></span>
@@ -1250,6 +1278,7 @@ p(\theta \mid D) \propto p(D \mid \theta) p(\theta).
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">theta_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.999</span>, length.out <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">posterior_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">n_osservazioni</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">n</span> <span class="op">&lt;-</span> <span class="va">n_osservazioni</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">successi</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
@@ -1293,10 +1322,13 @@ Figura&nbsp;13.5: Distribuzioni posteriori ottenute con prior diverse ma con gli
 </div>
 </div>
 </div>
-<p>Nella <a href="#fig-bayesian-convergence-priors" class="quarto-xref">Figura&nbsp;<span>13.5</span></a> tutti i ricercatori osservano gli stessi dati cumulativi. Con pochi dati le posterior riflettono ancora chiaramente le prior; con l’aumentare di <span class="math inline">\(n\)</span> le differenze si riducono. La figura illustra un caso coniugato ben specificato, non una legge automatica valida per qualunque modello.</p>
-</section><section id="analisi-di-sensibilità" class="level3" data-number="13.8.3"><h3 data-number="13.8.3" class="anchored" data-anchor-id="analisi-di-sensibilità">
-<span class="header-section-number">13.8.3</span> Analisi di sensibilità</h3>
-<p>L’<strong>analisi di sensibilità</strong> consiste nel verificare quanto le conclusioni cambino al variare di assunzioni ragionevoli sulla prior. È una pratica particolarmente importante nei contesti psicologici e clinici, dove le conoscenze pregresse possono essere informative ma non definitive.</p>
+<p>Nella <a href="#fig-bayesian-convergence-priors" class="quarto-xref">Figura&nbsp;<span>13.5</span></a> tutti i ricercatori osservano gli stessi dati cumulativi. Con pochi dati, le posterior riflettono ancora chiaramente le prior; con l’aumentare di <span class="math inline">\(n\)</span>, le differenze si riducono. La figura illustra un caso coniugato e ben specificato, non una legge automatica valida per qualunque modello.</p>
+</div>
+</div>
+</div>
+</section><section id="rendere-visibile-linfluenza-delle-assunzioni" class="level3" data-number="13.8.2"><h3 data-number="13.8.2" class="anchored" data-anchor-id="rendere-visibile-linfluenza-delle-assunzioni">
+<span class="header-section-number">13.8.2</span> Rendere visibile l’influenza delle assunzioni</h3>
+<p>L’<strong>analisi di sensibilità</strong> verifica quanto le conclusioni cambino al variare di assunzioni ragionevoli sulla prior. È particolarmente importante nei contesti psicologici e clinici, nei quali le conoscenze pregresse possono essere informative senza essere definitive.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">90</span></span>
@@ -1328,7 +1360,7 @@ Figura&nbsp;13.5: Distribuzioni posteriori ottenute con prior diverse ma con gli
 </div>
 </div>
 </div>
-<p>Se le conclusioni sostantive sono simili per prior diverse, l’inferenza è robusta. Se cambiano molto, il risultato non va nascosto: segnala che i dati disponibili non sono ancora abbastanza informativi per superare le differenze tra assunzioni iniziali plausibili.</p>
+<p>Se le conclusioni sostantive sono simili sotto prior diverse, l’inferenza è robusta rispetto a quelle scelte. Se cambiano molto, il risultato non deve essere nascosto: segnala che i dati disponibili non sono ancora abbastanza informativi per superare le differenze tra assunzioni iniziali plausibili.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Una buona pratica bayesiana">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1339,16 +1371,16 @@ Figura&nbsp;13.5: Distribuzioni posteriori ottenute con prior diverse ma con gli
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La prior non è un fastidio da eliminare. È una parte esplicita del modello. Proprio perché è esplicita, possiamo studiarne l’influenza con analisi di sensibilità e comunicare quanto le conclusioni dipendano dalle assunzioni iniziali.</p>
+<p>La prior non è un fastidio da eliminare, ma una parte esplicita del modello. Proprio perché è esplicita, possiamo studiarne l’influenza con analisi di sensibilità e comunicare quanto le conclusioni dipendano dalle assunzioni iniziali.</p>
 </div>
 </div>
 </section></section><section id="sec-bias-false-precision" class="level2" data-number="13.9"><h2 data-number="13.9" class="anchored" data-anchor-id="sec-bias-false-precision">
 <span class="header-section-number">13.9</span> Incertezza campionaria, bias e falsa precisione</h2>
-<section id="lerrore-standard-non-misura-tutto" class="level3" data-number="13.9.1"><h3 data-number="13.9.1" class="anchored" data-anchor-id="lerrore-standard-non-misura-tutto">
-<span class="header-section-number">13.9.1</span> L’errore standard non misura tutto</h3>
-<p>L’errore standard quantifica la <strong>variabilità campionaria</strong> di una statistica, cioè quanto essa fluttuerebbe in ipotetiche repliche sotto il modello assunto. Non è, di per sé, una misura bayesiana dell’incertezza sul parametro: questa è rappresentata dalla distribuzione a posteriori, che dipende anche dalla prior e dal modello.</p>
-<p>L’errore standard <strong>non misura</strong> inoltre gli errori sistematici (<em>bias</em>). Un campione molto ampio può produrre un errore standard estremamente piccolo e, al tempo stesso, fornire una stima gravemente distorta. Analogamente, una posterior molto concentrata garantisce soltanto poca incertezza condizionata alle assunzioni adottate; non garantisce che campione, misura e modello siano adeguati.</p>
-<p>Consideriamo un esempio ipotetico. Un’indagine online sul benessere psicologico può raccogliere decine di migliaia di risposte e produrre un errore standard molto piccolo. Se però il campione sovrarappresenta persone con maggiore accesso digitale, interesse per il tema o specifiche caratteristiche socio-demografiche, lo scarto sistematico rispetto alla popolazione di interesse può essere molto più grande della fluttuazione campionaria descritta dall’errore standard.</p>
+<section id="la-precisione-non-coincide-con-la-validità" class="level3" data-number="13.9.1"><h3 data-number="13.9.1" class="anchored" data-anchor-id="la-precisione-non-coincide-con-la-validità">
+<span class="header-section-number">13.9.1</span> La precisione non coincide con la validità</h3>
+<p>L’errore standard quantifica la <strong>variabilità campionaria</strong> di una statistica, ovvero indica quanto essa fluttuerebbe in ipotetiche repliche sotto il modello assunto. Non si tratta, di per sé, di una misura bayesiana dell’incertezza sul parametro, che è rappresentata dalla distribuzione a posteriori e che dipende anche dalla prior e dal modello.</p>
+<p>Inoltre, l’errore standard non misura gli errori sistematici, o <strong>bias</strong>. Un campione molto ampio può produrre un errore standard estremamente piccolo e, allo stesso tempo, una stima gravemente distorta. Allo stesso modo, una distribuzione a posteriori molto concentrata garantisce solo poca incertezza condizionata alle assunzioni adottate, ma non garantisce che il campione, la misura e il modello siano adeguati.</p>
+<p>Immaginiamo un’indagine online sul benessere psicologico con decine di migliaia di risposte. La numerosità può rendere l’errore standard molto piccolo. Tuttavia, se il campione sovrarappresenta persone con maggiore accesso digitale, interesse per il tema o particolari caratteristiche socio-demografiche, lo scarto sistematico rispetto alla popolazione di interesse può essere molto più grande della fluttuazione campionaria descritta dall’errore standard.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Il pericolo della falsa precisione">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1359,13 +1391,13 @@ Figura&nbsp;13.5: Distribuzioni posteriori ottenute con prior diverse ma con gli
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La combinazione di un <strong>errore standard piccolo</strong> e un <strong>bias sostanziale</strong> è la situazione più insidiosa: produce stime precise ma sistematicamente errate, creando l’illusione di una conoscenza affidabile.</p>
-<p>Perciò, la qualità dell’inferenza non dipende solo dal numero di osservazioni, ma anche dalla <strong>validità del disegno di ricerca</strong>: rappresentatività del campione, accuratezza degli strumenti e assenza di fonti di distorsione sistematica. Questi aspetti devono essere valutati prima ancora di considerare l’errore standard.</p>
+<p>La combinazione di un <strong>errore standard piccolo</strong> e di un <strong>bias sostanziale</strong> è particolarmente insidiosa: produce stime precise ma sistematicamente errate, creando l’illusione di una conoscenza affidabile.</p>
+<p>La qualità dell’inferenza non dipende quindi soltanto dal numero di osservazioni, ma anche dalla validità del disegno di ricerca: rappresentatività del campione, accuratezza degli strumenti e controllo delle fonti di distorsione sistematica. Questi aspetti devono essere valutati prima ancora di considerare l’errore standard.</p>
 </div>
 </div>
 </section><section id="fonti-comuni-di-bias-nella-ricerca-psicologica" class="level3" data-number="13.9.2"><h3 data-number="13.9.2" class="anchored" data-anchor-id="fonti-comuni-di-bias-nella-ricerca-psicologica">
 <span class="header-section-number">13.9.2</span> Fonti comuni di bias nella ricerca psicologica</h3>
-<p>Alcune fonti di distorsione particolarmente rilevanti sono:</p>
+<p>Tra le fonti di distorsione più rilevanti troviamo:</p>
 <ul>
 <li>
 <strong>bias di selezione</strong>: il campione non rappresenta la popolazione di interesse;</li>
@@ -1378,7 +1410,7 @@ Figura&nbsp;13.5: Distribuzioni posteriori ottenute con prior diverse ma con gli
 <li>
 <strong>specificazione incompleta del modello</strong>: il modello ignora variabili o dipendenze rilevanti.</li>
 </ul>
-<p>Questi problemi non scompaiono aumentando <span class="math inline">\(n\)</span>. Anzi, campioni molto grandi possono rendere il problema più pericoloso, producendo intervalli stretti attorno a un valore sbagliato.</p>
+<p>Questi problemi non scompaiono aumentando <span class="math inline">\(n\)</span>. Al contrario, grandi campioni possono renderli più pericolosi, producendo intervalli molto stretti attorno a un valore sbagliato.</p>
 </section><section id="precisione-e-accuratezza" class="level3" data-number="13.9.3"><h3 data-number="13.9.3" class="anchored" data-anchor-id="precisione-e-accuratezza">
 <span class="header-section-number">13.9.3</span> Precisione e accuratezza</h3>
 <div class="cell" data-layout-align="center">
@@ -1396,32 +1428,33 @@ Figura&nbsp;13.6: Quattro combinazioni di precisione e accuratezza. Il centro ra
 <p>La <a href="#fig-precision-accuracy" class="quarto-xref">Figura&nbsp;<span>13.6</span></a> usa un bersaglio metaforico per distinguere dispersione e scostamento sistematico. È un’illustrazione concettuale: nell’analisi reale, accuratezza e bias non sono generalmente osservabili senza informazioni esterne o assunzioni aggiuntive.</p>
 </section><section id="come-mitigare-il-problema" class="level3" data-number="13.9.4"><h3 data-number="13.9.4" class="anchored" data-anchor-id="come-mitigare-il-problema">
 <span class="header-section-number">13.9.4</span> Come mitigare il problema</h3>
-<p>L’approccio bayesiano non elimina automaticamente le distorsioni sistematiche e non garantisce che tutte le assunzioni rilevanti vengano riconosciute. Offre però un linguaggio esplicito per rappresentare alcune fonti di incertezza e per studiare come le conclusioni cambino al variare di prior e struttura del modello. A questa trasparenza devono affiancarsi strategie di progettazione e validazione:</p>
+<p>L’approccio bayesiano non elimina automaticamente le distorsioni sistematiche e non garantisce che tutte le assunzioni rilevanti vengano riconosciute. Offre però un linguaggio esplicito per rappresentare alcune fonti di incertezza e per studiare come le conclusioni cambino al variare della prior e della struttura del modello.</p>
+<p>Questa trasparenza deve essere accompagnata da buone pratiche di progettazione e validazione:</p>
 <ol type="1">
-<li><p><strong>Progettare lo studio con rigore prima ancora di raccogliere i dati</strong>: la qualità dell’inferenza si gioca in larga parte nella fase di disegno, non in quella di analisi.</p></li>
-<li><p><strong>Utilizzare strumenti di misura validati</strong> e teoricamente coerenti con il costrutto di interesse, riducendo gli errori di misurazione sistematici.</p></li>
-<li><p><strong>Modellare esplicitamente le fonti note di eterogeneità o distorsione</strong>, quando possibile, includendole nel modello statistico piuttosto che ignorarle.</p></li>
-<li><p><strong>Confrontare modelli alternativi</strong> per valutare quanto le conclusioni dipendano dalla struttura specifica del modello adottato.</p></li>
-<li><p><strong>Condurre analisi di sensibilità</strong> sui prior e sulle assunzioni strutturali, verificando se le conclusioni cambiano sostanzialmente al variare di ipotesi ragionevoli.</p></li>
-<li><p><strong>Distinguere sempre tra precisione statistica e validità sostantiva</strong>: un intervallo di credibilità stretto non equivale a una stima corretta.</p></li>
+<li><p><strong>Progettare lo studio con rigore prima di raccogliere i dati.</strong> La qualità dell’inferenza si decide in larga parte nella fase di disegno, non soltanto in quella di analisi.</p></li>
+<li><p><strong>Utilizzare strumenti di misura validati</strong> e teoricamente coerenti con il costrutto di interesse, riducendo gli errori sistematici di misurazione.</p></li>
+<li><p><strong>Modellare esplicitamente le fonti note di eterogeneità o distorsione</strong>, quando possibile, invece di ignorarle.</p></li>
+<li><p><strong>Confrontare modelli alternativi</strong> per valutare quanto le conclusioni dipendano dalla struttura specifica adottata.</p></li>
+<li><p><strong>Condurre analisi di sensibilità</strong> sulle prior e sulle assunzioni strutturali, verificando se le conclusioni cambino sostanzialmente al variare di ipotesi ragionevoli.</p></li>
+<li><p><strong>Distinguere sempre precisione statistica e validità sostantiva.</strong> Un intervallo di credibilità stretto non equivale, da solo, a una stima corretta.</p></li>
 </ol>
 <p>In sintesi, l’inferenza bayesiana non rende i dati immuni dai bias. Può rendere alcune assunzioni più esplicite e verificabili, ma la validità scientifica dipende anche da campionamento, misurazione, disegno e confronto con informazioni esterne.</p>
 </section></section><section id="sec-towards-likelihood" class="level2" data-number="13.10"><h2 data-number="13.10" class="anchored" data-anchor-id="sec-towards-likelihood">
 <span class="header-section-number">13.10</span> Verso la verosimiglianza</h2>
-<p>Abbiamo visto che un campione può essere più o meno informativo a seconda della sua variabilità attesa. La media campionaria è centrata sul valore generativo, la sua varianza diminuisce come <span class="math inline">\(\sigma^2/n\)</span>, l’errore standard diminuisce come <span class="math inline">\(1/\sqrt{n}\)</span> e, per molti problemi, la sua distribuzione diventa approssimativamente normale.</p>
-<p>Queste proprietà preparano la domanda centrale del prossimo capitolo:</p>
+<p>Abbiamo seguito il percorso che conduce da un parametro ignoto a un campione osservato. Il modello generativo specifica quali dati potremmo aspettarci; la media o la proporzione ne forniscono un riassunto; la distribuzione campionaria descrive come tale riassunto cambierebbe tra le varie repliche; l’errore standard ne misura la dispersione. La Legge dei Grandi Numeri e il Teorema del Limite Centrale chiariscono poi come questa struttura cambi al crescere del numero di osservazioni.</p>
+<p>A questo punto possiamo formulare la domanda centrale del prossimo capitolo:</p>
 <blockquote class="blockquote">
 <p>Una volta osservati i dati, quali valori del parametro li rendono più plausibili?</p>
 </blockquote>
-<p>La risposta è la <strong>funzione di verosimiglianza</strong>. Essa fissa i dati osservati e valuta, per ogni valore possibile di <span class="math inline">\(\theta\)</span>, quanto quei dati sarebbero attesi sotto il modello. In simboli, se il modello specifica <span class="math inline">\(p(D \mid \theta)\)</span>, la verosimiglianza è la stessa espressione letta come funzione di <span class="math inline">\(\theta\)</span>:</p>
+<p>La risposta è la <strong>funzione di verosimiglianza</strong>. Essa mantiene fissi i dati osservati e valuta, per ogni valore possibile di <span class="math inline">\(\theta\)</span>, quanto quei dati sarebbero attesi sotto il modello. Se il modello specifica <span class="math inline">\(p(D\mid\theta)\)</span>, la verosimiglianza è la stessa espressione letta come funzione di <span class="math inline">\(\theta\)</span>:</p>
 <p><span class="math display">\[
-L(\theta; D) = p(D \mid \theta).
+L(\theta;D)=p(D\mid\theta).
 \]</span></p>
-<p>Nel <a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> formalizzeremo questo cambio di prospettiva: passeremo dalla domanda predittiva “Quali dati potrei osservare se <span class="math inline">\(\theta\)</span> fosse noto?” alla domanda inferenziale “Quali valori di <span class="math inline">\(\theta\)</span> sono più compatibili con i dati osservati?”.</p>
+<p>Nel <a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> formalizzeremo questo cambio di prospettiva. Passeremo dalla domanda predittiva «Quali dati potrei osservare se <span class="math inline">\(\theta\)</span> fosse noto?» alla domanda inferenziale «Quali valori di <span class="math inline">\(\theta\)</span> sono più compatibili con i dati osservati?».</p>
 </section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
-<p>Un campione diventa informativo quando un modello specifica quali risultati sarebbero più o meno attesi per diversi valori del parametro. La media o la proporzione osservate riassumono i dati, la distribuzione campionaria descrive come tali riassunti varierebbero in ipotetiche repliche e l’errore standard ne misura la dispersione sulla scala originale.</p>
-<p>La numerosità riduce la variabilità campionaria secondo una legge precisa: per una media di osservazioni indipendenti con varianza finita, la varianza diminuisce come <span class="math inline">\(1/n\)</span> e l’errore standard come <span class="math inline">\(1/\sqrt{n}\)</span>. La Legge dei Grandi Numeri spiega la stabilizzazione delle medie, mentre il Teorema del Limite Centrale descrive perché molte distribuzioni campionarie di somme e medie assumano una forma approssimativamente normale.</p>
-<p>Questi risultati non escludono la necessità di valutare il disegno. Un errore standard piccolo non corregge un campione selezionato in modo inadeguato, una misura errata o un modello mal specificato. Allo stesso modo, una distribuzione posteriore concentrata può essere precisa solo rispetto a ipotesi errate. Pertanto, la precisione campionaria e la validità scientifica devono essere valutate separatamente.</p>
+<p>Un campione diventa informativo quando un modello specifica quali risultati sarebbero più o meno attesi per diversi valori del parametro. La media o la proporzione osservate riassumono i dati; la distribuzione campionaria descrive come questi riassunti varierebbero in ipotetiche repliche; l’errore standard ne misura la dispersione sulla scala originale.</p>
+<p>Per una media di osservazioni indipendenti con varianza finita, la varianza diminuisce come <span class="math inline">\(1/n\)</span> e l’errore standard come <span class="math inline">\(1/\sqrt n\)</span>. La Legge dei Grandi Numeri spiega la progressiva stabilizzazione delle medie, mentre il Teorema del Limite Centrale chiarisce perché molte distribuzioni campionarie di somme e medie assumano una forma approssimativamente normale.</p>
+<p>Questi risultati descrivono la variabilità campionaria, non garantiscono la validità dell’inferenza. Un errore standard piccolo non corregge un campione selezionato in modo inadeguato, una misura distorta o un modello mal specificato. Allo stesso modo, una distribuzione a posteriori concentrata può essere precisa rispetto ad assunzioni errate. Pertanto, la precisione campionaria e la validità scientifica devono essere valutate separatamente.</p>
 <p>Nel <a href="14_likelihood.html" class="quarto-xref"><span>Capitolo 14</span></a> fisseremo i dati osservati e useremo il modello per confrontare i diversi valori del parametro. Questo cambio di prospettiva conduce alla funzione di verosimiglianza.</p>
 </section><section id="esercizi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="esercizi">Esercizi</h2>
 <ol type="1">
@@ -1435,7 +1468,7 @@ L(\theta; D) = p(D \mid \theta).
 <li><p>Un’indagine molto grande produce una stima con errore standard minimo, ma il campione esclude sistematicamente una parte importante della popolazione. La stima è precisa? È necessariamente accurata? Spiega la distinzione.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Soluzioni">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1444,12 +1477,12 @@ L(\theta; D) = p(D \mid \theta).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p><span class="math inline">\(\theta\)</span> rappresenta la probabilità comune dell’esito 1 nel modello. L’indicazione <em>iid</em> assume che, condizionatamente a <span class="math inline">\(\theta\)</span>, le osservazioni siano indipendenti e abbiano tutte la stessa distribuzione Bernoulli.</p></li>
 <li><p>0.034 è una stima della deviazione standard della proporzione campionaria in ipotetiche repliche, sotto il modello assunto. Non è una probabilità, non è un intervallo certo per <span class="math inline">\(\theta\)</span> e non coincide automaticamente con la deviazione standard della posterior.</p></li>
-<li><p>Poiché <span class="math inline">\(\operatorname{SE}(\bar X)=\sigma/\sqrt n\)</span>, sostituendo <span class="math inline">\(n\)</span> con <span class="math inline">\(4n\)</span> si ottiene <span class="math inline">\(\sigma/\sqrt{4n}=\operatorname{SE}(\bar X)/2\)</span>. Con <span class="math inline">\(2n\)</span> l’errore standard viene moltiplicato per <span class="math inline">\(1/\sqrt 2\)</span>, non per <span class="math inline">\(1/2\)</span>.</p></li>
+<li><p>Poiché <span class="math inline">\(\operatorname{SE}(\bar X)=\sigma/\sqrt n\)</span>, sostituendo <span class="math inline">\(n\)</span> con <span class="math inline">\(4n\)</span> si ottiene <span class="math inline">\(\sigma/\sqrt{4n}=\operatorname{SE}(\bar X)/2\)</span>. Con <span class="math inline">\(2n\)</span> l’errore standard viene moltiplicato per <span class="math inline">\(1/\sqrt2\)</span>, non per <span class="math inline">\(1/2\)</span>.</p></li>
 <li><p>La distribuzione campionaria descrive i possibili valori di una statistica in repliche del campionamento, mantenendo fissato il parametro. La posterior descrive invece l’incertezza sui valori del parametro dopo avere osservato i dati, condizionatamente a modello e prior.</p></li>
 <li><p>Il secondo studio ha varianza quattro volte più piccola e quindi precisione quattro volte maggiore: riceve più peso. Se gli studi stimano effetti diversi o differiscono per popolazione e disegno, una semplice media per precisione ignora l’eterogeneità e può essere fuorviante.</p></li>
 <li><p>La Legge dei Grandi Numeri afferma che la media campionaria converge al valore atteso. Il Teorema del Limite Centrale descrive la forma approssimativamente normale della distribuzione della media standardizzata, sotto specifiche condizioni, quando <span class="math inline">\(n\)</span> cresce.</p></li>
@@ -1460,7 +1493,7 @@ L(\theta; D) = p(D \mid \theta).
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Punti chiave">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1469,7 +1502,7 @@ L(\theta; D) = p(D \mid \theta).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>Un modello generativo collega parametri ignoti e dati osservabili.</li>
@@ -1497,11 +1530,11 @@ L(\theta; D) = p(D \mid \theta).
 =
 \frac{\theta(1-\theta)}{n}.
 \]</span></p>
-<p>La precisione è</p>
+<p>La precisione è:</p>
 <p><span class="math display">\[
 \tau=\frac{1}{\operatorname{Var}}.
 \]</span></p>
-<p>L’aggiornamento bayesiano mantiene la forma generale</p>
+<p>L’aggiornamento bayesiano mantiene la forma generale:</p>
 <p><span class="math display">\[
 p(\theta\mid D)\propto p(D\mid\theta)p(\theta).
 \]</span></p>
@@ -1509,7 +1542,7 @@ p(\theta\mid D)\propto p(D\mid\theta)p(\theta).
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Ambiente di sviluppo">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1518,7 +1551,7 @@ p(\theta\mid D)\propto p(D\mid\theta)p(\theta).
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
