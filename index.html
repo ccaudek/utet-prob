@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
 <meta name="author" content="Corrado Caudek">
 <meta name="description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Inferenza bayesiana in psicologia: Ragionare con l’incertezza.">
+
 <title>Probabilità per la psicologia</title>
 <style>
 /* Default styles provided by pandoc.
@@ -23,6 +26,7 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 </style>
+
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -45,9 +49,10 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-bd31b91f9ddb1a75e3744ba9797c8182.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-53264a22b0443984ee448b2ff0c6d8df.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-60290a63818ba04bbebcabda62d8ea0d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-53264a22b0443984ee448b2ff0c6d8df.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-656e41c40711b9d7156bc514cdbc1101.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-887124665b495401b57de95ea3ab5285.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-656e41c40711b9d7156bc514cdbc1101.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": true,
   "collapse-after": 3,
@@ -73,13 +78,18 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Inviare",
     "search-label": "Ricerca"
   }
-}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script><script type="text/plain" cookie-consent="tracking">
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QT5S3P9D31"></script>
+
+<script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QT5S3P9D31', { 'anonymize_ip': true});
-</script><script type="text/javascript" charset="UTF-8">
+</script>
+
+<script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"headline",
@@ -94,9 +104,11 @@ cookieconsent.run({
 "language":"it"
   });
 });
-</script><style>html{ scroll-behavior: smooth; }</style>
-<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+</script> 
+  
+<style>html{ scroll-behavior: smooth; }</style>
+
+
 <meta property="og:title" content="Probabilità per la psicologia">
 <meta property="og:description" content="Modulo di richiamo sulla probabilità per la psicologia, parte del progetto UTET a supporto del manuale Inferenza bayesiana in psicologia: Ragionare con l’incertezza.">
 <meta property="og:image" content="https://ccaudek.github.io/utet-prob/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
@@ -107,6 +119,7 @@ cookieconsent.run({
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://ccaudek.github.io/utet-prob/">
 </head>
+
 <body class="nav-sidebar floating fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -281,23 +294,30 @@ cookieconsent.run({
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Modulo di richiamo per l’inferenza bayesiana in psicologia</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Come usare il modulo</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Probabilità per la psicologia</a> 
         <div class="sidebar-tools-main tools-wide">
+    <a href="https://ccaudek.github.io/utet-companion/" title="Manuale e companion" class="quarto-navigation-tool px-1" aria-label="Manuale e companion"><i class="bi bi-book"></i></a>
     <a href="https://github.com/ccaudek/utet-prob/" title="Eseguire il codice" class="quarto-navigation-tool px-1" aria-label="Eseguire il codice"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Attiva/disattiva la modalità oscura"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Attiva/disattiva la modalità lettore">
@@ -311,10 +331,10 @@ cookieconsent.run({
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Modulo di richiamo per l’inferenza bayesiana in psicologia</span></a>
+ <span class="menu-text">Come usare il modulo</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -325,8 +345,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/probability/01_intro_prob_bayesian.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Interpretazione bayesiana della probabilità</span></span></a>
@@ -357,7 +377,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -366,8 +386,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/probability/06_random_var.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variabili casuali</span></span></a>
@@ -392,7 +412,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
@@ -401,8 +421,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/probability/10_intro_distributions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduzione alle distribuzioni di probabilità</span></span></a>
@@ -421,7 +441,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -430,8 +450,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/probability/13_from_sample_to_evidence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Dal campione all’evidenza: informazione, precisione e incertezza</span></span></a>
@@ -456,7 +476,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -465,22 +485,27 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/appendix/a01_math_symbols.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Simbologia di base</span></span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title">Probabilità per la psicologia</h1>
 <p class="subtitle lead">Modulo di richiamo</p>
 </div>
@@ -513,642 +538,133 @@ cookieconsent.run({
   
 
 
-</header><section id="modulo-di-richiamo-per-linferenza-bayesiana-in-psicologia" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="modulo-di-richiamo-per-linferenza-bayesiana-in-psicologia">Modulo di richiamo per l’inferenza bayesiana in psicologia</h2>
-<p>Questo sito costituisce il <strong>modulo di richiamo delle nozioni di base della teoria della probabilità</strong> del progetto UTET, concepito come supporto al manuale <em>Inferenza bayesiana in psicologia: Ragionare con l’incertezza</em>. Il modulo fornisce le nozioni teoriche fondamentali, quali variabili casuali, distribuzioni di probabilità, valore atteso, varianza, dipendenza stocastica e teoria del campionamento, necessarie per affrontare con la giusta preparazione i contenuti di inferenza bayesiana e la modellistica presentati nel volume principale.</p>
-</section><section id="percorso-di-apprendimento-e-obiettivi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="percorso-di-apprendimento-e-obiettivi">Percorso di apprendimento e obiettivi</h2>
-<p>Il percorso si sviluppa attraverso cinque aree concettuali fondamentali, strettamente interconnesse tra loro. Si inizia con il <strong>linguaggio della probabilità</strong>, che introduce gli elementi di base, ovvero, eventi, misure di probabilità, nozioni di indipendenza e probabilità condizionata. Questo fornisce gli strumenti logici per trattare l’incertezza.<br>
-Si prosegue con lo <strong>studio delle variabili casuali e delle loro distribuzioni</strong>, distinte in discrete e continue, analizzando le funzioni di massa, densità e ripartizione che ne caratterizzano il comportamento.</p>
-<p>La terza area è dedicata ai <strong>momenti e alle misure di dipendenza</strong>: vengono definiti e discussi il valore atteso, la varianza, la covarianza e il coefficiente di correlazione, quali sintesi numeriche essenziali per descrivere distribuzioni e relazioni tra variabili.<br>
-Segue una rassegna delle <strong>distribuzioni fondamentali</strong>, ovvero le distribuzioni di Bernoulli, binomiale, di Poisson, normale e le loro principali derivazioni, che costituiscono il vocabolario probabilistico di base, impiegato in gran parte delle applicazioni.</p>
-<p>Il modulo si conclude con i <strong>principi del campionamento e della verosimiglianza</strong>, tracciando un ponte ideale verso l’inferenza statistica: dalla legge dei grandi numeri si passa alla funzione di verosimiglianza, che rappresenta uno strumento concettuale propedeutico all’approccio bayesiano.</p>
-<p>Dal punto di vista didattico, il modulo mantiene un’impostazione operativa e sintetica: l’esposizione privilegia formule essenziali, esempi minimali e schemi intuitivi, mentre i singoli capitoli rimandano, quando necessario, a approfondimenti presenti nel materiale complementare e nel manuale di riferimento.</p>
-</section><section id="mappa-del-percorso" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="mappa-del-percorso">Mappa del percorso</h2>
-<p>La seguente mappa fornisce una visione d’insieme dell’organizzazione del modulo, con indicazioni sul tempo di studio stimato e sui collegamenti al manuale principale.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+</header>
+
+
+<div class="home-intro">
+<p><span class="home-eyebrow">Progetto UTET · Materiali digitali di supporto</span></p>
+<div class="lead">
+<p>Un percorso essenziale di probabilità per affrontare l’inferenza bayesiana in psicologia con basi concettuali solide, notazione coerente ed esempi riproducibili.</p>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Legenda
+<p>Questo modulo accompagna il manuale <em>Inferenza bayesiana in psicologia: Ragionare con l’incertezza</em>. Non sostituisce il volume principale: raccoglie i richiami di probabilità necessari per comprenderne con maggiore sicurezza il linguaggio, i modelli e il workflow inferenziale.</p>
+<div class="home-actions">
+<p><a href="./chapters/probability/01_intro_prob_bayesian.html" class="home-action home-action--primary">Inizia il percorso</a> <a href="#percorso-del-modulo" class="home-action">Esamina la struttura</a> <a href="https://ccaudek.github.io/utet-companion/" class="home-action">Vai al companion principale</a></p>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p><strong>Livello</strong>: ⭐ Base | ⭐⭐ Intermedio | ⭐⭐⭐ Avanzato<br><strong>Tempo</strong>: Stima indicativa per lo studio autonomo con esercizi</p>
+<div class="module-facts">
+<div class="module-fact">
+<p><span class="module-fact__label">Funzione</span></p>
+<p><strong>Richiamo propedeutico</strong></p>
+</div>
+<div class="module-fact">
+<p><span class="module-fact__label">Destinatari</span></p>
+<p><strong>Studenti e studiosi di psicologia</strong></p>
+</div>
+<div class="module-fact">
+<p><span class="module-fact__label">Prerequisiti</span></p>
+<p><strong>Algebra elementare e statistica descrittiva</strong></p>
+</div>
+<div class="module-fact">
+<p><span class="module-fact__label">Modalità</span></p>
+<p><strong>Studio sequenziale o consultazione</strong></p>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="qctalpbmja" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qctalpbmja table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#qctalpbmja thead, #qctalpbmja tbody, #qctalpbmja tfoot, #qctalpbmja tr, #qctalpbmja td, #qctalpbmja th {
-  border-style: none;
-}
-
-#qctalpbmja p {
-  margin: 0;
-  padding: 0;
-}
-
-#qctalpbmja .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#qctalpbmja .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#qctalpbmja .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#qctalpbmja .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#qctalpbmja .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#qctalpbmja .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#qctalpbmja .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#qctalpbmja .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#qctalpbmja .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#qctalpbmja .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#qctalpbmja .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#qctalpbmja .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#qctalpbmja .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#qctalpbmja .gt_row {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#qctalpbmja .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#qctalpbmja .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#qctalpbmja .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#qctalpbmja .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#qctalpbmja .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#qctalpbmja .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#qctalpbmja .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#qctalpbmja .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#qctalpbmja .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#qctalpbmja .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#qctalpbmja .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#qctalpbmja .gt_left {
-  text-align: left;
-}
-
-#qctalpbmja .gt_center {
-  text-align: center;
-}
-
-#qctalpbmja .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#qctalpbmja .gt_font_normal {
-  font-weight: normal;
-}
-
-#qctalpbmja .gt_font_bold {
-  font-weight: bold;
-}
-
-#qctalpbmja .gt_font_italic {
-  font-style: italic;
-}
-
-#qctalpbmja .gt_super {
-  font-size: 65%;
-}
-
-#qctalpbmja .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#qctalpbmja .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#qctalpbmja .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#qctalpbmja .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#qctalpbmja .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#qctalpbmja .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#qctalpbmja .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#qctalpbmja .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#qctalpbmja div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-
-/* Sfondo e testo: ereditati dal tema attivo */
-.gt_table {
-  background-color: transparent !important;
-  color: var(--bs-body-color) !important;
-  border-color: var(--bs-border-color) !important;
-  font-family: inherit !important;
-}
-
-.gt_table td,
-.gt_table th {
-  background-color: transparent !important;
-  color: inherit !important;
-  border-color: var(--bs-border-color) !important;
-}
-
-/* Intestazioni: leggero contrasto ricavato dal colore del testo,
-       quindi corretto sia su fondo chiaro sia su fondo scuro */
-.gt_table .gt_col_heading,
-.gt_table .gt_column_spanner_outer {
-  color: var(--bs-emphasis-color, var(--bs-body-color)) !important;
-  background-color: transparent !important;
-  background-color: color-mix(in srgb, var(--bs-body-color) 8%, transparent) !important;
-  font-weight: 600 !important;
-}
-
-/* Righe alternate: stessa logica, senza colori assoluti */
-.gt_table tbody tr:nth-child(odd) .gt_row {
-  background-color: transparent !important;
-  background-color: color-mix(in srgb, var(--bs-body-color) 4%, transparent) !important;
-}
-
-.gt_table small {
-  color: var(--bs-secondary-color, inherit) !important;
-  opacity: 0.85;
-}
-
-.gt_table a {
-  color: var(--bs-link-color) !important;
-}
-
-.gt_table strong {
-  color: var(--bs-emphasis-color, inherit) !important;
-}
-</style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
-<thead><tr class="gt_col_headings header">
-<th id="Parte" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Parte</strong></th>
-<th id="Capitoli" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Contenuti</strong></th>
-<th id="Tempo" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>⏱️ Tempo</strong></th>
-<th id="Livello" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>📊 Livello</strong></th>
-<th id="Riferimento" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>🔗 Manuale</strong></th>
-</tr></thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="Parte" style="white-space: normal">
-<strong>PARTE 1</strong><br>Fondamenti della probabilità</td>
-<td class="gt_row gt_left" headers="Capitoli" style="white-space: normal">
-<strong>Cap. 1–5</strong><br>• Interpretazione bayesiana<br>• Assiomi e coerenza<br>• Calcolo combinatorio<br>• Probabilità condizionata<br>• Teorema di Bayes</td>
-<td class="gt_row gt_center" headers="Tempo" style="white-space: normal">4–5 ore</td>
-<td class="gt_row gt_center" headers="Livello" style="white-space: normal">⭐</td>
-<td class="gt_row gt_left" headers="Riferimento" style="white-space: normal">📘 Cap. 6–9<br><small>(Parte III del manuale)</small>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Parte" style="white-space: normal">
-<strong>PARTE 2</strong><br>Variabili casuali e distribuzioni</td>
-<td class="gt_row gt_left" headers="Capitoli" style="white-space: normal">
-<strong>Cap. 6–9</strong><br>• Variabili casuali<br>• Distribuzioni di massa/densità<br>• Valore atteso e varianza<br>• Covarianza e correlazione</td>
-<td class="gt_row gt_center" headers="Tempo" style="white-space: normal">3–4 ore</td>
-<td class="gt_row gt_center" headers="Livello" style="white-space: normal">⭐⭐</td>
-<td class="gt_row gt_left" headers="Riferimento" style="white-space: normal">📘 Cap. 7 e 12<br><small>(variabili casuali; distribuzioni)</small>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Parte" style="white-space: normal">
-<strong>PARTE 3</strong><br>Distribuzioni specifiche</td>
-<td class="gt_row gt_left" headers="Capitoli" style="white-space: normal">
-<strong>Cap. 10–12</strong><br>• Panoramica delle distribuzioni<br>• Distribuzioni discrete<br>• Distribuzioni continue</td>
-<td class="gt_row gt_center" headers="Tempo" style="white-space: normal">4–5 ore</td>
-<td class="gt_row gt_center" headers="Livello" style="white-space: normal">⭐⭐</td>
-<td class="gt_row gt_left" headers="Riferimento" style="white-space: normal">📘 Cap. 12<br><small>(Parte IV del manuale)</small>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="Parte" style="white-space: normal">
-<strong>PARTE 4</strong><br>Verso l’inferenza</td>
-<td class="gt_row gt_left" headers="Capitoli" style="white-space: normal">
-<strong>Cap. 13–16</strong><br>• Dal campione all’evidenza<br>• La verosimiglianza<br>• Dalla verosimiglianza alla posterior<br>• Conclusioni</td>
-<td class="gt_row gt_center" headers="Tempo" style="white-space: normal">5–6 ore</td>
-<td class="gt_row gt_center" headers="Livello" style="white-space: normal">⭐⭐⭐</td>
-<td class="gt_row gt_left" headers="Riferimento" style="white-space: normal">📘 Cap. 10–12<br><small>(verosimiglianza e aggiornamento)</small>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="Parte" style="white-space: normal">
-<strong>APPENDICI</strong><br>Strumenti matematici</td>
-<td class="gt_row gt_left" headers="Capitoli" style="white-space: normal">
-<strong>App. A–F</strong><br>• Simbologia matematica<br>• Numeri e intervalli<br>• Notazione sommatoria<br>• Teoria degli insiemi<br>• Calcolo combinatorio<br>• Nozioni di calcolo</td>
-<td class="gt_row gt_center" headers="Tempo" style="white-space: normal">Da consultare</td>
-<td class="gt_row gt_center" headers="Livello" style="white-space: normal">⭐</td>
-<td class="gt_row gt_left" headers="Riferimento" style="white-space: normal">📚 Materiale di supporto trasversale</td>
-</tr>
-</tbody>
-</table>
+<section id="come-usare-il-modulo" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="come-usare-il-modulo">Come usare il modulo</h2>
+<p>Il percorso è progressivo: ogni parte introduce concetti impiegati nelle successive. Per una prima lettura conviene seguire l’ordine proposto; in seguito il sito può essere usato come riferimento rapido durante lo studio del manuale.</p>
+<div class="study-steps">
+<div class="study-step">
+<p><span class="study-step__number">01</span></p>
+<p><strong>Orientarsi</strong></p>
+<p>Leggi l’apertura del capitolo e identifica obiettivi, prerequisiti e concetti centrali.</p>
+</div>
+<div class="study-step">
+<p><span class="study-step__number">02</span></p>
+<p><strong>Ricostruire</strong></p>
+<p>Riproduci i passaggi essenziali, le formule e gli esempi con carta e penna.</p>
+</div>
+<div class="study-step">
+<p><span class="study-step__number">03</span></p>
+<p><strong>Collegare</strong></p>
+<p>Riconduci ogni concetto al ruolo che svolge in prior, verosimiglianza e posterior.</p>
 </div>
 </div>
+</section>
+<section id="percorso-del-modulo" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="percorso-del-modulo">Percorso del modulo</h2>
+<p>Le quattro parti conducono dal significato della probabilità alla verosimiglianza e all’aggiornamento bayesiano. Le appendici raccolgono la notazione e gli strumenti matematici da consultare quando necessario.</p>
+<div class="learning-path">
+<div class="path-card">
+<p><span class="path-card__meta">Parte 1 · Capitoli 1–5 · Livello base</span></p>
+<section id="fondamenti-della-probabilità" class="level3 unnumbered unlisted">
+<h3 class="unnumbered unlisted anchored" data-anchor-id="fondamenti-della-probabilità">Fondamenti della probabilità</h3>
+<p>Interpretazione bayesiana, assiomi, coerenza, calcolo combinatorio, probabilità condizionata e teorema di Bayes.</p>
+<p><a href="./chapters/probability/01_intro_prob_bayesian.html">Apri la parte 1</a></p>
+</section>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="path-card">
+<p><span class="path-card__meta">Parte 2 · Capitoli 6–9 · Livello intermedio</span></p>
+<section id="variabili-casuali-e-distribuzioni" class="level3 unnumbered unlisted">
+<h3 class="unnumbered unlisted anchored" data-anchor-id="variabili-casuali-e-distribuzioni">Variabili casuali e distribuzioni</h3>
+<p>Variabili discrete e continue, funzioni di distribuzione, valore atteso, varianza, covarianza e correlazione.</p>
+<p><a href="./chapters/probability/06_random_var.html">Apri la parte 2</a></p>
+</section>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Consiglio</span>🎯 Suggerimento per lo studio
+<div class="path-card">
+<p><span class="path-card__meta">Parte 3 · Capitoli 10–12 · Livello intermedio</span></p>
+<section id="distribuzioni-fondamentali" class="level3 unnumbered unlisted">
+<h3 class="unnumbered unlisted anchored" data-anchor-id="distribuzioni-fondamentali">Distribuzioni fondamentali</h3>
+<p>Il vocabolario probabilistico impiegato nei modelli: distribuzioni discrete, continue e loro proprietà principali.</p>
+<p><a href="./chapters/probability/10_intro_distributions.html">Apri la parte 3</a></p>
+</section>
+</div>
+<div class="path-card">
+<p><span class="path-card__meta">Parte 4 · Capitoli 13–16 · Livello avanzato</span></p>
+<section id="verso-linferenza" class="level3 unnumbered unlisted">
+<h3 class="unnumbered unlisted anchored" data-anchor-id="verso-linferenza">Verso l’inferenza</h3>
+<p>Campionamento, informazione, precisione, verosimiglianza e passaggio dalla probabilità all’aggiornamento bayesiano.</p>
+<p><a href="./chapters/probability/13_from_sample_to_evidence.html">Apri la parte 4</a></p>
+</section>
+</div>
+<div class="path-card">
+<p><span class="path-card__meta">Appendici · Consultazione</span></p>
+<section id="strumenti-matematici" class="level3 unnumbered unlisted">
+<h3 class="unnumbered unlisted anchored" data-anchor-id="strumenti-matematici">Strumenti matematici</h3>
+<p>Simbologia, notazione e richiami matematici destinati alla consultazione durante lo studio dei capitoli.</p>
+<p><a href="./chapters/appendix/a01_math_symbols.html">Consulta le appendici</a></p>
+</section>
 </div>
 </div>
-<div class="callout-body-container callout-body">
+<div class="editorial-note">
+<p>Questo sito privilegia interpretazione, formule essenziali ed esempi minimali. Gli approfondimenti tecnici e il codice sono disponibili quando servono, ma non interrompono il filo concettuale principale.</p>
+</div>
+</section>
+<section id="collegamento-con-il-manuale" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="collegamento-con-il-manuale">Collegamento con il manuale</h2>
+<p>Il modulo prepara i concetti probabilistici utilizzati nel manuale principale. In particolare, chiarisce il significato della probabilità come rappresentazione dell’incertezza, introduce il linguaggio delle variabili casuali e delle distribuzioni e costruisce il passaggio dalla probabilità condizionata alla verosimiglianza e alla distribuzione a posteriori.</p>
+<p>Per affrontare il manuale non è necessario memorizzare ogni derivazione. È invece importante saper riconoscere:</p>
 <ul>
-<li>
-<strong>Prima lettura</strong>: scorri velocemente l’intera parte per avere una visione d’insieme</li>
-<li>
-<strong>Studio attivo</strong>: rileggi con carta e penna, riproducendo le formule chiave</li>
-<li>
-<strong>Consolidamento</strong>: risolvi gli esercizi proposti e consulta le appendici per eventuali lacune</li>
-<li>
-<strong>Integrazione</strong>: collega ogni concetto alla sua applicazione nell’inferenza bayesiana</li>
+<li>che cosa rappresentano gli eventi e le variabili casuali;</li>
+<li>come si legge una probabilità condizionata;</li>
+<li>quale ruolo svolgono valore atteso, varianza e dipendenza;</li>
+<li>perché la verosimiglianza collega un modello ai dati osservati;</li>
+<li>come il teorema di Bayes formalizza l’aggiornamento delle credenze.</li>
 </ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>⚠️ Percorso consigliato
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Il modulo è progettato per essere seguito <strong>in sequenza</strong>: ogni parte costruisce sui concetti delle precedenti. Se incontri difficoltà in una sezione, consulta prima le appendici rilevanti, poi riprendi dal punto di difficoltà.</p>
-</div>
-</div>
-</section><section id="modalità-di-utilizzo-del-modulo" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="modalità-di-utilizzo-del-modulo">Modalità di utilizzo del modulo</h2>
-<p>Per un apprendimento efficace, si consiglia di procedere in modo sequenziale, poiché i concetti presentano una struttura progressiva e cumulativa. È consigliabile focalizzarsi sull’interpretazione piuttosto che sul formalismo, riducendo gli approfondimenti formali allo stretto necessario. Infine, è utile mantenere sempre il collegamento con l’inferenza bayesiana, osservando come ciascun concetto trovi applicazione nella costruzione di prior, verosimiglianze e distribuzioni posteriori.</p>
-</section><section id="prerequisiti-e-strumenti" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="prerequisiti-e-strumenti">Prerequisiti e strumenti</h2>
-<p>Per utilizzare il modulo è necessaria una conoscenza di base dei concetti di algebra elementare e di statistica descrittiva. Gli esempi numerici sono corredati, quando necessario, da codice R immediatamente riproducibile.</p>
-</section><section id="collegamenti-utili" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="collegamenti-utili">Collegamenti utili</h2>
+</section>
+<section id="informazioni-editoriali" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="informazioni-editoriali">Informazioni editoriali</h2>
+<p>Il materiale fa parte del progetto UTET a supporto del manuale <em>Inferenza bayesiana in psicologia: Ragionare con l’incertezza</em>. Il sito è aggiornabile e può quindi integrare correzioni, chiarimenti ed esempi successivi alla pubblicazione del volume.</p>
 <ul>
-<li>
-<strong>Manuale principale</strong>: <a href="https://ccaudek.github.io/utet-companion/">Inferenza bayesiana in psicologia</a>
-</li>
-<li>
-<strong>Repository GitHub</strong>: Per segnalare errori o suggerire miglioramenti, utilizza la sezione <a href="https://github.com/ccaudek/utet-prob/issues/new">Issues</a>
-</li>
-<li>
-<strong>Materiali complementari</strong>: Esercizi e soluzioni saranno progressivamente aggiunti al sito</li>
-</ul></section><section id="licenza-duso" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="licenza-duso">Licenza d’uso</h2>
-<p>Materiali distribuiti con licenza<br><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it">CC BY-NC-ND 4.0</a>. È consentita la condivisione con attribuzione, <strong>solo per usi non commerciali</strong> e <strong>senza modifiche</strong>.</p>
+<li><strong>Autore:</strong> Corrado Caudek (<a href="https://orcid.org/0000-0002-1404-0420">ORCID 0000-0002-1404-0420</a>)</li>
+<li><strong>Segnalazioni:</strong> usa il comando “Segnala un problema” presente nelle pagine oppure il <a href="https://github.com/ccaudek/utet-prob/issues/new">repository GitHub</a></li>
+<li><strong>Licenza:</strong> <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it">CC BY-NC-ND 4.0</a></li>
+</ul>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1567,7 +1083,9 @@ Segue una rassegna delle <strong>distribuzioni fondamentali</strong>, ovvero le 
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chapters/probability/01_intro_prob_bayesian.html" class="pagination-link" aria-label="Interpretazione bayesiana della probabilità">
@@ -1576,18 +1094,22 @@ Segue una rassegna delle <strong>distribuzioni fondamentali</strong>, ovvero le 
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
-<p><strong>Probabilità per la psicologia</strong> — Modulo di richiamo del progetto UTET a supporto del manuale <em>Inferenza bayesiana in psicologia: Ragionare con l’incertezza</em>.</p>
+<p><strong>Probabilità per la psicologia</strong><br>
+Materiali digitali del progetto UTET a supporto del manuale <em>Inferenza bayesiana in psicologia: Ragionare con l’incertezza</em>.</p>
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><ul><li><a href="https://github.com/ccaudek/utet-prob/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Mostra il codice</a></li><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi empty"></i>Segnala un problema</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Preferenze cookie</a></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/ccaudek/utet-prob/issues/new" class="toc-action"><i class="bi bi-github"></i>Segnala un problema</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Preferenze cookie</a></div></div>
     <div class="nav-footer-right">
-<p>Realizzato con <a href="https://quarto.org/">Quarto</a>.</p>
+<p><a href="https://ccaudek.github.io/utet-companion/">Companion principale</a> · <a href="https://github.com/ccaudek/utet-prob/">Repository</a> · <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it">Licenza</a></p>
 </div>
   </div>
 </footer>
+
+
 
 
 <script src="site_libs/quarto-html/zenscroll-min.js"></script>
