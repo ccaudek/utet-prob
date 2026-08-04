@@ -1,32 +1,34 @@
 # Dal campione all'evidenza: informazione, precisione e incertezza {#sec-prob-inference-uncertainty}
 
 ::: {.callout-note title="In sintesi"}
-**Da sapere**  Comprendere come un modello generativo colleghi parametri ignoti e dati osservabili; distinguere variabilità campionaria, errore standard, incertezza a posteriori e bias; riconoscere il ruolo della Legge dei Grandi Numeri, del Teorema del Limite Centrale e dell'analisi di sensibilità.
+**Da sapere.** Comprendere come un modello generativo colleghi parametri ignoti e dati osservabili; distinguere variabilità campionaria, errore standard, incertezza a posteriori e bias; riconoscere il ruolo della Legge dei Grandi Numeri, del Teorema del Limite Centrale e dell'analisi di sensibilità.
 
-**Da saper fare**  Interpretare media o proporzione campionaria come riassunti dei dati; spiegare come la numerosità modifica errore standard e precisione; leggere una distribuzione campionaria senza confonderla con una distribuzione a posteriori; valutare perché un risultato preciso può comunque essere sistematicamente errato.
+**Da saper fare.** Interpretare una media o una proporzione campionaria come riassunto dei dati; spiegare come la numerosità modifica errore standard e precisione; leggere una distribuzione campionaria senza confonderla con una distribuzione a posteriori; riconoscere perché un risultato molto preciso può essere comunque sistematicamente errato.
 :::
 
 ## Introduzione {.unnumbered .unlisted}
 
-Uno psicologo clinico sta valutando se adottare un nuovo protocollo per la depressione. In uno studio pilota, il 36% dei pazienti trattati ha raggiunto la remissione completa dei sintomi. Il dato è incoraggiante, ma non basta per decidere: quanto potrebbe cambiare in una replica? Quanto sarebbe compatibile con un tasso generativo del 30%, del 40% o del 50%? Quale parte dell'incertezza dipende dal numero di partecipanti e quale dalla qualità del disegno di ricerca?
+Uno psicologo clinico sta prendendo in considerazione l'adozione di un nuovo protocollo per la depressione. In uno studio pilota, il 36% dei pazienti trattati ha raggiunto la remissione completa dei sintomi. Il dato è incoraggiante, ma da solo non basta per prendere una decisione. Quanto potrebbe cambiare in una replica? Sarebbe compatibile con un tasso generativo del 30%, del 40% o del 50%? Inoltre, quanto dell'incertezza dipende dal numero di partecipanti piuttosto che dalla qualità del disegno e delle misure?
 
-Questo capitolo affronta il passaggio dai dati osservati all'evidenza statistica. Non introdurremo ancora formalmente la funzione di verosimiglianza, che sarà il tema del capitolo successivo. Prepariamo invece il terreno chiarendo che cosa rende un campione più o meno informativo rispetto a una quantità ignota.
+Queste domande segnano il passaggio dalla semplice descrizione del campione all'evidenza statistica. Un risultato osservato diventa informativo solo quando viene inserito in un modello che specifica quali dati sarebbero più o meno attesi per diversi valori di una quantità sconosciuta.
 
-La prospettiva rimane bayesiana: proporzioni, medie, varianze ed effetti sono quantità sulle quali possiamo avere incertezza epistemica. I dati, tuttavia, non diventano evidenza da soli. Sono informativi soltanto all'interno di un modello che specifica quali osservazioni sarebbero più o meno attese per diversi valori del parametro.
+In questo capitolo non introdurremo ancora formalmente la funzione di verosimiglianza, che sarà il tema del capitolo successivo. Introdurremo però i concetti necessari per comprenderla: il modello generativo, i riassunti campionari, la distribuzione campionaria, l'errore standard, la precisione, la convergenza e il bias.
+
+La prospettiva rimane bayesiana. Proporzioni, medie, varianze ed effetti sono quantità sulle quali possiamo avere incertezza epistemica. Tuttavia, i dati non diventano automaticamente evidenza: acquistano un significato inferenziale solo attraverso un modello e in base alle assunzioni che collegano il campione alla popolazione o al costrutto di interesse.
 
 ## Perché un campione diventa evidenza?
 
-Una proporzione del 36% può avere significati molto diversi. Se deriva da 11 pazienti, può variare sensibilmente da una replica all'altra; se deriva da 10.000 pazienti indipendenti e ben campionati, la variabilità campionaria è molto più piccola. In entrambi i casi, però, un errore di selezione o di misurazione può produrre una conclusione precisa ma distorta.
+La stessa proporzione del 36% può assumere significati molto diversi. Se deriva da 11 pazienti, può cambiare sensibilmente da una replica all'altra, mentre se deriva da 10.000 pazienti indipendenti e ben campionati, la variabilità campionaria è molto più piccola. In entrambi i casi, però, un errore di selezione o di misurazione può produrre una conclusione precisa, ma distorta.
 
-Per interpretare un campione occorre quindi separare almeno tre domande:
+Per interpretare un campione dobbiamo quindi tenere separate tre domande:
 
-1. **Quale modello collega il parametro ai dati?**
+1. **Quale modello collega il parametro ignoto ai dati osservabili?**
 2. **Quanto potrebbe variare il risultato in ipotetiche repliche dello stesso disegno?**
-3. **Il disegno e la misura consentono di collegare il campione alla popolazione o al costrutto di interesse?**
+3. **Il disegno e la misura permettono davvero di collegare il campione alla popolazione o al costrutto di interesse?**
 
 La distribuzione campionaria e l'errore standard rispondono soprattutto alla seconda domanda. L'inferenza bayesiana combina poi il modello dei dati con la prior per ottenere una distribuzione a posteriori. Nessuno di questi strumenti, da solo, corregge automaticamente bias di selezione, errori di misurazione o modelli inadeguati.
 
-::: {.callout-tip title="Prerequisiti"}
+::: {.callout-tip title="Prerequisiti" collapse="true"}
 Per seguire il capitolo è utile avere letto @sec-prob-bayes-theorem, @sec-prob-random-var, @sec-prob-random-var-properties, @sec-prob-intro-distr, @sec-prob-discr-distr e @sec-prob-cont-distr. Per la notazione matematica, consulta @sec-apx-math-symbols.
 
 Per richiami su sommatorie, limiti e convergenza, consulta le appendici matematiche disponibili nel Companion.
@@ -34,17 +36,9 @@ Per richiami su sommatorie, limiti e convergenza, consulta le appendici matemati
 
 ## Panoramica del capitolo {.unnumbered .unlisted}
 
-Il capitolo procede in sette passaggi:
+Il percorso segue il naturale processo di inferenza. Partiremo da un parametro sconosciuto e da un modello che genera dati, per poi vedere come la media e la proporzione riassumono un campione e come cambierebbero in ipotetiche repliche. Su questa base introdurremo la distribuzione campionaria, l'errore standard e la precisione. La Legge dei Grandi Numeri e il Teorema del Limite Centrale chiariranno cosa accade quando il numero di elementi aumenta. Infine, torneremo alla prospettiva bayesiana per discutere il ruolo della prior, l'analisi di sensibilità e il limite fondamentale della sola precisione: un risultato stabile può comunque essere distorto.
 
-1. collega dati, parametri e modello generativo;
-2. interpreta media e proporzione campionaria come riassunti dei dati;
-3. introduce la distribuzione campionaria e l'errore standard;
-4. distingue errore standard, precisione e informazione;
-5. presenta Legge dei Grandi Numeri e Teorema del Limite Centrale;
-6. discute prior, convergenza e analisi di sensibilità;
-7. separa variabilità campionaria, bias e falsa precisione, preparando la verosimiglianza.
-
-::: {.callout-note title="Preparazione del notebook"}
+::: {.callout-note title="Preparazione del notebook" collapse="true"}
 ```{r}
 #| output: false
 here::here("code", "_common.R") |>
@@ -55,9 +49,9 @@ apply_visual_theme()
 
 ## Dati, parametri e modello generativo {#sec-data-parameters-generative-model}
 
-### Il problema inferenziale
+### Dal fenomeno osservato al parametro ignoto
 
-Supponiamo di voler stimare la prevalenza $\theta$ di studenti universitari con sintomi depressivi clinicamente rilevanti. Se selezioniamo un campione di $n$ studenti e registriamo per ciascuno la presenza o assenza del sintomo, otteniamo osservazioni binarie:
+Supponiamo di voler stimare la prevalenza $\theta$ di studenti universitari con sintomi depressivi clinicamente rilevanti. Se selezioniamo un campione di $n$ studenti e registriamo per ciascuno la presenza o l'assenza del sintomo, otterremo osservazioni binarie:
 
 $$
 X_i =
@@ -67,28 +61,30 @@ X_i =
 \end{cases}
 $$
 
-Il parametro $\theta$ rappresenta la proporzione del fenomeno nella popolazione di riferimento. Non lo osserviamo direttamente: possiamo solo raccogliere dati che, sotto opportune assunzioni, sono informativi su di esso.
+Il parametro $\theta$ rappresenta la proporzione del fenomeno nella popolazione di riferimento. Non è possibile osservarlo direttamente. Possiamo soltanto raccogliere dati che, sotto opportune assunzioni, forniscano informazioni su di esso.
+
+Questa distinzione è il punto di partenza dell'inferenza statistica: da una parte vi è una quantità sconosciuta che vogliamo conoscere; dall'altra, un insieme di osservazioni che dipendono probabilisticamente da tale quantità.
 
 ### Il modello generativo
 
-Un modello probabilistico semplice assume che, condizionatamente a $\theta$, le osservazioni siano indipendenti e condividano la stessa probabilità:
+Un modello probabilistico semplice assume che, condizionatamente a $\theta$, le osservazioni siano indipendenti e abbiano la stessa probabilità:
 
 $$
 X_i \mid \theta \overset{\mathrm{iid}}{\sim} \operatorname{Bernoulli}(\theta),
 \qquad i = 1, \dots, n.
 $$
 
-Questa notazione va letta nel modo seguente: **se** il valore di $\theta$ fosse noto, potremmo descrivere probabilisticamente i dati che ci aspettiamo di osservare. Ad esempio, se $\theta = 0.30$, ogni studente avrebbe probabilità 0.30 di presentare il sintomo, e l'esito di uno studente non modificherebbe direttamente quello degli altri dopo avere condizionato su $\theta$.
+La notazione descrive la direzione generativa del modello: **se** il valore di $\theta$ fosse noto, potremmo stabilire quali dati aspettarci. Se, per esempio, $\theta=0.30$, ogni studente avrebbe una probabilità dello 0.30 di presentare il sintomo e, una volta condizionati su $\theta$, gli esiti degli studenti non si influenzerebbero direttamente.
 
-Le ipotesi di indipendenza e probabilità comune sono parti del modello, non proprietà automatiche dei dati. Possono risultare inadeguate, per esempio, quando gli studenti sono raggruppati in classi o atenei oppure quando la probabilità varia tra sottopopolazioni.
+Le ipotesi di indipendenza e di probabilità comune sono componenti del modello e non proprietà automatiche dei dati. Tali ipotesi possono risultare inadeguate quando, per esempio, gli studenti sono raggruppati in classi o atenei, oppure quando la probabilità del fenomeno varia tra le diverse sottopopolazioni.
 
-Dal punto di vista bayesiano, prima di osservare il campione possiamo rappresentare la nostra incertezza su $\theta$ con una distribuzione a priori:
+Dal punto di vista bayesiano, prima di osservare il campione possiamo rappresentare la nostra incertezza su $\theta$ mediante una distribuzione a priori:
 
 $$
 \theta \sim p(\theta).
 $$
 
-Il modello completo ha quindi due componenti:
+Il modello completo comprende quindi due parti:
 
 $$
 \theta \sim p(\theta),
@@ -96,10 +92,10 @@ $$
 X_i \mid \theta \overset{\mathrm{iid}}{\sim} p(x_i \mid \theta).
 $$
 
-La prima rappresenta ciò che sappiamo o assumiamo prima dei dati; la seconda rappresenta il meccanismo che genera le osservazioni, condizionatamente al parametro.
+La prima rappresenta ciò che sappiamo o assumiamo prima dei dati; la seconda descrive il processo che genera le osservazioni, condizionatamente al parametro.
 
 ::: {.callout-note title="Idea chiave"}
-Nel ragionamento bayesiano, i dati aggiornano le credenze solo attraverso un modello. Non basta osservare una proporzione campionaria: dobbiamo specificare quale processo probabilistico rende quella proporzione più o meno attesa per diversi valori del parametro.
+Nel ragionamento bayesiano, i dati aggiornano le credenze solo attraverso un modello. Non basta osservare una proporzione campionaria: dobbiamo specificare quale processo probabilistico renda quella proporzione più o meno attesa per diversi valori del parametro.
 :::
 
 ### Il riassunto campionario
@@ -110,19 +106,19 @@ $$
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i.
 $$
 
-Se osserviamo $72$ studenti con sintomi su $200$, allora:
+Se osserviamo 72 studenti con sintomi su 200, otteniamo:
 
 $$
 \bar{X} = \frac{72}{200} = 0.36.
 $$
 
-La proporzione osservata è una descrizione compatta del campione, ma non è ancora una conclusione inferenziale. Nel modello Bernoulli *iid*, il numero totale di successi e la proporzione contengono la stessa informazione su $\theta$. Per interpretarli dobbiamo però chiederci: **quanto avrebbero potuto variare in ipotetiche repliche dello stesso disegno?**
+La proporzione osservata fornisce una descrizione compatta del campione, ma non costituisce ancora una conclusione inferenziale. Nel modello Bernoulli *iid*, il numero totale di successi e la proporzione contengono la stessa informazione su $\theta$. Per capire quanto questa informazione sia precisa dobbiamo però immaginare che cosa accadrebbe ripetendo lo stesso studio: **quanto potrebbe cambiare $\bar X$ da un campione all'altro?**
 
 ## Che cosa varia da un campione all'altro {#sec-what-varies-across-samples}
 
-### Media campionaria e valore atteso
+### La media campionaria è centrata sul valore generativo
 
-Siano $X_1, X_2, \ldots, X_n$ variabili casuali indipendenti e identicamente distribuite, con valore atteso finito $\mathbb{E}(X_i \mid \theta)=\theta$. La media campionaria è:
+Siano $X_1, X_2, \ldots, X_n$ variabili casuali indipendenti e identicamente distribuite, con valore atteso finito $\mathbb{E}(X_i\mid\theta)=\theta$. La media campionaria è:
 
 $$
 \bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i.
@@ -131,14 +127,16 @@ $$
 Per la linearità del valore atteso:
 
 $$
-\mathbb{E}(\bar{X} \mid \theta) = \theta.
+\mathbb{E}(\bar{X}\mid\theta)=\theta.
 $$
 
-**Interpretazione.** Se potessimo ripetere molte volte lo stesso studio, sempre con campioni della stessa dimensione e provenienti dallo stesso processo generativo, la media delle proporzioni osservate sarebbe centrata su $\theta$. In questo senso, la proporzione campionaria non tende sistematicamente a sovrastimare o sottostimare il parametro, a condizione che il modello sia corretto e che il campionamento non introduca bias.
+Questa uguaglianza descrive il centro della distribuzione delle possibili medie campionarie. Se potessimo ripetere molte volte lo stesso studio, sempre con campioni della stessa dimensione e provenienti dallo stesso processo generativo, la media delle proporzioni osservate sarebbe centrata su $\theta$.
 
-::: {.callout-note collapse="true" title="Dimostrazione"}
+In questo senso, la proporzione campionaria non tende sistematicamente a sovrastimare o sottostimare il parametro, a condizione che il modello sia corretto e che il campionamento non introduca bias. L'affermazione riguarda quindi la variabilità attorno al parametro all'interno del modello, non la validità del disegno nel mondo reale.
+
+::: {.callout-note collapse="true" title="Dimostrazione del valore atteso"}
 $$
-\mathbb{E}(\bar{X} \mid \theta)
+\mathbb{E}(\bar{X}\mid\theta)
 = \mathbb{E}\left(\frac{1}{n}\sum_{i=1}^{n}X_i \mid \theta\right)
 = \frac{1}{n}\sum_{i=1}^{n}\mathbb{E}(X_i \mid \theta)
 = \frac{1}{n}\sum_{i=1}^{n}\theta
@@ -146,15 +144,15 @@ $$
 $$
 :::
 
-### Variabilità della media campionaria
+### Quanto oscilla la media campionaria
 
-Se le osservazioni $X_1, \dots, X_n$ sono indipendenti e hanno la stessa varianza condizionata $\operatorname{Var}(X_i\mid\theta)=\sigma^2$, allora la varianza della loro media è:
+Essere centrata su $\theta$ non significa che ogni media campionaria coincida con $\theta$. Campioni diversi producono valori diversi. Se le osservazioni $X_1,\dots,X_n$ sono indipendenti e hanno la stessa varianza condizionata $\operatorname{Var}(X_i\mid\theta)=\sigma^2$, allora:
 
 $$
 \operatorname{Var}(\bar{X}\mid\theta)=\frac{\sigma^2}{n}.
 $$
 
-La deviazione standard di questa distribuzione campionaria è l'**errore standard**:
+La deviazione standard di questa distribuzione è l'**errore standard**:
 
 $$
 \operatorname{SE}(\bar{X}\mid\theta)
@@ -164,19 +162,20 @@ $$
 \frac{\sigma}{\sqrt{n}}.
 $$
 
-L'errore standard diminuisce quindi in proporzione a $1/\sqrt{n}$: la stabilità cresce con il campione, ma più lentamente di quanto suggerirebbe una relazione lineare.
+L'errore standard descrive l'ampiezza delle oscillazioni della media campionaria in ipotetiche repliche dello stesso disegno. Diminuisce come $1/\sqrt n$: aumentando il campione, la statistica diventa più stabile, ma il miglioramento è più lento rispetto a una relazione lineare.
 
-L'errore standard misura quanto ci si può attendere che la media campionaria oscilli da un campione all'altro. La sua espressione $\sigma/\sqrt{n}$ evidenzia una proprietà controintuitiva ma cruciale: **l'incertezza non si riduce in proporzione diretta al numero di osservazioni**. Per dimezzare l'errore standard non è sufficiente raddoppiare il campione: occorre **quadruplicarlo**.
+La conseguenza pratica è importante. Per dimezzare l'errore standard, infatti, non basta raddoppiare il campione, ma è necessario **quadruplicarlo**. Un campione più numeroso fornisce informazioni più precise.
 
-::: {.callout-note collapse="true" title="Dimostrazione"}
-Per la proprietà di indipendenza delle osservazioni e la linearità della varianza rispetto a costanti moltiplicative:
+::: {.callout-note collapse="true" title="Dimostrazione della varianza"}
+Per l'indipendenza delle osservazioni e la proprietà della varianza rispetto alle costanti moltiplicative:
 
 $$
 \begin{aligned}
-\operatorname{Var}(\bar{X} \mid \theta)
+\operatorname{Var}(\bar{X}\mid\theta)
 &= \operatorname{Var}\left(\frac{1}{n}\sum_{i=1}^{n}X_i \,\middle|\, \theta\right) \\
-&= \frac{1}{n^2}\sum_{i=1}^{n}\operatorname{Var}(X_i \mid \theta) \\
-&= \frac{1}{n^2} \cdot n\sigma^2 = \frac{\sigma^2}{n}.
+&= \frac{1}{n^2}\sum_{i=1}^{n}\operatorname{Var}(X_i\mid\theta) \\
+&= \frac{1}{n^2}\cdot n\sigma^2 \\
+&= \frac{\sigma^2}{n}.
 \end{aligned}
 $$
 :::
@@ -186,24 +185,30 @@ $$
 Per una variabile Bernoulliana:
 
 $$
-\operatorname{Var}(X_i \mid \theta) = \theta(1-\theta).
+\operatorname{Var}(X_i\mid\theta)=\theta(1-\theta).
 $$
 
-Quindi:
+Di conseguenza:
 
 $$
-\operatorname{Var}(\bar{X} \mid \theta) = \frac{\theta(1-\theta)}{n},
+\operatorname{Var}(\bar{X}\mid\theta)
+=
+\frac{\theta(1-\theta)}{n},
 \qquad
-\operatorname{SE}(\bar{X}) = \sqrt{\frac{\theta(1-\theta)}{n}}.
+\operatorname{SE}(\bar{X}\mid\theta)
+=
+\sqrt{\frac{\theta(1-\theta)}{n}}.
 $$
 
-Poiché $\theta$ è ignoto, nella pratica si usa spesso una stima sostitutiva, per esempio $\bar{X}$:
+Poiché $\theta$ è ignoto, nella pratica si usa spesso una stima sostitutiva, per esempio $\bar X$:
 
 $$
-\widehat{\operatorname{SE}}(\bar{X}) = \sqrt{\frac{\bar{X}(1-\bar{X})}{n}}.
+\widehat{\operatorname{SE}}(\bar{X})
+=
+\sqrt{\frac{\bar{X}(1-\bar{X})}{n}}.
 $$
 
-Nel caso $\bar{X}=0.36$ e $n=200$:
+Nel caso $\bar X=0.36$ e $n=200$:
 
 ```{r}
 #| label: se-bernoulli-example
@@ -213,17 +218,19 @@ se_hat <- sqrt(p_hat * (1 - p_hat) / n)
 se_hat
 ```
 
-La stima *plug-in* dell'errore standard è quindi circa 0.034. Questo valore non è un margine che contiene certamente $\theta$ e non è una deviazione standard a posteriori. Descrive, in modo approssimato e sotto il modello Bernoulli *iid*, l'ordine delle fluttuazioni della proporzione campionaria in ipotetiche repliche con $n=200$.
+La stima *plug-in* dell'errore standard è circa 0.034. Questo numero non è un margine che contiene certamente $\theta$ e non è una deviazione standard a posteriori. Descrive, in modo approssimato e sotto il modello Bernoulli *iid*, l'ordine delle fluttuazioni della proporzione campionaria in ipotetiche repliche con $n=200$.
 
 ## La distribuzione campionaria {#sec-sampling-distribution-evidence}
 
-### Che cos'è una distribuzione campionaria
+### Dalla singola osservazione all'insieme delle possibili repliche
 
-Prima di raccogliere i dati, la media campionaria $\bar{X}$ è una variabile casuale: il suo valore è incerto e dipende da quale campione, tra quelli possibili, verrà effettivamente osservato. Se fosse possibile ripetere lo stesso studio un numero molto elevato di volte, otterremmo una sequenza di valori $\bar{X}_1, \bar{X}_2, \dots$, ciascuno leggermente diverso dall'altro. La **distribuzione campionaria** descrive esattamente questa variabilità: è la distribuzione di tutti i possibili valori che $\bar{X}$ potrebbe assumere in replicate ideali del medesimo disegno di ricerca.
+Prima di raccogliere i dati, la media campionaria $\bar X$ è una variabile casuale: il suo valore dipende da quale campione, tra tutti quelli possibili, verrà effettivamente osservato. Se potessimo ripetere lo stesso studio un numero molto elevato di volte, otterremmo una sequenza $\bar X_1,\bar X_2,\dots$, con valori leggermente diversi.
 
-Questa idea è cruciale per l'inferenza statistica. Se, in studi ripetuti, una statistica tende a fluttuare poco sotto un determinato modello, il suo valore osservato può discriminare più nettamente tra ipotesi parametriche alternative. Se invece la distribuzione campionaria è ampia, molti risultati diversi sarebbero comuni e il campione sarà meno selettivo.
+La **distribuzione campionaria** è la distribuzione di questi possibili valori. Descrive quindi come una statistica varierebbe in repliche ideali del medesimo disegno di ricerca.
 
-La distribuzione campionaria non è però una distribuzione a posteriori e non assegna direttamente probabilità ai valori del parametro. Descrive la variabilità di una statistica sotto ipotetiche repliche del processo generativo. Nel capitolo successivo questa descrizione verrà letta, a dati fissati, attraverso la funzione di verosimiglianza.
+Questa idea è cruciale per comprendere l'informazione fornita da un campione. Se una statistica tende a fluttuare poco sotto un determinato modello, il suo valore osservato può discriminare più nettamente tra valori parametrici alternativi. Se, invece, la distribuzione campionaria è ampia, molti risultati diversi sarebbero comuni e il dato osservato sarà meno selettivo.
+
+La distribuzione campionaria non è però una distribuzione a posteriori, in quanto non assegna direttamente probabilità ai valori del parametro. Mantiene il parametro fisso e descrive la variabilità della statistica in ipotetiche repliche. Nel capitolo successivo questa stessa descrizione verrà riletta, a dati fissati, attraverso la funzione di verosimiglianza.
 
 ### Un esempio finito: risposte a un item Likert
 
@@ -245,7 +252,7 @@ cat("Varianza della popolazione:", round(var_pop, 3), "\n")
 
 L'esempio tratta i punteggi come valori numerici con distanze interpretabili. È una scelta didattica e non implica che qualunque singolo item ordinale debba essere analizzato automaticamente come una misura intervallare.
 
-Per costruire la distribuzione campionaria, consideriamo tutti i campioni ordinati di dimensione $n=2$ **con reinserimento**. Le quattro unità possono essere selezionate a ogni estrazione, quindi esistono $4^2=16$ campioni equiprobabili.
+Per costruire la distribuzione campionaria consideriamo tutti i campioni ordinati di dimensione $n=2$ **con reinserimento**. Le quattro unità possono essere selezionate a ogni estrazione, quindi esistono $4^2=16$ campioni equiprobabili.
 
 ```{r}
 #| label: tbl-sampling-distribution-likert
@@ -271,7 +278,7 @@ df_campioni <- data.frame(
 knitr::kable(df_campioni, align = c("c", "c", "c"))
 ```
 
-La @tbl-sampling-distribution-likert distingue i campioni in base alle unità selezionate: i due partecipanti con risposta 4 restano unità diverse anche se producono lo stesso valore osservato.
+La @tbl-sampling-distribution-likert distingue i campioni in base alle unità selezionate: i due partecipanti con risposta 4 rimangono unità diverse, anche se producono lo stesso valore osservato.
 
 ```{r}
 #| label: fig-sampling-distribution-likert
@@ -310,67 +317,68 @@ cat("Varianza delle medie campionarie:", round(var_medie, 3), "\n")
 cat("Varianza teorica (sigma^2 / n):", round(var_pop / 2, 3), "\n")
 ```
 
-L'esempio mostra in modo concreto due fatti essenziali:
-
-1. **Le medie campionarie variano** da un campione all'altro, riflettendo l'incertezza intrinseca del campionamento.
-2. **La distribuzione di queste medie è centrata sulla media della popolazione** e la sua variabilità è minore di quella delle singole osservazioni (la varianza delle medie è la metà della varianza della popolazione, poiché $n = 2$).
+Questo esempio mette in luce due proprietà fondamentali. Le medie campionarie variano da un campione all'altro, ma la loro distribuzione è centrata sulla media della popolazione. Inoltre, la variabilità delle medie è inferiore a quella delle singole osservazioni: con $n=2$, la varianza delle medie è pari alla metà della varianza della popolazione.
 
 ::: {.callout-important title="Dal campione all'evidenza"}
-La distribuzione campionaria non è una parentesi frequentista estranea alla prospettiva bayesiana. È il modo in cui il modello descrive quali dati potremmo aspettarci prima di osservarli. Proprio questa descrizione renderà possibile, nel capitolo successivo, valutare quali valori del parametro rendono più plausibili i dati osservati.
+La distribuzione campionaria non è una parentesi frequentista estranea alla prospettiva bayesiana. È il modo in cui il modello descrive quali dati potremmo aspettarci prima di osservarli. Questa descrizione permetterà, nel capitolo successivo, di valutare quali valori del parametro rendano più plausibili i dati effettivamente osservati.
 :::
 
 ## Errore standard, precisione e informazione {#sec-standard-error-precision-information}
 
-### Errore standard come misura di incertezza campionaria
+### Che cosa ci dice l'errore standard
 
 L'errore standard è la deviazione standard della distribuzione campionaria di una statistica. Per la media:
 
 $$
-\operatorname{SE}(\bar{X}) = \frac{\sigma}{\sqrt{n}}.
+\operatorname{SE}(\bar X)=\frac{\sigma}{\sqrt n}.
 $$
 
-Un errore standard piccolo indica che la media campionaria tende a essere stabile da un campione all'altro. Sotto un modello specificato, il dato tende a discriminare più nettamente tra valori parametrici che prevedono risultati molto diversi da quello osservato.
+Un errore standard piccolo indica che la media campionaria tende a essere stabile da una replica all'altra. Sotto il modello specificato, il dato osservato discrimina più nettamente tra valori parametrici che prevedono risultati molto diversi.
 
-Un errore standard grande indica invece che campioni diversi avrebbero potuto produrre risultati molto diversi. In questo caso il dato osservato è meno selettivo: molte ipotesi parametriche rimangono compatibili con l'evidenza.
+Un errore standard elevato indica invece che campioni diversi avrebbero potuto produrre risultati molto differenti. In questo caso il dato è meno selettivo e un insieme più ampio di valori parametrici rimane compatibile con ciò che abbiamo osservato.
 
-### Precisione come inverso della varianza
+### La stessa idea espressa come precisione
 
-In alcuni modelli, soprattutto gaussiani, è utile ragionare in termini di **precisione**, definita come l'inverso della varianza:
+In alcuni modelli, soprattutto gaussiani, è utile esprimere la stabilità in termini di **precisione**, definita come l'inverso della varianza:
 
 $$
-\tau = \frac{1}{\sigma^2}.
+\tau=\frac{1}{\sigma^2}.
 $$
 
 Per la media campionaria:
 
 $$
-\operatorname{Precisione}(\bar{X}) = \frac{1}{\operatorname{Var}(\bar{X})} = \frac{n}{\sigma^2}.
+\operatorname{Precisione}(\bar X)
+=
+\frac{1}{\operatorname{Var}(\bar X)}
+=
+\frac{n}{\sigma^2}.
 $$
 
-Quindi, nel modello indipendente e omoschedastico considerato, la precisione della media cresce linearmente con $n$. Questa proprietà non vale automaticamente quando le osservazioni sono dipendenti, hanno qualità diversa oppure condividono fonti comuni di errore.
+Nel modello indipendente e omoschedastico considerato, la precisione della media cresce linearmente con $n$. La proprietà non vale automaticamente quando le osservazioni sono dipendenti, hanno qualità diversa o condividono fonti comuni di errore.
 
 ::: {.callout-tip title="Regola pratica"}
-Se l'errore standard è proporzionale a $1/\sqrt{n}$, allora:
+Se l'errore standard è proporzionale a $1/\sqrt n$, allora:
 
-- per dimezzare l'errore standard occorre moltiplicare $n$ per 4;
+- per dimezzarlo occorre moltiplicare $n$ per 4;
 - per ridurlo a un terzo occorre moltiplicare $n$ per 9;
 - aumentare molto la precisione richiede spesso campioni molto più grandi di quanto l'intuizione suggerisca.
 :::
 
-### Combinare evidenze indipendenti
-
+::: {.callout-note title="Approfondimento: combinare evidenze indipendenti" collapse="true"}
 La precisione fornisce anche un'intuizione utile per la sintesi di più studi. Supponiamo di avere due studi indipendenti sulla stessa quantità:
 
-- Studio A: $\hat{p}_A = 0.42$, $\operatorname{SE}_A = 0.07$;
-- Studio B: $\hat{p}_B = 0.38$, $\operatorname{SE}_B = 0.035$.
+- Studio A: $\hat p_A=0.42$, $\operatorname{SE}_A=0.07$;
+- Studio B: $\hat p_B=0.38$, $\operatorname{SE}_B=0.035$.
 
 Una combinazione approssimata, valida quando le stime sono trattabili come gaussiane, pesa ciascuna stima in base alla sua precisione:
 
 $$
-\hat{p}_{\text{comb}} =
-\frac{\tau_A \hat{p}_A + \tau_B \hat{p}_B}{\tau_A + \tau_B},
+\hat p_{\text{comb}}
+=
+\frac{\tau_A\hat p_A+\tau_B\hat p_B}{\tau_A+\tau_B},
 \qquad
-\tau_j = \frac{1}{\operatorname{SE}_j^2}.
+\tau_j=\frac{1}{\operatorname{SE}_j^2}.
 $$
 
 ```{r}
@@ -392,29 +400,28 @@ cat("Stima combinata:", round(p_comb, 3), "\n")
 cat("Errore standard combinato:", round(se_comb, 4), "\n")
 ```
 
-Lo Studio B pesa di più perché il suo errore standard è minore. Questa combinazione è soltanto un'approssimazione: presuppone stime indipendenti, distribuzioni approssimativamente gaussiane sulla scala usata e assenza di eterogeneità rilevante tra gli studi. Non sostituisce un modello meta-analitico quando i contesti o gli effetti possono differire.
+Lo Studio B riceve più peso perché il suo errore standard è minore. La combinazione rimane soltanto un'approssimazione: presuppone stime indipendenti, distribuzioni approssimativamente gaussiane sulla scala usata e assenza di eterogeneità rilevante. Non sostituisce un modello meta-analitico quando contesti o effetti possono differire.
 
-La stessa intuizione tornerà nell'aggiornamento bayesiano normale-normale: in quel caso, sotto le assunzioni del modello, la media a posteriori è una media ponderata dalle precisioni della prior e dei dati.
+La stessa intuizione tornerà nell'aggiornamento bayesiano normale-normale: sotto le assunzioni del modello, la media a posteriori è una media ponderata dalle precisioni della prior e dei dati.
+:::
 
 ## La Legge dei Grandi Numeri {#sec-lln-evidence}
 
-### Enunciato intuitivo
+### La stabilizzazione delle medie
 
-La **Legge dei Grandi Numeri** afferma che, all'aumentare del numero di osservazioni, la media campionaria tende ad avvicinarsi al valore atteso della distribuzione generativa:
+La **Legge dei Grandi Numeri** afferma che, aumentando il numero di osservazioni, la media campionaria tende ad avvicinarsi al valore atteso della distribuzione generativa:
 
 $$
-\bar{X}_n \xrightarrow{P} \mu.
+\bar X_n\xrightarrow{P}\mu.
 $$
 
 Nel caso Bernoulliano, $\mu=\theta$, quindi:
 
 $$
-\bar{X}_n \xrightarrow{P} \theta.
+\bar X_n\xrightarrow{P}\theta.
 $$
 
-Il simbolo $\xrightarrow{P}$ indica convergenza in probabilità. Il punto non è che ogni campione grande produca esattamente il valore generativo, ma che, fissata una distanza positiva, la probabilità di superarla tende a zero al crescere di $n$.
-
-### Simulazione della convergenza
+Il simbolo $\xrightarrow{P}$ indica convergenza in probabilità. La legge non afferma che ogni grande campione restituisca esattamente il valore generativo. Afferma che, fissata una distanza positiva da quel valore, la probabilità di superarla tende a zero al crescere di $n$.
 
 ```{r}
 #| label: fig-lln-convergence
@@ -442,27 +449,27 @@ ggplot(data_plot, aes(x = n, y = media)) +
   )
 ```
 
-Nella @fig-lln-convergence, la proporzione cumulativa oscilla molto nelle prime osservazioni e tende poi a stabilizzarsi vicino al valore generativo. Una singola simulazione illustra il fenomeno, ma la Legge dei Grandi Numeri è un risultato probabilistico su ipotetiche ripetizioni del processo.
+Nella @fig-lln-convergence la proporzione cumulativa oscilla molto nelle prime osservazioni e tende poi a stabilizzarsi vicino al valore generativo. La singola simulazione illustra il fenomeno; la Legge dei Grandi Numeri è però un risultato probabilistico che riguarda l'insieme delle ipotetiche ripetizioni del processo.
 
 ### Lettura bayesiana
 
-Dal punto di vista bayesiano, la Legge dei Grandi Numeri spiega perché l'evidenza empirica diventa progressivamente più vincolante. Se i dati sono generati stabilmente da un modello con parametro $\theta$, campioni più grandi tenderanno a produrre riassunti campionari vicini a quel valore. Di conseguenza, i valori parametrici incompatibili con quei riassunti riceveranno sempre meno supporto dai dati.
+Dal punto di vista bayesiano, la Legge dei Grandi Numeri aiuta a comprendere perché l'evidenza empirica diventi progressivamente più vincolante. Se i dati sono generati stabilmente da un modello con parametro $\theta$, campioni più grandi tendono a produrre riassunti vicini a quel valore. I valori parametrici incompatibili con tali riassunti ricevono quindi sempre meno supporto dai dati.
 
-Questa è l'intuizione alla base di molti risultati di **concentrazione a posteriori**: in problemi regolari, quando il modello è adeguato, il parametro è identificabile e la prior assegna massa alle regioni compatibili con il processo generativo, l'accumularsi dei dati tende a ridurre l'influenza delle differenze iniziali tra prior. Non è però una garanzia universale: modelli mal specificati o parametri non identificabili possono impedire questa convergenza.
+Questo è il principio alla base di molti risultati di **concentrazione a posteriori**. In problemi regolari, quando il modello è adeguato, il parametro è identificabile e la prior assegna massa alle regioni compatibili con il processo generativo, l'accumularsi dei dati tende a ridurre l'influenza delle differenze iniziali tra prior.
+
+Tuttavia, non si tratta di una garanzia universale. Modelli mal specificati, parametri non identificabili o prior che escludono le regioni rilevanti possono impedire tale convergenza.
 
 ## Il Teorema del Limite Centrale {#sec-clt-evidence}
 
-### Enunciato intuitivo
+### La forma della distribuzione campionaria
 
-Il **Teorema del Limite Centrale** afferma che, per osservazioni indipendenti e identicamente distribuite con valore atteso $\mu$ e varianza finita $\sigma^2$, la distribuzione della media campionaria diventa approssimativamente normale quando $n$ è grande:
+La Legge dei Grandi Numeri descrive dove tende la media; il **Teorema del Limite Centrale** descrive invece la forma della sua distribuzione campionaria. Per osservazioni indipendenti e identicamente distribuite con valore atteso $\mu$ e varianza finita $\sigma^2$, quando $n$ è grande:
 
 $$
-\bar{X}_n \dot\sim \mathcal{N}\left(\mu, \frac{\sigma^2}{n}\right).
+\bar X_n\dot\sim\mathcal N\left(\mu,\frac{\sigma^2}{n}\right).
 $$
 
-Il risultato è sorprendente perché non richiede che la distribuzione originaria sia normale. È la media campionaria a diventare approssimativamente normale.
-
-### Visualizzazione del risultato
+Il risultato è notevole perché non richiede che la distribuzione originaria sia normale. È la distribuzione della media campionaria a diventare approssimativamente normale.
 
 ```{r}
 #| label: fig-clt-population
@@ -505,37 +512,38 @@ ggplot(data.frame(media = medie), aes(x = media)) +
   )
 ```
 
-La @fig-clt-population mostra una distribuzione originaria uniforme, mentre la @fig-clt-sampling-means mostra la distribuzione di molte medie di campioni con $n=30$.
+La @fig-clt-population mostra una distribuzione originaria uniforme; la @fig-clt-sampling-means mostra la distribuzione di molte medie calcolate su campioni con $n=30$.
 
-### Perché è importante per l'inferenza
+### Perché il risultato è utile
 
-Il Teorema del Limite Centrale spiega perché la distribuzione campionaria di molte medie o somme diventi approssimativamente gaussiana in campioni sufficientemente grandi. Quanto grande debba essere $n$ dipende però da asimmetria, code e dipendenza delle osservazioni.
+Il Teorema del Limite Centrale spiega perché, in campioni sufficientemente grandi, la distribuzione campionaria di molte somme o medie possa essere approssimata da una distribuzione gaussiana. Tuttavia, il numero $n$ deve essere sufficientemente grande e questo dipende dalla forma della distribuzione originaria, in particolare da asimmetria, code e dipendenza tra le osservazioni.
 
-Il risultato non afferma che i dati individuali siano normali, né garantisce da solo che la verosimiglianza o la distribuzione a posteriori siano normali. Fornisce invece una delle ragioni per cui approssimazioni gaussiane risultano spesso utili per statistiche aggregate in problemi regolari.
+Il teorema non afferma che i dati individuali siano normali. Non garantisce neppure, da solo, che la verosimiglianza o la distribuzione a posteriori siano gaussiane. Fornisce una delle ragioni per cui le approssimazioni gaussiane sono spesso utili per le statistiche aggregate in problemi regolari.
 
 ## Prior, dati e sensibilità {#sec-prior-data-sensitivity}
 
-### Il ruolo della prior in questa fase del percorso
+### Dalla variabilità campionaria all'incertezza sul parametro
 
-In questo capitolo non stiamo ancora calcolando posterior in modo sistematico. Tuttavia, è utile ricordare la struttura generale dell'aggiornamento bayesiano:
+Finora abbiamo mantenuto fissato il parametro e abbiamo studiato come potrebbero variare i dati. L'inferenza bayesiana compie il passaggio complementare: una volta osservati i dati, descrive l'incertezza sui possibili valori del parametro.
+
+La struttura generale dell'aggiornamento è:
 
 $$
-p(\theta \mid D) \propto p(D \mid \theta) p(\theta).
+p(\theta\mid D)\propto p(D\mid\theta)p(\theta).
 $$
 
-Il termine $p(\theta)$ rappresenta le credenze prima dei dati; il termine $p(D \mid \theta)$ rappresenta quanto i dati sono compatibili con ciascun valore del parametro. Il capitolo successivo sarà dedicato proprio a formalizzare questo secondo termine come **verosimiglianza**.
+Il termine $p(\theta)$ rappresenta le credenze prima dei dati; il termine $p(D\mid\theta)$ descrive quanto i dati siano compatibili con ciascun valore del parametro. Nel capitolo successivo questo secondo termine verrà formalizzato come **verosimiglianza**.
 
-Qui ci interessa soprattutto l'intuizione: quando i dati sono pochi o rumorosi, prior diverse possono produrre conclusioni diverse; quando i dati sono molti e informativi, l'influenza della prior tende ad attenuarsi, purché la prior non escluda in anticipo i valori compatibili con i dati.
+Per ora è sufficiente cogliere la dinamica generale. Quando i dati sono pochi o rumorosi, prior diverse possono produrre conclusioni diverse. Quando i dati sono numerosi e informativi, l'influenza della prior tende spesso ad attenuarsi, purché la prior non escluda in anticipo i valori compatibili con i dati e il modello sia adeguato.
 
-### Convergenza con prior diverse
+::: {.callout-note title="Approfondimento: convergenza con prior diverse" collapse="true"}
+Consideriamo tre ricercatori con credenze iniziali differenti sulla prevalenza $\theta$:
 
-Consideriamo tre ricercatori con credenze iniziali diverse sulla prevalenza $\theta$:
+- Ricercatore A: prior $\operatorname{Beta}(2,8)$, centrata su valori bassi;
+- Ricercatore B: prior $\operatorname{Beta}(8,2)$, centrata su valori alti;
+- Ricercatore C: prior $\operatorname{Beta}(1,1)$, uniforme.
 
-- Ricercatore A: prior Beta(2, 8), centrata su valori bassi;
-- Ricercatore B: prior Beta(8, 2), centrata su valori alti;
-- Ricercatore C: prior Beta(1, 1), uniforme.
-
-Supponiamo che i dati siano generati con $\theta = 0.45$. Per diversi valori di $n$, osserviamo come cambiano le posterior Beta-Binomiale.
+Supponiamo che i dati siano generati con $\theta=0.45$. Per diversi valori di $n$, osserviamo come cambiano le posterior Beta-Binomiale.
 
 ```{r}
 #| label: fig-bayesian-convergence-priors
@@ -558,6 +566,7 @@ priors <- list(
 )
 
 theta_grid <- seq(0.001, 0.999, length.out = 500)
+
 posterior_plot <- do.call(rbind, lapply(seq_along(n_osservazioni), function(i) {
   n <- n_osservazioni[i]
   y <- successi[i]
@@ -592,11 +601,12 @@ ggplot(posterior_plot, aes(x = theta, y = density, linetype = prior)) +
   theme(legend.position = "bottom")
 ```
 
-Nella @fig-bayesian-convergence-priors tutti i ricercatori osservano gli stessi dati cumulativi. Con pochi dati le posterior riflettono ancora chiaramente le prior; con l'aumentare di $n$ le differenze si riducono. La figura illustra un caso coniugato ben specificato, non una legge automatica valida per qualunque modello.
+Nella @fig-bayesian-convergence-priors tutti i ricercatori osservano gli stessi dati cumulativi. Con pochi dati, le posterior riflettono ancora chiaramente le prior; con l'aumentare di $n$, le differenze si riducono. La figura illustra un caso coniugato e ben specificato, non una legge automatica valida per qualunque modello.
+:::
 
-### Analisi di sensibilità
+### Rendere visibile l'influenza delle assunzioni
 
-L'**analisi di sensibilità** consiste nel verificare quanto le conclusioni cambino al variare di assunzioni ragionevoli sulla prior. È una pratica particolarmente importante nei contesti psicologici e clinici, dove le conoscenze pregresse possono essere informative ma non definitive.
+L'**analisi di sensibilità** verifica quanto le conclusioni cambino al variare di assunzioni ragionevoli sulla prior. È particolarmente importante nei contesti psicologici e clinici, nei quali le conoscenze pregresse possono essere informative senza essere definitive.
 
 ```{r}
 #| label: sensitivity-analysis-beta-binomial
@@ -624,32 +634,31 @@ sens <- do.call(rbind, lapply(names(priors_sens), function(nome) {
 sens
 ```
 
-Se le conclusioni sostantive sono simili per prior diverse, l'inferenza è robusta. Se cambiano molto, il risultato non va nascosto: segnala che i dati disponibili non sono ancora abbastanza informativi per superare le differenze tra assunzioni iniziali plausibili.
+Se le conclusioni sostantive sono simili sotto prior diverse, l'inferenza è robusta rispetto a quelle scelte. Se cambiano molto, il risultato non deve essere nascosto: segnala che i dati disponibili non sono ancora abbastanza informativi per superare le differenze tra assunzioni iniziali plausibili.
 
 ::: {.callout-important title="Una buona pratica bayesiana"}
-La prior non è un fastidio da eliminare. È una parte esplicita del modello. Proprio perché è esplicita, possiamo studiarne l'influenza con analisi di sensibilità e comunicare quanto le conclusioni dipendano dalle assunzioni iniziali.
+La prior non è un fastidio da eliminare, ma una parte esplicita del modello. Proprio perché è esplicita, possiamo studiarne l'influenza con analisi di sensibilità e comunicare quanto le conclusioni dipendano dalle assunzioni iniziali.
 :::
 
 ## Incertezza campionaria, bias e falsa precisione {#sec-bias-false-precision}
 
-### L'errore standard non misura tutto
+### La precisione non coincide con la validità
 
-L'errore standard quantifica la **variabilità campionaria** di una statistica, cioè quanto essa fluttuerebbe in ipotetiche repliche sotto il modello assunto. Non è, di per sé, una misura bayesiana dell'incertezza sul parametro: questa è rappresentata dalla distribuzione a posteriori, che dipende anche dalla prior e dal modello.
+L'errore standard quantifica la **variabilità campionaria** di una statistica, ovvero indica quanto essa fluttuerebbe in ipotetiche repliche sotto il modello assunto. Non si tratta, di per sé, di una misura bayesiana dell'incertezza sul parametro, che è rappresentata dalla distribuzione a posteriori e che dipende anche dalla prior e dal modello.
 
-L'errore standard **non misura** inoltre gli errori sistematici (*bias*). Un campione molto ampio può produrre un errore standard estremamente piccolo e, al tempo stesso, fornire una stima gravemente distorta. Analogamente, una posterior molto concentrata garantisce soltanto poca incertezza condizionata alle assunzioni adottate; non garantisce che campione, misura e modello siano adeguati.
+Inoltre, l'errore standard non misura gli errori sistematici, o **bias**. Un campione molto ampio può produrre un errore standard estremamente piccolo e, allo stesso tempo, una stima gravemente distorta. Allo stesso modo, una distribuzione a posteriori molto concentrata garantisce solo poca incertezza condizionata alle assunzioni adottate, ma non garantisce che il campione, la misura e il modello siano adeguati.
 
-Consideriamo un esempio ipotetico. Un'indagine online sul benessere psicologico può raccogliere decine di migliaia di risposte e produrre un errore standard molto piccolo. Se però il campione sovrarappresenta persone con maggiore accesso digitale, interesse per il tema o specifiche caratteristiche socio-demografiche, lo scarto sistematico rispetto alla popolazione di interesse può essere molto più grande della fluttuazione campionaria descritta dall'errore standard.
+Immaginiamo un'indagine online sul benessere psicologico con decine di migliaia di risposte. La numerosità può rendere l'errore standard molto piccolo. Tuttavia, se il campione sovrarappresenta persone con maggiore accesso digitale, interesse per il tema o particolari caratteristiche socio-demografiche, lo scarto sistematico rispetto alla popolazione di interesse può essere molto più grande della fluttuazione campionaria descritta dall'errore standard.
 
 ::: {.callout-warning title="Il pericolo della falsa precisione"}
+La combinazione di un **errore standard piccolo** e di un **bias sostanziale** è particolarmente insidiosa: produce stime precise ma sistematicamente errate, creando l'illusione di una conoscenza affidabile.
 
-La combinazione di un **errore standard piccolo** e un **bias sostanziale** è la situazione più insidiosa: produce stime precise ma sistematicamente errate, creando l'illusione di una conoscenza affidabile.
-
-Perciò, la qualità dell'inferenza non dipende solo dal numero di osservazioni, ma anche dalla **validità del disegno di ricerca**: rappresentatività del campione, accuratezza degli strumenti e assenza di fonti di distorsione sistematica. Questi aspetti devono essere valutati prima ancora di considerare l'errore standard.
+La qualità dell'inferenza non dipende quindi soltanto dal numero di osservazioni, ma anche dalla validità del disegno di ricerca: rappresentatività del campione, accuratezza degli strumenti e controllo delle fonti di distorsione sistematica. Questi aspetti devono essere valutati prima ancora di considerare l'errore standard.
 :::
 
 ### Fonti comuni di bias nella ricerca psicologica
 
-Alcune fonti di distorsione particolarmente rilevanti sono:
+Tra le fonti di distorsione più rilevanti troviamo:
 
 - **bias di selezione**: il campione non rappresenta la popolazione di interesse;
 - **bias di risposta**: desiderabilità sociale, acquiescenza, stanchezza o motivazione differenziale;
@@ -657,7 +666,7 @@ Alcune fonti di distorsione particolarmente rilevanti sono:
 - **attrition selettiva**: abbandonano lo studio soprattutto alcuni tipi di partecipanti;
 - **specificazione incompleta del modello**: il modello ignora variabili o dipendenze rilevanti.
 
-Questi problemi non scompaiono aumentando $n$. Anzi, campioni molto grandi possono rendere il problema più pericoloso, producendo intervalli stretti attorno a un valore sbagliato.
+Questi problemi non scompaiono aumentando $n$. Al contrario, grandi campioni possono renderli più pericolosi, producendo intervalli molto stretti attorno a un valore sbagliato.
 
 ### Precisione e accuratezza
 
@@ -716,45 +725,47 @@ La @fig-precision-accuracy usa un bersaglio metaforico per distinguere dispersio
 
 ### Come mitigare il problema
 
-L'approccio bayesiano non elimina automaticamente le distorsioni sistematiche e non garantisce che tutte le assunzioni rilevanti vengano riconosciute. Offre però un linguaggio esplicito per rappresentare alcune fonti di incertezza e per studiare come le conclusioni cambino al variare di prior e struttura del modello. A questa trasparenza devono affiancarsi strategie di progettazione e validazione:
+L'approccio bayesiano non elimina automaticamente le distorsioni sistematiche e non garantisce che tutte le assunzioni rilevanti vengano riconosciute. Offre però un linguaggio esplicito per rappresentare alcune fonti di incertezza e per studiare come le conclusioni cambino al variare della prior e della struttura del modello.
 
-1. **Progettare lo studio con rigore prima ancora di raccogliere i dati**: la qualità dell'inferenza si gioca in larga parte nella fase di disegno, non in quella di analisi.
+Questa trasparenza deve essere accompagnata da buone pratiche di progettazione e validazione:
 
-2. **Utilizzare strumenti di misura validati** e teoricamente coerenti con il costrutto di interesse, riducendo gli errori di misurazione sistematici.
+1. **Progettare lo studio con rigore prima di raccogliere i dati.** La qualità dell'inferenza si decide in larga parte nella fase di disegno, non soltanto in quella di analisi.
 
-3. **Modellare esplicitamente le fonti note di eterogeneità o distorsione**, quando possibile, includendole nel modello statistico piuttosto che ignorarle.
+2. **Utilizzare strumenti di misura validati** e teoricamente coerenti con il costrutto di interesse, riducendo gli errori sistematici di misurazione.
 
-4. **Confrontare modelli alternativi** per valutare quanto le conclusioni dipendano dalla struttura specifica del modello adottato.
+3. **Modellare esplicitamente le fonti note di eterogeneità o distorsione**, quando possibile, invece di ignorarle.
 
-5. **Condurre analisi di sensibilità** sui prior e sulle assunzioni strutturali, verificando se le conclusioni cambiano sostanzialmente al variare di ipotesi ragionevoli.
+4. **Confrontare modelli alternativi** per valutare quanto le conclusioni dipendano dalla struttura specifica adottata.
 
-6. **Distinguere sempre tra precisione statistica e validità sostantiva**: un intervallo di credibilità stretto non equivale a una stima corretta.
+5. **Condurre analisi di sensibilità** sulle prior e sulle assunzioni strutturali, verificando se le conclusioni cambino sostanzialmente al variare di ipotesi ragionevoli.
+
+6. **Distinguere sempre precisione statistica e validità sostantiva.** Un intervallo di credibilità stretto non equivale, da solo, a una stima corretta.
 
 In sintesi, l'inferenza bayesiana non rende i dati immuni dai bias. Può rendere alcune assunzioni più esplicite e verificabili, ma la validità scientifica dipende anche da campionamento, misurazione, disegno e confronto con informazioni esterne.
 
 ## Verso la verosimiglianza {#sec-towards-likelihood}
 
-Abbiamo visto che un campione può essere più o meno informativo a seconda della sua variabilità attesa. La media campionaria è centrata sul valore generativo, la sua varianza diminuisce come $\sigma^2/n$, l'errore standard diminuisce come $1/\sqrt{n}$ e, per molti problemi, la sua distribuzione diventa approssimativamente normale.
+Abbiamo seguito il percorso che conduce da un parametro ignoto a un campione osservato. Il modello generativo specifica quali dati potremmo aspettarci; la media o la proporzione ne forniscono un riassunto; la distribuzione campionaria descrive come tale riassunto cambierebbe tra le varie repliche; l'errore standard ne misura la dispersione. La Legge dei Grandi Numeri e il Teorema del Limite Centrale chiariscono poi come questa struttura cambi al crescere del numero di osservazioni.
 
-Queste proprietà preparano la domanda centrale del prossimo capitolo:
+A questo punto possiamo formulare la domanda centrale del prossimo capitolo:
 
 > Una volta osservati i dati, quali valori del parametro li rendono più plausibili?
 
-La risposta è la **funzione di verosimiglianza**. Essa fissa i dati osservati e valuta, per ogni valore possibile di $\theta$, quanto quei dati sarebbero attesi sotto il modello. In simboli, se il modello specifica $p(D \mid \theta)$, la verosimiglianza è la stessa espressione letta come funzione di $\theta$:
+La risposta è la **funzione di verosimiglianza**. Essa mantiene fissi i dati osservati e valuta, per ogni valore possibile di $\theta$, quanto quei dati sarebbero attesi sotto il modello. Se il modello specifica $p(D\mid\theta)$, la verosimiglianza è la stessa espressione letta come funzione di $\theta$:
 
 $$
-L(\theta; D) = p(D \mid \theta).
+L(\theta;D)=p(D\mid\theta).
 $$
 
-Nel @sec-prob-likelihood formalizzeremo questo cambio di prospettiva: passeremo dalla domanda predittiva "Quali dati potrei osservare se $\theta$ fosse noto?" alla domanda inferenziale "Quali valori di $\theta$ sono più compatibili con i dati osservati?".
+Nel @sec-prob-likelihood formalizzeremo questo cambio di prospettiva. Passeremo dalla domanda predittiva «Quali dati potrei osservare se $\theta$ fosse noto?» alla domanda inferenziale «Quali valori di $\theta$ sono più compatibili con i dati osservati?».
 
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Un campione diventa informativo quando un modello specifica quali risultati sarebbero più o meno attesi per diversi valori del parametro. La media o la proporzione osservate riassumono i dati, la distribuzione campionaria descrive come tali riassunti varierebbero in ipotetiche repliche e l'errore standard ne misura la dispersione sulla scala originale.
+Un campione diventa informativo quando un modello specifica quali risultati sarebbero più o meno attesi per diversi valori del parametro. La media o la proporzione osservate riassumono i dati; la distribuzione campionaria descrive come questi riassunti varierebbero in ipotetiche repliche; l'errore standard ne misura la dispersione sulla scala originale.
 
-La numerosità riduce la variabilità campionaria secondo una legge precisa: per una media di osservazioni indipendenti con varianza finita, la varianza diminuisce come $1/n$ e l'errore standard come $1/\sqrt{n}$. La Legge dei Grandi Numeri spiega la stabilizzazione delle medie, mentre il Teorema del Limite Centrale descrive perché molte distribuzioni campionarie di somme e medie assumano una forma approssimativamente normale.
+Per una media di osservazioni indipendenti con varianza finita, la varianza diminuisce come $1/n$ e l'errore standard come $1/\sqrt n$. La Legge dei Grandi Numeri spiega la progressiva stabilizzazione delle medie, mentre il Teorema del Limite Centrale chiarisce perché molte distribuzioni campionarie di somme e medie assumano una forma approssimativamente normale.
 
-Questi risultati non escludono la necessità di valutare il disegno. Un errore standard piccolo non corregge un campione selezionato in modo inadeguato, una misura errata o un modello mal specificato. Allo stesso modo, una distribuzione posteriore concentrata può essere precisa solo rispetto a ipotesi errate. Pertanto, la precisione campionaria e la validità scientifica devono essere valutate separatamente.
+Questi risultati descrivono la variabilità campionaria, non garantiscono la validità dell'inferenza. Un errore standard piccolo non corregge un campione selezionato in modo inadeguato, una misura distorta o un modello mal specificato. Allo stesso modo, una distribuzione a posteriori concentrata può essere precisa rispetto ad assunzioni errate. Pertanto, la precisione campionaria e la validità scientifica devono essere valutate separatamente.
 
 Nel @sec-prob-likelihood fisseremo i dati osservati e useremo il modello per confrontare i diversi valori del parametro. Questo cambio di prospettiva conduce alla funzione di verosimiglianza.
 
@@ -781,7 +792,7 @@ Nel @sec-prob-likelihood fisseremo i dati osservati e useremo il modello per con
 
 2. 0.034 è una stima della deviazione standard della proporzione campionaria in ipotetiche repliche, sotto il modello assunto. Non è una probabilità, non è un intervallo certo per $\theta$ e non coincide automaticamente con la deviazione standard della posterior.
 
-3. Poiché $\operatorname{SE}(\bar X)=\sigma/\sqrt n$, sostituendo $n$ con $4n$ si ottiene $\sigma/\sqrt{4n}=\operatorname{SE}(\bar X)/2$. Con $2n$ l'errore standard viene moltiplicato per $1/\sqrt 2$, non per $1/2$.
+3. Poiché $\operatorname{SE}(\bar X)=\sigma/\sqrt n$, sostituendo $n$ con $4n$ si ottiene $\sigma/\sqrt{4n}=\operatorname{SE}(\bar X)/2$. Con $2n$ l'errore standard viene moltiplicato per $1/\sqrt2$, non per $1/2$.
 
 4. La distribuzione campionaria descrive i possibili valori di una statistica in repliche del campionamento, mantenendo fissato il parametro. La posterior descrive invece l'incertezza sui valori del parametro dopo avere osservato i dati, condizionatamente a modello e prior.
 
@@ -824,13 +835,13 @@ $$
 \frac{\theta(1-\theta)}{n}.
 $$
 
-La precisione è
+La precisione è:
 
 $$
 \tau=\frac{1}{\operatorname{Var}}.
 $$
 
-L'aggiornamento bayesiano mantiene la forma generale
+L'aggiornamento bayesiano mantiene la forma generale:
 
 $$
 p(\theta\mid D)\propto p(D\mid\theta)p(\theta).
