@@ -3,192 +3,145 @@ page-classes: homefront
 toc: false
 ---
 
-## Modulo di richiamo per l'inferenza bayesiana in psicologia {.unnumbered .unlisted}
+:::: {.home-intro}
+[Progetto UTET · Materiali digitali di supporto]{.home-eyebrow}
 
-Questo sito costituisce il **modulo di richiamo delle nozioni di base della teoria della probabilità** del progetto UTET, concepito come supporto al manuale *Inferenza bayesiana in psicologia: Ragionare con l'incertezza*.
-Il modulo fornisce le nozioni teoriche fondamentali, quali variabili casuali, distribuzioni di probabilità, valore atteso, varianza, dipendenza stocastica e teoria del campionamento, necessarie per affrontare con la giusta preparazione i contenuti di inferenza bayesiana e la modellistica presentati nel volume principale.
-
-## Percorso di apprendimento e obiettivi {.unnumbered .unlisted}
-
-Il percorso si sviluppa attraverso cinque aree concettuali fondamentali, strettamente interconnesse tra loro. Si inizia con il **linguaggio della probabilità**, che introduce gli elementi di base, ovvero, eventi, misure di probabilità, nozioni di indipendenza e probabilità condizionata. Questo fornisce gli strumenti logici per trattare l'incertezza.  
-Si prosegue con lo **studio delle variabili casuali e delle loro distribuzioni**, distinte in discrete e continue, analizzando le funzioni di massa, densità e ripartizione che ne caratterizzano il comportamento.  
-
-La terza area è dedicata ai **momenti e alle misure di dipendenza**: vengono definiti e discussi il valore atteso, la varianza, la covarianza e il coefficiente di correlazione, quali sintesi numeriche essenziali per descrivere distribuzioni e relazioni tra variabili.  
-Segue una rassegna delle **distribuzioni fondamentali**, ovvero le distribuzioni di Bernoulli, binomiale, di Poisson, normale e le loro principali derivazioni, che costituiscono il vocabolario probabilistico di base, impiegato in gran parte delle applicazioni.  
-
-Il modulo si conclude con i **principi del campionamento e della verosimiglianza**, tracciando un ponte ideale verso l’inferenza statistica: dalla legge dei grandi numeri si passa alla funzione di verosimiglianza, che rappresenta uno strumento concettuale propedeutico all'approccio bayesiano. 
-
-Dal punto di vista didattico, il modulo mantiene un'impostazione operativa e sintetica: l'esposizione privilegia formule essenziali, esempi minimali e schemi intuitivi, mentre i singoli capitoli rimandano, quando necessario, a approfondimenti presenti nel materiale complementare e nel manuale di riferimento.
-
-:::: {.content-visible unless-format="pdf"}
-
-## Mappa del percorso {.unnumbered .unlisted}
-
-La seguente mappa fornisce una visione d'insieme dell'organizzazione del modulo, con indicazioni sul tempo di studio stimato e sui collegamenti al manuale principale.
-
-::: {.callout-note icon=false}
-## Legenda
-**Livello**: ⭐ Base | ⭐⭐ Intermedio | ⭐⭐⭐ Avanzato  
-**Tempo**: Stima indicativa per lo studio autonomo con esercizi
+::: {.lead}
+Un percorso essenziale di probabilità per affrontare l’inferenza bayesiana in psicologia con basi concettuali solide, notazione coerente ed esempi riproducibili.
 :::
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-library(tidyverse)
-library(gt)
+Questo modulo accompagna il manuale *Inferenza bayesiana in psicologia: Ragionare con l’incertezza*. Non sostituisce il volume principale: raccoglie i richiami di probabilità necessari per comprenderne con maggiore sicurezza il linguaggio, i modelli e il workflow inferenziale.
 
-df <- tibble::tibble(
-  Parte = c(
-    "**PARTE 1**<br>Fondamenti della probabilità",
-    "**PARTE 2**<br>Variabili casuali e distribuzioni",
-    "**PARTE 3**<br>Distribuzioni specifiche",
-    "**PARTE 4**<br>Verso l'inferenza",
-    "**APPENDICI**<br>Strumenti matematici"
-  ),
-  Capitoli = c(
-    "**Cap. 1–5**<br>• Interpretazione bayesiana<br>• Assiomi e coerenza<br>• Calcolo combinatorio<br>• Probabilità condizionata<br>• Teorema di Bayes",
-    "**Cap. 6–9**<br>• Variabili casuali<br>• Distribuzioni di massa/densità<br>• Valore atteso e varianza<br>• Covarianza e correlazione",
-    "**Cap. 10–12**<br>• Panoramica delle distribuzioni<br>• Distribuzioni discrete<br>• Distribuzioni continue",
-    "**Cap. 13–16**<br>• Dal campione all'evidenza<br>• La verosimiglianza<br>• Dalla verosimiglianza alla posterior<br>• Conclusioni",
-    "**App. A–F**<br>• Simbologia matematica<br>• Numeri e intervalli<br>• Notazione sommatoria<br>• Teoria degli insiemi<br>• Calcolo combinatorio<br>• Nozioni di calcolo"
-  ),
-  Tempo = c("4–5 ore", "3–4 ore", "4–5 ore", "5–6 ore", "Da consultare"),
-  Livello = c("⭐", "⭐⭐", "⭐⭐", "⭐⭐⭐", "⭐"),
-  Riferimento = c(
-    "📘 Cap. 6–9<br><small>(Parte III del manuale)</small>",
-    "📘 Cap. 7 e 12<br><small>(variabili casuali; distribuzioni)</small>",
-    "📘 Cap. 12<br><small>(Parte IV del manuale)</small>",
-    "📘 Cap. 10–12<br><small>(verosimiglianza e aggiornamento)</small>",
-    "📚 Materiale di supporto trasversale"
-  )
-)
-
-# La tabella non fissa alcun colore: eredita quelli del tema attivo
-# tramite le variabili CSS di Bootstrap, così segue il commutatore
-# chiaro/scuro del sito.
-df %>%
-  gt() %>%
-  fmt_markdown(columns = c(Parte, Capitoli, Riferimento)) %>%
-  cols_label(
-    Parte = md("**Parte**"),
-    Capitoli = md("**Contenuti**"),
-    Tempo = md("**⏱️ Tempo**"),
-    Livello = md("**📊 Livello**"),
-    Riferimento = md("**🔗 Manuale**")
-  ) %>%
-  cols_width(
-    Parte ~ px(200),
-    Capitoli ~ px(480),
-    Tempo ~ px(100),
-    Livello ~ px(90),
-    Riferimento ~ px(200)
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = c(Tempo, Livello)
-  ) %>%
-  cols_align(
-    align = "left",
-    columns = c(Parte, Capitoli, Riferimento)
-  ) %>%
-  tab_style(
-    style = cell_text(whitespace = "normal"),
-    locations = cells_body(columns = everything())
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    data_row.padding = px(12),
-    table_body.hlines.style = "solid",
-    table_body.hlines.width = px(1),
-    table_body.vlines.style = "solid",
-    table_body.vlines.width = px(1),
-    column_labels.border.top.width = px(2),
-    column_labels.border.bottom.width = px(2)
-  ) %>%
-  opt_css(
-    css = "
-    /* Sfondo e testo: ereditati dal tema attivo */
-    .gt_table {
-      background-color: transparent !important;
-      color: var(--bs-body-color) !important;
-      border-color: var(--bs-border-color) !important;
-      font-family: inherit !important;
-    }
-
-    .gt_table td,
-    .gt_table th {
-      background-color: transparent !important;
-      color: inherit !important;
-      border-color: var(--bs-border-color) !important;
-    }
-
-    /* Intestazioni: leggero contrasto ricavato dal colore del testo,
-       quindi corretto sia su fondo chiaro sia su fondo scuro */
-    .gt_table .gt_col_heading,
-    .gt_table .gt_column_spanner_outer {
-      color: var(--bs-emphasis-color, var(--bs-body-color)) !important;
-      background-color: transparent !important;
-      background-color: color-mix(in srgb, var(--bs-body-color) 8%, transparent) !important;
-      font-weight: 600 !important;
-    }
-
-    /* Righe alternate: stessa logica, senza colori assoluti */
-    .gt_table tbody tr:nth-child(odd) .gt_row {
-      background-color: transparent !important;
-      background-color: color-mix(in srgb, var(--bs-body-color) 4%, transparent) !important;
-    }
-
-    .gt_table small {
-      color: var(--bs-secondary-color, inherit) !important;
-      opacity: 0.85;
-    }
-
-    .gt_table a {
-      color: var(--bs-link-color) !important;
-    }
-
-    .gt_table strong {
-      color: var(--bs-emphasis-color, inherit) !important;
-    }
-    "
-  )
-```
-
-::: {.callout-tip}
-## 🎯 Suggerimento per lo studio
-
-- **Prima lettura**: scorri velocemente l'intera parte per avere una visione d'insieme
-- **Studio attivo**: rileggi con carta e penna, riproducendo le formule chiave
-- **Consolidamento**: risolvi gli esercizi proposti e consulta le appendici per eventuali lacune
-- **Integrazione**: collega ogni concetto alla sua applicazione nell'inferenza bayesiana
+::: {.home-actions}
+[Inizia il percorso](chapters/probability/01_intro_prob_bayesian.qmd){.home-action .home-action--primary}
+[Esamina la struttura](#percorso-del-modulo){.home-action}
+[Vai al companion principale](https://ccaudek.github.io/utet-companion/){.home-action}
 :::
-
-::: {.callout-important}
-## ⚠️ Percorso consigliato
-
-Il modulo è progettato per essere seguito **in sequenza**: ogni parte costruisce sui concetti delle precedenti. Se incontri difficoltà in una sezione, consulta prima le appendici rilevanti, poi riprendi dal punto di difficoltà.
-:::
-
 ::::
 
-## Modalità di utilizzo del modulo {.unnumbered .unlisted}
+::::: {.module-facts}
+::: {.module-fact}
+[Funzione]{.module-fact__label}
 
-Per un apprendimento efficace, si consiglia di procedere in modo sequenziale, poiché i concetti presentano una struttura progressiva e cumulativa. È consigliabile focalizzarsi sull'interpretazione piuttosto che sul formalismo, riducendo gli approfondimenti formali allo stretto necessario. Infine, è utile mantenere sempre il collegamento con l'inferenza bayesiana, osservando come ciascun concetto trovi applicazione nella costruzione di prior, verosimiglianze e distribuzioni posteriori.
+**Richiamo propedeutico**
+:::
+::: {.module-fact}
+[Destinatari]{.module-fact__label}
 
-## Prerequisiti e strumenti {.unnumbered .unlisted}
+**Studenti e studiosi di psicologia**
+:::
+::: {.module-fact}
+[Prerequisiti]{.module-fact__label}
 
-Per utilizzare il modulo è necessaria una conoscenza di base dei concetti di algebra elementare e di statistica descrittiva. Gli esempi numerici sono corredati, quando necessario, da codice R immediatamente riproducibile.
+**Algebra elementare e statistica descrittiva**
+:::
+::: {.module-fact}
+[Modalità]{.module-fact__label}
 
-## Collegamenti utili {.unnumbered .unlisted}
+**Studio sequenziale o consultazione**
+:::
+:::::
 
-- **Manuale principale**: [Inferenza bayesiana in psicologia](https://ccaudek.github.io/utet-companion/)
-- **Repository GitHub**: Per segnalare errori o suggerire miglioramenti, utilizza la sezione [Issues](https://github.com/ccaudek/utet-prob/issues/new)
-- **Materiali complementari**: Esercizi e soluzioni saranno progressivamente aggiunti al sito
+## Come usare il modulo {.unnumbered .unlisted}
 
-## Licenza d'uso {.unnumbered .unlisted}
+Il percorso è progressivo: ogni parte introduce concetti impiegati nelle successive. Per una prima lettura conviene seguire l’ordine proposto; in seguito il sito può essere usato come riferimento rapido durante lo studio del manuale.
 
-Materiali distribuiti con licenza  
-[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it).
-È consentita la condivisione con attribuzione, **solo per usi non commerciali** e **senza modifiche**.
+:::: {.study-steps}
+::: {.study-step}
+[01]{.study-step__number}
+
+**Orientarsi**
+
+Leggi l’apertura del capitolo e identifica obiettivi, prerequisiti e concetti centrali.
+:::
+::: {.study-step}
+[02]{.study-step__number}
+
+**Ricostruire**
+
+Riproduci i passaggi essenziali, le formule e gli esempi con carta e penna.
+:::
+::: {.study-step}
+[03]{.study-step__number}
+
+**Collegare**
+
+Riconduci ogni concetto al ruolo che svolge in prior, verosimiglianza e posterior.
+:::
+::::
+
+## Percorso del modulo {.unnumbered .unlisted}
+
+Le quattro parti conducono dal significato della probabilità alla verosimiglianza e all’aggiornamento bayesiano. Le appendici raccolgono la notazione e gli strumenti matematici da consultare quando necessario.
+
+::::: {.learning-path}
+::: {.path-card}
+[Parte 1 · Capitoli 1–5 · Livello base]{.path-card__meta}
+
+### Fondamenti della probabilità {.unnumbered .unlisted}
+
+Interpretazione bayesiana, assiomi, coerenza, calcolo combinatorio, probabilità condizionata e teorema di Bayes.
+
+[Apri la parte 1](chapters/probability/01_intro_prob_bayesian.qmd)
+:::
+::: {.path-card}
+[Parte 2 · Capitoli 6–9 · Livello intermedio]{.path-card__meta}
+
+### Variabili casuali e distribuzioni {.unnumbered .unlisted}
+
+Variabili discrete e continue, funzioni di distribuzione, valore atteso, varianza, covarianza e correlazione.
+
+[Apri la parte 2](chapters/probability/06_random_var.qmd)
+:::
+::: {.path-card}
+[Parte 3 · Capitoli 10–12 · Livello intermedio]{.path-card__meta}
+
+### Distribuzioni fondamentali {.unnumbered .unlisted}
+
+Il vocabolario probabilistico impiegato nei modelli: distribuzioni discrete, continue e loro proprietà principali.
+
+[Apri la parte 3](chapters/probability/10_intro_distributions.qmd)
+:::
+::: {.path-card}
+[Parte 4 · Capitoli 13–16 · Livello avanzato]{.path-card__meta}
+
+### Verso l’inferenza {.unnumbered .unlisted}
+
+Campionamento, informazione, precisione, verosimiglianza e passaggio dalla probabilità all’aggiornamento bayesiano.
+
+[Apri la parte 4](chapters/probability/13_from_sample_to_evidence.qmd)
+:::
+::: {.path-card}
+[Appendici · Consultazione]{.path-card__meta}
+
+### Strumenti matematici {.unnumbered .unlisted}
+
+Simbologia, notazione e richiami matematici destinati alla consultazione durante lo studio dei capitoli.
+
+[Consulta le appendici](chapters/appendix/a01_math_symbols.qmd)
+:::
+:::::
+
+::: {.editorial-note}
+Questo sito privilegia interpretazione, formule essenziali ed esempi minimali. Gli approfondimenti tecnici e il codice sono disponibili quando servono, ma non interrompono il filo concettuale principale.
+:::
+
+## Collegamento con il manuale {.unnumbered .unlisted}
+
+Il modulo prepara i concetti probabilistici utilizzati nel manuale principale. In particolare, chiarisce il significato della probabilità come rappresentazione dell’incertezza, introduce il linguaggio delle variabili casuali e delle distribuzioni e costruisce il passaggio dalla probabilità condizionata alla verosimiglianza e alla distribuzione a posteriori.
+
+Per affrontare il manuale non è necessario memorizzare ogni derivazione. È invece importante saper riconoscere:
+
+- che cosa rappresentano gli eventi e le variabili casuali;
+- come si legge una probabilità condizionata;
+- quale ruolo svolgono valore atteso, varianza e dipendenza;
+- perché la verosimiglianza collega un modello ai dati osservati;
+- come il teorema di Bayes formalizza l’aggiornamento delle credenze.
+
+## Informazioni editoriali {.unnumbered .unlisted}
+
+Il materiale fa parte del progetto UTET a supporto del manuale *Inferenza bayesiana in psicologia: Ragionare con l’incertezza*. Il sito è aggiornabile e può quindi integrare correzioni, chiarimenti ed esempi successivi alla pubblicazione del volume.
+
+- **Autore:** Corrado Caudek ([ORCID 0000-0002-1404-0420](https://orcid.org/0000-0002-1404-0420))
+- **Segnalazioni:** usa il comando “Segnala un problema” presente nelle pagine oppure il [repository GitHub](https://github.com/ccaudek/utet-prob/issues/new)
+- **Licenza:** [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it)
