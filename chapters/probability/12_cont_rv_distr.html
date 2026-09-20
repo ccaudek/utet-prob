@@ -1247,7 +1247,7 @@ Figura&nbsp;12.4: Esempi di distribuzioni gamma nella parametrizzazione shape-ra
 <span class="header-section-number">12.8</span> Distribuzione beta</h2>
 <section id="definizione-4" class="level3" data-number="12.8.1"><h3 data-number="12.8.1" class="anchored" data-anchor-id="definizione-4">
 <span class="header-section-number">12.8.1</span> Definizione</h3>
-<p>La distribuzione beta è definita sull’intervallo <span class="math inline">\((0,1)\)</span>. È quindi una famiglia particolarmente utile per rappresentare l’incertezza su probabilità e proporzioni che non assumono esattamente i valori 0 o 1.</p>
+<p>La distribuzione beta è definita sull’intervallo <span class="math inline">\((0,1)\)</span>. È dunque una famiglia particolarmente utile per rappresentare l’incertezza su probabilità e proporzioni che non assumono esattamente i valori 0 o 1.</p>
 <div id="def-beta" class="theorem definition">
 <p><span class="theorem-title"><strong>Definizione 12.5</strong></span> Una variabile casuale <span class="math inline">\(\theta\)</span> segue una distribuzione beta con parametri <span class="math inline">\(\alpha &gt; 0\)</span> e <span class="math inline">\(\beta &gt; 0\)</span> se</p>
 <p><span class="math display">\[
@@ -1266,30 +1266,69 @@ f(\theta) = \frac{\theta^{\alpha-1}(1-\theta)^{\beta-1}}{B(\alpha,\beta)},
 \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.
 \]</span></p>
 </div>
-</section><section id="interpretazione-dei-parametri-1" class="level3" data-number="12.8.2"><h3 data-number="12.8.2" class="anchored" data-anchor-id="interpretazione-dei-parametri-1">
-<span class="header-section-number">12.8.2</span> Interpretazione dei parametri</h3>
-<p>La beta è particolarmente intuitiva in un contesto bayesiano. I parametri possono essere letti come una forma di informazione preliminare:</p>
+</section><section id="media-e-concentrazione" class="level3" data-number="12.8.2"><h3 data-number="12.8.2" class="anchored" data-anchor-id="media-e-concentrazione">
+<span class="header-section-number">12.8.2</span> Media e concentrazione</h3>
+<p>Conviene introdurre subito una riparametrizzazione che useremo costantemente:</p>
+<p><span class="math display">\[
+m = \frac{\alpha}{\alpha+\beta},
+\qquad
+\kappa = \alpha+\beta,
+\]</span></p>
+<p>da cui si ricavano immediatamente <span class="math inline">\(\alpha = m\kappa\)</span> e <span class="math inline">\(\beta = (1-m)\kappa\)</span>. Il primo parametro individua il centro della distribuzione, il secondo quanto la massa di probabilità si addensa attorno a quel centro.</p>
+<p>Che <span class="math inline">\(\kappa\)</span> misuri davvero una concentrazione non è un’affermazione qualitativa: riscrivendo la varianza in termini di <span class="math inline">\(m\)</span> e <span class="math inline">\(\kappa\)</span> si ottiene</p>
+<p><span class="math display">\[
+\mathbb{V}(\theta)=\frac{m(1-m)}{\kappa+1}.
+\]</span></p>
+<p>A parità di media, l’incertezza è dunque inversamente proporzionale a <span class="math inline">\(\kappa+1\)</span>. Due distribuzioni con la stessa media, come <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> e <span class="math inline">\(\mathrm{Beta}(20,20)\)</span>, descrivono stati di conoscenza molto diversi: la prima ha <span class="math inline">\(\kappa=4\)</span>, la seconda <span class="math inline">\(\kappa=40\)</span>, e la varianza della seconda è circa otto volte più piccola.</p>
+</section><section id="interpretazione-dei-parametri-1" class="level3" data-number="12.8.3"><h3 data-number="12.8.3" class="anchored" data-anchor-id="interpretazione-dei-parametri-1">
+<span class="header-section-number">12.8.3</span> Interpretazione dei parametri</h3>
+<p>La beta è particolarmente intuitiva in un contesto bayesiano. I parametri si possono leggere come una forma di informazione preliminare:</p>
 <ul>
 <li>il rapporto <span class="math inline">\(\alpha/(\alpha+\beta)\)</span> determina la media;</li>
-<li>la somma <span class="math inline">\(\alpha+\beta\)</span> agisce come parametro di concentrazione quando la media è mantenuta fissa;</li>
+<li>la somma <span class="math inline">\(\alpha+\beta\)</span> funge da parametro di concentrazione a parità di media;</li>
 <li>valori inferiori, uguali o superiori a 1 producono forme molto diverse, comprese densità a U, uniformi o unimodali.</li>
 </ul>
-<p>Una distribuzione <span class="math inline">\(\mathrm{Beta}(1,1)\)</span> è uniforme su <span class="math inline">\((0,1)\)</span>. Una <span class="math inline">\(\mathrm{Beta}(20,10)\)</span> ha media <span class="math inline">\(2/3\)</span> ed è relativamente concentrata attorno a valori elevati. L’interpretazione in termini di informazione preliminare dipende dal modello e dalla convenzione adottata.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Pseudo-osservazioni: una convenzione utile">
+<p>Una distribuzione <span class="math inline">\(\mathrm{Beta}(1,1)\)</span> è uniforme su <span class="math inline">\((0,1)\)</span>. Una <span class="math inline">\(\mathrm{Beta}(20,10)\)</span> ha media <span class="math inline">\(2/3\)</span> ed è relativamente concentrata attorno a valori elevati. L’interpretazione di questi parametri dipende dal modello e dalla convenzione adottata.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Pseudo-osservazioni: due convenzioni, e quando usarle">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Pseudo-osservazioni: una convenzione utile
+<span class="screen-reader-only">Nota</span>Pseudo-osservazioni: due convenzioni, e quando usarle
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Spesso, si interpreta <span class="math inline">\(\alpha-1\)</span> come il numero di pseudo-successi e <span class="math inline">\(\beta-1\)</span> come il numero di pseudo-insuccessi. In altri contesti, invece, si usano <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> come conteggi effettivi. L’importante è non confondere la metafora con una regola universale: la distribuzione beta rappresenta una distribuzione di credenze, non necessariamente un vero campione precedente.</p>
+<p>Nella letteratura sulla beta si trovano due modi di interpretare i parametri come conteggi. I due metodi non sono in competizione e la scelta tra loro non è una questione di stile: ciascuno è corretto per una diversa sintesi della distribuzione a posteriori.</p>
+<p><strong>Convenzione A — <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> come conteggi.</strong> <span class="math inline">\(\alpha\)</span> rappresenta il numero di successi e <span class="math inline">\(\beta\)</span> il numero di insuccessi. Un prior <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> corrisponde a «2 successi e 2 insuccessi», ovvero a 4 osservazioni preliminari. Con questa interpretazione, il peso del prior è <span class="math inline">\(\kappa=\alpha+\beta\)</span>, ed è l’interpretazione corretta per la <strong>media</strong> a posteriori, che si scrive esattamente come una media ponderata:</p>
+<p><span class="math display">\[
+\mathbb{E}[\theta \mid y]=\frac{\alpha+y}{\alpha+\beta+n}
+=\frac{\kappa}{\kappa+n}\,m
++\frac{n}{\kappa+n}\,\frac{y}{n},
+\qquad
+m=\frac{\alpha}{\alpha+\beta}.
+\]</span></p>
+<p><strong>Convenzione B — <span class="math inline">\(\alpha-1\)</span> e <span class="math inline">\(\beta-1\)</span> come conteggi.</strong> <span class="math inline">\(\alpha-1\)</span> rappresenta il numero di pseudo-successi e <span class="math inline">\(\beta-1\)</span> il numero di pseudo-insuccessi. Questa convenzione deriva dalla forma della densità, i cui esponenti sono <span class="math inline">\(\alpha-1\)</span> e <span class="math inline">\(\beta-1\)</span>. Se il prior deve contribuire agli esponenti come se fossero dei conteggi, allora i conteggi sono <span class="math inline">\(\alpha-1\)</span> e <span class="math inline">\(\beta-1\)</span>. Con questa interpretazione, il peso del prior è <span class="math inline">\(\kappa'=\alpha+\beta-2\)</span> ed è l’interpretazione corretta per la <strong>moda</strong> a posteriori, che ha una struttura identica alla precedente:</p>
+<p><span class="math display">\[
+\mathrm{moda}[\theta \mid y]=\frac{\alpha+y-1}{\alpha+\beta+n-2}
+=\frac{\kappa'}{\kappa'+n}\,m'
++\frac{n}{\kappa'+n}\,\frac{y}{n},
+\qquad
+m'=\frac{\alpha-1}{\alpha+\beta-2}.
+\]</span></p>
+<p>La differenza si nota soprattutto sul prior uniforme <span class="math inline">\(\mathrm{Beta}(1,1)\)</span>, che pesa come <strong>2</strong> osservazioni sulla media e come <strong>0</strong> osservazioni sulla moda:</p>
+<p><span class="math display">\[
+\mathbb{E}[\theta \mid y]=\frac{y+1}{n+2},
+\qquad\qquad
+\mathrm{moda}[\theta \mid y]=\frac{y}{n}.
+\]</span></p>
+<p>La prima è la regola di successione di Laplace: il prior uniforme sposta la stima verso <span class="math inline">\(1/2\)</span>. La seconda coincide con la proporzione osservata, ovvero con la stima di massima verosimiglianza, e su tale stima il prior uniforme non ha alcun effetto. Entrambe le affermazioni sono corrette perché si riferiscono a due quantità diverse della stessa distribuzione.</p>
+<p>In questo testo seguiremo la <strong>convenzione A</strong>, per due ragioni. La prima è che riportiamo abitualmente la media a posteriori e, per tale sintesi, <span class="math inline">\(\kappa = \alpha + \beta\)</span> rappresenta il peso esatto. La seconda è che la convenzione B produce conteggi negativi quando <span class="math inline">\(\alpha&lt;1\)</span> o <span class="math inline">\(\beta&lt;1\)</span>: il prior di Jeffreys <span class="math inline">\(\mathrm{Beta}(0.5,0.5)\)</span> diventerebbe «<span class="math inline">\(-0.5\)</span> pseudo-successi». Ciò non avviene a caso, in quanto proprio in quelle situazioni la densità è a U e la moda non è interna all’intervallo, venendo così a mancare la quantità in base alla quale la convenzione B è definita.</p>
+<p>La matematica dell’aggiornamento non cambia in nessuno dei due casi — la formula resta <span class="math inline">\(\theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y)\)</span>; cambia, però, il modo di raccontare quanto il prior «pesa». Resta valido l’avvertimento di fondo: la beta rappresenta una distribuzione di credenze e non necessariamente un vero campione precedente.</p>
 </div>
 </div>
-</section><section id="ruolo-bayesiano-1" class="level3" data-number="12.8.3"><h3 data-number="12.8.3" class="anchored" data-anchor-id="ruolo-bayesiano-1">
-<span class="header-section-number">12.8.3</span> Ruolo bayesiano</h3>
+</section><section id="ruolo-bayesiano-1" class="level3" data-number="12.8.4"><h3 data-number="12.8.4" class="anchored" data-anchor-id="ruolo-bayesiano-1">
+<span class="header-section-number">12.8.4</span> Ruolo bayesiano</h3>
 <p>La distribuzione beta è la prior coniugata naturale per il parametro di una distribuzione di Bernoulli o binomiale:</p>
 <p><span class="math display">\[
 Y \mid \theta \sim \mathrm{Binomiale}(n,\theta),
@@ -1300,30 +1339,73 @@ Y \mid \theta \sim \mathrm{Binomiale}(n,\theta),
 <p><span class="math display">\[
 \theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y).
 \]</span></p>
-<p>Nei capitoli successivi useremo questo modello per collegare la proporzione campionaria, l’incertezza sul parametro e l’informazione fornita dai dati.</p>
-</section><section id="forme-possibili" class="level3" data-number="12.8.4"><h3 data-number="12.8.4" class="anchored" data-anchor-id="forme-possibili">
-<span class="header-section-number">12.8.4</span> Forme possibili</h3>
+<p>Nei capitoli successivi, useremo questo modello per mettere in relazione la proporzione campionaria, l’incertezza sul parametro e le informazioni fornite dai dati.</p>
+</section><section id="forme-possibili" class="level3" data-number="12.8.5"><h3 data-number="12.8.5" class="anchored" data-anchor-id="forme-possibili">
+<span class="header-section-number">12.8.5</span> Forme possibili</h3>
+<p>La flessibilità della beta dipende da come <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> si collocano rispetto a 1:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Valori dei parametri</th>
+<th>Forma della densità</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>
+<span class="math inline">\(\alpha&lt;1\)</span> e <span class="math inline">\(\beta&lt;1\)</span>
+</td>
+<td>a U: la massa si concentra agli estremi, e la densità diverge in 0 e in 1</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\alpha=\beta=1\)</span></td>
+<td>uniforme su <span class="math inline">\((0,1)\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>
+<span class="math inline">\(\alpha&gt;1\)</span> e <span class="math inline">\(\beta&gt;1\)</span>
+</td>
+<td>unimodale, con moda in <span class="math inline">\((\alpha-1)/(\alpha+\beta-2)\)</span>
+</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\alpha=\beta\)</span></td>
+<td>simmetrica attorno a <span class="math inline">\(1/2\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>
+<span class="math inline">\(\alpha\neq\beta\)</span> (entrambi <span class="math inline">\(&gt;1\)</span>)</td>
+<td>asimmetrica, con la coda più lunga dalla parte del parametro minore</td>
+</tr>
+</tbody>
+</table>
 <div class="cell" data-layout-align="center">
 <details open="" class="code-fold"><summary>Mostra/Nascondi codice</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.999</span>, length.out <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">params_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">20</span><span class="op">)</span>,</span>
-<span>  beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span>  a_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">20</span><span class="op">)</span>,</span>
+<span>  b_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">params_beta</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">alpha</span> <span class="op">&lt;-</span> <span class="va">params_beta</span><span class="op">$</span><span class="va">alpha</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
-<span>  <span class="va">beta</span> <span class="op">&lt;-</span> <span class="va">params_beta</span><span class="op">$</span><span class="va">beta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="va">a_par</span> <span class="op">&lt;-</span> <span class="va">params_beta</span><span class="op">$</span><span class="va">a_par</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="va">b_par</span> <span class="op">&lt;-</span> <span class="va">params_beta</span><span class="op">$</span><span class="va">b_par</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>    densita <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">x</span>, shape1 <span class="op">=</span> <span class="va">alpha</span>, shape2 <span class="op">=</span> <span class="va">beta</span><span class="op">)</span>,</span>
-<span>    distribuzione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Beta("</span>, <span class="va">alpha</span>, <span class="st">", "</span>, <span class="va">beta</span>, <span class="st">")"</span><span class="op">)</span></span>
+<span>    densita <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">x</span>, shape1 <span class="op">=</span> <span class="va">a_par</span>, shape2 <span class="op">=</span> <span class="va">b_par</span><span class="op">)</span>,</span>
+<span>    distribuzione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Beta("</span>, <span class="va">a_par</span>, <span class="st">", "</span>, <span class="va">b_par</span>, <span class="st">")"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_beta</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">densita</span>, color <span class="op">=</span> <span class="va">distribuzione</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_cartesian</span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Flessibilita della distribuzione beta"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Flessibilità della distribuzione beta"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="st">"La beta può assumere forme diffuse, uniformi o concentrate"</span>,</span>
 <span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">theta</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
@@ -1340,7 +1422,7 @@ Figura&nbsp;12.5: Forme diverse della distribuzione beta al variare dei parametr
 </div>
 </div>
 </div>
-<p>La <a href="#fig-beta-forme" class="quarto-xref">Figura&nbsp;<span>12.5</span></a> mostra che la beta non è necessariamente unimodale: può essere a U, uniforme, simmetrica o asimmetrica. Parlare genericamente di prior “non informativa” senza specificarne la forma è quindi fuorviante.</p>
+<p>La <a href="#fig-beta-forme" class="quarto-xref">Figura&nbsp;<span>12.5</span></a> mostra che la beta non è necessariamente unimodale, ma può assumere diverse forme: a U, uniforme, simmetrica o asimmetrica. Affermare genericamente che la prior è “non informativa” senza specificarne la forma è quindi fuorviante. Le tre forme più comuni a cui viene attribuito questo titolo — <span class="math inline">\(\mathrm{Beta}(1,1)\)</span>, <span class="math inline">\(\mathrm{Beta}(0.5,0.5)\)</span> e il limite <span class="math inline">\(\mathrm{Beta}(0,0)\)</span> — hanno forme molto diverse fra loro e, a parità di dati, producono distribuzioni a posteriori distinte: la prima attira la stima verso <span class="math inline">\(1/2\)</span>, le altre due la lasciano più vicina alla proporzione osservata.</p>
 </section></section><section id="sec-cont-chisq" class="level2" data-number="12.9"><h2 data-number="12.9" class="anchored" data-anchor-id="sec-cont-chisq">
 <span class="header-section-number">12.9</span> Distribuzione chi-quadrato</h2>
 <section id="definizione-5" class="level3" data-number="12.9.1"><h3 data-number="12.9.1" class="anchored" data-anchor-id="definizione-5">
@@ -1659,7 +1741,7 @@ X\sim\mathrm{Gamma}(\alpha,\beta),
 <details open="" class="code-fold"><summary>Mostra/Nascondi codice</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
 <span><span class="co">#&gt; Platform: aarch64-apple-darwin23</span></span>
-<span><span class="co">#&gt; Running under: macOS Tahoe 26.5.2</span></span>
+<span><span class="co">#&gt; Running under: macOS Golden Gate 27.0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib </span></span>
@@ -1668,7 +1750,7 @@ X\sim\mathrm{Gamma}(\alpha,\beta),
 <span><span class="co">#&gt; locale:</span></span>
 <span><span class="co">#&gt; [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; time zone: Europe/Zagreb</span></span>
+<span><span class="co">#&gt; time zone: Europe/Rome</span></span>
 <span><span class="co">#&gt; tzcode source: internal</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attached base packages:</span></span>
@@ -1676,14 +1758,14 @@ X\sim\mathrm{Gamma}(\alpha,\beta),
 <span><span class="co">#&gt; [7] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] ragg_1.5.2            tinytable_0.17.0     </span></span>
+<span><span class="co">#&gt;  [1] ragg_1.5.2            tinytable_0.18.0     </span></span>
 <span><span class="co">#&gt;  [3] withr_3.0.3           systemfonts_1.3.2    </span></span>
 <span><span class="co">#&gt;  [5] patchwork_1.3.2       ggdist_3.3.3         </span></span>
-<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.15.0     </span></span>
+<span><span class="co">#&gt;  [7] tidybayes_3.0.7       bayesplot_1.16.0     </span></span>
 <span><span class="co">#&gt;  [9] ggplot2_4.0.3         reliabilitydiag_0.2.1</span></span>
 <span><span class="co">#&gt; [11] priorsense_1.2.0      posterior_1.7.0      </span></span>
 <span><span class="co">#&gt; [13] loo_2.10.1            rstan_2.32.7         </span></span>
-<span><span class="co">#&gt; [15] StanHeaders_2.32.10   brms_2.23.1          </span></span>
+<span><span class="co">#&gt; [15] StanHeaders_2.39.1    brms_2.23.1          </span></span>
 <span><span class="co">#&gt; [17] Rcpp_1.1.2            sessioninfo_1.2.4    </span></span>
 <span><span class="co">#&gt; [19] conflicted_1.2.0      janitor_2.2.1        </span></span>
 <span><span class="co">#&gt; [21] matrixStats_1.5.0     modelr_0.1.11        </span></span>
@@ -1698,23 +1780,23 @@ X\sim\mathrm{Gamma}(\alpha,\beta),
 <span><span class="co">#&gt; [10] lifecycle_1.0.5      magrittr_2.0.5       compiler_4.6.1      </span></span>
 <span><span class="co">#&gt; [13] rlang_1.3.0          tools_4.6.1          yaml_2.3.12         </span></span>
 <span><span class="co">#&gt; [16] knitr_1.51           labeling_0.4.3       bridgesampling_1.2-1</span></span>
-<span><span class="co">#&gt; [19] htmlwidgets_1.6.4    pkgbuild_1.4.8       curl_7.1.0          </span></span>
+<span><span class="co">#&gt; [19] htmlwidgets_1.6.4    pkgbuild_1.4.8       curl_8.0.0          </span></span>
 <span><span class="co">#&gt; [22] RColorBrewer_1.1-3   abind_1.4-8          purrr_1.2.2         </span></span>
 <span><span class="co">#&gt; [25] grid_4.6.1           stats4_4.6.1         xtable_1.8-8        </span></span>
 <span><span class="co">#&gt; [28] inline_0.3.21        emmeans_2.0.4        scales_1.4.0        </span></span>
-<span><span class="co">#&gt; [31] cli_3.6.6            mvtnorm_1.4-2        rmarkdown_2.31      </span></span>
-<span><span class="co">#&gt; [34] generics_0.1.4       otel_0.2.0           RcppParallel_6.2.0  </span></span>
+<span><span class="co">#&gt; [31] cli_3.6.6            mvtnorm_1.4-2        rmarkdown_2.32      </span></span>
+<span><span class="co">#&gt; [34] generics_0.1.4       otel_0.2.0           RcppParallel_6.2.1  </span></span>
 <span><span class="co">#&gt; [37] cachem_1.1.0         stringr_1.6.0        parallel_4.6.1      </span></span>
 <span><span class="co">#&gt; [40] vctrs_0.7.3          V8_8.2.0             Matrix_1.7-6        </span></span>
 <span><span class="co">#&gt; [43] jsonlite_2.0.0       arrayhelpers_1.1-2   glue_1.8.1          </span></span>
 <span><span class="co">#&gt; [46] codetools_0.2-20     distributional_0.8.1 lubridate_1.9.5     </span></span>
-<span><span class="co">#&gt; [49] stringi_1.8.7        gtable_0.3.6         QuickJSR_1.10.0     </span></span>
+<span><span class="co">#&gt; [49] stringi_1.8.9        gtable_0.3.6         QuickJSR_1.11.0     </span></span>
 <span><span class="co">#&gt; [52] pillar_1.11.1        htmltools_0.5.9      Brobdingnag_1.2-9   </span></span>
 <span><span class="co">#&gt; [55] R6_2.6.1             textshaping_1.0.5    rprojroot_2.1.1     </span></span>
-<span><span class="co">#&gt; [58] evaluate_1.0.5       lattice_0.22-9       backports_1.5.1     </span></span>
+<span><span class="co">#&gt; [58] evaluate_1.0.5       lattice_0.23-1       backports_1.5.1     </span></span>
 <span><span class="co">#&gt; [61] memoise_2.0.1        broom_1.0.13         snakecase_0.11.1    </span></span>
-<span><span class="co">#&gt; [64] rstantools_2.7.0     coda_0.19-4.1        gridExtra_2.3.1     </span></span>
-<span><span class="co">#&gt; [67] nlme_3.1-170         checkmate_2.3.4      xfun_0.60           </span></span>
+<span><span class="co">#&gt; [64] rstantools_2.7.1     coda_0.19-4.1        gridExtra_2.3.1     </span></span>
+<span><span class="co">#&gt; [67] nlme_3.1-171         checkmate_2.3.4      xfun_0.60           </span></span>
 <span><span class="co">#&gt; [70] pkgconfig_2.0.3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
