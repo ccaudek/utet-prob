@@ -519,7 +519,7 @@ Questa formula non è ancora il tema centrale del capitolo, ma serve solo a most
 
 ### Definizione
 
-La distribuzione beta è definita sull'intervallo $(0,1)$. È quindi una famiglia particolarmente utile per rappresentare l'incertezza su probabilità e proporzioni che non assumono esattamente i valori 0 o 1.
+La distribuzione beta è definita sull'intervallo $(0,1)$. È dunque una famiglia particolarmente utile per rappresentare l'incertezza su probabilità e proporzioni che non assumono esattamente i valori 0 o 1.
 
 ::: {#def-beta}
 Una variabile casuale $\theta$ segue una distribuzione beta con parametri $\alpha > 0$ e $\beta > 0$ se
@@ -546,18 +546,72 @@ $$
 $$
 :::
 
+### Media e concentrazione
+
+Conviene introdurre subito una riparametrizzazione che useremo costantemente:
+
+$$
+m = \frac{\alpha}{\alpha+\beta},
+\qquad
+\kappa = \alpha+\beta,
+$$
+
+da cui si ricavano immediatamente $\alpha = m\kappa$ e $\beta = (1-m)\kappa$. Il primo parametro individua il centro della distribuzione, il secondo quanto la massa di probabilità si addensa attorno a quel centro.
+
+Che $\kappa$ misuri davvero una concentrazione non è un'affermazione qualitativa: riscrivendo la varianza in termini di $m$ e $\kappa$ si ottiene
+
+$$
+\mathbb{V}(\theta)=\frac{m(1-m)}{\kappa+1}.
+$$
+
+A parità di media, l'incertezza è dunque inversamente proporzionale a $\kappa+1$. Due distribuzioni con la stessa media, come $\mathrm{Beta}(2,2)$ e $\mathrm{Beta}(20,20)$, descrivono stati di conoscenza molto diversi: la prima ha $\kappa=4$, la seconda $\kappa=40$, e la varianza della seconda è circa otto volte più piccola.
+
 ### Interpretazione dei parametri
 
-La beta è particolarmente intuitiva in un contesto bayesiano. I parametri possono essere letti come una forma di informazione preliminare:
+La beta è particolarmente intuitiva in un contesto bayesiano. I parametri si possono leggere come una forma di informazione preliminare:
 
 - il rapporto $\alpha/(\alpha+\beta)$ determina la media;
-- la somma $\alpha+\beta$ agisce come parametro di concentrazione quando la media è mantenuta fissa;
+- la somma $\alpha+\beta$ funge da parametro di concentrazione a parità di media;
 - valori inferiori, uguali o superiori a 1 producono forme molto diverse, comprese densità a U, uniformi o unimodali.
 
-Una distribuzione $\mathrm{Beta}(1,1)$ è uniforme su $(0,1)$. Una $\mathrm{Beta}(20,10)$ ha media $2/3$ ed è relativamente concentrata attorno a valori elevati. L'interpretazione in termini di informazione preliminare dipende dal modello e dalla convenzione adottata.
+Una distribuzione $\mathrm{Beta}(1,1)$ è uniforme su $(0,1)$. Una $\mathrm{Beta}(20,10)$ ha media $2/3$ ed è relativamente concentrata attorno a valori elevati. L'interpretazione di questi parametri dipende dal modello e dalla convenzione adottata.
 
-::: {.callout-note title="Pseudo-osservazioni: una convenzione utile"}
-Spesso, si interpreta $\alpha-1$ come il numero di pseudo-successi e $\beta-1$ come il numero di pseudo-insuccessi. In altri contesti, invece, si usano $\alpha$ e $\beta$ come conteggi effettivi. L'importante è non confondere la metafora con una regola universale: la distribuzione beta rappresenta una distribuzione di credenze, non necessariamente un vero campione precedente.
+::: {.callout-note title="Pseudo-osservazioni: due convenzioni, e quando usarle"}
+Nella letteratura sulla beta si trovano due modi di interpretare i parametri come conteggi. I due metodi non sono in competizione e la scelta tra loro non è una questione di stile: ciascuno è corretto per una diversa sintesi della distribuzione a posteriori.
+
+**Convenzione A — $\alpha$ e $\beta$ come conteggi.** $\alpha$ rappresenta il numero di successi e $\beta$ il numero di insuccessi. Un prior $\mathrm{Beta}(2,2)$ corrisponde a «2 successi e 2 insuccessi», ovvero a 4 osservazioni preliminari. Con questa interpretazione, il peso del prior è $\kappa=\alpha+\beta$, ed è l'interpretazione corretta per la **media** a posteriori, che si scrive esattamente come una media ponderata:
+
+$$
+\mathbb{E}[\theta \mid y]=\frac{\alpha+y}{\alpha+\beta+n}
+=\frac{\kappa}{\kappa+n}\,m
++\frac{n}{\kappa+n}\,\frac{y}{n},
+\qquad
+m=\frac{\alpha}{\alpha+\beta}.
+$$
+
+**Convenzione B — $\alpha-1$ e $\beta-1$ come conteggi.** $\alpha-1$ rappresenta il numero di pseudo-successi e $\beta-1$ il numero di pseudo-insuccessi. Questa convenzione deriva dalla forma della densità, i cui esponenti sono $\alpha-1$ e $\beta-1$. Se il prior deve contribuire agli esponenti come se fossero dei conteggi, allora i conteggi sono $\alpha-1$ e $\beta-1$. Con questa interpretazione, il peso del prior è $\kappa'=\alpha+\beta-2$ ed è l'interpretazione corretta per la **moda** a posteriori, che ha una struttura identica alla precedente:
+
+$$
+\mathrm{moda}[\theta \mid y]=\frac{\alpha+y-1}{\alpha+\beta+n-2}
+=\frac{\kappa'}{\kappa'+n}\,m'
++\frac{n}{\kappa'+n}\,\frac{y}{n},
+\qquad
+m'=\frac{\alpha-1}{\alpha+\beta-2}.
+$$
+
+La differenza si nota soprattutto sul prior uniforme $\mathrm{Beta}(1,1)$, che pesa come **2** osservazioni sulla media e come **0** osservazioni sulla moda:
+
+$$
+\mathbb{E}[\theta \mid y]=\frac{y+1}{n+2},
+\qquad\qquad
+\mathrm{moda}[\theta \mid y]=\frac{y}{n}.
+$$
+
+La prima è la regola di successione di Laplace: il prior uniforme sposta la stima verso $1/2$. La seconda coincide con la proporzione osservata, ovvero con la stima di massima verosimiglianza, e su tale stima il prior uniforme non ha alcun effetto. Entrambe le affermazioni sono corrette perché si riferiscono a due quantità diverse della stessa distribuzione.
+
+In questo testo seguiremo la **convenzione A**, per due ragioni. La prima è che riportiamo abitualmente la media a posteriori e, per tale sintesi, $\kappa = \alpha + \beta$ rappresenta il peso esatto. La seconda è che la convenzione B produce conteggi negativi quando $\alpha<1$ o $\beta<1$: il prior di Jeffreys $\mathrm{Beta}(0.5,0.5)$ diventerebbe «$-0.5$ pseudo-successi». Ciò non avviene a caso, in quanto proprio in quelle situazioni la densità è a U e la moda non è interna all'intervallo, venendo così a mancare la quantità in base alla quale la convenzione B è definita.
+
+La matematica dell'aggiornamento non cambia in nessuno dei due casi — la formula resta $\theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y)$; cambia, però, il modo di raccontare quanto il prior «pesa». Resta valido l'avvertimento di fondo: la beta rappresenta una distribuzione di credenze e non necessariamente un vero campione precedente.
 :::
 
 ### Ruolo bayesiano
@@ -576,33 +630,45 @@ $$
 \theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y).
 $$
 
-Nei capitoli successivi useremo questo modello per collegare la proporzione campionaria, l'incertezza sul parametro e l'informazione fornita dai dati.
+Nei capitoli successivi, useremo questo modello per mettere in relazione la proporzione campionaria, l'incertezza sul parametro e le informazioni fornite dai dati.
 
 ### Forme possibili
+
+La flessibilità della beta dipende da come $\alpha$ e $\beta$ si collocano rispetto a 1:
+
+| Valori dei parametri | Forma della densità |
+|---|---|
+| $\alpha<1$ e $\beta<1$ | a U: la massa si concentra agli estremi, e la densità diverge in 0 e in 1 |
+| $\alpha=\beta=1$ | uniforme su $(0,1)$ |
+| $\alpha>1$ e $\beta>1$ | unimodale, con moda in $(\alpha-1)/(\alpha+\beta-2)$ |
+| $\alpha=\beta$ | simmetrica attorno a $1/2$ |
+| $\alpha\neq\beta$ (entrambi $>1$) | asimmetrica, con la coda più lunga dalla parte del parametro minore |
 
 ```{r}
 #| label: fig-beta-forme
 #| fig-cap: "Forme diverse della distribuzione beta al variare dei parametri di forma."
 x <- seq(0.001, 0.999, length.out = 500)
+
 params_beta <- data.frame(
-  alpha = c(0.5, 1, 2, 2, 5, 20),
-  beta = c(0.5, 1, 2, 5, 2, 10)
+  a_par = c(0.5, 1, 2, 2, 5, 20),
+  b_par = c(0.5, 1, 2, 5, 2, 10)
 )
 
 df_beta <- do.call(rbind, lapply(seq_len(nrow(params_beta)), function(i) {
-  alpha <- params_beta$alpha[i]
-  beta <- params_beta$beta[i]
+  a_par <- params_beta$a_par[i]
+  b_par <- params_beta$b_par[i]
   data.frame(
     x = x,
-    densita = dbeta(x, shape1 = alpha, shape2 = beta),
-    distribuzione = paste0("Beta(", alpha, ", ", beta, ")")
+    densita = dbeta(x, shape1 = a_par, shape2 = b_par),
+    distribuzione = paste0("Beta(", a_par, ", ", b_par, ")")
   )
 }))
 
 ggplot(df_beta, aes(x = x, y = densita, color = distribuzione)) +
   geom_line(linewidth = 1) +
+  coord_cartesian(ylim = c(0, 6)) +
   labs(
-    title = "Flessibilita della distribuzione beta",
+    title = "Flessibilità della distribuzione beta",
     subtitle = "La beta può assumere forme diffuse, uniformi o concentrate",
     x = expression(theta),
     y = "Densità",
@@ -610,7 +676,7 @@ ggplot(df_beta, aes(x = x, y = densita, color = distribuzione)) +
   )
 ```
 
-La @fig-beta-forme mostra che la beta non è necessariamente unimodale: può essere a U, uniforme, simmetrica o asimmetrica. Parlare genericamente di prior "non informativa" senza specificarne la forma è quindi fuorviante.
+La @fig-beta-forme mostra che la beta non è necessariamente unimodale, ma può assumere diverse forme: a U, uniforme, simmetrica o asimmetrica. Affermare genericamente che la prior è "non informativa" senza specificarne la forma è quindi fuorviante. Le tre forme più comuni a cui viene attribuito questo titolo — $\mathrm{Beta}(1,1)$, $\mathrm{Beta}(0.5,0.5)$ e il limite $\mathrm{Beta}(0,0)$ — hanno forme molto diverse fra loro e, a parità di dati, producono distribuzioni a posteriori distinte: la prima attira la stima verso $1/2$, le altre due la lasciano più vicina alla proporzione osservata.
 
 ## Distribuzione chi-quadrato {#sec-cont-chisq}
 
