@@ -1,9 +1,9 @@
 # Distribuzioni di variabili casuali discrete {#sec-prob-discr-distr}
 
 ::: {.callout-note title="In sintesi"}
-**Da sapere**  Comprendere come una funzione di massa assegna probabilità ai valori di una variabile discreta; distinguere uniforme discreta, Bernoulli, binomiale e Poisson; riconoscere le assunzioni che collegano ciascuna famiglia al processo generativo.
+**Da sapere**  Comprendere come una funzione di massa assegna probabilità ai valori di una variabile discreta; distinguere uniforme discreta, Bernoulli, binomiale, beta-binomiale e Poisson; riconoscere le assunzioni che collegano ciascuna famiglia al processo generativo.
 
-**Da saper fare**  Scegliere una famiglia discreta coerente con il tipo di dato e il disegno; interpretare supporto, parametri, media e varianza; spiegare che cosa indicano le funzioni `d`, `p`, `q` e `r` di R; riconoscere quando indipendenza, probabilità costante o equidispersione sono poco plausibili.
+**Da saper fare**  Scegliere una famiglia discreta coerente con il tipo di dato e il disegno; interpretare supporto, parametri, media e varianza; spiegare che cosa indicano le funzioni `d`, `p`, `q` e `r` di R; riconoscere quando indipendenza, probabilità costante o equidispersione sono poco plausibili; spiegare perché differenze tra unità nella probabilità di successo producono sovradispersione.
 :::
 
 ## Introduzione {.unnumbered .unlisted}
@@ -25,7 +25,7 @@ Nel percorso bayesiano, le distribuzioni discrete possono svolgere tre ruoli dis
 
 1. **Modelli per i dati osservabili**: ad esempio, una risposta corretta o errata può essere modellata con una Bernoulli.
 2. **Componenti della verosimiglianza**: dopo avere osservato i dati, la stessa espressione viene considerata come funzione dei parametri.
-3. **Distribuzioni predittive**: integrando l'incertezza sui parametri, si ottengono probabilità per dati futuri.
+3. **Distribuzioni predittive**: integrando l'incertezza sui parametri, si ottengono probabilità per dati futuri. Un primo esempio è la distribuzione beta-binomiale (@sec-beta-binomial-distribution).
 
 In questo capitolo ci concentriamo soprattutto sul primo ruolo, introducendo gli altri due soltanto quando aiutano a comprendere il significato del modello.
 :::
@@ -36,14 +36,15 @@ Per seguire il capitolo è utile avere letto @sec-prob-random-var, @sec-prob-dis
 
 ## Panoramica del capitolo {.unnumbered .unlisted}
 
-Il capitolo procede in sei passaggi:
+Il capitolo procede in sette passaggi:
 
 1. distingue supporto e funzione di massa di una variabile discreta;
 2. introduce le funzioni standard di R per probabilità, probabilità cumulate, quantili e simulazioni;
 3. presenta la distribuzione uniforme discreta;
 4. collega Bernoulli e binomiale ai dati binari e ai conteggi di successi;
-5. presenta la distribuzione di Poisson per alcuni processi di conteggio;
-6. mostra perché sovradispersione, eterogeneità e dipendenza possono richiedere modelli più flessibili.
+5. mostra come la distribuzione beta-binomiale descriva i conteggi di successi quando la probabilità di successo varia tra unità o è incerta;
+6. presenta la distribuzione di Poisson per alcuni processi di conteggio;
+7. mostra perché sovradispersione, eterogeneità e dipendenza possono richiedere modelli più flessibili.
 
 ::: {.callout-note title="Preparazione del notebook"}
 ```{r}
@@ -109,6 +110,7 @@ p_cumulato <- pbinom(7, size = 10, prob = 0.60)
 q_95 <- qbinom(0.95, size = 10, prob = 0.60)
 
 # Cinque campioni simulati dalla distribuzione
+set.seed(1)
 simulazioni <- rbinom(5, size = 10, prob = 0.60)
 
 p_esatto
@@ -251,7 +253,7 @@ Anche se il parametro usato nella simulazione è $p = 0.70$, in un campione picc
 
 ### Bernoulli come modello generativo
 
-Per una sequenza di risposte binarie $X_1,\ldots,X_n$, il modello binomiale richiede spesso l'ipotesi:
+Per una sequenza di risposte binarie $X_1,\ldots,X_n$, il modello più semplice assume:
 
 $$
 X_i \mid p \overset{\mathrm{iid}}{\sim} \mathrm{Bernoulli}(p),
@@ -263,7 +265,7 @@ La sigla *iid* indica che, condizionatamente a $p$, le osservazioni sono indipen
 ::: {.callout-warning title="Quando la Bernoulli è troppo semplice"}
 Nei dati psicologici reali, l'assunzione di un unico valore di $p$ può essere irrealistica. Ad esempio, gli item diversi possono avere difficoltà diverse, i partecipanti possono avere abilità diverse, e le risposte successive possono non essere indipendenti.
 
-La distribuzione di Bernoulli rimane comunque il punto di partenza: i modelli più ricchi spesso nascono proprio dal rilassamento di una o più delle sue assunzioni.
+La distribuzione di Bernoulli rimane comunque il punto di partenza: i modelli più ricchi spesso nascono proprio dal rilassamento di una o più delle sue assunzioni. Un primo esempio è la distribuzione beta-binomiale (@sec-beta-binomial-distribution), che consente alla probabilità di successo di variare tra partecipanti.
 :::
 
 ## Distribuzione binomiale {#sec-binomial-distribution}
@@ -426,7 +428,7 @@ $$
 Il coefficiente $\binom{n}{y}$ è omesso nella proporzionalità perché non dipende da $p$. Questa espressione non è ancora una distribuzione a posteriori: è la **verosimiglianza**, che confronta quanto valori diversi di $p$ rendano compatibile il risultato osservato, mantenendo fissi $y$ e $n$.
 
 ::: {.callout-note title="Anticipazione: prior Beta e aggiornamento"}
-Nei capitoli successivi introdurremo la distribuzione Beta, una distribuzione continua su $[0,1]$ molto utile per rappresentare l'incertezza su una probabilità $p$.
+La distribuzione Beta, presentata in @sec-cont-beta, è una distribuzione continua su $(0,1)$ molto utile per rappresentare l'incertezza su una probabilità $p$. In @sec-beta-binomial-distribution ne useremo due proprietà.
 
 Se
 
@@ -440,6 +442,333 @@ p \mid y,n \sim \mathrm{Beta}(\alpha+y,\beta+n-y).
 $$
 
 Per ora non è necessario padroneggiare questa formula. È sufficiente riconoscere che i dati binomiali aggiornano le credenze su una probabilità.
+:::
+
+## Distribuzione beta-binomiale {#sec-beta-binomial-distribution}
+
+### Quando la probabilità di successo non è la stessa per tutti
+
+La distribuzione binomiale assume che tutte le prove condividano la stessa probabilità di successo $p$. Quando le prove provengono da persone diverse, questa assunzione è spesso poco plausibile: in un compito di memoria, ad esempio, alcuni partecipanti ricordano più facilmente di altri.
+
+Consideriamo dieci studenti che studiano 10 parole ciascuno. Il numero di parole ricordate da ciascuno è:
+
+```{r}
+ricordati <- c(2, 3, 3, 4, 4, 8, 8, 9, 9, 10)
+c(media = mean(ricordati), deviazione_standard = sd(ricordati))
+```
+
+La proporzione complessiva di parole ricordate è 0.60. Se tutti gli studenti avessero la stessa probabilità $p = 0.60$, il numero di parole ricordate da ciascuno seguirebbe una distribuzione $\mathrm{Binomiale}(10, 0.60)$, con deviazione standard
+
+$$
+\sqrt{10 \times 0.60 \times 0.40} \approx 1.55.
+$$
+
+La deviazione standard osservata è circa il doppio. La discrepanza compare anche nelle code della distribuzione:
+
+```{r}
+c(
+  binomiale_al_massimo_2 = pbinom(2, size = 10, prob = 0.60),
+  osservata_al_massimo_2 = mean(ricordati <= 2),
+  binomiale_almeno_9 = 1 - pbinom(8, size = 10, prob = 0.60),
+  osservata_almeno_9 = mean(ricordati >= 9)
+)
+```
+
+Sotto il modello binomiale, ricordare al massimo 2 parole ha probabilità di circa l'1% e ricordarne almeno 9 di circa il 5%. Nel campione, queste prestazioni riguardano rispettivamente 1 e 3 studenti su 10. Con soli dieci studenti le frequenze osservate sono molto instabili, ma tutte le indicazioni vanno nella stessa direzione: i dati sono più dispersi di quanto il modello binomiale possa produrre. Questo fenomeno si chiama **sovradispersione**.
+
+### Un modello a due stadi
+
+Per rappresentare le differenze tra studenti possiamo attribuire a ciascuno una propria probabilità di ricordo $p_i$. Il processo generativo si articola allora in due stadi:
+
+1. per ogni studente si estrae una probabilità $p_i$ da una distribuzione che descrive la popolazione degli studenti;
+2. condizionatamente a $p_i$, il numero di parole ricordate segue una binomiale:
+
+$$
+Y_i \mid p_i \sim \mathrm{Binomiale}(n, p_i).
+$$
+
+La distribuzione di $Y_i$ che si ottiene considerando entrambi gli stadi, cioè senza conoscere il valore di $p_i$, si chiama distribuzione **marginale** di $Y_i$. Poiché combina più distribuzioni condizionate, pesandole secondo la distribuzione del parametro, viene anche detta **mistura**.
+
+### Un caso semplice: due tipi di studenti
+
+Iniziamo da un caso che si può calcolare con i soli strumenti di questo capitolo. Supponiamo che la popolazione comprenda due tipi di studenti, ugualmente frequenti: per il primo tipo la probabilità di ricordo è 0.3, per il secondo è 0.8.
+
+$$
+P(p_i = 0.3) = P(p_i = 0.8) = 0.5.
+$$
+
+Per la legge della probabilità totale, la probabilità di osservare $k$ parole ricordate è la media delle due distribuzioni binomiali, pesata dalla frequenza dei due tipi:
+
+$$
+P(Y = k) = 0.5 \binom{n}{k} 0.3^k\, 0.7^{\,n-k} + 0.5 \binom{n}{k} 0.8^k\, 0.2^{\,n-k}.
+$$
+
+```{r}
+#| label: fig-mistura-binomiali
+#| fig-cap: "Numero di parole ricordate su 10 per studenti con probabilità di ricordo 0,3, per studenti con probabilità 0,8 e per una popolazione che contiene i due tipi in parti uguali."
+k <- 0:10
+mistura <- 0.5 * dbinom(k, size = 10, prob = 0.3) +
+  0.5 * dbinom(k, size = 10, prob = 0.8)
+
+df_mistura <- rbind(
+  data.frame(k = k, probabilita = dbinom(k, 10, 0.3), modello = "p = 0.3"),
+  data.frame(k = k, probabilita = dbinom(k, 10, 0.8), modello = "p = 0.8"),
+  data.frame(k = k, probabilita = mistura, modello = "mistura (0.5 e 0.5)")
+)
+df_mistura$modello <- factor(df_mistura$modello, levels = unique(df_mistura$modello))
+
+ggplot(df_mistura, aes(x = k, y = probabilita)) +
+  geom_col() +
+  facet_wrap(~ modello, nrow = 1) +
+  scale_x_continuous(breaks = k) +
+  labs(
+    title = "Una mistura di due binomiali",
+    x = "Parole ricordate",
+    y = "Probabilità"
+  )
+```
+
+La @fig-mistura-binomiali mostra che la mistura conserva i due massimi, attorno a 3 e a 8 parole. La probabilità media di ricordo nella popolazione è $0.5 \times 0.3 + 0.5 \times 0.8 = 0.55$, ma i valori 5 e 6, vicini a $10 \times 0.55$, sono fra i meno probabili della zona centrale. Una binomiale con $p = 0.55$ avrebbe invece un solo massimo, proprio in quella zona.
+
+### Da dove viene la variabilità aggiuntiva
+
+La media della mistura è la stessa di una binomiale con $p$ uguale alla probabilità media:
+
+$$
+\mathbb{E}(Y) = n\,\mathbb{E}(p_i) = 10 \times 0.55 = 5.5.
+$$
+
+La varianza, invece, è molto più grande. Per capire perché, la si può scomporre in due parti:
+
+$$
+\mathbb{V}(Y)
+=
+\underbrace{\mathbb{E}\big[\mathbb{V}(Y \mid p_i)\big]}_{\text{variabilità binomiale media}}
++
+\underbrace{\mathbb{V}\big[\mathbb{E}(Y \mid p_i)\big]}_{\text{variabilità dovuta alle differenze in } p_i}.
+$$
+
+Questa scomposizione è nota come **legge della varianza totale**. Nel nostro esempio:
+
+- il primo termine è la media delle varianze binomiali dei due tipi: $10 \times (0.5 \times 0.3 \times 0.7 + 0.5 \times 0.8 \times 0.2) = 1.85$;
+- il secondo termine è la varianza dei numeri medi di parole ricordate dai due tipi, 3 e 8: $10^2 \times \mathbb{V}(p_i) = 100 \times 0.0625 = 6.25$.
+
+```{r}
+media_mistura <- sum(k * mistura)
+varianza_mistura <- sum(k^2 * mistura) - media_mistura^2
+
+c(
+  varianza_mistura = varianza_mistura,
+  somma_dei_due_termini = 1.85 + 6.25,
+  varianza_binomiale_stessa_media = 10 * 0.55 * 0.45
+)
+```
+
+La varianza della mistura è 8.1, più del triplo di quella di una binomiale con la stessa media (2.475). La differenza è interamente dovuta al secondo termine: se tutti gli studenti avessero la stessa probabilità, $\mathbb{V}(p_i)$ sarebbe zero e si ritornerebbe alla binomiale.
+
+::: {.callout-important title="L'origine della sovradispersione"}
+La sovradispersione non richiede che il singolo studente si comporti in modo diverso da una binomiale. Nasce dal fatto che studenti diversi hanno probabilità diverse: alla variabilità di ciascuno attorno alla propria media si aggiunge la variabilità delle medie fra studenti.
+:::
+
+### Dal caso discreto al caso continuo
+
+Due soli tipi di studenti sono una semplificazione. Più realisticamente, la probabilità di ricordo può assumere qualunque valore tra 0 e 1 e variare con continuità da uno studente all'altro. Per descriverla serve una distribuzione continua definita sull'intervallo $(0,1)$: la **distribuzione Beta**, presentata in @sec-cont-beta.
+
+In questa sezione ne servono soltanto due proprietà. Una distribuzione $\mathrm{Beta}(\alpha, \beta)$ si può descrivere con due quantità:
+
+$$
+m = \frac{\alpha}{\alpha+\beta},
+\qquad
+\kappa = \alpha+\beta.
+$$
+
+- $m$ è la probabilità media di successo nella popolazione;
+- $\kappa$ indica quanto le probabilità individuali sono **concentrate** attorno a $m$: con $\kappa$ grande sono simili fra loro, con $\kappa$ piccolo sono molto diverse.
+
+I parametri originali si ricavano da $m$ e $\kappa$ come $\alpha = m\kappa$ e $\beta = (1-m)\kappa$.
+
+Se la probabilità di ciascuna unità segue una distribuzione Beta e, condizionatamente a essa, il numero di successi segue una binomiale,
+
+$$
+p_i \sim \mathrm{Beta}(\alpha, \beta),
+\qquad
+Y_i \mid p_i \sim \mathrm{Binomiale}(n, p_i),
+$$
+
+allora la distribuzione marginale di $Y_i$ è una **beta-binomiale**.
+
+### Definizione
+
+::: {#def-beta-binomial}
+Una variabile casuale $Y$ segue una distribuzione beta-binomiale con parametri $n$, $\alpha > 0$ e $\beta > 0$ se:
+
+$$
+Y \sim \mathrm{BetaBinomiale}(n, \alpha, \beta),
+\qquad
+P(Y=k)=\binom{n}{k}\frac{B(k+\alpha,\; n-k+\beta)}{B(\alpha,\beta)},
+\quad k=0,1,\ldots,n,
+$$
+
+dove $B(\cdot,\cdot)$ è la funzione beta, la costante di normalizzazione della distribuzione Beta (@sec-cont-beta).
+
+Con $m = \alpha/(\alpha+\beta)$ e $\kappa = \alpha+\beta$, i suoi momenti principali sono:
+
+$$
+\mathbb{E}(Y)=nm,
+\qquad
+\mathbb{V}(Y)=nm(1-m)\,\frac{\kappa+n}{\kappa+1}.
+$$
+:::
+
+La media coincide con quella di una binomiale con $p = m$. La varianza è la varianza binomiale $nm(1-m)$ moltiplicata per il fattore
+
+$$
+\frac{\kappa+n}{\kappa+1} = 1 + \frac{n-1}{\kappa+1},
+$$
+
+che è maggiore di 1 non appena $n > 1$. Il fattore cresce con il numero di prove per unità e diminuisce con la concentrazione $\kappa$.
+
+Il caso $n = 1$ merita un'osservazione. Con una sola prova per unità il fattore vale 1 e la beta-binomiale coincide con una Bernoulli di parametro $m$: con una sola risposta binaria per persona, le differenze tra persone non lasciano alcuna traccia nella distribuzione dei dati. Per rilevare l'eterogeneità servono più prove per ciascuna unità.
+
+### Due casi limite
+
+La beta-binomiale contiene come casi particolari due distribuzioni già incontrate in questo capitolo.
+
+**Concentrazione molto grande.** Quando $\kappa$ cresce, le probabilità individuali si concentrano attorno a $m$, il fattore $(\kappa+n)/(\kappa+1)$ tende a 1 e la beta-binomiale tende alla $\mathrm{Binomiale}(n, m)$. La binomiale è quindi il caso in cui tutte le unità condividono la stessa probabilità.
+
+**Prior uniforme sulla probabilità.** Con $\alpha = \beta = 1$ la distribuzione Beta è uniforme su $(0,1)$ e la beta-binomiale assegna la stessa probabilità a tutti i conteggi possibili:
+
+```{r}
+dbetabinom_base <- function(k, size, shape1, shape2) {
+  exp(lchoose(size, k) + lbeta(k + shape1, size - k + shape2) - lbeta(shape1, shape2))
+}
+
+round(dbetabinom_base(0:10, size = 10, shape1 = 1, shape2 = 1), 4)
+```
+
+Ciascun valore ha probabilità $1/11$: è la distribuzione uniforme discreta su $\{0, 1, \ldots, 10\}$ (@sec-discrete-uniform). Una probabilità incerta distribuita uniformemente produce conteggi distribuiti uniformemente, e non conteggi concentrati attorno a $n/2$.
+
+### Perché le prove non sono più indipendenti
+
+Nel modello a due stadi, le prove di uno stesso studente sono indipendenti **condizionatamente** a $p_i$. Se però $p_i$ non è noto, due prove dello stesso studente non sono più indipendenti: un successo nella prima prova rende più plausibile che lo studente abbia una probabilità alta, e quindi aumenta la probabilità di successo nella seconda.
+
+La correlazione tra due prove della stessa unità è
+
+$$
+\rho = \frac{1}{\kappa+1},
+$$
+
+e la varianza della beta-binomiale può essere riscritta come
+
+$$
+\mathbb{V}(Y) = nm(1-m)\,\big[1 + (n-1)\rho\big].
+$$
+
+In @sec-cont-beta vedremo che $1/(\kappa+1)$ ammette anche un'altra lettura: è la quota della varianza di una singola prova dovuta alle differenze tra unità.
+
+```{r}
+set.seed(11)
+n_sim <- 100000
+p_studente <- rbeta(n_sim, shape1 = 0.60 * 3, shape2 = 0.40 * 3)
+prova_1 <- rbinom(n_sim, size = 1, prob = p_studente)
+prova_2 <- rbinom(n_sim, size = 1, prob = p_studente)
+
+c(correlazione_simulata = cor(prova_1, prova_2), correlazione_teorica = 1 / (3 + 1))
+```
+
+::: {.callout-note title="Eterogeneità e dipendenza"}
+Differenze tra unità e dipendenza tra le prove di una stessa unità sono due aspetti dello stesso fenomeno. Per questo, in @sec-discrete-model-checks, «partecipanti molto diversi tra loro» e «dati provenienti da gruppi differenti» compaiono tra le ragioni per cui l'assunzione di indipendenza della binomiale può non essere soddisfatta.
+:::
+
+### Esempio: le prestazioni di dieci studenti
+
+Torniamo ai dieci studenti. Confrontiamo la binomiale con $p = 0.60$ e una beta-binomiale con la stessa media, $m = 0.60$, e concentrazione $\kappa = 3$, cioè con $\alpha = 1.8$ e $\beta = 1.2$.
+
+```{r}
+#| label: fig-beta-binomiale
+#| fig-cap: "Numero di parole ricordate su 10 secondo una binomiale con probabilità fissata a 0,60 e secondo una beta-binomiale con la stessa media e concentrazione pari a 3. I punti indicano le frequenze relative osservate nei dieci studenti."
+k <- 0:10
+df_confronto <- rbind(
+  data.frame(k = k, probabilita = dbinom(k, 10, 0.60),
+             modello = "Binomiale: p = 0.60 per tutti"),
+  data.frame(k = k, probabilita = dbetabinom_base(k, 10, 0.60 * 3, 0.40 * 3),
+             modello = "Beta-binomiale: m = 0.60, κ = 3")
+)
+df_confronto$modello <- factor(df_confronto$modello, levels = unique(df_confronto$modello))
+df_osservati <- data.frame(k = k, frequenza = as.numeric(table(factor(ricordati, levels = k))) / 10)
+
+ggplot(df_confronto, aes(x = k, y = probabilita)) +
+  geom_col() +
+  geom_point(data = df_osservati, aes(x = k, y = frequenza), size = 2.5) +
+  facet_wrap(~ modello, nrow = 1) +
+  scale_x_continuous(breaks = k) +
+  labs(
+    title = "Binomiale e beta-binomiale",
+    x = "Parole ricordate",
+    y = "Probabilità"
+  )
+```
+
+```{r}
+p_bb <- dbetabinom_base(k, 10, 0.60 * 3, 0.40 * 3)
+
+round(rbind(
+  binomiale = c(deviazione_standard = sqrt(10 * 0.60 * 0.40),
+                al_massimo_2 = pbinom(2, 10, 0.60),
+                almeno_9 = 1 - pbinom(8, 10, 0.60)),
+  beta_binomiale = c(sqrt(10 * 0.60 * 0.40 * (3 + 10) / (3 + 1)),
+                     sum(p_bb[k <= 2]),
+                     sum(p_bb[k >= 9])),
+  osservato = c(sd(ricordati), mean(ricordati <= 2), mean(ricordati >= 9))
+), 3)
+```
+
+La beta-binomiale riproduce molto meglio la dispersione dei dati: la sua deviazione standard è circa 2.8, contro 1.55 della binomiale e 3.06 osservata, e assegna alle prestazioni molto basse e molto alte probabilità paragonabili alle frequenze osservate. Il fattore di inflazione della varianza vale $(3 + 10)/(3 + 1) = 3.25$.
+
+Il valore $\kappa = 3$ è stato scelto qui a scopo illustrativo. Stimare $m$ e $\kappa$ a partire dai dati è un problema di inferenza, che affronteremo nei capitoli successivi.
+
+### Le funzioni R
+
+R di base non include funzioni per la beta-binomiale, ma è semplice costruirle. La funzione di massa è `dbetabinom_base()`, definita sopra. Le simulazioni si ottengono seguendo direttamente i due stadi del modello:
+
+```{r}
+rbetabinom_base <- function(n_sim, size, shape1, shape2) {
+  p <- rbeta(n_sim, shape1, shape2)   # stadio 1: una probabilità per ciascuna unità
+  rbinom(n_sim, size = size, prob = p) # stadio 2: i successi, data quella probabilità
+}
+
+set.seed(11)
+y_sim <- rbetabinom_base(100000, size = 10, shape1 = 1.8, shape2 = 1.2)
+
+round(rbind(
+  simulata = as.numeric(table(factor(y_sim, levels = 0:10))) / 100000,
+  esatta = dbetabinom_base(0:10, 10, 1.8, 1.2)
+), 3)
+```
+
+Le frequenze simulate coincidono con le probabilità esatte entro l'errore di simulazione. La funzione di ripartizione si ottiene sommando le masse, ad esempio con `cumsum(dbetabinom_base(0:10, 10, 1.8, 1.2))`. Il pacchetto **extraDistr** fornisce funzioni già pronte per la beta-binomiale, come `dbbinom()`, `pbbinom()` e `rbbinom()`.
+
+### Ruolo bayesiano: eterogeneità e incertezza
+
+La stessa distribuzione ammette due letture, che corrispondono a due significati diversi della distribuzione Beta.
+
+| Lettura | Che cosa descrive la Beta | Esempio |
+|---|---|---|
+| **Eterogeneità** | differenze reali tra unità: ciascuna ha la propria probabilità | la distribuzione dei punteggi in una popolazione di studenti con capacità diverse |
+| **Incertezza epistemica** | un'unica probabilità, non nota: la Beta descrive ciò che crediamo su di essa | la previsione di quanti successi si osserveranno in nuove prove |
+
+Nella seconda lettura, la beta-binomiale è una **distribuzione predittiva**. Se l'incertezza su $p$ prima dei dati è descritta da $p \sim \mathrm{Beta}(\alpha, \beta)$, il numero di successi in $n$ prove future segue una $\mathrm{BetaBinomiale}(n, \alpha, \beta)$: è la distribuzione **predittiva a priori**. Dopo avere osservato $y$ successi su $n$ prove, la distribuzione a posteriori è $\mathrm{Beta}(\alpha+y, \beta+n-y)$, come anticipato in @sec-binomial-distribution, e il numero di successi in $n'$ nuove prove segue
+
+$$
+\tilde Y \mid y \sim \mathrm{BetaBinomiale}(n',\; \alpha+y,\; \beta+n-y),
+$$
+
+la distribuzione **predittiva a posteriori**.
+
+Ad esempio, con prior $\mathrm{Beta}(2, 2)$ e 7 successi su 10 prove, la posterior è $\mathrm{Beta}(9, 5)$. Per 10 nuove prove, la deviazione standard della predittiva a posteriori è circa 1.92; quella di una binomiale che fissa $p$ alla media a posteriori, $9/14$, è circa 1.52. La previsione che tratta $p$ come noto sottostima l'incertezza, perché ignora l'incertezza residua sul parametro.
+
+::: {.callout-important title="Stessa formula, conseguenze diverse"}
+Nella lettura come eterogeneità, la variabilità aggiuntiva è una proprietà della popolazione: osservare più studenti permette di descriverla meglio, ma non la elimina. Nella lettura come incertezza epistemica, la variabilità aggiuntiva dipende da ciò che non sappiamo: con più dati la posterior si concentra, $\kappa$ cresce e la predittiva si avvicina a una binomiale.
 :::
 
 ## Distribuzione di Poisson {#sec-poisson-distribution}
@@ -547,7 +876,7 @@ Osservare 4 comportamenti problema in 2 ore non ha lo stesso significato di osse
 
 ### Ruolo bayesiano: prior Gamma per un tasso
 
-Nel framework bayesiano, $\lambda$ è una quantità incerta. Una scelta frequente per rappresentare l'incertezza su un tasso positivo è la distribuzione Gamma, che verrà introdotta nel capitolo sulle distribuzioni continue.
+Nel framework bayesiano, $\lambda$ è una quantità incerta. Una scelta frequente per rappresentare l'incertezza su un tasso positivo è la distribuzione Gamma, presentata in @sec-cont-gamma.
 
 Se
 
@@ -579,7 +908,7 @@ La distribuzione binomiale presuppone che tutte le prove abbiano la stessa proba
 - le prove successive sono influenzate dall'apprendimento, dalla fatica o dalla memoria;
 - i dati provengono da gruppi o contesti differenti.
 
-In questi casi, la variabilità osservata può essere maggiore di quella prevista dalla distribuzione binomiale. In questo caso si parla di **sovradispersione**.
+In questi casi la variabilità osservata può essere maggiore di quella prevista dalla distribuzione binomiale: si parla di **sovradispersione**. La distribuzione beta-binomiale (@sec-beta-binomial-distribution) è il modello più semplice che la rappresenta.
 
 ### Poisson: equidispersione
 
@@ -590,6 +919,8 @@ $$
 $$
 
 Nei dati psicologici, questa proprietà è spesso violata. Se la varianza è molto maggiore della media, una Poisson semplice può sottostimare la dispersione. Anche quando media e varianza sono simili, tuttavia, restano da controllare altre caratteristiche, come eccesso di zeri, dipendenza temporale ed eterogeneità tra individui.
+
+Il modello analogo alla beta-binomiale per i conteggi di eventi è la **binomiale negativa**: si ottiene lasciando variare il tasso $\lambda$ tra unità secondo una distribuzione Gamma (@sec-cont-gamma). Come nella beta-binomiale, l'eterogeneità dei tassi produce una varianza maggiore della media.
 
 ```{r}
 # Piccolo controllo descrittivo per dati di conteggio
@@ -606,61 +937,9 @@ cat("Varianza / media:", round(rapporto_dispersione, 2), "\n")
 Una distribuzione discreta è una rappresentazione semplificata del processo che potrebbe aver generato i dati. Non basta scegliere una distribuzione perché il dominio sembra corretto: bisogna chiedersi se le assunzioni del modello siano plausibili per il disegno di ricerca e per il fenomeno psicologico studiato.
 :::
 
-### Anticipazione: distribuzioni predittive e sovradispersione
-
-Quando il modello assegna una distribuzione a $p$, per rappresentare incertezza epistemica o eterogeneità tra unità, la distribuzione predittiva può risultare più dispersa della binomiale con $p$ fissato alla stessa media.
-
-Ad esempio, se $Y \mid p \sim \mathrm{Binomiale}(n,p)$ ma $p$ non è noto e viene modellato con una distribuzione Beta, la distribuzione predittiva di $Y$ diventa una **beta-binomiale**. Questa distribuzione tiene conto sia della variabilità campionaria sia dell'incertezza sul parametro $p$.
-
-Non è necessario approfondire ora i dettagli matematici: la beta-binomiale sarà più chiara dopo aver studiato la distribuzione Beta nel capitolo sulle distribuzioni continue.
-
-::: {.callout-note collapse="true" title="Anteprima opzionale: beta-binomiale senza pacchetti esterni"}
-La funzione seguente calcola la massa di probabilità beta-binomiale usando solo le funzioni base di R.
-
-```{r}
-#| label: fig-beta-binomiale
-#| fig-cap: "Confronto tra una binomiale con probabilità fissata a 0,30 e una beta-binomiale che integra una distribuzione di possibili valori di tale probabilità."
-dbetabinom_base <- function(k, size, alpha, beta) {
-  exp(lchoose(size, k) + lbeta(k + alpha, size - k + beta) - lbeta(alpha, beta))
-}
-
-n <- 20
-k <- 0:n
-p_fisso <- 0.30
-alpha <- 3
-beta <- 7
-
-confronto <- rbind(
-  data.frame(
-    k = k,
-    probabilita = dbinom(k, size = n, prob = p_fisso),
-    modello = "Binomiale: p fissato"
-  ),
-  data.frame(
-    k = k,
-    probabilita = dbetabinom_base(k, size = n, alpha = alpha, beta = beta),
-    modello = "Beta-binomiale: p incerto"
-  )
-)
-
-ggplot(confronto, aes(x = k, y = probabilita, fill = modello)) +
-  geom_col(position = "dodge") +
-  labs(
-    title = "Binomiale e beta-binomiale",
-    subtitle = "La beta-binomiale incorpora incertezza sul parametro p",
-    x = "Numero di successi",
-    y = "Probabilità",
-    fill = "Modello"
-  )
-```
-
-Nella @fig-beta-binomiale le due distribuzioni hanno la stessa media, ma la beta-binomiale assegna maggiore probabilità ai conteggi lontani dal centro. La maggiore dispersione deriva dall'integrazione su valori diversi di $p$; non è prodotta dalla sola variabilità binomiale.
-
-:::
-
 ## Riflessioni conclusive {.unnumbered .unlisted}
 
-Le distribuzioni discrete introdotte in questo capitolo costituiscono un primo vocabolario per la modellazione dei dati psicologici. La distribuzione uniforme discreta rappresenta una simmetria tra alternative finite, la distribuzione di Bernoulli descrive un singolo esito binario, la distribuzione binomiale descrive il numero di successi in un numero fisso di prove e la distribuzione di Poisson è un modello possibile per il conteggio di eventi prodotti da un tasso stabile.
+Le distribuzioni discrete introdotte in questo capitolo costituiscono un primo vocabolario per la modellazione dei dati psicologici. La distribuzione uniforme discreta rappresenta una simmetria tra alternative finite, la distribuzione di Bernoulli descrive un singolo esito binario, la distribuzione binomiale descrive il numero di successi in un numero fisso di prove, la distribuzione beta-binomiale descrive lo stesso conteggio quando la probabilità di successo varia tra unità o è incerta, e la distribuzione di Poisson è un modello possibile per il conteggio di eventi prodotti da un tasso stabile.
 
 In prospettiva bayesiana, queste distribuzioni non sono soltanto formule per calcolare le probabilità. Esplicitano le assunzioni sul processo generativo. Dopo l'osservazione dei dati, le stesse espressioni possono essere considerate come verosimiglianze e, integrando l'incertezza sui parametri, contribuiscono alle distribuzioni predittive.
 
@@ -673,6 +952,7 @@ La scelta di una famiglia di distribuzioni non dipende quindi soltanto dal suppo
 | Uniforme discreta | $\{1,\ldots,N\}$ | Quale alternativa viene selezionata se il modello le tratta simmetricamente? | Assegnazione casuale indipendente a condizioni | $N$ |
 | Bernoulli | $\{0,1\}$ | L'evento si verifica oppure no? | Risposta corretta a un item | $p$ |
 | Binomiale | $\{0,\ldots,n\}$ | Quanti successi si osservano in $n$ prove *iid*? | Numero di item corretti sotto probabilità costante | $n,p$ |
+| Beta-binomiale | $\{0,\ldots,n\}$ | Quanti successi si osservano in $n$ prove, se la probabilità di successo varia tra unità o è incerta? | Numero di parole ricordate da studenti con capacità diverse | $n,\alpha,\beta$ oppure $n,m,\kappa$ |
 | Poisson | $\{0,1,2,\ldots\}$ | Quanti eventi si osservano in un intervallo con tasso stabile? | Numero di episodi riportati in un periodo | $\lambda$ |
 
 ## Esercizi {.unnumbered .unlisted}
@@ -693,6 +973,14 @@ La scelta di una famiglia di distribuzioni non dipende quindi soltanto dal suppo
 
 8. Una beta-binomiale è più dispersa di una binomiale con la stessa probabilità media. Quale fonte aggiuntiva di variabilità rappresenta?
 
+9. Che cosa accade a una $\mathrm{BetaBinomiale}(n,\alpha,\beta)$ quando la concentrazione $\kappa=\alpha+\beta$ diventa molto grande? E quando $\alpha=\beta=1$?
+
+10. Un test ha 10 item. La probabilità di risposta corretta varia tra partecipanti secondo una distribuzione Beta con media $m=0{,}6$ e concentrazione $\kappa=3$. Calcola la varianza del punteggio totale e confrontala con quella di una binomiale con $p=0{,}6$.
+
+11. In quale dei due scenari seguenti la beta-binomiale rappresenta eterogeneità e in quale incertezza epistemica? (a) La distribuzione dei punteggi in una classe di studenti con capacità diverse. (b) La previsione del numero di successi di una singola persona in 10 nuove prove, dopo averne osservate 10.
+
+12. Perché, con una sola prova binaria per partecipante, non è possibile rilevare differenze tra partecipanti nella probabilità di successo?
+
 ::: {.callout-tip title="Soluzioni" collapse="true"}
 1. Il supporto è $\{0,1\}$, dopo avere scelto una codifica per assenza e presenza. Una singola osservazione può essere descritta da una Bernoulli con parametro $p$, probabilità dell'esito codificato come 1.
 
@@ -709,6 +997,14 @@ La scelta di una famiglia di distribuzioni non dipende quindi soltanto dal suppo
 7. No. L'equidispersione è una conseguenza necessaria della Poisson, ma non è sufficiente a identificarla. Occorre controllare anche forma della distribuzione, zeri, dipendenza, stabilità del tasso ed eterogeneità.
 
 8. Rappresenta l'incertezza o l'eterogeneità nella probabilità $p$. La predizione integra più valori possibili di $p$, invece di assumere un unico valore fissato per tutte le unità.
+
+9. Quando $\kappa$ è molto grande, le probabilità individuali si concentrano attorno a $m$, il fattore $(\kappa+n)/(\kappa+1)$ tende a 1 e la beta-binomiale tende alla $\mathrm{Binomiale}(n,m)$. Con $\alpha=\beta=1$ la Beta è uniforme e la beta-binomiale assegna probabilità $1/(n+1)$ a ciascun conteggio: è l'uniforme discreta su $\{0,\ldots,n\}$.
+
+10. La varianza binomiale è $10\times0{,}6\times0{,}4=2{,}4$. Il fattore di inflazione è $(3+10)/(3+1)=3{,}25$, quindi la varianza beta-binomiale è $2{,}4\times3{,}25=7{,}8$, con deviazione standard di circa 2,79 contro 1,55.
+
+11. (a) Eterogeneità: la Beta descrive differenze reali tra studenti, che non si riducono osservando più studenti. (b) Incertezza epistemica: la persona ha un'unica probabilità, non nota; la Beta è la distribuzione a posteriori e la beta-binomiale è la distribuzione predittiva a posteriori, che si avvicina a una binomiale al crescere dei dati.
+
+12. Con $n=1$ il fattore di inflazione vale 1 e la beta-binomiale coincide con una Bernoulli di parametro $m$. La distribuzione dei dati dipende soltanto dalla probabilità media, e qualunque distribuzione delle probabilità individuali con la stessa media produce gli stessi dati. Per rilevare l'eterogeneità servono più prove per ciascuna unità.
 :::
 
 ::: {.callout-note title="Punti chiave" collapse="true"}
@@ -721,6 +1017,9 @@ La scelta di una famiglia di distribuzioni non dipende quindi soltanto dal suppo
 - La varianza della proporzione campionaria è $p(1-p)/n$: campioni più grandi producono proporzioni più concentrate.
 - La Poisson è un possibile modello per conteggi con tasso stabile ed equidispersione; media e varianza simili non ne dimostrano da sole l'adeguatezza.
 - Esposizioni diverse richiedono di modellare il numero atteso come tasso per esposizione.
+- La beta-binomiale descrive un conteggio di successi quando la probabilità varia tra unità secondo una Beta; ha la stessa media della binomiale con $p=m$ e varianza moltiplicata per $(\kappa+n)/(\kappa+1)$.
+- La sovradispersione deriva dalla varianza delle probabilità individuali; eterogeneità tra unità e dipendenza tra le prove di una stessa unità sono due aspetti dello stesso fenomeno.
+- La stessa beta-binomiale descrive eterogeneità tra unità oppure, come distribuzione predittiva, incertezza su un'unica probabilità.
 - Sovradispersione, eccesso di zeri, eterogeneità o dipendenza possono richiedere modelli più flessibili.
 - Nel quadro bayesiano, la stessa famiglia può contribuire al modello dei dati, alla verosimiglianza o alla distribuzione predittiva.
 :::

@@ -1,14 +1,14 @@
 # Distribuzioni di variabili casuali continue {#sec-prob-cont-distr}
 
 ::: {.callout-note title="In sintesi"}
-**Da sapere**  Comprendere che, nel caso continuo, le probabilità sono aree sotto una densità; riconoscere supporto, forma e parametri delle principali distribuzioni continue; distinguere il ruolo di una distribuzione come modello dei dati, prior, componente della verosimiglianza o distribuzione predittiva.
+**Da sapere**  Comprendere che, nel caso continuo, le probabilità sono aree sotto una densità; riconoscere supporto, forma e parametri delle principali distribuzioni continue; distinguere il ruolo di una distribuzione come modello dei dati, prior, distribuzione di un parametro che varia tra unità, componente della verosimiglianza o distribuzione predittiva.
 
 **Da saper fare**  Scegliere una famiglia compatibile con i valori possibili e con la forma attesa; interpretare i parametri di uniforme, normale, esponenziale, gamma, beta, chi-quadrato, $t$ e Cauchy; spiegare che cosa restituiscono le funzioni `d`, `p`, `q` e `r` di R; leggere probabilità, quantili e simulazioni senza confondere densità e probabilità puntuale.
 :::
 
 ## Introduzione {.unnumbered .unlisted}
 
-Nel @sec-prob-discr-distr abbiamo studiato variabili con valori finiti o numerabili, come risposte corrette o errate, numeri di successi e conteggi di eventi. In questo capitolo passiamo alle **variabili casuali continue**, usate per rappresentare quantità collocate su una scala numerica, come tempi, durate, effetti, tassi e proporzioni.
+Nel @sec-prob-discr-distr abbiamo studiato variabili con valori finiti o numerabili, come risposte corrette o errate, numeri di successi e conteggi di eventi. In questo capitolo passiamo alle **variabili casuali continue**, usate per rappresentare quantità collocate su una scala numerica, come tempi, durate, effetti, tassi e proporzioni. Una di esse, la distribuzione beta, è già comparsa in @sec-beta-binomial-distribution come distribuzione delle probabilità di successo di unità diverse; qui la presentiamo per esteso, insieme alle altre famiglie continue più usate.
 
 La differenza fondamentale è che, per una variabile continua $X$, la probabilità di un singolo valore è nulla:
 
@@ -26,13 +26,14 @@ Molte quantità psicologiche vengono trattate mediante modelli continui: tempi d
 
 La scelta della distribuzione rende esplicite domande sostanziali: la quantità può essere negativa? È limitata tra 0 e 1? È simmetrica o asimmetrica? I valori estremi devono essere molto rari oppure relativamente plausibili? Queste caratteristiche non sono dettagli tecnici: determinano quali dati il modello considera compatibili con il processo studiato.
 
-::: {.callout-note title="Quattro ruoli possibili"}
+::: {.callout-note title="Cinque ruoli possibili"}
 Una distribuzione continua può essere impiegata come:
 
 1. **modello dei dati osservabili**, ad esempio una gamma per durate positive e asimmetriche;
 2. **prior su un parametro**, ad esempio una beta su una probabilità o una normale su un effetto;
-3. **componente della verosimiglianza**, quando i dati sono fissati e l'espressione viene considerata come funzione dei parametri;
-4. **distribuzione predittiva**, quando si rappresentano i possibili valori di osservazioni future integrando l'incertezza sui parametri.
+3. **distribuzione di un parametro che varia tra unità**, ad esempio una beta per le probabilità di successo di partecipanti diversi (@sec-beta-binomial-distribution) o una gamma per i tassi di eventi di pazienti diversi;
+4. **componente della verosimiglianza**, quando i dati sono fissati e l'espressione viene considerata come funzione dei parametri;
+5. **distribuzione predittiva**, quando si rappresentano i possibili valori di osservazioni future integrando l'incertezza sui parametri.
 
 Il ruolo deve essere dichiarato: la stessa famiglia può comparire in punti diversi del modello con significati differenti.
 :::
@@ -49,7 +50,7 @@ Il capitolo procede in sette passaggi:
 2. richiama le funzioni di R per densità, probabilità cumulate, quantili e simulazioni;
 3. presenta le distribuzioni uniforme e normale;
 4. introduce esponenziale e gamma per quantità positive;
-5. presenta la beta per probabilità e proporzioni;
+5. presenta la beta per probabilità e proporzioni, collegandola alla beta-binomiale del capitolo precedente;
 6. collega chi-quadrato, $t$ di Student e Cauchy alle distribuzioni a code più o meno pesanti;
 7. propone criteri per scegliere una famiglia continua coerente con il problema.
 
@@ -134,6 +135,7 @@ prob_85_115 <- pnorm(115, mean = mu, sd = sigma) -
 q_95 <- qnorm(0.95, mean = mu, sd = sigma)
 
 # Cinque valori simulati.
+set.seed(1)
 simulazioni <- rnorm(5, mean = mu, sd = sigma)
 
 densita_100
@@ -185,6 +187,8 @@ Questa scelta coincide con una distribuzione $\mathrm{Beta}(1,1)$.
 
 ::: {.callout-warning title="La prior uniforme non è sempre neutrale"}
 Una prior uniforme può sembrare non informativa, ma non è automaticamente neutrale. La sua forma dipende dalla scala scelta. Una prior uniforme su $\theta$ non corrisponde a una prior uniforme su una trasformazione non lineare, come $\log(\theta)$ o $\theta^2$.
+
+La scelta non è neutrale nemmeno rispetto ai dati che il modello prevede. In @sec-beta-binomial-distribution abbiamo visto che, se $\theta\sim\mathrm{Uniforme}(0,1)$ e il numero di successi in $n$ prove segue una binomiale, ogni conteggio da 0 a $n$ ha probabilità $1/(n+1)$. Con 10 prove, ottenere 0, 1 o 10 successi ha complessivamente probabilità $3/11 \approx 0.27$: una prior piatta sul parametro implica che i risultati estremi siano plausibili quanto quelli centrali.
 
 Inoltre, una distribuzione uniforme su un intervallo finito esclude a priori tutti i valori fuori da quell'intervallo. Questa può essere una scelta ragionevole solo se il vincolo è davvero parte del problema.
 :::
@@ -273,9 +277,7 @@ La normale compare spesso per due ragioni diverse:
 1. può essere un modello ragionevole per alcune misure continue approssimativamente simmetriche;
 2. nel @sec-prob-inference-uncertainty vedremo che, sotto opportune condizioni, distribuzioni di somme o medie standardizzate possono avvicinarsi alla normale.
 
-Il secondo punto riguarda la distribuzione campionaria di una statistica e non implica che i dati individuali siano necessariamente normali.
-
-La seconda ragione è legata al Teorema del Limite Centrale e sarà discussa nel capitolo successivo.
+Il secondo punto, legato al teorema del limite centrale, riguarda la distribuzione campionaria di una statistica e non implica che i dati individuali siano necessariamente normali.
 :::
 
 ### Regola 68-95-99.7
@@ -463,13 +465,15 @@ Nel percorso bayesiano, la gamma è importante per parametri positivi:
 - come possibile prior per una precisione $\tau = 1/\sigma^2$;
 - come modello per durate positive e asimmetriche.
 
-La distribuzione gamma è una prior coniugata per il tasso \(\lambda\) di un modello di Poisson. Se nel capitolo precedente abbiamo scritto
+La distribuzione gamma è una prior coniugata per il tasso $\lambda$ di un modello di Poisson. Se nel capitolo precedente abbiamo scritto
 
 $$
 Y_i \mid \lambda \sim \mathrm{Poisson}(\lambda),
 $$
 
 allora una prior gamma su $\lambda$ genera una posterior ancora gamma. Tornerà utile quando affronteremo più esplicitamente l'aggiornamento bayesiano.
+
+Come la beta per le probabilità, la gamma può anche descrivere **differenze tra unità** nel tasso di eventi. Se ogni paziente ha un proprio tasso $\lambda_i \sim \mathrm{Gamma}(\alpha,\beta)$ e $Y_i \mid \lambda_i \sim \mathrm{Poisson}(\lambda_i)$, la distribuzione marginale dei conteggi è una **binomiale negativa**, con media $\alpha/\beta$ e varianza $\alpha/\beta + \alpha/\beta^2$, maggiore della media. È l'analogo, per i conteggi di eventi, della beta-binomiale per i conteggi di successi (@sec-beta-binomial-distribution, @sec-discrete-model-checks).
 
 ### Flessibilità della forma
 
@@ -478,24 +482,24 @@ allora una prior gamma su $\lambda$ genera una posterior ancora gamma. Tornerà 
 #| fig-cap: "Esempi di distribuzioni gamma nella parametrizzazione shape-rate."
 x <- seq(0, 10, length.out = 500)
 params_gamma <- data.frame(
-  alpha = c(1, 2, 4, 9),
-  beta = c(1, 1, 1, 2)
+  a_par = c(1, 2, 4, 9),
+  b_par = c(1, 1, 1, 2)
 )
 
 df_gamma <- do.call(rbind, lapply(seq_len(nrow(params_gamma)), function(i) {
-  alpha <- params_gamma$alpha[i]
-  beta <- params_gamma$beta[i]
+  a_par <- params_gamma$a_par[i]
+  b_par <- params_gamma$b_par[i]
   data.frame(
     x = x,
-    densita = dgamma(x, shape = alpha, rate = beta),
-    distribuzione = paste0("Gamma(", alpha, ", ", beta, ")")
+    densita = dgamma(x, shape = a_par, rate = b_par),
+    distribuzione = paste0("Gamma(", a_par, ", ", b_par, ")")
   )
 }))
 
 ggplot(df_gamma, aes(x = x, y = densita, color = distribuzione)) +
   geom_line(linewidth = 1) +
   labs(
-    title = "Flessibilita della distribuzione gamma",
+    title = "Flessibilità della distribuzione gamma",
     x = "x",
     y = "Densità",
     color = "Distribuzione"
@@ -548,7 +552,7 @@ $$
 
 ### Media e concentrazione
 
-Conviene introdurre subito una riparametrizzazione che useremo costantemente:
+Conviene introdurre subito una riparametrizzazione, già anticipata in @sec-beta-binomial-distribution, che useremo costantemente:
 
 $$
 m = \frac{\alpha}{\alpha+\beta},
@@ -566,9 +570,17 @@ $$
 
 A parità di media, l'incertezza è dunque inversamente proporzionale a $\kappa+1$. Due distribuzioni con la stessa media, come $\mathrm{Beta}(2,2)$ e $\mathrm{Beta}(20,20)$, descrivono stati di conoscenza molto diversi: la prima ha $\kappa=4$, la seconda $\kappa=40$, e la varianza della seconda è circa otto volte più piccola.
 
+La frazione $1/(\kappa+1)$ ha una lettura precisa quando la beta descrive le probabilità di successo di unità diverse. Una singola prova di un'unità scelta a caso è una Bernoulli di parametro $m$, con varianza $m(1-m)$. Per la legge della varianza totale (@sec-beta-binomial-distribution), questa varianza si scompone in una parte dovuta alla variabilità entro ciascuna unità e in una parte dovuta alle differenze tra unità, che è proprio $\mathbb{V}(\theta)$:
+
+$$
+\frac{\mathbb{V}(\theta)}{m(1-m)}=\frac{1}{\kappa+1}.
+$$
+
+È la stessa quantità che in @sec-beta-binomial-distribution misurava la correlazione tra due prove della stessa unità. Ad esempio, con $m=0.6$ e $\kappa=3$, un quarto della varianza di una singola prova è dovuto alle differenze tra unità.
+
 ### Interpretazione dei parametri
 
-La beta è particolarmente intuitiva in un contesto bayesiano. I parametri si possono leggere come una forma di informazione preliminare:
+La beta è particolarmente intuitiva in un contesto bayesiano. Quando descrive l'incertezza su una probabilità, i suoi parametri si possono leggere come una forma di informazione preliminare:
 
 - il rapporto $\alpha/(\alpha+\beta)$ determina la media;
 - la somma $\alpha+\beta$ funge da parametro di concentrazione a parità di media;
@@ -612,6 +624,8 @@ La prima è la regola di successione di Laplace: il prior uniforme sposta la sti
 In questo testo seguiremo la **convenzione A**, per due ragioni. La prima è che riportiamo abitualmente la media a posteriori e, per tale sintesi, $\kappa = \alpha + \beta$ rappresenta il peso esatto. La seconda è che la convenzione B produce conteggi negativi quando $\alpha<1$ o $\beta<1$: il prior di Jeffreys $\mathrm{Beta}(0.5,0.5)$ diventerebbe «$-0.5$ pseudo-successi». Ciò non avviene a caso, in quanto proprio in quelle situazioni la densità è a U e la moda non è interna all'intervallo, venendo così a mancare la quantità in base alla quale la convenzione B è definita.
 
 La matematica dell'aggiornamento non cambia in nessuno dei due casi — la formula resta $\theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y)$; cambia, però, il modo di raccontare quanto il prior «pesa». Resta valido l'avvertimento di fondo: la beta rappresenta una distribuzione di credenze e non necessariamente un vero campione precedente.
+
+La lettura in termini di pseudo-osservazioni vale inoltre soltanto quando la beta descrive l'incertezza su un'unica probabilità. Quando descrive le probabilità di unità diverse, come nella beta-binomiale di @sec-beta-binomial-distribution, $\kappa$ non è un numero di osservazioni: indica quanto le probabilità individuali sono simili fra loro.
 :::
 
 ### Ruolo bayesiano
@@ -631,6 +645,8 @@ $$
 $$
 
 Nei capitoli successivi, useremo questo modello per mettere in relazione la proporzione campionaria, l'incertezza sul parametro e le informazioni fornite dai dati.
+
+La beta interviene anche nella distribuzione beta-binomiale (@sec-beta-binomial-distribution), in due letture diverse. Se la beta descrive l'incertezza su $\theta$, il numero di successi in $n$ prove future segue una beta-binomiale: con la beta a priori si ottiene la distribuzione predittiva a priori, con la beta a posteriori $\mathrm{Beta}(\alpha+y,\beta+n-y)$ quella a posteriori. Se invece la beta descrive le differenze di probabilità tra unità, la beta-binomiale è la distribuzione dei conteggi di successi nella popolazione. In entrambi i casi la beta fornisce la distribuzione del parametro e la binomiale quella dei dati, condizionatamente al parametro.
 
 ### Forme possibili
 
@@ -708,7 +724,7 @@ $$
 
 La chi-quadrato misura una dispersione quadratica: somma le deviazioni standardizzate, le eleva al quadrato e quindi considera la grandezza complessiva dello scostamento, a prescindere dal segno.
 
-Si tratta di un caso particolare della funzione gamma:
+Si tratta di un caso particolare della distribuzione gamma (@sec-cont-gamma):
 
 $$
 \chi^2_k = \mathrm{Gamma}\left(\frac{k}{2},\frac{1}{2}\right)
@@ -857,7 +873,7 @@ La scelta di una distribuzione non dovrebbe basarsi sulla convenienza matematica
 - Se la quantità può assumere qualsiasi valore reale, le candidate sono la normale, la $t$ o la Cauchy.
 - Se è positiva, si considerano l'esponenziale, la gamma o la log-normale.
 - Se è strettamente compresa tra 0 e 1, la beta è una candidata; valori esatti 0 o 1 richiedono un trattamento o un modello differente.
-- Se invece è un conteggio, non siamo nel caso continuo: si torna alla Poisson, alla binomiale o ad altre distribuzioni discrete.
+- Se invece è un conteggio, non siamo nel caso continuo: si torna alla binomiale, alla Poisson o, se i conteggi sono più dispersi di quanto questi modelli prevedano, alla beta-binomiale e alla binomiale negativa (@sec-beta-binomial-distribution, @sec-discrete-model-checks).
 
 ### 2. Che forma ci aspettiamo?
 
@@ -871,8 +887,8 @@ La scelta di una distribuzione non dovrebbe basarsi sulla convenienza matematica
 La stessa famiglia può avere ruoli diversi, ad esempio:
 
 - la normale può essere un modello per dati continui o una prior per un effetto;
-- la beta è spesso una prior per una probabilità, ma può anche modellare dati continui proporzionali strettamente compresi tra 0 e 1;
-- la gamma può modellare tempi positivi oppure essere una prior per un tasso;
+- la beta è spesso una prior per una probabilità, ma può anche descrivere le differenze di probabilità tra unità, come nella beta-binomiale, oppure modellare dati continui proporzionali strettamente compresi tra 0 e 1;
+- la gamma può modellare tempi positivi, essere una prior per un tasso oppure descrivere le differenze di tasso tra unità;
 - la $t$ può essere un modello a code pesanti per dati oppure una prior a code pesanti per parametri.
 
 ::: {.callout-important title="Modello generativo prima dell'inferenza"}
@@ -885,7 +901,7 @@ Le distribuzioni continue completano il vocabolario avviato con quelle discrete.
 
 La scelta non può quindi essere ridotta a un'associazione meccanica tra il tipo di variabile e il nome della distribuzione. Il supporto elimina le famiglie incompatibili, mentre la forma attesa, il processo generativo e il ruolo della distribuzione permettono di distinguere le candidate rimaste. Una distribuzione normale, una gamma e una t possono tutte essere matematicamente ammissibili in un certo problema, ma esprimono ipotesi diverse.
 
-In prospettiva bayesiana, è inoltre essenziale distinguere il modello dei dati dalla distribuzione sui parametri. La distribuzione binomiale può descrivere il numero di successi, mentre la distribuzione beta rappresenta l'incertezza sulla probabilità che li genera. Allo stesso modo, una distribuzione normale può descrivere osservazioni continue o rappresentare una prior su un effetto: la formula può essere simile, ma il significato dipende dalla posizione occupata nel modello.
+In prospettiva bayesiana, è inoltre essenziale distinguere il modello dei dati dalla distribuzione sui parametri. La distribuzione binomiale può descrivere il numero di successi, mentre la distribuzione beta rappresenta l'incertezza sulla probabilità che li genera oppure la variabilità di quella probabilità tra unità; combinate, producono la beta-binomiale di @sec-beta-binomial-distribution. Allo stesso modo, una distribuzione normale può descrivere osservazioni continue o rappresentare una prior su un effetto: la formula può essere simile, ma il significato dipende dalla posizione occupata nel modello.
 
 Nel @sec-prob-inference-uncertainty useremo queste idee per comprendere come la variabilità campionaria, la numerosità e l'errore standard influenzino la quantità di informazioni fornite dai dati.
 
@@ -907,6 +923,10 @@ Nel @sec-prob-inference-uncertainty useremo queste idee per comprendere come la 
 
 8. Perché una distribuzione $t$ con pochi gradi di libertà può ridurre l'influenza relativa dei valori estremi rispetto a una normale? Perché non è corretto concludere che qualunque prior $t$ o Cauchy sia automaticamente appropriata?
 
+9. In una popolazione di studenti, la probabilità di ricordare una parola varia secondo una beta con media $m=0{,}6$ e concentrazione $\kappa=3$. Calcola la varianza delle probabilità individuali. Quale quota della varianza di una singola prova è dovuta alle differenze tra studenti?
+
+10. Una prior $\mathrm{Beta}(1,1)$ su una probabilità viene talvolta descritta come «non informativa». Che cosa implica per il numero di successi previsti in 10 prove? Perché questa conseguenza è rilevante?
+
 ::: {.callout-tip title="Soluzioni" collapse="true"}
 1. Nel continuo, la probabilità è assegnata ad aree su intervalli. Un singolo punto ha area nulla e quindi probabilità zero. La densità descrive invece quanta massa è concentrata localmente e può anche assumere valori superiori a 1.
 
@@ -923,6 +943,10 @@ Nel @sec-prob-inference-uncertainty useremo queste idee per comprendere come la 
 7. Entrambe hanno media $1/2$. La $\mathrm{Beta}(20,20)$ è molto più concentrata attorno a $0{,}5$ perché la somma dei parametri è maggiore a media fissata.
 
 8. Le code più pesanti assegnano maggiore plausibilità a osservazioni lontane dal centro, evitando che esse debbano essere spiegate mediante grandi spostamenti dei parametri centrali. Tuttavia, adeguatezza, robustezza e stabilità dipendono anche da scala, gradi di libertà, ruolo della distribuzione e quantità di dati.
+
+9. $\mathbb{V}(\theta)=m(1-m)/(\kappa+1)=0{,}6\times0{,}4/4=0{,}06$. La varianza di una singola prova è $m(1-m)=0{,}24$, quindi la quota dovuta alle differenze tra studenti è $0{,}06/0{,}24=1/(\kappa+1)=0{,}25$: la stessa quantità che in @sec-beta-binomial-distribution misurava la correlazione tra due prove dello stesso studente.
+
+10. Il numero di successi segue una beta-binomiale con $\alpha=\beta=1$, cioè l'uniforme discreta su $\{0,\ldots,10\}$: ogni conteggio ha probabilità $1/11$. I risultati 0, 1 o 10 hanno complessivamente probabilità $3/11\approx0{,}27$, e un risultato estremo è plausibile quanto uno centrale. La prior non è quindi neutrale rispetto ai dati previsti, e questa conseguenza va valutata alla luce di ciò che si sa sul compito.
 :::
 
 ::: {.callout-note title="Punti chiave" collapse="true"}
@@ -934,6 +958,9 @@ Nel @sec-prob-inference-uncertainty useremo queste idee per comprendere come la 
 - La normale è utile per quantità approssimativamente simmetriche, ma non è un modello universale.
 - L'esponenziale rappresenta attese con tasso costante e assenza di memoria; la gamma offre forme più flessibili per quantità positive.
 - La beta rappresenta distribuzioni su valori in $(0,1)$; media e concentrazione dipendono congiuntamente da $\alpha$ e $\beta$.
+- La beta può descrivere l'incertezza su un'unica probabilità oppure le differenze di probabilità tra unità; combinata con la binomiale, in entrambi i casi produce la beta-binomiale.
+- La frazione $1/(\kappa+1)$ è la quota della varianza di una singola prova dovuta alle differenze tra unità.
+- La gamma può descrivere differenze di tasso tra unità; combinata con la Poisson produce la binomiale negativa.
 - La chi-quadrato deriva da somme di quadrati di normali standard ed è collegata alla gamma.
 - La $t$ e la Cauchy hanno code più pesanti della normale; il loro uso richiede comunque una scelta motivata di scala e, per la $t$, dei gradi di libertà.
 - Una stessa famiglia può descrivere dati, parametri o predizioni. Il significato dipende dal ruolo occupato nel modello.
@@ -963,7 +990,9 @@ $$
 $$
 \theta\sim\mathrm{Beta}(\alpha,\beta),
 \qquad
-\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}.
+\mathbb{E}(\theta)=m=\frac{\alpha}{\alpha+\beta},
+\qquad
+\mathbb{V}(\theta)=\frac{m(1-m)}{\kappa+1},\quad \kappa=\alpha+\beta.
 $$
 :::
 
