@@ -593,12 +593,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Da sapere</strong> Comprendere che, nel caso continuo, le probabilità sono aree sotto una densità; riconoscere supporto, forma e parametri delle principali distribuzioni continue; distinguere il ruolo di una distribuzione come modello dei dati, prior, componente della verosimiglianza o distribuzione predittiva.</p>
+<p><strong>Da sapere</strong> Comprendere che, nel caso continuo, le probabilità sono aree sotto una densità; riconoscere supporto, forma e parametri delle principali distribuzioni continue; distinguere il ruolo di una distribuzione come modello dei dati, prior, distribuzione di un parametro che varia tra unità, componente della verosimiglianza o distribuzione predittiva.</p>
 <p><strong>Da saper fare</strong> Scegliere una famiglia compatibile con i valori possibili e con la forma attesa; interpretare i parametri di uniforme, normale, esponenziale, gamma, beta, chi-quadrato, <span class="math inline">\(t\)</span> e Cauchy; spiegare che cosa restituiscono le funzioni <code>d</code>, <code>p</code>, <code>q</code> e <code>r</code> di R; leggere probabilità, quantili e simulazioni senza confondere densità e probabilità puntuale.</p>
 </div>
 </div>
 <section id="introduzione" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="introduzione">Introduzione</h2>
-<p>Nel <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> abbiamo studiato variabili con valori finiti o numerabili, come risposte corrette o errate, numeri di successi e conteggi di eventi. In questo capitolo passiamo alle <strong>variabili casuali continue</strong>, usate per rappresentare quantità collocate su una scala numerica, come tempi, durate, effetti, tassi e proporzioni.</p>
+<p>Nel <a href="11_discr_rv_distr.html" class="quarto-xref"><span>Capitolo 11</span></a> abbiamo studiato variabili con valori finiti o numerabili, come risposte corrette o errate, numeri di successi e conteggi di eventi. In questo capitolo passiamo alle <strong>variabili casuali continue</strong>, usate per rappresentare quantità collocate su una scala numerica, come tempi, durate, effetti, tassi e proporzioni. Una di esse, la distribuzione beta, è già comparsa in <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a> come distribuzione delle probabilità di successo di unità diverse; qui la presentiamo per esteso, insieme alle altre famiglie continue più usate.</p>
 <p>La differenza fondamentale è che, per una variabile continua <span class="math inline">\(X\)</span>, la probabilità di un singolo valore è nulla:</p>
 <p><span class="math display">\[
 P(X=x)=0.
@@ -609,13 +609,13 @@ P(X=x)=0.
 <span class="header-section-number">12.1</span> Perché le distribuzioni continue sono importanti in psicologia?</h2>
 <p>Molte quantità psicologiche vengono trattate mediante modelli continui: tempi di risposta, durate, punteggi standardizzati, differenze tra condizioni, effetti di regressione e parametri latenti. Anche quando lo strumento registra valori con precisione finita, un modello continuo può essere un’idealizzazione utile se rappresenta adeguatamente la scala e la variabilità del fenomeno.</p>
 <p>La scelta della distribuzione rende esplicite domande sostanziali: la quantità può essere negativa? È limitata tra 0 e 1? È simmetrica o asimmetrica? I valori estremi devono essere molto rari oppure relativamente plausibili? Queste caratteristiche non sono dettagli tecnici: determinano quali dati il modello considera compatibili con il processo studiato.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Quattro ruoli possibili">
+<div class="callout callout-style-default callout-note callout-titled" title="Cinque ruoli possibili">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Quattro ruoli possibili
+<span class="screen-reader-only">Nota</span>Cinque ruoli possibili
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -625,6 +625,8 @@ P(X=x)=0.
 <strong>modello dei dati osservabili</strong>, ad esempio una gamma per durate positive e asimmetriche;</li>
 <li>
 <strong>prior su un parametro</strong>, ad esempio una beta su una probabilità o una normale su un effetto;</li>
+<li>
+<strong>distribuzione di un parametro che varia tra unità</strong>, ad esempio una beta per le probabilità di successo di partecipanti diversi (<a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>) o una gamma per i tassi di eventi di pazienti diversi;</li>
 <li>
 <strong>componente della verosimiglianza</strong>, quando i dati sono fissati e l’espressione viene considerata come funzione dei parametri;</li>
 <li>
@@ -653,7 +655,7 @@ P(X=x)=0.
 <li>richiama le funzioni di R per densità, probabilità cumulate, quantili e simulazioni;</li>
 <li>presenta le distribuzioni uniforme e normale;</li>
 <li>introduce esponenziale e gamma per quantità positive;</li>
-<li>presenta la beta per probabilità e proporzioni;</li>
+<li>presenta la beta per probabilità e proporzioni, collegandola alla beta-binomiale del capitolo precedente;</li>
 <li>collega chi-quadrato, <span class="math inline">\(t\)</span> di Student e Cauchy alle distribuzioni a code più o meno pesanti;</li>
 <li>propone criteri per scegliere una famiglia continua coerente con il problema.</li>
 </ol>
@@ -812,6 +814,7 @@ X \sim \mathcal{N}(100, 15^2).
 <span><span class="va">q_95</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.95</span>, mean <span class="op">=</span> <span class="va">mu</span>, sd <span class="op">=</span> <span class="va">sigma</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Cinque valori simulati.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">simulazioni</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span>, mean <span class="op">=</span> <span class="va">mu</span>, sd <span class="op">=</span> <span class="va">sigma</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">densita_100</span></span>
@@ -821,7 +824,7 @@ X \sim \mathcal{N}(100, 15^2).
 <span><span class="va">q_95</span></span>
 <span><span class="co">#&gt; [1] 125</span></span>
 <span><span class="va">simulazioni</span></span>
-<span><span class="co">#&gt; [1]  76.7  94.6 107.4 111.8 110.2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co">#&gt; [1]  90.6 102.8  87.5 123.9 104.9</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Una lettura bayesiana delle simulazioni">
@@ -875,6 +878,7 @@ f(x) = \frac{1}{b-a}, \quad a \leq x \leq b,
 </div>
 <div class="callout-body-container callout-body">
 <p>Una prior uniforme può sembrare non informativa, ma non è automaticamente neutrale. La sua forma dipende dalla scala scelta. Una prior uniforme su <span class="math inline">\(\theta\)</span> non corrisponde a una prior uniforme su una trasformazione non lineare, come <span class="math inline">\(\log(\theta)\)</span> o <span class="math inline">\(\theta^2\)</span>.</p>
+<p>La scelta non è neutrale nemmeno rispetto ai dati che il modello prevede. In <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a> abbiamo visto che, se <span class="math inline">\(\theta\sim\mathrm{Uniforme}(0,1)\)</span> e il numero di successi in <span class="math inline">\(n\)</span> prove segue una binomiale, ogni conteggio da 0 a <span class="math inline">\(n\)</span> ha probabilità <span class="math inline">\(1/(n+1)\)</span>. Con 10 prove, ottenere 0, 1 o 10 successi ha complessivamente probabilità <span class="math inline">\(3/11 \approx 0.27\)</span>: una prior piatta sul parametro implica che i risultati estremi siano plausibili quanto quelli centrali.</p>
 <p>Inoltre, una distribuzione uniforme su un intervallo finito esclude a priori tutti i valori fuori da quell’intervallo. Questa può essere una scelta ragionevole solo se il vincolo è davvero parte del problema.</p>
 </div>
 </div>
@@ -971,8 +975,7 @@ f(y) = \frac{1}{\sigma\sqrt{2\pi}}
 <li>può essere un modello ragionevole per alcune misure continue approssimativamente simmetriche;</li>
 <li>nel <a href="13_from_sample_to_evidence.html" class="quarto-xref"><span>Capitolo 13</span></a> vedremo che, sotto opportune condizioni, distribuzioni di somme o medie standardizzate possono avvicinarsi alla normale.</li>
 </ol>
-<p>Il secondo punto riguarda la distribuzione campionaria di una statistica e non implica che i dati individuali siano necessariamente normali.</p>
-<p>La seconda ragione è legata al Teorema del Limite Centrale e sarà discussa nel capitolo successivo.</p>
+<p>Il secondo punto, legato al teorema del limite centrale, riguarda la distribuzione campionaria di una statistica e non implica che i dati individuali siano necessariamente normali.</p>
 </div>
 </div>
 </section><section id="regola-68-95-99.7" class="level3" data-number="12.5.3"><h3 data-number="12.5.3" class="anchored" data-anchor-id="regola-68-95-99.7">
@@ -1178,34 +1181,35 @@ f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\beta x},
 <li>come possibile prior per una precisione <span class="math inline">\(\tau = 1/\sigma^2\)</span>;</li>
 <li>come modello per durate positive e asimmetriche.</li>
 </ul>
-<p>La distribuzione gamma è una prior coniugata per il tasso () di un modello di Poisson. Se nel capitolo precedente abbiamo scritto</p>
+<p>La distribuzione gamma è una prior coniugata per il tasso <span class="math inline">\(\lambda\)</span> di un modello di Poisson. Se nel capitolo precedente abbiamo scritto</p>
 <p><span class="math display">\[
 Y_i \mid \lambda \sim \mathrm{Poisson}(\lambda),
 \]</span></p>
 <p>allora una prior gamma su <span class="math inline">\(\lambda\)</span> genera una posterior ancora gamma. Tornerà utile quando affronteremo più esplicitamente l’aggiornamento bayesiano.</p>
+<p>Come la beta per le probabilità, la gamma può anche descrivere <strong>differenze tra unità</strong> nel tasso di eventi. Se ogni paziente ha un proprio tasso <span class="math inline">\(\lambda_i \sim \mathrm{Gamma}(\alpha,\beta)\)</span> e <span class="math inline">\(Y_i \mid \lambda_i \sim \mathrm{Poisson}(\lambda_i)\)</span>, la distribuzione marginale dei conteggi è una <strong>binomiale negativa</strong>, con media <span class="math inline">\(\alpha/\beta\)</span> e varianza <span class="math inline">\(\alpha/\beta + \alpha/\beta^2\)</span>, maggiore della media. È l’analogo, per i conteggi di eventi, della beta-binomiale per i conteggi di successi (<a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>, <a href="11_discr_rv_distr.html#sec-discrete-model-checks" class="quarto-xref"><span>Sezione 11.9</span></a>).</p>
 </section><section id="flessibilità-della-forma" class="level3" data-number="12.7.4"><h3 data-number="12.7.4" class="anchored" data-anchor-id="flessibilità-della-forma">
 <span class="header-section-number">12.7.4</span> Flessibilità della forma</h3>
 <div class="cell" data-layout-align="center">
 <details open="" class="code-fold"><summary>Mostra/Nascondi codice</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, length.out <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
 <span><span class="va">params_gamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">9</span><span class="op">)</span>,</span>
-<span>  beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span>  a_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">9</span><span class="op">)</span>,</span>
+<span>  b_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_gamma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">params_gamma</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">alpha</span> <span class="op">&lt;-</span> <span class="va">params_gamma</span><span class="op">$</span><span class="va">alpha</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
-<span>  <span class="va">beta</span> <span class="op">&lt;-</span> <span class="va">params_gamma</span><span class="op">$</span><span class="va">beta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="va">a_par</span> <span class="op">&lt;-</span> <span class="va">params_gamma</span><span class="op">$</span><span class="va">a_par</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="va">b_par</span> <span class="op">&lt;-</span> <span class="va">params_gamma</span><span class="op">$</span><span class="va">b_par</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>    densita <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">x</span>, shape <span class="op">=</span> <span class="va">alpha</span>, rate <span class="op">=</span> <span class="va">beta</span><span class="op">)</span>,</span>
-<span>    distribuzione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Gamma("</span>, <span class="va">alpha</span>, <span class="st">", "</span>, <span class="va">beta</span>, <span class="st">")"</span><span class="op">)</span></span>
+<span>    densita <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">x</span>, shape <span class="op">=</span> <span class="va">a_par</span>, rate <span class="op">=</span> <span class="va">b_par</span><span class="op">)</span>,</span>
+<span>    distribuzione <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Gamma("</span>, <span class="va">a_par</span>, <span class="st">", "</span>, <span class="va">b_par</span>, <span class="st">")"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">df_gamma</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">densita</span>, color <span class="op">=</span> <span class="va">distribuzione</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Flessibilita della distribuzione gamma"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Flessibilità della distribuzione gamma"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"x"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"Densità"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"Distribuzione"</span></span>
@@ -1268,7 +1272,7 @@ f(\theta) = \frac{\theta^{\alpha-1}(1-\theta)^{\beta-1}}{B(\alpha,\beta)},
 </div>
 </section><section id="media-e-concentrazione" class="level3" data-number="12.8.2"><h3 data-number="12.8.2" class="anchored" data-anchor-id="media-e-concentrazione">
 <span class="header-section-number">12.8.2</span> Media e concentrazione</h3>
-<p>Conviene introdurre subito una riparametrizzazione che useremo costantemente:</p>
+<p>Conviene introdurre subito una riparametrizzazione, già anticipata in <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>, che useremo costantemente:</p>
 <p><span class="math display">\[
 m = \frac{\alpha}{\alpha+\beta},
 \qquad
@@ -1280,9 +1284,14 @@ m = \frac{\alpha}{\alpha+\beta},
 \mathbb{V}(\theta)=\frac{m(1-m)}{\kappa+1}.
 \]</span></p>
 <p>A parità di media, l’incertezza è dunque inversamente proporzionale a <span class="math inline">\(\kappa+1\)</span>. Due distribuzioni con la stessa media, come <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> e <span class="math inline">\(\mathrm{Beta}(20,20)\)</span>, descrivono stati di conoscenza molto diversi: la prima ha <span class="math inline">\(\kappa=4\)</span>, la seconda <span class="math inline">\(\kappa=40\)</span>, e la varianza della seconda è circa otto volte più piccola.</p>
+<p>La frazione <span class="math inline">\(1/(\kappa+1)\)</span> ha una lettura precisa quando la beta descrive le probabilità di successo di unità diverse. Una singola prova di un’unità scelta a caso è una Bernoulli di parametro <span class="math inline">\(m\)</span>, con varianza <span class="math inline">\(m(1-m)\)</span>. Per la legge della varianza totale (<a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>), questa varianza si scompone in una parte dovuta alla variabilità entro ciascuna unità e in una parte dovuta alle differenze tra unità, che è proprio <span class="math inline">\(\mathbb{V}(\theta)\)</span>:</p>
+<p><span class="math display">\[
+\frac{\mathbb{V}(\theta)}{m(1-m)}=\frac{1}{\kappa+1}.
+\]</span></p>
+<p>È la stessa quantità che in <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a> misurava la correlazione tra due prove della stessa unità. Ad esempio, con <span class="math inline">\(m=0.6\)</span> e <span class="math inline">\(\kappa=3\)</span>, un quarto della varianza di una singola prova è dovuto alle differenze tra unità.</p>
 </section><section id="interpretazione-dei-parametri-1" class="level3" data-number="12.8.3"><h3 data-number="12.8.3" class="anchored" data-anchor-id="interpretazione-dei-parametri-1">
 <span class="header-section-number">12.8.3</span> Interpretazione dei parametri</h3>
-<p>La beta è particolarmente intuitiva in un contesto bayesiano. I parametri si possono leggere come una forma di informazione preliminare:</p>
+<p>La beta è particolarmente intuitiva in un contesto bayesiano. Quando descrive l’incertezza su una probabilità, i suoi parametri si possono leggere come una forma di informazione preliminare:</p>
 <ul>
 <li>il rapporto <span class="math inline">\(\alpha/(\alpha+\beta)\)</span> determina la media;</li>
 <li>la somma <span class="math inline">\(\alpha+\beta\)</span> funge da parametro di concentrazione a parità di media;</li>
@@ -1325,6 +1334,7 @@ m'=\frac{\alpha-1}{\alpha+\beta-2}.
 <p>La prima è la regola di successione di Laplace: il prior uniforme sposta la stima verso <span class="math inline">\(1/2\)</span>. La seconda coincide con la proporzione osservata, ovvero con la stima di massima verosimiglianza, e su tale stima il prior uniforme non ha alcun effetto. Entrambe le affermazioni sono corrette perché si riferiscono a due quantità diverse della stessa distribuzione.</p>
 <p>In questo testo seguiremo la <strong>convenzione A</strong>, per due ragioni. La prima è che riportiamo abitualmente la media a posteriori e, per tale sintesi, <span class="math inline">\(\kappa = \alpha + \beta\)</span> rappresenta il peso esatto. La seconda è che la convenzione B produce conteggi negativi quando <span class="math inline">\(\alpha&lt;1\)</span> o <span class="math inline">\(\beta&lt;1\)</span>: il prior di Jeffreys <span class="math inline">\(\mathrm{Beta}(0.5,0.5)\)</span> diventerebbe «<span class="math inline">\(-0.5\)</span> pseudo-successi». Ciò non avviene a caso, in quanto proprio in quelle situazioni la densità è a U e la moda non è interna all’intervallo, venendo così a mancare la quantità in base alla quale la convenzione B è definita.</p>
 <p>La matematica dell’aggiornamento non cambia in nessuno dei due casi — la formula resta <span class="math inline">\(\theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y)\)</span>; cambia, però, il modo di raccontare quanto il prior «pesa». Resta valido l’avvertimento di fondo: la beta rappresenta una distribuzione di credenze e non necessariamente un vero campione precedente.</p>
+<p>La lettura in termini di pseudo-osservazioni vale inoltre soltanto quando la beta descrive l’incertezza su un’unica probabilità. Quando descrive le probabilità di unità diverse, come nella beta-binomiale di <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>, <span class="math inline">\(\kappa\)</span> non è un numero di osservazioni: indica quanto le probabilità individuali sono simili fra loro.</p>
 </div>
 </div>
 </section><section id="ruolo-bayesiano-1" class="level3" data-number="12.8.4"><h3 data-number="12.8.4" class="anchored" data-anchor-id="ruolo-bayesiano-1">
@@ -1340,6 +1350,7 @@ Y \mid \theta \sim \mathrm{Binomiale}(n,\theta),
 \theta \mid y \sim \mathrm{Beta}(\alpha+y,\beta+n-y).
 \]</span></p>
 <p>Nei capitoli successivi, useremo questo modello per mettere in relazione la proporzione campionaria, l’incertezza sul parametro e le informazioni fornite dai dati.</p>
+<p>La beta interviene anche nella distribuzione beta-binomiale (<a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>), in due letture diverse. Se la beta descrive l’incertezza su <span class="math inline">\(\theta\)</span>, il numero di successi in <span class="math inline">\(n\)</span> prove future segue una beta-binomiale: con la beta a priori si ottiene la distribuzione predittiva a priori, con la beta a posteriori <span class="math inline">\(\mathrm{Beta}(\alpha+y,\beta+n-y)\)</span> quella a posteriori. Se invece la beta descrive le differenze di probabilità tra unità, la beta-binomiale è la distribuzione dei conteggi di successi nella popolazione. In entrambi i casi la beta fornisce la distribuzione del parametro e la binomiale quella dei dati, condizionatamente al parametro.</p>
 </section><section id="forme-possibili" class="level3" data-number="12.8.5"><h3 data-number="12.8.5" class="anchored" data-anchor-id="forme-possibili">
 <span class="header-section-number">12.8.5</span> Forme possibili</h3>
 <p>La flessibilità della beta dipende da come <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> si collocano rispetto a 1:</p>
@@ -1445,7 +1456,7 @@ X = Z_1^2 + \cdots + Z_k^2 \sim \chi^2_k.
 </section><section id="interpretazione-1" class="level3" data-number="12.9.2"><h3 data-number="12.9.2" class="anchored" data-anchor-id="interpretazione-1">
 <span class="header-section-number">12.9.2</span> Interpretazione</h3>
 <p>La chi-quadrato misura una dispersione quadratica: somma le deviazioni standardizzate, le eleva al quadrato e quindi considera la grandezza complessiva dello scostamento, a prescindere dal segno.</p>
-<p>Si tratta di un caso particolare della funzione gamma:</p>
+<p>Si tratta di un caso particolare della distribuzione gamma (<a href="#sec-cont-gamma" class="quarto-xref"><span>Sezione 12.7</span></a>):</p>
 <p><span class="math display">\[
 \chi^2_k = \mathrm{Gamma}\left(\frac{k}{2},\frac{1}{2}\right)
 \]</span> nella parametrizzazione shape-rate.</p>
@@ -1603,7 +1614,7 @@ Figura&nbsp;12.8: Confronto tra normale, t con tre gradi di libertà e Cauchy st
 <li>Se la quantità può assumere qualsiasi valore reale, le candidate sono la normale, la <span class="math inline">\(t\)</span> o la Cauchy.</li>
 <li>Se è positiva, si considerano l’esponenziale, la gamma o la log-normale.</li>
 <li>Se è strettamente compresa tra 0 e 1, la beta è una candidata; valori esatti 0 o 1 richiedono un trattamento o un modello differente.</li>
-<li>Se invece è un conteggio, non siamo nel caso continuo: si torna alla Poisson, alla binomiale o ad altre distribuzioni discrete.</li>
+<li>Se invece è un conteggio, non siamo nel caso continuo: si torna alla binomiale, alla Poisson o, se i conteggi sono più dispersi di quanto questi modelli prevedano, alla beta-binomiale e alla binomiale negativa (<a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>, <a href="11_discr_rv_distr.html#sec-discrete-model-checks" class="quarto-xref"><span>Sezione 11.9</span></a>).</li>
 </ul></section><section id="che-forma-ci-aspettiamo" class="level3" data-number="12.12.2"><h3 data-number="12.12.2" class="anchored" data-anchor-id="che-forma-ci-aspettiamo">
 <span class="header-section-number">12.12.2</span> 2. Che forma ci aspettiamo?</h3>
 <ul>
@@ -1616,8 +1627,8 @@ Figura&nbsp;12.8: Confronto tra normale, t con tre gradi di libertà e Cauchy st
 <p>La stessa famiglia può avere ruoli diversi, ad esempio:</p>
 <ul>
 <li>la normale può essere un modello per dati continui o una prior per un effetto;</li>
-<li>la beta è spesso una prior per una probabilità, ma può anche modellare dati continui proporzionali strettamente compresi tra 0 e 1;</li>
-<li>la gamma può modellare tempi positivi oppure essere una prior per un tasso;</li>
+<li>la beta è spesso una prior per una probabilità, ma può anche descrivere le differenze di probabilità tra unità, come nella beta-binomiale, oppure modellare dati continui proporzionali strettamente compresi tra 0 e 1;</li>
+<li>la gamma può modellare tempi positivi, essere una prior per un tasso oppure descrivere le differenze di tasso tra unità;</li>
 <li>la <span class="math inline">\(t\)</span> può essere un modello a code pesanti per dati oppure una prior a code pesanti per parametri.</li>
 </ul>
 <div class="callout callout-style-default callout-important callout-titled" title="Modello generativo prima dell'inferenza">
@@ -1636,7 +1647,7 @@ Figura&nbsp;12.8: Confronto tra normale, t con tre gradi di libertà e Cauchy st
 </section></section><section id="riflessioni-conclusive" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="riflessioni-conclusive">Riflessioni conclusive</h2>
 <p>Le distribuzioni continue completano il vocabolario avviato con quelle discrete. Consentono di rappresentare dati e parametri su scale continue, ma ogni famiglia incorpora delle assunzioni riguardo al supporto, alla simmetria, all’asimmetria e alla frequenza attesa dei valori estremi.</p>
 <p>La scelta non può quindi essere ridotta a un’associazione meccanica tra il tipo di variabile e il nome della distribuzione. Il supporto elimina le famiglie incompatibili, mentre la forma attesa, il processo generativo e il ruolo della distribuzione permettono di distinguere le candidate rimaste. Una distribuzione normale, una gamma e una t possono tutte essere matematicamente ammissibili in un certo problema, ma esprimono ipotesi diverse.</p>
-<p>In prospettiva bayesiana, è inoltre essenziale distinguere il modello dei dati dalla distribuzione sui parametri. La distribuzione binomiale può descrivere il numero di successi, mentre la distribuzione beta rappresenta l’incertezza sulla probabilità che li genera. Allo stesso modo, una distribuzione normale può descrivere osservazioni continue o rappresentare una prior su un effetto: la formula può essere simile, ma il significato dipende dalla posizione occupata nel modello.</p>
+<p>In prospettiva bayesiana, è inoltre essenziale distinguere il modello dei dati dalla distribuzione sui parametri. La distribuzione binomiale può descrivere il numero di successi, mentre la distribuzione beta rappresenta l’incertezza sulla probabilità che li genera oppure la variabilità di quella probabilità tra unità; combinate, producono la beta-binomiale di <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a>. Allo stesso modo, una distribuzione normale può descrivere osservazioni continue o rappresentare una prior su un effetto: la formula può essere simile, ma il significato dipende dalla posizione occupata nel modello.</p>
 <p>Nel <a href="13_from_sample_to_evidence.html" class="quarto-xref"><span>Capitolo 13</span></a> useremo queste idee per comprendere come la variabilità campionaria, la numerosità e l’errore standard influenzino la quantità di informazioni fornite dai dati.</p>
 </section><section id="esercizi" class="level2 unnumbered unlisted"><h2 class="unnumbered unlisted anchored" data-anchor-id="esercizi">Esercizi</h2>
 <ol type="1">
@@ -1648,6 +1659,8 @@ Figura&nbsp;12.8: Confronto tra normale, t con tre gradi di libertà e Cauchy st
 <li><p>Se <span class="math inline">\(X\sim\mathrm{Gamma}(6,2)\)</span> nella parametrizzazione shape-rate, qual è il valore atteso? Che cosa accadrebbe al valore atteso se il parametro di tasso diventasse 4 mantenendo invariata la forma?</p></li>
 <li><p>Confronta <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> e <span class="math inline">\(\mathrm{Beta}(20,20)\)</span>. Hanno la stessa media? Quale delle due esprime maggiore concentrazione attorno a tale media?</p></li>
 <li><p>Perché una distribuzione <span class="math inline">\(t\)</span> con pochi gradi di libertà può ridurre l’influenza relativa dei valori estremi rispetto a una normale? Perché non è corretto concludere che qualunque prior <span class="math inline">\(t\)</span> o Cauchy sia automaticamente appropriata?</p></li>
+<li><p>In una popolazione di studenti, la probabilità di ricordare una parola varia secondo una beta con media <span class="math inline">\(m=0{,}6\)</span> e concentrazione <span class="math inline">\(\kappa=3\)</span>. Calcola la varianza delle probabilità individuali. Quale quota della varianza di una singola prova è dovuta alle differenze tra studenti?</p></li>
+<li><p>Una prior <span class="math inline">\(\mathrm{Beta}(1,1)\)</span> su una probabilità viene talvolta descritta come «non informativa». Che cosa implica per il numero di successi previsti in 10 prove? Perché questa conseguenza è rilevante?</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Soluzioni">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
@@ -1670,6 +1683,8 @@ Figura&nbsp;12.8: Confronto tra normale, t con tre gradi di libertà e Cauchy st
 <li><p>Il valore atteso è <span class="math inline">\(\alpha/\beta=6/2=3\)</span>. Se il tasso diventasse 4, il valore atteso sarebbe <span class="math inline">\(6/4=1{,}5\)</span>: a parità di forma, un tasso maggiore concentra la distribuzione verso valori più piccoli.</p></li>
 <li><p>Entrambe hanno media <span class="math inline">\(1/2\)</span>. La <span class="math inline">\(\mathrm{Beta}(20,20)\)</span> è molto più concentrata attorno a <span class="math inline">\(0{,}5\)</span> perché la somma dei parametri è maggiore a media fissata.</p></li>
 <li><p>Le code più pesanti assegnano maggiore plausibilità a osservazioni lontane dal centro, evitando che esse debbano essere spiegate mediante grandi spostamenti dei parametri centrali. Tuttavia, adeguatezza, robustezza e stabilità dipendono anche da scala, gradi di libertà, ruolo della distribuzione e quantità di dati.</p></li>
+<li><p><span class="math inline">\(\mathbb{V}(\theta)=m(1-m)/(\kappa+1)=0{,}6\times0{,}4/4=0{,}06\)</span>. La varianza di una singola prova è <span class="math inline">\(m(1-m)=0{,}24\)</span>, quindi la quota dovuta alle differenze tra studenti è <span class="math inline">\(0{,}06/0{,}24=1/(\kappa+1)=0{,}25\)</span>: la stessa quantità che in <a href="11_discr_rv_distr.html#sec-beta-binomial-distribution" class="quarto-xref"><span>Sezione 11.7</span></a> misurava la correlazione tra due prove dello stesso studente.</p></li>
+<li><p>Il numero di successi segue una beta-binomiale con <span class="math inline">\(\alpha=\beta=1\)</span>, cioè l’uniforme discreta su <span class="math inline">\(\{0,\ldots,10\}\)</span>: ogni conteggio ha probabilità <span class="math inline">\(1/11\)</span>. I risultati 0, 1 o 10 hanno complessivamente probabilità <span class="math inline">\(3/11\approx0{,}27\)</span>, e un risultato estremo è plausibile quanto uno centrale. La prior non è quindi neutrale rispetto ai dati previsti, e questa conseguenza va valutata alla luce di ciò che si sa sul compito.</p></li>
 </ol>
 </div>
 </div>
@@ -1695,6 +1710,9 @@ Figura&nbsp;12.8: Confronto tra normale, t con tre gradi di libertà e Cauchy st
 <li>La normale è utile per quantità approssimativamente simmetriche, ma non è un modello universale.</li>
 <li>L’esponenziale rappresenta attese con tasso costante e assenza di memoria; la gamma offre forme più flessibili per quantità positive.</li>
 <li>La beta rappresenta distribuzioni su valori in <span class="math inline">\((0,1)\)</span>; media e concentrazione dipendono congiuntamente da <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span>.</li>
+<li>La beta può descrivere l’incertezza su un’unica probabilità oppure le differenze di probabilità tra unità; combinata con la binomiale, in entrambi i casi produce la beta-binomiale.</li>
+<li>La frazione <span class="math inline">\(1/(\kappa+1)\)</span> è la quota della varianza di una singola prova dovuta alle differenze tra unità.</li>
+<li>La gamma può descrivere differenze di tasso tra unità; combinata con la Poisson produce la binomiale negativa.</li>
 <li>La chi-quadrato deriva da somme di quadrati di normali standard ed è collegata alla gamma.</li>
 <li>La <span class="math inline">\(t\)</span> e la Cauchy hanno code più pesanti della normale; il loro uso richiede comunque una scelta motivata di scala e, per la <span class="math inline">\(t\)</span>, dei gradi di libertà.</li>
 <li>Una stessa famiglia può descrivere dati, parametri o predizioni. Il significato dipende dal ruolo occupato nel modello.</li>
@@ -1720,7 +1738,9 @@ X\sim\mathrm{Gamma}(\alpha,\beta),
 <p><span class="math display">\[
 \theta\sim\mathrm{Beta}(\alpha,\beta),
 \qquad
-\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}.
+\mathbb{E}(\theta)=m=\frac{\alpha}{\alpha+\beta},
+\qquad
+\mathbb{V}(\theta)=\frac{m(1-m)}{\kappa+1},\quad \kappa=\alpha+\beta.
 \]</span></p>
 </div>
 </div>
